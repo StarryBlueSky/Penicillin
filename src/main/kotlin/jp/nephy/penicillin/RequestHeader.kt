@@ -43,7 +43,7 @@ class OAuthRequestHeader(private val method: HTTPMethod, private val url: URL, p
         }
     }
 
-    fun authorize(ck: ConsumerKey, cs: ConsumerSecret, at: AccessToken, ats: AccessTokenSecret, data: Map<String,String>?=null): OAuthRequestHeader {
+    fun authenticate(ck: ConsumerKey, cs: ConsumerSecret, at: AccessToken, ats: AccessTokenSecret, data: Map<String,String>?=null): OAuthRequestHeader {
         val authorizationHeaderComponent = linkedMapOf<String,String?>().apply {
             put("oauth_signature", null)
             put("oauth_nonce", uuid)
@@ -108,7 +108,7 @@ class BasicRequestHeader(url: URL): RequestHeaderBase() {
         }
     }
 
-    fun authorize(ck: ConsumerKey, cs: ConsumerSecret): BasicRequestHeader {
+    fun authenticate(ck: ConsumerKey, cs: ConsumerSecret): BasicRequestHeader {
         val encoded: String = "$ck:$cs".toBase64Encode()
 
         _header["Authorization"] = "Basic $encoded"
@@ -130,7 +130,7 @@ class BearerRequestHeader(url: URL): RequestHeaderBase() {
         }
     }
 
-    fun authorize(token: BearerToken): BearerRequestHeader {
+    fun authenticate(token: BearerToken): BearerRequestHeader {
         _header["Authorization"] = "Bearer $token"
         return this
     }
