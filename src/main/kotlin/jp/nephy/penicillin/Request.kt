@@ -57,9 +57,12 @@ open class RequestBase {
     }
 }
 
-class OAuthRequest(private val ck: ConsumerKey, private val cs: ConsumerSecret, private val at: AccessToken, private val ats: AccessTokenSecret, private val uuid: String=Common.getRandomUUID(), private val deviceId: String=Common.getRandomUUID()): RequestBase() {
+class OAuthRequest(private val ck: ConsumerKey, private val cs: ConsumerSecret, private val at: AccessToken, private val ats: AccessTokenSecret, uuid: String?=null, deviceId: String?=null): RequestBase() {
+    private val uuid: String = uuid ?: Common.getRandomUUID()
+    private val deviceId: String = deviceId ?: Common.getRandomUUID()
+
     fun send(method: HTTPMethod, url: URL, data: Map<String,String>?=null): JsonObject {
-        val header: MutableMap<String,String> = OAuthRequestHeader(method, url, uuid, deviceId).authorize(ck, cs, at, ats, data).apply {
+        val header: MutableMap<String,String> = OAuthRequestHeader(method, url, uuid, deviceId).authenticate(ck, cs, at, ats, data).apply {
             if (method == HTTPMethod.POST) {
                 setLength(data)
             }
@@ -75,7 +78,7 @@ class OAuthRequest(private val ck: ConsumerKey, private val cs: ConsumerSecret, 
 
 class BasicRequest(private val ck: ConsumerKey, private val cs: ConsumerSecret): RequestBase() {
     fun send(method: HTTPMethod, url:URL, data: Map<String,String>?=null): JsonObject {
-        val header: MutableMap<String,String> = BasicRequestHeader(url).authorize(ck, cs).get()
+        val header: MutableMap<String,String> = BasicRequestHeader(url).authenticate(ck, cs).get()
 
         return when (method) {
             HTTPMethod.GET -> httpGetAsJson(url, header, data)
@@ -87,7 +90,7 @@ class BasicRequest(private val ck: ConsumerKey, private val cs: ConsumerSecret):
 
 class BearerRequest(private val token: BearerToken): RequestBase() {
     fun send(method: HTTPMethod, url:URL, data: Map<String,String>?=null): JsonObject {
-        val header: MutableMap<String,String> = BearerRequestHeader(url).authorize(token).get()
+        val header: MutableMap<String,String> = BearerRequestHeader(url).authenticate(token).get()
 
         return when (method) {
             HTTPMethod.GET -> httpGetAsJson(url, header, data)
