@@ -25,6 +25,8 @@ class API {
     fun getAccountSettings(data: Map<String,String>?=null) = AccountSettings(oauth).getAsObject<AccountSettingsModel>(data)
     fun getAccountCredentials(data: Map<String,String>?=null) = AccountVerifyCredentials(oauth).getAsObject<AccountVerifyCredentialsModel>(data)
     fun getApplicationRateLimitStatus(data: Map<String,String>?=null) = ApplicationRateLimitStatus(oauth).getAsObject<ApplicationRateLimitStatusModel>(data)
+    fun getBlocksIds(data: Map<String, String>?=null) = BlocksIds(oauth).getAsObject<BlocksIdsModel>(data)
+    fun getBlocksList(data: Map<String, String>?=null) = BlocksList(oauth).getAsObject<BlocksListModel>(data)
 
     fun createPollTweet(status: String, choices: List<String>, minutes: Int=1440) {
         val CARDS_CREATE_URL = "https://caps.twitter.com/v2/cards/create.json"
