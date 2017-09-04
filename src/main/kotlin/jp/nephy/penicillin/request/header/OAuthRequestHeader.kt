@@ -1,25 +1,12 @@
-package jp.nephy.penicillin
+package jp.nephy.penicillin.request.header
 
+import jp.nephy.penicillin.request.*
+import jp.nephy.penicillin.request.credential.*
 import java.net.URL
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-open class RequestHeaderBase {
-    protected val _header: MutableMap<String,String> = mutableMapOf()
-
-    fun get(): MutableMap<String,String> {
-        return _header
-    }
-
-    fun setLength(data: Map<String,String>?=null) {
-        if (data == null) {
-            return
-        }
-        _header["Content-Length"] = data.toParamString().length.toString()
-    }
-}
-
-class OAuthRequestHeader(private val method: HTTPMethod, private val url: URL, private val uuid: String, deviceId: String): RequestHeaderBase() {
+class OAuthRequestHeader(private val method: HTTPMethod, private val url: URL, private val uuid: String, deviceId: String): AbsRequestHeader() {
     init {
         _header.apply {
             put("Host", url.host)
@@ -28,7 +15,7 @@ class OAuthRequestHeader(private val method: HTTPMethod, private val url: URL, p
             put("Accept", "*/*")
             put("X-Client-UUID", uuid)
             put("X-Twitter-Client-Language", "ja")
-            put("X-B3-TraceId", Common.getB3TraceId())
+            put("X-B3-TraceId", Util.getB3TraceId())
             put("Accept-Language", "ja")
             put("Accept-Encoding", "gzip, deflate")
             put("X-Twitter-Client-DeviceID", deviceId)
@@ -47,7 +34,7 @@ class OAuthRequestHeader(private val method: HTTPMethod, private val url: URL, p
         val authorizationHeaderComponent = linkedMapOf<String,String?>().apply {
             put("oauth_signature", null)
             put("oauth_nonce", uuid)
-            put("oauth_timestamp", Common.getCurrentEpochTime().toString())
+            put("oauth_timestamp", Util.getCurrentEpochTime().toString())
             put("oauth_consumer_key", ck.toString())
             put("oauth_token", at.toString())
             put("oauth_version", "1.0")
@@ -87,51 +74,8 @@ class OAuthRequestHeader(private val method: HTTPMethod, private val url: URL, p
     }
 
     private fun getSignature(signingKey: SecretKeySpec, signatureBaseString: String): String {
-        println(signatureBaseString)
         return Mac.getInstance(signingKey.algorithm).apply {
             init(signingKey)
         }.doFinal(signatureBaseString.toByteArray()).toBase64Encode().toURLEncode()
-    }
-}
-
-class BasicRequestHeader(url: URL): RequestHeaderBase() {
-    init {
-        _header.apply {
-            put("Host", url.host)
-            put("X-B3-TraceId", Common.getB3TraceId())
-            put("X-Twitter-Client-Language", "ja")
-            put("Accept", "*/*")
-            put("Accept-Language", "ja")
-            put("Authorization", "")
-            put("Accept-Encoding", "gzip, deflate")
-            put("User-Agent", "Twitter/7.5.1 CFNetwork/758.5.3 Darwin/15.6.0")
-        }
-    }
-
-    fun authenticate(ck: ConsumerKey, cs: ConsumerSecret): BasicRequestHeader {
-        val encoded: String = "$ck:$cs".toBase64Encode()
-
-        _header["Authorization"] = "Basic $encoded"
-        return this
-    }
-}
-
-class BearerRequestHeader(url: URL): RequestHeaderBase() {
-    init {
-        _header.apply {
-            put("Host", url.host)
-            put("X-B3-TraceId", Common.getB3TraceId())
-            put("X-Twitter-Client-Language", "ja")
-            put("Accept", "*/*")
-            put("Accept-Language", "ja")
-            put("Authorization", "")
-            put("Accept-Encoding", "gzip, deflate")
-            put("User-Agent", "Twitter/7.5.1 CFNetwork/758.5.3 Darwin/15.6.0")
-        }
-    }
-
-    fun authenticate(token: BearerToken): BearerRequestHeader {
-        _header["Authorization"] = "Bearer $token"
-        return this
     }
 }
