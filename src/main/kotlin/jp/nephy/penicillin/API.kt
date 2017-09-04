@@ -2,23 +2,31 @@ package jp.nephy.penicillin
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import jp.nephy.penicillin.api.endpoint.*
+import jp.nephy.penicillin.request.HTTPMethod
+import jp.nephy.penicillin.request.credential.*
+import jp.nephy.penicillin.request.handler.OAuthRequestHandler
 import java.net.URL
 
 class API {
     companion object {
-        fun authenticate(ck: ConsumerKey, cs :ConsumerSecret, at: AccessToken, ats: AccessTokenSecret, uuid: String?=null, deviceId: String?=null): API {
+        fun authenticate(ck: ConsumerKey, cs : ConsumerSecret, at: AccessToken, ats: AccessTokenSecret, uuid: String?=null, deviceId: String?=null): API {
             return API().authenticate(ck, cs, at, ats, uuid, deviceId)
         }
     }
 
-    private var request: OAuthRequest? = null
+    lateinit var oauth: OAuthRequestHandler
 
-    fun authenticate(ck: ConsumerKey, cs :ConsumerSecret, at: AccessToken, ats: AccessTokenSecret, uuid: String?=null, deviceId: String?=null): API {
-        request = OAuthRequest(ck, cs, at, ats, uuid, deviceId)
+    fun authenticate(ck: ConsumerKey, cs : ConsumerSecret, at: AccessToken, ats: AccessTokenSecret, uuid: String?=null, deviceId: String?=null): API {
+        oauth = OAuthRequestHandler(ck, cs, at, ats, uuid, deviceId)
         return this
     }
 
-    fun createPollTweet(status: String, choices: List<String>, minutes: Int=1440): JsonObject? {
+    fun getAccountSettings(data: Map<String,String>?=null) = AccountSettings(oauth).getAsObject<AccountSettingsModel>(data)
+    fun getAccountCredentials(data: Map<String,String>?=null) = AccountVerifyCredentials(oauth).getAsObject<AccountVerifyCredentialsModel>(data)
+    fun getApplicationRateLimitStatus(data: Map<String,String>?=null) = ApplicationRateLimitStatus(oauth).getAsObject<ApplicationRateLimitStatusModel>(data)
+
+    fun createPollTweet(status: String, choices: List<String>, minutes: Int=1440) {
         val CARDS_CREATE_URL = "https://caps.twitter.com/v2/cards/create.json"
         val UPDATE_STATUS_URL = "https://api.twitter.com/1.1/statuses/update.json"
 
@@ -43,17 +51,14 @@ class API {
             }))
         }
 
-        var result: JsonObject? = null
-        request?.apply {
+        oauth.apply {
             val poll = send(HTTPMethod.POST, URL(CARDS_CREATE_URL), paramPoll)
 
             val paramTweet = mutableMapOf<String,String>().apply {
                 put("status", status)
-                put("card_uri", poll.get("card_uri").asString)
+                put("card_uri", Gson().fromJson(poll.third.component1(), JsonObject::class.java).get("card_uri").asString)
             }
-            result = send(HTTPMethod.POST, URL(UPDATE_STATUS_URL), paramTweet)
+            send(HTTPMethod.POST, URL(UPDATE_STATUS_URL), paramTweet)
         }
-
-        return result
     }
 }
