@@ -3,3 +3,5 @@ gradle/wrapper/gradle-wrapper.jar
 
 build/
 out/
+
+src/main/kotlin/jp/nephy/penicillin/Main.kt
