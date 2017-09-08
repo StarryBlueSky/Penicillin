@@ -73,7 +73,7 @@ while True:
     else:
         raise Exception("Only dict supported.")
 
-    print("import com.google.gson.JsonElement\nimport com.github.salomonbrys.kotson.*\n\nclass UnnamedModel(json: JsonElement) {")
+    print("import com.google.gson.JsonElement\nimport com.github.salomonbrys.kotson.*\n\nclass UnnamedModel(val json: JsonElement) {")
     for d in sorted(result, key=lambda x: x[0]):
         print(d[1])
     print("}")
