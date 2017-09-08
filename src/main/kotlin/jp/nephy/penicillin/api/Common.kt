@@ -4,6 +4,7 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.google.gson.*
+import jp.nephy.penicillin.api.model.EpochTime
 import jp.nephy.penicillin.request.HTTPMethod
 import jp.nephy.penicillin.request.exception.TwitterAPIError
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
@@ -12,19 +13,6 @@ import java.util.*
 
 enum class ResponseFormats {
     JSON
-}
-
-class EpochTime(private val time: Long) {
-    fun toDate(): Date {
-        if (time < 10000000000) {
-            return Date(time * 1000)
-        }
-        return Date(time)
-    }
-
-    override fun toString(): String {
-        return toDate().toString()
-    }
 }
 
 class Parameter {
@@ -53,8 +41,25 @@ class RateLimit(val limit: Int, val remaining: Int, val resetAt: EpochTime) {
     }
 }
 
-data class ResponseObject<T>(val data: T, val request: Request, val response: Response, val error: FuelError?, val rateLimit: RateLimit)
-data class ResponseList<T>(val request: Request, val response: Response, val error: FuelError?, val rateLimit: RateLimit) : ArrayList<T>()
+data class ResponseObject<out T>(val data: T, val request: Request, val response: Response, val error: FuelError?, val rateLimit: RateLimit) {
+    fun print() {
+        println(request.toString())
+        println()
+        println(response.toString())
+        println()
+        println("Ratelimit: ${rateLimit.remaining} / ${rateLimit.limit} (reset at ${rateLimit.resetAt.toDate()})")
+    }
+}
+data class ResponseList<T>(val request: Request, val response: Response, val error: FuelError?, val rateLimit: RateLimit) : ArrayList<T>() {
+    fun print() {
+        println(request.toString())
+        println()
+        println(response.toString())
+        println()
+        println("Data size: ${this.size}")
+        println("Ratelimit: ${rateLimit.remaining} / ${rateLimit.limit} (reset at ${rateLimit.resetAt.toDate()})")
+    }
+}
 
 interface IEndPoint {
     val method: HTTPMethod
