@@ -3,4 +3,4 @@
 build/
 out/
 
-src/main/kotlin/jp/nephy/penicillin/Main.kt
+src/test/kotlin/Main.kt
