@@ -6,7 +6,10 @@ import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
 import jp.nephy.penicillin.request.HTTPMethod
 import jp.nephy.penicillin.request.Util
-import jp.nephy.penicillin.request.credential.*
+import jp.nephy.penicillin.request.credential.AccessToken
+import jp.nephy.penicillin.request.credential.AccessTokenSecret
+import jp.nephy.penicillin.request.credential.ConsumerKey
+import jp.nephy.penicillin.request.credential.ConsumerSecret
 import jp.nephy.penicillin.request.header.OAuthRequestHeader
 import java.net.URL
 
