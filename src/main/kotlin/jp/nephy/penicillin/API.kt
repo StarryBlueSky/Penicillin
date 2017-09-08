@@ -3,8 +3,12 @@ package jp.nephy.penicillin
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import jp.nephy.penicillin.api.endpoint.*
+import jp.nephy.penicillin.api.model.TweetModel
 import jp.nephy.penicillin.request.HTTPMethod
-import jp.nephy.penicillin.request.credential.*
+import jp.nephy.penicillin.request.credential.AccessToken
+import jp.nephy.penicillin.request.credential.AccessTokenSecret
+import jp.nephy.penicillin.request.credential.ConsumerKey
+import jp.nephy.penicillin.request.credential.ConsumerSecret
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
 import java.net.URL
 
@@ -27,6 +31,12 @@ class API {
     fun getApplicationRateLimitStatus(data: Map<String,String>?=null) = ApplicationRateLimitStatus(oauth).getAsObject<ApplicationRateLimitStatusModel>(data)
     fun getBlocksIds(data: Map<String, String>?=null) = BlocksIds(oauth).getAsObject<BlocksIdsModel>(data)
     fun getBlocksList(data: Map<String, String>?=null) = BlocksList(oauth).getAsObject<BlocksListModel>(data)
+    fun getFavoritesList(data: Map<String, String>?=null) = FavoritesList(oauth).getAsList<TweetModel>(data)
+
+    fun getHelpConfiguration(data: Map<String, String>?=null) = HelpConfiguration(oauth).getAsObject<HelpConfigurationModel>(data)
+    fun getHelpLanguages(data: Map<String, String>?=null) = HelpLanguages(oauth).getAsList<HelpLanguagesModel>(data)
+    fun getHelpPrivacy(data: Map<String, String>?=null) = HelpPrivacy(oauth).getAsObject<HelpPrivacyModel>(data)
+    fun getHelpTos(data: Map<String, String>?=null) = HelpTos(oauth).getAsObject<HelpTosModel>(data)
 
     fun createPollTweet(status: String, choices: List<String>, minutes: Int=1440) {
         val CARDS_CREATE_URL = "https://caps.twitter.com/v2/cards/create.json"
