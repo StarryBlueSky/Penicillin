@@ -4,7 +4,7 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.result.Result
-import jp.nephy.penicillin.request.*
+import jp.nephy.penicillin.request.HTTPMethod
 import jp.nephy.penicillin.request.credential.ConsumerKey
 import jp.nephy.penicillin.request.credential.ConsumerSecret
 import jp.nephy.penicillin.request.header.BasicRequestHeader

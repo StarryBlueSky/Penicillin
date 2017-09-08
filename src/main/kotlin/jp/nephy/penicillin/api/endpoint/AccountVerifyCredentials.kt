@@ -2,10 +2,13 @@ package jp.nephy.penicillin.api.endpoint
 
 import com.github.salomonbrys.kotson.*
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.api.*
+import jp.nephy.penicillin.api.AbsOAuthGet
+import jp.nephy.penicillin.api.Parameter
+import jp.nephy.penicillin.api.ResponseFormats
+import jp.nephy.penicillin.api.ResponseObject
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
 
-class AccountVerifyCredentialsModel(json: JsonElement) {
+class AccountVerifyCredentialsModel(val json: JsonElement) {
     val advertiserAccountServiceLevels by json.byNullableArray("advertiser_account_service_levels") // ["analytics"]
     val advertiserAccountType by json.byNullableString("advertiser_account_type") // "promotable_user"
     val analyticsType by json.byNullableString("analytics_type") // "enabled"

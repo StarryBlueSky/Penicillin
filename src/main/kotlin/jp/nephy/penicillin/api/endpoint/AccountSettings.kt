@@ -1,11 +1,16 @@
 package jp.nephy.penicillin.api.endpoint
 
-import com.github.salomonbrys.kotson.*
+import com.github.salomonbrys.kotson.byNullableBool
+import com.github.salomonbrys.kotson.byNullableObject
+import com.github.salomonbrys.kotson.byNullableString
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.api.*
+import jp.nephy.penicillin.api.AbsOAuthGet
+import jp.nephy.penicillin.api.Parameter
+import jp.nephy.penicillin.api.ResponseFormats
+import jp.nephy.penicillin.api.ResponseObject
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
 
-class AccountSettingsModel(json: JsonElement) {
+class AccountSettingsModel(val json: JsonElement) {
     val addressBookLiveSyncEnabled by json.byNullableBool("address_book_live_sync_enabled") // false
     val allowAdsPersonalization by json.byNullableBool("allow_ads_personalization") // false
     val allowAuthenticatedPeriscopeRequests by json.byNullableBool("allow_authenticated_periscope_requests") // true

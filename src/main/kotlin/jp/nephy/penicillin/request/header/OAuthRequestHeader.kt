@@ -1,7 +1,13 @@
 package jp.nephy.penicillin.request.header
 
-import jp.nephy.penicillin.request.*
-import jp.nephy.penicillin.request.credential.*
+import jp.nephy.penicillin.request.HTTPMethod
+import jp.nephy.penicillin.request.Util
+import jp.nephy.penicillin.request.credential.AccessToken
+import jp.nephy.penicillin.request.credential.AccessTokenSecret
+import jp.nephy.penicillin.request.credential.ConsumerKey
+import jp.nephy.penicillin.request.credential.ConsumerSecret
+import jp.nephy.penicillin.request.toBase64Encode
+import jp.nephy.penicillin.request.toURLEncode
 import java.net.URL
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec

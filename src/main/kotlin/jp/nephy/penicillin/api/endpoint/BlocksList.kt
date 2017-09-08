@@ -1,14 +1,16 @@
 package jp.nephy.penicillin.api.endpoint
 
+import com.github.salomonbrys.kotson.byNullableArray
+import com.github.salomonbrys.kotson.byNullableInt
+import com.github.salomonbrys.kotson.byNullableString
 import com.google.gson.JsonElement
-import com.github.salomonbrys.kotson.*
 import jp.nephy.penicillin.api.AbsOAuthGet
 import jp.nephy.penicillin.api.Parameter
 import jp.nephy.penicillin.api.ResponseFormats
 import jp.nephy.penicillin.api.ResponseObject
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
 
-class BlocksListModel(json: JsonElement) {
+class BlocksListModel(val json: JsonElement) {
     val nextCursor by json.byNullableInt("next_cursor") // 0
     val nextCursorStr by json.byNullableString("next_cursor_str") // "0"
     val previousCursor by json.byNullableInt("previous_cursor") // 0
