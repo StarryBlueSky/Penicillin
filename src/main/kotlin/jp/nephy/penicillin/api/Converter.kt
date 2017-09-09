@@ -38,18 +38,26 @@ class NullableJsonConvertDelegate<out T, R>(private val klass1: Class<T>, privat
     }
 }
 
-val JsonElement.byTweetModel: JsonConvertDelegate<TweetModel, JsonElement> get() = JsonConvertDelegate(TweetModel::class.java, JsonElement::class.java, this.obj)
-val JsonElement.byUserModel : JsonConvertDelegate<UserModel, JsonElement>  get() = JsonConvertDelegate(UserModel::class.java,  JsonElement::class.java, this.obj)
-val JsonElement.byStatusID  : JsonConvertDelegate<StatusID, Long>          get() = JsonConvertDelegate(StatusID::class.java,   Long::class.java,        this.obj)
-val JsonElement.bySource    : JsonConvertDelegate<Source, String>          get() = JsonConvertDelegate(Source::class.java,     String::class.java,      this.obj)
+internal val JsonElement.byTweetModel: JsonConvertDelegate<TweetModel,JsonElement> get() = JsonConvertDelegate(TweetModel::class.java, JsonElement::class.java, this.obj)
+internal val JsonElement.byUserModel : JsonConvertDelegate<UserModel, JsonElement> get() = JsonConvertDelegate(UserModel::class.java,  JsonElement::class.java, this.obj)
+internal val JsonElement.byStatusID  : JsonConvertDelegate<StatusID,  Long>        get() = JsonConvertDelegate(StatusID::class.java,   Long::class.java,        this.obj)
+internal val JsonElement.bySource    : JsonConvertDelegate<Source,    String>      get() = JsonConvertDelegate(Source::class.java,     String::class.java,      this.obj)
+internal val JsonElement.byURL       : JsonConvertDelegate<URL,       String>      get() = JsonConvertDelegate(URL::class.java,        String::class.java,      this.obj)
 
-val JsonElement.byNullableStatusID: NullableJsonConvertDelegate<StatusID, Long>  get() = NullableJsonConvertDelegate(StatusID::class.java, Long::class.java,   this.obj)
-val JsonElement.byNullableURL     : NullableJsonConvertDelegate<URL, String>     get() = NullableJsonConvertDelegate(URL::class.java,      String::class.java, this.obj)
+internal fun JsonElement.byTweetModel(key: String?=null): JsonConvertDelegate<TweetModel,JsonElement> = JsonConvertDelegate(TweetModel::class.java, JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byUserModel (key: String?=null): JsonConvertDelegate<UserModel, JsonElement> = JsonConvertDelegate(UserModel::class.java,  JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byStatusID  (key: String?=null): JsonConvertDelegate<StatusID,  Long>        = JsonConvertDelegate(StatusID::class.java,   Long::class.java,        this.obj, key)
+internal fun JsonElement.bySource    (key: String?=null): JsonConvertDelegate<Source,    String>      = JsonConvertDelegate(Source::class.java,     String::class.java,      this.obj, key)
+internal fun JsonElement.byURL       (key: String?=null): JsonConvertDelegate<URL,       String>      = JsonConvertDelegate(URL::class.java,        String::class.java,      this.obj, key)
 
-fun JsonElement.byTweetModel(key: String?=null): JsonConvertDelegate<TweetModel, JsonElement> = JsonConvertDelegate(TweetModel::class.java, JsonElement::class.java, this.obj, key)
-fun JsonElement.byUserModel (key: String?=null): JsonConvertDelegate<UserModel, JsonElement>  = JsonConvertDelegate(UserModel::class.java,  JsonElement::class.java, this.obj, key)
-fun JsonElement.byStatusID  (key: String?=null): JsonConvertDelegate<StatusID, Long>          = JsonConvertDelegate(StatusID::class.java,   Long::class.java,        this.obj, key)
-fun JsonElement.bySource    (key: String?=null): JsonConvertDelegate<Source, String>          = JsonConvertDelegate(Source::class.java,     String::class.java,      this.obj, key)
+internal val JsonElement.byNullableTweetModel: NullableJsonConvertDelegate<TweetModel,JsonElement> get() = NullableJsonConvertDelegate(TweetModel::class.java, JsonElement::class.java, this.obj)
+internal val JsonElement.byNullableUserModel : NullableJsonConvertDelegate<UserModel, JsonElement> get() = NullableJsonConvertDelegate(UserModel::class.java,  JsonElement::class.java, this.obj)
+internal val JsonElement.byNullableStatusID  : NullableJsonConvertDelegate<StatusID,  Long>        get() = NullableJsonConvertDelegate(StatusID::class.java,   Long::class.java,        this.obj)
+internal val JsonElement.byNullableSource    : NullableJsonConvertDelegate<Source,    String>      get() = NullableJsonConvertDelegate(Source::class.java,     String::class.java,      this.obj)
+internal val JsonElement.byNullableURL       : NullableJsonConvertDelegate<URL,       String>      get() = NullableJsonConvertDelegate(URL::class.java,        String::class.java,      this.obj)
 
-fun JsonElement.byNullableStatusID(key: String?=null): NullableJsonConvertDelegate<StatusID, Long> = NullableJsonConvertDelegate(StatusID::class.java, Long::class.java,   this.obj, key)
-fun JsonElement.byNullableURL     (key: String?=null): NullableJsonConvertDelegate<URL, String>    = NullableJsonConvertDelegate(URL::class.java,      String::class.java, this.obj, key)
+internal fun JsonElement.byNullableTweetModel(key: String?=null): NullableJsonConvertDelegate<TweetModel,JsonElement> = NullableJsonConvertDelegate(TweetModel::class.java, JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byNullableUserModel (key: String?=null): NullableJsonConvertDelegate<UserModel, JsonElement> = NullableJsonConvertDelegate(UserModel::class.java,  JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byNullableStatusID  (key: String?=null): NullableJsonConvertDelegate<StatusID,  Long>        = NullableJsonConvertDelegate(StatusID::class.java,   Long::class.java,        this.obj, key)
+internal fun JsonElement.byNullableSource    (key: String?=null): NullableJsonConvertDelegate<Source,    String>      = NullableJsonConvertDelegate(Source::class.java,     String::class.java,      this.obj, key)
+internal fun JsonElement.byNullableURL       (key: String?=null): NullableJsonConvertDelegate<URL,       String>      = NullableJsonConvertDelegate(URL::class.java,        String::class.java,      this.obj, key)
