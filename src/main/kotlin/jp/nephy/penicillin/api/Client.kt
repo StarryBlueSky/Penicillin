@@ -97,6 +97,9 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getUsersSuggestions(slug: String, data: Map<String, String>?=null) = "/users/suggestions/$slug.json".GET(oauth).getResponseObject<UserSuggestionSlugModel>(data)
     fun getUsersSuggestionsMembers(slug: String, data: Map<String, String>?=null) = "/users/suggestions/$slug/members.json".GET(oauth).getResponseList<UserModel>(data)
 
+    fun deleteDirectMessagesWelcomeMessagesDestroy(data: Map<String, String>?=null) = "/direct_messages/welcome_messages/destroy.json".DELETE(oauth).getResponseObject<DirectMessagesWelcomeMessagesShow>(data)
+    fun deleteDirectMessagesWelcomeMessagesRulesDestroy(data: Map<String, String>?=null) = "/direct_messages/welcome_messages/rules/destroy.json".DELETE(oauth).getResponseObject<DirectMessagesWelcomeMessagesRulesShow>(data)
+
     fun createPollTweet(status: String, choices: List<String>, minutes: Int=1440): Any {
         val CARDS_CREATE_URL = "https://caps.twitter.com/v2/cards/create.json"
         val UPDATE_STATUS_URL = "https://api.twitter.com/1.1/statuses/update.json"
