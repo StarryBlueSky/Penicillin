@@ -46,6 +46,5 @@ class AccountSettings(oauth: OAuthRequestHandler): AbsOAuthGet<ResponseObject<Ac
     override val resourceUrl = "https://api.twitter.com/1.1/account/settings.json"
     override val responseFormat = ResponseFormats.JSON
     override val isRateLimited = true
-    override val requestsPer15mins = 15
     override val defaultParameter = Parameter()
 }

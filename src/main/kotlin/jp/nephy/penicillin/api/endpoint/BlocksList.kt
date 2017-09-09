@@ -22,7 +22,6 @@ class BlocksList(oauth: OAuthRequestHandler): AbsOAuthGet<ResponseObject<BlocksL
     override val resourceUrl = "https://api.twitter.com/1.1/blocks/list.json"
     override val responseFormat = ResponseFormats.JSON
     override val isRateLimited = true
-    override val requestsPer15mins = 15
     override val defaultParameter = Parameter().apply {
         put("include_entities", "true")
         put("skip_status", "true")

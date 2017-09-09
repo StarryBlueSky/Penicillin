@@ -17,6 +17,5 @@ class HelpLanguages(oauth: OAuthRequestHandler): AbsOAuthGet<HelpLanguagesModel>
     override val resourceUrl = "https://api.twitter.com/1.1/help/languages.json"
     override val responseFormat = ResponseFormats.JSON
     override val isRateLimited = true
-    override val requestsPer15mins = 15
     override val defaultParameter = Parameter()
 }

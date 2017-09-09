@@ -16,7 +16,6 @@ class ApplicationRateLimitStatus(oauth: OAuthRequestHandler): AbsOAuthGet<Applic
     override val resourceUrl = "https://api.twitter.com/1.1/application/rate_limit_status.json"
     override val responseFormat = ResponseFormats.JSON
     override val isRateLimited = true
-    override val requestsPer15mins = 180
     override val defaultParameter = Parameter().apply {
         put("resources", "")
     }
