@@ -41,6 +41,9 @@ while True:
         continue
     
     result = []
+    if isinstance(jsonObj, list):
+        jsonObj = jsonObj[0]
+
     if isinstance(jsonObj, dict):
         for k, v in jsonObj.items():
             if isinstance(v, bool):
@@ -71,7 +74,7 @@ while True:
             else:
                 result.append([k, f"    val {name} by json.{method}(\"{k}\") // {toKotlinLiteral(v)}"])
     else:
-        raise Exception("Only dict supported.")
+        raise Exception("Only dict or list supported.")
 
     print("import com.google.gson.JsonElement\nimport com.github.salomonbrys.kotson.*\n\nclass UnnamedModel(val json: JsonElement) {")
     for d in sorted(result, key=lambda x: x[0]):
