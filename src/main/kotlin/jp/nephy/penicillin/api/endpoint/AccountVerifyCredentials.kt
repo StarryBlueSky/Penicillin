@@ -74,7 +74,6 @@ class AccountVerifyCredentials(oauth: OAuthRequestHandler): AbsOAuthGet<Response
     override val resourceUrl = "https://api.twitter.com/1.1/account/verify_credentials.json"
     override val responseFormat = ResponseFormats.JSON
     override val isRateLimited = true
-    override val requestsPer15mins = 75
     override val defaultParameter = Parameter().apply {
         put("include_entities", null)
         put("skip_status", null)

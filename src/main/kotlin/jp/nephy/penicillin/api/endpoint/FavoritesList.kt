@@ -10,7 +10,6 @@ class FavoritesList(oauth: OAuthRequestHandler): AbsOAuthGet<TweetModel>(oauth) 
     override val resourceUrl = "https://api.twitter.com/1.1/favorites/list.json"
     override val responseFormat = ResponseFormats.JSON
     override val isRateLimited = true
-    override val requestsPer15mins = 75
     override val defaultParameter = Parameter().apply {
         put("user_id", null)
         put("screen_name", null)

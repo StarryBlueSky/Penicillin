@@ -66,7 +66,6 @@ interface IEndPoint {
     val resourceUrl: String
     val responseFormat: ResponseFormats
     val isRateLimited: Boolean
-    val requestsPer15mins: Int?
     val defaultParameter: Parameter
 
     fun getResourceURL(): URL {
