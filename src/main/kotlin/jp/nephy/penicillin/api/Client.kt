@@ -64,11 +64,9 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getListsSubscribersShow(data: Map<String, String>?=null) = "/lists/subscribers/show.json".GET(oauth).getResponseObject<UserModel>(data)
     fun getListsSubscriptions(data: Map<String, String>?=null) = "/lists/subscriptions.json".GET(oauth).getResponseObject<CursorListsModel>(data)
 
-    fun getMediaUploadStatus(mediaId: String, mediaKey: String) = "https://upload.twitter.com/1.1/media/upload.json".GET(oauth).getResponseObject<MediaUpdateStatus>(mutableMapOf<String,String>().apply {
-        this["command"] = "STATUS"
-        this["media_id"] = mediaId
-        this["media_key"] = mediaKey
-    })
+    fun getMediaUploadStatus(mediaId: String, mediaKey: String) = "https://upload.twitter.com/1.1/media/upload.json".GET(oauth).getResponseObject<MediaUpdateStatus>(
+            mutableMapOf("command" to "STATUS", "media_id" to mediaId, "media_key" to mediaKey)
+    )
 
     fun getMutesUsersIds(data: Map<String, String>?=null) = "/mutes/users/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
     fun getMutesUsersList(data: Map<String, String>?=null) = "/mutes/users/list.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
