@@ -44,6 +44,7 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getFriendsIds(data: Map<String, String>?=null) = "/friends/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
     fun getFriendsList(data: Map<String, String>?=null) = "/friends/list.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
 
+    fun getGeoId(placeId: String, data: Map<String, String>?=null) = "/geo/id/$placeId.json".GET(oauth).getResponseObject<GeoId>(data)
     fun getGeoReverseGeocode(data: Map<String, String>?=null) = "/geo/reverse_geocode.json".GET(oauth).getResponseObject<GeoReverseGeocode>(data)
     fun getGeoSearch(data: Map<String, String>?=null) = "/geo/search.json".GET(oauth).getResponseObject<GeoSearch>(data)
 
@@ -63,11 +64,17 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getListsSubscribersShow(data: Map<String, String>?=null) = "/lists/subscribers/show.json".GET(oauth).getResponseObject<UserModel>(data)
     fun getListsSubscriptions(data: Map<String, String>?=null) = "/lists/subscriptions.json".GET(oauth).getResponseObject<CursorListsModel>(data)
 
+    fun getMediaUploadStatus(mediaId: String, mediaKey: String) = "https://upload.twitter.com/1.1/media/upload.json".GET(oauth).getResponseObject<MediaUpdateStatus>(mutableMapOf<String,String>().apply {
+        this["command"] = "STATUS"
+        this["media_id"] = mediaId
+        this["media_key"] = mediaKey
+    })
+
     fun getMutesUsersIds(data: Map<String, String>?=null) = "/mutes/users/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
     fun getMutesUsersList(data: Map<String, String>?=null) = "/mutes/users/list.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
 
     fun getSavedSearchesList(data: Map<String, String>?=null) = "/saved_searches/list.json".GET(oauth).getResponseList<SavedSearchModel>(data)
-    fun getSavedSearchesShow(data: Map<String, String>?=null) = "/saved_searches/show.json".GET(oauth).getResponseObject<SavedSearchModel>(data)
+    fun getSavedSearchesShow(id: String, data: Map<String, String>?=null) = "/saved_searches/show/$id.json".GET(oauth).getResponseObject<SavedSearchModel>(data)
 
     fun getSearchTweets(data: Map<String, String>?=null) = "/search/tweets.json".GET(oauth).getResponseObject<SearchTweets>(data)
 
@@ -75,9 +82,9 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getStatusesLookup(data: Map<String, String>?=null) = "/statuses/lookup.json".GET(oauth).getResponseList<TweetModel>(data)
     fun getStatusesMentionsTimeline(data: Map<String, String>?=null) = "/statuses/mentions_timeline.json".GET(oauth).getResponseList<TweetModel>(data)
     fun getStatusesRetweetersIds(data: Map<String, String>?=null) = "/statuses/retweeters/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
-    fun getStatusesRetweets(data: Map<String, String>?=null) = "/statuses/retweets.json".GET(oauth).getResponseList<UserModel>(data)
+    fun getStatusesRetweets(id: StatusID, data: Map<String, String>?=null) = "/statuses/retweets/$id.json".GET(oauth).getResponseList<UserModel>(data)
     fun getStatusesRetweetsOfMe(data: Map<String, String>?=null) = "/statuses/retweets_of_me.json".GET(oauth).getResponseList<TweetModel>(data)
-    fun getStatusesShow(data: Map<String, String>?=null) = "/statuses/lookup.json".GET(oauth).getResponseObject<TweetModel>(data)
+    fun getStatusesShow(id: StatusID, data: Map<String, String>?=null) = "/statuses/show/$id.json".GET(oauth).getResponseObject<TweetModel>(data)
     fun getStatusesUserTimeline(data: Map<String, String>?=null) = "/statuses/user_timeline.json".GET(oauth).getResponseList<TweetModel>(data)
 
     fun getTrendsAvailable(data: Map<String, String>?=null) = "/trends/available.json".GET(oauth).getResponseList<TrendAreaModel>(data)
@@ -89,6 +96,8 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getUsersSearch(data: Map<String, String>?=null) = "/users/search.json".GET(oauth).getResponseList<UserModel>(data)
     fun getUsersShow(data: Map<String, String>?=null) = "/users/show.json".GET(oauth).getResponseObject<UserModel>(data)
     fun getUsersSuggestions(data: Map<String, String>?=null) = "/users/suggestions.json".GET(oauth).getResponseList<UserSuggestionModel>(data)
+    fun getUsersSuggestions(slug: String, data: Map<String, String>?=null) = "/users/suggestions/$slug.json".GET(oauth).getResponseObject<UserSuggestionSlugModel>(data)
+    fun getUsersSuggestionsMembers(slug: String, data: Map<String, String>?=null) = "/users/suggestions/$slug/members.json".GET(oauth).getResponseList<UserModel>(data)
 
     fun createPollTweet(status: String, choices: List<String>, minutes: Int=1440): Any {
         val CARDS_CREATE_URL = "https://caps.twitter.com/v2/cards/create.json"
