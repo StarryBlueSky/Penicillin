@@ -10,7 +10,5 @@ class EpochTime(private val time: Long) {
         return Date(time)
     }
 
-    override fun toString(): String {
-        return toDate().toString()
-    }
+    override fun toString(): String = toDate().toString()
 }
