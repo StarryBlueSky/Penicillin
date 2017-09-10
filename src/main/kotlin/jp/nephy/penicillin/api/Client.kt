@@ -126,6 +126,7 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun postListsSubscribersDestroy(vararg parameters: Pair<String, String>) = "/lists/subscribers/destroy.json".POST(oauth).getResponseObject<List>(parameters)
     fun postListsUpdate(vararg parameters: Pair<String, String>) = "/lists/update.json".POST(oauth).getResponseObject<List>(parameters)
 
+    fun postMediaMetadataCreate(vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/metadata/create.json".POST(oauth, true).getResponseObject<Media>(parameters)
     fun postMediaUpload(vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/upload.json".POST(oauth).getResponseObject<Media>(parameters)
     fun postMediaUploadBytes(file: ByteArray, vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/upload.json".POST(oauth).getResponseObject<Media>(parameters, file)
 
