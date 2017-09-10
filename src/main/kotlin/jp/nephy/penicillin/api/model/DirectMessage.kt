@@ -4,11 +4,12 @@ import com.github.salomonbrys.kotson.byBool
 import com.github.salomonbrys.kotson.byLong
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
+import jp.nephy.penicillin.api.byCreatedAt
 import jp.nephy.penicillin.api.byStatusEntity
 import jp.nephy.penicillin.api.byUser
 
 class DirectMessage(val json: JsonElement) {
-    val createdAt by json.byString("created_at")
+    val createdAt by json.byCreatedAt("created_at")
     val entities by json.byStatusEntity
     val id by json.byLong
     val idStr by json.byString("id_str")
