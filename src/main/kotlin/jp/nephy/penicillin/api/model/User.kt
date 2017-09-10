@@ -11,7 +11,7 @@ open class User(val json: JsonElement) {
     val businessProfileState by json.byString("business_profile_state")
     val canMediaTag by json.byBool("can_media_tag")
     val contributorsEnabled by json.byBool("contributors_enabled")
-    val createdAt by json.byString("created_at")
+    val createdAt by json.byCreatedAt("created_at")
     val defaultProfile by json.byBool("default_profile")
     val defaultProfileImage by json.byBool("default_profile_image")
     val description by json.byString

@@ -5,10 +5,11 @@ import com.github.salomonbrys.kotson.byInt
 import com.github.salomonbrys.kotson.byLong
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
+import jp.nephy.penicillin.api.byCreatedAt
 import jp.nephy.penicillin.api.byUser
 
 class List(val json: JsonElement) {
-    val createdAt by json.byString("created_at")
+    val createdAt by json.byCreatedAt("created_at")
     val description by json.byString
     val following by json.byBool
     val fullName by json.byString("full_name")

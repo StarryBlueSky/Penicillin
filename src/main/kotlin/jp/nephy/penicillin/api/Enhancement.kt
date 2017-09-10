@@ -58,6 +58,7 @@ internal fun JsonElement.byTimeZone(key: String?=null): JsonConvertDelegate<Time
 internal fun JsonElement.bySettingMetadata(key: String?=null): JsonConvertDelegate<SettingMetadata, JsonElement> = JsonConvertDelegate(SettingMetadata::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.bySleepTime(key: String?=null): JsonConvertDelegate<SleepTime, JsonElement> = JsonConvertDelegate(SleepTime::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byPhoto(key: String?=null): JsonConvertDelegate<Photo, JsonElement> = JsonConvertDelegate(Photo::class.java, JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byCreatedAt   (key: String?=null): JsonConvertDelegate<CreatedAt,   String> = JsonConvertDelegate(CreatedAt::class.java,   String::class.java, this.obj, key)
 
 internal fun JsonElement.byLongArray(key: String?=null): JsonConvertArrayDelegate<Long> = JsonConvertArrayDelegate(Long::class.java, this.obj, key)
 internal fun JsonElement.byListArray(key: String?=null): JsonConvertArrayDelegate<List> = JsonConvertArrayDelegate(List::class.java, this.obj, key)

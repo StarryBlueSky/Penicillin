@@ -8,7 +8,7 @@ class Status(val json: JsonElement) {
     val contributors by json.byNullableObject // null
     val conversationId by json.byNullableLong("conversation_id")
     val coordinates by json.byNullableObject // null
-    val createdAt by json.byString("created_at")
+    val createdAt by json.byCreatedAt("created_at")
     val entities by json.byStatusEntity
     val favoriteCount by json.byInt("favorite_count")
     val favorited by json.byBool
