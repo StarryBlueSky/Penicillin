@@ -7,7 +7,7 @@ import jp.nephy.penicillin.request.handler.OAuthRequestHandler
 class Client(private val oauth: OAuthRequestHandler) {
     /* Official API Start */
     fun getAccountSettings(vararg parameters: Pair<String, String>) = "/account/settings.json".GET(oauth).getResponseObject<AccountSettings>(parameters)
-    fun getAccountCredentials(vararg parameters: Pair<String, String>) = "/account/verify_credentials.json".GET(oauth).getResponseObject<UserModel>(parameters)
+    fun getAccountCredentials(vararg parameters: Pair<String, String>) = "/account/verify_credentials.json".GET(oauth).getResponseObject<AccountVerifyCredentials>(parameters)
 
     fun getApplicationRateLimitStatus(vararg parameters: Pair<String, String>) = "/application/rate_limit_status.json".GET(oauth).getResponseObject<ApplicationRateLimitStatus>(parameters)
 

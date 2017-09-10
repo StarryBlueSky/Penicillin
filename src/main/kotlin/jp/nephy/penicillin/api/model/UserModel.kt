@@ -4,7 +4,7 @@ import com.github.salomonbrys.kotson.*
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.api.byNullableURL
 
-class UserModel(val json: JsonElement) {
+open class UserModel(val json: JsonElement) {
     val businessProfileState by json.byNullableString("business_profile_state") // "none"
     val canMediaTag by json.byNullableBool("can_media_tag") // true
     val contributorsEnabled by json.byNullableBool("contributors_enabled") // false
