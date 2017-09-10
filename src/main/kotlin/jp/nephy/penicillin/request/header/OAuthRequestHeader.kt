@@ -1,13 +1,10 @@
 package jp.nephy.penicillin.request.header
 
-import jp.nephy.penicillin.request.HTTPMethod
-import jp.nephy.penicillin.request.Util
+import jp.nephy.penicillin.request.*
 import jp.nephy.penicillin.request.credential.AccessToken
 import jp.nephy.penicillin.request.credential.AccessTokenSecret
 import jp.nephy.penicillin.request.credential.ConsumerKey
 import jp.nephy.penicillin.request.credential.ConsumerSecret
-import jp.nephy.penicillin.request.toBase64Encode
-import jp.nephy.penicillin.request.toURLEncode
 import java.net.URL
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -34,6 +31,10 @@ class OAuthRequestHeader(private val method: HTTPMethod, private val url: URL, p
             put("X-Twitter-API-Version", "5")
             put("X-Twitter-Client", "Twitter-iPhone")
         }
+    }
+
+    fun multipart() {
+        _header["Content-Type"] = "multipart/form-data; boundary=----${System.currentTimeMillis().toHexString()}"
     }
 
     fun authenticate(ck: ConsumerKey, cs: ConsumerSecret, at: AccessToken, ats: AccessTokenSecret, data: Map<String,String>?=null): OAuthRequestHeader {
@@ -64,9 +65,11 @@ class OAuthRequestHeader(private val method: HTTPMethod, private val url: URL, p
             authorizationHeaderComponent.filterValues { it != null }.forEach{
                 put(it.key, it.value)
             }
-            data?.forEach({
-                put(it.key.toURLEncode(), it.value.toURLEncode())
-            })
+            if ((method == HTTPMethod.POST && _header["Content-Type"] == "application/x-www-form-urlencoded") || method != HTTPMethod.POST) {
+                data?.forEach({
+                    put(it.key.toURLEncode(), it.value.toURLEncode())
+                })
+            }
         }
         val signatureParamString = signatureParam.map {
             "${it.key}=${it.value}"

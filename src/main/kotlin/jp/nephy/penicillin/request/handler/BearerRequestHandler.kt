@@ -11,7 +11,7 @@ import java.net.URL
 
 class BearerRequestHandler(private val token: BearerToken): AbsRequestHandler() {
     fun send(method: HTTPMethod, url: URL, data: Map<String,String>?=null): Triple<Request, Response, Result<String, FuelError>> {
-        val header: MutableMap<String,String> = BearerRequestHeader(url).authenticate(token).get()
+        val header = BearerRequestHeader(url).authenticate(token)
 
         return when (method) {
             HTTPMethod.GET -> httpGet(url, header, data)
