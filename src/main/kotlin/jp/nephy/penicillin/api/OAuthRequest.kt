@@ -18,8 +18,8 @@ class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, priva
     }
 
     @Throws(TwitterAPIError::class)
-    inline fun <reified T> getResponseObject(data: Map<String,String>?): ResponseObject<T> {
-        val (request, response, result) = oauth.send(method, getResourceURL(), data)
+    inline fun <reified T> getResponseObject(data: Array<out Pair<String, String>>?): ResponseObject<T> {
+        val (request, response, result) = oauth.send(method, getResourceURL(), data?.toMap())
         val (content, error) = result
 
         if (error !== null) {
@@ -41,8 +41,8 @@ class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, priva
     }
 
     @Throws(TwitterAPIError::class)
-    inline fun <reified T> getResponseList(data: Map<String,String>?): ResponseList<T> {
-        val (request, response, result) = oauth.send(method, getResourceURL(), data)
+    inline fun <reified T> getResponseList(data: Array<out Pair<String, String>>?): ResponseList<T> {
+        val (request, response, result) = oauth.send(method, getResourceURL(), data?.toMap())
         val (content, error) = result
 
         if (error !== null) {

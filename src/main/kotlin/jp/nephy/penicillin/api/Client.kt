@@ -1,109 +1,152 @@
 package jp.nephy.penicillin.api
 
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import jp.nephy.penicillin.api.model.*
-import jp.nephy.penicillin.request.HTTPMethod
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
-import java.net.URL
 
 class Client(private val oauth: OAuthRequestHandler) {
-    fun getAccountSettings(data: Map<String,String>?=null) = "/account/settings.json".GET(oauth).getResponseObject<AccountSettings>(data)
-    fun getAccountCredentials(data: Map<String,String>?=null) = "/account/verify_credentials.json".GET(oauth).getResponseObject<AccountVerifyCredentials>(data)
+    /* Official API Start */
+    fun getAccountSettings(vararg parameters: Pair<String, String>) = "/account/settings.json".GET(oauth).getResponseObject<AccountSettings>(parameters)
+    fun getAccountCredentials(vararg parameters: Pair<String, String>) = "/account/verify_credentials.json".GET(oauth).getResponseObject<UserModel>(parameters)
 
-    fun getApplicationRateLimitStatus(data: Map<String,String>?=null) = "/application/rate_limit_status.json".GET(oauth).getResponseObject<ApplicationRateLimitStatus>(data)
+    fun getApplicationRateLimitStatus(vararg parameters: Pair<String, String>) = "/application/rate_limit_status.json".GET(oauth).getResponseObject<ApplicationRateLimitStatus>(parameters)
 
-    fun getBlocksIds(data: Map<String,String>?=null) = "/blocks/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
-    fun getBlocksList(data: Map<String,String>?=null) = "/blocks/list.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
+    fun getBlocksIds(vararg parameters: Pair<String, String>) = "/blocks/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(parameters)
+    fun getBlocksList(vararg parameters: Pair<String, String>) = "/blocks/list.json".GET(oauth).getResponseObject<CursorUsersModel>(parameters)
 
-    fun getCollectionsEntries(data: Map<String,String>?=null) = "/collections/entries.json".GET(oauth).getResponseObject<CollectionsEntries>(data)
-    fun getCollectionsList(data: Map<String,String>?=null) = "/collections/list.json".GET(oauth).getResponseObject<CollectionsList>(data)
-    fun getCollectionsShow(data: Map<String, String>?=null) = "/collections/show.json".GET(oauth).getResponseObject<CollectionsShow>(data)
+    fun getCollectionsEntries(vararg parameters: Pair<String, String>) = "/collections/entries.json".GET(oauth).getResponseObject<CollectionsEntries>(parameters)
+    fun getCollectionsList(vararg parameters: Pair<String, String>) = "/collections/list.json".GET(oauth).getResponseObject<CollectionsList>(parameters)
+    fun getCollectionsShow(vararg parameters: Pair<String, String>) = "/collections/show.json".GET(oauth).getResponseObject<CollectionsShow>(parameters)
 
-    fun getDirectMessages(data: Map<String, String>?=null) = "/direct_messages.json".GET(oauth).getResponseList<DirectMessageModel>(data)
-    fun getDirectMessagesEventsList(data: Map<String, String>?=null) = "/direct_messages/events/list.json".GET(oauth).getResponseList<DirectMessagesEventsList>(data)
-    fun getDirectMessagesEventsShow(data: Map<String, String>?=null) = "/direct_messages/events/show.json".GET(oauth).getResponseObject<DirectMessagesEventsShow>(data)
-    fun getDirectMessagesSent(data: Map<String, String>?=null) = "/direct_messages/sent.json".GET(oauth).getResponseList<DirectMessageModel>(data)
-    fun getDirectMessagesShow(data: Map<String, String>?=null) = "/direct_messages/show.json".GET(oauth).getResponseObject<DirectMessageModel>(data)
-    fun getDirectMessagesWelcomeMessagesList(data: Map<String, String>?=null) = "/direct_messages/welcome_messages/list.json".GET(oauth).getResponseList<DirectMessagesWelcomeMessagesList>(data)
-    fun getDirectMessagesWelcomeMessagesRulesList(data: Map<String, String>?=null) = "/direct_messages/welcome_messages/rules/list.json".GET(oauth).getResponseList<DirectMessagesWelcomeMessagesRulesList>(data)
-    fun getDirectMessagesWelcomeMessagesRulesShow(data: Map<String, String>?=null) = "/direct_messages/welcome_messages/rules/show.json".GET(oauth).getResponseObject<DirectMessagesWelcomeMessagesRulesShow>(data)
-    fun getDirectMessagesWelcomeMessagesShow(data: Map<String, String>?=null) = "/direct_messages/welcome_messages/show.json".GET(oauth).getResponseObject<DirectMessagesWelcomeMessagesShow>(data)
+    fun getDirectMessages(vararg parameters: Pair<String, String>) = "/direct_messages.json".GET(oauth).getResponseList<DirectMessageModel>(parameters)
+    fun getDirectMessagesEventsList(vararg parameters: Pair<String, String>) = "/direct_messages/events/list.json".GET(oauth).getResponseList<DirectMessagesEventsList>(parameters)
+    fun getDirectMessagesEventsShow(vararg parameters: Pair<String, String>) = "/direct_messages/events/show.json".GET(oauth).getResponseObject<DirectMessagesEventsShow>(parameters)
+    fun getDirectMessagesSent(vararg parameters: Pair<String, String>) = "/direct_messages/sent.json".GET(oauth).getResponseList<DirectMessageModel>(parameters)
+    fun getDirectMessagesShow(vararg parameters: Pair<String, String>) = "/direct_messages/show.json".GET(oauth).getResponseObject<DirectMessageModel>(parameters)
+    fun getDirectMessagesWelcomeMessagesList(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/list.json".GET(oauth).getResponseList<DirectMessagesWelcomeMessagesList>(parameters)
+    fun getDirectMessagesWelcomeMessagesRulesList(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/rules/list.json".GET(oauth).getResponseList<DirectMessagesWelcomeMessagesRulesList>(parameters)
+    fun getDirectMessagesWelcomeMessagesRulesShow(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/rules/show.json".GET(oauth).getResponseObject<DirectMessagesWelcomeMessagesRulesShow>(parameters)
+    fun getDirectMessagesWelcomeMessagesShow(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/show.json".GET(oauth).getResponseObject<DirectMessagesWelcomeMessagesShow>(parameters)
 
-    fun getFavoritesList(data: Map<String, String>?=null) = "/favorites/list.json".GET(oauth).getResponseList<TweetModel>(data)
+    fun getFavoritesList(vararg parameters: Pair<String, String>) = "/favorites/list.json".GET(oauth).getResponseList<TweetModel>(parameters)
 
-    fun getFollowersIds(data: Map<String, String>?=null) = "/followers/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
-    fun getFollowersList(data: Map<String, String>?=null) = "/followers/list.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
+    fun getFollowersIds(vararg parameters: Pair<String, String>) = "/followers/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(parameters)
+    fun getFollowersList(vararg parameters: Pair<String, String>) = "/followers/list.json".GET(oauth).getResponseObject<CursorUsersModel>(parameters)
 
-    fun getFriendshipsIncoming(data: Map<String, String>?=null) = "/friendships/incoming.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
-    fun getFriendshipsLookup(data: Map<String, String>?=null) = "/friendships/lookup.json".GET(oauth).getResponseList<FriendshipsLookup>(data)
-    fun getFriendshipsNoRetweetsIds(data: Map<String, String>?=null) = "/friendships/no_retweets/ids.json".GET(oauth).getResponseObject<FriendshipsNoRetweetsIds>(data)
-    fun getFriendshipsOutgoing(data: Map<String, String>?=null) = "/friendships/outgoing.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
-    fun getFriendshipsShow(data: Map<String, String>?=null) = "/friendships/show.json".GET(oauth).getResponseObject<FriendshipsShow>(data)
+    fun getFriendshipsIncoming(vararg parameters: Pair<String, String>) = "/friendships/incoming.json".GET(oauth).getResponseObject<CursorIdsModel>(parameters)
+    fun getFriendshipsLookup(vararg parameters: Pair<String, String>) = "/friendships/lookup.json".GET(oauth).getResponseList<FriendshipsLookup>(parameters)
+    fun getFriendshipsNoRetweetsIds(vararg parameters: Pair<String, String>) = "/friendships/no_retweets/ids.json".GET(oauth).getResponseObject<FriendshipsNoRetweetsIds>(parameters)
+    fun getFriendshipsOutgoing(vararg parameters: Pair<String, String>) = "/friendships/outgoing.json".GET(oauth).getResponseObject<CursorIdsModel>(parameters)
+    fun getFriendshipsShow(vararg parameters: Pair<String, String>) = "/friendships/show.json".GET(oauth).getResponseObject<FriendshipsShow>(parameters)
 
-    fun getFriendsIds(data: Map<String, String>?=null) = "/friends/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
-    fun getFriendsList(data: Map<String, String>?=null) = "/friends/list.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
+    fun getFriendsIds(vararg parameters: Pair<String, String>) = "/friends/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(parameters)
+    fun getFriendsList(vararg parameters: Pair<String, String>) = "/friends/list.json".GET(oauth).getResponseObject<CursorUsersModel>(parameters)
 
-    fun getGeoId(placeId: String, data: Map<String, String>?=null) = "/geo/id/$placeId.json".GET(oauth).getResponseObject<GeoId>(data)
-    fun getGeoReverseGeocode(data: Map<String, String>?=null) = "/geo/reverse_geocode.json".GET(oauth).getResponseObject<GeoReverseGeocode>(data)
-    fun getGeoSearch(data: Map<String, String>?=null) = "/geo/search.json".GET(oauth).getResponseObject<GeoSearch>(data)
+    fun getGeoId(placeId: String, vararg parameters: Pair<String, String>) = "/geo/id/$placeId.json".GET(oauth).getResponseObject<GeoId>(parameters)
+    fun getGeoReverseGeocode(vararg parameters: Pair<String, String>) = "/geo/reverse_geocode.json".GET(oauth).getResponseObject<GeoReverseGeocode>(parameters)
+    fun getGeoSearch(vararg parameters: Pair<String, String>) = "/geo/search.json".GET(oauth).getResponseObject<GeoSearch>(parameters)
 
-    fun getHelpConfiguration(data: Map<String, String>?=null) = "/help/configuration.json".GET(oauth).getResponseObject<HelpConfiguration>(data)
-    fun getHelpLanguages(data: Map<String, String>?=null) = "/help/languages.json".GET(oauth).getResponseList<HelpLanguages>(data)
-    fun getHelpPrivacy(data: Map<String, String>?=null) = "/help/privacy.json".GET(oauth).getResponseObject<HelpPrivacy>(data)
-    fun getHelpTos(data: Map<String, String>?=null) = "/help/tos.json".GET(oauth).getResponseObject<HelpTos>(data)
+    fun getHelpConfiguration(vararg parameters: Pair<String, String>) = "/help/configuration.json".GET(oauth).getResponseObject<HelpConfiguration>(parameters)
+    fun getHelpLanguages(vararg parameters: Pair<String, String>) = "/help/languages.json".GET(oauth).getResponseList<HelpLanguages>(parameters)
+    fun getHelpPrivacy(vararg parameters: Pair<String, String>) = "/help/privacy.json".GET(oauth).getResponseObject<HelpPrivacy>(parameters)
+    fun getHelpTos(vararg parameters: Pair<String, String>) = "/help/tos.json".GET(oauth).getResponseObject<HelpTos>(parameters)
 
-    fun getListsList(data: Map<String, String>?=null) = "/lists/list.json".GET(oauth).getResponseList<ListModel>(data)
-    fun getListsMembers(data: Map<String, String>?=null) = "/lists/members.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
-    fun getListsMemberships(data: Map<String, String>?=null) = "/lists/memberships.json".GET(oauth).getResponseObject<CursorListsModel>(data)
-    fun getListsMembersShow(data: Map<String, String>?=null) = "/lists/members/show.json".GET(oauth).getResponseObject<UserModel>(data)
-    fun getListsOwnerships(data: Map<String, String>?=null) = "/lists/ownerships.json".GET(oauth).getResponseObject<CursorListsModel>(data)
-    fun getListsShow(data: Map<String, String>?=null) = "/lists/show.json".GET(oauth).getResponseObject<ListModel>(data)
-    fun getListsStatuses(data: Map<String, String>?=null) = "/lists/statuses.json".GET(oauth).getResponseList<TweetModel>(data)
-    fun getListsSubscribers(data: Map<String, String>?=null) = "/lists/subscribers.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
-    fun getListsSubscribersShow(data: Map<String, String>?=null) = "/lists/subscribers/show.json".GET(oauth).getResponseObject<UserModel>(data)
-    fun getListsSubscriptions(data: Map<String, String>?=null) = "/lists/subscriptions.json".GET(oauth).getResponseObject<CursorListsModel>(data)
+    fun getListsList(vararg parameters: Pair<String, String>) = "/lists/list.json".GET(oauth).getResponseList<ListModel>(parameters)
+    fun getListsMembers(vararg parameters: Pair<String, String>) = "/lists/members.json".GET(oauth).getResponseObject<CursorUsersModel>(parameters)
+    fun getListsMemberships(vararg parameters: Pair<String, String>) = "/lists/memberships.json".GET(oauth).getResponseObject<CursorListsModel>(parameters)
+    fun getListsMembersShow(vararg parameters: Pair<String, String>) = "/lists/members/show.json".GET(oauth).getResponseObject<UserModel>(parameters)
+    fun getListsOwnerships(vararg parameters: Pair<String, String>) = "/lists/ownerships.json".GET(oauth).getResponseObject<CursorListsModel>(parameters)
+    fun getListsShow(vararg parameters: Pair<String, String>) = "/lists/show.json".GET(oauth).getResponseObject<ListModel>(parameters)
+    fun getListsStatuses(vararg parameters: Pair<String, String>) = "/lists/statuses.json".GET(oauth).getResponseList<TweetModel>(parameters)
+    fun getListsSubscribers(vararg parameters: Pair<String, String>) = "/lists/subscribers.json".GET(oauth).getResponseObject<CursorUsersModel>(parameters)
+    fun getListsSubscribersShow(vararg parameters: Pair<String, String>) = "/lists/subscribers/show.json".GET(oauth).getResponseObject<UserModel>(parameters)
+    fun getListsSubscriptions(vararg parameters: Pair<String, String>) = "/lists/subscriptions.json".GET(oauth).getResponseObject<CursorListsModel>(parameters)
 
     fun getMediaUploadStatus(mediaId: String, mediaKey: String) = "https://upload.twitter.com/1.1/media/upload.json".GET(oauth).getResponseObject<MediaUpdateStatus>(
-            mutableMapOf("command" to "STATUS", "media_id" to mediaId, "media_key" to mediaKey)
+            arrayOf("command" to "STATUS", "media_id" to mediaId, "media_key" to mediaKey)
     )
 
-    fun getMutesUsersIds(data: Map<String, String>?=null) = "/mutes/users/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
-    fun getMutesUsersList(data: Map<String, String>?=null) = "/mutes/users/list.json".GET(oauth).getResponseObject<CursorUsersModel>(data)
+    fun getMutesUsersIds(vararg parameters: Pair<String, String>) = "/mutes/users/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(parameters)
+    fun getMutesUsersList(vararg parameters: Pair<String, String>) = "/mutes/users/list.json".GET(oauth).getResponseObject<CursorUsersModel>(parameters)
 
-    fun getSavedSearchesList(data: Map<String, String>?=null) = "/saved_searches/list.json".GET(oauth).getResponseList<SavedSearchModel>(data)
-    fun getSavedSearchesShow(id: String, data: Map<String, String>?=null) = "/saved_searches/show/$id.json".GET(oauth).getResponseObject<SavedSearchModel>(data)
+    fun getSavedSearchesList(vararg parameters: Pair<String, String>) = "/saved_searches/list.json".GET(oauth).getResponseList<SavedSearchModel>(parameters)
+    fun getSavedSearchesShow(id: String, vararg parameters: Pair<String, String>) = "/saved_searches/show/$id.json".GET(oauth).getResponseObject<SavedSearchModel>(parameters)
 
-    fun getSearchTweets(data: Map<String, String>?=null) = "/search/tweets.json".GET(oauth).getResponseObject<SearchTweets>(data)
+    fun getSearchTweets(vararg parameters: Pair<String, String>) = "/search/tweets.json".GET(oauth).getResponseObject<SearchTweets>(parameters)
 
-    fun getStatusesHomeTimeline(data: Map<String, String>?=null) = "/statuses/home_timeline.json".GET(oauth).getResponseList<TweetModel>(data)
-    fun getStatusesLookup(data: Map<String, String>?=null) = "/statuses/lookup.json".GET(oauth).getResponseList<TweetModel>(data)
-    fun getStatusesMentionsTimeline(data: Map<String, String>?=null) = "/statuses/mentions_timeline.json".GET(oauth).getResponseList<TweetModel>(data)
-    fun getStatusesRetweetersIds(data: Map<String, String>?=null) = "/statuses/retweeters/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(data)
-    fun getStatusesRetweets(id: StatusID, data: Map<String, String>?=null) = "/statuses/retweets/$id.json".GET(oauth).getResponseList<UserModel>(data)
-    fun getStatusesRetweetsOfMe(data: Map<String, String>?=null) = "/statuses/retweets_of_me.json".GET(oauth).getResponseList<TweetModel>(data)
-    fun getStatusesShow(id: StatusID, data: Map<String, String>?=null) = "/statuses/show/$id.json".GET(oauth).getResponseObject<TweetModel>(data)
-    fun getStatusesUserTimeline(data: Map<String, String>?=null) = "/statuses/user_timeline.json".GET(oauth).getResponseList<TweetModel>(data)
+    fun getStatusesHomeTimeline(vararg parameters: Pair<String, String>) = "/statuses/home_timeline.json".GET(oauth).getResponseList<TweetModel>(parameters)
+    fun getStatusesLookup(vararg parameters: Pair<String, String>) = "/statuses/lookup.json".GET(oauth).getResponseList<TweetModel>(parameters)
+    fun getStatusesMentionsTimeline(vararg parameters: Pair<String, String>) = "/statuses/mentions_timeline.json".GET(oauth).getResponseList<TweetModel>(parameters)
+    fun getStatusesRetweetersIds(vararg parameters: Pair<String, String>) = "/statuses/retweeters/ids.json".GET(oauth).getResponseObject<CursorIdsModel>(parameters)
+    fun getStatusesRetweets(id: StatusID, vararg parameters: Pair<String, String>) = "/statuses/retweets/$id.json".GET(oauth).getResponseList<UserModel>(parameters)
+    fun getStatusesRetweetsOfMe(vararg parameters: Pair<String, String>) = "/statuses/retweets_of_me.json".GET(oauth).getResponseList<TweetModel>(parameters)
+    fun getStatusesShow(id: StatusID, vararg parameters: Pair<String, String>) = "/statuses/show/$id.json".GET(oauth).getResponseObject<TweetModel>(parameters)
+    fun getStatusesUserTimeline(vararg parameters: Pair<String, String>) = "/statuses/user_timeline.json".GET(oauth).getResponseList<TweetModel>(parameters)
 
-    fun getTrendsAvailable(data: Map<String, String>?=null) = "/trends/available.json".GET(oauth).getResponseList<TrendAreaModel>(data)
-    fun getTrendsClosest(data: Map<String, String>?=null) = "/trends/closest.json".GET(oauth).getResponseList<TrendAreaModel>(data)
-    fun getTrendsPlace(data: Map<String, String>?=null) = "/trends/place.json".GET(oauth).getResponseList<TrendModel>(data)
+    fun getTrendsAvailable(vararg parameters: Pair<String, String>) = "/trends/available.json".GET(oauth).getResponseList<TrendAreaModel>(parameters)
+    fun getTrendsClosest(vararg parameters: Pair<String, String>) = "/trends/closest.json".GET(oauth).getResponseList<TrendAreaModel>(parameters)
+    fun getTrendsPlace(vararg parameters: Pair<String, String>) = "/trends/place.json".GET(oauth).getResponseList<TrendModel>(parameters)
 
-    fun getUsersLookup(data: Map<String, String>?=null) = "/users/lookup.json".GET(oauth).getResponseList<UserModel>(data)
-    fun getUsersProfileBanner(data: Map<String, String>?=null) = "/users/profile_banner".GET(oauth).getResponseObject<UserProfileBannerModel>(data)
-    fun getUsersSearch(data: Map<String, String>?=null) = "/users/search.json".GET(oauth).getResponseList<UserModel>(data)
-    fun getUsersShow(data: Map<String, String>?=null) = "/users/show.json".GET(oauth).getResponseObject<UserModel>(data)
-    fun getUsersSuggestions(data: Map<String, String>?=null) = "/users/suggestions.json".GET(oauth).getResponseList<UserSuggestionModel>(data)
-    fun getUsersSuggestions(slug: String, data: Map<String, String>?=null) = "/users/suggestions/$slug.json".GET(oauth).getResponseObject<UserSuggestionSlugModel>(data)
-    fun getUsersSuggestionsMembers(slug: String, data: Map<String, String>?=null) = "/users/suggestions/$slug/members.json".GET(oauth).getResponseList<UserModel>(data)
+    fun getUsersLookup(vararg parameters: Pair<String, String>) = "/users/lookup.json".GET(oauth).getResponseList<UserModel>(parameters)
+    fun getUsersProfileBanner(vararg parameters: Pair<String, String>) = "/users/profile_banner".GET(oauth).getResponseObject<UserProfileBannerModel>(parameters)
+    fun getUsersSearch(vararg parameters: Pair<String, String>) = "/users/search.json".GET(oauth).getResponseList<UserModel>(parameters)
+    fun getUsersShow(vararg parameters: Pair<String, String>) = "/users/show.json".GET(oauth).getResponseObject<UserModel>(parameters)
+    fun getUsersSuggestions(vararg parameters: Pair<String, String>) = "/users/suggestions.json".GET(oauth).getResponseList<UserSuggestionModel>(parameters)
+    fun getUsersSuggestions(slug: String, vararg parameters: Pair<String, String>) = "/users/suggestions/$slug.json".GET(oauth).getResponseObject<UserSuggestionSlugModel>(parameters)
+    fun getUsersSuggestionsMembers(slug: String, vararg parameters: Pair<String, String>) = "/users/suggestions/$slug/members.json".GET(oauth).getResponseList<UserModel>(parameters)
 
-    fun deleteDirectMessagesWelcomeMessagesDestroy(data: Map<String, String>?=null) = "/direct_messages/welcome_messages/destroy.json".DELETE(oauth).getResponseObject<DirectMessagesWelcomeMessagesShow>(data)
-    fun deleteDirectMessagesWelcomeMessagesRulesDestroy(data: Map<String, String>?=null) = "/direct_messages/welcome_messages/rules/destroy.json".DELETE(oauth).getResponseObject<DirectMessagesWelcomeMessagesRulesShow>(data)
+    fun postAccountRemoveProfileBanner(vararg parameters: Pair<String, String>) = "/account/remove_profile_banner.json".POST(oauth).getResponseObject<UserModel>(parameters)
+    fun postAccountSettings(vararg parameters: Pair<String, String>) = "/account/settings.json".POST(oauth).getResponseObject<AccountSettings>(parameters)
+    fun postAccountUpdateProfile(vararg parameters: Pair<String, String>) = "/account/update_profile.json".POST(oauth).getResponseObject<UserModel>(parameters)
+    fun postAccountUpdateProfileBackgroundImage(vararg parameters: Pair<String, String>) = "/account/update_profile_background_image.json".POST(oauth).getResponseObject<UserModel>(parameters)
+    fun postAccountUpdateProfileBanner(vararg parameters: Pair<String, String>) = "/account/update_profile_banner.json".POST(oauth).getResponseObject<UserModel>(parameters)
+    fun postAccountUpdateProfileImage(vararg parameters: Pair<String, String>) = "/account/update_profile_image.json".POST(oauth).getResponseObject<UserModel>(parameters)
 
-    fun createPollTweet(status: String, choices: List<String>, minutes: Int=1440): Any {
-        val CARDS_CREATE_URL = "https://caps.twitter.com/v2/cards/create.json"
-        val UPDATE_STATUS_URL = "https://api.twitter.com/1.1/statuses/update.json"
+    fun postBlocksCreate(vararg parameters: Pair<String, String>) = "/blocks/create.json".POST(oauth).getResponseObject<UserModel>(parameters)
+    fun postBlocksDestroy(vararg parameters: Pair<String, String>) = "/blocks/destroy.json".POST(oauth).getResponseObject<UserModel>(parameters)
 
+    fun postFavoritesCreate(vararg parameters: Pair<String,String>) = "/favorites/create.json".POST(oauth).getResponseObject<TweetModel>(parameters)
+    fun postFavoritesDestroy(vararg parameters: Pair<String, String>) = "/favorites/destroy.json".POST(oauth).getResponseObject<TweetModel>(parameters)
+
+    fun postFriendshipsCreate(vararg parameters: Pair<String, String>) = "/friendships/create.json".POST(oauth).getResponseObject<UserModel>(parameters)
+    fun postFriendshipsDestroy(vararg parameters: Pair<String, String>) = "/friendships/destroy.json".POST(oauth).getResponseObject<UserModel>(parameters)
+    fun postFriendshipsUpdate(vararg parameters: Pair<String, String>) = "/friendships/update.json".POST(oauth).getResponseObject<UserModel>(parameters)
+
+    fun postListsCreate(vararg parameters: Pair<String, String>) = "/lists/create.json".POST(oauth).getResponseObject<ListModel>(parameters)
+    fun postListsDestroy(vararg parameters: Pair<String, String>) = "/lists/destroy.json".POST(oauth).getResponseObject<ListModel>(parameters)
+    fun postListsMembersCreate(vararg parameters: Pair<String, String>) = "/lists/members/create.json".POST(oauth).getResponseObject<ListModel>(parameters)
+    fun postListsMembersCreateAll(vararg parameters: Pair<String, String>) = "/lists/members/create_all.json".POST(oauth).getResponseObject<ListModel>(parameters)
+    fun postListsMembersDestroy(vararg parameters: Pair<String, String>) = "/lists/members/destroy.json".POST(oauth).getResponseObject<ListModel>(parameters)
+    fun postListsMembersDestroyAll(vararg parameters: Pair<String, String>) = "/lists/members/destroy_all.json".POST(oauth).getResponseObject<ListModel>(parameters)
+    fun postListsSubscribersCreate(vararg parameters: Pair<String, String>) = "/lists/subscribers/create.json".POST(oauth).getResponseObject<ListModel>(parameters)
+    fun postListsSubscribersDestroy(vararg parameters: Pair<String, String>) = "/lists/subscribers/destroy.json".POST(oauth).getResponseObject<ListModel>(parameters)
+    fun postListsUpdate(vararg parameters: Pair<String, String>) = "/lists/update.json".POST(oauth).getResponseObject<ListModel>(parameters)
+
+    fun postMutesUsersCreate(vararg parameters: Pair<String, String>) = "/mutes/users/create.json".POST(oauth).getResponseObject<UserModel>(parameters)
+    fun postMutesUsersDestroy(vararg parameters: Pair<String, String>) = "/mutes/users/destroy.json".POST(oauth).getResponseObject<UserModel>(parameters)
+
+    fun postSavedSearchesCreate(vararg parameters: Pair<String, String>) = "/saved_searches/create.json".POST(oauth).getResponseObject<SavedSearchModel>(parameters)
+    fun postSavedSearchesDestroy(id: String, vararg parameters: Pair<String, String>) = "/saved_searches/destroy/$id.json".POST(oauth).getResponseObject<SavedSearchModel>(parameters)
+
+    fun postStatusesDestroy(id: StatusID, vararg parameters: Pair<String, String>) = "/statuses/destroy/$id.json".POST(oauth).getResponseObject<TweetModel>(parameters)
+    fun postStatusesRetweet(id: StatusID, vararg parameters: Pair<String, String>) = "/statuses/retweet/$id.json".POST(oauth).getResponseObject<TweetModel>(parameters)
+    fun postStatusesUnretweet(id: StatusID, vararg parameters: Pair<String, String>) = "/statuses/unretweet/$id.json".POST(oauth).getResponseObject<TweetModel>(parameters)
+    fun postStatusesUpdate(vararg parameters: Pair<String, String>) = "/statuses/update.json".POST(oauth).getResponseObject<TweetModel>(parameters)
+
+    fun postUsersReportSpam(vararg parameters: Pair<String, String>) = "/users/report_spam.json".POST(oauth).getResponseObject<UserModel>(parameters)
+
+    fun deleteDirectMessagesWelcomeMessagesDestroy(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/destroy.json".DELETE(oauth).getResponseObject<DirectMessagesWelcomeMessagesShow>(parameters)
+    fun deleteDirectMessagesWelcomeMessagesRulesDestroy(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/rules/destroy.json".DELETE(oauth).getResponseObject<DirectMessagesWelcomeMessagesRulesShow>(parameters)
+    /* Official API End */
+
+
+    /* Unofficial API Start */
+    fun postCardsCreate(vararg parameters: Pair<String, String>) = "https://caps.twitter.com/v2/cards/create.json".POST(oauth).getResponseObject<CardCreateModel>(parameters)
+    /* Unofficial API End */
+
+
+    /* API Mnemonics Start */
+    fun createPollTweet(status: String, choices: Array<String>, minutes: Int=1440): ResponseObject<TweetModel> {
         if (status.length > 140) {
             throw IllegalArgumentException("status must have less than 140 charactors.")
         }
@@ -114,23 +157,16 @@ class Client(private val oauth: OAuthRequestHandler) {
             throw IllegalArgumentException("minutes must be in range 1..10080.")
         }
 
-        val paramPoll = mutableMapOf<String,String>().apply {
-            put("card_data", Gson().toJson(linkedMapOf<String,Any>().apply {
-                choices.forEachIndexed { i, choice ->
-                    put("twitter:string:choice${i + 1}_label", choice)
-                }
-                put("twitter:api:api:endpoint", "1")
-                put("twitter:card", "poll${choices.size}choice_text_only")
-                put("twitter:long:duration_minutes", minutes)
-            }))
-        }
+        val result = postCardsCreate("card_data" to Gson().toJson(linkedMapOf<String,Any>().apply {
+            choices.forEachIndexed { i, choice ->
+                put("twitter:string:choice${i + 1}_label", choice)
+            }
+            put("twitter:api:api:endpoint", "1")
+            put("twitter:card", "poll${choices.size}choice_text_only")
+            put("twitter:long:duration_minutes", minutes)
+        }))
 
-        val poll = oauth.send(HTTPMethod.POST, URL(CARDS_CREATE_URL), paramPoll)
-        val paramTweet = mutableMapOf<String,String>().apply {
-            put("status", status)
-            put("card_uri", Gson().fromJson(poll.third.component1(), JsonObject::class.java).get("card_uri").asString)
-        }
-
-        return oauth.send(HTTPMethod.POST, URL(UPDATE_STATUS_URL), paramTweet)
+        return postStatusesUpdate("status" to status, "card_uri" to result.data.cardUri)
     }
+    /* API Mnemonics End */
 }
