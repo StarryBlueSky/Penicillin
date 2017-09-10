@@ -3,4 +3,4 @@
 build/
 out/
 
-src/test/kotlin/Main.kt
+src/test/*
