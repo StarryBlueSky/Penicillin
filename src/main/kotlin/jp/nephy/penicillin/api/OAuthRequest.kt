@@ -5,7 +5,7 @@ import jp.nephy.penicillin.request.HTTPMethod
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
 import java.net.URL
 
-class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, private val path: String) {
+class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, private val path: String, val sendAsRaw: Boolean=false) {
     private val API_ROOT = "https://api.twitter.com/1.1"
 
     fun getResourceURL(): URL {
@@ -17,7 +17,7 @@ class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, priva
     }
 
     inline fun <reified T> getResponseObject(data: Array<out Pair<String, String>>?, file: ByteArray?=null): ResponseObject<T?> {
-        val (request, response, result) = oauth.send(method, getResourceURL(), data?.toMap(), file)
+        val (request, response, result) = oauth.send(method, getResourceURL(), data?.toMap(), file, sendAsRaw)
         val (content, error) = result
 
         val jsonObject = try {

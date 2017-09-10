@@ -3,6 +3,7 @@ package jp.nephy.penicillin.request.handler
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.*
 import com.github.kittinunf.result.Result
+import com.google.gson.Gson
 import jp.nephy.penicillin.request.header.AbsRequestHeader
 import jp.nephy.penicillin.request.toParamList
 import java.net.URL
@@ -14,10 +15,14 @@ abstract class AbsRequestHandler {
                 .responseString()
     }
 
-    protected fun httpPost(url: URL, header: AbsRequestHeader, data: Map<String,String>?=null): Triple<Request,Response,Result<String,FuelError>> {
-        return Fuel.post(url.toString(), data?.toParamList())
-                .header(header.get())
-                .responseString()
+    protected fun httpPost(url: URL, header: AbsRequestHeader, data: Map<String,String>?=null, sendAsRaw: Boolean): Triple<Request,Response,Result<String,FuelError>> {
+        return if (sendAsRaw) {
+            Fuel.post(url.toString())
+                    .body(Gson().toJson(data)).header(header.get()).responseString()
+        } else {
+            Fuel.post(url.toString(), data?.toParamList())
+                    .header(header.get()).responseString()
+        }
     }
 
     protected fun httpDelete(url: URL, header: AbsRequestHeader, data: Map<String,String>?=null): Triple<Request,Response,Result<String,FuelError>> {

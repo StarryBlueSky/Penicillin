@@ -11,7 +11,7 @@ import kotlin.Error
 
 internal fun String.GET(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.GET, this@GET)
 
-internal fun String.POST(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.POST, this@POST)
+internal fun String.POST(oauth: OAuthRequestHandler, raw: Boolean=false) = OAuthRequest(oauth, HTTPMethod.POST, this@POST, raw)
 
 internal fun String.DELETE(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.DELETE, this@DELETE)
 

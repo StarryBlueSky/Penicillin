@@ -17,7 +17,7 @@ class OAuthRequestHandler(private val ck: ConsumerKey, private val cs: ConsumerS
     private val uuid: String = uuid ?: Util.getRandomUUID()
     private val deviceId: String = deviceId ?: Util.getRandomUUID()
 
-    fun send(method: HTTPMethod, url: URL, data: Map<String,String>?=null, file: ByteArray?=null): Triple<Request, Response, Result<String, FuelError>> {
+    fun send(method: HTTPMethod, url: URL, data: Map<String,String>?=null, file: ByteArray?=null, sendAsRaw: Boolean=false): Triple<Request, Response, Result<String, FuelError>> {
         val header = OAuthRequestHeader(method, url, uuid, deviceId).apply {
             if (file != null) {
                 multipart()
@@ -31,7 +31,7 @@ class OAuthRequestHandler(private val ck: ConsumerKey, private val cs: ConsumerS
         return when (method) {
             HTTPMethod.GET -> httpGet(url, header, data)
             HTTPMethod.POST -> if (file == null ) {
-                httpPost(url, header, data)
+                httpPost(url, header, data, sendAsRaw)
             } else {
                 httpUpload(url, header, file, data)
             }
