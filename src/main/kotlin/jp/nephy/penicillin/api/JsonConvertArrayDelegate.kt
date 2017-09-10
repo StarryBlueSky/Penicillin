@@ -28,6 +28,11 @@ class JsonConvertArrayDelegate<T>(private val klass: Class<T>, private val jsonO
                 SymbolEntity::class.java -> SymbolEntity(it)
                 Error::class.java -> Error(it)
                 Status::class.java -> Status(it)
+                Float::class.java -> it.asFloat
+                Country::class.java -> Country(it.asString)
+                Place::class.java -> Place(it)
+                FaceCoordinate::class.java -> FaceCoordinate(it)
+                VideoFile::class.java -> VideoFile(it)
                 else -> throw IllegalArgumentException("Unsupported for ${klass.simpleName}.")
             }
             @Suppress("UNCHECKED_CAST")
