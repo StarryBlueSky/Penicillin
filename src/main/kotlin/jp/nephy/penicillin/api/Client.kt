@@ -5,6 +5,8 @@ import jp.nephy.penicillin.api.model.*
 import jp.nephy.penicillin.api.model.List
 import jp.nephy.penicillin.api.result.*
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
+import java.io.File
+import java.io.FileInputStream
 
 class Client(private val oauth: OAuthRequestHandler) {
     /* Official API Start */
@@ -64,7 +66,7 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getListsSubscribersShow(vararg parameters: Pair<String, String>) = "/lists/subscribers/show.json".GET(oauth).getResponseObject<User>(parameters)
     fun getListsSubscriptions(vararg parameters: Pair<String, String>) = "/lists/subscriptions.json".GET(oauth).getResponseObject<CursorLists>(parameters)
 
-    fun getMediaUploadStatus(mediaId: String, mediaKey: String) = "https://upload.twitter.com/1.1/media/upload.json".GET(oauth).getResponseObject<MediaUpdateStatus>(
+    fun getMediaUploadStatus(mediaId: String, mediaKey: String) = "https://upload.twitter.com/1.1/media/upload.json".GET(oauth).getResponseObject<Media>(
             arrayOf("command" to "STATUS", "media_id" to mediaId, "media_key" to mediaKey)
     )
 
@@ -124,6 +126,9 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun postListsSubscribersDestroy(vararg parameters: Pair<String, String>) = "/lists/subscribers/destroy.json".POST(oauth).getResponseObject<List>(parameters)
     fun postListsUpdate(vararg parameters: Pair<String, String>) = "/lists/update.json".POST(oauth).getResponseObject<List>(parameters)
 
+    fun postMediaUpload(vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/upload.json".POST(oauth).getResponseObject<Media>(parameters)
+    fun postMediaUploadBytes(file: ByteArray, vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/upload.json".POST(oauth).getResponseObject<Media>(parameters, file)
+
     fun postMutesUsersCreate(vararg parameters: Pair<String, String>) = "/mutes/users/create.json".POST(oauth).getResponseObject<User>(parameters)
     fun postMutesUsersDestroy(vararg parameters: Pair<String, String>) = "/mutes/users/destroy.json".POST(oauth).getResponseObject<User>(parameters)
 
@@ -148,7 +153,36 @@ class Client(private val oauth: OAuthRequestHandler) {
 
 
     /* API Mnemonics Start */
-    fun createPollTweet(status: String, choices: Array<String>, minutes: Int=1440): ResponseObject<Status> {
+    fun updateStatus(vararg parameters: Pair<String, String>) = postStatusesUpdate(*parameters)
+
+    fun updateStatusWithMedia(media: Array<Pair<File, String>>, vararg parameters: Pair<String, String>): ResponseObject<Status?> {
+        val maxSeparateByte = 5 * 1024 * 1024
+        val mediaIds = mutableListOf<String>()
+
+        media.forEach {
+            val totalBytes = it.first.length()
+
+            val initResult = postMediaUpload("command" to "INIT", "media_type" to it.second, "total_bytes" to totalBytes.toString())
+            val separateCount = totalBytes / maxSeparateByte + (if (totalBytes % maxSeparateByte > 0) 1 else 0)
+
+            val stream = FileInputStream(it.first)
+            for (i in 0 until separateCount) {
+                val startByte = i * maxSeparateByte
+                val size = if ((i + 1) * maxSeparateByte <= totalBytes) maxSeparateByte else (totalBytes - startByte).toInt()
+                val data = ByteArray(size)
+
+                stream.read(data)
+
+                postMediaUploadBytes(data, "command" to "APPEND", "media_id" to initResult.data!!.mediaIdString, "segment_index" to i.toString()).print()
+            }
+            postMediaUpload("command" to "FINALIZE", "media_id" to initResult.data!!.mediaIdString)
+            mediaIds.add(initResult.data.mediaIdString)
+        }
+
+        return postStatusesUpdate(*parameters, "media_ids" to mediaIds.joinToString(","))
+    }
+
+    fun createPollTweet(status: String, choices: Array<String>, minutes: Int=1440): ResponseObject<Status?> {
         if (status.length > 140) {
             throw IllegalArgumentException("status must have less than 140 charactors.")
         }
@@ -168,7 +202,7 @@ class Client(private val oauth: OAuthRequestHandler) {
             put("twitter:long:duration_minutes", minutes)
         }))
 
-        return postStatusesUpdate("status" to status, "card_uri" to result.data.cardUri)
+        return postStatusesUpdate("status" to status, "card_uri" to result.data!!.cardUri)
     }
     /* API Mnemonics End */
 }
