@@ -38,6 +38,10 @@ internal fun String.toURLEncode(): String {
     }.toString()
 }
 
+internal fun Long.toHexString(): String {
+    return DatatypeConverter.printHexBinary(this.toString().toByteArray())
+}
+
 internal fun ByteArray.toBase64Encode(): String {
     return Base64.getEncoder().encodeToString(this)
 }
