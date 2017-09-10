@@ -27,6 +27,7 @@ class Status(val json: JsonElement) {
     val lang by json.byLanguage
     val place by json.byNullablePlace
     val possiblySensitive by json.byNullableBool("possibly_sensitive")
+    val possiblySensitiveEditable by json.byNullableBool("possibly_sensitive_editable")
     val quotedStatus by json.byNullableStatus("quoted_status")
     val quotedStatusId by json.byNullableStatusID("quoted_status_id")
     val quotedStatusIdStr by json.byNullableString("quoted_status_id_str")
