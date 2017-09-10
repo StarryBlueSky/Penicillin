@@ -7,7 +7,5 @@ class Source(private val source: String) {
     val viaUrl = sourceUrl
     val viaName = sourceName
 
-    override fun toString(): String {
-        return source
-    }
+    override fun toString(): String = source
 }
