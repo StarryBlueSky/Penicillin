@@ -44,7 +44,7 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getFriendsIds(vararg parameters: Pair<String, String>) = "/friends/ids.json".GET(oauth).getResponseObject<CursorIds>(parameters)
     fun getFriendsList(vararg parameters: Pair<String, String>) = "/friends/list.json".GET(oauth).getResponseObject<CursorUsers>(parameters)
 
-    fun getGeoId(placeId: String, vararg parameters: Pair<String, String>) = "/geo/id/$placeId.json".GET(oauth).getResponseObject<GeoId>(parameters)
+    fun getGeoId(placeId: String, vararg parameters: Pair<String, String>) = "/geo/id/$placeId.json".GET(oauth).getResponseObject<Place>(parameters)
     fun getGeoReverseGeocode(vararg parameters: Pair<String, String>) = "/geo/reverse_geocode.json".GET(oauth).getResponseObject<GeoReverseGeocode>(parameters)
     fun getGeoSearch(vararg parameters: Pair<String, String>) = "/geo/search.json".GET(oauth).getResponseObject<GeoSearch>(parameters)
 
