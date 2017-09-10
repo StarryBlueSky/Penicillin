@@ -12,7 +12,7 @@ import java.net.URL
 
 class BasicRequestHandler(private val ck: ConsumerKey, private val cs: ConsumerSecret): AbsRequestHandler() {
     fun send(method: HTTPMethod, url: URL, data: Map<String,String>?=null): Triple<Request, Response, Result<String, FuelError>> {
-        val header: MutableMap<String,String> = BasicRequestHeader(url).authenticate(ck, cs).get()
+        val header = BasicRequestHeader(url).authenticate(ck, cs)
 
         return when (method) {
             HTTPMethod.GET -> httpGet(url, header, data)

@@ -17,16 +17,24 @@ class OAuthRequestHandler(private val ck: ConsumerKey, private val cs: ConsumerS
     private val uuid: String = uuid ?: Util.getRandomUUID()
     private val deviceId: String = deviceId ?: Util.getRandomUUID()
 
-    fun send(method: HTTPMethod, url: URL, data: Map<String,String>?=null): Triple<Request, Response, Result<String, FuelError>> {
-        val header: MutableMap<String,String> = OAuthRequestHeader(method, url, uuid, deviceId).authenticate(ck, cs, at, ats, data).apply {
+    fun send(method: HTTPMethod, url: URL, data: Map<String,String>?=null, file: ByteArray?=null): Triple<Request, Response, Result<String, FuelError>> {
+        val header = OAuthRequestHeader(method, url, uuid, deviceId).apply {
+            if (file != null) {
+                multipart()
+            }
+        }.authenticate(ck, cs, at, ats, data).apply {
             if (method == HTTPMethod.POST) {
                 setLength(data)
             }
-        }.get()
+        }
 
         return when (method) {
             HTTPMethod.GET -> httpGet(url, header, data)
-            HTTPMethod.POST -> httpPost(url, header, data)
+            HTTPMethod.POST -> if (file == null ) {
+                httpPost(url, header, data)
+            } else {
+                httpUpload(url, header, file, data)
+            }
             HTTPMethod.DELETE -> httpDelete(url, header, data)
         }
     }
