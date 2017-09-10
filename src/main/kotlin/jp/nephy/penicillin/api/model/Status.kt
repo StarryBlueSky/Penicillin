@@ -21,7 +21,7 @@ class Status(val json: JsonElement) {
     val inReplyToUserId by json.byNullableLong("in_reply_to_user_id")
     val inReplyToUserIdStr by json.byNullableString("in_reply_to_user_id_str")
     val isQuoteStatus by json.byBool("is_quote_status")
-    val lang by json.byString
+    val lang by json.byLanguage
     val place by json.byNullableObject // null
     val retweetCount by json.byInt("retweet_count")
     val retweeted by json.byBool

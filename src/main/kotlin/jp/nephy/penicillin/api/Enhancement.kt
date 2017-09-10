@@ -28,6 +28,7 @@ internal val JsonElement.byRelationship: JsonConvertDelegate<Relationship, JsonE
 internal val JsonElement.byRelationshipSource: JsonConvertDelegate<RelationshipSource, JsonElement> get() = JsonConvertDelegate(RelationshipSource::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byRelationshipTarget: JsonConvertDelegate<RelationshipTarget, JsonElement> get() = JsonConvertDelegate(RelationshipTarget::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byPhotoSize: JsonConvertDelegate<PhotoSize, JsonElement> get() = JsonConvertDelegate(PhotoSize::class.java, JsonElement::class.java, this.obj)
+internal val JsonElement.byLanguage:    JsonConvertDelegate<Language,   String> get() = JsonConvertDelegate(Language::class.java,   String::class.java, this.obj)
 
 internal val JsonElement.byLongArray: JsonConvertArrayDelegate<Long> get() = JsonConvertArrayDelegate(Long::class.java, this.obj)
 internal val JsonElement.byListArray: JsonConvertArrayDelegate<List> get() = JsonConvertArrayDelegate(List::class.java, this.obj)

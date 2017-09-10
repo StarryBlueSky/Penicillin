@@ -3,6 +3,7 @@ package jp.nephy.penicillin.api.model
 import com.github.salomonbrys.kotson.byBool
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
+import jp.nephy.penicillin.api.byLanguage
 import jp.nephy.penicillin.api.bySettingMetadata
 import jp.nephy.penicillin.api.bySleepTime
 import jp.nephy.penicillin.api.byTimeZone
@@ -25,7 +26,7 @@ class Setting(val json: JsonElement) {
     val displaySensitiveMedia by json.byBool("display_sensitive_media")
     val dmReceiptSetting by json.byString("dm_receipt_setting")
     val geoEnabled by json.byBool("geo_enabled")
-    val language by json.byString
+    val language by json.byLanguage
     val notificationsAbuseFilterQuality by json.byString("notifications_abuse_filter_quality")
     val notificationsFilterQuality by json.byString("notifications_filter_quality")
     val personalizedTrends by json.byBool("personalized_trends")
