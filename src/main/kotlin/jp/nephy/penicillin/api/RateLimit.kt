@@ -1,15 +1,19 @@
 package jp.nephy.penicillin.api
 
+import okhttp3.Headers
 import java.util.*
 
-class RateLimit(header: Map<String,List<String>>) {
-    val limit = header["x-rate-limit-limit"]?.get(0)?.toIntOrNull() ?: 0
-    val remaining = header["x-rate-limit-remaining"]?.get(0)?.toIntOrNull() ?: 0
-    val resetAt = EpochTime(header["x-rate-limit-reset"]?.get(0)?.toLongOrNull() ?: 0)
+class RateLimit(headers: Headers) {
+    val limit = headers.get("x-rate-limit-limit")?.toIntOrNull()
+    val remaining = headers.get("x-rate-limit-remaining")?.toIntOrNull()
+    val resetAt = headers["x-rate-limit-reset"]?.toLongOrNull()
+    val resetAtEpoch = if (resetAt != null) EpochTime(resetAt) else (null)
+
+    fun hasLimit(): Boolean = limit != null && remaining != null
 
     fun isExceeded(): Boolean = remaining == 0
 
-    fun getCurrentLimit(): Int = limit - remaining
+    fun getCurrentLimit(): Int? = if (limit != null && remaining != null) limit - remaining else (null)
 
-    fun getResetAt(): Date = resetAt.toDate()
+    fun getResetAt(): Date? = resetAtEpoch?.toDate()
 }
