@@ -7,13 +7,9 @@ import javax.xml.bind.DatatypeConverter
 
 class Util {
     companion object {
-        fun getCurrentEpochTime(): Long {
-            return System.currentTimeMillis() / 1000
-        }
+        fun getCurrentEpochTime() = System.currentTimeMillis() / 1000
 
-        fun getRandomUUID(): String {
-            return UUID.randomUUID().toString().toUpperCase()
-        }
+        fun getRandomUUID() = UUID.randomUUID().toString().toUpperCase()
 
         fun getB3TraceId(): String {
             return DatatypeConverter.printHexBinary(
@@ -38,26 +34,5 @@ internal fun String.toURLEncode(): String {
     }.toString()
 }
 
-internal fun Long.toHexString(): String {
-    return DatatypeConverter.printHexBinary(this.toString().toByteArray())
-}
-
-internal fun ByteArray.toBase64Encode(): String {
-    return Base64.getEncoder().encodeToString(this)
-}
-
-internal fun String.toBase64Encode(): String {
-    return this.toByteArray().toBase64Encode()
-}
-
-internal fun Map<String,String>.toParamString(): String {
-    return this.map {
-        "${it.key.toURLEncode()}=${it.value.toURLEncode()}"
-    }.joinToString("&")
-}
-
-internal fun Map<String,String>.toParamList(): List<Pair<String,String>> {
-    return this.toList().map {
-        Pair(it.first.toURLEncode(), it.second.toURLEncode())
-    }
-}
+internal fun ByteArray.toBase64Encode() = Base64.getEncoder().encodeToString(this)
+internal fun String.toBase64Encode() = this.toByteArray().toBase64Encode()
