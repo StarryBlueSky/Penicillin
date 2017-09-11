@@ -1,43 +1,84 @@
 package jp.nephy.penicillin.request.handler
 
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.*
-import com.github.kittinunf.result.Result
 import com.google.gson.Gson
 import jp.nephy.penicillin.request.header.AbsRequestHeader
-import jp.nephy.penicillin.request.toParamList
+import jp.nephy.penicillin.request.toURLEncode
+import okhttp3.*
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 abstract class AbsRequestHandler {
-    protected fun httpGet(url: URL, header: AbsRequestHeader, data: Map<String,String>?=null): Triple<Request,Response,Result<String,FuelError>> {
-        return Fuel.get(url.toString(), data?.toParamList())
-                .header(header.get())
-                .responseString()
-    }
+    private val client = OkHttpClient.Builder().connectTimeout(20, TimeUnit.SECONDS).readTimeout(40, TimeUnit.SECONDS).build()
 
-    protected fun httpPost(url: URL, header: AbsRequestHeader, data: Map<String,String>?=null, sendAsRaw: Boolean): Triple<Request,Response,Result<String,FuelError>> {
-        return if (sendAsRaw) {
-            Fuel.post(url.toString())
-                    .body(Gson().toJson(data)).header(header.get()).responseString()
+    private fun expandParameters(parameters: Map<String,String>?) = parameters?.map { "${it.key.toURLEncode()}=${it.value.toURLEncode()}" }?.joinToString("&") ?: ""
+
+    private fun buildURL(baseURL: URL, parameters: Map<String,String>?): URL {
+        return if (parameters == null || parameters.isEmpty()) {
+            baseURL
         } else {
-            Fuel.post(url.toString(), data?.toParamList())
-                    .header(header.get()).responseString()
+            URL("$baseURL?" + expandParameters(parameters))
         }
     }
 
-    protected fun httpDelete(url: URL, header: AbsRequestHeader, data: Map<String,String>?=null): Triple<Request,Response,Result<String,FuelError>> {
-        return Fuel.delete(url.toString(), data?.toParamList())
-                .header(header.get())
-                .responseString()
+    protected fun httpGet(url: URL, header: AbsRequestHeader, data: Map<String,String>?): Pair<Request, Response> {
+        val request = Request.Builder()
+                .method("GET", null)
+                .get()
+                .url(buildURL(url, data))
+                .headers(header.get())
+                .build()
+        val response = client.newCall(request).execute()
+        return Pair(request, response)
     }
 
-    protected fun httpUpload(url: URL, header: AbsRequestHeader, file: ByteArray, data: Map<String,String>?=null): Triple<Request,Response,Result<String,FuelError>> {
-        return Fuel.upload(url.toString(), parameters = data?.toParamList())
-                .header(header.get())
-                .blob { _, _ ->
-                    Blob("blob", file.size.toLong(), { file.inputStream() })
+    protected fun httpPostAsForm(url: URL, header: AbsRequestHeader, data: Map<String,String>?): Pair<Request, Response> {
+        val body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(data))
+        val request = Request.Builder()
+                .post(body)
+                .url(url)
+                .headers(header.get())
+                .build()
+        val response = client.newCall(request).execute()
+        return Pair(request, response)
+    }
+
+    protected fun httpPostAsJson(url: URL, header: AbsRequestHeader, data: Map<String,String>?): Pair<Request, Response> {
+        val body = RequestBody.create(MediaType.parse("application/json"), Gson().toJson(data))
+        val request = Request.Builder()
+                .post(body)
+                .url(url)
+                .headers(header.get())
+                .build()
+        val response = client.newCall(request).execute()
+        return Pair(request, response)
+    }
+
+    protected fun httpPostAsMultiPart(url: URL, header: AbsRequestHeader, file: ByteArray, contentType: String, data: Map<String,String>?): Pair<Request, Response> {
+        val body = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .apply {
+                    data?.forEach {
+                        addFormDataPart(it.key, it.value.toURLEncode())
+                    }
                 }
-                .name {"media"}
-                .responseString()
+                .addFormDataPart("media", "blob", RequestBody.create(MediaType.parse(contentType), file))
+                .build()
+        val request = Request.Builder()
+                .post(body)
+                .url(url)
+                .headers(header.get())
+                .build()
+        val response = client.newCall(request).execute()
+        return Pair(request, response)
+    }
+
+    protected fun httpDelete(url: URL, header: AbsRequestHeader, data: Map<String,String>?): Pair<Request, Response> {
+        val request = Request.Builder()
+                .delete()
+                .url(buildURL(url, data))
+                .headers(header.get())
+                .build()
+        val response = client.newCall(request).execute()
+        return Pair(request, response)
     }
 }

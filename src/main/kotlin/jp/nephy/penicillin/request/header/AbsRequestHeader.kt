@@ -1,18 +1,9 @@
 package jp.nephy.penicillin.request.header
 
-import jp.nephy.penicillin.request.toParamString
+import okhttp3.Headers
 
 abstract class AbsRequestHeader {
-    protected val _header: MutableMap<String,String> = mutableMapOf()
+    protected val builder = Headers.Builder()
 
-    fun get(): MutableMap<String,String> {
-        return _header
-    }
-
-    fun setLength(data: Map<String,String>?=null) {
-        if (data == null) {
-            return
-        }
-        _header["Content-Length"] = data.toParamString().length.toString()
-    }
+    fun get() = builder.build()!!
 }
