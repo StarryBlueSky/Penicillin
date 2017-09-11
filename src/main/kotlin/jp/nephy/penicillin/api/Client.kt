@@ -86,6 +86,7 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun getStatusesRetweetsOfMe(vararg parameters: Pair<String, String>) = "/statuses/retweets_of_me.json".GET(oauth).getResponseList<Status>(parameters)
     fun getStatusesShow(id: StatusID, vararg parameters: Pair<String, String>) = "/statuses/show/$id.json".GET(oauth).getResponseObject<Status>(parameters)
     fun getStatusesUserTimeline(vararg parameters: Pair<String, String>) = "/statuses/user_timeline.json".GET(oauth).getResponseList<Status>(parameters)
+    fun getStatusesOemed(vararg parameters: Pair<String, String>) = "/statuses/oemed.json".GET(oauth).getResponseList<Embed>(parameters)
 
     fun getTrendsAvailable(vararg parameters: Pair<String, String>) = "/trends/available.json".GET(oauth).getResponseList<TrendArea>(parameters)
     fun getTrendsClosest(vararg parameters: Pair<String, String>) = "/trends/closest.json".GET(oauth).getResponseList<TrendArea>(parameters)
@@ -109,6 +110,20 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun postBlocksCreate(vararg parameters: Pair<String, String>) = "/blocks/create.json".POST(oauth).getResponseObject<User>(parameters)
     fun postBlocksDestroy(vararg parameters: Pair<String, String>) = "/blocks/destroy.json".POST(oauth).getResponseObject<User>(parameters)
 
+    fun postCollectionsCreate(vararg parameters: Pair<String, String>) = "/collections/create.json".POST(oauth).getResponseObject<CollectionsShow>(parameters)
+    fun postCollectionsDestroy(vararg parameters: Pair<String, String>) = "/collections/destroy.json".POST(oauth).getResponseObject<CollectionsDestroy>(parameters)
+    fun postCollectionsEntriesAdd(vararg parameters: Pair<String, String>) = "/collections/entries/add.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+    fun postCollectionsEntriesCreate(vararg parameters: Pair<String, String>) = "/collections/entries/create.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+    fun postCollectionsEntriesMove(vararg parameters: Pair<String, String>) = "/collections/entries/move.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+    fun postCollectionsEntriesRemove(vararg parameters: Pair<String, String>) = "/collections/entries/remove.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+    fun postCollectionsUpdate(vararg parameters: Pair<String, String>) = "/collections/update.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+
+    fun postDirectMessagesDestroy(vararg parameters: Pair<String, String>) = "/direct_messages/destroy.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+    fun postDirectMessagesEventsNew(vararg parameters: Pair<String, String>) = "/direct_messages/events/new.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+    fun postDirectMessagesNew(vararg parameters: Pair<String, String>) = "/direct_messages/new.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+    fun postDirectMessagesWelcomeMessagesNew(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/new.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+    fun postDirectMessagesWelcomeMessagesRulesNew(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/rules/new.json".POST(oauth).getResponseObject<NotImplementedError>(parameters)
+
     fun postFavoritesCreate(vararg parameters: Pair<String,String>) = "/favorites/create.json".POST(oauth).getResponseObject<Status>(parameters)
     fun postFavoritesDestroy(vararg parameters: Pair<String, String>) = "/favorites/destroy.json".POST(oauth).getResponseObject<Status>(parameters)
 
@@ -126,9 +141,9 @@ class Client(private val oauth: OAuthRequestHandler) {
     fun postListsSubscribersDestroy(vararg parameters: Pair<String, String>) = "/lists/subscribers/destroy.json".POST(oauth).getResponseObject<List>(parameters)
     fun postListsUpdate(vararg parameters: Pair<String, String>) = "/lists/update.json".POST(oauth).getResponseObject<List>(parameters)
 
-    fun postMediaMetadataCreate(vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/metadata/create.json".POST(oauth, true).getResponseObject<Media>(parameters)
+    fun postMediaMetadataCreate(vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/metadata/create.json".POST(oauth).getResponseObject<Media>(parameters, contentType="application/json")
     fun postMediaUpload(vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/upload.json".POST(oauth).getResponseObject<Media>(parameters)
-    fun postMediaUploadBytes(file: ByteArray, vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/upload.json".POST(oauth).getResponseObject<Media>(parameters, file)
+    fun postMediaUploadBytes(file: ByteArray, contentType: String, vararg parameters: Pair<String, String>) = "https://upload.twitter.com/1.1/media/upload.json".POST(oauth).getResponseObject<Empty>(parameters, file, contentType)
 
     fun postMutesUsersCreate(vararg parameters: Pair<String, String>) = "/mutes/users/create.json".POST(oauth).getResponseObject<User>(parameters)
     fun postMutesUsersDestroy(vararg parameters: Pair<String, String>) = "/mutes/users/destroy.json".POST(oauth).getResponseObject<User>(parameters)
@@ -145,6 +160,8 @@ class Client(private val oauth: OAuthRequestHandler) {
 
     fun deleteDirectMessagesWelcomeMessagesDestroy(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/destroy.json".DELETE(oauth).getResponseObject<DirectMessagesWelcomeMessagesShow>(parameters)
     fun deleteDirectMessagesWelcomeMessagesRulesDestroy(vararg parameters: Pair<String, String>) = "/direct_messages/welcome_messages/rules/destroy.json".DELETE(oauth).getResponseObject<DirectMessagesWelcomeMessagesRulesShow>(parameters)
+
+    fun getUserStream(vararg parameters: Pair<String, String>) = "https://userstream.twitter.com/1.1/user.json".GET(oauth).getResponseStream(parameters)
     /* Official API End */
 
 
@@ -156,7 +173,7 @@ class Client(private val oauth: OAuthRequestHandler) {
     /* API Mnemonics Start */
     fun updateStatus(vararg parameters: Pair<String, String>) = postStatusesUpdate(*parameters)
 
-    fun updateStatusWithMedia(media: Array<Pair<File, String>>, vararg parameters: Pair<String, String>): ResponseObject<Status?> {
+    fun updateStatusWithMedia(media: Array<Pair<File, String>>, vararg parameters: Pair<String, String>): ResponseObject<Status> {
         val maxSeparateByte = 5 * 1024 * 1024
         val mediaIds = mutableListOf<String>()
 
@@ -174,16 +191,16 @@ class Client(private val oauth: OAuthRequestHandler) {
 
                 stream.read(data)
 
-                postMediaUploadBytes(data, "command" to "APPEND", "media_id" to initResult.data!!.mediaIdString, "segment_index" to i.toString()).print()
+                postMediaUploadBytes(data, it.second, "command" to "APPEND", "media_id" to initResult.result.mediaIdString, "segment_index" to i.toString())
             }
-            postMediaUpload("command" to "FINALIZE", "media_id" to initResult.data!!.mediaIdString)
-            mediaIds.add(initResult.data.mediaIdString)
+            postMediaUpload("command" to "FINALIZE", "media_id" to initResult.result.mediaIdString)
+            mediaIds.add(initResult.result.mediaIdString)
         }
 
         return postStatusesUpdate(*parameters, "media_ids" to mediaIds.joinToString(","))
     }
 
-    fun createPollTweet(status: String, choices: Array<String>, minutes: Int=1440): ResponseObject<Status?> {
+    fun createPollTweet(status: String, choices: Array<String>, minutes: Int=1440): ResponseObject<Status> {
         if (status.length > 140) {
             throw IllegalArgumentException("status must have less than 140 charactors.")
         }
@@ -203,7 +220,7 @@ class Client(private val oauth: OAuthRequestHandler) {
             put("twitter:long:duration_minutes", minutes)
         }))
 
-        return postStatusesUpdate("status" to status, "card_uri" to result.data!!.cardUri)
+        return postStatusesUpdate("status" to status, "card_uri" to result.result.cardUri)
     }
     /* API Mnemonics End */
 }
