@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty
 class NullableJsonConvertArrayDelegate<T>(private val klass: Class<T>, private val jsonObj: JsonObject, private val key: String?=null) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): ArrayList<T>? {
         val element = jsonObj[key ?: property.name]
-        if (element.isJsonNull) {
+        if (element == null || element.isJsonNull) {
             return null
         }
 
@@ -19,6 +19,8 @@ class NullableJsonConvertArrayDelegate<T>(private val klass: Class<T>, private v
                 Country::class.java -> Country(it.asString)
                 Float::class.java -> it.asFloat
                 MediaEntity::class.java -> MediaEntity(it)
+                String::class.java -> it.asString
+                StatusID::class.java -> StatusID(it.asLong)
                 else -> throw IllegalArgumentException("Unsupported for ${klass.simpleName}.")
             }
             @Suppress("UNCHECKED_CAST")
