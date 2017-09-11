@@ -31,12 +31,15 @@ class Status(val json: JsonElement) {
     val quotedStatus by json.byNullableStatus("quoted_status")
     val quotedStatusId by json.byNullableStatusID("quoted_status_id")
     val quotedStatusIdStr by json.byNullableString("quoted_status_id_str")
+    val quoteCount by json.byNullableInt("quote_count") // 0
+    val replyCount by json.byNullableInt("reply_count") // 0
     val retweetCount by json.byInt("retweet_count")
     val retweeted by json.byBool
     val retweetedStatus by json.byNullableStatus("retweeted_status")
     val source by json.bySource
     val supplementalLanguage by json.byNullableString("supplemental_language") // null
     val text by json.byString
+    val timestampMs by json.byNullableString("timestamp_ms")
     val truncated by json.byString
     val user by json.byUser
     val withheldCopyright by json.byNullableBool("withheld_copyright")
