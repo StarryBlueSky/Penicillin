@@ -7,11 +7,11 @@ import jp.nephy.penicillin.api.model.List
 import jp.nephy.penicillin.request.HTTPMethod
 import jp.nephy.penicillin.request.handler.OAuthRequestHandler
 import java.net.URL
-import kotlin.Error
+import jp.nephy.penicillin.api.model.Error
 
 internal fun String.GET(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.GET, this@GET)
 
-internal fun String.POST(oauth: OAuthRequestHandler, raw: Boolean=false) = OAuthRequest(oauth, HTTPMethod.POST, this@POST, raw)
+internal fun String.POST(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.POST, this@POST)
 
 internal fun String.DELETE(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.DELETE, this@DELETE)
 
@@ -21,7 +21,6 @@ internal val JsonElement.bySource: JsonConvertDelegate<Source, String> get() = J
 internal val JsonElement.byURL: JsonConvertDelegate<URL, String> get() = JsonConvertDelegate(URL::class.java, String::class.java, this.obj)
 internal val JsonElement.byStatusEntity: JsonConvertDelegate<StatusEntity, JsonElement> get() = JsonConvertDelegate(StatusEntity::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byPlaceType: JsonConvertDelegate<PlaceType, JsonElement> get() = JsonConvertDelegate(PlaceType::class.java, JsonElement::class.java, this.obj)
-internal val JsonElement.byUserEntity: JsonConvertDelegate<UserEntity, JsonElement> get() = JsonConvertDelegate(UserEntity::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byUserProfileEntity: JsonConvertDelegate<UserProfileEntity, JsonElement> get() = JsonConvertDelegate(UserProfileEntity::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byRelationship: JsonConvertDelegate<Relationship, JsonElement> get() = JsonConvertDelegate(Relationship::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byRelationshipSource: JsonConvertDelegate<RelationshipSource, JsonElement> get() = JsonConvertDelegate(RelationshipSource::class.java, JsonElement::class.java, this.obj)
@@ -60,7 +59,6 @@ internal fun JsonElement.byCountry(key: String?=null): JsonConvertDelegate<Count
 internal fun JsonElement.byBoundingBox(key: String?=null): JsonConvertDelegate<BoundingBox, JsonElement> = JsonConvertDelegate(BoundingBox::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byMediaProcessingInfo(key: String?=null): JsonConvertDelegate<MediaProcessingInfo, JsonElement> = JsonConvertDelegate(MediaProcessingInfo::class.java, JsonElement::class.java, this.obj, key)
 
-internal fun JsonElement.byStatusIDArray(key: String?=null): JsonConvertArrayDelegate<StatusID> = JsonConvertArrayDelegate(StatusID::class.java, this.obj, key)
 internal fun JsonElement.byStringArray(key: String?=null): JsonConvertArrayDelegate<String> = JsonConvertArrayDelegate(String::class.java, this.obj, key)
 internal fun JsonElement.byUserMentionEntityArray(key: String?=null): JsonConvertArrayDelegate<UserMentionEntity> = JsonConvertArrayDelegate(UserMentionEntity::class.java, this.obj, key)
 internal fun JsonElement.byPlaceArray(key: String?=null): JsonConvertArrayDelegate<Place> = JsonConvertArrayDelegate(Place::class.java, this.obj, key)
@@ -72,6 +70,7 @@ internal val JsonElement.byNullablePlace: NullableJsonConvertDelegate<Place, Jso
 internal val JsonElement.byNullableError: NullableJsonConvertDelegate<Error, JsonElement> get() = NullableJsonConvertDelegate(Error::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byNullableVideo: NullableJsonConvertDelegate<Video, JsonElement> get() = NullableJsonConvertDelegate(Video::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byNullableImage: NullableJsonConvertDelegate<Image, JsonElement> get() = NullableJsonConvertDelegate(Image::class.java, JsonElement::class.java, this.obj)
+internal val JsonElement.byNullableUserEntity: NullableJsonConvertDelegate<UserEntity, JsonElement> get() = NullableJsonConvertDelegate(UserEntity::class.java, JsonElement::class.java, this.obj)
 
 internal val JsonElement.byNullableContributorArray: NullableJsonConvertArrayDelegate<Contributor> get() = NullableJsonConvertArrayDelegate(Contributor::class.java, this.obj)
 internal val JsonElement.byNullableFloatArray: NullableJsonConvertArrayDelegate<Float> get() = NullableJsonConvertArrayDelegate(Float::class.java, this.obj)
@@ -85,3 +84,5 @@ internal fun JsonElement.byNullableVideoInfo(key: String?=null): NullableJsonCon
 internal fun JsonElement.byNullableAdditionalMediaInfo(key: String?=null): NullableJsonConvertDelegate<AdditionalMediaInfo, JsonElement> = NullableJsonConvertDelegate(AdditionalMediaInfo::class.java, JsonElement::class.java, this.obj, key)
 
 internal fun JsonElement.byNullableCountryArray(key: String?=null): JsonConvertArrayDelegate<Country> = JsonConvertArrayDelegate(Country::class.java, this.obj, key)
+internal fun JsonElement.byNullableStatusIDArray(key: String?=null): JsonConvertArrayDelegate<StatusID> = JsonConvertArrayDelegate(StatusID::class.java, this.obj, key)
+internal fun JsonElement.byNullableStringArray(key: String?=null): JsonConvertArrayDelegate<String> = JsonConvertArrayDelegate(String::class.java, this.obj, key)
