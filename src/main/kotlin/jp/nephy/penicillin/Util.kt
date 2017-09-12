@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.request
+package jp.nephy.penicillin
 
 import java.net.URLEncoder
 import java.security.MessageDigest
