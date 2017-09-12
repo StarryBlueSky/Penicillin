@@ -10,8 +10,8 @@ import okhttp3.Request
 import okhttp3.Response
 import java.lang.reflect.InvocationTargetException
 
-class PenicillinResponse(val request: Request, val response: Response) {
-    fun getResponseStream() = ResponseStream(request, response)
+class PenicillinResponse(val client: Client, val request: Request, val response: Response) {
+    fun getResponseStream() = ResponseStream(client, request, response)
 
     @Throws(TwitterAPIError::class)
     inline fun <reified T> getResponseObject(): ResponseObject<T> {
@@ -40,7 +40,7 @@ class PenicillinResponse(val request: Request, val response: Response) {
             throw TwitterAPIError("Json is null. Use Empty class instead of ${T::class.java.simpleName}.", content)
         }
 
-        return ResponseObject(result, content, request, response, RateLimit(response.headers()))
+        return ResponseObject(result, content, client, request, response, RateLimit(response.headers()))
     }
 
     @Throws(TwitterAPIError::class)
@@ -58,7 +58,7 @@ class PenicillinResponse(val request: Request, val response: Response) {
             throw TwitterAPIError("Invalid Json format returned.", content)
         }
 
-        return ResponseList<T>(content, request, response, RateLimit(response.headers())).apply {
+        return ResponseList<T>(content, client, request, response, RateLimit(response.headers())).apply {
             json.forEach {
                 try {
                     add(T::class.java.getConstructor(JsonElement::class.java).newInstance(it))

@@ -134,6 +134,6 @@ class PenicillinRequest(private val session: Session) {
         }
 
         val request = builder.url(url).build()
-        return PenicillinResponse(request, session.client.newCall(request).execute())
+        return PenicillinResponse(session.client, request, session.httpClient.newCall(request).execute())
     }
 }
