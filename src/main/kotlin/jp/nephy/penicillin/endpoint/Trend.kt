@@ -5,7 +5,7 @@ import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.model.TrendArea
 import jp.nephy.penicillin.parameters.TrendExclude
 import jp.nephy.penicillin.response.ResponseList
-import jp.nephy.penicillin.result.TrendsPlace
+import jp.nephy.penicillin.model.TrendPlace
 
 class Trend(private val client: Client) {
     @GET
@@ -29,7 +29,7 @@ class Trend(private val client: Client) {
     }
 
     @GET
-    fun getTrends(id: Long, exclude: TrendExclude?=null, vararg options: Pair<String, String?>): ResponseList<TrendsPlace> {
+    fun getTrends(id: Long, exclude: TrendExclude?=null, vararg options: Pair<String, String?>): ResponseList<TrendPlace> {
         return client.session.new()
                 .url("/trends/place.json")
                 .param("id" to id)
