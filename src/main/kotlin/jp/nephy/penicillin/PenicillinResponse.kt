@@ -1,31 +1,20 @@
-package jp.nephy.penicillin.api
+package jp.nephy.penicillin
 
 import com.google.gson.*
-import jp.nephy.penicillin.request.HTTPMethod
-import jp.nephy.penicillin.request.handler.OAuthRequestHandler
+import jp.nephy.penicillin.exception.TwitterAPIError
+import jp.nephy.penicillin.misc.RateLimit
+import jp.nephy.penicillin.response.ResponseList
+import jp.nephy.penicillin.response.ResponseObject
+import jp.nephy.penicillin.response.ResponseStream
+import okhttp3.Request
+import okhttp3.Response
 import java.lang.reflect.InvocationTargetException
-import java.net.URL
 
-class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, private val path: String) {
-    val gson = Gson()
-    private val apiRoot = "https://api.twitter.com/1.1"
-
-    fun getResourceURL(): URL {
-        return if (path.startsWith("/")) {
-            URL("$apiRoot$path")
-        } else {
-            URL(path)
-        }
-    }
-
-    fun getResponseStream(data: Array<out Pair<String, String>>?): ResponseStream {
-        val (request, response) = oauth.send(method, getResourceURL(), data?.toMap())
-        return ResponseStream(request, response)
-    }
+class PenicillinResponse(val request: Request, val response: Response) {
+    fun getResponseStream() = ResponseStream(request, response)
 
     @Throws(TwitterAPIError::class)
-    inline fun <reified T> getResponseObject(data: Array<out Pair<String, String>>?, file: ByteArray?=null, contentType: String?=null): ResponseObject<T> {
-        val (request, response) = oauth.send(method, getResourceURL(), data?.toMap(), file, contentType)
+    inline fun <reified T> getResponseObject(): ResponseObject<T> {
         val content = response.body()?.string() ?: ""
 
         if (!response.isSuccessful) {
@@ -35,7 +24,7 @@ class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, priva
         }
 
         val jsonObject = try {
-            gson.fromJson(content, JsonObject::class.java)
+            Gson().fromJson(content, JsonObject::class.java)
         } catch (e: JsonSyntaxException) {
             e.printStackTrace()
             throw TwitterAPIError("Invalid Json format returned.", content)
@@ -55,8 +44,7 @@ class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, priva
     }
 
     @Throws(TwitterAPIError::class)
-    inline fun <reified T> getResponseList(data: Array<out Pair<String, String>>?, file: ByteArray?=null, contentType: String?=null): ResponseList<T> {
-        val (request, response) = oauth.send(method, getResourceURL(), data?.toMap(), file, contentType)
+    inline fun <reified T> getResponseList(): ResponseList<T> {
         val content = response.body()?.string() ?: ""
 
         if (!response.isSuccessful) {
@@ -64,7 +52,7 @@ class OAuthRequest(val oauth: OAuthRequestHandler, val method: HTTPMethod, priva
         }
 
         val json = try {
-            gson.fromJson(content, JsonArray::class.java)
+            Gson().fromJson(content, JsonArray::class.java)
         } catch (e: JsonSyntaxException) {
             e.printStackTrace()
             throw TwitterAPIError("Invalid Json format returned.", content)
