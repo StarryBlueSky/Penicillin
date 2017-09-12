@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.api
+package jp.nephy.penicillin.misc
 
 import com.neovisionaries.i18n.CountryCode
 
