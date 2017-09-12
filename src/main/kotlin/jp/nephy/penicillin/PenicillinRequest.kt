@@ -15,10 +15,13 @@ class PenicillinRequest(private val session: Session) {
     private val builder = Request.Builder()
     private var method: HTTPMethod? = null
     private var url: String? = null
+    private var originalUrl: String? = null
     private var params = mutableListOf<Pair<String, String>>()
     private var data = mutableListOf<Pair<String, String>>()
     private var body: RequestBody? = null
     private var hasFile: Boolean = false
+    private var isFormData: Boolean = false
+    private var isJsonData: Boolean = false
 
     private val defaultHeaders = listOf(
             "X-Twitter-Client-Version" to "6.59.3",
@@ -46,6 +49,7 @@ class PenicillinRequest(private val session: Session) {
         } else {
             url
         }
+        originalUrl = this.url
     }
 
     fun header(header: Pair<String, String>?) = this.apply {
@@ -60,15 +64,12 @@ class PenicillinRequest(private val session: Session) {
     }
 
     private fun expandParameters(vararg params: Pair<String, Any?>?) = params.filterNotNull().filter { it.second != null }.map {
-        "${it.first.toURLEncode()}=${it.second!!.toString().toURLEncode()}"
+        "${it.first.toURLEncode()}=${it.second.toString().toURLEncode()}"
     }.joinToString("&")
 
     fun param(param: Pair<String, Any?>?) = this.apply {
-        if (param != null) {
-            if (param.second == null) {
-                return@apply
-            }
-            params.add(Pair(param.first, param.second!!.toString()))
+        if (param?.second != null) {
+            params.add(Pair(param.first, param.second.toString()))
         }
     }
 
@@ -79,11 +80,21 @@ class PenicillinRequest(private val session: Session) {
     }
 
     fun dataAsForm(vararg data: Pair<String, Any?>?) = this.apply {
-        body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(*data))
+        isFormData = true
+        data.forEach {
+            if (it?.second != null) {
+                this.data.add(Pair(it.first, it.second.toString()))
+            }
+        }
     }
 
     fun dataAsJson(vararg data: Pair<String, String>?) = this.apply {
-        body = RequestBody.create(MediaType.parse("application/json"), Gson().toJson(data))
+        isJsonData = true
+        data.forEach {
+            if (it?.second != null) {
+                this.data.add(Pair(it.first, it.second.toString()))
+            }
+        }
     }
 
     fun file(file: ByteArray, contentType: String, name: String="media") = this.apply {
@@ -122,9 +133,15 @@ class PenicillinRequest(private val session: Session) {
             throw IllegalStateException("url must be non-null.")
         }
 
+        if (isFormData) {
+            body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(*data.toTypedArray()))
+        } else if (isJsonData) {
+            body = RequestBody.create(MediaType.parse("application/json"), Gson().toJson(data))
+        }
+
         headers(defaultHeaders)
         val sign = when (authorizationType) {
-            AuthorizationType.OAuth -> session.oauth!!.sign(method!!, url!!, data + params, hasFile)
+            AuthorizationType.OAuth -> session.oauth!!.sign(method!!, originalUrl!!, params + data, hasFile)
             AuthorizationType.Basic -> session.basic!!.sign()
             AuthorizationType.Bearer -> session.bearer!!.sign()
             AuthorizationType.NONE -> null
