@@ -8,8 +8,8 @@ import jp.nephy.penicillin.credential.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
-class Session(connectionTimeoutSec: Long=20, readTimeoutSec: Long=40) {
-    val client = OkHttpClient.Builder().connectTimeout(connectionTimeoutSec, TimeUnit.SECONDS).readTimeout(readTimeoutSec, TimeUnit.SECONDS).build()!!
+class Session {
+    val client = OkHttpClient.Builder().connectTimeout(20, TimeUnit.SECONDS).readTimeout(40, TimeUnit.SECONDS).build()!!
 
     var oauth: OAuthAuthHandler? = null
     var basic: BasicAuthHandler? = null
