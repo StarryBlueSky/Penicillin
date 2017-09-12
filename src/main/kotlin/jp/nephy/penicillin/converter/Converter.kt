@@ -1,19 +1,12 @@
-package jp.nephy.penicillin.api
+package jp.nephy.penicillin.converter
 
 import com.github.salomonbrys.kotson.obj
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.api.model.*
-import jp.nephy.penicillin.api.model.List
-import jp.nephy.penicillin.request.HTTPMethod
-import jp.nephy.penicillin.request.handler.OAuthRequestHandler
+import jp.nephy.penicillin.misc.*
+import jp.nephy.penicillin.misc.Language
+import jp.nephy.penicillin.model.*
+import jp.nephy.penicillin.model.List
 import java.net.URL
-import jp.nephy.penicillin.api.model.Error
-
-internal fun String.GET(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.GET, this@GET)
-
-internal fun String.POST(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.POST, this@POST)
-
-internal fun String.DELETE(oauth: OAuthRequestHandler) = OAuthRequest(oauth, HTTPMethod.DELETE, this@DELETE)
 
 internal val JsonElement.byUser: JsonConvertDelegate<User, JsonElement> get() = JsonConvertDelegate(User::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byStatusID: JsonConvertDelegate<StatusID, Long> get() = JsonConvertDelegate(StatusID::class.java, Long::class.java, this.obj)
@@ -86,3 +79,4 @@ internal fun JsonElement.byNullableAdditionalMediaInfo(key: String?=null): Nulla
 internal fun JsonElement.byNullableCountryArray(key: String?=null): JsonConvertArrayDelegate<Country> = JsonConvertArrayDelegate(Country::class.java, this.obj, key)
 internal fun JsonElement.byNullableStatusIDArray(key: String?=null): JsonConvertArrayDelegate<StatusID> = JsonConvertArrayDelegate(StatusID::class.java, this.obj, key)
 internal fun JsonElement.byNullableStringArray(key: String?=null): JsonConvertArrayDelegate<String> = JsonConvertArrayDelegate(String::class.java, this.obj, key)
+internal fun JsonElement.byNullableIntArray(key: String?=null): JsonConvertArrayDelegate<Int> = JsonConvertArrayDelegate(Int::class.java, this.obj, key)

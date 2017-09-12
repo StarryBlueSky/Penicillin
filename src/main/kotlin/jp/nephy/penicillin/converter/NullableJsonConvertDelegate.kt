@@ -1,17 +1,17 @@
-package jp.nephy.penicillin.api
+package jp.nephy.penicillin.converter
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import kotlin.reflect.KProperty
 
-class JsonConvertDelegate<out T, R>(private val klass1: Class<T>, private val klass2: Class<R>, private val jsonObj: JsonObject, private val key: String?=null) {
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
+class NullableJsonConvertDelegate<out T, R>(private val klass1: Class<T>, private val klass2: Class<R>, private val jsonObj: JsonObject, private val key: String?=null) {
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
         val element = jsonObj[key ?: property.name]
         if (element == null || element.isJsonNull) {
-            throw EmptyJsonElementException(key ?: property.name)
+            return null
         }
 
-        val arg: Any? = when (klass2) {
+        val arg: Any = when (klass2) {
             String::class.java -> element.asString
             Long::class.java -> element.asLong
             JsonElement::class.java -> element
