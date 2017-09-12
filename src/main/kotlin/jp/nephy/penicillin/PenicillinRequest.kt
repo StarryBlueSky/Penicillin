@@ -86,7 +86,7 @@ class PenicillinRequest(private val session: Session) {
         body = RequestBody.create(MediaType.parse("application/json"), Gson().toJson(data))
     }
 
-    fun file(file: ByteArray, contentType: String) = this.apply {
+    fun file(file: ByteArray, contentType: String, name: String="media") = this.apply {
         hasFile = true
         body = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -95,7 +95,7 @@ class PenicillinRequest(private val session: Session) {
                         addFormDataPart(it.first, it.second.toURLEncode())
                     }
                 }
-                .addFormDataPart("media", "blob", RequestBody.create(MediaType.parse(contentType), file))
+                .addFormDataPart(name, "blob", RequestBody.create(MediaType.parse(contentType), file))
                 .build()
     }
 
