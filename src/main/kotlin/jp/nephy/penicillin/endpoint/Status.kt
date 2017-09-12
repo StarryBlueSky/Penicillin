@@ -235,7 +235,16 @@ class Status(private val client: Client) {
     }
 
     @POST @Recipe
-    fun updateWithMedia(status: String, media: Array<Pair<File, MediaType>>, vararg options: Pair<String, String?>): ResponseObject<Status> {
+    fun updateWithMediaFile(status: String, media: Array<Pair<File, MediaType>>, vararg options: Pair<String, String?>): ResponseObject<Status> {
+        val mediaIds = media.map {
+            client.media.uploadMediaFile(it.first, it.second, MediaCategory.TweetImage).result.mediaId
+        }
+
+        return update(status, mediaIds =  mediaIds.toTypedArray(), options = *options)
+    }
+
+    @POST @Recipe
+    fun updateWithMedia(status: String, media: Array<Pair<ByteArray, MediaType>>, vararg options: Pair<String, String?>): ResponseObject<Status> {
         val mediaIds = media.map {
             client.media.uploadMedia(it.first, it.second, MediaCategory.TweetImage).result.mediaId
         }
@@ -266,6 +275,6 @@ class Status(private val client: Client) {
                 })
         )
 
-        return update(status, options = "card_uri" to card.result.cardUri)
+        return update(status, options = "card_uri" to card.result.cardUri + options)
     }
 }
