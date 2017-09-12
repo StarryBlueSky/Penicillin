@@ -1,9 +1,11 @@
-package jp.nephy.penicillin.api
+package jp.nephy.penicillin.response
 
+import jp.nephy.penicillin.misc.RateLimit
 import okhttp3.Request
 import okhttp3.Response
+import java.util.*
 
-data class ResponseObject<out T>(val result: T, val content: String, val request: Request, val response: Response, val rateLimit: RateLimit) {
+data class ResponseList<T>(val content: String, val request: Request, val response: Response, val rateLimit: RateLimit) : ArrayList<T>() {
     fun print() {
         println(request.toString())
         println(request.headers())
@@ -12,6 +14,7 @@ data class ResponseObject<out T>(val result: T, val content: String, val request
         println(response.headers())
         println(content)
         println()
+        println("Data size: ${this.size}")
         println("Ratelimit: ${rateLimit.remaining} / ${rateLimit.limit} (reset at ${rateLimit.resetAtEpoch?.toDate()})")
     }
 }
