@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.api
+package jp.nephy.penicillin.misc
 
 import okhttp3.Headers
 import java.util.*

@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.api
+package jp.nephy.penicillin.misc
 
 class Source(private val source: String) {
     private val tag = ATagParser(source)

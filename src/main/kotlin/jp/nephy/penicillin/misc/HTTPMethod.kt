@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.request
+package jp.nephy.penicillin.misc
 
 enum class HTTPMethod {
     GET, POST, DELETE
