@@ -1,8 +1,10 @@
-package jp.nephy.penicillin.api
+package jp.nephy.penicillin.converter
 
 import com.google.gson.JsonObject
-import jp.nephy.penicillin.api.model.*
-import jp.nephy.penicillin.api.model.List
+import jp.nephy.penicillin.misc.Country
+import jp.nephy.penicillin.misc.StatusID
+import jp.nephy.penicillin.model.Contributor
+import jp.nephy.penicillin.model.MediaEntity
 import kotlin.reflect.KProperty
 
 class NullableJsonConvertArrayDelegate<T>(private val klass: Class<T>, private val jsonObj: JsonObject, private val key: String?=null) {
@@ -21,6 +23,7 @@ class NullableJsonConvertArrayDelegate<T>(private val klass: Class<T>, private v
                 MediaEntity::class.java -> MediaEntity(it)
                 String::class.java -> it.asString
                 StatusID::class.java -> StatusID(it.asLong)
+                Int::class.java -> it.asInt
                 else -> throw IllegalArgumentException("Unsupported for ${klass.simpleName}.")
             }
             @Suppress("UNCHECKED_CAST")
