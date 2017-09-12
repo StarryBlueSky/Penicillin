@@ -7,7 +7,7 @@ Simple Twitter API wrapper especially supporting Undocumented Twitter API.
 
 ## How to use
 ```kotlin
-import jp.nephy.penicillin
+import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.credential.*
 
 fun main(args: Array<String>) {
