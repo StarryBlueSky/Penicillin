@@ -8,17 +8,17 @@ Simple Twitter API wrapper especially supporting Undocumented Twitter API.
 ## How to use
 ```kotlin
 import jp.nephy.penicillin
-import jp.nephy.penicillin.request.credential.*
+import jp.nephy.penicillin.credential.*
 
 fun main(args: Array<String>) {
-    val api = API.authenticate(
+    val api = Client.authenticate(
         ck = ConsumerKey("XXX"),
         cs = ConsumerSecret("YYY"),
         at = AccessToken("xxxxx-yyyyy"),
         ats = AccessTokenSecret("zzzzz")
     )
     
-    val result = api.getFavoritesList() // call `GET /1.1/favorites/list.json
+    val result = api.favorite.getList() // call `GET /1.1/favorites/list.json`
     result.forEach {
         println("${it.user.name} @${it.user.screenName}\n${it.text}")
         // XXX @YYY
