@@ -10,7 +10,7 @@ class Client(ck: ConsumerKey?, cs: ConsumerSecret?, at: AccessToken?, ats: Acces
         fun authenticate(ck: ConsumerKey?=null, cs: ConsumerSecret?=null, at: AccessToken?=null, ats: AccessTokenSecret?=null, token: BearerToken?=null) = Client(ck, cs, at, ats, token)
     }
 
-    val session = Session()
+    val session = Session(this)
     init {
         if (ck != null && cs != null && at != null && ats != null) {
             session.authenticate(ck, cs, at, ats)
