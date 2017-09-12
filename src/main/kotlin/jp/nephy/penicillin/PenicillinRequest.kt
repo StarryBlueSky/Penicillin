@@ -61,21 +61,20 @@ class PenicillinRequest(private val session: Session) {
         "${it.first.toURLEncode()}=${it.second.toURLEncode()}"
     }.joinToString("&")
 
-    fun param(param: Pair<String, String?>?) = this.apply {
+    fun param(param: Pair<String, Any?>?) = this.apply {
         if (param != null) {
             if (param.second == null) {
                 return@apply
             }
-            params.add(Pair(param.first, param.second!!))
+            params.add(Pair(param.first, param.second!!.toString()))
         }
     }
 
-    fun params(vararg params: Pair<String, String?>?) = this.apply {
+    fun params(vararg params: Pair<String, Any?>?) = this.apply {
         params.forEach {
             param(it)
         }
     }
-    fun params(params: Map<String, String>?) = if (params != null) params(*params.toList().toTypedArray()) else (this)
 
     fun dataAsForm(vararg data: Pair<String, String>?) = this.apply {
         body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(*data))
