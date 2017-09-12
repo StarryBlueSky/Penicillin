@@ -1,0 +1,37 @@
+package jp.nephy.penicillin.endpoint
+
+import jp.nephy.penicillin.Client
+import jp.nephy.penicillin.annotation.Cursorable
+import jp.nephy.penicillin.annotation.GET
+import jp.nephy.penicillin.model.CursorIds
+import jp.nephy.penicillin.model.CursorUsers
+import jp.nephy.penicillin.response.ResponseObject
+
+class Friend(private val client: Client) {
+    @GET @Cursorable
+    fun getIds(userId: Long?=null, screenName: String?=null, stringifyIds: Boolean?=null, count: Int?=null, vararg options: Pair<String, String?>): ResponseObject<CursorIds> {
+        return client.session.new()
+                .url("/friends/ids.json")
+                .param("user_id" to userId)
+                .param("screen_name" to screenName)
+                .param("stringify_ids" to stringifyIds)
+                .param("count" to count)
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    @GET @Cursorable
+    fun getList(userId: Long?=null, screenName: String?=null, count: Int?=null, skipStatus: Boolean?=null, includeUserEntities: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<CursorUsers> {
+        return client.session.new()
+                .url("/friends/list.json")
+                .param("user_id" to userId)
+                .param("screen_name" to screenName)
+                .param("count" to count)
+                .param("skip_status" to skipStatus)
+                .param("include_user_entities" to includeUserEntities)
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+}
