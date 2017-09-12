@@ -1,11 +1,11 @@
 package jp.nephy.penicillin.auth
 
-import jp.nephy.penicillin.misc.Util
 import jp.nephy.penicillin.credential.AccessToken
 import jp.nephy.penicillin.credential.AccessTokenSecret
 import jp.nephy.penicillin.credential.ConsumerKey
 import jp.nephy.penicillin.credential.ConsumerSecret
 import jp.nephy.penicillin.misc.HTTPMethod
+import jp.nephy.penicillin.misc.Util
 import jp.nephy.penicillin.misc.toBase64Encode
 import jp.nephy.penicillin.misc.toURLEncode
 import javax.crypto.Mac
