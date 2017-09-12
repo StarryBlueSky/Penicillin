@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import jp.nephy.penicillin.annotation.MustBeCalled
 import jp.nephy.penicillin.misc.AuthorizationType
 import jp.nephy.penicillin.misc.HTTPMethod
+import jp.nephy.penicillin.misc.Util
+import jp.nephy.penicillin.misc.toURLEncode
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.Request
@@ -57,8 +59,8 @@ class PenicillinRequest(private val session: Session) {
         }
     }
 
-    private fun expandParameters(vararg params: Pair<String, String>?) = params.filterNotNull().map {
-        "${it.first.toURLEncode()}=${it.second.toURLEncode()}"
+    private fun expandParameters(vararg params: Pair<String, Any?>?) = params.filterNotNull().filter { it.second != null }.map {
+        "${it.first.toURLEncode()}=${it.second!!.toString().toURLEncode()}"
     }.joinToString("&")
 
     fun param(param: Pair<String, Any?>?) = this.apply {
@@ -76,7 +78,7 @@ class PenicillinRequest(private val session: Session) {
         }
     }
 
-    fun dataAsForm(vararg data: Pair<String, String>?) = this.apply {
+    fun dataAsForm(vararg data: Pair<String, Any?>?) = this.apply {
         body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(*data))
     }
 
