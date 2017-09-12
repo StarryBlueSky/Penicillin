@@ -6,8 +6,8 @@ import jp.nephy.penicillin.annotation.POST
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 import jp.nephy.penicillin.result.UserProfileBannerModel
-import jp.nephy.penicillin.result.UserSuggestionModel
-import jp.nephy.penicillin.result.UserSuggestionSlugModel
+import jp.nephy.penicillin.model.UserSuggestionCategory
+import jp.nephy.penicillin.model.UserSuggestion
 
 class User(private val client: Client) {
     @GET
@@ -59,7 +59,7 @@ class User(private val client: Client) {
     }
 
     @GET
-    fun getSuggestionCategory(lang: String?=null, vararg options: Pair<String, String?>): ResponseList<UserSuggestionModel> {
+    fun getSuggestionCategory(lang: String?=null, vararg options: Pair<String, String?>): ResponseList<UserSuggestionCategory> {
         return client.session.new()
                 .url("/users/suggestions.json")
                 .param("lang" to lang)
@@ -69,7 +69,7 @@ class User(private val client: Client) {
     }
 
     @GET
-    fun getSuggestions(slug: String, lang: String?=null, vararg options: Pair<String, String?>): ResponseObject<UserSuggestionSlugModel> {
+    fun getSuggestions(slug: String, lang: String?=null, vararg options: Pair<String, String?>): ResponseObject<UserSuggestion> {
         return client.session.new()
                 .url("/users/suggestions/$slug.json")
                 .param("lang" to lang)

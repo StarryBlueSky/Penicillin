@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.result
+package jp.nephy.penicillin.model
 
 import com.google.gson.JsonElement
 

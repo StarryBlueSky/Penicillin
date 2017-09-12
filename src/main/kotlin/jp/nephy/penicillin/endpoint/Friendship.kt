@@ -9,9 +9,9 @@ import jp.nephy.penicillin.model.Relationship
 import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
-import jp.nephy.penicillin.result.FriendshipsLookup
-import jp.nephy.penicillin.result.FriendshipsNoRetweetsIds
-import jp.nephy.penicillin.result.FriendshipsShow
+import jp.nephy.penicillin.model.FriendshipsLookup
+import jp.nephy.penicillin.model.FriendshipsNoRetweetsIds
+import jp.nephy.penicillin.model.FriendshipsShow
 
 class Friendship(private val client: Client) {
     @GET
