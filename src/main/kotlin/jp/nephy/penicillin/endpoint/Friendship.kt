@@ -4,14 +4,10 @@ import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.Cursorable
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
-import jp.nephy.penicillin.model.CursorIds
-import jp.nephy.penicillin.model.Relationship
+import jp.nephy.penicillin.model.*
 import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
-import jp.nephy.penicillin.model.FriendshipsLookup
-import jp.nephy.penicillin.model.FriendshipsNoRetweetsIds
-import jp.nephy.penicillin.model.FriendshipsShow
 
 class Friendship(private val client: Client) {
     @GET

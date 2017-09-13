@@ -3,9 +3,9 @@ package jp.nephy.penicillin.endpoint
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.model.TrendArea
+import jp.nephy.penicillin.model.TrendPlace
 import jp.nephy.penicillin.parameters.TrendExclude
 import jp.nephy.penicillin.response.ResponseList
-import jp.nephy.penicillin.model.TrendPlace
 
 class Trend(private val client: Client) {
     @GET
