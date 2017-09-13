@@ -41,6 +41,8 @@ internal val JsonElement.byFloatArray: JsonConvertArrayDelegate<Float> get() = J
 internal val JsonElement.byFaceCoordinateArray: JsonConvertArrayDelegate<FaceCoordinate> get() = JsonConvertArrayDelegate(FaceCoordinate::class.java, this.obj)
 internal val JsonElement.byVideoFileArray: JsonConvertArrayDelegate<VideoFile> get() = JsonConvertArrayDelegate(VideoFile::class.java, this.obj)
 
+internal fun JsonElement.byStatus(key: String?=null): JsonConvertDelegate<Status, JsonElement> = JsonConvertDelegate(Status::class.java, JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byList(key: String?=null): JsonConvertDelegate<List, JsonElement> = JsonConvertDelegate(List::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byURL(key: String?=null): JsonConvertDelegate<URL, String> = JsonConvertDelegate(URL::class.java, String::class.java, this.obj, key)
 internal fun JsonElement.bySearchMetadata(key: String?=null): JsonConvertDelegate<SearchMetadata, JsonElement> = JsonConvertDelegate(SearchMetadata::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byTimeZone(key: String?=null): JsonConvertDelegate<TimeZone, JsonElement> = JsonConvertDelegate(TimeZone::class.java, JsonElement::class.java, this.obj, key)
