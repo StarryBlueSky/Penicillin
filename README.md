@@ -2,7 +2,6 @@
 Simple Twitter API wrapper especially supporting Undocumented Twitter API.
 
 ## TODO
-- Basic / Bearer / App-Only-Auth supports.
 - Cursor endpoint supports.
 - Adding plenty of Twitter undocumented/private APIs.
 - Prepare API documents. (maybe GitHub Wiki?)
