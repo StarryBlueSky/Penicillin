@@ -1,5 +1,5 @@
 package jp.nephy.penicillin.misc
 
 enum class AuthorizationType {
-    OAuth, Basic, Bearer, NONE
+    OAuth1a, OAuth1aRequestToken, OAuth2, OAuth2RequestToken, NONE
 }
