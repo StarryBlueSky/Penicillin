@@ -6,16 +6,21 @@ import jp.nephy.penicillin.misc.RateLimit
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 import jp.nephy.penicillin.response.ResponseStream
+import jp.nephy.penicillin.response.ResponseText
 import okhttp3.Request
 import okhttp3.Response
 import java.lang.reflect.InvocationTargetException
 
 class PenicillinResponse(val client: Client, val request: Request, val response: Response) {
+    fun getContent() = response.body()?.string() ?: ""
+
     fun getResponseStream() = ResponseStream(client, request, response)
+
+    fun getResponseText() = ResponseText(getContent(), client, request, response, RateLimit(response.headers()))
 
     @Throws(TwitterAPIError::class)
     inline fun <reified T> getResponseObject(): ResponseObject<T> {
-        val content = response.body()?.string() ?: ""
+        val content = getContent()
 
         if (!response.isSuccessful) {
             println(request)
@@ -45,7 +50,7 @@ class PenicillinResponse(val client: Client, val request: Request, val response:
 
     @Throws(TwitterAPIError::class)
     inline fun <reified T> getResponseList(): ResponseList<T> {
-        val content = response.body()?.string() ?: ""
+        val content = getContent()
 
         if (!response.isSuccessful) {
             throw TwitterAPIError("API returned errors.", content)
