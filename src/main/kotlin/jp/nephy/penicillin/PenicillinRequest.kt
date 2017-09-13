@@ -2,14 +2,13 @@ package jp.nephy.penicillin
 
 import com.google.gson.Gson
 import jp.nephy.penicillin.annotation.MustBeCalled
+import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.misc.AuthorizationType
 import jp.nephy.penicillin.misc.HTTPMethod
 import jp.nephy.penicillin.misc.Util
 import jp.nephy.penicillin.misc.toURLEncode
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.*
+import java.net.ConnectException
 
 class PenicillinRequest(private val session: Session) {
     private val builder = Request.Builder()
@@ -151,6 +150,18 @@ class PenicillinRequest(private val session: Session) {
         }
 
         val request = builder.url(url).build()
-        return PenicillinResponse(session.client, request, session.httpClient.newCall(request).execute())
+
+        for (i in 0 .. 3) {
+            try {
+                return PenicillinResponse(session.client, request, session.httpClient.newCall(request).execute())
+
+            } catch (e: ConnectException) {
+                println("Connection failed. Try again in 3secs.")
+                e.printStackTrace()
+                Thread.sleep(3000)
+            }
+        }
+
+        throw TwitterAPIError("Failed to connect to $originalUrl", "")
     }
 }
