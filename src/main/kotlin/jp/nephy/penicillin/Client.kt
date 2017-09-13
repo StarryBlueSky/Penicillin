@@ -4,6 +4,7 @@ import jp.nephy.penicillin.credential.*
 import jp.nephy.penicillin.endpoint.*
 import jp.nephy.penicillin.endpoint.Collection
 import jp.nephy.penicillin.endpoint.List
+import jp.nephy.penicillin.misc.AuthorizationType
 
 class Client(ck: ConsumerKey?, cs: ConsumerSecret?, at: AccessToken?, ats: AccessTokenSecret?, token: BearerToken?) {
     companion object {
@@ -11,16 +12,25 @@ class Client(ck: ConsumerKey?, cs: ConsumerSecret?, at: AccessToken?, ats: Acces
     }
 
     val session = Session(this)
+    var authType = AuthorizationType.OAuth1a
+
     init {
-        if (ck != null && cs != null && at != null && ats != null) {
+        authType = if (ck != null && cs != null && at != null && ats != null) {
             session.authenticate(ck, cs, at, ats)
+            AuthorizationType.OAuth1a
         } else if (ck != null && cs != null) {
             session.authenticate(ck, cs)
+            AuthorizationType.OAuth1aRequestToken
         } else if (token != null) {
             session.authenticate(token)
+            AuthorizationType.OAuth2
         } else {
             throw IllegalArgumentException("ck, cs, at, ats, token are all null.")
         }
+    }
+
+    fun authType(type: AuthorizationType) = this.apply {
+        authType = type
     }
 
     val account = Account(this)
@@ -38,6 +48,8 @@ class Client(ck: ConsumerKey?, cs: ConsumerSecret?, at: AccessToken?, ats: Acces
     val list = List(this)
     val media = Media(this)
     val mute = Mute(this)
+    val oauth = OAuth(this)
+    val oauth2 = OAuth2(this)
     val savedSearch = SavedSearch(this)
     val status = Status(this)
     val stream = Stream(this)
