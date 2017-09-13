@@ -4,12 +4,8 @@ Simple Twitter API wrapper especially supporting Undocumented Twitter API.
 ## TODO
 - Basic / Bearer / App-Only-Auth supports.
 - Cursor endpoint supports.
-- Arrangement of data classes.
 - Adding plenty of Twitter undocumented/private APIs.
-- Thoroughness of Null safety (sometimes data classes break)
-- Webhooks API supports. (after announce from official)
 - Prepare API documents. (maybe GitHub Wiki?)
-- shallow delegate (e.g. val obj by json.byObjectA -> val attributeA by json["A"].byString)
 
 ## How to use
 just simply authenticate
