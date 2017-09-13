@@ -5,12 +5,10 @@ import jp.nephy.penicillin.annotation.Cursorable
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
 import jp.nephy.penicillin.misc.StatusID
+import jp.nephy.penicillin.model.*
+import jp.nephy.penicillin.model.List
 import jp.nephy.penicillin.model.Status
 import jp.nephy.penicillin.model.User
-import jp.nephy.penicillin.model.CursorLists
-import jp.nephy.penicillin.model.CursorUsers
-import jp.nephy.penicillin.model.Empty
-import jp.nephy.penicillin.model.List
 import jp.nephy.penicillin.parameters.ListCreationMode
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
