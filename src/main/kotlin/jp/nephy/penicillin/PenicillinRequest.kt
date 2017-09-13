@@ -24,6 +24,7 @@ class PenicillinRequest(private val session: Session) {
     private var hasFile: Boolean = false
     private var isFormData: Boolean = false
     private var isJsonData: Boolean = false
+    private var callbackUrl: String? = null
 
     private val defaultHeaders = listOf(
             "X-Twitter-Client-Version" to "6.59.3",
@@ -39,7 +40,7 @@ class PenicillinRequest(private val session: Session) {
             "X-Twitter-Client" to "Twitter-iPhone"
     )
 
-    private var authorizationType = AuthorizationType.OAuth
+    private var authorizationType = session.client.authType
     fun type(type: AuthorizationType) = this.apply {
         authorizationType = type
     }
@@ -52,6 +53,10 @@ class PenicillinRequest(private val session: Session) {
             url
         }
         originalUrl = this.url
+    }
+
+    fun callback(url: String?) = this.apply {
+        callbackUrl = url
     }
 
     fun header(header: Pair<String, String>?) = this.apply {
@@ -94,7 +99,7 @@ class PenicillinRequest(private val session: Session) {
         isJsonData = true
         data.forEach {
             if (it?.second != null) {
-                this.data.add(Pair(it.first, it.second.toString()))
+                this.data.add(Pair(it.first, it.second))
             }
         }
     }
@@ -119,6 +124,16 @@ class PenicillinRequest(private val session: Session) {
 
     fun post() = this.apply {
         method = HTTPMethod.POST
+
+        if (isFormData) {
+            body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(*data.toTypedArray()))
+        } else if (isJsonData) {
+            body = RequestBody.create(MediaType.parse("application/json"), Gson().toJson(data))
+        }
+        if (body == null) {
+            body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), "")
+        }
+
         builder.post(body)
     }.execute()
 
@@ -135,17 +150,12 @@ class PenicillinRequest(private val session: Session) {
             throw IllegalStateException("url must be non-null.")
         }
 
-        if (isFormData) {
-            body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(*data.toTypedArray()))
-        } else if (isJsonData) {
-            body = RequestBody.create(MediaType.parse("application/json"), Gson().toJson(data))
-        }
-
         headers(defaultHeaders)
         val sign = when (authorizationType) {
-            AuthorizationType.OAuth -> session.oauth!!.sign(method!!, originalUrl!!, params + data, hasFile)
-            AuthorizationType.Basic -> session.basic!!.sign()
-            AuthorizationType.Bearer -> session.bearer!!.sign()
+            AuthorizationType.OAuth1a -> session.oauth!!.sign(method!!, originalUrl!!, params + data, hasFile)
+            AuthorizationType.OAuth1aRequestToken -> session.oauthrt!!.sign(method!!, originalUrl!!, params + data, callbackUrl)
+            AuthorizationType.OAuth2 -> session.oauth2!!.sign()
+            AuthorizationType.OAuth2RequestToken -> session.oauth2rt!!.sign()
             AuthorizationType.NONE -> null
         }
         if (sign != null) {
