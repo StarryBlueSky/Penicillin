@@ -3,6 +3,7 @@ package jp.nephy.penicillin.endpoint
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.model.UserProfileBanner
 import jp.nephy.penicillin.model.UserSuggestion
 import jp.nephy.penicillin.model.UserSuggestionCategory
