@@ -7,7 +7,10 @@ import jp.nephy.penicillin.misc.AuthorizationType
 import jp.nephy.penicillin.misc.HTTPMethod
 import jp.nephy.penicillin.misc.Util
 import jp.nephy.penicillin.misc.toURLEncode
-import okhttp3.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.Request
+import okhttp3.RequestBody
 import java.net.ConnectException
 
 class PenicillinRequest(private val session: Session) {
