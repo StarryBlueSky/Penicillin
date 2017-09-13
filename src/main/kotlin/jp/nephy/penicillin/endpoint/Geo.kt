@@ -2,10 +2,9 @@ package jp.nephy.penicillin.endpoint
 
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
+import jp.nephy.penicillin.model.GeoResult
 import jp.nephy.penicillin.model.Place
 import jp.nephy.penicillin.response.ResponseObject
-import jp.nephy.penicillin.result.GeoReverseGeocode
-import jp.nephy.penicillin.result.GeoSearch
 
 class Geo(private val client: Client) {
     @GET
@@ -18,7 +17,7 @@ class Geo(private val client: Client) {
     }
 
     @GET
-    fun reverseGeocode(lat: Float, long: Float, accuracy: String?=null, granularity: String?=null, maxResults: Int?=null, callback: String?=null, vararg options: Pair<String, String?>): ResponseObject<GeoReverseGeocode> {
+    fun reverseGeocode(lat: Float, long: Float, accuracy: String?=null, granularity: String?=null, maxResults: Int?=null, callback: String?=null, vararg options: Pair<String, String?>): ResponseObject<GeoResult> {
         return client.session.new()
                 .url("/geo/reverse_geocode.json")
                 .param("lat" to lat)
@@ -33,7 +32,7 @@ class Geo(private val client: Client) {
     }
 
     @GET
-    fun search(lat: Float?=null, long: Float?=null, query: String?=null, ip: String?=null, granularity: String?=null, accuracy: String?=null, maxResults: Int?=null, containedWithin: String?=null, attributeStreetAddress: String?=null, callback: String?=null, vararg options: Pair<String, String?>): ResponseObject<GeoSearch> {
+    fun search(lat: Float?=null, long: Float?=null, query: String?=null, ip: String?=null, granularity: String?=null, accuracy: String?=null, maxResults: Int?=null, containedWithin: String?=null, attributeStreetAddress: String?=null, callback: String?=null, vararg options: Pair<String, String?>): ResponseObject<GeoResult> {
         return client.session.new()
                 .url("/geo/search.json")
                 .param("lat" to lat)

@@ -3,11 +3,11 @@ package jp.nephy.penicillin.endpoint
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.model.UserProfileBanner
+import jp.nephy.penicillin.model.UserSuggestion
+import jp.nephy.penicillin.model.UserSuggestionCategory
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
-import jp.nephy.penicillin.result.UserProfileBannerModel
-import jp.nephy.penicillin.model.UserSuggestionCategory
-import jp.nephy.penicillin.model.UserSuggestion
 
 class User(private val client: Client) {
     @GET
@@ -35,7 +35,7 @@ class User(private val client: Client) {
     }
 
     @GET
-    fun getProfileBanner(screenName: String?=null, userId: Long?=null, vararg options: Pair<String, String?>): ResponseObject<UserProfileBannerModel> {
+    fun getProfileBanner(screenName: String?=null, userId: Long?=null, vararg options: Pair<String, String?>): ResponseObject<UserProfileBanner> {
         return client.session.new()
                 .url("/users/profile_banner.json")
                 .param("screen_name" to screenName)

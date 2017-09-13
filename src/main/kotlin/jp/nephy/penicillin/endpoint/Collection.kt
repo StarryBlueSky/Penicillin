@@ -8,15 +8,11 @@ import jp.nephy.penicillin.misc.StatusID
 import jp.nephy.penicillin.model.Empty
 import jp.nephy.penicillin.parameters.CollectionCreationTimelineOrder
 import jp.nephy.penicillin.response.ResponseObject
-import jp.nephy.penicillin.result.CollectionsDestroy
-import jp.nephy.penicillin.result.CollectionsEntries
-import jp.nephy.penicillin.result.CollectionsList
-import jp.nephy.penicillin.result.CollectionsShow
 import java.net.URL
 
 class Collection(private val client: Client) {
     @GET
-    fun getCollection(id: String, vararg options: Pair<String, String?>): ResponseObject<CollectionsShow> {
+    fun getCollection(id: String, vararg options: Pair<String, String?>): ResponseObject<Empty> {
         return client.session.new()
                 .url("/collections/show.json")
                 .param("id" to id)
@@ -26,7 +22,7 @@ class Collection(private val client: Client) {
     }
 
     @GET
-    fun getCollections(id: String, count: Int?=null, maxPosition: Int?=null, minPosition: Int?=null, vararg options: Pair<String, String?>): ResponseObject<CollectionsEntries> {
+    fun getCollections(id: String, count: Int?=null, maxPosition: Int?=null, minPosition: Int?=null, vararg options: Pair<String, String?>): ResponseObject<Empty> {
         return client.session.new()
                 .url("/collections/entries.json")
                 .param("id" to id)
@@ -39,7 +35,7 @@ class Collection(private val client: Client) {
     }
 
     @GET @Cursorable
-    fun getList(userId: Long?=null, screenName: String?=null, tweetId: StatusID?=null, count: Int?=null, vararg options: Pair<String, String?>): ResponseObject<CollectionsList> {
+    fun getList(userId: Long?=null, screenName: String?=null, tweetId: StatusID?=null, count: Int?=null, vararg options: Pair<String, String?>): ResponseObject<Empty> {
         return client.session.new()
                 .url("/collections/list.json")
                 .param("user_id" to userId)
@@ -52,7 +48,7 @@ class Collection(private val client: Client) {
     }
 
     @POST
-    fun create(name: String, description: String?=null, url: URL?=null, timelineOrder: CollectionCreationTimelineOrder?=null, vararg options: Pair<String, String?>): ResponseObject<CollectionsShow> {
+    fun create(name: String, description: String?=null, url: URL?=null, timelineOrder: CollectionCreationTimelineOrder?=null, vararg options: Pair<String, String?>): ResponseObject<Empty> {
         return client.session.new()
                 .url("/collections/create.json")
                 .dataAsForm("name" to name)
@@ -70,7 +66,7 @@ class Collection(private val client: Client) {
     }
 
     @POST
-    fun destroy(id: String, vararg options: Pair<String, String?>): ResponseObject<CollectionsDestroy> {
+    fun destroy(id: String, vararg options: Pair<String, String?>): ResponseObject<Empty> {
         return client.session.new()
                 .url("/collections/destroy.json")
                 .dataAsForm("id" to id)
@@ -80,7 +76,7 @@ class Collection(private val client: Client) {
     }
 
     @POST
-    fun update(id: String, name: String?=null, description: String?=null, url: URL?=null, vararg options: Pair<String, String?>): ResponseObject<CollectionsShow> {
+    fun update(id: String, name: String?=null, description: String?=null, url: URL?=null, vararg options: Pair<String, String?>): ResponseObject<Empty> {
         return client.session.new()
                 .url("/collections/update.json")
                 .dataAsForm("id" to id)
