@@ -1,10 +1,10 @@
 package jp.nephy.penicillin.endpoint
 
 import jp.nephy.penicillin.Client
-import jp.nephy.penicillin.model.Status
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
 import jp.nephy.penicillin.misc.StatusID
+import jp.nephy.penicillin.model.Status
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
