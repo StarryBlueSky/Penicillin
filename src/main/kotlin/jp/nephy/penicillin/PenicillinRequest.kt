@@ -156,7 +156,6 @@ class PenicillinRequest(private val session: Session) {
             AuthorizationType.OAuth1aRequestToken -> session.oauthrt!!.sign(method!!, originalUrl!!, params + data, callbackUrl)
             AuthorizationType.OAuth2 -> session.oauth2!!.sign()
             AuthorizationType.OAuth2RequestToken -> session.oauth2rt!!.sign()
-            AuthorizationType.NONE -> null
             else -> null
         }
         if (sign != null) {
