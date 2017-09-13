@@ -6,9 +6,9 @@ import jp.nephy.penicillin.annotation.POST
 import jp.nephy.penicillin.model.Empty
 import jp.nephy.penicillin.model.Setting
 import jp.nephy.penicillin.model.User
+import jp.nephy.penicillin.model.VerifyCredentials
 import jp.nephy.penicillin.parameters.MediaType
 import jp.nephy.penicillin.response.ResponseObject
-import jp.nephy.penicillin.result.AccountVerifyCredentials
 import java.net.URL
 
 class Account(private val client: Client) {
@@ -22,7 +22,7 @@ class Account(private val client: Client) {
     }
 
     @GET
-    fun verifyCredentials(includeEntities: Boolean?=null, skipStatus: Boolean?=null, includeEmail: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<AccountVerifyCredentials> {
+    fun verifyCredentials(includeEntities: Boolean?=null, skipStatus: Boolean?=null, includeEmail: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<VerifyCredentials> {
         return client.session.new()
                 .url("/account/verify_credentials.json")
                 .param("include_entities" to includeEntities)

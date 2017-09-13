@@ -2,8 +2,8 @@ package jp.nephy.penicillin.endpoint
 
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
+import jp.nephy.penicillin.model.ApplicationRateLimitStatus
 import jp.nephy.penicillin.response.ResponseObject
-import jp.nephy.penicillin.result.ApplicationRateLimitStatus
 
 class Application(private val client: Client) {
     @GET
