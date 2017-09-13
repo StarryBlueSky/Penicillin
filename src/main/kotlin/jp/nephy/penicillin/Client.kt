@@ -6,25 +6,30 @@ import jp.nephy.penicillin.endpoint.Collection
 import jp.nephy.penicillin.endpoint.List
 import jp.nephy.penicillin.misc.AuthorizationType
 
-class Client(ck: ConsumerKey?, cs: ConsumerSecret?, at: AccessToken?, ats: AccessTokenSecret?, token: BearerToken?) {
+class Client private constructor(ck: ConsumerKey?, cs: ConsumerSecret?, at: AccessToken?, ats: AccessTokenSecret?, token: BearerToken?) {
     companion object {
         fun authenticate(ck: ConsumerKey?=null, cs: ConsumerSecret?=null, at: AccessToken?=null, ats: AccessTokenSecret?=null, token: BearerToken?=null) = Client(ck, cs, at, ats, token)
     }
 
     val session = Session(this)
-    var authType = AuthorizationType.OAuth1a
+    var authType: AuthorizationType? = null
 
     init {
-        authType = if (ck != null && cs != null && at != null && ats != null) {
+        if (ck != null && cs != null && at != null && ats != null) {
             session.authenticate(ck, cs, at, ats)
-            AuthorizationType.OAuth1a
+            authType = AuthorizationType.OAuth1a
         } else if (ck != null && cs != null) {
             session.authenticate(ck, cs)
-            AuthorizationType.OAuth1aRequestToken
-        } else if (token != null) {
+            authType = AuthorizationType.OAuth1aRequestToken
+        }
+        if (token != null) {
             session.authenticate(token)
-            AuthorizationType.OAuth2
-        } else {
+            if (authType == null) {
+                authType = AuthorizationType.OAuth2
+            }
+        }
+
+        if (authType == null) {
             throw IllegalArgumentException("ck, cs, at, ats, token are all null.")
         }
     }
