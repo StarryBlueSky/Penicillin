@@ -3,6 +3,8 @@ language: groovy
 jdk:
   - oraclejdk8
 
+before_script:
+  - chmod +x gradlew
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
