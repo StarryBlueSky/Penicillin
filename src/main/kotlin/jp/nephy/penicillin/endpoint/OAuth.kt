@@ -25,6 +25,21 @@ class OAuth(private val client: Client) {
                 .getResponseText()
     }
 
+    @POST
+    fun getRequestToken(callbackUrl: String?=null, vararg options: Pair<String, String?>): Pair<String, String> {
+        var requestToken: String? = null
+        var requestTokenSecret: String? = null
+
+        getRequestTokenResponse(callbackUrl, *options).content.split("&").forEach {
+            val (k, v) = it.split("=")
+            when (k) {
+                "oauth_token" -> requestToken = v
+                "oauth_token_secret" -> requestTokenSecret = v
+            }
+        }
+        return Pair(requestToken!!, requestTokenSecret!!)
+    }
+
     fun getAuthorizeURL(accessToken: String, forceLogin: Boolean?=null, screenName: String?=null): URL {
         var url = "https://api.twitter.com/oauth/authorize?oauth_token=$accessToken"
         var params = ""
@@ -77,27 +92,11 @@ class OAuth(private val client: Client) {
                 .getResponseText()
     }
 
-    @POST @Recipe
-    fun getAccessToken(callbackUrl: String?=null, forceLogin: Boolean?=null, screenName: String?=null): Pair<AccessToken, AccessTokenSecret> {
-        val ck = client.session.oauthrt!!.ck
-        val cs = client.session.oauthrt!!.cs
-        var requestToken: String? = null
-        var requestTokenSecret: String? = null
-
-        getRequestTokenResponse(callbackUrl).content.split("&").forEach {
-            val (k, v) = it.split("=")
-            when (k) {
-                "oauth_token" -> requestToken = v
-                "oauth_token_secret" -> requestTokenSecret = v
-            }
-        }
-        val url = getAuthorizeURL(requestToken!!, forceLogin, screenName)
-        println("$url\nInput PIN code: ")
-        val pin = readLine()!!
-
+    @POST
+    fun getAccessToken(ck: ConsumerKey, cs: ConsumerSecret, requestToken: String, requestTokenSecret: String, verifier: String, vararg options: Pair<String, String?>): Pair<AccessToken, AccessTokenSecret> {
         var at: AccessToken? = null
         var ats: AccessTokenSecret? = null
-        getAccessTokenResponse(ck, cs, requestToken!!, requestTokenSecret!!, pin).content.split("&").forEach {
+        getAccessTokenResponse(ck, cs, requestToken, requestTokenSecret, verifier, *options).content.split("&").forEach {
             val (k, v) = it.split("=")
             when (k) {
                 "oauth_token" -> at = AccessToken(v)
@@ -106,5 +105,19 @@ class OAuth(private val client: Client) {
         }
 
         return Pair(at!!, ats!!)
+    }
+
+    @POST @Recipe
+    @Deprecated("this function should not be used in GUI application because it requires stdin.")
+    fun getAccessTokenCLI(callbackUrl: String?=null, forceLogin: Boolean?=null, screenName: String?=null): Pair<AccessToken, AccessTokenSecret> {
+        val ck = client.session.oauthrt!!.ck
+        val cs = client.session.oauthrt!!.cs
+        val (requestToken, requestTokenSecret) = getRequestToken(callbackUrl)
+
+        val url = getAuthorizeURL(requestToken, forceLogin, screenName)
+        println("$url\nInput PIN code: ")
+        val pin = readLine()!!
+
+        return getAccessToken(ck, cs, requestToken, requestTokenSecret, pin)
     }
 }
