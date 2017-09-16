@@ -12,6 +12,8 @@ class Status(val json: JsonElement) {
     val createdAt by json.byCreatedAt("created_at")
     val displayTextRange by json.byNullableIntArray("display_text_range")
     val entities by json.byStatusEntity
+    val extendedEntities by json.byNullableExtendedEntity("extended_entities")
+    val extendedTweet by json.byNullableExtendedTweet("extended_tweet")
     val favoriteCount by json.byInt("favorite_count")
     val favorited by json.byBool
     val filterLevel by json.byNullableString("filter_level")
@@ -41,9 +43,17 @@ class Status(val json: JsonElement) {
     val supplementalLanguage by json.byNullableString("supplemental_language") // null
     val text by json.byString
     val timestampMs by json.byNullableString("timestamp_ms")
-    val truncated by json.byString
+    val truncated by json.byBool
     val user by json.byUser
     val withheldCopyright by json.byNullableBool("withheld_copyright")
     val withheldInCountries by json.byNullableCountryArray("withheld_in_countries")
     val withheldScope by json.byNullableString("withheld_scope")
+
+    fun getFullText(): String {
+        return if (! truncated) {
+            text
+        } else {
+            extendedTweet!!.fullText!!
+        }
+    }
 }
