@@ -84,6 +84,7 @@ internal fun JsonElement.byNullableVideoInfo(key: String?=null): NullableJsonCon
 internal fun JsonElement.byNullableAdditionalMediaInfo(key: String?=null): NullableJsonConvertDelegate<AdditionalMediaInfo, JsonElement> = NullableJsonConvertDelegate(AdditionalMediaInfo::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byNullableApplicationRateLimit(key: String?=null): NullableJsonConvertDelegate<ApplicationRateLimit, JsonElement> = NullableJsonConvertDelegate(ApplicationRateLimit::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byNullableExtendedEntity(key: String?=null): NullableJsonConvertDelegate<ExtendedEntity, JsonElement> = NullableJsonConvertDelegate(ExtendedEntity::class.java, JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byNullableExtendedTweet(key: String?=null): NullableJsonConvertDelegate<ExtendedTweet, JsonElement> = NullableJsonConvertDelegate(ExtendedTweet::class.java, JsonElement::class.java, this.obj, key)
 
 internal fun JsonElement.byNullableCountryArray(key: String?=null): NullableJsonConvertArrayDelegate<Country> = NullableJsonConvertArrayDelegate(Country::class.java, this.obj, key)
 internal fun JsonElement.byNullableStatusIDArray(key: String?=null): NullableJsonConvertArrayDelegate<StatusID> = NullableJsonConvertArrayDelegate(StatusID::class.java, this.obj, key)
