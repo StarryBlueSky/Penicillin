@@ -83,8 +83,9 @@ internal fun JsonElement.byNullableUserRetweet(key: String?=null): NullableJsonC
 internal fun JsonElement.byNullableVideoInfo(key: String?=null): NullableJsonConvertDelegate<VideoInfo, JsonElement> = NullableJsonConvertDelegate(VideoInfo::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byNullableAdditionalMediaInfo(key: String?=null): NullableJsonConvertDelegate<AdditionalMediaInfo, JsonElement> = NullableJsonConvertDelegate(AdditionalMediaInfo::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byNullableApplicationRateLimit(key: String?=null): NullableJsonConvertDelegate<ApplicationRateLimit, JsonElement> = NullableJsonConvertDelegate(ApplicationRateLimit::class.java, JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byNullableExtendedEntity(key: String?=null): NullableJsonConvertDelegate<ExtendedEntity, JsonElement> = NullableJsonConvertDelegate(ExtendedEntity::class.java, JsonElement::class.java, this.obj, key)
 
-internal fun JsonElement.byNullableCountryArray(key: String?=null): JsonConvertArrayDelegate<Country> = JsonConvertArrayDelegate(Country::class.java, this.obj, key)
-internal fun JsonElement.byNullableStatusIDArray(key: String?=null): JsonConvertArrayDelegate<StatusID> = JsonConvertArrayDelegate(StatusID::class.java, this.obj, key)
-internal fun JsonElement.byNullableStringArray(key: String?=null): JsonConvertArrayDelegate<String> = JsonConvertArrayDelegate(String::class.java, this.obj, key)
-internal fun JsonElement.byNullableIntArray(key: String?=null): JsonConvertArrayDelegate<Int> = JsonConvertArrayDelegate(Int::class.java, this.obj, key)
+internal fun JsonElement.byNullableCountryArray(key: String?=null): NullableJsonConvertArrayDelegate<Country> = NullableJsonConvertArrayDelegate(Country::class.java, this.obj, key)
+internal fun JsonElement.byNullableStatusIDArray(key: String?=null): NullableJsonConvertArrayDelegate<StatusID> = NullableJsonConvertArrayDelegate(StatusID::class.java, this.obj, key)
+internal fun JsonElement.byNullableStringArray(key: String?=null): NullableJsonConvertArrayDelegate<String> = NullableJsonConvertArrayDelegate(String::class.java, this.obj, key)
+internal fun JsonElement.byNullableIntArray(key: String?=null): NullableJsonConvertArrayDelegate<Int> = NullableJsonConvertArrayDelegate(Int::class.java, this.obj, key)
