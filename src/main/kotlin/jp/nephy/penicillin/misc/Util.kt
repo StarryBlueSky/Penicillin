@@ -24,7 +24,7 @@ class Util {
 internal fun String.toURLEncode(): String {
     val encoded = URLEncoder.encode(this, "UTF-8")
     return StringBuilder(encoded.length).apply {
-        for (c in encoded.toCharArray()) {
+        for (c in encoded) {
             append(when (c) {
                 '+' -> "%20"
                 '*' -> "%2A"
