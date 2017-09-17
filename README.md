@@ -17,17 +17,21 @@ Install
 -------
 Current version is `v1.0.0`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
 
-Maven:
-
-    <dependency>
-    	<groupId>jp.nephy</groupId>
-    	<artifactId>penicillin</artifactId>
-    	<version>1.0.0</version>
-    </dependency>
-
 Gradle:
-
+```groovy
+dependencies {
     compile "jp.nephy:penicillin:1.0.0"
+}
+```
+
+Maven:
+```xml
+<dependency>
+    <groupId>jp.nephy</groupId>
+    <artifactId>penicillin</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 Usage
 =====
