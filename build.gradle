@@ -1,5 +1,5 @@
 group 'jp.nephy'
-version '1.0-SNAPSHOT'
+version '1.0.0'
 
 buildscript {
     ext.kotlin_version = '1.1.4-3'
@@ -13,15 +13,16 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile group: "com.google.code.gson", name: "gson", version: "2.8.1"
+    compile "com.google.code.gson:gson:2.8.1"
     compile "com.squareup.okhttp3:okhttp:3.9.0"
     compile "com.github.salomonbrys.kotson:kotson:2.5.0"
     compile "com.neovisionaries:nv-i18n:1.22"
@@ -32,4 +33,77 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    required { hasProperty('deploy') }
+    sign configurations.archives
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name 'Penicillin'
+                packaging 'jar'
+                artifactId 'penicillin'
+                description 'Penicillin is A Simple Twitter API wrapper.'
+                url 'https://github.com/NephyProject/Penicillin'
+
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'http://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'SlashNephy'
+                        name 'Slash Nephy'
+                        email 'admin@nephy.jp'
+                    }
+                }
+
+                scm {
+                    url 'https://github.com/NephyProject/Penicillin'
+                    connection 'scm:git:https://github.com/NephyProject/Penicillin.git'
+                    developerConnection 'scm:git:git@github.com:NephyProject/Penicillin.git'
+                    tag 'HEAD'
+                }
+
+                issueManagement {
+                    system 'GitHub Issues'
+                    url 'https://github.com/NephyProject/Penicillin/issues'
+                }
+            }
+        }
+    }
 }
