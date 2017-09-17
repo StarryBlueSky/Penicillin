@@ -15,12 +15,12 @@ Penicillin: *Twitter* *API* *wrapper* for *Kotlin*
 
 Install
 -------
-Current version is `v1.0.0`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
+Current version is `v1.0.1`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
 
 Gradle:
 ```groovy
 dependencies {
-    compile "jp.nephy:penicillin:1.0.0"
+    compile "jp.nephy:penicillin:1.0.1"
 }
 ```
 
@@ -29,9 +29,11 @@ Maven:
 <dependency>
     <groupId>jp.nephy</groupId>
     <artifactId>penicillin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
+
+Release: [Latest](https://github.com/NephyProject/Penicillin/releases/latest) from GitHub
 
 Usage
 =====
