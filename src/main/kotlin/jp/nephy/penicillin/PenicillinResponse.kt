@@ -1,5 +1,6 @@
 package jp.nephy.penicillin
 
+import com.github.salomonbrys.kotson.get
 import com.google.gson.*
 import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.misc.RateLimit
@@ -22,10 +23,31 @@ class PenicillinResponse(val client: Client, val request: Request, val response:
     inline fun <reified T> getResponseObject(): ResponseObject<T> {
         val content = getContent()
 
-        if (!response.isSuccessful) {
-            println(request)
-            println(request.headers())
-            throw TwitterAPIError("API returned errors.", content)
+        if (! response.isSuccessful) {
+            try {
+                val obj = Gson().fromJson(content, JsonObject::class.java)
+                if (! obj["errors"].isJsonNull) {
+                    val error = obj["errors"]
+                    try {
+                        throw TwitterAPIError(error.asString, content)
+                    } catch (e: ClassCastException) {}
+
+                    if (error.isJsonArray) {
+                        if (error.asJsonArray.size() == 0) {
+                            throw TwitterAPIError("errors size is 0 with HTTP code ${response.code()}.", content)
+                        }
+                        throw TwitterAPIError("API returned error with HTTP code ${response.code()}.", content, error.asJsonArray[0]["code"].asInt, error.asJsonArray[0]["message"].asString)
+                    } else {
+                        throw TwitterAPIError("API returned unknown error with HTTP code ${response.code()}.", content)
+                    }
+                } else if (! obj["error"].isJsonNull) {
+                    throw TwitterAPIError("API returned error with HTTP code ${response.code()}.", content, null, obj["error"].asJsonObject["message"].asString)
+                } else {
+                    throw TwitterAPIError("API returned unknown error with HTTP code ${response.code()}.", content)
+                }
+            } catch (e: JsonSyntaxException) {
+                throw TwitterAPIError("API returned unknown error.", content)
+            }
         }
 
         val jsonObject = try {
@@ -52,8 +74,31 @@ class PenicillinResponse(val client: Client, val request: Request, val response:
     inline fun <reified T> getResponseList(): ResponseList<T> {
         val content = getContent()
 
-        if (!response.isSuccessful) {
-            throw TwitterAPIError("API returned errors.", content)
+        if (! response.isSuccessful) {
+            try {
+                val obj = Gson().fromJson(content, JsonObject::class.java)
+                if (! obj["errors"].isJsonNull) {
+                    val error = obj["errors"]
+                    try {
+                        throw TwitterAPIError(error.asString, content)
+                    } catch (e: ClassCastException) {}
+
+                    if (error.isJsonArray) {
+                        if (error.asJsonArray.size() == 0) {
+                            throw TwitterAPIError("errors size is 0 with HTTP code ${response.code()}.", content)
+                        }
+                        throw TwitterAPIError("API returned error with HTTP code ${response.code()}.", content, error.asJsonArray[0]["code"].asInt, error.asJsonArray[0]["message"].asString)
+                    } else {
+                        throw TwitterAPIError("API returned unknown error with HTTP code ${response.code()}.", content)
+                    }
+                } else if (! obj["error"].isJsonNull) {
+                    throw TwitterAPIError("API returned error with HTTP code ${response.code()}.", content, null, obj["error"].asJsonObject["message"].asString)
+                } else {
+                    throw TwitterAPIError("API returned unknown error with HTTP code ${response.code()}.", content)
+                }
+            } catch (e: JsonSyntaxException) {
+                throw TwitterAPIError("API returned unknown error.", content)
+            }
         }
 
         val json = try {
