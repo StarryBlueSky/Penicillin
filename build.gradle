@@ -58,50 +58,52 @@ sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+if (hasProperty('deploy')) {
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
-
-            pom.project {
-                name 'Penicillin'
-                packaging 'jar'
-                artifactId 'penicillin'
-                description 'Penicillin is A Simple Twitter API wrapper.'
-                url 'https://github.com/NephyProject/Penicillin'
-
-                licenses {
-                    license {
-                        name 'MIT'
-                        url 'http://opensource.org/licenses/MIT'
-                    }
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                    authentication(userName: sonatypeUsername, password: sonatypePassword)
                 }
 
-                developers {
-                    developer {
-                        id 'SlashNephy'
-                        name 'Slash Nephy'
-                        email 'admin@nephy.jp'
-                    }
-                }
-
-                scm {
+                pom.project {
+                    name 'Penicillin'
+                    packaging 'jar'
+                    artifactId 'penicillin'
+                    description 'Penicillin is A Simple Twitter API wrapper.'
                     url 'https://github.com/NephyProject/Penicillin'
-                    connection 'scm:git:https://github.com/NephyProject/Penicillin.git'
-                    developerConnection 'scm:git:git@github.com:NephyProject/Penicillin.git'
-                    tag 'HEAD'
-                }
 
-                issueManagement {
-                    system 'GitHub Issues'
-                    url 'https://github.com/NephyProject/Penicillin/issues'
+                    licenses {
+                        license {
+                            name 'MIT'
+                            url 'http://opensource.org/licenses/MIT'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'SlashNephy'
+                            name 'Slash Nephy'
+                            email 'admin@nephy.jp'
+                        }
+                    }
+
+                    scm {
+                        url 'https://github.com/NephyProject/Penicillin'
+                        connection 'scm:git:https://github.com/NephyProject/Penicillin.git'
+                        developerConnection 'scm:git:git@github.com:NephyProject/Penicillin.git'
+                        tag 'HEAD'
+                    }
+
+                    issueManagement {
+                        system 'GitHub Issues'
+                        url 'https://github.com/NephyProject/Penicillin/issues'
+                    }
                 }
             }
         }
