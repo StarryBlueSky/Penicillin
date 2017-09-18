@@ -2,10 +2,8 @@ package jp.nephy.penicillin.endpoint
 
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
-import jp.nephy.penicillin.model.Configuration
-import jp.nephy.penicillin.model.Language
-import jp.nephy.penicillin.model.Privacy
-import jp.nephy.penicillin.model.Tos
+import jp.nephy.penicillin.annotation.UndocumentedAPI
+import jp.nephy.penicillin.model.*
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
@@ -41,6 +39,17 @@ class Help(private val client: Client) {
     fun getTos(vararg options: Pair<String, String?>): ResponseObject<Tos> {
         return client.session.new()
                 .url("/help/tos.json")
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    @GET @UndocumentedAPI
+    fun getSetting(includeZeroRate: Boolean?=true, settingsVersion: String?=null, vararg options: Pair<String, String?>): ResponseObject<Empty> {
+        return client.session.new()
+                .url("/help/settings.json")
+                .param("include_zero_rate" to includeZeroRate)
+                .param("settings_version" to settingsVersion)
                 .params(*options)
                 .get()
                 .getResponseObject()

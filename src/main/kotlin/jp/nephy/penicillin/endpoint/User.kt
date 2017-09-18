@@ -15,6 +15,13 @@ class User(private val client: Client) {
     fun getUser(screenName: String?=null, userId: Long?=null, includeEntities: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<User> {
         return client.session.new()
                 .url("/users/show.json")
+                .paramIfOfficial("ext" to "mediaColor")
+                .paramIfOfficial("include_entities" to 1)
+                .paramIfOfficial("include_user_entities" to true)
+                .paramIfOfficial("include_profile_interstitial_type" to true)
+                .paramIfOfficial("include_user_symbol_entities" to true)
+                .paramIfOfficial("include_user_hashtag_entities" to true)
+                .paramIfOfficial("include_user_mention_entities" to true)
                 .param("screen_name" to screenName)
                 .param("user_id" to userId)
                 .param("include_entities" to includeEntities)
