@@ -7,21 +7,22 @@
 Penicillin: *Twitter* *API* *wrapper* for *Kotlin*
 ===========================
 
+- Protocol support for HTTP/1.1 & HTTP/2.
 - Supports not only OAuth 1.0a but Application-only authentication (OAuth 2.0).
 - Supports all public Twitter API except Beta API such as Webhooks API.
 - Supports some private Twitter API such as *Polling* *Tweets*.
 - Because all available endpoint parameters are named arguments of the method, it is easy to use APIs.
 - Since all response models are defined, it's possible by IDE to complement response fields.
 
+If you found a new Twitter API endpoint, Please tell us at [Issues](https://github.com/NephyProject/Penicillin/issues). We'll investigate it soon.
+
 Install
 -------
-Current version is `v1.0.1`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
+Current version is `v1.1.0`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
 
 Gradle:
 ```groovy
-dependencies {
-    compile "jp.nephy:penicillin:1.0.1"
-}
+compile "jp.nephy:penicillin:1.1.0"
 ```
 
 Maven:
@@ -29,63 +30,61 @@ Maven:
 <dependency>
     <groupId>jp.nephy</groupId>
     <artifactId>penicillin</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
-Release: [Latest](https://github.com/NephyProject/Penicillin/releases/latest) from GitHub
+Release: releases are available in [GitHub](https://github.com/NephyProject/Penicillin/releases).  
+Snapshot: development versions are available in [Sonatype Snapshots Repository](https://oss.sonatype.org/content/repositories/snapshots/jp/nephy/penicillin/).
 
 Usage
 =====
 
 Authentication
 -------------
-OAuth 1.0a (Basic case)
+Setup a Client. (basic use)
 ```kotlin
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.credentials.*
 
-val api = Client.authenticate(
-    ck = ConsumerKey("XXX"),
-    cs = ConsumerSecret("YYY"),
-    at = AccessToken("xxxxx-yyyyy"),
-    ats = AccessTokenSecret("zzzzz")
-)
+val client = Client.builder()
+    .authenticate(
+        ConsumerKey("XXXXX"), ConsumerSecret("YYYYY"),
+        AccessToken("xxxxx-xxxxx"), AccessTokenSecret("yyyyy")
+    )
+    .authenticate(BearerToken("ZZZZZ"))  // optional: if you have a Bearer Token
+    .connectTimeout(20)  // optional: timeouts in sec
+    .readTimeout(40)
+    .writeTimeout(20)
+    .build()  // return Client instance
 ```
 
-Application-only authentication
+Of course, you may issue Access Token/Token Secret via Request Token/Token Secret or issue Bearer Token.
 ```kotlin
-import jp.nephy.penicillin.Client
-import jp.nephy.penicillin.credentials.*
-
-val api = Client.authenticate(
-    token = BearerToken("XXX")
-)
+val client = Client.builder()
+    .authenticate(
+        ConsumerKey("XXX"), ConsumerSecret("YYY")
+    )
+    .build()
+val (at, ats) = client.oauth.getAccessTokenCLI()
+val token = client.oauth2.getBearerToken()
 ```
 
-Of course, you may issue Access Token/Token Secret via Request Token/Token Secret.
+Further, if you'd like to access Private API, try to use `.officialClient` instead of `.authenticate`.
 ```kotlin
-val api = Client.authenticate(
-    ck = ConsumerKey("XXX"),
-    cs = ConsumerSecret("YYY")
-)
-val (at, ats) = api.oauth.getAccessTokenCLI()
-```
-
-Further, this is example for OAuth 2.0 to issue Bearer Token.
-```kotlin
-val api = Client.authenticate(
-    ck = ConsumerKey("XXX"),
-    cs = ConsumerSecret("YYY")
-)
-val token = api.oauth2.getBearerToken()
+val client = Client.builder()
+    .officialClient(
+        OfficialClient.Twitter_for_iPhone,
+        AccessToken("xxxxx-xxxxx"), AccessTokenSecret("yyyyy")
+    )
+    .build()
 ```
 
 API Examples
 -------------
 Getting favorites from @Twitter.
 ```kotlin
-val responseList = api.favorite.getList(screenName = "Twitter")
+val responseList = client.favorite.getList(screenName = "Twitter")
 responseList.forEach {
     println("${it.user.name} @${it.user.screenName}\n${it.text}")
     // XXX @YYY
@@ -99,16 +98,16 @@ Posting a tweet with media.
 import jp.nephy.penicillin.parameters.MediaType
 import java.io.File
 
-api.status.updateWithMediaFile(
+client.status.updateWithMediaFile(
     status = "this is a media tweet.",
     media = arrayOf(File("/path/to/file.png") to MediaType.PNG)
 )
 ```
 
 
-Posting a poll tweet. **This requires Twitter Official CK/CS such as `Twitter for iPhone`.**
+Posting a poll tweet. **This requires auth by `.officialClient`.**
 ```kotlin
-api.status.createPollTweet(
+client.status.createPollTweet(
     status="Which SNS do you love the best?",
     choices = arrayOf("Twitter", "Facebook", "Mastodon", "Weibo"),
     minutes = 60 * 24 * 3
@@ -118,7 +117,9 @@ api.status.createPollTweet(
 
 Connecting to UserStream then print all the stream.
 ```kotlin
-val responseStream = api.stream.getUserStream(includeFollowingsActivity = true)
+import jp.nephy.penicillin.streaming.PrintUserStreamListener
+
+val responseStream = client.stream.getUserStream(includeFollowingsActivity = true)
 val listener = responseStream.listen(PrintUserStreamListener())
 
 // process stream asynchronously (non-blocking)
@@ -132,7 +133,7 @@ try implementing a custom UserStream listener by inheriting `IUserStreamListener
 TODO
 -------
 - Cursor support.
-- Adding plenty of Twitter undocumented/private APIs.
+- [In progress] Adding plenty of Twitter undocumented/private APIs.
 - Documentation.
 
 
