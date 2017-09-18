@@ -5,6 +5,9 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.*
 
 open class User(val json: JsonElement) {
+    val advertiserAccountServiceLevels by json.byNullableStringArray("advertiser_account_service_levels")
+    val advertiserAccountType by json.byNullableString("advertiser_account_type")
+    val analyticsType by json.byNullableString("analytics_type")
     val businessProfileState by json.byNullableString("business_profile_state")
     val canMediaTag by json.byNullableBool("can_media_tag")
     val contributorsEnabled by json.byBool("contributors_enabled")
@@ -32,6 +35,7 @@ open class User(val json: JsonElement) {
     val location by json.byNullableString
     val mediaCount by json.byNullableInt("media_count")
     val name by json.byString
+    val needsPhoneVerification by json.byNullableBool("needs_phone_verification")
     val normalFollowersCount by json.byNullableInt("normal_followers_count")
     val notifications by json.byNullableBool
     val pinnedTweetIds by json.byNullableStatusIDArray("pinned_tweet_ids")
@@ -40,9 +44,12 @@ open class User(val json: JsonElement) {
     val profileBackgroundImageUrl by json.byNullableURL("profile_background_image_url")
     val profileBackgroundImageUrlHttps by json.byNullableURL("profile_background_image_url_https")
     val profileBackgroundTile by json.byBool("profile_background_tile")
+    val profileBannerExtension by json.byNullableProfileImageExtension("profile_banner_extensions")
     val profileBannerUrl by json.byNullableURL("profile_banner_url")
+    val profileImageExtensions by json.byNullableProfileImageExtension("profile_image_extensions")
     val profileImageUrl by json.byURL("profile_image_url")
     val profileImageUrlHttps by json.byURL("profile_image_url_https")
+    val profileInterstitialType by json.byNullableString("profile_interstitial_type")
     val profileLinkColor by json.byString("profile_link_color")
     val profileSidebarBorderColor by json.byString("profile_sidebar_border_color")
     val profileSidebarFillColor by json.byString("profile_sidebar_fill_color")
@@ -52,6 +59,7 @@ open class User(val json: JsonElement) {
     val screenName by json.byString("screen_name")
     val status by json.byNullableStatus
     val statusesCount by json.byInt("statuses_count")
+    val suspended by json.byNullableBool
     val timeZone by json.byNullableString("time_zone")
     val translatorType by json.byString("translator_type")
     val url by json.byNullableURL

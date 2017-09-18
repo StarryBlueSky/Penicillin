@@ -27,6 +27,7 @@ internal val JsonElement.byMediaFeature: JsonConvertDelegate<MediaFeature, JsonE
 internal val JsonElement.byPhone: JsonConvertDelegate<Phone, JsonElement> get() = JsonConvertDelegate(Phone::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byResources: JsonConvertDelegate<Resources, JsonElement> get() = JsonConvertDelegate(Resources::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byGeoQuery: JsonConvertDelegate<GeoQuery, JsonElement> get() = JsonConvertDelegate(GeoQuery::class.java, JsonElement::class.java, this.obj)
+internal val JsonElement.byMediaColor: JsonConvertDelegate<MediaColor, JsonElement> get() = JsonConvertDelegate(MediaColor::class.java, JsonElement::class.java, this.obj)
 
 internal val JsonElement.byLongArray: JsonConvertArrayDelegate<Long> get() = JsonConvertArrayDelegate(Long::class.java, this.obj)
 internal val JsonElement.byListArray: JsonConvertArrayDelegate<List> get() = JsonConvertArrayDelegate(List::class.java, this.obj)
@@ -70,6 +71,7 @@ internal val JsonElement.byNullableVideo: NullableJsonConvertDelegate<Video, Jso
 internal val JsonElement.byNullableImage: NullableJsonConvertDelegate<Image, JsonElement> get() = NullableJsonConvertDelegate(Image::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byNullableUserEntity: NullableJsonConvertDelegate<UserEntity, JsonElement> get() = NullableJsonConvertDelegate(UserEntity::class.java, JsonElement::class.java, this.obj)
 internal val JsonElement.byNullableBanner: NullableJsonConvertDelegate<Banner, JsonElement> get() = NullableJsonConvertDelegate(Banner::class.java, JsonElement::class.java, this.obj)
+internal val JsonElement.byNullableBirthdate: NullableJsonConvertDelegate<Birthdate, JsonElement> get() = NullableJsonConvertDelegate(Birthdate::class.java, JsonElement::class.java, this.obj)
 
 internal val JsonElement.byNullableContributorArray: NullableJsonConvertArrayDelegate<Contributor> get() = NullableJsonConvertArrayDelegate(Contributor::class.java, this.obj)
 internal val JsonElement.byNullableFloatArray: NullableJsonConvertArrayDelegate<Float> get() = NullableJsonConvertArrayDelegate(Float::class.java, this.obj)
@@ -85,6 +87,7 @@ internal fun JsonElement.byNullableAdditionalMediaInfo(key: String?=null): Nulla
 internal fun JsonElement.byNullableApplicationRateLimit(key: String?=null): NullableJsonConvertDelegate<ApplicationRateLimit, JsonElement> = NullableJsonConvertDelegate(ApplicationRateLimit::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byNullableExtendedEntity(key: String?=null): NullableJsonConvertDelegate<ExtendedEntity, JsonElement> = NullableJsonConvertDelegate(ExtendedEntity::class.java, JsonElement::class.java, this.obj, key)
 internal fun JsonElement.byNullableExtendedTweet(key: String?=null): NullableJsonConvertDelegate<ExtendedTweet, JsonElement> = NullableJsonConvertDelegate(ExtendedTweet::class.java, JsonElement::class.java, this.obj, key)
+internal fun JsonElement.byNullableProfileImageExtension(key: String?=null): NullableJsonConvertDelegate<ProfileImageExtension, JsonElement> = NullableJsonConvertDelegate(ProfileImageExtension::class.java, JsonElement::class.java, this.obj, key)
 
 internal fun JsonElement.byNullableCountryArray(key: String?=null): NullableJsonConvertArrayDelegate<Country> = NullableJsonConvertArrayDelegate(Country::class.java, this.obj, key)
 internal fun JsonElement.byNullableStatusIDArray(key: String?=null): NullableJsonConvertArrayDelegate<StatusID> = NullableJsonConvertArrayDelegate(StatusID::class.java, this.obj, key)
