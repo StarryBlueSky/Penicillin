@@ -1,6 +1,8 @@
 # encoding: utf-8
 import json
 
+omitComment = True
+
 int_min, int_max = -2 ** 31, 2 ** 31 - 1
 long_min, long_max = -2 ** 63, 2 ** 63 - 1
 
@@ -70,9 +72,9 @@ while True:
             
             name = toLowerCamel(k)
             if name == k:
-                result.append([k, f"    val {name} by json.{method} // {toKotlinLiteral(v)}"])
+                result.append([k, f"    val {name} by json.{method}" + "" if omitComment else "// {toKotlinLiteral(v)}"])
             else:
-                result.append([k, f"    val {name} by json.{method}(\"{k}\") // {toKotlinLiteral(v)}"])
+                result.append([k, f"    val {name} by json.{method}(\"{k}\")" + "" if omitComment else "// {toKotlinLiteral(v)}"])
     else:
         raise Exception("Only dict or list supported.")
 
