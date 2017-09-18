@@ -6,7 +6,7 @@ import okhttp3.Request
 import okhttp3.Response
 import java.util.*
 
-data class ResponseList<T>(val content: String, val client: Client, val request: Request, val response: Response, val rateLimit: RateLimit) : ArrayList<T>() {
+data class ResponseList<T>(val content: String, val request: Request, val response: Response, val rateLimit: RateLimit) : ArrayList<T>() {
     fun print() {
         println(request.toString())
         println(request.headers())

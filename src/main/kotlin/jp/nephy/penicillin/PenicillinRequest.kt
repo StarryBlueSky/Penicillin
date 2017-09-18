@@ -40,7 +40,7 @@ class PenicillinRequest(private val session: Session) {
             "X-Twitter-Client" to "Twitter-iPhone"
     )
 
-    private var authorizationType = session.client.authType
+    private var authorizationType = session.authType
     fun type(type: AuthorizationType) = this.apply {
         authorizationType = type
     }
@@ -83,6 +83,12 @@ class PenicillinRequest(private val session: Session) {
     fun params(vararg params: Pair<String, Any?>?) = this.apply {
         params.forEach {
             param(it)
+        }
+    }
+
+    fun paramIfOfficial(param: Pair<String, Any?>?) = this.apply {
+        if (session.useOfficialKeys) {
+            this@PenicillinRequest.param(param)
         }
     }
 
@@ -150,7 +156,10 @@ class PenicillinRequest(private val session: Session) {
             throw IllegalStateException("url must be non-null.")
         }
 
-        headers(defaultHeaders)
+        if (session.useOfficialKeys) {
+            headers(defaultHeaders)
+        }
+
         val sign = when (authorizationType) {
             AuthorizationType.OAuth1a -> session.oauth!!.sign(method!!, originalUrl!!, params + data, hasFile)
             AuthorizationType.OAuth1aRequestToken -> session.oauthrt!!.sign(method!!, originalUrl!!, params + data, callbackUrl)
@@ -166,7 +175,7 @@ class PenicillinRequest(private val session: Session) {
 
         for (i in 0 .. 3) {
             try {
-                return PenicillinResponse(session.client, request, session.httpClient.newCall(request).execute())
+                return PenicillinResponse(request, session.httpClient.newCall(request).execute())
 
             } catch (e: ConnectException) {
                 println("Connection failed. Try again in 3secs.")
