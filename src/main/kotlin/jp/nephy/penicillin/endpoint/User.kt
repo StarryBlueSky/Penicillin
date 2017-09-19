@@ -3,10 +3,9 @@ package jp.nephy.penicillin.endpoint
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.annotation.UndocumentedAPI
+import jp.nephy.penicillin.model.*
 import jp.nephy.penicillin.model.User
-import jp.nephy.penicillin.model.UserProfileBanner
-import jp.nephy.penicillin.model.UserSuggestion
-import jp.nephy.penicillin.model.UserSuggestionCategory
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
@@ -104,13 +103,37 @@ class User(private val client: Client) {
     }
 
     @POST
-    fun reportSpam(screenName: String?=null, userId: Long?=null, performBlock: Boolean?=null): ResponseObject<User> {
+    fun reportSpam(screenName: String?=null, userId: Long?=null, performBlock: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<User> {
         return client.session.new()
                 .url("/users/report_spam.json")
                 .dataAsForm("screen_name" to screenName)
                 .dataAsForm("user_id" to userId)
                 .dataAsForm("perform_block" to performBlock)
+                .dataAsForm(*options)
                 .post()
                 .getResponseObject()
+    }
+
+    @GET @UndocumentedAPI
+    fun getRecommendations(screenName: String?=null, userId: Long?=null, vararg options: Pair<String, String?>): ResponseList<Recommendation> {
+        return client.session.new()
+                .url("/users/recommendations.json")
+                .param("connections" to "true")
+                .param("display_location" to "st-component")
+                .param("ext" to "mediaColor")
+                .param("include_entities" to "1")
+                .param("include_profile_interstitial_type" to "true")
+                .param("include_profile_location" to "true")
+                .param("include_user_entities" to "true")
+                .param("include_user_hashtag_entities" to "true")
+                .param("include_user_mention_entities" to "true")
+                .param("include_user_symbol_entities" to "true")
+                .param("limit" to "3")
+                .param("pc" to "true")
+                .param("screen_name" to screenName)
+                .param("user_id" to userId)
+                .params(*options)
+                .get()
+                .getResponseList()
     }
 }

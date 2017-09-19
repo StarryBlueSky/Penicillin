@@ -31,6 +31,7 @@ class TwitterAPIError(msg: String, content: String, code: Int?=null, errorMessag
                 185 -> UserIsOverDailyStatusUpdateLimit()
                 187 -> StatusIsADuplicate()
                 205 -> YouAreOverTheLimitForSpamReports()
+                214 -> BadRequest()
                 215 -> BadAuthenticationData()
                 220 -> YourCredentialsDoNotAllowAccessToThisResource()
                 226 -> ThisRequestLooksLikeItMightBeAutomated()
