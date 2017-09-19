@@ -1,17 +1,17 @@
 package jp.nephy.penicillin.converter
 
+import com.github.salomonbrys.kotson.contains
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import kotlin.reflect.KProperty
 
 class JsonConvertArrayDelegate<out T>(private val klass: Class<T>, private val jsonObj: JsonObject, private val key: String?=null, private val converter: ((JsonElement) -> Any)={it}) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): List<T> {
-        val element = jsonObj[key ?: property.name]
-        if (element == null || element.isJsonNull || !element.isJsonArray) {
+        if (! jsonObj.contains(key ?: property.name) || ! jsonObj[key ?: property.name].isJsonArray) {
             return listOf()
         }
 
-        return element.asJsonArray.map {
+        return jsonObj[key ?: property.name].asJsonArray.map {
             it.run {
                 @Suppress("UNCHECKED_CAST")
                 when (klass) {
