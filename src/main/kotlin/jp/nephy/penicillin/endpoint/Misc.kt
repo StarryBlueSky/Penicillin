@@ -180,7 +180,7 @@ class Misc(private val client: Client) {
     }
 
     @GET @UndocumentedAPI
-    fun getPromptSuggest(cursor: String, vararg options: Pair<String, String?>): ResponseObject<Empty> {
+    fun getPromptSuggest(vararg options: Pair<String, String?>): ResponseObject<Empty> {
         return client.session.new()
                 .url("/prompts/suggest.json")
                 .param("client_namespace" to "native")
@@ -222,6 +222,72 @@ class Misc(private val client: Client) {
                 .param("model_version" to "9")
                 .param("since_id" to sinceId)
                 .param("tweet_mode" to "extended")
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    @GET @UndocumentedAPI
+    fun getTypeahead(q: String?=null, vararg options: Pair<String, String?>): ResponseObject<SearchTypeahead> {
+        return client.session.new()
+                .url("/search/typeahead.json")
+                .param("cards_platform" to "iPhone-13")
+                .param("contributor_details" to "1")
+                .param("count" to "1200")
+                .param("ext" to "altText,info360,mediaColor,mediaRestrictions,mediaStats,stickerInfo")
+                .param("include_cards" to "1")
+                .param("include_carousels" to "1")
+                .param("include_entities" to "1")
+                .param("include_ext_media_color" to "true")
+                .param("include_media_features" to "true")
+                .param("include_my_retweet" to "1")
+                .param("include_profile_interstitial_type" to "true")
+                .param("include_profile_location" to "true")
+                .param("include_reply_count" to "1")
+                .param("include_user_entities" to "true")
+                .param("include_user_hashtag_entities" to "true")
+                .param("include_user_mention_entities" to "true")
+                .param("include_user_symbol_entities" to "true")
+                .param("media_tagging_in_prefetch" to "true")
+                .param("prefetch" to "true")
+                .param("result_type" to "all")
+                .param("src" to "search_box")
+                .param("tweet_mode" to "extended")
+                .param("users_cache_age" to "146522")
+                .param("q" to q)
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    @GET @UndocumentedAPI
+    fun getMomentGuide(vararg options: Pair<String, String?>): ResponseObject<MomentGuide> {
+        return client.session.new()
+                .url("/moments/guide.json")
+                .param("cards_platform" to "iPhone-13")
+                .param("category_id" to "")
+                .param("contributor_details" to "1")
+                .param("ext" to "altText,info360,mediaColor,mediaRestrictions,mediaStats,stickerInfo")
+                .param("hydration_count" to "10")
+                .param("include_blocked_by" to "1")
+                .param("include_blocking" to "1")
+                .param("include_capsule_contents" to "0")
+                .param("include_cards" to "1")
+                .param("include_carousels" to "1")
+                .param("include_entities" to "1")
+                .param("include_ext_media_color" to "true")
+                .param("include_media_features" to "true")
+                .param("include_my_retweet" to "1")
+                .param("include_profile_interstitial_type" to "true")
+                .param("include_profile_location" to "true")
+                .param("include_reply_count" to "1")
+                .param("include_user_entities" to "true")
+                .param("include_user_hashtag_entities" to "true")
+                .param("include_user_mention_entities" to "true")
+                .param("include_user_symbol_entities" to "true")
+                .param("tweet_mode" to "extended")
+                .param("v" to "1473704494")
+                .params(*options)
                 .get()
                 .getResponseObject()
     }

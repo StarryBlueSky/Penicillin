@@ -4,6 +4,7 @@ import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.Cursorable
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.annotation.UndocumentedAPI
 import jp.nephy.penicillin.model.*
 import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.response.ResponseList
@@ -107,5 +108,50 @@ class Friendship(private val client: Client) {
                 .dataAsForm(*options)
                 .post()
                 .getResponseObject()
+    }
+
+    @POST @UndocumentedAPI
+    fun acceptFriendRequest(screenName: String?=null, userId: Long?=null, vararg options: Pair<String, String?>): ResponseObject<User> {
+        return client.session.new()
+                .url("/friendships/accept.json")
+                .dataAsForm("ext" to "mediaColor")
+                .dataAsForm("include_entities" to "1")
+                .dataAsForm("include_profile_interstitial_type" to "true")
+                .dataAsForm("include_profile_location" to "true")
+                .dataAsForm("include_user_entities" to "true")
+                .dataAsForm("include_user_hashtag_entities" to "true")
+                .dataAsForm("include_user_mention_entities" to "true")
+                .dataAsForm("include_user_symbol_entities" to "true")
+                .dataAsForm("screen_name" to screenName)
+                .dataAsForm("user_id" to userId)
+                .dataAsForm(*options)
+                .post()
+                .getResponseObject()
+    }
+
+    @POST @UndocumentedAPI
+    fun readAll(vararg options: Pair<String, String?>): ResponseList<User> {
+        return client.session.new()
+                .url("/friendships/read_all.json")
+                .dataAsForm("cards_platform" to "iPhone-13")
+                .dataAsForm("contributor_details" to "1")
+                .dataAsForm("ext" to "altText,info360,mediaColor,mediaRestrictions,mediaStats,stickerInfo")
+                .dataAsForm("include_cards" to "1")
+                .dataAsForm("include_carousels" to "1")
+                .dataAsForm("include_entities" to "1")
+                .dataAsForm("include_ext_media_color" to "true")
+                .dataAsForm("include_media_features" to "true")
+                .dataAsForm("include_my_retweet" to "1")
+                .dataAsForm("include_profile_interstitial_type" to "true")
+                .dataAsForm("include_profile_location" to "true")
+                .dataAsForm("include_reply_count" to "1")
+                .dataAsForm("include_user_entities" to "true")
+                .dataAsForm("include_user_hashtag_entities" to "true")
+                .dataAsForm("include_user_mention_entities" to "true")
+                .dataAsForm("include_user_symbol_entities" to "true")
+                .dataAsForm("tweet_mode" to "extended")
+                .dataAsForm(*options)
+                .post()
+                .getResponseList()
     }
 }
