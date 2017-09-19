@@ -2,7 +2,8 @@ package jp.nephy.penicillin.model
 
 import com.github.salomonbrys.kotson.byNullableString
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byNullableURL
+import jp.nephy.penicillin.converter.byConverter
+import java.net.URL
 
 class PlaceAttribute(val json: JsonElement) {
     val streetAddress by json.byNullableString("street_address")
@@ -12,7 +13,7 @@ class PlaceAttribute(val json: JsonElement) {
     val postalCode by json.byNullableString("postal_code")
     val phone by json.byNullableString
     val twitter by json.byNullableString
-    val url by json.byNullableURL
+    val url by json.byConverter<String, URL?>()
     val appId by json.byNullableString("app:id")
     val geotagCount by json.byNullableString
 }

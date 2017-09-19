@@ -1,12 +1,12 @@
 package jp.nephy.penicillin.model
 
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.*
+import jp.nephy.penicillin.converter.byList
 
 class StatusEntity(val json: JsonElement) {
-    val hashtags by json.byHashtagEntityArray
-    val media by json.byNullableMediaEntityArray
-    val symbols by json.bySymbolEntityArray
-    val userMentions by json.byUserMentionEntityArray("user_mentions")
-    val urls by json.byURLEntityArray
+    val hashtags by json.byList<HashtagEntity>()
+    val media by json.byList<MediaEntity>()
+    val symbols by json.byList<SymbolEntity>()
+    val userMentions by json.byList<UserMentionEntity>("user_mentions")
+    val urls by json.byList<URLEntity>()
 }

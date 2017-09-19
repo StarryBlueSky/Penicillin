@@ -2,9 +2,9 @@ package jp.nephy.penicillin.model
 
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byIntArray
+import jp.nephy.penicillin.converter.byList
 
 class HashtagEntity(val json: JsonElement) {
     val text by json.byString
-    val indices by json.byIntArray
+    val indices by json.byList<Int>()
 }

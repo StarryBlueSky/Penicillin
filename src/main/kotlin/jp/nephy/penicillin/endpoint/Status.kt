@@ -160,10 +160,30 @@ class Status(private val client: Client) {
     }
 
     @POST
-    fun update(status: String, inReplyToStatusId: StatusID?=null, possiblySensitive: Boolean?=null, lat: Float?=null, long: Float?=null, placeId: String?=null, displayCoordinates: Boolean?=null, trimUser: Boolean?=null, mediaIds: Array<Long>?=null, enableDMCommands: Boolean?=null, failDMCommands: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<Status> {
+    fun update(status: String, inReplyToStatusId: StatusID?=null, possiblySensitive: Boolean?=null, lat: Float?=null, long: Float?=null, placeId: String?=null, displayCoordinates: Boolean?=null, trimUser: Boolean?=null, mediaIds: Array<Long>?=null, enableDMCommands: Boolean?=null, failDMCommands: Boolean?=null, cardUri: String?=null, vararg options: Pair<String, String?>): ResponseObject<Status> {
         return client.session.new()
                 .url("/statuses/update.json")
+                .dataAsFormIfOfficial("auto_populate_reply_metadata" to "true")
+                .dataAsFormIfOfficial("batch_mode" to "off")
+                .dataAsFormIfOfficial("cards_platform" to "iPhone-13")
+                .dataAsFormIfOfficial("contributor_details" to "1")
+                .dataAsFormIfOfficial("ext" to "altText,info360,mediaColor,mediaRestrictions,mediaStats,stickerInfo")
+                .dataAsFormIfOfficial("include_cards" to "1")
+                .dataAsFormIfOfficial("include_carousels" to "1")
+                .dataAsFormIfOfficial("include_entities" to "1")
+                .dataAsFormIfOfficial("include_ext_media_color" to "true")
+                .dataAsFormIfOfficial("include_media_features" to "true")
+                .dataAsFormIfOfficial("include_my_retweet" to "1")
+                .dataAsFormIfOfficial("include_profile_interstitial_type" to "true")
+                .dataAsFormIfOfficial("include_profile_location" to "true")
+                .dataAsFormIfOfficial("include_reply_count" to "1")
+                .dataAsFormIfOfficial("include_user_entities" to "true")
+                .dataAsFormIfOfficial("include_user_hashtag_entities" to "true")
+                .dataAsFormIfOfficial("include_user_mention_entities" to "true")
+                .dataAsFormIfOfficial("include_user_symbol_entities" to "true")
+                .dataAsFormIfOfficial("tweet_mode" to "extended")
                 .dataAsForm("status" to status)
+                .dataAsForm("card_uri" to cardUri)
                 .dataAsForm("in_reply_to_status_id" to inReplyToStatusId)
                 .dataAsForm("possibly_sensitive" to possiblySensitive)
                 .dataAsForm("lat" to lat)
@@ -275,6 +295,6 @@ class Status(private val client: Client) {
                 })
         )
 
-        return update(status, options = "card_uri" to card.result.cardUri + options)
+        return update(status, cardUri=card.result.cardUri, options=*options)
     }
 }
