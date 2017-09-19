@@ -3,6 +3,7 @@ package jp.nephy.penicillin.endpoint
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.misc.StatusID
 import jp.nephy.penicillin.parameters.UserStreamFilterLevel
 import jp.nephy.penicillin.parameters.UserStreamReplies
 import jp.nephy.penicillin.parameters.UserStreamWith
@@ -84,6 +85,18 @@ class Stream(private val client: Client) {
                 .dataAsForm("locations" to locations?.toList()?.joinToString(","))
                 .params(*options)
                 .post()
+                .getResponseStream()
+    }
+
+    @GET
+    fun getLivePipeline(topic: Array<StatusID>, vararg options: Pair<String, String?>): ResponseStream {
+        return client.session.new()
+                .url("https://api.twitter.com/1.1/live_pipeline/events")
+                .param("topic" to topic.map {
+                    "/tweet_engagement/$it"
+                }.joinToString(","))
+                .params(*options)
+                .get()
                 .getResponseStream()
     }
 }
