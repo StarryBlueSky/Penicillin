@@ -8,6 +8,7 @@ data class ResponseStream(val request: Request, val response: Response) {
     fun listen(listener: IUserStreamListener) = UserStreamReceiver(this, listener)
     fun listen(listener: ISampleStreamListener) = SampleStreamReceiver(this, listener)
     fun listen(listener: IFilterStreamListener) = FilterStreamReceiver(this, listener)
+    fun listen(listener: ILivePipelineListener) = LivePipelineReceiver(this, listener)
 
     fun print() {
         println(request.toString())

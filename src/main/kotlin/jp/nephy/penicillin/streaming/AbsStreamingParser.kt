@@ -36,11 +36,7 @@ abstract class AbsStreamingParser(response: ResponseStream) {
     protected abstract fun handle(json: JsonObject)
 
     private fun readLine(callback: (JsonObject) -> Unit) {
-        while (true) {
-            if (stop) {
-                break
-            }
-
+        while (! stop) {
             val line = buffer.readLine()
             if (line != null && line.isNotEmpty()) {
                 if (! line.startsWith("{")) {
