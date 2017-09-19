@@ -1,0 +1,3 @@
+package jp.nephy.penicillin.exception
+
+class ThisRequestLooksLikeItMightBeAutomated: AbsTwitterErrorMessage(226, "This request looks like it might be automated. To protect our users from spam and other malicious activity, we can’t complete this action right now.", "We constantly monitor and adjust our filters to block spam and malicious activity on the Twitter platform. These systems are tuned in real-time. If you get this response our systems have flagged the Tweet or DM as possibly fitting this profile. If you feel that the Tweet or DM you attempted to create was flagged in error, please report the details around that to us by filing a ticket at https://support.twitter.com/forms/platform .")
