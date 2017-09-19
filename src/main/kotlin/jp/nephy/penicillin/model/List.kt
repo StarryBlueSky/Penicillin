@@ -5,11 +5,12 @@ import com.github.salomonbrys.kotson.byInt
 import com.github.salomonbrys.kotson.byLong
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byCreatedAt
-import jp.nephy.penicillin.converter.byUser
+import jp.nephy.penicillin.converter.byConverter
+import jp.nephy.penicillin.converter.byModel
+import jp.nephy.penicillin.misc.CreatedAt
 
 class List(val json: JsonElement) {
-    val createdAt by json.byCreatedAt("created_at")
+    val createdAt by json.byConverter<String, CreatedAt>("created_at")
     val description by json.byString
     val following by json.byBool
     val fullName by json.byString("full_name")
@@ -21,5 +22,5 @@ class List(val json: JsonElement) {
     val slug by json.byString
     val subscriberCount by json.byInt("subscriber_count")
     val uri by json.byString
-    val user by json.byUser
+    val user by json.byModel<User>()
 }

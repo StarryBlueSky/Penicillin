@@ -5,17 +5,15 @@ import com.github.salomonbrys.kotson.byNullableInt
 import com.github.salomonbrys.kotson.byNullableString
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byMediaProcessingInfo
-import jp.nephy.penicillin.converter.byNullableImage
-import jp.nephy.penicillin.converter.byNullableVideo
+import jp.nephy.penicillin.converter.byModel
 
 class Media(val json: JsonElement) {
     val expiresAfterSecs by json.byNullableInt("expires_after_secs")
     val mediaId by json.byLong("media_id")
     val mediaIdString by json.byString("media_id_string")
     val mediaKey by json.byNullableString("media_key")
-    val processingInfo by json.byMediaProcessingInfo("processing_info")
+    val processingInfo by json.byModel<MediaProcessingInfo>("processing_info")
     val size by json.byNullableInt
-    val image by json.byNullableImage
-    val video by json.byNullableVideo
+    val image by json.byModel<Image?>()
+    val video by json.byModel<Video?>()
 }

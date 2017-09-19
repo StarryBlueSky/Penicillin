@@ -1,6 +1,9 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.*
+import com.github.salomonbrys.kotson.byArray
+import com.github.salomonbrys.kotson.byObject
+import com.github.salomonbrys.kotson.byString
+import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 
 class HelpSettings(val json: JsonElement) {

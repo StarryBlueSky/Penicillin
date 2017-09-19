@@ -4,11 +4,12 @@ import com.github.salomonbrys.kotson.byNullableInt
 import com.github.salomonbrys.kotson.byNullableObject
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byURL
+import jp.nephy.penicillin.converter.byConverter
+import java.net.URL
 
 class Trend(val json: JsonElement) {
     val name by json.byString
-    val url by json.byURL
+    val url by json.byConverter<String, URL>()
     val promotedContent by json.byNullableObject // null
     val query by json.byString
     val tweetVolume by json.byNullableInt

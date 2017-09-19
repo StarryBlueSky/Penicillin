@@ -1,12 +1,11 @@
 package jp.nephy.penicillin.model
 
 import com.github.salomonbrys.kotson.byBool
+import com.github.salomonbrys.kotson.byNullableInt
+import com.github.salomonbrys.kotson.byNullableString
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byLanguage
-import jp.nephy.penicillin.converter.bySettingMetadata
-import jp.nephy.penicillin.converter.bySleepTime
-import jp.nephy.penicillin.converter.byTimeZone
+import jp.nephy.penicillin.converter.byModel
 
 class Setting(val json: JsonElement) {
     val addressBookLiveSyncEnabled by json.byBool("address_book_live_sync_enabled")
@@ -19,6 +18,7 @@ class Setting(val json: JsonElement) {
     val allowLoggedOutDevicePersonalization by json.byBool("allow_logged_out_device_personalization")
     val allowMediaTagging by json.byString("allow_media_tagging")
     val allowSharingDataForThirdPartyPersonalization by json.byBool("allow_sharing_data_for_third_party_personalization")
+    val altTextComposeEnabled by json.byNullableString("alt_text_compose_enabled")
     val alwaysUseHttps by json.byBool("always_use_https")
     val countryCode by json.byString("country_code")
     val discoverableByEmail by json.byBool("discoverable_by_email")
@@ -26,15 +26,18 @@ class Setting(val json: JsonElement) {
     val displaySensitiveMedia by json.byBool("display_sensitive_media")
     val dmReceiptSetting by json.byString("dm_receipt_setting")
     val geoEnabled by json.byBool("geo_enabled")
-    val language by json.byLanguage
+    val language by json.byModel<Language>()
+    val mentionFilter by json.byNullableString("mention_filter")
     val notificationsAbuseFilterQuality by json.byString("notifications_abuse_filter_quality")
     val notificationsFilterQuality by json.byString("notifications_filter_quality")
     val personalizedTrends by json.byBool("personalized_trends")
     val protected by json.byBool
+    val rankedTimelineEligible by json.byNullableString("ranked_timeline_eligible")
+    val rankedTimelineSetting by json.byNullableInt("ranked_timeline_setting")
     val screenName by json.byString("screen_name")
-    val settingsMetadata by json.bySettingMetadata("settings_metadata")
-    val sleepTime by json.bySleepTime("sleep_time")
-    val timeZone by json.byTimeZone("time_zone")
+    val settingsMetadata by json.byModel<SettingMetadata>("settings_metadata")
+    val sleepTime by json.byModel<SleepTime>("sleep_time")
+    val timeZone by json.byModel<TimeZone>("time_zone")
     val translatorType by json.byString("translator_type")
     val universalQualityFilteringEnabled by json.byString("universal_quality_filtering_enabled")
     val useCookiePersonalization by json.byBool("use_cookie_personalization")

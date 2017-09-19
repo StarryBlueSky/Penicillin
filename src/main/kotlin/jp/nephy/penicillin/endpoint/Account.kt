@@ -16,6 +16,10 @@ class Account(private val client: Client) {
     fun getSettings(vararg options: Pair<String, String?>): ResponseObject<Setting> {
         return client.session.new()
                 .url("/account/settings.json")
+                .paramIfOfficial("include_alt_text_compose" to "true")
+                .paramIfOfficial("include_mention_filter" to "true")
+                .paramIfOfficial("include_ranked_timeline" to "true")
+                .paramIfOfficial("include_universal_quality_filtering" to "true")
                 .params(*options)
                 .get()
                 .getResponseObject()
