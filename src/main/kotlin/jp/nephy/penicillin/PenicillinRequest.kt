@@ -101,6 +101,12 @@ class PenicillinRequest(private val session: Session) {
         }
     }
 
+    fun dataAsFormIfOfficial(vararg data: Pair<String, Any?>?) = this.apply {
+        if (session.useOfficialKeys) {
+            dataAsForm(*data)
+        }
+    }
+
     fun dataAsJson(vararg data: Pair<String, String>?) = this.apply {
         isJsonData = true
         data.forEach {
