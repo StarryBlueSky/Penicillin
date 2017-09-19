@@ -1,6 +1,5 @@
 package jp.nephy.penicillin.response
 
-import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.misc.RateLimit
 import okhttp3.Request
 import okhttp3.Response
