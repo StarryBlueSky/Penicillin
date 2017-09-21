@@ -1,3 +1,10 @@
+#### 1.2.0 (2017-09-21)
+
+ * Add latest PAPIs such as Live Pipelines API, Moment Guide API, Trend Plus API.
+ * Update request headers in order to support latest APIs.
+ * Add Twitter API error classes.
+ * In Json Converter, more safety parsing is available.
+
 #### 1.1.0 (2017-09-19)
 
  * Add some Private API endpoints.

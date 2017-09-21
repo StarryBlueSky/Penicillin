@@ -18,11 +18,11 @@ If you found a new Twitter API endpoint, Please tell us at [Issues](https://gith
 
 Install
 -------
-Current version is `v1.1.0`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
+Current version is `v1.2.0`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
 
 Gradle:
 ```groovy
-compile "jp.nephy:penicillin:1.1.0"
+compile "jp.nephy:penicillin:1.2.0"
 ```
 
 Maven:
@@ -30,7 +30,7 @@ Maven:
 <dependency>
     <groupId>jp.nephy</groupId>
     <artifactId>penicillin</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
