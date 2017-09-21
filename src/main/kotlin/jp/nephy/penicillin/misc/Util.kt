@@ -1,9 +1,8 @@
 package jp.nephy.penicillin.misc
 
 import java.net.URLEncoder
-import java.security.MessageDigest
+import java.security.SecureRandom
 import java.util.*
-import javax.xml.bind.DatatypeConverter
 
 class Util {
     companion object {
@@ -11,12 +10,13 @@ class Util {
 
         fun getRandomUUID() = UUID.randomUUID().toString().toUpperCase()
 
-        fun getB3TraceId(): String {
-            return DatatypeConverter.printHexBinary(
-                    MessageDigest
-                            .getInstance("MD5")
-                            .digest(getCurrentEpochTime().toString().toByteArray())
-            ).slice(0..16)
+        fun getB3TraceId(n: Int=16): String {
+            val seed = SecureRandom()
+            return StringBuilder().apply {
+                for (i in 0 .. n) {
+                    append(Integer.toHexString(seed.nextInt(16)))
+                }
+            }.toString()
         }
     }
 }
