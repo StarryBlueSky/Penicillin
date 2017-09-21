@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byString
 import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
+import jp.nephy.penicillin.converter.byModel
 
 class MomentGuide(val json: JsonElement) {
     val categoryId by json["category"].byString("category_id")
@@ -13,5 +14,6 @@ class MomentGuide(val json: JsonElement) {
     val impressionId by json.byLong("impression_id")
     val cursor by json.byString("scroll_cursor")
 
-    val moments by json.byList<MomentModule>()
+    val modules by json.byList<MomentModule>()
+    val trendModule by json.byModel<MomentTrendModule?>()
 }
