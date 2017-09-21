@@ -8,5 +8,5 @@ import jp.nephy.penicillin.converter.byModel
 class TrendPlus(val json: JsonElement) {
     val id by json.byLong
     val metadata by json.byModel<TrendMetadata>()
-    val trends by json.byList<TrendModule>("modules")
+    val trends by json.byList<TrendType>("modules")
 }

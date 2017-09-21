@@ -46,7 +46,7 @@ class Trend(private val client: Client) {
     }
 
     @GET @UndocumentedAPI
-    fun getTrendPlus(id: Long, exclude: TrendExclude?=null, vararg options: Pair<String, String?>): ResponseObject<TrendPlus> {
+    fun getTrendPlus(vararg options: Pair<String, String?>): ResponseObject<TrendPlus> {
         return client.session.new()
                 .url("/trends/plus.json")
                 .param("cards_platform" to "iPhone-13")
