@@ -1,8 +1,8 @@
-group 'jp.nephy'
-version '1.2.0'
+group "jp.nephy"
+version "1.2.0"
 
 buildscript {
-    ext.kotlin_version = '1.1.4-3'
+    ext.kotlin_version = "1.1.50"
 
     repositories {
         mavenCentral()
@@ -14,10 +14,10 @@ buildscript {
     }
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'org.jetbrains.dokka'
-apply plugin: 'maven'
-apply plugin: 'signing'
+apply plugin: "kotlin"
+apply plugin: "org.jetbrains.dokka"
+apply plugin: "maven"
+apply plugin: "signing"
 
 repositories {
     mavenCentral()
@@ -40,16 +40,16 @@ compileTestKotlin {
 }
 
 dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/javadoc"
+    outputFormat = "html"
+    outputDirectory = "$buildDir/javadoc" as Class<OutputDirectory>
 }
 
 task javadocJar(type: Jar) {
-    classifier = 'javadoc'
+    classifier = "javadoc"
     from javadoc
 }
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    classifier = "sources"
     from sourceSets.main.allSource
 }
 
@@ -58,12 +58,12 @@ artifacts {
 }
 
 signing {
-    required { hasProperty('deploy') }
+    required { hasProperty("deploy") }
     sign configurations.archives
 }
 
 sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
+    main.java.srcDirs += "src/main/kotlin"
 }
 
 if (hasProperty('deploy')) {
@@ -73,44 +73,44 @@ if (hasProperty('deploy')) {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
                 repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                    authentication userName: sonatypeUsername, password: sonatypePassword
                 }
                 snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-                    authentication(userName: sonatypeUsername, password: sonatypePassword)
+                    authentication userName: sonatypeUsername, password: sonatypePassword
                 }
 
                 pom.project {
-                    name 'Penicillin'
-                    packaging 'jar'
-                    artifactId 'penicillin'
-                    description 'Penicillin is A Simple Twitter API wrapper.'
-                    url 'https://github.com/NephyProject/Penicillin'
+                    name "Penicillin"
+                    packaging "jar"
+                    artifactId "penicillin"
+                    description "Penicillin is a simple Twitter API wrapper."
+                    url "https://github.com/NephyProject/Penicillin"
 
                     licenses {
                         license {
-                            name 'MIT'
-                            url 'http://opensource.org/licenses/MIT'
+                            name "MIT"
+                            url "http://opensource.org/licenses/MIT"
                         }
                     }
 
                     developers {
                         developer {
-                            id 'SlashNephy'
-                            name 'Slash Nephy'
-                            email 'admin@nephy.jp'
+                            id "SlashNephy"
+                            name "Slash Nephy"
+                            email "admin@nephy.jp"
                         }
                     }
 
                     scm {
-                        url 'https://github.com/NephyProject/Penicillin'
-                        connection 'scm:git:https://github.com/NephyProject/Penicillin.git'
-                        developerConnection 'scm:git:git@github.com:NephyProject/Penicillin.git'
-                        tag 'HEAD'
+                        url "https://github.com/NephyProject/Penicillin"
+                        connection "scm:git:https://github.com/NephyProject/Penicillin.git"
+                        developerConnection "scm:git:git@github.com:NephyProject/Penicillin.git"
+                        tag "HEAD"
                     }
 
                     issueManagement {
-                        system 'GitHub Issues'
-                        url 'https://github.com/NephyProject/Penicillin/issues'
+                        system "GitHub Issues"
+                        url "https://github.com/NephyProject/Penicillin/issues"
                     }
                 }
             }

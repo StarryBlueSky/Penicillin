@@ -150,7 +150,7 @@ class PenicillinRequest(private val session: Session) {
             body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), "")
         }
 
-        builder.post(body)
+        builder.post(body!!)
     }.execute()
 
     fun delete() = this.apply {
@@ -181,7 +181,7 @@ class PenicillinRequest(private val session: Session) {
             header(Pair("Authorization", sign))
         }
 
-        val request = builder.url(url).build()
+        val request = builder.url(url!!).build()
 
         for (i in 0 .. 3) {
             try {
