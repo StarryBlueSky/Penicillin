@@ -1,15 +1,10 @@
 # encoding: utf-8
-import urllib.parse
+import Util
 
 while True:
-    text = input()
-    if text.startswith("http"):
-        isGet = True
-        query = urllib.parse.urlparse(text).query
-    else:
-        isGet = False
-        query = text
+    method = input("Method (Default: GET): ").upper() or "GET"
+    url = input("URL (include params): ") or "https://api.twitter.com/1.1/users/show.json?screen_name=hytusx"
+    data = input("Form data (Default: \"\"): ") or ""
+    responseType = input("Response type (Default: Object): ") or "Object"
 
-    for q in query.split("&"):
-        k, v = [urllib.parse.unquote(x) for x in q.split("=")]
-        print(f".{'param' if isGet else 'dataAsForm'}(\"{k}\" to \"{v}\")")
+    Util.makeEndpoint(method, url, data, responseType)
