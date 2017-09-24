@@ -41,7 +41,7 @@ compileTestKotlin {
 
 dokka {
     outputFormat = "html"
-    outputDirectory = "$buildDir/javadoc" as Class<OutputDirectory>
+    outputDirectory = "$buildDir/javadoc"
 }
 
 task javadocJar(type: Jar) {
@@ -66,7 +66,7 @@ sourceSets {
     main.java.srcDirs += "src/main/kotlin"
 }
 
-if (hasProperty('deploy')) {
+if (hasProperty("deploy")) {
     uploadArchives {
         repositories {
             mavenDeployer {
