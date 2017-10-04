@@ -40,7 +40,7 @@ abstract class AbsStreamingParser(response: ResponseStream) {
 
             if (line.isNotEmpty()) {
                 if (! line.startsWith("{")) {
-                    throw TwitterAPIError("Stream get illigal character.", line)
+                    throw TwitterAPIError("Stream got illigal character.", line)
                 }
 
                 thread(name="callback", isDaemon=false) {
