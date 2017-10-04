@@ -121,11 +121,12 @@ import jp.nephy.penicillin.streaming.PrintUserStreamListener
 
 val responseStream = client.stream.getUserStream(includeFollowingsActivity = true)
 val listener = responseStream.listen(PrintUserStreamListener())
-
+        .onClose { println("Stdout: Closed.") }
+        .start()
 // process stream asynchronously (non-blocking)
 
 Thread.sleep(10000) // stop streaming after 10s
-listener.terminate()
+listener.terminate() // Stdout: Closed.
 ```
 try implementing a custom UserStream listener by inheriting `IUserStreamListener` then pass its instance to `ResponseStream#listen`.
 
