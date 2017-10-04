@@ -14,39 +14,48 @@ abstract class AbsStreamingParser(response: ResponseStream) {
     private val buffer = BufferedReader(InputStreamReader(stream))
     private var stop = false
 
-    init {
+    private var onClose: () -> Unit = {}
+
+    fun start(): AbsStreamingParser {
         thread(name="readline daemon") {
             readLine { json ->  handle(json) }
         }
+        return this
     }
-
     fun terminate() {
-        buffer.close()
-        stream.close()
-
         stop = true
     }
 
-    private fun unescape(line: String): String {
-        return line.replace("&amp;", "&")
-                .replace("&lt;", "<")
-                .replace("&gt;", ">")
+    fun onClose(callable: () -> Unit): AbsStreamingParser {
+        return this.apply {
+            onClose = callable
+        }
     }
 
     protected abstract fun handle(json: JsonObject)
 
     private fun readLine(callback: (JsonObject) -> Unit) {
         while (! stop) {
-            val line = buffer.readLine()
-            if (line != null && line.isNotEmpty()) {
+            val line = buffer.readLine() ?: break
+
+            if (line.isNotEmpty()) {
                 if (! line.startsWith("{")) {
                     throw TwitterAPIError("Stream get illigal character.", line)
                 }
 
                 thread(name="callback", isDaemon=false) {
-                    callback(gson.fromJson(unescape(line), JsonObject::class.java))
+                    callback(gson.fromJson(
+                            line.replace("&amp;", "&")
+                                .replace("&lt;", "<")
+                                .replace("&gt;", ">"),
+                            JsonObject::class.java
+                    ))
                 }
             }
         }
+
+        buffer.close()
+        stream.close()
+        onClose()
     }
 }
