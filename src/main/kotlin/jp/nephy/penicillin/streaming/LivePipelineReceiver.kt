@@ -15,10 +15,11 @@ class LivePipelineReceiver(response: ResponseStream, private val listener: ILive
             val id = StatusID(topic.split("/").last().toLong())
             val engagement = json["payload"]["tweet_engagement"]
 
-            if (engagement.obj.contains("like_count")) {
-                listener.onUpdateLikeCount(id, engagement["like_count"].asInt)
-            } else if (engagement.obj.contains("retweet_count")) {
-                listener.onUpdateRetweetCount(id, engagement["retweet_count"].asInt)
+            when {
+                engagement.obj.contains("like_count") -> listener.onUpdateLikeCount(id, engagement["like_count"].asInt)
+                engagement.obj.contains("retweet_count") -> listener.onUpdateRetweetCount(id, engagement["retweet_count"].asInt)
+                engagement.obj.contains("reply_count") -> listener.onUpdateReplyCount(id, engagement["reply_count"].asInt)
+                else -> listener.onUnknownData(json.toString())
             }
         } else {
             listener.onUnknownData(json.toString())
