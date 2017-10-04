@@ -9,6 +9,9 @@ class PrintLivePipelineListener : ILivePipelineListener {
     override fun onUpdateRetweetCount(id: StatusID, count: Int) {
         println("Status $id: Retweet -> $count")
     }
+    override fun onUpdateReplyCount(id: StatusID, count: Int) {
+        println("Status $id: Reply -> $count")
+    }
 
     override fun onUnknownData(data: String) {
         println("Unknown Data: $data")
