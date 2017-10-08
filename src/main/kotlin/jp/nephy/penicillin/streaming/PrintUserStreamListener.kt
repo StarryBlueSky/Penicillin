@@ -4,7 +4,7 @@ import jp.nephy.penicillin.model.*
 
 class PrintUserStreamListener : IUserStreamListener {
     override fun onStatus(status: Status) {
-        println("Tweet: ${status.text} by @${status.user.screenName}")
+        println("Tweet: ${status.fullText()} by @${status.user.screenName}")
     }
 
     override fun onDirectMessage(message: DirectMessage) {
@@ -12,23 +12,23 @@ class PrintUserStreamListener : IUserStreamListener {
     }
 
     override fun onFavorite(event: StatusEvent) {
-        println("Favorite: @${event.source.screenName} liked @${event.target.screenName}'s `${event.targetObject.text}`.")
+        println("Favorite: @${event.source.screenName} liked @${event.target.screenName}'s `${event.targetObject.fullText()}`.")
     }
 
     override fun onUnfavorite(event: StatusEvent) {
-        println("Unfavorite: @${event.source.screenName} unliked @${event.target.screenName}'s `${event.targetObject.text}`.")
+        println("Unfavorite: @${event.source.screenName} unliked @${event.target.screenName}'s `${event.targetObject.fullText()}`.")
     }
 
     override fun onFavoritedRetweet(event: StatusEvent) {
-        println("Favorited Retweet: @${event.source.screenName} retweeted @${event.target.screenName}'s `${event.targetObject.text}` that @${event.target.screenName} liked.")
+        println("Favorited Retweet: @${event.source.screenName} retweeted @${event.target.screenName}'s `${event.targetObject.fullText()}` that @${event.target.screenName} liked.")
     }
 
     override fun onRetweetedRetweet(event: StatusEvent) {
-        println("Retweeted Retweet: @${event.source.screenName} retweeted @${event.target.screenName}'s `${event.targetObject.text}` that @${event.target.screenName} retweeted too.")
+        println("Retweeted Retweet: @${event.source.screenName} retweeted @${event.target.screenName}'s `${event.targetObject.fullText()}` that @${event.target.screenName} retweeted too.")
     }
 
     override fun onQuotedTweet(event: StatusEvent) {
-        println("Quoted: @${event.source.screenName} quoted @${event.target.screenName}'s `${event.targetObject.text}`.")
+        println("Quoted: @${event.source.screenName} quoted @${event.target.screenName}'s `${event.targetObject.fullText()}`.")
     }
 
     override fun onListCreated(event: ListEvent) {

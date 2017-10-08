@@ -5,7 +5,7 @@ import jp.nephy.penicillin.model.Status
 
 class PrintFilterStreamListener : IFilterStreamListener {
     override fun onStatus(status: Status) {
-        println("Tweet: ${status.text} by @${status.user.screenName}")
+        println("Tweet: ${status.fullText()} by @${status.user.screenName}")
     }
 
     override fun onDelete(delete: Delete) {
