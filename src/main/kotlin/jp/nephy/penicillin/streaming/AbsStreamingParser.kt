@@ -8,7 +8,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.concurrent.thread
 
-abstract class AbsStreamingParser(response: ResponseStream) {
+abstract class AbsStreamingParser<T>(response: ResponseStream<T>) {
     private val gson = Gson()
     private val stream = response.response.body()!!.byteStream()
     private val buffer = BufferedReader(InputStreamReader(stream))
@@ -16,7 +16,7 @@ abstract class AbsStreamingParser(response: ResponseStream) {
 
     private var onClose: () -> Unit = {}
 
-    fun start(): AbsStreamingParser {
+    fun start(): AbsStreamingParser<T> {
         thread(name="readline daemon") {
             readLine { json ->  handle(json) }
         }
@@ -26,7 +26,7 @@ abstract class AbsStreamingParser(response: ResponseStream) {
         stop = true
     }
 
-    fun onClose(callable: () -> Unit): AbsStreamingParser {
+    fun onClose(callable: () -> Unit): AbsStreamingParser<T> {
         return this.apply {
             onClose = callable
         }

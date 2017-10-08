@@ -5,7 +5,7 @@ import jp.nephy.penicillin.model.Delete
 import jp.nephy.penicillin.model.Status
 import jp.nephy.penicillin.response.ResponseStream
 
-class FilterStreamReceiver(response: ResponseStream, private val listener: IFilterStreamListener): AbsStreamingParser(response) {
+class FilterStreamReceiver(response: ResponseStream<IFilterStreamListener>, private val listener: IFilterStreamListener): AbsStreamingParser<IFilterStreamListener>(response) {
     override fun handle(json: JsonObject) = when {
         json.has("text") -> listener.onStatus(Status(json))
         json.has("delete") -> listener.onDelete(Delete(json))

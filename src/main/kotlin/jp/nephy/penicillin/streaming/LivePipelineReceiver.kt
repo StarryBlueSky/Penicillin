@@ -7,7 +7,7 @@ import com.google.gson.JsonObject
 import jp.nephy.penicillin.misc.StatusID
 import jp.nephy.penicillin.response.ResponseStream
 
-class LivePipelineReceiver(response: ResponseStream, private val listener: ILivePipelineListener): AbsStreamingParser(response) {
+class LivePipelineReceiver(response: ResponseStream<ILivePipelineListener>, private val listener: ILivePipelineListener): AbsStreamingParser<ILivePipelineListener>(response) {
     override fun handle(json: JsonObject) {
         val topic = json["topic"].asString
 

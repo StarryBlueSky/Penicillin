@@ -1,8 +1,11 @@
 package jp.nephy.penicillin.streaming
 
 import jp.nephy.penicillin.model.*
+import jp.nephy.penicillin.response.ResponseStream
 
-interface IUserStreamListener {
+interface IUserStreamListener: IListener<IUserStreamListener> {
+    override fun getReceiver(response: ResponseStream<IUserStreamListener>) = UserStreamReceiver(response, this)
+
     /* Status */
     fun onStatus(status: Status)
     fun onDirectMessage(message: DirectMessage)
