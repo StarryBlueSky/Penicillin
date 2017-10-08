@@ -57,12 +57,14 @@ class Status(val json: JsonElement) {
     val withheldScope by json.byNullableString("withheld_scope")
 
     fun fullText(): String {
-        return if (! truncated) {
-            text
+        return if (retweetedStatus != null && retweetedStatus!!.truncated) {
+            "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.extendedTweet!!.fullText}"
         } else if (fullText != null) {
             fullText!!
-        } else {
+        } else if (truncated) {
             extendedTweet!!.fullText!!
+        } else {
+            text
         }
     }
 }
