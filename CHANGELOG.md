@@ -1,3 +1,10 @@
+#### 1.2.1 (2017-10-08)
+
+ * Streaming API endpoints now support type-safety to Streaming Listener. (e.g. when you use #getUserStream(), you may no longer use ISampleStreamListener)
+ * Fix the issue that RT does not get full text with Status#fullText().
+ * Support replies count tracking in LivePipeline API.
+ * Add AbsStreamingParser#onClose {}. It's called when stream gets disconnected.
+ 
 #### 1.2.0 (2017-09-21)
 
  * Add latest PAPIs such as Live Pipelines API, Moment Guide API, Trend Plus API.
