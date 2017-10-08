@@ -1,6 +1,8 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.*
+import com.github.salomonbrys.kotson.byInt
+import com.github.salomonbrys.kotson.byNullableString
+import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
 
