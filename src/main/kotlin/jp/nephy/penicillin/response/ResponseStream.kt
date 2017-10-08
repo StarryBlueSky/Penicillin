@@ -1,6 +1,6 @@
 package jp.nephy.penicillin.response
 
-import jp.nephy.penicillin.streaming.*
+import jp.nephy.penicillin.streaming.IListener
 import okhttp3.Request
 import okhttp3.Response
 

@@ -11,7 +11,10 @@ import jp.nephy.penicillin.parameters.UserStreamReplies
 import jp.nephy.penicillin.parameters.UserStreamWith
 import jp.nephy.penicillin.response.ResponseObject
 import jp.nephy.penicillin.response.ResponseStream
-import jp.nephy.penicillin.streaming.*
+import jp.nephy.penicillin.streaming.IFilterStreamListener
+import jp.nephy.penicillin.streaming.ILivePipelineListener
+import jp.nephy.penicillin.streaming.ISampleStreamListener
+import jp.nephy.penicillin.streaming.IUserStreamListener
 
 class Stream(private val client: Client) {
     @GET
