@@ -3,10 +3,13 @@ package jp.nephy.penicillin.endpoint
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.GET
 import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.annotation.UndocumentedAPI
 import jp.nephy.penicillin.misc.StatusID
+import jp.nephy.penicillin.model.LivePipelineSubscription
 import jp.nephy.penicillin.parameters.UserStreamFilterLevel
 import jp.nephy.penicillin.parameters.UserStreamReplies
 import jp.nephy.penicillin.parameters.UserStreamWith
+import jp.nephy.penicillin.response.ResponseObject
 import jp.nephy.penicillin.response.ResponseStream
 
 class Stream(private val client: Client) {
@@ -88,7 +91,7 @@ class Stream(private val client: Client) {
                 .getResponseStream()
     }
 
-    @GET
+    @GET @UndocumentedAPI
     fun getLivePipeline(topic: Array<StatusID>, vararg options: Pair<String, String?>): ResponseStream {
         return client.session.new()
                 .url("https://api.twitter.com/1.1/live_pipeline/events")
@@ -98,5 +101,17 @@ class Stream(private val client: Client) {
                 .params(*options)
                 .get()
                 .getResponseStream()
+    }
+
+    @POST @UndocumentedAPI
+    fun updateLivePipeline(ids: Array<StatusID>, vararg options: Pair<String, String?>): ResponseObject<LivePipelineSubscription> {
+        return client.session.new()
+                .url("/live_pipeline/update_subscriptions")
+                .param("sub_topics" to ids.map {
+                    "/tweet_engagement/$it"
+                }.joinToString(","))
+                .dataAsForm(*options)
+                .post()
+                .getResponseObject()
     }
 }

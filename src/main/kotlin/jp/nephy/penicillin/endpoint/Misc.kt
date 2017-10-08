@@ -137,18 +137,6 @@ class Misc(private val client: Client) {
                 .getResponseObject()
     }
 
-    @POST @UndocumentedAPI
-    fun updateLivePipeline(ids: Array<StatusID>, vararg options: Pair<String, String?>): ResponseObject<LivePipelineSubscription> {
-        return client.session.new()
-                .url("/live_pipeline/update_subscriptions")
-                .param("sub_topics" to ids.map {
-                    "/tweet_engagement/$it"
-                }.joinToString(","))
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
-    }
-
     @GET @UndocumentedAPI
     fun getDMUserUpdate(cursor: String, vararg options: Pair<String, String?>): ResponseObject<DMUserUpdate> {
         return client.session.new()
