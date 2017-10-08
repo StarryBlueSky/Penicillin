@@ -11,10 +11,11 @@ import jp.nephy.penicillin.parameters.UserStreamReplies
 import jp.nephy.penicillin.parameters.UserStreamWith
 import jp.nephy.penicillin.response.ResponseObject
 import jp.nephy.penicillin.response.ResponseStream
+import jp.nephy.penicillin.streaming.*
 
 class Stream(private val client: Client) {
     @GET
-    fun getUserStream(delimited: String?=null, stallWarnings: Boolean?=null, with: UserStreamWith?=null, replies: UserStreamReplies?=null, track: Array<String>?=null, filterLevel: UserStreamFilterLevel?=null, language: String?=null, follow: Array<Long>?=null, locations: Pair<Float, Float>?=null, count: Int?=null, includeFollowingsActivity: Boolean?=null, vararg options: Pair<String, String?>): ResponseStream {
+    fun getUserStream(delimited: String?=null, stallWarnings: Boolean?=null, with: UserStreamWith?=null, replies: UserStreamReplies?=null, track: Array<String>?=null, filterLevel: UserStreamFilterLevel?=null, language: String?=null, follow: Array<Long>?=null, locations: Pair<Float, Float>?=null, count: Int?=null, includeFollowingsActivity: Boolean?=null, vararg options: Pair<String, String?>): ResponseStream<IUserStreamListener> {
         return client.session.new()
                 .url("https://userstream.twitter.com/1.1/user.json")
                 .param("delimited" to delimited)
@@ -46,7 +47,7 @@ class Stream(private val client: Client) {
     }
 
     @GET
-    fun getSiteStream(delimited: String?=null, stallWarnings: Boolean?=null, with: UserStreamWith?=null, replies: UserStreamReplies?=null, follow: Array<Long>?=null, vararg options: Pair<String, String?>): ResponseStream {
+    fun getSiteStream(delimited: String?=null, stallWarnings: Boolean?=null, with: UserStreamWith?=null, replies: UserStreamReplies?=null, follow: Array<Long>?=null, vararg options: Pair<String, String?>): ResponseStream<IUserStreamListener> {
         return client.session.new()
                 .url("https://sitestream.twitter.com/1.1/site.json")
                 .param("delimited" to delimited)
@@ -67,7 +68,7 @@ class Stream(private val client: Client) {
     }
 
     @GET
-    fun getSampleStream(delimited: String?=null, stallWarnings: Boolean?=null, vararg options: Pair<String, String?>): ResponseStream {
+    fun getSampleStream(delimited: String?=null, stallWarnings: Boolean?=null, vararg options: Pair<String, String?>): ResponseStream<ISampleStreamListener> {
         return client.session.new()
                 .url("https://stream.twitter.com/1.1/statuses/sample.json")
                 .param("delimited" to delimited)
@@ -78,7 +79,7 @@ class Stream(private val client: Client) {
     }
 
     @POST
-    fun getFilterStream(delimited: String?=null, stallWarnings: Boolean?=null, track: Array<String>?=null, follow: Array<Long>?=null, locations: Pair<Float, Float>?=null, vararg options: Pair<String, String?>): ResponseStream {
+    fun getFilterStream(delimited: String?=null, stallWarnings: Boolean?=null, track: Array<String>?=null, follow: Array<Long>?=null, locations: Pair<Float, Float>?=null, vararg options: Pair<String, String?>): ResponseStream<IFilterStreamListener> {
         return client.session.new()
                 .url("https://stream.twitter.com/1.1/statuses/filter.json")
                 .dataAsForm("delimited" to delimited)
@@ -92,7 +93,7 @@ class Stream(private val client: Client) {
     }
 
     @GET @UndocumentedAPI
-    fun getLivePipeline(topic: Array<StatusID>, vararg options: Pair<String, String?>): ResponseStream {
+    fun getLivePipeline(topic: Array<StatusID>, vararg options: Pair<String, String?>): ResponseStream<ILivePipelineListener> {
         return client.session.new()
                 .url("https://api.twitter.com/1.1/live_pipeline/events")
                 .param("topic" to topic.map {

@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.penicillin.model.*
 import jp.nephy.penicillin.response.ResponseStream
 
-class UserStreamReceiver(response: ResponseStream, private val listener: IUserStreamListener): AbsStreamingParser(response) {
+class UserStreamReceiver(response: ResponseStream<IUserStreamListener>, private val listener: IUserStreamListener): AbsStreamingParser<IUserStreamListener>(response) {
     override fun handle(json: JsonObject) = when {
         json.has("text") -> listener.onStatus(Status(json))
         json.has("direct_message") -> listener.onDirectMessage(DirectMessage(json))

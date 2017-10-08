@@ -45,7 +45,7 @@ class PenicillinResponse(val request: Request, val response: Response) {
 
     fun getContent() = response.body()?.string() ?: ""
 
-    fun getResponseStream() = ResponseStream(request, response)
+    fun <T> getResponseStream() = ResponseStream<T>(request, response)
 
     fun getResponseText(): ResponseText {
         val content = getContent()
