@@ -32,10 +32,10 @@ class Status(private val client: Client) {
     }
 
     @GET
-    fun getStatuses(id: StatusID, trimUser: Boolean?=null, map: Boolean?=null, includeEntities: Boolean?=null, includeExtAltText: Boolean?=null, vararg options: Pair<String, String?>): ResponseList<Status> {
+    fun getStatuses(id: Array<StatusID>, trimUser: Boolean?=null, map: Boolean?=null, includeEntities: Boolean?=null, includeExtAltText: Boolean?=null, vararg options: Pair<String, String?>): ResponseList<Status> {
         return client.session.new()
                 .url("/statuses/lookup.json")
-                .param("id" to id)
+                .param("id" to id.joinToString(","))
                 .param("trim_user" to trimUser)
                 .param("map" to map)
                 .param("include_entities" to includeEntities)
