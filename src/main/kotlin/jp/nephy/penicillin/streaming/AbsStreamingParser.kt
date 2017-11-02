@@ -6,6 +6,8 @@ import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.response.ResponseStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.net.SocketException
+import java.net.SocketTimeoutException
 import kotlin.concurrent.thread
 
 abstract class AbsStreamingParser<T>(response: ResponseStream<T>) {
@@ -36,7 +38,13 @@ abstract class AbsStreamingParser<T>(response: ResponseStream<T>) {
 
     private fun readLine(callback: (JsonObject) -> Unit) {
         while (! stop) {
-            val line = buffer.readLine() ?: break
+            val line = try {
+                buffer.readLine() ?: break
+            } catch (e: SocketException) {
+                break
+            } catch (e: SocketTimeoutException) {
+                break
+            }
 
             if (line.isNotEmpty()) {
                 if (! line.startsWith("{")) {
