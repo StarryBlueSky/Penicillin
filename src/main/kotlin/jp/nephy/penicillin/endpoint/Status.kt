@@ -202,6 +202,7 @@ class Status(private val client: Client) {
                 .dataAsFormIfOfficial("include_user_mention_entities" to "true")
                 .dataAsFormIfOfficial("include_user_symbol_entities" to "true")
                 .dataAsFormIfOfficial("tweet_mode" to "extended")
+                .dataAsFormIfOfficial("weighted_character_count" to "true")
                 .dataAsForm("status" to status)
                 .dataAsForm("card_uri" to cardUri)
                 .dataAsForm("in_reply_to_status_id" to inReplyToStatusId)
