@@ -27,16 +27,16 @@ class PenicillinRequest(private val session: Session) {
     private var callbackUrl: String? = null
 
     private val defaultHeaders = listOf(
-        "kdt" to "", // known device token
+        "kdt" to "", // TODO: Generate known device token(kdt)
         "X-Twitter-Client-DeviceID" to "00000000-0000-0000-0000-000000000000",
-        "X-Twitter-Client-Version" to "7.7",
+        "X-Twitter-Client-Version" to "7.10",
         "Accept" to "*/*",
         "X-Client-UUID" to Util.getRandomUUID(),
         "X-Twitter-Client-Language" to "ja",
         "X-B3-TraceId" to Util.getB3TraceId(),
         "Accept-Language" to "ja",
         "X-Twitter-Client" to "Twitter-iPhone",
-        "User-Agent" to "Twitter-iPhone/7.7 iOS/10.2 (Apple;iPhone8,2;;;;;1)",
+        "User-Agent" to "Twitter-iPhone/7.10 iOS/10.2 (Apple;iPhone8,2;;;;;1)",
         "X-Twitter-Client-Limit-Ad-Tracking" to "1",
         "X-Twitter-API-Version" to "5",
         "X-Twitter-UTCOffset" to "+0900",
