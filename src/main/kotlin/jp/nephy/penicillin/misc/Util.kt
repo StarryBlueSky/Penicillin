@@ -34,5 +34,10 @@ internal fun String.toURLEncode(): String {
     }.toString()
 }
 
+internal fun String.unescapeHTMLCharacters() = this
+        .replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+
 internal fun ByteArray.toBase64Encode() = Base64.getEncoder().encodeToString(this)
 internal fun String.toBase64Encode() = this.toByteArray().toBase64Encode()
