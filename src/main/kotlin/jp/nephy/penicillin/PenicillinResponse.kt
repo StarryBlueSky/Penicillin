@@ -4,6 +4,7 @@ import com.github.salomonbrys.kotson.get
 import com.google.gson.*
 import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.misc.RateLimit
+import jp.nephy.penicillin.misc.unescapeHTMLCharacters
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 import jp.nephy.penicillin.response.ResponseStream
@@ -43,7 +44,7 @@ class PenicillinResponse(val request: Request, val response: Response) {
         }
     }
 
-    fun getContent() = response.body()?.string() ?: ""
+    fun getContent() = (response.body()?.string() ?: "").unescapeHTMLCharacters()
 
     fun <T> getResponseStream() = ResponseStream<T>(request, response)
 

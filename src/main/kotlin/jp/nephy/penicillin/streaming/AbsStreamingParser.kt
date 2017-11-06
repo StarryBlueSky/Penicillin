@@ -3,6 +3,7 @@ package jp.nephy.penicillin.streaming
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import jp.nephy.penicillin.exception.TwitterAPIError
+import jp.nephy.penicillin.misc.unescapeHTMLCharacters
 import jp.nephy.penicillin.response.ResponseStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -53,9 +54,7 @@ abstract class AbsStreamingParser<T>(response: ResponseStream<T>) {
 
                 thread(name="callback", isDaemon=false) {
                     callback(gson.fromJson(
-                            line.replace("&amp;", "&")
-                                .replace("&lt;", "<")
-                                .replace("&gt;", ">"),
+                            line.unescapeHTMLCharacters(),
                             JsonObject::class.java
                     ))
                 }
