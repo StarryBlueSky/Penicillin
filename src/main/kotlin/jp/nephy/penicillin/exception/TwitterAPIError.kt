@@ -29,6 +29,7 @@ class TwitterAPIError(msg: String, content: String, code: Int?=null, errorMessag
                 161 -> YouAreUnableToFollowMorePeopleAtThisTime()
                 179 -> SorryYouAreNotAuthorizedToSeeThisStatus()
                 185 -> UserIsOverDailyStatusUpdateLimit()
+                186 -> StatusIsOver140Characters()
                 187 -> StatusIsADuplicate()
                 205 -> YouAreOverTheLimitForSpamReports()
                 214 -> BadRequest()
