@@ -3,7 +3,6 @@ package jp.nephy.penicillin
 import com.github.salomonbrys.kotson.get
 import com.google.gson.*
 import jp.nephy.penicillin.exception.TwitterAPIError
-import jp.nephy.penicillin.misc.RateLimit
 import jp.nephy.penicillin.misc.unescapeHTMLCharacters
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
@@ -51,7 +50,7 @@ class PenicillinResponse(val request: Request, val response: Response) {
     fun getResponseText(): ResponseText {
         val content = getContent()
         checkError(content)
-        return ResponseText(content, request, response, RateLimit(response.headers()))
+        return ResponseText(content, request, response)
     }
 
     @Throws(TwitterAPIError::class)
@@ -77,7 +76,7 @@ class PenicillinResponse(val request: Request, val response: Response) {
             throw TwitterAPIError("Json is null. Use Empty class instead of ${T::class.java.simpleName}.", content)
         }
 
-        return ResponseObject(result, content, request, response, RateLimit(response.headers()))
+        return ResponseObject(result, content, request, response)
     }
 
     @Throws(TwitterAPIError::class)
@@ -93,7 +92,7 @@ class PenicillinResponse(val request: Request, val response: Response) {
             throw TwitterAPIError("Invalid Json format returned.", content)
         }
 
-        return ResponseList<T>(content, request, response, RateLimit(response.headers())).apply {
+        return ResponseList<T>(content, request, response).apply {
             json.forEach {
                 try {
                     add(T::class.java.getConstructor(JsonElement::class.java).newInstance(it))
