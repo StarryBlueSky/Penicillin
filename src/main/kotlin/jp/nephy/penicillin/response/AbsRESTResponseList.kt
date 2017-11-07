@@ -10,6 +10,11 @@ abstract class AbsRESTResponseList<T>(val content: String, val request: Request,
     val headers = originalHeaders.toMultimap()
     val rateLimit = RateLimit(originalHeaders)
     val accessLevel = AccessLevel.getLevel(originalHeaders)
+    val responseTimeMs = if (originalHeaders["x-response-time"] != null) {
+        originalHeaders["x-response-time"]!!.toInt()
+    } else {
+        null
+    }
 
     fun print() {
         println(request.toString())
@@ -22,6 +27,7 @@ abstract class AbsRESTResponseList<T>(val content: String, val request: Request,
         println("Data size: ${this.size}")
         println("Ratelimit: ${rateLimit.remaining} / ${rateLimit.limit} (reset at ${rateLimit.resetAtEpoch?.toDate()})")
         println("AccessLevel: $accessLevel")
+        println("This request has done in $responseTimeMs ms.")
         println()
     }
 }
