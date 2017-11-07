@@ -2,10 +2,8 @@ package jp.nephy.penicillin.misc
 
 class Source(private val source: String) {
     private val tag = ATagParser(source)
-    val sourceUrl = tag.getAttributes()["href"]
-    val sourceName = tag.getValue()
-    val viaUrl = sourceUrl
-    val viaName = sourceName
+    val url = tag.getAttributes().getOrDefault("href", "http://localhost")
+    val name = tag.getValue()
 
     override fun toString(): String = source
 }
