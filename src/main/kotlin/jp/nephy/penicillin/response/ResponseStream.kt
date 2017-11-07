@@ -4,7 +4,7 @@ import jp.nephy.penicillin.streaming.IListener
 import okhttp3.Request
 import okhttp3.Response
 
-data class ResponseStream<T>(val request: Request, val response: Response) {
+class ResponseStream<T>(val request: Request, val response: Response) {
     @Suppress("UNCHECKED_CAST")
     fun listen(listener: T) = (listener as IListener<T>).getReceiver(this)
 
