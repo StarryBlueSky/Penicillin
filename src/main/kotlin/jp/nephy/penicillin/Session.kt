@@ -6,7 +6,7 @@ import jp.nephy.penicillin.auth.OAuth2RequestTokenHandler
 import jp.nephy.penicillin.auth.OAuthAuthHandler
 import jp.nephy.penicillin.auth.OAuthRequestTokenHandler
 import jp.nephy.penicillin.credential.*
-import jp.nephy.penicillin.misc.AuthorizationType
+import jp.nephy.penicillin.auth.AuthorizationType
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.Protocol

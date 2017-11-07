@@ -3,7 +3,7 @@ package jp.nephy.penicillin.endpoint
 import com.google.gson.Gson
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.*
-import jp.nephy.penicillin.misc.AuthorizationType
+import jp.nephy.penicillin.auth.AuthorizationType
 import jp.nephy.penicillin.misc.StatusID
 import jp.nephy.penicillin.model.CursorIds
 import jp.nephy.penicillin.model.Embed
