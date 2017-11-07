@@ -1,12 +1,8 @@
 package jp.nephy.penicillin
 
 import jp.nephy.penicillin.annotation.MustBeCalled
-import jp.nephy.penicillin.auth.OAuth2AuthHandler
-import jp.nephy.penicillin.auth.OAuth2RequestTokenHandler
-import jp.nephy.penicillin.auth.OAuthAuthHandler
-import jp.nephy.penicillin.auth.OAuthRequestTokenHandler
+import jp.nephy.penicillin.auth.*
 import jp.nephy.penicillin.credential.*
-import jp.nephy.penicillin.auth.AuthorizationType
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.Protocol

@@ -3,8 +3,8 @@ package jp.nephy.penicillin.endpoint
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.POST
 import jp.nephy.penicillin.annotation.Recipe
-import jp.nephy.penicillin.credential.BearerToken
 import jp.nephy.penicillin.auth.AuthorizationType
+import jp.nephy.penicillin.credential.BearerToken
 import jp.nephy.penicillin.model.OAuth2Token
 import jp.nephy.penicillin.response.ResponseObject
 

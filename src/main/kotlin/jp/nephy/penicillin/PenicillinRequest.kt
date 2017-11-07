@@ -2,8 +2,8 @@ package jp.nephy.penicillin
 
 import com.google.gson.Gson
 import jp.nephy.penicillin.annotation.MustBeCalled
-import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.auth.AuthorizationType
+import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.misc.HTTPMethod
 import jp.nephy.penicillin.misc.Util
 import jp.nephy.penicillin.misc.toURLEncode
