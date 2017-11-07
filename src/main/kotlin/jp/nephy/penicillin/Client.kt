@@ -1,9 +1,9 @@
 package jp.nephy.penicillin
 
+import jp.nephy.penicillin.auth.AuthorizationType
 import jp.nephy.penicillin.endpoint.*
 import jp.nephy.penicillin.endpoint.Collection
 import jp.nephy.penicillin.endpoint.List
-import jp.nephy.penicillin.auth.AuthorizationType
 
 class Client(val session: Session) {
     companion object {
