@@ -19,7 +19,7 @@ open class CoverMedia(val json: JsonElement) {
     val mediaHeight by json["media"]["size"].byInt("h")
 
     val renderCropSquare by json["render"]["crops"].byModel<FaceCoordinate>("square")
-    val renderCropPortrait9_16 by json["render"]["crops"].byModel<FaceCoordinate>("portrait_9_16")
-    val renderCropPortrait3_4 by json["render"]["crops"].byModel<FaceCoordinate>("portrait_3_4")
-    val renderCropPortrait16_9 by json["render"]["crops"].byModel<FaceCoordinate>("portrait_16_9")
+    val renderCropPortrait9to16 by json["render"]["crops"].byModel<FaceCoordinate>("portrait_9_16")
+    val renderCropPortrait3to4 by json["render"]["crops"].byModel<FaceCoordinate>("portrait_3_4")
+    val renderCropPortrait16to9 by json["render"]["crops"].byModel<FaceCoordinate>("portrait_16_9")
 }
