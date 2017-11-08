@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
 
+@Suppress("UNUSED")
 class Media(private val client: Client) {
     @POST
     fun createMetadata(mediaId: Long, vararg options: Pair<String, String>): ResponseObject<Empty> {

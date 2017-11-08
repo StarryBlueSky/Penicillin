@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 
+@Suppress("UNUSED")
 class UserMentionEntity(val json: JsonElement) {
     val screenName by json.byString("screen_name")
     val name by json.byString

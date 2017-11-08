@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
 
+@Suppress("UNUSED")
 class CardState(val json: JsonElement) {
     val name by json["card"].byString
     val url by json["card"].byString

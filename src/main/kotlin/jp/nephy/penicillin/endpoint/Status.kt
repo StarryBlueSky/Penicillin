@@ -16,6 +16,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("UNUSED")
 class Status(private val client: Client) {
     @GET
     fun getStatus(id: StatusID, trimUser: Boolean?=null, includeMyRetweet: Boolean?=null, includeEntities: Boolean?=null, includeExtAltText: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<Status> {

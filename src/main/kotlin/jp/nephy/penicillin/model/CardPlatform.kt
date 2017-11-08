@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byString
 import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 
+@Suppress("UNUSED")
 class CardPlatform(val json: JsonElement) {
     val deviceName by json["platform"]["device"].byString("name")
     val deviceVersion by json["platform"]["device"].byString("version")

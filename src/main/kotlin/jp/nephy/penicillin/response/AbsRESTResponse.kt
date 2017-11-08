@@ -5,6 +5,7 @@ import jp.nephy.penicillin.misc.RateLimit
 import okhttp3.Request
 import okhttp3.Response
 
+@Suppress("UNUSED")
 abstract class AbsRESTResponse(val content: String, val request: Request, val response: Response) {
     private val originalHeaders = response.headers()
     val headers = originalHeaders.toMultimap()

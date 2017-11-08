@@ -4,6 +4,7 @@ import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
 
+@Suppress("UNUSED")
 class UserProfileBanner(val json: JsonElement) {
     val _1080x360 by json["sizes"].byModel<Banner?>("1080x360")
     val _1500x500 by json.byModel<Banner?>("1500x500")

@@ -5,6 +5,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 import jp.nephy.penicillin.converter.byModel
 
+@Suppress("UNUSED")
 class GeoResult(val json: JsonElement) {
     val query by json.byModel<GeoQuery>()
     val result by json["result"].byList<Place>("places")

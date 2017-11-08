@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byLong
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 
+@Suppress("UNUSED")
 class RelationshipSource(val json: JsonElement) {
     val allReplies by json.byBool("all_replies")
     val blockedBy by json.byBool("blocked_by")

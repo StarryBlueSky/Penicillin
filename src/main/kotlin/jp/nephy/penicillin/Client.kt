@@ -5,6 +5,7 @@ import jp.nephy.penicillin.endpoint.*
 import jp.nephy.penicillin.endpoint.Collection
 import jp.nephy.penicillin.endpoint.List
 
+@Suppress("UNUSED")
 class Client(val session: Session) {
     companion object {
         fun builder() = ClientBuilder()

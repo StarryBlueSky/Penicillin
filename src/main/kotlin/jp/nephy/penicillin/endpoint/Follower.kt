@@ -7,6 +7,7 @@ import jp.nephy.penicillin.model.CursorIds
 import jp.nephy.penicillin.model.CursorUsers
 import jp.nephy.penicillin.response.ResponseObject
 
+@Suppress("UNUSED")
 class Follower(private val client: Client) {
     @GET @Cursorable
     fun getIds(userId: Long?=null, screenName: String?=null, stringifyIds: Boolean?=null, count: Int?=null, vararg options: Pair<String, String?>): ResponseObject<CursorIds> {

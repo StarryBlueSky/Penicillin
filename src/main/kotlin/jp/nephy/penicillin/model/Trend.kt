@@ -7,6 +7,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byConverter
 import java.net.URL
 
+@Suppress("UNUSED")
 class Trend(val json: JsonElement) {
     val name by json.byString
     val url by json.byConverter<String, URL>()

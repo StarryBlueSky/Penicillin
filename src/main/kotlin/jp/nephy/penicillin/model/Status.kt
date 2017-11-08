@@ -11,6 +11,7 @@ import jp.nephy.penicillin.misc.Language
 import jp.nephy.penicillin.misc.Source
 import jp.nephy.penicillin.misc.StatusID
 
+@Suppress("UNUSED")
 class Status(val json: JsonElement) {
     val contributors by json.byList<Contributor>()
     val conversationId by json.byNullableLong("conversation_id")

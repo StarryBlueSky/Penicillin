@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 
+@Suppress("UNUSED")
 class CursorUsers(val json: JsonElement) {
     val nextCursor by json.byLong("next_cursor")
     val nextCursorStr by json.byString("next_cursor_str")

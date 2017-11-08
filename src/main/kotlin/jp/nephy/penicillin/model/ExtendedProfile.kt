@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
 
+@Suppress("UNUSED")
 class ExtendedProfile(val json: JsonElement) {
     val id by json.byLong
     val idStr by json.byString

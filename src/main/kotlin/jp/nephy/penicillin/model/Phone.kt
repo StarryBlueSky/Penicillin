@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byNullableLong
 import com.github.salomonbrys.kotson.byNullableString
 import com.google.gson.JsonElement
 
+@Suppress("UNUSED")
 class Phone(val json: JsonElement) {
     val address by json.byNullableString
     val addressForSms by json.byNullableString("address_for_sms")

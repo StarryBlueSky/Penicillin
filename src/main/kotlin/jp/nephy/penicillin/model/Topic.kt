@@ -6,6 +6,7 @@ import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 
+@Suppress("UNUSED")
 class Topic(val json: JsonElement) {
     val inline by json.byBool
     val roundedScore by json.byInt("rounded_score")

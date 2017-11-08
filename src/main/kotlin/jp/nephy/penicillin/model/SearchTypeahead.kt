@@ -6,6 +6,7 @@ import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 
+@Suppress("UNUSED")
 class SearchTypeahead(val json: JsonElement) {
     val completedIn by json.byFloat("completed_in")
     val hashtags by json.byList<String>()

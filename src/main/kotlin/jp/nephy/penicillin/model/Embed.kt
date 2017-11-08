@@ -6,6 +6,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byConverter
 import java.net.URL
 
+@Suppress("UNUSED")
 class Embed(val json: JsonElement) {
     val authorName by json.byString("author_name")
     val authorUrl by json.byConverter<String, URL>("author_url")

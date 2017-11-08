@@ -8,6 +8,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
 import jp.nephy.penicillin.misc.Language
 
+@Suppress("UNUSED")
 class Setting(val json: JsonElement) {
     val addressBookLiveSyncEnabled by json.byBool("address_book_live_sync_enabled")
     val allowAdsPersonalization by json.byBool("allow_ads_personalization")

@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 
+@Suppress("UNUSED")
 class FriendshipsLookup(val json: JsonElement) {
     val connections by json.byList<String>()
     val id by json.byLong

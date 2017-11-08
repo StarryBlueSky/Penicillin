@@ -8,6 +8,7 @@ import jp.nephy.penicillin.model.Card
 import jp.nephy.penicillin.model.CardState
 import jp.nephy.penicillin.response.ResponseObject
 
+@Suppress("UNUSED")
 class Card(private val client: Client) {
     @POST @UndocumentedAPI
     fun create(cardData: String, vararg options: Pair<String, String?>): ResponseObject<Card> {

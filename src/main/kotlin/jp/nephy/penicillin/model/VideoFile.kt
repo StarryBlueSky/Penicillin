@@ -6,6 +6,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byConverter
 import java.net.URL
 
+@Suppress("UNUSED")
 class VideoFile(val json: JsonElement) {
     val bitrate by json.byNullableInt
     val contentType by json.byString("content_type")

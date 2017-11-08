@@ -4,6 +4,7 @@ import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 
+@Suppress("UNUSED")
 class Coordinate(val json: JsonElement) {
     val coordinates by json.byList<Float>()
     val type by json.byString

@@ -7,6 +7,7 @@ import jp.nephy.penicillin.converter.byModel
 import jp.nephy.penicillin.misc.CreatedAt
 import java.net.URL
 
+@Suppress("UNUSED")
 class Moment(val json: JsonElement) {
     val id by json["moment"].byString
     val title by json["moment"].byString

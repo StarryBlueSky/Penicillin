@@ -8,6 +8,7 @@ import jp.nephy.penicillin.converter.byConverter
 import jp.nephy.penicillin.converter.byModel
 import java.net.URL
 
+@Suppress("UNUSED")
 class TrendArea(val json: JsonElement) {
     val country by json.byString
     val countryCode by json.byNullableString // null

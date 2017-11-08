@@ -11,6 +11,7 @@ import jp.nephy.penicillin.parameters.MediaType
 import jp.nephy.penicillin.response.ResponseObject
 import java.net.URL
 
+@Suppress("UNUSED")
 class Account(private val client: Client) {
     @GET
     fun getSettings(vararg options: Pair<String, String?>): ResponseObject<Setting> {

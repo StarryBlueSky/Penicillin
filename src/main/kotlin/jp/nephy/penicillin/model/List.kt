@@ -9,6 +9,7 @@ import jp.nephy.penicillin.converter.byConverter
 import jp.nephy.penicillin.converter.byModel
 import jp.nephy.penicillin.misc.CreatedAt
 
+@Suppress("UNUSED")
 class List(val json: JsonElement) {
     val createdAt by json.byConverter<String, CreatedAt>("created_at")
     val description by json.byString

@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byString
 import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 
+@Suppress("UNUSED")
 class DMUserUpdate(val json: JsonElement) {
     val userEvents by json.byObject("user_events")
 

@@ -6,6 +6,7 @@ import jp.nephy.penicillin.converter.byConverter
 import jp.nephy.penicillin.converter.byModel
 import jp.nephy.penicillin.misc.CreatedAt
 
+@Suppress("UNUSED")
 class ListEvent(val json: JsonElement) {
     val event by json.byString
     val source by json.byModel<User>()

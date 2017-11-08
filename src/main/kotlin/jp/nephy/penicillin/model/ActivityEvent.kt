@@ -7,6 +7,7 @@ import jp.nephy.penicillin.converter.byConverter
 import jp.nephy.penicillin.converter.byList
 import jp.nephy.penicillin.misc.CreatedAt
 
+@Suppress("UNUSED")
 class ActivityEvent(val json: JsonElement) {
     val action by json.byString
     val maxPosition by json.byString("max_position")

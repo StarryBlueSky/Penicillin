@@ -2,6 +2,7 @@ package jp.nephy.penicillin.streaming
 
 import jp.nephy.penicillin.misc.StatusID
 
+@Suppress("UNUSED")
 class PrintLivePipelineListener : ILivePipelineListener {
     override fun onUpdateLikeCount(id: StatusID, count: Int) {
         println("Status $id: Like -> $count")
