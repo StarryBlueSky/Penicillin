@@ -7,6 +7,7 @@ import jp.nephy.penicillin.converter.byList
 import jp.nephy.penicillin.converter.byModel
 import jp.nephy.penicillin.misc.Country
 import jp.nephy.penicillin.misc.CreatedAt
+import jp.nephy.penicillin.misc.Language
 import jp.nephy.penicillin.misc.Source
 import jp.nephy.penicillin.misc.StatusID
 

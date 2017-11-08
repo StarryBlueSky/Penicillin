@@ -6,6 +6,7 @@ import com.github.salomonbrys.kotson.byNullableString
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
+import jp.nephy.penicillin.misc.Language
 
 class Setting(val json: JsonElement) {
     val addressBookLiveSyncEnabled by json.byBool("address_book_live_sync_enabled")
