@@ -5,6 +5,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 import jp.nephy.penicillin.misc.StatusID
 
+@Suppress("UNUSED")
 class TrendTarget(val json: JsonElement) {
     val query by json.byString
     val pinnedTweets by json.byList<StatusID>("pinned_tweets", {it.asLong})

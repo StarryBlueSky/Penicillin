@@ -6,6 +6,7 @@ import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 
+@Suppress("UNUSED")
 class StatusWithheld(val json: JsonElement) {
     val userId by json["status_withheld"].byLong("user_id")
     val id by json["status_withheld"].byLong

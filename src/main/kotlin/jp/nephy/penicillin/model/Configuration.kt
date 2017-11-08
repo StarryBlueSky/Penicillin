@@ -7,6 +7,7 @@ import jp.nephy.penicillin.converter.byList
 import jp.nephy.penicillin.converter.byModel
 import java.net.URL
 
+@Suppress("UNUSED")
 class Configuration(val json: JsonElement) {
     val charactersReservedPerMedia by json.byInt("characters_reserved_per_media")
     val clientEventUrl by json.byConverter<String, URL>("client_event_url")

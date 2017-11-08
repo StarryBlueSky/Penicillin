@@ -13,6 +13,7 @@ import jp.nephy.penicillin.parameters.ListCreationMode
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
+@Suppress("UNUSED")
 class List(private val client: Client) {
     @GET
     fun getList(listId: Long?=null, slug: String?=null, ownerScreenName: String?=null, ownerId: Long?=null, vararg options: Pair<String, String?>): ResponseObject<List> {

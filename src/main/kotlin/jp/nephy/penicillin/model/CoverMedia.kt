@@ -8,6 +8,7 @@ import jp.nephy.penicillin.converter.byConverter
 import jp.nephy.penicillin.converter.byModel
 import java.net.URL
 
+@Suppress("UNUSED")
 open class CoverMedia(val json: JsonElement) {
     val tweetId by json.byString("tweet_id")
     val type by json.byString

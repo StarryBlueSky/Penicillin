@@ -10,6 +10,7 @@ import jp.nephy.penicillin.converter.byModel
 import jp.nephy.penicillin.misc.StatusID
 import java.net.URL
 
+@Suppress("UNUSED")
 class MediaEntity(val json: JsonElement) {
     val additionalMediaInfo by json.byModel<AdditionalMediaInfo?>("additional_media_info")
     val displayUrl by json.byString("display_url")

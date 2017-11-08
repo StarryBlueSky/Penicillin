@@ -10,6 +10,7 @@ import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
+@Suppress("UNUSED")
 class Friendship(private val client: Client) {
     @GET
     fun getRelationship(sourceId: Long?=null, sourceScreenName: String?=null, targetId: Long?=null, targetScreenName: String?=null, vararg options: Pair<String, String?>): ResponseObject<FriendshipsShow> {

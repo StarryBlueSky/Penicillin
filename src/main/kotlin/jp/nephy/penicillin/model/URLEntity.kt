@@ -5,6 +5,7 @@ import jp.nephy.penicillin.converter.byConverter
 import jp.nephy.penicillin.converter.byList
 import java.net.URL
 
+@Suppress("UNUSED")
 class URLEntity(val json: JsonElement) {
     val url by json.byConverter<String, URL>()
     val expandedUrl by json.byConverter<String, URL>("expanded_url")

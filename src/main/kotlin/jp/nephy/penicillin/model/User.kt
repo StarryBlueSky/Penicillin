@@ -11,6 +11,7 @@ import jp.nephy.penicillin.misc.Language
 import jp.nephy.penicillin.misc.StatusID
 import java.net.URL
 
+@Suppress("UNUSED")
 open class User(val json: JsonElement) {
     val advertiserAccountServiceLevels by json.byList<String>("advertiser_account_service_levels")
     val advertiserAccountType by json.byNullableString("advertiser_account_type")

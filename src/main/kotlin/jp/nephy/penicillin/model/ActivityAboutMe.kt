@@ -6,6 +6,7 @@ import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 
+@Suppress("UNUSED")
 class ActivityAboutMe(val json: JsonElement) {
     val activityEvents by json.byList<ActivityEvent>()
     val genericActivities by json.byObject("generic_activities")

@@ -16,6 +16,7 @@ import jp.nephy.penicillin.streaming.ILivePipelineListener
 import jp.nephy.penicillin.streaming.ISampleStreamListener
 import jp.nephy.penicillin.streaming.IUserStreamListener
 
+@Suppress("UNUSED")
 class Stream(private val client: Client) {
     @GET
     fun getUserStream(delimited: String?=null, stallWarnings: Boolean?=null, with: UserStreamWith?=null, replies: UserStreamReplies?=null, track: Array<String>?=null, filterLevel: UserStreamFilterLevel?=null, language: String?=null, follow: Array<Long>?=null, locations: Pair<Float, Float>?=null, count: Int?=null, includeFollowingsActivity: Boolean?=null, vararg options: Pair<String, String?>): ResponseStream<IUserStreamListener> {

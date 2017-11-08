@@ -4,6 +4,7 @@ import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
 
+@Suppress("UNUSED")
 class Resources(val json: JsonElement) {
     val accountLoginVerificationEnrollment by json["account"].byModel<ApplicationRateLimit?>("/account/login_verification_enrollment")
     val accountLoginVerificationEnrollmentV2 by json["account"].byModel<ApplicationRateLimit?>("/account/login_verification_enrollment_v2")

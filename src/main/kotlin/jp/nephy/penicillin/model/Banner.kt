@@ -5,6 +5,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byConverter
 import java.net.URL
 
+@Suppress("UNUSED")
 class Banner(val json: JsonElement) {
     val h by json.byInt
     val w by json.byInt

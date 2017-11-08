@@ -10,6 +10,7 @@ import jp.nephy.penicillin.model.DirectMessage
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
+@Suppress("UNUSED")
 class DirectMessage(private val client: Client) {
     @GET
     fun getMessage(id: Long, vararg options: Pair<String, String?>): ResponseObject<DirectMessage> {

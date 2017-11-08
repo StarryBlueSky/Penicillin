@@ -7,6 +7,7 @@ import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
 
+@Suppress("UNUSED")
 class Media(val json: JsonElement) {
     val expiresAfterSecs by json.byNullableInt("expires_after_secs")
     val mediaId by json.byLong("media_id")

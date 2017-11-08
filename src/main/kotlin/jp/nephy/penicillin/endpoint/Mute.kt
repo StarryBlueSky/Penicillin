@@ -9,6 +9,7 @@ import jp.nephy.penicillin.model.CursorUsers
 import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.response.ResponseObject
 
+@Suppress("UNUSED")
 class Mute(private val client: Client) {
     @GET
     @Cursorable

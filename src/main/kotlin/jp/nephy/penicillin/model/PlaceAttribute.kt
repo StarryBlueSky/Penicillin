@@ -5,6 +5,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byConverter
 import java.net.URL
 
+@Suppress("UNUSED")
 class PlaceAttribute(val json: JsonElement) {
     val streetAddress by json.byNullableString("street_address")
     val locality by json.byNullableString

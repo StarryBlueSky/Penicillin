@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byString
 import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonElement
 
+@Suppress("UNUSED")
 class Delete(val json: JsonElement) {
     val timestampMs by json["delete"].byString("timestamp_ms")
     val statusId by json["delete"]["status"].byLong("id")

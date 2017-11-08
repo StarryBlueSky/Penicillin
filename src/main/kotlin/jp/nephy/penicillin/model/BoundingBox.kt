@@ -4,6 +4,7 @@ import com.github.salomonbrys.kotson.byArray
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 
+@Suppress("UNUSED")
 class BoundingBox(val json: JsonElement) {
     val type by json.byString
     val coordinates by json.byArray

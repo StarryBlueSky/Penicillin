@@ -6,6 +6,7 @@ import com.github.salomonbrys.kotson.byLong
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 
+@Suppress("UNUSED")
 class SearchMetadata(val json: JsonElement) {
     val completedIn by json.byFloat("completed_in")
     val count by json.byInt

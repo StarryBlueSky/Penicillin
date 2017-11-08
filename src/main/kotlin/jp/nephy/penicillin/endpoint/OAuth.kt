@@ -13,6 +13,7 @@ import jp.nephy.penicillin.misc.HTTPMethod
 import jp.nephy.penicillin.response.ResponseText
 import java.net.URL
 
+@Suppress("UNUSED")
 class OAuth(private val client: Client) {
     @POST
     fun getRequestTokenResponse(callbackUrl: String?=null, vararg options: Pair<String, String?>): ResponseText {

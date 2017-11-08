@@ -5,6 +5,7 @@ import com.github.salomonbrys.kotson.byLong
 import com.github.salomonbrys.kotson.byString
 import com.google.gson.JsonElement
 
+@Suppress("UNUSED")
 class PushDevice(val json: JsonElement) {
     val appVersion by json.byInt("app_version")
     val availableLevels by json.byInt("available_levels")

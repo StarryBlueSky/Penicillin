@@ -7,6 +7,7 @@ import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byList
 import jp.nephy.penicillin.converter.byModel
 
+@Suppress("UNUSED")
 class MomentGuide(val json: JsonElement) {
     val categoryId by json["category"].byString("category_id")
     val categoryName by json["category"].byString("name")

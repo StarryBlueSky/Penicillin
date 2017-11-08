@@ -3,6 +3,7 @@ package jp.nephy.penicillin.streaming
 import jp.nephy.penicillin.model.Delete
 import jp.nephy.penicillin.model.Status
 
+@Suppress("UNUSED")
 class PrintFilterStreamListener : IFilterStreamListener {
     override fun onStatus(status: Status) {
         println("Tweet: ${status.fullText()} by @${status.user.screenName}")

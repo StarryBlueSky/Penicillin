@@ -7,6 +7,7 @@ import jp.nephy.penicillin.model.*
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
+@Suppress("UNUSED")
 class Help(private val client: Client) {
     @GET
     fun getConfiguration(vararg options: Pair<String, String?>): ResponseObject<Configuration> {

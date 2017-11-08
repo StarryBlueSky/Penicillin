@@ -10,6 +10,7 @@ import jp.nephy.penicillin.converter.byModel
 import jp.nephy.penicillin.misc.Country
 import java.net.URL
 
+@Suppress("UNUSED")
 class Place(val json: JsonElement) {
     val attributes by json.byModel<PlaceAttribute>()
     val boundingBox by json.byModel<BoundingBox>("bounding_box")

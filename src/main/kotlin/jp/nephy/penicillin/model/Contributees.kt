@@ -4,6 +4,7 @@ import com.github.salomonbrys.kotson.byBool
 import com.google.gson.JsonElement
 import jp.nephy.penicillin.converter.byModel
 
+@Suppress("UNUSED")
 class Contributees(val json: JsonElement) {
     val admin by json.byBool
     val user by json.byModel<User>()

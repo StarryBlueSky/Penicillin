@@ -7,6 +7,7 @@ import jp.nephy.penicillin.converter.byList
 import jp.nephy.penicillin.converter.byModel
 import java.net.URL
 
+@Suppress("UNUSED")
 class UserTypeahead(val json: JsonElement) {
     val canMediaTag by json.byBool("can_media_tag")
     val connectingUserCount by json.byInt("connecting_user_count")
