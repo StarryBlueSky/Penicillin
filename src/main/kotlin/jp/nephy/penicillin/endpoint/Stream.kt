@@ -100,9 +100,9 @@ class Stream(private val client: Client) {
     fun getLivePipeline(topic: Array<StatusID>, vararg options: Pair<String, String?>): ResponseStream<ILivePipelineListener> {
         return client.session.new()
                 .url("https://api.twitter.com/1.1/live_pipeline/events")
-                .param("topic" to topic.map {
+                .param("topic" to topic.joinToString(",") {
                     "/tweet_engagement/$it"
-                }.joinToString(","))
+                })
                 .params(*options)
                 .get()
                 .getResponseStream()
@@ -112,9 +112,9 @@ class Stream(private val client: Client) {
     fun updateLivePipeline(ids: Array<StatusID>, vararg options: Pair<String, String?>): ResponseObject<LivePipelineSubscription> {
         return client.session.new()
                 .url("/live_pipeline/update_subscriptions")
-                .param("sub_topics" to ids.map {
+                .param("sub_topics" to ids.joinToString(",") {
                     "/tweet_engagement/$it"
-                }.joinToString(","))
+                })
                 .dataAsForm(*options)
                 .post()
                 .getResponseObject()

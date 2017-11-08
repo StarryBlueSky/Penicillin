@@ -8,7 +8,7 @@ import okhttp3.Response
 @Suppress("UNUSED")
 abstract class AbsRESTResponse(val content: String, val request: Request, val response: Response) {
     private val originalHeaders = response.headers()
-    val headers = originalHeaders.toMultimap()
+    val headers: Map<String, List<String>> = originalHeaders.toMultimap()
     val rateLimit = RateLimit(originalHeaders)
     val accessLevel = AccessLevel.getLevel(originalHeaders)
     val responseTimeMs = if (originalHeaders["x-response-time"] != null) {

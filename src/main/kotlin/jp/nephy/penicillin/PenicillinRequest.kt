@@ -74,9 +74,9 @@ class PenicillinRequest(private val session: Session) {
         }
     }
 
-    private fun expandParameters(vararg params: Pair<String, Any?>?) = params.filterNotNull().filter { it.second != null }.map {
+    private fun expandParameters(vararg params: Pair<String, Any?>?) = params.filterNotNull().filter { it.second != null }.joinToString("&") {
         "${it.first.toURLEncode()}=${it.second.toString().toURLEncode()}"
-    }.joinToString("&")
+    }
 
     fun param(param: Pair<String, Any?>?) = this.apply {
         if (param?.second != null) {
