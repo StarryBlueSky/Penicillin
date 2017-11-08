@@ -188,7 +188,7 @@ class PenicillinRequest(private val session: Session) {
                 return PenicillinResponse(request, session.httpClient.newCall(request).execute())
 
             } catch (e: ConnectException) {
-                println("Connection failed. Try again in 3secs.")
+                println("Connection failed. Try again in 3 secs.")
                 e.printStackTrace()
                 Thread.sleep(3000)
             }
