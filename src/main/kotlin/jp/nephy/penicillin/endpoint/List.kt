@@ -10,6 +10,7 @@ import jp.nephy.penicillin.model.List
 import jp.nephy.penicillin.model.Status
 import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.parameters.ListCreationMode
+import jp.nephy.penicillin.response.ResponseCursorObject
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
@@ -59,7 +60,7 @@ class List(private val client: Client) {
     }
 
     @GET @Cursorable
-    fun getMembers(listId: Long?=null, slug: String?=null, ownerScreenName: String?=null, ownerId: Long?=null, count: Int?=null, includeEntities: Boolean?=null, skipStatus: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<CursorUsers> {
+    fun getMembers(listId: Long?=null, slug: String?=null, ownerScreenName: String?=null, ownerId: Long?=null, count: Int?=null, includeEntities: Boolean?=null, skipStatus: Boolean?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorUsers> {
         return client.session.new()
                 .url("/lists/members.json")
                 .param("list_id" to listId)
@@ -71,11 +72,11 @@ class List(private val client: Client) {
                 .param("skip_status" to skipStatus)
                 .params(*options)
                 .get()
-                .getResponseObject()
+                .getResponseCursorObject()
     }
 
     @GET @Cursorable
-    fun getSubscribers(listId: Long?=null, slug: String?=null, ownerScreenName: String?=null, ownerId: Long?=null, count: Int?=null, includeEntities: Boolean?=null, skipStatus: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<CursorUsers> {
+    fun getSubscribers(listId: Long?=null, slug: String?=null, ownerScreenName: String?=null, ownerId: Long?=null, count: Int?=null, includeEntities: Boolean?=null, skipStatus: Boolean?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorUsers> {
         return client.session.new()
                 .url("/lists/subscribers.json")
                 .param("list_id" to listId)
@@ -87,11 +88,11 @@ class List(private val client: Client) {
                 .param("skip_status" to skipStatus)
                 .params(*options)
                 .get()
-                .getResponseObject()
+                .getResponseCursorObject()
     }
 
     @GET @Cursorable
-    fun getOwnerships(userId: Long?=null, screenName: String?=null, count: Int?=null, vararg options: Pair<String, String?>): ResponseObject<CursorLists> {
+    fun getOwnerships(userId: Long?=null, screenName: String?=null, count: Int?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorLists> {
         return client.session.new()
                 .url("/lists/ownerships.json")
                 .param("user_id" to userId)
@@ -99,11 +100,11 @@ class List(private val client: Client) {
                 .param("count" to count)
                 .params(*options)
                 .get()
-                .getResponseObject()
+                .getResponseCursorObject()
     }
 
     @GET @Cursorable
-    fun getMemberships(userId: Long?=null, screenName: String?=null, count: Int?=null, filterToOwnedLists: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<CursorLists> {
+    fun getMemberships(userId: Long?=null, screenName: String?=null, count: Int?=null, filterToOwnedLists: Boolean?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorLists> {
         return client.session.new()
                 .url("/lists/memberships.json")
                 .param("user_id" to userId)
@@ -112,11 +113,11 @@ class List(private val client: Client) {
                 .param("filter_to_owned_lists" to filterToOwnedLists)
                 .params(*options)
                 .get()
-                .getResponseObject()
+                .getResponseCursorObject()
     }
 
     @GET @Cursorable
-    fun getSubscriptions(userId: Long?=null, screenName: String?=null, count: Int?=null, vararg options: Pair<String, String?>): ResponseObject<CursorLists> {
+    fun getSubscriptions(userId: Long?=null, screenName: String?=null, count: Int?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorLists> {
         return client.session.new()
                 .url("/lists/subscriptions.json")
                 .param("user_id" to userId)
@@ -124,7 +125,7 @@ class List(private val client: Client) {
                 .param("count" to count)
                 .params(*options)
                 .get()
-                .getResponseObject()
+                .getResponseCursorObject()
     }
 
     @GET
