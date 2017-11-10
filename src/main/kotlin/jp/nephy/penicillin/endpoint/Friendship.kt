@@ -7,6 +7,7 @@ import jp.nephy.penicillin.annotation.POST
 import jp.nephy.penicillin.annotation.UndocumentedAPI
 import jp.nephy.penicillin.model.*
 import jp.nephy.penicillin.model.User
+import jp.nephy.penicillin.response.ResponseCursorObject
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
@@ -47,23 +48,23 @@ class Friendship(private val client: Client) {
     }
 
     @GET @Cursorable
-    fun getReceivedFollowRequests(stringifyIds: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<CursorIds> {
+    fun getReceivedFollowRequests(stringifyIds: Boolean?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorIds> {
         return client.session.new()
                 .url("/friendships/incoming.json")
                 .param("stringify_ids" to stringifyIds)
                 .params(*options)
                 .get()
-                .getResponseObject()
+                .getResponseCursorObject()
     }
 
     @GET @Cursorable
-    fun getSentFollowRequests(stringifyIds: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<CursorIds> {
+    fun getSentFollowRequests(stringifyIds: Boolean?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorIds> {
         return client.session.new()
                 .url("/friendships/outgoing.json")
                 .param("stringify_ids" to stringifyIds)
                 .params(*options)
                 .get()
-                .getResponseObject()
+                .getResponseCursorObject()
     }
 
     @POST

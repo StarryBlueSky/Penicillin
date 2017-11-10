@@ -4,15 +4,14 @@ import com.github.salomonbrys.kotson.get
 import com.google.gson.*
 import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.misc.unescapeHTMLCharacters
-import jp.nephy.penicillin.response.ResponseList
-import jp.nephy.penicillin.response.ResponseObject
-import jp.nephy.penicillin.response.ResponseStream
-import jp.nephy.penicillin.response.ResponseText
+import jp.nephy.penicillin.response.*
 import okhttp3.Request
 import okhttp3.Response
 import java.lang.reflect.InvocationTargetException
 
-class PenicillinResponse(val request: Request, val response: Response) {
+class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Request, val response: Response) {
+    private var content: String? = null
+
     fun checkError(content: String) {
         if (! response.isSuccessful) {
             try {
@@ -43,7 +42,12 @@ class PenicillinResponse(val request: Request, val response: Response) {
         }
     }
 
-    fun getContent() = (response.body()?.string() ?: "").unescapeHTMLCharacters()
+    fun getContent(): String {
+        if (content == null) {
+            content = (response.body()?.string() ?: "").unescapeHTMLCharacters()
+        }
+        return content!!
+    }
 
     fun <T> getResponseStream() = ResponseStream<T>(request, response)
 
@@ -53,19 +57,26 @@ class PenicillinResponse(val request: Request, val response: Response) {
         return ResponseText(content, request, response)
     }
 
+    fun getJsonObject(content: String) = try {
+        Gson().fromJson(content, JsonObject::class.java)
+    } catch (e: JsonSyntaxException) {
+        e.printStackTrace()
+        throw TwitterAPIError("Invalid Json format returned.", content)
+    }
+
+    fun getJsonArray(content: String) = try {
+        Gson().fromJson(content, JsonArray::class.java)
+    } catch (e: JsonSyntaxException) {
+        e.printStackTrace()
+        throw TwitterAPIError("Invalid Json format returned.", content)
+    }
+
     @Throws(TwitterAPIError::class)
     inline fun <reified T> getResponseObject(): ResponseObject<T> {
         val content = getContent()
-
         checkError(content)
 
-        val jsonObject = try {
-            Gson().fromJson(content, JsonObject::class.java)
-        } catch (e: JsonSyntaxException) {
-            e.printStackTrace()
-            throw TwitterAPIError("Invalid Json format returned.", content)
-        }
-
+        val jsonObject = getJsonObject(content)
         val result = try {
             T::class.java.getConstructor(JsonElement::class.java).newInstance(jsonObject)
         } catch (e: NullPointerException) {
@@ -80,20 +91,26 @@ class PenicillinResponse(val request: Request, val response: Response) {
     }
 
     @Throws(TwitterAPIError::class)
+    inline fun <reified T> getResponseCursorObject(): ResponseCursorObject<T> {
+        val response = getResponseObject<T>()
+        return ResponseCursorObject(T::class.java, response.result, response.content, prevRequest, response.request, response.response)
+    }
+
+    @Throws(TwitterAPIError::class)
+    fun <T> getResponseCursorObjectByClass(klass: Class<T>): ResponseCursorObject<T> {
+        val jsonObject = getJsonObject(getContent())
+        val result = klass.getConstructor(JsonElement::class.java).newInstance(jsonObject)
+        return ResponseCursorObject(klass, result, getContent(), prevRequest, request, response)
+    }
+
+    @Throws(TwitterAPIError::class)
     inline fun <reified T> getResponseList(): ResponseList<T> {
         val content = getContent()
-
         checkError(content)
 
-        val json = try {
-            Gson().fromJson(content, JsonArray::class.java)
-        } catch (e: JsonSyntaxException) {
-            e.printStackTrace()
-            throw TwitterAPIError("Invalid Json format returned.", content)
-        }
-
+        val jsonArray = getJsonArray(content)
         return ResponseList<T>(content, request, response).apply {
-            json.forEach {
+            jsonArray.forEach {
                 try {
                     add(T::class.java.getConstructor(JsonElement::class.java).newInstance(it))
                 } catch (e: NullPointerException) {

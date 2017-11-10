@@ -10,6 +10,7 @@ import jp.nephy.penicillin.model.Embed
 import jp.nephy.penicillin.model.Search
 import jp.nephy.penicillin.model.Status
 import jp.nephy.penicillin.parameters.*
+import jp.nephy.penicillin.response.ResponseCursorObject
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 import java.io.File
@@ -47,14 +48,14 @@ class Status(private val client: Client) {
     }
 
     @GET @Cursorable
-    fun getRetweeterIds(id: StatusID, stringifyIds: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<CursorIds> {
+    fun getRetweeterIds(id: StatusID, stringifyIds: Boolean?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorIds> {
         return client.session.new()
                 .url("/statuses/retweeters/ids.json")
                 .param("id" to id)
                 .param("stringify_ids" to stringifyIds)
                 .params(*options)
                 .get()
-                .getResponseObject()
+                .getResponseCursorObject()
     }
 
     @GET
