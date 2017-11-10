@@ -18,8 +18,8 @@ class PenicillinRequest(private val session: Session) {
     private var method: HTTPMethod? = null
     private var url: String? = null
     private var originalUrl: String? = null
-    private var params = mutableListOf<Pair<String, String>>()
-    private var data = mutableListOf<Pair<String, String>>()
+    private var params = linkedMapOf<String, String>()
+    private var data = linkedMapOf<String, String>()
     private var body: RequestBody? = null
     private var hasFile: Boolean = false
     private var isFormData: Boolean = false
@@ -74,13 +74,13 @@ class PenicillinRequest(private val session: Session) {
         }
     }
 
-    private fun expandParameters(vararg params: Pair<String, Any?>?) = params.filterNotNull().filter { it.second != null }.joinToString("&") {
-        "${it.first.toURLEncode()}=${it.second.toString().toURLEncode()}"
+    private fun expandParameters(params: Map<String, String>): String {
+        return params.map { "${it.key.toURLEncode()}=${it.value.toURLEncode()}" }.joinToString("&")
     }
 
     fun param(param: Pair<String, Any?>?) = this.apply {
         if (param?.second != null) {
-            params.add(Pair(param.first, param.second.toString()))
+            params.put(param.first, param.second.toString())
         }
     }
 
@@ -96,11 +96,11 @@ class PenicillinRequest(private val session: Session) {
         }
     }
 
-    fun dataAsForm(vararg data: Pair<String, Any?>?) = this.apply {
+    fun dataAsForm(vararg forms: Pair<String, Any?>?) = this.apply {
         isFormData = true
-        data.forEach {
+        forms.forEach {
             if (it?.second != null) {
-                this.data.add(Pair(it.first, it.second.toString()))
+                data.put(it.first, it.second.toString())
             }
         }
     }
@@ -111,11 +111,11 @@ class PenicillinRequest(private val session: Session) {
         }
     }
 
-    fun dataAsJson(vararg data: Pair<String, String>?) = this.apply {
+    fun dataAsJson(vararg jsons: Pair<String, String>?) = this.apply {
         isJsonData = true
-        data.forEach {
+        jsons.forEach {
             if (it?.second != null) {
-                this.data.add(Pair(it.first, it.second))
+                data.put(it.first, it.second)
             }
         }
     }
@@ -126,7 +126,7 @@ class PenicillinRequest(private val session: Session) {
                 .setType(MultipartBody.FORM)
                 .apply {
                     data.forEach {
-                        addFormDataPart(it.first, it.second.toURLEncode())
+                        addFormDataPart(it.key, it.value.toURLEncode())
                     }
                 }
                 .addFormDataPart(name, "blob", RequestBody.create(MediaType.parse(contentType), file))
@@ -142,7 +142,7 @@ class PenicillinRequest(private val session: Session) {
         method = HTTPMethod.POST
 
         if (isFormData) {
-            body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(*data.toTypedArray()))
+            body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(data))
         } else if (isJsonData) {
             body = RequestBody.create(MediaType.parse("application/json"), Gson().toJson(data))
         }
@@ -159,10 +159,11 @@ class PenicillinRequest(private val session: Session) {
     }.execute()
 
     private fun execute(): PenicillinResponse {
+        var requestUrl = url
         if (params.isNotEmpty()) {
-            url += "?${expandParameters(*params.toTypedArray())}"
+            requestUrl += "?${expandParameters(params)}"
         }
-        if (url == null) {
+        if (requestUrl == null) {
             throw IllegalStateException("url must be non-null.")
         }
 
@@ -171,8 +172,8 @@ class PenicillinRequest(private val session: Session) {
         }
 
         val sign = when (authorizationType) {
-            AuthorizationType.OAuth1a -> session.oauth!!.sign(method!!, originalUrl!!, params + data, hasFile)
-            AuthorizationType.OAuth1aRequestToken -> session.oauthrt!!.sign(method!!, originalUrl!!, params + data, callbackUrl)
+            AuthorizationType.OAuth1a -> session.oauth!!.sign(method!!, originalUrl!!, (params + data).toList(), hasFile)
+            AuthorizationType.OAuth1aRequestToken -> session.oauthrt!!.sign(method!!, originalUrl!!, (params + data).toList(), callbackUrl)
             AuthorizationType.OAuth2 -> session.oauth2!!.sign()
             AuthorizationType.OAuth2RequestToken -> session.oauth2rt!!.sign()
             else -> null
@@ -181,11 +182,11 @@ class PenicillinRequest(private val session: Session) {
             header(Pair("Authorization", sign))
         }
 
-        val request = builder.url(url!!).build()
+        val request = builder.url(requestUrl).build()
 
         for (i in 0 .. 3) {
             try {
-                return PenicillinResponse(request, session.httpClient.newCall(request).execute())
+                return PenicillinResponse(this, request, session.httpClient.newCall(request).execute())
 
             } catch (e: ConnectException) {
                 println("Connection failed. Try again in 3 secs.")
