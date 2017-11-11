@@ -13,6 +13,7 @@ Penicillin: *Twitter* *API* *wrapper* for *Kotlin*
 - Supports some private Twitter API such as *Polling* *Tweets*.
 - Because all available endpoint parameters are named arguments of the method, it is easy to use APIs.
 - Since all response models are defined, it's possible by IDE to complement response fields.
+- Supports cursoring. In endpoints that uses `cursor`, you can use `.next()`, `.all()` and so on.
 
 If you found a new Twitter API endpoint, Please tell us at [Issues](https://github.com/NephyProject/Penicillin/issues). We'll investigate it soon.
 
@@ -93,6 +94,22 @@ responseList.forEach {
 ```
 
 
+Retrieve the entire follower list. (Cursoring sample)
+```kotlin
+val firstResponse = client.follower.getList()
+val secondResponse = firstResponse.next()  // next cursor
+secondResponse.previous()  // this is same as firstResponse
+
+firstResponse.untilLast().forEach {
+    // .untilLast() does NOT contain firstResponse.
+    // Instead of this, use .all() to acquire including firstResponse.
+    it.result.users.forEach {
+        println(it.screenName)
+    }
+}
+```
+
+
 Posting a tweet with media.
 ```kotlin
 import jp.nephy.penicillin.parameters.MediaType
@@ -133,7 +150,6 @@ try implementing a custom UserStream listener by inheriting `IUserStreamListener
 
 TODO
 -------
-- Cursor support.
 - [In progress] Adding plenty of Twitter undocumented/private APIs.
 - Documentation.
 
