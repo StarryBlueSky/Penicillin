@@ -15,14 +15,18 @@ class ResponseCursorObject<T>(private val klass: Class<T>, val result: T, conten
 
         var cursor = (result as Cursor).nextCursor
         while (true) {
-            val response = getByCursor(cursor)
-            cursor = (response.result as Cursor).nextCursor
             if (cursor == 0L) {
                 return results
             }
 
+            val response = getByCursor(cursor)
             results.add(response)
+            cursor = (response.result as Cursor).nextCursor
         }
+    }
+
+    fun all(): List<ResponseCursorObject<T>> {
+        return listOf(this, *untilLast().toTypedArray())
     }
 
     fun getByCursor(cursor: Long): ResponseCursorObject<T> {
