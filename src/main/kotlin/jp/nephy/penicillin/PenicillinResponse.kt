@@ -98,7 +98,10 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
 
     @Throws(TwitterAPIError::class)
     fun <T> getResponseCursorObjectByClass(klass: Class<T>): ResponseCursorObject<T> {
-        val jsonObject = getJsonObject(getContent())
+        val content = getContent()
+        checkError(content)
+
+        val jsonObject = getJsonObject(content)
         val result = klass.getConstructor(JsonElement::class.java).newInstance(jsonObject)
         return ResponseCursorObject(klass, result, getContent(), prevRequest, request, response)
     }
