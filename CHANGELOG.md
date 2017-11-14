@@ -1,3 +1,13 @@
+#### 1.3.0 (2017-11-14)
+
+ * Add cursor endpoint support.
+ * Better ResponseObject, ResponseList, ResponseStream.
+ * Fix the issue that HTML special characters are not unescaped.
+ * Update API request headers.
+ * You may now tweet 280 characters.
+ * Fix statuses.lookup's arguments.
+ * Improved performance.
+
 #### 1.2.1 (2017-10-08)
 
  * Streaming API endpoints now support type-safety to Streaming Listener. (e.g. when you use #getUserStream(), you may no longer use ISampleStreamListener)
