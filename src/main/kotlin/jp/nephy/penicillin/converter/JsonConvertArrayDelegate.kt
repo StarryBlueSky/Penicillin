@@ -5,7 +5,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import kotlin.reflect.KProperty
 
-class JsonConvertArrayDelegate<out T>(private val klass: Class<T>, private val jsonObj: JsonObject, private val key: String?=null, private val converter: ((JsonElement) -> Any)={it}) {
+class JsonConvertArrayDelegate<out T>(private val klass: Class<T>, private val jsonObj: JsonObject, private val key: String?, private val converter: ((JsonElement) -> Any)) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): List<T> {
         if (! jsonObj.contains(key ?: property.name) || ! jsonObj[key ?: property.name].isJsonArray) {
             return listOf()
