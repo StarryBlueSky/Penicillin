@@ -7,9 +7,9 @@ import jp.nephy.penicillin.response.ResponseStream
 interface ISampleStreamListener: IListener<ISampleStreamListener> {
     override fun getReceiver(response: ResponseStream<ISampleStreamListener>) = SampleStreamReceiver(response, this)
 
-    fun onStatus(status: Status)
+    fun onStatus(status: Status) {}
 
-    fun onDelete(delete: Delete)
+    fun onDelete(delete: Delete) {}
 
-    fun onUnknownData(data: String)
+    fun onUnknownData(data: String) {}
 }
