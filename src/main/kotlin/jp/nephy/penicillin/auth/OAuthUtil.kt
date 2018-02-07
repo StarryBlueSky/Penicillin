@@ -21,9 +21,9 @@ class OAuthUtil {
                     })
                 }
             }
-            val signatureParamString = signatureParam.map {
-                "${it.key}=${it.value}"
-            }.joinToString("&").toURLEncode()
+            val signatureParamString = signatureParam.toList().joinToString("&") {
+                "${it.first}=${it.second}"
+            }.toURLEncode()
 
             return "$method&${url.toURLEncode()}&$signatureParamString"
         }

@@ -23,9 +23,9 @@ class OAuthAuthHandler(private val ck: ConsumerKey, private val cs: ConsumerSecr
         val signingKey = OAuthUtil.getSigningKey(cs, ats)
         authorizationHeaderComponent["oauth_signature"] = OAuthUtil.getSignature(signingKey, signatureBaseString)
 
-        val headerString = authorizationHeaderComponent.map {
-            "${it.key}=\"${it.value}\""
-        }.joinToString(", ")
+        val headerString = authorizationHeaderComponent.toList().joinToString(", ") {
+            "${it.first}=\"${it.second}\""
+        }
 
         return "OAuth $headerString"
     }
