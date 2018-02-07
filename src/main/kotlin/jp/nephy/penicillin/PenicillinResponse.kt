@@ -62,14 +62,14 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
     } catch (e: JsonSyntaxException) {
         e.printStackTrace()
         throw TwitterAPIError("Invalid Json format returned.", content)
-    }
+    }!!
 
     fun getJsonArray(content: String) = try {
         Gson().fromJson(content, JsonArray::class.java)
     } catch (e: JsonSyntaxException) {
         e.printStackTrace()
         throw TwitterAPIError("Invalid Json format returned.", content)
-    }
+    }!!
 
     @Throws(TwitterAPIError::class)
     inline fun <reified T> getResponseObject(): ResponseObject<T> {

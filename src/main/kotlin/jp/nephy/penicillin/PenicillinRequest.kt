@@ -80,7 +80,7 @@ class PenicillinRequest(private val session: Session) {
 
     fun param(param: Pair<String, Any?>?) = this.apply {
         if (param?.second != null) {
-            params.put(param.first, param.second.toString())
+            params[param.first] = param.second.toString()
         }
     }
 
@@ -100,7 +100,7 @@ class PenicillinRequest(private val session: Session) {
         isFormData = true
         forms.forEach {
             if (it?.second != null) {
-                data.put(it.first, it.second.toString())
+                data[it.first] = it.second.toString()
             }
         }
     }
@@ -115,7 +115,7 @@ class PenicillinRequest(private val session: Session) {
         isJsonData = true
         jsons.forEach {
             if (it?.second != null) {
-                data.put(it.first, it.second)
+                data[it.first] = it.second
             }
         }
     }
