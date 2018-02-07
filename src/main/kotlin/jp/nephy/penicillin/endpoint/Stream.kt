@@ -19,6 +19,7 @@ import jp.nephy.penicillin.streaming.IUserStreamListener
 @Suppress("UNUSED")
 class Stream(private val client: Client) {
     @GET
+    @Deprecated("Streaming API will be abolished in July.")
     fun getUserStream(delimited: String?=null, stallWarnings: Boolean?=null, with: UserStreamWith?=null, replies: UserStreamReplies?=null, track: Array<String>?=null, filterLevel: UserStreamFilterLevel?=null, language: String?=null, follow: Array<Long>?=null, locations: Pair<Float, Float>?=null, count: Int?=null, includeFollowingsActivity: Boolean?=null, vararg options: Pair<String, String?>): ResponseStream<IUserStreamListener> {
         return client.session.new()
                 .url("https://userstream.twitter.com/1.1/user.json")
@@ -51,6 +52,7 @@ class Stream(private val client: Client) {
     }
 
     @GET
+    @Deprecated("Streaming API will be abolished in July 2018.")
     fun getSiteStream(delimited: String?=null, stallWarnings: Boolean?=null, with: UserStreamWith?=null, replies: UserStreamReplies?=null, follow: Array<Long>?=null, vararg options: Pair<String, String?>): ResponseStream<IUserStreamListener> {
         return client.session.new()
                 .url("https://sitestream.twitter.com/1.1/site.json")
