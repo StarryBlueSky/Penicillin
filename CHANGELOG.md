@@ -1,6 +1,10 @@
+#### 1.4.0 (2018-02-21)
+
+ * Change internal json binding to [Json.kt](https://github.com/NephyProject/Json.kt) from Kotson.
+
 #### 1.3.1 (2017-12-12)
 
- * Now IListener interfaces has default implementation. 
+ * Now IListener interfaces has default implementation.
  * Add JsonConvertLambdaDelegate.
 
 #### 1.3.0 (2017-11-14)

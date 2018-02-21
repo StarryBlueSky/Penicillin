@@ -1,4 +1,4 @@
-[![Kotlin 1.2.0](https://img.shields.io/badge/Kotlin-1.2.0-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.2.0](https://img.shields.io/badge/Kotlin-1.2.21-blue.svg)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)
 [![Travis](https://img.shields.io/travis/NephyProject/Penicillin.svg)](https://travis-ci.org/NephyProject/Penicillin/builds)
 [![MIT License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
@@ -19,11 +19,11 @@ If you found a new Twitter API endpoint, Please tell us at [Issues](https://gith
 
 Install
 -------
-Current version is `v1.3.1`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
+Current version is `v1.4.0`. Show all from [Change Logs](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md).
 
 Gradle:
 ```groovy
-compile "jp.nephy:penicillin:1.3.1"
+compile "jp.nephy:penicillin:1.4.0"
 ```
 
 Maven:
@@ -31,7 +31,7 @@ Maven:
 <dependency>
     <groupId>jp.nephy</groupId>
     <artifactId>penicillin</artifactId>
-    <version>1.3.1</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
@@ -159,7 +159,6 @@ Thanks
 Penicillin uses below 3rd party libraries.
 - OkHttp3 (https://github.com/square/okhttp) by Square, Inc.
 - Gson (https://github.com/google/gson) by Google, Inc.
-- Kotson (https://github.com/SalomonBrys/Kotson) by [@SalomonBrys](https://github.com/SalomonBrys)
 - nv-i18n (https://github.com/TakahikoKawasaki/nv-i18n) by [@TakahikoKawasaki](https://github.com/TakahikoKawasaki)
 
 
@@ -167,4 +166,4 @@ License
 ---------
 Penicillin is provided under MIT License.  
 
-Copyright (c) 2017 Nephy Project
+Copyright (c) 2018 Nephy Project.
