@@ -1,6 +1,6 @@
 package jp.nephy.penicillin
 
-import com.google.gson.Gson
+import jp.nephy.jsonkt.JsonKt
 import jp.nephy.penicillin.annotation.MustBeCalled
 import jp.nephy.penicillin.auth.AuthorizationType
 import jp.nephy.penicillin.exception.TwitterAPIError
@@ -144,7 +144,7 @@ class PenicillinRequest(private val session: Session) {
         if (isFormData) {
             body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), expandParameters(data))
         } else if (isJsonData) {
-            body = RequestBody.create(MediaType.parse("application/json"), Gson().toJson(data))
+            body = RequestBody.create(MediaType.parse("application/json"), JsonKt.toJsonString(data))
         }
         if (body == null) {
             body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), "")
