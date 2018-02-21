@@ -1,6 +1,6 @@
 package jp.nephy.penicillin.endpoint
 
-import com.google.gson.Gson
+import jp.nephy.jsonkt.JsonKt
 import jp.nephy.penicillin.Client
 import jp.nephy.penicillin.annotation.*
 import jp.nephy.penicillin.auth.AuthorizationType
@@ -308,7 +308,7 @@ class Status(private val client: Client) {
         }
 
         val card = client.card.create(
-                cardData=Gson().toJson(linkedMapOf<String,Any>().apply {
+                cardData=JsonKt.toJsonString(linkedMapOf<String,Any>().apply {
                     choices.forEachIndexed { i, choice ->
                         put("twitter:string:choice${i + 1}_label", choice)
                     }

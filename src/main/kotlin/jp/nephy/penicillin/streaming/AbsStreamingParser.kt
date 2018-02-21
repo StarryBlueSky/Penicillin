@@ -1,7 +1,7 @@
 package jp.nephy.penicillin.streaming
 
-import com.google.gson.Gson
 import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonKt
 import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.misc.unescapeHTMLCharacters
 import jp.nephy.penicillin.response.ResponseStream
@@ -12,7 +12,6 @@ import java.net.SocketTimeoutException
 import kotlin.concurrent.thread
 
 abstract class AbsStreamingParser<T>(response: ResponseStream<T>) {
-    private val gson = Gson()
     private val stream = response.response.body()!!.byteStream()
     private val buffer = BufferedReader(InputStreamReader(stream))
     private var stop = false
@@ -53,9 +52,8 @@ abstract class AbsStreamingParser<T>(response: ResponseStream<T>) {
                 }
 
                 thread(name="callback", isDaemon=false) {
-                    callback(gson.fromJson(
-                            line.unescapeHTMLCharacters(),
-                            JsonObject::class.java
+                    callback(JsonKt.toJsonObject(
+                            line.unescapeHTMLCharacters()
                     ))
                 }
             }

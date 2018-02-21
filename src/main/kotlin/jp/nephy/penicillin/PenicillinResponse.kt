@@ -1,6 +1,10 @@
 package jp.nephy.penicillin
 
-import com.google.gson.*
+import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonSyntaxException
+import jp.nephy.jsonkt.JsonKt
 import jp.nephy.jsonkt.get
 import jp.nephy.jsonkt.int
 import jp.nephy.jsonkt.string
@@ -17,7 +21,7 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
     fun checkError(content: String) {
         if (! response.isSuccessful) {
             try {
-                val obj = Gson().fromJson(content, JsonObject::class.java)
+                val obj = JsonKt.toJsonObject(content)
                 if (! obj["errors"].isJsonNull) {
                     val error = obj["errors"]
 
@@ -60,7 +64,7 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
     }
 
     fun getJsonObject(content: String) = try {
-        Gson().fromJson(content, JsonObject::class.java)
+        JsonKt.toJsonObject(content)
     } catch (e: JsonSyntaxException) {
         e.printStackTrace()
         throw TwitterAPIError("Invalid Json format returned.", content)
