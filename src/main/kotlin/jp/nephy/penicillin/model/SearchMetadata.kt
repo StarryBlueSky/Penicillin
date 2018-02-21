@@ -1,13 +1,10 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byFloat
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byLong
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.*
 
 @Suppress("UNUSED")
-class SearchMetadata(val json: JsonElement) {
+class SearchMetadata(override val json: JsonObject): JsonModel {
     val completedIn by json.byFloat("completed_in")
     val count by json.byInt
     val maxId by json.byLong("max_id")

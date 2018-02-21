@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class TimeZone(val json: JsonElement) {
+class TimeZone(override val json: JsonObject): JsonModel {
     val name by json.byString
     val utcOffset by json.byInt("utc_offset")
     val tzinfoName by json.byString("tzinfo_name")

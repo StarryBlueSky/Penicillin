@@ -1,9 +1,10 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byStringList
 
 @Suppress("UNUSED")
-class TrendContext(val json: JsonElement) {
-    val relatedQuery by json.byList<String>("query")
+class TrendContext(override val json: JsonObject): JsonModel {
+    val relatedQuery by json.byStringList("query")
 }

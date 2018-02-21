@@ -1,13 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byConverter
-import java.net.URL
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byUrl
 
 @Suppress("UNUSED")
-class Banner(val json: JsonElement) {
+class Banner(override val json: JsonObject): JsonModel {
     val h by json.byInt
     val w by json.byInt
-    val url by json.byConverter<String, URL>()
+    val url by json.byUrl
 }

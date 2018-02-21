@@ -1,12 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byBool
-import com.github.salomonbrys.kotson.byLong
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byBool
+import jp.nephy.jsonkt.byLong
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class RelationshipTarget(val json: JsonElement) {
+class RelationshipTarget(override val json: JsonObject): JsonModel {
     val followedBy by json.byBool("followed_by")
     val following by json.byBool
     val followingReceived by json.byBool("following_received")

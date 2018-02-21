@@ -1,12 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byLong
-import com.github.salomonbrys.kotson.byString
-import com.github.salomonbrys.kotson.get
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byLong
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class ScrubGeo(val json: JsonElement) {
+class ScrubGeo(override val json: JsonObject): JsonModel {
     val userId by json["scrub_geo"].byLong("user_id")
     val userIdStr by json["scrub_geo"].byString("user_id_str")
     val upToStatusId by json["scrub_geo"].byLong("up_to_status_id")

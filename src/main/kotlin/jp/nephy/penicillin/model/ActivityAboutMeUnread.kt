@@ -1,9 +1,10 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byLong
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byLong
 
 @Suppress("UNUSED")
-class ActivityAboutMeUnread(val json: JsonElement) {
+class ActivityAboutMeUnread(override val json: JsonObject): JsonModel {
     val cursor by json.byLong
 }

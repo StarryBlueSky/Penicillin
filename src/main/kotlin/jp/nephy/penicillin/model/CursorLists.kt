@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.byModelList
 
 @Suppress("UNUSED")
-class CursorLists(json: JsonElement): Cursor(json) {
-    val lists by json.byList<List>()
+class CursorLists(json: JsonObject): Cursor(json) {
+    val lists by json.byModelList<List>()
 }

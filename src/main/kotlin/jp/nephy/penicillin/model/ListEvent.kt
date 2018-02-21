@@ -1,16 +1,14 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byConverter
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.CreatedAt
 
 @Suppress("UNUSED")
-class ListEvent(val json: JsonElement) {
+class ListEvent(override val json: JsonObject): JsonModel {
     val event by json.byString
     val source by json.byModel<User>()
     val target by json.byModel<User>()
-    val targetObject by json.byModel<List>("target_object")
-    val createdAt by json.byConverter<String, CreatedAt>("created_at")
+    val targetObject by json.byModel<List>(key = "target_object")
+    val createdAt by json.byLambda("created_at") { CreatedAt(string) }
 }

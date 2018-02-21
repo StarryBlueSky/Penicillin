@@ -1,9 +1,10 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byObject
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byJsonObject
 
 @Suppress("UNUSED")
-class LivePipelineSubscription(val json: JsonElement) {
-    val subscriptions by json.byObject
+class LivePipelineSubscription(override val json: JsonObject): JsonModel {
+    val subscriptions by json.byJsonObject
 }

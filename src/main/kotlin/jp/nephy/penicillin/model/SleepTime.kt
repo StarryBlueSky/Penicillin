@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byBool
-import com.github.salomonbrys.kotson.byNullableLong
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byBool
+import jp.nephy.jsonkt.byNullableLong
 
 @Suppress("UNUSED")
-class SleepTime(val json: JsonElement) {
+class SleepTime(override val json: JsonObject): JsonModel {
     val enabled by json.byBool
     val startTime by json.byNullableLong("start_time")
     val endTime by json.byNullableLong("end_time")

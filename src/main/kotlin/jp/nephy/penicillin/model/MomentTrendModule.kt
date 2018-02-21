@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.byModelList
 
 @Suppress("UNUSED")
-class MomentTrendModule(val json: JsonElement) {
+class MomentTrendModule(override val json: JsonObject): JsonModel {
     val metadata by json.byModel<TrendMetadata>()
-    val trends by json.byList<TrendType>()
+    val trends by json.byModelList<TrendType>()
 }

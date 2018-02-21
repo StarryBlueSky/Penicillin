@@ -1,16 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byBool
-import com.github.salomonbrys.kotson.byLong
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byConverter
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.CreatedAt
 
 @Suppress("UNUSED")
-class DirectMessage(val json: JsonElement) {
-    val createdAt by json.byConverter<String, CreatedAt>("created_at")
+class DirectMessage(override val json: JsonObject): JsonModel {
+    val createdAt by json.byLambda("created_at") { CreatedAt(string) }
     val entities by json.byModel<StatusEntity>()
     val id by json.byLong
     val idStr by json.byString("id_str")

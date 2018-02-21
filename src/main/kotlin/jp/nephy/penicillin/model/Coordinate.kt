@@ -1,13 +1,14 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byLambda
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byFloatList
+import jp.nephy.jsonkt.byLambda
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class Coordinate(val json: JsonElement) {
-    val coordinates by json.byList<Float>()
+class Coordinate(override val json: JsonObject): JsonModel {
+    val coordinates by json.byFloatList
     val type by json.byString
 
     val longitude by json.byLambda {

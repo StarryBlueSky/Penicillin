@@ -1,5 +1,6 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
 
-class WelcomeMessage(val json: JsonElement)
+class WelcomeMessage(override val json: JsonObject): JsonModel

@@ -1,12 +1,14 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byIntList
+import jp.nephy.jsonkt.byModelList
 
 @Suppress("UNUSED")
-class VideoInfo(val json: JsonElement) {
+class VideoInfo(override val json: JsonObject): JsonModel {
     val durationMillis by json.byInt("duration_millis")
-    val aspectRatio by json.byList<Int>()
-    val variants by json.byList<VideoFile>()
+    val aspectRatio by json.byIntList
+    val variants by json.byModelList<VideoFile>()
 }

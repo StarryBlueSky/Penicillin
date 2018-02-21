@@ -1,12 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byString
-import com.github.salomonbrys.kotson.get
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class Limit(val json: JsonElement) {
+class Limit(override val json: JsonObject): JsonModel {
     val track by json["limit"].byInt
     val timestampMs by json["limit"].byString("timestamp_ms")
 }

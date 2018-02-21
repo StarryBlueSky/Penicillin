@@ -1,12 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byBool
-import com.github.salomonbrys.kotson.byLong
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byBool
+import jp.nephy.jsonkt.byLong
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class RelationshipSource(val json: JsonElement) {
+class RelationshipSource(override val json: JsonObject): JsonModel {
     val allReplies by json.byBool("all_replies")
     val blockedBy by json.byBool("blocked_by")
     val blocking by json.byBool

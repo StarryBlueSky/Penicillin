@@ -1,17 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.*
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byConverter
-import jp.nephy.penicillin.converter.byList
-import jp.nephy.penicillin.converter.byModel
-import java.net.URL
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.*
 
 @Suppress("UNUSED")
-class UserTypeahead(val json: JsonElement) {
+class UserTypeahead(override val json: JsonObject): JsonModel {
     val canMediaTag by json.byBool("can_media_tag")
     val connectingUserCount by json.byInt("connecting_user_count")
-    val connectingUserIds by json.byList<Long>("connecting_user_ids")
+    val connectingUserIds by json.byLongList("connecting_user_ids")
     val id by json.byLong
     val idStr by json.byString("id_str")
     val inline by json.byBool
@@ -20,14 +16,14 @@ class UserTypeahead(val json: JsonElement) {
     val isProtected by json.byBool("is_protected")
     val location by json.byNullableString
     val name by json.byString
-    val profileImageUrl by json.byConverter<String, URL?>("profile_image_url")
-    val profileImageUrlHttps by json.byConverter<String, URL?>("profile_image_url_https")
+    val profileImageUrl by json.byNullableUrl("profile_image_url")
+    val profileImageUrlHttps by json.byNullableUrl("profile_image_url_https")
     val roundedGraphWeight by json.byInt("rounded_graph_weight")
     val roundedScore by json.byInt("rounded_score")
     val screenName by json.byString("screen_name")
-    val socialContext by json.byModel<SocialContext>("social_context")
+    val socialContext by json.byModel<SocialContext>(key = "social_context")
     val socialProof by json.byInt("social_proof")
-    val socialProofsOrdered by json.byList<Int>("social_proofs_ordered")
-    val tokens by json.byList<SearchToken>()
+    val socialProofsOrdered by json.byIntList("social_proofs_ordered")
+    val tokens by json.byModelList<SearchToken>()
     val verified by json.byBool
 }

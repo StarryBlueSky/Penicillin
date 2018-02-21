@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byLong
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byLong
 
 @Suppress("UNUSED")
-class ApplicationRateLimit(val json: JsonElement) {
+class ApplicationRateLimit(override val json: JsonObject): JsonModel {
     val limit by json.byInt
     val remaining by json.byInt
     val reset by json.byLong

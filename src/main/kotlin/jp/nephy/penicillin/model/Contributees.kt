@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byBool
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byBool
+import jp.nephy.jsonkt.byModel
 
 @Suppress("UNUSED")
-class Contributees(val json: JsonElement) {
+class Contributees(override val json: JsonObject): JsonModel {
     val admin by json.byBool
     val user by json.byModel<User>()
 }

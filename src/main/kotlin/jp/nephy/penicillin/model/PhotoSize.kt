@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class PhotoSize(val json: JsonElement) {
+class PhotoSize(override val json: JsonObject): JsonModel {
     val h by json.byInt
     val resize by json.byString
     val w by json.byInt
