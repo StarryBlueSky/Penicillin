@@ -1,10 +1,11 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byModel
 
 @Suppress("UNUSED")
-class Relationship(val json: JsonElement) {
+class Relationship(override val json: JsonObject): JsonModel {
     val source by json.byModel<RelationshipSource>()
     val target by json.byModel<RelationshipTarget>()
 }

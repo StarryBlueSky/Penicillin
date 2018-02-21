@@ -1,7 +1,9 @@
 package jp.nephy.penicillin
 
-import com.github.salomonbrys.kotson.get
 import com.google.gson.*
+import jp.nephy.jsonkt.get
+import jp.nephy.jsonkt.int
+import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.misc.unescapeHTMLCharacters
 import jp.nephy.penicillin.response.*
@@ -23,7 +25,7 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
                         if (error.asJsonArray.size() == 0) {
                             throw TwitterAPIError("errors size is 0 with HTTP code ${response.code()}.", content)
                         }
-                        throw TwitterAPIError("API returned error with HTTP code ${response.code()}.", content, error.asJsonArray[0]["code"].asInt, error.asJsonArray[0]["message"].asString)
+                        throw TwitterAPIError("API returned error with HTTP code ${response.code()}.", content, error.asJsonArray[0]["code"].int, error.asJsonArray[0]["message"].string)
                     } else {
                         try {
                             throw TwitterAPIError(error.asString, content)

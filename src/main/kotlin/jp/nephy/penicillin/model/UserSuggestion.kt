@@ -1,14 +1,15 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byModelList
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class UserSuggestion(val json: JsonElement) {
+class UserSuggestion(override val json: JsonObject): JsonModel {
     val name by json.byString
     val size by json.byInt
     val slug by json.byString
-    val users by json.byList<User>()
+    val users by json.byModelList<User>()
 }

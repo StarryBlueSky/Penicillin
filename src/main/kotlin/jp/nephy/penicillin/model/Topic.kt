@@ -1,15 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byBool
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.*
 
 @Suppress("UNUSED")
-class Topic(val json: JsonElement) {
+class Topic(override val json: JsonObject): JsonModel {
     val inline by json.byBool
     val roundedScore by json.byInt("rounded_score")
-    val tokens by json.byList<SearchToken>()
+    val tokens by json.byModelList<SearchToken>()
     val topic by json.byString
 }

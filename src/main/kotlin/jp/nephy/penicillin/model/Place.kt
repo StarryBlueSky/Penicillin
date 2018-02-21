@@ -1,28 +1,22 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byArray
-import com.github.salomonbrys.kotson.byNullableString
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byConverter
-import jp.nephy.penicillin.converter.byList
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.Country
-import java.net.URL
 
 @Suppress("UNUSED")
-class Place(val json: JsonElement) {
+class Place(override val json: JsonObject): JsonModel {
     val attributes by json.byModel<PlaceAttribute>()
-    val boundingBox by json.byModel<BoundingBox>("bounding_box")
-    val centroid by json.byList<Float>()
-    val containedWithin by json.byList<Place>("contained_within")
+    val boundingBox by json.byModel<BoundingBox>(key = "bounding_box")
+    val centroid by json.byFloatList
+    val containedWithin by json.byModelList<Place>(key = "contained_within")
     val country by json.byString
-    val countryCode by json.byModel<Country>("country_code")
+    val countryCode by json.byLambda(key = "country_code") { Country(string) }
     val fullName by json.byString("full_name")
     val geometry by json.byNullableString // null
     val id by json.byString
     val name by json.byString
     val placeType by json.byString("place_type")
-    val polylines by json.byArray // []
-    val url by json.byConverter<String, URL>()
+    val polylines by json.byJsonArray // []
+    val url by json.byUrl
 }

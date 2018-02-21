@@ -1,12 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.get
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.byModelList
 
 @Suppress("UNUSED")
-class GeoResult(val json: JsonElement) {
+class GeoResult(override val json: JsonObject): JsonModel {
     val query by json.byModel<GeoQuery>()
-    val result by json["result"].byList<Place>("places")
+    val result by json["result"].byModelList<Place>(key = "places")
 }

@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.byModelList
 
 @Suppress("UNUSED")
-class Search(val json: JsonElement) {
-    val searchMetadata by json.byModel<SettingMetadata>("search_metadata")
-    val statuses by json.byList<Status>()
+class Search(override val json: JsonObject): JsonModel {
+    val searchMetadata by json.byModel<SettingMetadata>(key = "search_metadata")
+    val statuses by json.byModelList<Status>()
 }

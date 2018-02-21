@@ -1,12 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byNullableString
-import com.github.salomonbrys.kotson.byString
-import com.github.salomonbrys.kotson.get
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byNullableString
+import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.get
 
 @Suppress("UNUSED")
-class CardPlatform(val json: JsonElement) {
+class CardPlatform(override val json: JsonObject): JsonModel {
     val deviceName by json["platform"]["device"].byString("name")
     val deviceVersion by json["platform"]["device"].byString("version")
 

@@ -1,12 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byLong
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byLong
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class PushDevice(val json: JsonElement) {
+class PushDevice(override val json: JsonObject): JsonModel {
     val appVersion by json.byInt("app_version")
     val availableLevels by json.byInt("available_levels")
     val clientApplicationId by json.byInt("client_application_id")

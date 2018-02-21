@@ -1,5 +1,6 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
 
-class PromotedTrendModule(val json: JsonElement)
+class PromotedTrendModule(override val json: JsonObject): JsonModel

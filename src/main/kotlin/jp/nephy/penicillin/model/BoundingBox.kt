@@ -1,13 +1,14 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byArray
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byJsonArray
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class BoundingBox(val json: JsonElement) {
+class BoundingBox(override val json: JsonObject): JsonModel {
     val type by json.byString
-    val coordinates by json.byArray
+    val coordinates by json.byJsonArray
     // [
     //   [
     //     [-77.119759, 38.791645],

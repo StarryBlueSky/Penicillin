@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byNullableInt
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byNullableInt
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class Birthdate(val json: JsonElement) {
+class Birthdate(override val json: JsonObject): JsonModel {
     val year by json.byNullableInt
     val month by json.byNullableInt
     val day by json.byNullableInt

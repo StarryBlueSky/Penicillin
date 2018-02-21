@@ -1,23 +1,22 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.*
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byLambda
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.*
 
 @Suppress("UNUSED")
-class CardBindingValue(val json: JsonElement) {
-    val choices by json.byLambda {
-        (1..5).filter { json.obj.contains("choice${it}_label") }.map {
-            json["choice${it}_label"]["string_value"].asString to if (json.obj.contains("choice${it}_count")) {
-                json["choice${it}_count"]["string_value"].asString
+class CardBindingValue(override val json: JsonObject): JsonModel {
+    val choices by lazy {
+        (1..5).filter { json.contains("choice${it}_label") }.map {
+            json["choice${it}_label"]["string_value"].string to if (json.contains("choice${it}_count")) {
+                json["choice${it}_count"]["string_value"].string.toInt()
             } else {
-                "0"
-            }.toInt()
+                0
+            }
         }.toMap()
     }
 
-    val isFinal by json["counts_are_final"].byBool("boolean_value")
-    val endAt by json["end_datetime_utc"].byString("string_value")
-    val updateAt by json["last_updated_datetime_utc"].byString("string_value")
-    val minutes by json["duration_minutes"].byString("string_value")
+    val isFinal by json["counts_are_final"].jsonObject.byBool("boolean_value")
+    val endAt by json["end_datetime_utc"].jsonObject.byString("string_value")
+    val updateAt by json["last_updated_datetime_utc"].jsonObject.byString("string_value")
+    val minutes by json["duration_minutes"].jsonObject.byString("string_value")
 }

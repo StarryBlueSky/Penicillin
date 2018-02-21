@@ -1,18 +1,18 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byArray
-import com.github.salomonbrys.kotson.byObject
-import com.github.salomonbrys.kotson.byString
-import com.github.salomonbrys.kotson.get
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byJsonArray
+import jp.nephy.jsonkt.byJsonObject
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class HelpSettings(val json: JsonElement) {
+class HelpSettings(override val json: JsonObject): JsonModel {
     val featureSwitchesVersion by json["versions"].byString("feature_switches")
     val experimentVersion by json["versions"].byString("experiments")
     val settingsVersion by json["versions"].byString("settings")
 
-    val impressions by json.byArray
+    val impressions by json.byJsonArray
 
-    val config by json.byObject
+    val config by json.byJsonObject
 }

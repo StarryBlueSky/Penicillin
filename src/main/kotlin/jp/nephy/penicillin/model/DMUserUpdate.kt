@@ -1,13 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byObject
-import com.github.salomonbrys.kotson.byString
-import com.github.salomonbrys.kotson.get
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byJsonObject
+import jp.nephy.jsonkt.byString
 
 @Suppress("UNUSED")
-class DMUserUpdate(val json: JsonElement) {
-    val userEvents by json.byObject("user_events")
+class DMUserUpdate(override val json: JsonObject): JsonModel {
+    val userEvents by json.byJsonObject("user_events")
 
     val cursor by json["user_events"].byString
     val lastSeenEventId by json["user_events"].byString("last_seen_event_id")

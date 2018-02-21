@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.byLongList
 
 @Suppress("UNUSED")
-class CursorIds(json: JsonElement): Cursor(json) {
-    val ids by json.byList<Long>()
+class CursorIds(json: JsonObject): Cursor(json) {
+    val ids by json.byLongList
 }

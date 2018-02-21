@@ -1,13 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byObject
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byConverter
-import java.net.URL
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byJsonObject
+import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.byUrl
 
-class GeoQuery(val json: JsonElement) {
-    val params by json.byObject
+class GeoQuery(override val json: JsonObject): JsonModel {
+    val params by json.byJsonObject
     val type by json.byString
-    val url by json.byConverter<String, URL>()
+    val url by json.byUrl
 }

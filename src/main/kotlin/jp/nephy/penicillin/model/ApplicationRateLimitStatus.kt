@@ -1,13 +1,14 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byNullableString
-import com.github.salomonbrys.kotson.get
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byModel
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.byNullableString
+import jp.nephy.jsonkt.jsonObject
 
 @Suppress("UNUSED")
-class ApplicationRateLimitStatus(val json: JsonElement) {
-    val accessToken by json["rate_limit_content"].byNullableString("access_token")
-    val application by json["rate_limit_content"].byNullableString
+class ApplicationRateLimitStatus(override val json: JsonObject): JsonModel {
+    val accessToken by json["rate_limit_content"].jsonObject.byNullableString("access_token")
+    val application by json["rate_limit_content"].jsonObject.byNullableString
     val resources by json.byModel<Resources>()
 }

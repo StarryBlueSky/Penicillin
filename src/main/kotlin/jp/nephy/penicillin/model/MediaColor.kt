@@ -1,11 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byInt
-import com.github.salomonbrys.kotson.byObject
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byJsonObject
 
 @Suppress("UNUSED")
-class MediaColor(val json: JsonElement) {
-    val r by json.byObject
+class MediaColor(override val json: JsonObject): JsonModel {
+    val r by json.byJsonObject
     val ttl by json.byInt
 }

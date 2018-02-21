@@ -1,9 +1,10 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byModelList
 
 @Suppress("UNUSED")
-class Face(val json: JsonElement) {
-    val faces by json.byList<FaceCoordinate>()
+class Face(override val json: JsonObject): JsonModel {
+    val faces by json.byModelList<FaceCoordinate>()
 }

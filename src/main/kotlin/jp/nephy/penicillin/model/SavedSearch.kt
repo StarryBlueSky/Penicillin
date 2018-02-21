@@ -1,14 +1,12 @@
 package jp.nephy.penicillin.model
 
-import com.github.salomonbrys.kotson.byLong
-import com.github.salomonbrys.kotson.byString
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byConverter
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.CreatedAt
 
 @Suppress("UNUSED")
-class SavedSearch(val json: JsonElement) {
-    val createdAt by json.byConverter<String, CreatedAt>("created_at")
+class SavedSearch(override val json: JsonObject): JsonModel {
+    val createdAt by json.byLambda("created_at") { CreatedAt(string) }
     val id by json.byLong
     val idStr by json.byString("id_str")
     val name by json.byString

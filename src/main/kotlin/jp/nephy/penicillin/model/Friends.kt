@@ -1,8 +1,9 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byList
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byLongList
 
-class Friends(val json: JsonElement) {
-    val friends by json.byList<Long>()
+class Friends(override val json: JsonObject): JsonModel {
+    val friends by json.byLongList()
 }

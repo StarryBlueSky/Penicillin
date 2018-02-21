@@ -1,14 +1,13 @@
 package jp.nephy.penicillin.model
 
-import com.google.gson.JsonElement
-import jp.nephy.penicillin.converter.byLambda
+import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.byLambda
 
-class FriendshipsNoRetweetsIds(val json: JsonElement) {
+class FriendshipsNoRetweetsIds(override val json: JsonObject): JsonModel {
     val ids by json.byLambda {
-        arrayListOf<Long>().apply {
-            json.asJsonArray.forEach {
-                this.add(it.asLong)
-            }
+        json.asJsonArray.map {
+            it.asLong
         }
     }
 }
