@@ -1,3 +1,7 @@
+#### 1.4.1 (2018-03-27)
+
+ * Update Json.kt to v1.4.
+
 #### 1.4.0 (2018-02-21)
 
  * Change internal json binding to [Json.kt](https://github.com/NephyProject/Json.kt) from Kotson.
