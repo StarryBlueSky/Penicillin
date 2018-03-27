@@ -1,16 +1,11 @@
 package jp.nephy.penicillin
 
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonSyntaxException
-import jp.nephy.jsonkt.JsonKt
-import jp.nephy.jsonkt.get
-import jp.nephy.jsonkt.int
-import jp.nephy.jsonkt.string
+import com.google.gson.*
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.exception.TwitterAPIError
 import jp.nephy.penicillin.misc.unescapeHTMLCharacters
 import jp.nephy.penicillin.response.*
+import jp.nephy.penicillin.streaming.IListener
 import okhttp3.Request
 import okhttp3.Response
 import java.lang.reflect.InvocationTargetException
@@ -55,7 +50,7 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
         return content!!
     }
 
-    fun <T> getResponseStream() = ResponseStream<T>(request, response)
+    fun <T: IListener<T>> getResponseStream() = ResponseStream<T>(request, response)
 
     fun getResponseText(): ResponseText {
         val content = getContent()
@@ -68,23 +63,22 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
     } catch (e: JsonSyntaxException) {
         e.printStackTrace()
         throw TwitterAPIError("Invalid Json format returned.", content)
-    }!!
+    }
 
     fun getJsonArray(content: String) = try {
-        Gson().fromJson(content, JsonArray::class.java)
+        JsonKt.toJsonArray(content)
     } catch (e: JsonSyntaxException) {
         e.printStackTrace()
         throw TwitterAPIError("Invalid Json format returned.", content)
-    }!!
+    }
 
     @Throws(TwitterAPIError::class)
-    inline fun <reified T> getResponseObject(): ResponseObject<T> {
+    inline fun <reified T: JsonModel> getResponseObject(): ResponseObject<T> {
         val content = getContent()
         checkError(content)
 
-        val jsonObject = getJsonObject(content)
         val result = try {
-            T::class.java.getConstructor(JsonElement::class.java).newInstance(jsonObject)
+            JsonKt.parse<T>(content)
         } catch (e: NullPointerException) {
             e.printStackTrace()
             throw TwitterAPIError("Json is not matched with ${T::class.java.simpleName} Class.", content)
@@ -97,23 +91,23 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
     }
 
     @Throws(TwitterAPIError::class)
-    inline fun <reified T> getResponseCursorObject(): ResponseCursorObject<T> {
+    inline fun <reified T: JsonModel> getResponseCursorObject(): ResponseCursorObject<T> {
         val response = getResponseObject<T>()
         return ResponseCursorObject(T::class.java, response.result, response.content, prevRequest, response.request, response.response)
     }
 
     @Throws(TwitterAPIError::class)
-    fun <T> getResponseCursorObjectByClass(klass: Class<T>): ResponseCursorObject<T> {
+    fun <T: JsonModel> getResponseCursorObjectByClass(klass: Class<T>): ResponseCursorObject<T> {
         val content = getContent()
         checkError(content)
 
         val jsonObject = getJsonObject(content)
-        val result = klass.getConstructor(JsonElement::class.java).newInstance(jsonObject)
+        val result = klass.getConstructor(JsonObject::class.java).newInstance(jsonObject)
         return ResponseCursorObject(klass, result, getContent(), prevRequest, request, response)
     }
 
     @Throws(TwitterAPIError::class)
-    inline fun <reified T> getResponseList(): ResponseList<T> {
+    inline fun <reified T: JsonModel> getResponseList(): ResponseList<T> {
         val content = getContent()
         checkError(content)
 
@@ -121,7 +115,7 @@ class PenicillinResponse(val prevRequest: PenicillinRequest, val request: Reques
         return ResponseList<T>(content, request, response).apply {
             jsonArray.forEach {
                 try {
-                    add(T::class.java.getConstructor(JsonElement::class.java).newInstance(it))
+                    add(JsonKt.parse(it.jsonObject))
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
                     throw TwitterAPIError("Json is not matched with ${T::class.java.simpleName} Class.", content)
