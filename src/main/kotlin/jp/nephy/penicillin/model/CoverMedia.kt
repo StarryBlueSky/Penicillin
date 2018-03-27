@@ -3,7 +3,7 @@ package jp.nephy.penicillin.model
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
-@Suppress("UNUSED")
+
 open class CoverMedia(final override val json: JsonObject): JsonModel {
     val tweetId by json.byString("tweet_id")
     val type by json.byString

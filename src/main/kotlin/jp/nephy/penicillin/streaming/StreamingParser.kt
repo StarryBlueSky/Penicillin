@@ -11,14 +11,14 @@ import java.net.SocketException
 import java.net.SocketTimeoutException
 import kotlin.concurrent.thread
 
-abstract class AbsStreamingParser<T>(response: ResponseStream<T>) {
+abstract class StreamingParser<T>(response: ResponseStream<T>) {
     private val stream = response.response.body()!!.byteStream()
     private val buffer = BufferedReader(InputStreamReader(stream))
     private var stop = false
 
     private var onClose: () -> Unit = {}
 
-    fun start(): AbsStreamingParser<T> {
+    fun start(): StreamingParser<T> {
         thread(name="readline daemon") {
             readLine { json ->  handle(json) }
         }
@@ -28,7 +28,7 @@ abstract class AbsStreamingParser<T>(response: ResponseStream<T>) {
         stop = true
     }
 
-    fun onClose(callable: () -> Unit): AbsStreamingParser<T> {
+    fun onClose(callable: () -> Unit): StreamingParser<T> {
         return this.apply {
             onClose = callable
         }

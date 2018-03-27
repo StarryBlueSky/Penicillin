@@ -3,4 +3,4 @@ package jp.nephy.penicillin.response
 import okhttp3.Request
 import okhttp3.Response
 
-class ResponseText(content: String, request: Request, response: Response): AbsRESTResponse(content, request, response)
+class ResponseText(content: String, request: Request, response: Response): AbstractRestResponse(content, request, response)

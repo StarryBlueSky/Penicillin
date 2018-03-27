@@ -3,7 +3,7 @@ package jp.nephy.penicillin.model
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
-@Suppress("UNUSED")
+
 class UserTypeahead(override val json: JsonObject): JsonModel {
     val canMediaTag by json.byBool("can_media_tag")
     val connectingUserCount by json.byInt("connecting_user_count")

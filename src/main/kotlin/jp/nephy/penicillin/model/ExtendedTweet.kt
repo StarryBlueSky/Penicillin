@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byIntList
 import jp.nephy.jsonkt.byModel
 import jp.nephy.jsonkt.byNullableString
 
-@Suppress("UNUSED")
+
 class ExtendedTweet(override val json: JsonObject): JsonModel {
     val displayTextRange by json.byIntList("display_text_range")
     val entities by json.byModel<StatusEntity>()

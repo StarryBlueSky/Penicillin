@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byFloatList
 import jp.nephy.jsonkt.byLambda
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class Coordinate(override val json: JsonObject): JsonModel {
     val coordinates by json.byFloatList
     val type by json.byString

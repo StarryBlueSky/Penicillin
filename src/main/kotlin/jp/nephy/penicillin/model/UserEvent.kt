@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.CreatedAt
 
-@Suppress("UNUSED")
+
 class UserEvent(override val json: JsonObject): JsonModel {
     val event by json.byString
     val source by json.byModel<User>()

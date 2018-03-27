@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byModel
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class CardState(override val json: JsonObject): JsonModel {
     val name by json["card"].byString
     val url by json["card"].byString

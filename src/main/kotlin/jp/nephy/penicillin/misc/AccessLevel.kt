@@ -7,13 +7,7 @@ enum class AccessLevel {
 
     companion object {
         fun getLevel(headers: Headers): AccessLevel {
-            val levelName = if (headers["x-access-level"] != null) {
-                headers["x-access-level"]!!
-            } else {
-                null
-            }
-
-            return when (levelName) {
+            return when (headers["x-access-level"]) {
                 "read" -> Read
                 "read-write" -> ReadWrite
                 "read-write-directmessages" -> ReadWriteDM

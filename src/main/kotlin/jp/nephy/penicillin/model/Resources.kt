@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byModel
 
-@Suppress("UNUSED")
+
 class Resources(override val json: JsonObject): JsonModel {
     val accountLoginVerificationEnrollment by json["account"].byModel<ApplicationRateLimit?>(key = "/account/login_verification_enrollment")
     val accountLoginVerificationEnrollmentV2 by json["account"].byModel<ApplicationRateLimit?>(key = "/account/login_verification_enrollment_v2")

@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byNullableInt
 import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.byUrl
 
-@Suppress("UNUSED")
+
 class Embed(override val json: JsonObject): JsonModel {
     val authorName by json.byString("author_name")
     val authorUrl by json.byUrl("author_url")

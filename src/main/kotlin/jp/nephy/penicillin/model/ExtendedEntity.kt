@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byIntList
 import jp.nephy.jsonkt.byModelList
 import jp.nephy.jsonkt.byNullableString
 
-@Suppress("UNUSED")
+
 class ExtendedEntity(override val json: JsonObject): JsonModel {
     val displayTextRange by json.byIntList("display_text_range")
     val media by json.byModelList<MediaEntity>()

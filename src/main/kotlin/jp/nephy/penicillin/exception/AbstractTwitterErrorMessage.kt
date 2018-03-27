@@ -1,7 +1,7 @@
 package jp.nephy.penicillin.exception
 
-abstract class AbsTwitterErrorMessage(val code: Int, val text: String, val description: String?): Exception() {
-    override val message = StringBuilder().apply {
+abstract class AbstractTwitterErrorMessage(val code: Int, val text: String, val description: String?): Exception() {
+    override val message = buildString {
         append(text)
         if (! text.endsWith(".")) {
             append(".")
@@ -13,5 +13,5 @@ abstract class AbsTwitterErrorMessage(val code: Int, val text: String, val descr
             }
         }
         append(" Returned with error code $code.")
-    }.toString()
+    }
 }

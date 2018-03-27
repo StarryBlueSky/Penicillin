@@ -7,7 +7,7 @@ import jp.nephy.penicillin.model.SavedSearch
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
-@Suppress("UNUSED")
+
 class SavedSearch(private val client: Client) {
     @GET
     fun getList(vararg options: Pair<String, String?>): ResponseList<SavedSearch> {

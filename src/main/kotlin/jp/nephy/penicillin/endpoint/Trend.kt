@@ -10,7 +10,7 @@ import jp.nephy.penicillin.parameters.TrendExclude
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
-@Suppress("UNUSED")
+
 class Trend(private val client: Client) {
     @GET
     fun getAvailableAreas(vararg options: Pair<String, String?>): ResponseList<TrendArea> {

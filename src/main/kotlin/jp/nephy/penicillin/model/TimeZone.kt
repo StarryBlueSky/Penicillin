@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byInt
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class TimeZone(override val json: JsonObject): JsonModel {
     val name by json.byString
     val utcOffset by json.byInt("utc_offset")

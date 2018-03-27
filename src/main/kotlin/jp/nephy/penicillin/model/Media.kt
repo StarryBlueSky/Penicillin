@@ -3,7 +3,7 @@ package jp.nephy.penicillin.model
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
-@Suppress("UNUSED")
+
 class Media(override val json: JsonObject): JsonModel {
     val expiresAfterSecs by json.byNullableInt("expires_after_secs")
     val mediaId by json.byLong("media_id")

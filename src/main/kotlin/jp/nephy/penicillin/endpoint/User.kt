@@ -9,7 +9,7 @@ import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
-@Suppress("UNUSED")
+
 class User(private val client: Client) {
     @GET
     fun getUser(screenName: String?=null, userId: Long?=null, includeEntities: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<User> {

@@ -12,7 +12,7 @@ class OAuthUtil {
     companion object {
         fun getSigningBaseString(method: HTTPMethod, url: String, authorizationHeaderComponent: LinkedHashMap<String,String>, data: List<Pair<String,String>>?=null, excludeData: Boolean): String {
             val signatureParam = sortedMapOf<String, String>().apply {
-                authorizationHeaderComponent.filterValues { it != "" }.forEach{
+                authorizationHeaderComponent.filterValues { it.isNotBlank() }.forEach{
                     put(it.key, it.value)
                 }
                 if (!excludeData) {

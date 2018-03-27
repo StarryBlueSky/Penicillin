@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byJsonArray
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class BoundingBox(override val json: JsonObject): JsonModel {
     val type by json.byString
     val coordinates by json.byJsonArray

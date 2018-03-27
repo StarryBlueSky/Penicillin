@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.byBool
 import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.byUrl
 
-@Suppress("UNUSED")
+
 class CoverFormat(json: JsonObject): CoverMedia(json) {
     val pageId by json.byString("page_id")
     val isPromoted by json.byBool("is_promoted")

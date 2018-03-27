@@ -3,7 +3,7 @@ package jp.nephy.penicillin.model
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
-@Suppress("UNUSED")
+
 class TrendModule(override val json: JsonObject): JsonModel {
     val name by json.byString
     val description by json.byNullableString("meta_description")

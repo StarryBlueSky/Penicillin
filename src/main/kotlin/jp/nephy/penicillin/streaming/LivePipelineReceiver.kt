@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.jsonObject
 import jp.nephy.penicillin.misc.StatusID
 import jp.nephy.penicillin.response.ResponseStream
 
-class LivePipelineReceiver(response: ResponseStream<ILivePipelineListener>, private val listener: ILivePipelineListener): AbsStreamingParser<ILivePipelineListener>(response) {
+class LivePipelineReceiver(response: ResponseStream<ILivePipelineListener>, private val listener: ILivePipelineListener): StreamingParser<ILivePipelineListener>(response) {
     override fun handle(json: JsonObject) {
         val topic = json["topic"].asString
 

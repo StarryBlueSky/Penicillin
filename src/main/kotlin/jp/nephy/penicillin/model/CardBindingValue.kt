@@ -3,7 +3,7 @@ package jp.nephy.penicillin.model
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
-@Suppress("UNUSED")
+
 class CardBindingValue(override val json: JsonObject): JsonModel {
     val choices by lazy {
         (1..5).filter { json.contains("choice${it}_label") }.map {

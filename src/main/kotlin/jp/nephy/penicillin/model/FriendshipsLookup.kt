@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.byStringList
 
-@Suppress("UNUSED")
+
 class FriendshipsLookup(override val json: JsonObject): JsonModel {
     val connections by json.byStringList
     val id by json.byLong

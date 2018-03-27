@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byNullableString
 import jp.nephy.jsonkt.byNullableUrl
 
-@Suppress("UNUSED")
+
 class PlaceAttribute(override val json: JsonObject): JsonModel {
     val streetAddress by json.byNullableString("street_address")
     val locality by json.byNullableString

@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.get
 
-@Suppress("UNUSED")
+
 class Delete(override val json: JsonObject): JsonModel {
     val timestampMs by json["delete"].byString("timestamp_ms")
     val statusId by json["delete"]["status"].byLong("id")

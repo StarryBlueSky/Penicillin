@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.Language
 
-@Suppress("UNUSED")
+
 class Setting(override val json: JsonObject): JsonModel {
     val addressBookLiveSyncEnabled by json.byBool("address_book_live_sync_enabled")
     val allowAdsPersonalization by json.byBool("allow_ads_personalization")

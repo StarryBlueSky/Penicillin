@@ -10,7 +10,7 @@ import jp.nephy.penicillin.parameters.CollectionCreationTimelineOrder
 import jp.nephy.penicillin.response.ResponseObject
 import java.net.URL
 
-@Suppress("UNUSED")
+
 class Collection(private val client: Client) {
     @GET
     fun getCollection(id: String, vararg options: Pair<String, String?>): ResponseObject<Empty> {

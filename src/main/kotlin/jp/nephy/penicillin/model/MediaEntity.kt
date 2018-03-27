@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.StatusID
 
-@Suppress("UNUSED")
+
 class MediaEntity(override val json: JsonObject): JsonModel {
     val additionalMediaInfo by json.byModel<AdditionalMediaInfo?>(key = "additional_media_info")
     val displayUrl by json.byString("display_url")

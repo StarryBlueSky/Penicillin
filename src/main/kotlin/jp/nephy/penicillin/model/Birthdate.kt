@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byNullableInt
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class Birthdate(override val json: JsonObject): JsonModel {
     val year by json.byNullableInt
     val month by json.byNullableInt

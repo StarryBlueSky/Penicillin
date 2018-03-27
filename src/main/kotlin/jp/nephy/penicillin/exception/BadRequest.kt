@@ -1,3 +1,3 @@
 package jp.nephy.penicillin.exception
 
-class BadRequest: AbsTwitterErrorMessage(214, "Bad request", "")
+class BadRequest: AbstractTwitterErrorMessage(214, "Bad request", "")

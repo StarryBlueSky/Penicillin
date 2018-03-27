@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byModel
 import jp.nephy.jsonkt.byNullableString
 import jp.nephy.jsonkt.jsonObject
 
-@Suppress("UNUSED")
+
 class ApplicationRateLimitStatus(override val json: JsonObject): JsonModel {
     val accessToken by json["rate_limit_content"].jsonObject.byNullableString("access_token")
     val application by json["rate_limit_content"].jsonObject.byNullableString
