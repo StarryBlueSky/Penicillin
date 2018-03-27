@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byInt
 import jp.nephy.jsonkt.byUrl
 
-@Suppress("UNUSED")
+
 class Banner(override val json: JsonObject): JsonModel {
     val h by json.byInt
     val w by json.byInt

@@ -3,7 +3,7 @@ package jp.nephy.penicillin.model
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
-@Suppress("UNUSED")
+
 class SearchTypeahead(override val json: JsonObject): JsonModel {
     val completedIn by json.byFloat("completed_in")
     val hashtags by json.byStringList

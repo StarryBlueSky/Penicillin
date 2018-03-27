@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.CreatedAt
 
-@Suppress("UNUSED")
+
 class ActivityEvent(override val json: JsonObject): JsonModel {
     val action by json.byString
     val maxPosition by json.byString("max_position")

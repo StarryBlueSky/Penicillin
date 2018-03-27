@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byModel
 import jp.nephy.jsonkt.byModelList
 
-@Suppress("UNUSED")
+
 class MomentTrendModule(override val json: JsonObject): JsonModel {
     val metadata by json.byModel<TrendMetadata>()
     val trends by json.byModelList<TrendType>()

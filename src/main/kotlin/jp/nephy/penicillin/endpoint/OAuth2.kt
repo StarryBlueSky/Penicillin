@@ -8,7 +8,7 @@ import jp.nephy.penicillin.credential.BearerToken
 import jp.nephy.penicillin.model.OAuth2Token
 import jp.nephy.penicillin.response.ResponseObject
 
-@Suppress("UNUSED")
+
 class OAuth2(private val client: Client) {
     @POST
     fun getBearerTokenResponse(grantType: String="client_credentials", vararg options: Pair<String, String?>): ResponseObject<OAuth2Token> {

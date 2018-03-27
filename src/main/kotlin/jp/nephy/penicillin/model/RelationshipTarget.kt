@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byBool
 import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class RelationshipTarget(override val json: JsonObject): JsonModel {
     val followedBy by json.byBool("followed_by")
     val following by json.byBool

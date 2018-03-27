@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byNullableBool
 import jp.nephy.jsonkt.byNullableLong
 import jp.nephy.jsonkt.byNullableString
 
-@Suppress("UNUSED")
+
 class Phone(override val json: JsonObject): JsonModel {
     val address by json.byNullableString
     val addressForSms by json.byNullableString("address_for_sms")

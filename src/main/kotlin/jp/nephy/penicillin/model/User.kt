@@ -7,7 +7,7 @@ import jp.nephy.penicillin.misc.CreatedAt
 import jp.nephy.penicillin.misc.Language
 import jp.nephy.penicillin.misc.StatusID
 
-@Suppress("UNUSED")
+
 open class User(final override val json: JsonObject): JsonModel {
     val advertiserAccountServiceLevels by json.byStringList("advertiser_account_service_levels")
     val advertiserAccountType by json.byNullableString("advertiser_account_type")

@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byJsonObject
 import jp.nephy.jsonkt.byModelList
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class ActivityAboutMe(override val json: JsonObject): JsonModel {
     val activityEvents by json.byModelList<ActivityEvent>()
     val genericActivities by json.byJsonObject("generic_activities")

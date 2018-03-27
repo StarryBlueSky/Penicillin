@@ -8,7 +8,7 @@ import jp.nephy.penicillin.model.Status
 import jp.nephy.penicillin.response.ResponseList
 import jp.nephy.penicillin.response.ResponseObject
 
-@Suppress("UNUSED")
+
 class Favorite(private val client: Client) {
     @GET
     fun getList(userId: Long?=null, screenName: String?=null, sinceId: StatusID?=null, maxId: StatusID?=null, count: Int?=null, includeEntities: Boolean?=null, vararg options: Pair<String, String?>): ResponseList<Status> {

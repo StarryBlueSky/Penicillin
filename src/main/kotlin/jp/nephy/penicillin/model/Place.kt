@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.Country
 
-@Suppress("UNUSED")
+
 class Place(override val json: JsonObject): JsonModel {
     val attributes by json.byModel<PlaceAttribute>()
     val boundingBox by json.byModel<BoundingBox>(key = "bounding_box")

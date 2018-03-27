@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byModelList
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class TrendPlace(override val json: JsonObject): JsonModel {
     val asOf by json.byString("as_of")
     val createdAt by json.byString("created_at")

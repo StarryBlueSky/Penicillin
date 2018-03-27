@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.byStringList
 
-@Suppress("UNUSED")
+
 class StatusWithheld(override val json: JsonObject): JsonModel {
     val userId by json["status_withheld"].byLong("user_id")
     val id by json["status_withheld"].byLong

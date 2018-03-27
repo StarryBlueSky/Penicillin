@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.*
 import jp.nephy.penicillin.misc.Language
 
-@Suppress("UNUSED")
+
 class Status(override val json: JsonObject): JsonModel {
     val contributors by json.byModelList<Contributor>()
     val conversationId by json.byNullableLong("conversation_id")

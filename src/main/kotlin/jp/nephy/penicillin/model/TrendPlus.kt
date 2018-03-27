@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byModel
 import jp.nephy.jsonkt.byModelList
 
-@Suppress("UNUSED")
+
 class TrendPlus(override val json: JsonObject): JsonModel {
     val id by json.byLong
     val metadata by json.byModel<TrendMetadata>()

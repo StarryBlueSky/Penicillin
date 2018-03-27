@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byBool
 import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class RelationshipSource(override val json: JsonObject): JsonModel {
     val allReplies by json.byBool("all_replies")
     val blockedBy by json.byBool("blocked_by")

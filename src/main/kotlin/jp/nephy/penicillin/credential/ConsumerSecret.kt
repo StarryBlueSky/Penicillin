@@ -1,3 +1,3 @@
 package jp.nephy.penicillin.credential
 
-class ConsumerSecret(secret: String): AbsCredential(secret)
+class ConsumerSecret(secret: String): AbstractCredential(secret)

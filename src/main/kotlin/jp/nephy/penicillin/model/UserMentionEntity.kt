@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byIntList
 import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class UserMentionEntity(override val json: JsonObject): JsonModel {
     val screenName by json.byString("screen_name")
     val name by json.byString

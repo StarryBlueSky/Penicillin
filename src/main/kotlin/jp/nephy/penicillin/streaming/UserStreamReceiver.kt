@@ -1,14 +1,16 @@
 package jp.nephy.penicillin.streaming
 
 import com.google.gson.JsonObject
+import jp.nephy.jsonkt.contains
+import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.model.*
 import jp.nephy.penicillin.response.ResponseStream
 
-class UserStreamReceiver(response: ResponseStream<IUserStreamListener>, private val listener: IUserStreamListener): AbsStreamingParser<IUserStreamListener>(response) {
+class UserStreamReceiver(response: ResponseStream<IUserStreamListener>, private val listener: IUserStreamListener): StreamingParser<IUserStreamListener>(response) {
     override fun handle(json: JsonObject) = when {
-        json.has("text") -> listener.onStatus(Status(json))
-        json.has("direct_message") -> listener.onDirectMessage(DirectMessage(json))
-        json.has("event") -> when (json["event"].asString) {
+        json.contains("text") -> listener.onStatus(Status(json))
+        json.contains("direct_message") -> listener.onDirectMessage(DirectMessage(json))
+        json.contains("event") -> when (json["event"].string) {
             "favorite" -> listener.onFavorite(StatusEvent(json))
             "unfavorite" -> listener.onUnfavorite(StatusEvent(json))
             "favorited_retweet" -> listener.onFavorite(StatusEvent(json))
@@ -29,11 +31,11 @@ class UserStreamReceiver(response: ResponseStream<IUserStreamListener>, private 
             "unmute" -> listener.onUnmute(UserEvent(json))
             else -> listener.onUnknownData(json.toString())
         }
-        json.has("friends") -> listener.onFriends(Friends(json))
-        json.has("delete") -> listener.onDelete(Delete(json))
-        json.has("scrub_geo") -> listener.onScrubGeo(ScrubGeo(json))
-        json.has("status_withheld") -> listener.onStatusWithheld(StatusWithheld(json))
-        json.has("limit") -> listener.onLimit(Limit(json))
+        json.contains("friends") -> listener.onFriends(Friends(json))
+        json.contains("delete") -> listener.onDelete(Delete(json))
+        json.contains("scrub_geo") -> listener.onScrubGeo(ScrubGeo(json))
+        json.contains("status_withheld") -> listener.onStatusWithheld(StatusWithheld(json))
+        json.contains("limit") -> listener.onLimit(Limit(json))
         else -> listener.onUnknownData(json.toString())
     }
 }

@@ -3,7 +3,7 @@ package jp.nephy.penicillin.model
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
-@Suppress("UNUSED")
+
 class Configuration(override val json: JsonObject): JsonModel {
     val charactersReservedPerMedia by json.byInt("characters_reserved_per_media")
     val clientEventUrl by json.byUrl("client_event_url")

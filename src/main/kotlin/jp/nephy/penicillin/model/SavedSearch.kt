@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.CreatedAt
 
-@Suppress("UNUSED")
+
 class SavedSearch(override val json: JsonObject): JsonModel {
     val createdAt by json.byLambda("created_at") { CreatedAt(string) }
     val id by json.byLong

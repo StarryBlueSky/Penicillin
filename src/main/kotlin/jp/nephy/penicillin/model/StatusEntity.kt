@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byModelList
 
-@Suppress("UNUSED")
+
 class StatusEntity(override val json: JsonObject): JsonModel {
     val hashtags by json.byModelList<HashtagEntity>()
     val media by json.byModelList<MediaEntity>()

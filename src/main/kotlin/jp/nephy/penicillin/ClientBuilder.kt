@@ -15,7 +15,7 @@ class ClientBuilder {
     private var readTimeout: Int? = null
     private var writeTimeout: Int? = null
 
-    @Suppress("UNUSED")
+
     fun officialClient(client: OfficialClient, at: AccessToken, ats: AccessTokenSecret) = this.apply {
         val keys = client.getCredentials()
         ck = keys.first
@@ -24,32 +24,32 @@ class ClientBuilder {
         this@ClientBuilder.ats = ats
         useOfficialKeys = true
     }
-    @Suppress("UNUSED")
+
     fun authenticate(ck: ConsumerKey, cs: ConsumerSecret) = this.apply {
         this@ClientBuilder.ck = ck
         this@ClientBuilder.cs = cs
     }
-    @Suppress("UNUSED")
+
     fun authenticate(ck: ConsumerKey, cs: ConsumerSecret, at: AccessToken, ats: AccessTokenSecret) = this.apply {
         this@ClientBuilder.ck = ck
         this@ClientBuilder.cs = cs
         this@ClientBuilder.at = at
         this@ClientBuilder.ats = ats
     }
-    @Suppress("UNUSED")
+
     fun authenticate(token: BearerToken) = this.apply {
         this@ClientBuilder.token = token
     }
 
-    @Suppress("UNUSED")
+
     fun connectTimeout(sec: Int) = this.apply {
         connectTimeout = sec
     }
-    @Suppress("UNUSED")
+
     fun readTimeout(sec: Int) = this.apply {
         readTimeout = sec
     }
-    @Suppress("UNUSED")
+
     fun writeTimeout(sec: Int) = this.apply {
         writeTimeout = sec
     }

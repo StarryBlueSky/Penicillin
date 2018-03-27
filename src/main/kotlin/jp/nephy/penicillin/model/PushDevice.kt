@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byInt
 import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class PushDevice(override val json: JsonObject): JsonModel {
     val appVersion by json.byInt("app_version")
     val availableLevels by json.byInt("available_levels")

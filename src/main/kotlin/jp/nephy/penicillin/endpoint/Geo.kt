@@ -6,7 +6,7 @@ import jp.nephy.penicillin.model.GeoResult
 import jp.nephy.penicillin.model.Place
 import jp.nephy.penicillin.response.ResponseObject
 
-@Suppress("UNUSED")
+
 class Geo(private val client: Client) {
     @GET
     fun getPlace(placeId: String, vararg options: Pair<String, String?>): ResponseObject<Place> {

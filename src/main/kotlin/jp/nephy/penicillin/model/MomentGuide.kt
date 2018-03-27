@@ -3,7 +3,7 @@ package jp.nephy.penicillin.model
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
-@Suppress("UNUSED")
+
 class MomentGuide(override val json: JsonObject): JsonModel {
     val categoryId by json["category"].byString("category_id")
     val categoryName by json["category"].byString("name")

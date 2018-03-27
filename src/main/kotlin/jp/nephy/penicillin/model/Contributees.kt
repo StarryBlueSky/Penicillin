@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byBool
 import jp.nephy.jsonkt.byModel
 
-@Suppress("UNUSED")
+
 class Contributees(override val json: JsonObject): JsonModel {
     val admin by json.byBool
     val user by json.byModel<User>()

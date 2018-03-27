@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byJsonObject
 import jp.nephy.jsonkt.byString
 
-@Suppress("UNUSED")
+
 class DMUserUpdate(override val json: JsonObject): JsonModel {
     val userEvents by json.byJsonObject("user_events")
 

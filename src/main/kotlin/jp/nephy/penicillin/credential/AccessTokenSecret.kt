@@ -1,3 +1,3 @@
 package jp.nephy.penicillin.credential
 
-class AccessTokenSecret(secret: String): AbsCredential(secret)
+class AccessTokenSecret(secret: String): AbstractCredential(secret)

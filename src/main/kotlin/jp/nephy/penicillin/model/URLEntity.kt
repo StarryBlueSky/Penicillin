@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.jsonkt.byIntList
 import jp.nephy.jsonkt.byUrl
 
-@Suppress("UNUSED")
+
 class URLEntity(override val json: JsonObject): JsonModel {
     val url by json.byUrl
     val expandedUrl by json.byUrl("expanded_url")

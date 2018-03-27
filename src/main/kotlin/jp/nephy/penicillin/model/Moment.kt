@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.misc.CreatedAt
 
-@Suppress("UNUSED")
+
 class Moment(override val json: JsonObject): JsonModel {
     val id by json["moment"].byString
     val title by json["moment"].byString

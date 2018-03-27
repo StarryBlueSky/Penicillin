@@ -1,12 +1,13 @@
 package jp.nephy.penicillin.response
 
+import jp.nephy.jsonkt.JsonModel
 import jp.nephy.penicillin.PenicillinRequest
 import jp.nephy.penicillin.model.Cursor
 import okhttp3.Request
 import okhttp3.Response
 
-@Suppress("UNUSED")
-class ResponseCursorObject<T>(private val klass: Class<T>, val result: T, content: String, val prevRequest: PenicillinRequest, request: Request, response: Response): AbsRESTResponse(content, request, response) {
+
+class ResponseCursorObject<T: JsonModel>(private val klass: Class<T>, val result: T, content: String, val prevRequest: PenicillinRequest, request: Request, response: Response): AbstractRestResponse(content, request, response) {
     fun next(): ResponseCursorObject<T> = getByCursor((result as Cursor).nextCursor)
     fun previous(): ResponseCursorObject<T> = getByCursor((result as Cursor).previousCursor)
 

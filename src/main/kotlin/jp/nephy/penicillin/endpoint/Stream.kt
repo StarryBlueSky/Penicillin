@@ -16,7 +16,7 @@ import jp.nephy.penicillin.streaming.ILivePipelineListener
 import jp.nephy.penicillin.streaming.ISampleStreamListener
 import jp.nephy.penicillin.streaming.IUserStreamListener
 
-@Suppress("UNUSED")
+
 class Stream(private val client: Client) {
     @GET
     @Deprecated("Streaming API will be abolished in July.")
