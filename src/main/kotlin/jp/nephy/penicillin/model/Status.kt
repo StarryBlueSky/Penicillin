@@ -2,8 +2,10 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.misc.*
-import jp.nephy.penicillin.misc.Language
+import jp.nephy.penicillin.util.CreatedAt
+import jp.nephy.penicillin.util.Language
+import jp.nephy.penicillin.util.Source
+import jp.nephy.penicillin.util.StatusID
 
 
 class Status(override val json: JsonObject): JsonModel {
@@ -19,7 +21,7 @@ class Status(override val json: JsonObject): JsonModel {
     val favoriteCount by json.byInt("favorite_count")
     val favorited by json.byBool
     val filterLevel by json.byNullableString("filter_level")
-    val fullText by json.byNullableString("full_text")
+    private val fullTextInternal by json.byNullableString("full_text")
     @Deprecated("geo field is deprecated. Use coordinates instead.")
     val geo by json.byNullableJsonObject
     val id by json.byLambda { StatusID(long) }
@@ -49,18 +51,21 @@ class Status(override val json: JsonObject): JsonModel {
     val truncated by json.byBool
     val user by json.byModel<User>()
     val withheldCopyright by json.byNullableBool("withheld_copyright")
-    val withheldInCountries by json.byLambdaList("withheld_in_countries") { Country(string) }
+    val withheldInCountries by json.byStringList("withheld_in_countries")
     val withheldScope by json.byNullableString("withheld_scope")
 
-    fun fullText(): String {
-        return if (retweetedStatus != null && retweetedStatus!!.truncated) {
-            "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.extendedTweet!!.fullText}"
-        } else if (fullText != null) {
-            fullText!!
-        } else if (truncated) {
-            extendedTweet!!.fullText!!
+    val fullText: String
+        get() = if (retweetedStatus != null) {
+            if (retweetedStatus?.extendedTweet != null) {
+                "RT @${retweetedStatus !!.user.screenName}: ${retweetedStatus !!.extendedTweet !!.fullText}"
+            } else {
+                text
+            }
         } else {
-            text
+            if (extendedTweet != null) {
+                extendedTweet?.fullText ?: text
+            } else {
+                text
+            }
         }
-    }
 }

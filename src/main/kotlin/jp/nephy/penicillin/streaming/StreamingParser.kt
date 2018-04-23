@@ -2,65 +2,70 @@ package jp.nephy.penicillin.streaming
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.JsonKt
-import jp.nephy.penicillin.exception.TwitterAPIError
-import jp.nephy.penicillin.misc.unescapeHTMLCharacters
-import jp.nephy.penicillin.response.ResponseStream
+import jp.nephy.penicillin.util.unescapeHTMLCharacters
+import okhttp3.Response
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.net.SocketException
-import java.net.SocketTimeoutException
 import kotlin.concurrent.thread
 
-abstract class StreamingParser<T>(response: ResponseStream<T>) {
-    private val stream = response.response.body()!!.byteStream()
+abstract class StreamingParser(response: Response, private val listener: StreamListener<*>): StreamHandler {
+    private val source = response.body()!!.source()
+    private val stream = source.inputStream()
     private val buffer = BufferedReader(InputStreamReader(stream))
     private var stop = false
 
-    private var onClose: () -> Unit = {}
-
-    fun start(): StreamingParser<T> {
-        thread(name="readline daemon") {
-            readLine { json ->  handle(json) }
+    val isEndStream: Boolean
+        get() = try {
+            source.exhausted()
+        } catch (e: Exception) {
+            false
         }
-        return this
+
+    fun start(wait: Boolean = false) = apply {
+        thread {
+            readLine { json -> handle(json) }
+        }
+
+        while (wait && ! stop) {
+            Thread.sleep(1000)
+        }
     }
+
     fun terminate() {
         stop = true
     }
 
-    fun onClose(callable: () -> Unit): StreamingParser<T> {
-        return this.apply {
-            onClose = callable
-        }
-    }
-
-    protected abstract fun handle(json: JsonObject)
-
     private fun readLine(callback: (JsonObject) -> Unit) {
-        while (! stop) {
-            val line = try {
-                buffer.readLine() ?: break
-            } catch (e: SocketException) {
-                break
-            } catch (e: SocketTimeoutException) {
+        listener.onConnect()
+        while (true) {
+            if (stop || isEndStream) {
                 break
             }
 
-            if (line.isNotEmpty()) {
-                if (! line.startsWith("{")) {
-                    throw TwitterAPIError("Stream got illigal character.", line)
+            val line = try {
+                buffer.readLine()
+            } catch (e: Exception) {
+                null
+            } ?: return
+
+            if (line.isBlank()) {
+                continue
+            }
+
+            thread {
+                val json = try {
+                    JsonKt.toJsonObject(line.unescapeHTMLCharacters())
+                } catch (e: Exception) {
+                    return@thread
                 }
 
-                thread(name="callback", isDaemon=false) {
-                    callback(JsonKt.toJsonObject(
-                            line.unescapeHTMLCharacters()
-                    ))
-                }
+                callback(json)
             }
         }
 
+        stop = true
         buffer.close()
         stream.close()
-        onClose()
+        listener.onDisconnect()
     }
 }

@@ -1,8 +1,8 @@
 group "jp.nephy"
-version "1.4.0"
+version "2.0.0"
 
 buildscript {
-    ext.kotlin_version = "1.2.31"
+    ext.kotlin_version = "1.2.40"
 
     repositories {
         mavenCentral()
@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.15"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16"
     }
 }
 
@@ -26,10 +26,15 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    compile "com.squareup.okhttp3:okhttp:3.10.0"
     compile "com.google.code.gson:gson:2.8.2"
-    compile "com.squareup.okhttp3:okhttp:3.9.1"
     compile "jp.nephy:jsonkt:1.4"
-    compile "com.neovisionaries:nv-i18n:1.22"
+
+    compile "io.github.microutils:kotlin-logging:1.4.8"
+    compile "ch.qos.logback:logback-core:1.2.3"
+    compile "ch.qos.logback:logback-classic:1.2.3"
+    compile "org.fusesource.jansi:jansi:1.16"
 }
 
 compileKotlin {

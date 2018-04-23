@@ -1,124 +1,43 @@
 package jp.nephy.penicillin.endpoint
 
-import jp.nephy.penicillin.Client
-import jp.nephy.penicillin.annotation.POST
-import jp.nephy.penicillin.annotation.Recipe
-import jp.nephy.penicillin.auth.AuthorizationType
-import jp.nephy.penicillin.auth.OAuthAuthHandler
-import jp.nephy.penicillin.credential.AccessToken
-import jp.nephy.penicillin.credential.AccessTokenSecret
-import jp.nephy.penicillin.credential.ConsumerKey
-import jp.nephy.penicillin.credential.ConsumerSecret
-import jp.nephy.penicillin.misc.HTTPMethod
-import jp.nephy.penicillin.response.ResponseText
-import java.net.URL
+import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.model.special.AccessTokenResponse
+import jp.nephy.penicillin.model.special.RequestTokenResponse
+import jp.nephy.penicillin.util.Util
 
 
-class OAuth(private val client: Client) {
-    @POST
-    fun getRequestTokenResponse(callbackUrl: String?=null, vararg options: Pair<String, String?>): ResponseText {
-        return client.session.new()
-                .type(AuthorizationType.OAuth1aRequestToken)
-                .url("https://api.twitter.com/oauth/request_token")
-                .callback(callbackUrl)
-                .dataAsForm(*options)
-                .post()
-                .getResponseText()
+class OAuth(override val client: PenicillinClient): Endpoint {
+    fun requestToken(callbackUrl: String? = null, vararg options: Pair<String, Any?>): RequestTokenResponse {
+        val result = client.session.postText("https://api.twitter.com/oauth/request_token") {
+            callback(callbackUrl)
+            form(*options)
+        }.complete()
+
+        val pattern = "^oauth_token=(.+)&oauth_token_secret=(.+)&oauth_callback_confirmed=(.+)$".toRegex()
+        val (requestToken, requestTokenSecret, callbackConfirmed) = pattern.matchEntire(result.result) !!.destructured
+
+        return RequestTokenResponse(requestToken, requestTokenSecret, callbackConfirmed.toBoolean())
     }
 
-    @POST
-    fun getRequestToken(callbackUrl: String?=null, vararg options: Pair<String, String?>): Pair<String, String> {
-        var requestToken: String? = null
-        var requestTokenSecret: String? = null
-
-        getRequestTokenResponse(callbackUrl, *options).content.split("&").forEach {
-            val (k, v) = it.split("=")
-            when (k) {
-                "oauth_token" -> requestToken = v
-                "oauth_token_secret" -> requestTokenSecret = v
-            }
-        }
-        return Pair(requestToken!!, requestTokenSecret!!)
+    fun authorizeUrl(accessToken: String, forceLogin: Boolean? = null, screenName: String? = null): String {
+        return Util.buildUrl("https://api.twitter.com/oauth/authorize", "oauth_token" to accessToken, "force_login" to forceLogin, "screen_name" to screenName)
     }
 
-    fun getAuthorizeURL(accessToken: String, forceLogin: Boolean?=null, screenName: String?=null): URL {
-        var url = "https://api.twitter.com/oauth/authorize?oauth_token=$accessToken"
-        var params = ""
-        if (forceLogin != null) {
-            params += "force_login=$forceLogin"
-        }
-        if (screenName != null) {
-            params += "screen_name=$screenName"
-        }
-
-        if (params.isNotEmpty()) {
-            url += "?$params"
-        }
-        return URL(url)
+    fun authenticateUrl(accessToken: String, forceLogin: Boolean? = null, screenName: String? = null): String {
+        return Util.buildUrl("https://api.twitter.com/oauth/authenticate", "oauth_token" to accessToken, "force_login" to forceLogin, "screen_name" to screenName)
     }
 
-    fun getAuthenticateURL(accessToken: String, forceLogin: Boolean?=null, screenName: String?=null): URL {
-        var url = "https://api.twitter.com/oauth/authenticate?oauth_token=$accessToken"
-        var params = ""
-        if (forceLogin != null) {
-            params += "force_login=$forceLogin"
-        }
-        if (screenName != null) {
-            params += "screen_name=$screenName"
-        }
+    fun accessToken(requestToken: String, requestTokenSecret: String, verifier: String, vararg options: Pair<String, Any?>): AccessTokenResponse {
+        val result = PenicillinClient.build {
+            application(client.session.consumerKey !!, client.session.consumerSecret !!)
+            token(requestToken, requestTokenSecret)
+        }.session.postText("https://api.twitter.com/oauth/access_token") {
+            form("oauth_verifier" to verifier, *options)
+        }.complete()
 
-        if (params.isNotEmpty()) {
-            url += "?$params"
-        }
-        return URL(url)
-    }
+        val pattern = "^oauth_token=(.+)&oauth_token_secret=(.+)&user_id=(\\d+)&screen_name=(.+)$".toRegex()
+        val (accessToken, accessTokenSecret, userId, screenName) = pattern.matchEntire(result.result) !!.destructured
 
-    @POST
-    fun getAccessTokenResponse(ck: ConsumerKey, cs: ConsumerSecret, requestToken: String, requestTokenSecret: String, verifier: String, vararg options: Pair<String, String?>): ResponseText {
-        val url = "https://api.twitter.com/oauth/access_token"
-        val data = mutableListOf("oauth_verifier" to verifier).apply {
-            options.forEach {
-                if (it.second != null) {
-                    this.add(Pair(it.first, it.second!!))
-                }
-            }
-        }
-
-        return client.session.new()
-                .type(AuthorizationType.NONE)
-                .url(url)
-                .header("Authorization" to  OAuthAuthHandler(ck, cs, AccessToken(requestToken), AccessTokenSecret(requestTokenSecret)).sign(HTTPMethod.POST, url, data))
-                .dataAsForm(*data.toTypedArray())
-                .post()
-                .getResponseText()
-    }
-
-    @POST
-    fun getAccessToken(ck: ConsumerKey, cs: ConsumerSecret, requestToken: String, requestTokenSecret: String, verifier: String, vararg options: Pair<String, String?>): Pair<AccessToken, AccessTokenSecret> {
-        var at: AccessToken? = null
-        var ats: AccessTokenSecret? = null
-        getAccessTokenResponse(ck, cs, requestToken, requestTokenSecret, verifier, *options).content.split("&").forEach {
-            val (k, v) = it.split("=")
-            when (k) {
-                "oauth_token" -> at = AccessToken(v)
-                "oauth_token_secret" -> ats = AccessTokenSecret(v)
-            }
-        }
-
-        return Pair(at!!, ats!!)
-    }
-
-    @POST @Recipe
-    @Deprecated("this function should not be used in GUI application because it requires stdin.")
-    fun getAccessTokenCLI(callbackUrl: String?=null, forceLogin: Boolean?=null, screenName: String?=null): Pair<AccessToken, AccessTokenSecret> {
-        val ck = client.session.oauthrt!!.ck
-        val cs = client.session.oauthrt!!.cs
-        val (requestToken, requestTokenSecret) = getRequestToken(callbackUrl)
-
-        val url = getAuthorizeURL(requestToken, forceLogin, screenName)
-        println("$url\nInput PIN code: ")
-        val pin = readLine()!!
-
-        return getAccessToken(ck, cs, requestToken, requestTokenSecret, pin)
+        return AccessTokenResponse(accessToken, accessTokenSecret, userId.toLong(), screenName)
     }
 }

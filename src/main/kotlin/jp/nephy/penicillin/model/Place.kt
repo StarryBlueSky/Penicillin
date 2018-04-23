@@ -2,7 +2,6 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.misc.Country
 
 
 class Place(override val json: JsonObject): JsonModel {
@@ -11,7 +10,7 @@ class Place(override val json: JsonObject): JsonModel {
     val centroid by json.byFloatList
     val containedWithin by json.byModelList<Place>(key = "contained_within")
     val country by json.byString
-    val countryCode by json.byLambda(key = "country_code") { Country(string) }
+    val countryCode by json.byString(key = "country_code")
     val fullName by json.byString("full_name")
     val geometry by json.byNullableString // null
     val id by json.byString
