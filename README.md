@@ -126,7 +126,7 @@ client.status.createPollTweet(
     status = "どのSNSが一番好き？",
     choices = listOf("Twitter", "Facebook", "Mastodon", "Weibo"),
     minutes = 60 * 24 * 5 // 5 days
-)
+).complete()
 ```
 
 
