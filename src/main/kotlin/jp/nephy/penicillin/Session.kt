@@ -1,51 +1,71 @@
 package jp.nephy.penicillin
 
-import jp.nephy.penicillin.annotation.MustBeCalled
-import jp.nephy.penicillin.auth.*
-import jp.nephy.penicillin.credential.*
-import okhttp3.ConnectionPool
+import jp.nephy.jsonkt.JsonModel
+import jp.nephy.penicillin.model.Cursor
+import jp.nephy.penicillin.request.*
+import jp.nephy.penicillin.streaming.StreamHandler
 import okhttp3.OkHttpClient
-import okhttp3.Protocol
+import java.util.concurrent.ScheduledThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
-class Session(val useOfficialKeys: Boolean=false, connectTimeoutSec: Int?=null, readTimeoutSec: Int?=null, writeTimeoutSec: Int?=null) {
-    val httpClient = OkHttpClient.Builder()
-            .connectTimeout(connectTimeoutSec?.toLong() ?: 20, TimeUnit.SECONDS)
-            .readTimeout(readTimeoutSec?.toLong() ?: 40, TimeUnit.SECONDS)
-            .writeTimeout(writeTimeoutSec?.toLong() ?: 20, TimeUnit.SECONDS)
-            .protocols(listOf(Protocol.HTTP_1_1, Protocol.HTTP_2))
-            .connectionPool(ConnectionPool(10, 400, TimeUnit.SECONDS))
-            .build()!!
 
-    lateinit var authType: AuthorizationType
-    var oauth: OAuthAuthHandler? = null
-    var oauthrt: OAuthRequestTokenHandler? = null
-    var oauth2: OAuth2AuthHandler? = null
-    var oauth2rt: OAuth2RequestTokenHandler? = null
-    @MustBeCalled
-    fun authenticate(ck: ConsumerKey?=null, cs: ConsumerSecret?=null, at: AccessToken?=null, ats: AccessTokenSecret?=null, token: BearerToken?=null) {
-        if (ck != null && cs != null && at != null && ats != null) {
-            oauth = OAuthAuthHandler(ck, cs, at, ats)
-        }
-        if (ck != null && cs != null) {
-            oauthrt = OAuthRequestTokenHandler(ck, cs)
-            oauth2rt = OAuth2RequestTokenHandler(ck, cs)
-        }
-        if (token != null) {
-            oauth2 = OAuth2AuthHandler(token)
-        }
-
-        authType = if (at != null && ats != null) {
-            AuthorizationType.OAuth1a
-        } else if (ck != null && cs != null) {
-            AuthorizationType.OAuth1aRequestToken
-        } else if (token != null) {
-            AuthorizationType.OAuth2
-        } else {
-            throw IllegalArgumentException("ck, cs, at, ats, token are all null.")
+class Session(val consumerKey: String?, val consumerSecret: String?, val accessToken: String?, val accessTokenSecret: String?, val isOfficialClient: Boolean, val bearerToken: String?, httpClientBuilder: OkHttpClient.Builder.() -> Unit, val maxRetries: Int) {
+    init {
+        if (consumerKey == null && consumerSecret == null && accessToken == null && accessTokenSecret == null && bearerToken == null) {
+            throw PenicillinLocalizedException(LocalizedString.CredentialsAreAllNull)
         }
     }
 
-    @MustBeCalled
-    fun new() = PenicillinRequest(this)
+    val httpClient = OkHttpClient.Builder().apply(httpClientBuilder).apply {
+        readTimeout(60, TimeUnit.SECONDS)
+    }.build()!!
+    val pool = ScheduledThreadPoolExecutor(5)
+
+    inline fun <reified T: JsonModel> getObject(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): ObjectAction<T> {
+        return ObjectAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.GET, url, authorizationType).apply(operation))
+    }
+    inline fun <reified T: Cursor> getCursorObject(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): CursorObjectAction<T> {
+        return CursorObjectAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.GET, url, authorizationType).apply(operation))
+    }
+    inline fun <reified T: JsonModel> getList(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): ListAction<T> {
+        return ListAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.GET, url, authorizationType).apply(operation))
+    }
+    inline fun getText(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): TextAction {
+        return TextAction(PenicillinRequestBuilder(this, HTTPMethod.GET, url, authorizationType).apply(operation))
+    }
+    inline fun <T: StreamHandler> getStream(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): StreamAction<T> {
+        return StreamAction(PenicillinRequestBuilder(this, HTTPMethod.GET, url, authorizationType).apply(operation))
+    }
+
+    inline fun <reified T: JsonModel> postObject(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): ObjectAction<T> {
+        return ObjectAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.POST, url, authorizationType).apply(operation))
+    }
+    inline fun <reified T: Cursor> postCursorObject(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): CursorObjectAction<T> {
+        return CursorObjectAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.POST, url, authorizationType).apply(operation))
+    }
+    inline fun <reified T: JsonModel> postList(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): ListAction<T> {
+        return ListAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.POST, url, authorizationType).apply(operation))
+    }
+    inline fun postText(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): TextAction {
+        return TextAction(PenicillinRequestBuilder(this, HTTPMethod.POST, url, authorizationType).apply(operation))
+    }
+    inline fun <T: StreamHandler> postStream(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): StreamAction<T> {
+        return StreamAction(PenicillinRequestBuilder(this, HTTPMethod.POST, url, authorizationType).apply(operation))
+    }
+
+    inline fun <reified T: JsonModel> deleteObject(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): ObjectAction<T> {
+        return ObjectAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.DELETE, url, authorizationType).apply(operation))
+    }
+    inline fun <reified T: Cursor> deleteCursorObject(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): CursorObjectAction<T> {
+        return CursorObjectAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.DELETE, url, authorizationType).apply(operation))
+    }
+    inline fun <reified T: JsonModel> deleteList(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): ListAction<T> {
+        return ListAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.DELETE, url, authorizationType).apply(operation))
+    }
+    inline fun deleteText(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): TextAction {
+        return TextAction(PenicillinRequestBuilder(this, HTTPMethod.DELETE, url, authorizationType).apply(operation))
+    }
+    inline fun <T: StreamHandler> deleteStream(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): StreamAction<T> {
+        return StreamAction(PenicillinRequestBuilder(this, HTTPMethod.DELETE, url, authorizationType).apply(operation))
+    }
 }

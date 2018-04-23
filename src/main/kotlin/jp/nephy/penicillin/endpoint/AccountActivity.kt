@@ -1,19 +1,11 @@
 package jp.nephy.penicillin.endpoint
 
-import jp.nephy.penicillin.Client
-import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.model.Empty
-import jp.nephy.penicillin.response.ResponseObject
 
 
-class AccountActivity(private val client: Client) {
-    @POST
-    fun registerWebhook(url: String, vararg options: Pair<String, String?>): ResponseObject<Empty> {
-        return client.session.new()
-                .url("/account_activity/all/webhooks.json")
-                .param("url" to url)
-                .params(*options)
-                .post()
-                .getResponseObject()
+class AccountActivity(override val client: PenicillinClient): Endpoint {
+    fun registerWebhook(url: String, vararg options: Pair<String, Any?>)= client.session.postObject<Empty>("/account_activity/all/webhooks.json") {
+        query("url" to url, *options)
     }
 }

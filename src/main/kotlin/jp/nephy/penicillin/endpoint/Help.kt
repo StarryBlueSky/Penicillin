@@ -1,58 +1,28 @@
 package jp.nephy.penicillin.endpoint
 
-import jp.nephy.penicillin.Client
-import jp.nephy.penicillin.annotation.GET
-import jp.nephy.penicillin.annotation.UndocumentedAPI
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.model.*
-import jp.nephy.penicillin.response.ResponseList
-import jp.nephy.penicillin.response.ResponseObject
 
 
-class Help(private val client: Client) {
-    @GET
-    fun getConfiguration(vararg options: Pair<String, String?>): ResponseObject<Configuration> {
-        return client.session.new()
-                .url("/help/configuration.json")
-                .params(*options)
-                .get()
-                .getResponseObject()
+class Help(override val client: PenicillinClient): Endpoint {
+    fun configuration(vararg options: Pair<String, Any?>)= client.session.getObject<Configuration>("/help/configuration.json") {
+        query(*options)
     }
 
-    @GET
-    fun getLanguages(vararg options: Pair<String, String?>): ResponseList<Language> {
-        return client.session.new()
-                .url("/help/languages.json")
-                .params(*options)
-                .get()
-                .getResponseList()
+    fun languages(vararg options: Pair<String, Any?>)= client.session.getList<Language>("/help/languages.json") {
+        query(*options)
     }
 
-    @GET
-    fun getPrivacy(vararg options: Pair<String, String?>): ResponseObject<Privacy> {
-        return client.session.new()
-                .url("/help/privacy.json")
-                .params(*options)
-                .get()
-                .getResponseObject()
+    fun privacy(vararg options: Pair<String, Any?>)= client.session.getObject<Privacy>("/help/privacy.json") {
+        query(*options)
     }
 
-    @GET
-    fun getTos(vararg options: Pair<String, String?>): ResponseObject<Tos> {
-        return client.session.new()
-                .url("/help/tos.json")
-                .params(*options)
-                .get()
-                .getResponseObject()
+    fun tos(vararg options: Pair<String, Any?>)= client.session.getObject<Tos>("/help/tos.json") {
+        query(*options)
     }
 
-    @GET @UndocumentedAPI
-    fun getSetting(includeZeroRate: Boolean?=true, settingsVersion: String?=null, vararg options: Pair<String, String?>): ResponseObject<Empty> {
-        return client.session.new()
-                .url("/help/settings.json")
-                .param("include_zero_rate" to includeZeroRate)
-                .param("settings_version" to settingsVersion)
-                .params(*options)
-                .get()
-                .getResponseObject()
+    @PrivateEndpoint
+    fun setting(includeZeroRate: Boolean? = null, settingsVersion: String? = null, vararg options: Pair<String, Any?>)= client.session.getObject<Empty>("/help/settings.json") {
+        query("include_zero_rate" to includeZeroRate, "settings_version" to settingsVersion, *options)
     }
 }

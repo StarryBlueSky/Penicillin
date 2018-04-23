@@ -2,7 +2,7 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.misc.StatusID
+import jp.nephy.penicillin.util.StatusID
 
 
 class MediaEntity(override val json: JsonObject): JsonModel {

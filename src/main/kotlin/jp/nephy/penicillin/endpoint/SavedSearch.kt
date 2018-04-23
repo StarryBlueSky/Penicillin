@@ -1,48 +1,23 @@
 package jp.nephy.penicillin.endpoint
 
-import jp.nephy.penicillin.Client
-import jp.nephy.penicillin.annotation.GET
-import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.model.SavedSearch
-import jp.nephy.penicillin.response.ResponseList
-import jp.nephy.penicillin.response.ResponseObject
 
 
-class SavedSearch(private val client: Client) {
-    @GET
-    fun getList(vararg options: Pair<String, String?>): ResponseList<SavedSearch> {
-        return client.session.new()
-                .url("/saved_searches/list.json")
-                .params(*options)
-                .get()
-                .getResponseList()
+class SavedSearch(override val client: PenicillinClient): Endpoint {
+    fun list(vararg options: Pair<String, Any?>)= client.session.getList<SavedSearch>("/saved_searches/list.json") {
+        query(*options)
     }
 
-    @GET
-    fun getSearch(id: Long, vararg options: Pair<String, String?>): ResponseObject<SavedSearch> {
-        return client.session.new()
-                .url("/saved_searches/show/$id.json")
-                .params(*options)
-                .get()
-                .getResponseObject()
+    fun show(id: Long, vararg options: Pair<String, Any?>)= client.session.getObject<SavedSearch>("/saved_searches/show/$id.json") {
+        query(*options)
     }
 
-    @POST
-    fun create(query: String, vararg options: Pair<String, String?>): ResponseObject<SavedSearch> {
-        return client.session.new()
-                .url("/saved_searches/create.json")
-                .dataAsForm("query" to query)
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
+    fun create(query: String, vararg options: Pair<String, Any?>)= client.session.postObject<SavedSearch>("/saved_searches/create.json") {
+        query("query" to query, *options)
     }
 
-    @POST
-    fun destroy(id: Long, vararg options: Pair<String, String?>): ResponseObject<SavedSearch> {
-        return client.session.new()
-                .url("/saved_searches/destroy/$id.json")
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
+    fun destroy(id: Long, vararg options: Pair<String, Any?>)= client.session.postObject<SavedSearch>("/saved_searches/destroy/$id.json") {
+        query(*options)
     }
 }

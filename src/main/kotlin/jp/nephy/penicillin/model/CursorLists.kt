@@ -5,5 +5,5 @@ import jp.nephy.jsonkt.byModelList
 
 
 class CursorLists(json: JsonObject): Cursor(json) {
-    val lists by json.byModelList<List>()
+    val lists by json.byModelList<TwitterList>()
 }

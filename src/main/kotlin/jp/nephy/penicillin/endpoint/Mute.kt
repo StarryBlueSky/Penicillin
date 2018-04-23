@@ -1,59 +1,25 @@
 package jp.nephy.penicillin.endpoint
 
-import jp.nephy.penicillin.Client
-import jp.nephy.penicillin.annotation.Cursorable
-import jp.nephy.penicillin.annotation.GET
-import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.model.CursorIds
 import jp.nephy.penicillin.model.CursorUsers
 import jp.nephy.penicillin.model.User
-import jp.nephy.penicillin.response.ResponseCursorObject
-import jp.nephy.penicillin.response.ResponseObject
 
 
-class Mute(private val client: Client) {
-    @GET
-    @Cursorable
-    fun getIds(stringifyIds: Boolean?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorIds> {
-        return client.session.new()
-                .url("/mutes/users/ids.json")
-                .param("stringify_ids" to stringifyIds)
-                .params(*options)
-                .get()
-                .getResponseCursorObject()
+class Mute(override val client: PenicillinClient): Endpoint {
+    fun listIds(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>)= client.session.getCursorObject<CursorIds>("/mutes/users/ids.json") {
+        query("stringify_ids" to stringifyIds, *options)
     }
 
-    @GET
-    @Cursorable
-    fun getList(includeEntities: Boolean?=null, skipStatus: Boolean?=null, vararg options: Pair<String, String?>): ResponseCursorObject<CursorUsers> {
-        return client.session.new()
-                .url("/mutes/users/list.json")
-                .param("include_entities" to includeEntities)
-                .param("skip_status" to skipStatus)
-                .params(*options)
-                .get()
-                .getResponseCursorObject()
+    fun list(includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>)= client.session.getCursorObject<CursorUsers>("/mutes/users/list.json") {
+        query("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
     }
 
-    @POST
-    fun create(screenName: String?=null, userId: Long?=null, vararg options: Pair<String, String?>): ResponseObject<User> {
-        return client.session.new()
-                .url("/mutes/users/create.json")
-                .dataAsForm("screen_name" to screenName)
-                .dataAsForm("user_id" to userId)
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
+    fun create(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>)= client.session.postObject<User>("/mutes/users/create.json") {
+        form("screen_name" to screenName, "user_id" to userId, *options)
     }
 
-    @POST
-    fun destroy(screenName: String?=null, userId: Long?=null, vararg options: Pair<String, String?>): ResponseObject<User> {
-        return client.session.new()
-                .url("/mutes/users/destroy.json")
-                .dataAsForm("screen_name" to screenName)
-                .dataAsForm("user_id" to userId)
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
+    fun destroy(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>)= client.session.postObject<User>("/mutes/users/destroy.json") {
+        form("screen_name" to screenName, "user_id" to userId, *options)
     }
 }

@@ -1,121 +1,47 @@
 package jp.nephy.penicillin.endpoint
 
-import jp.nephy.penicillin.Client
-import jp.nephy.penicillin.annotation.GET
-import jp.nephy.penicillin.annotation.POST
+import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.endpoint.parameter.MediaType
 import jp.nephy.penicillin.model.Empty
 import jp.nephy.penicillin.model.Setting
 import jp.nephy.penicillin.model.User
 import jp.nephy.penicillin.model.VerifyCredentials
-import jp.nephy.penicillin.parameters.MediaType
-import jp.nephy.penicillin.response.ResponseObject
-import java.net.URL
 
 
-class Account(private val client: Client) {
-    @GET
-    fun getSettings(vararg options: Pair<String, String?>): ResponseObject<Setting> {
-        return client.session.new()
-                .url("/account/settings.json")
-                .paramIfOfficial("include_alt_text_compose" to "true")
-                .paramIfOfficial("include_mention_filter" to "true")
-                .paramIfOfficial("include_ranked_timeline" to "true")
-                .paramIfOfficial("include_universal_quality_filtering" to "true")
-                .params(*options)
-                .get()
-                .getResponseObject()
+class Account(override val client: PenicillinClient): Endpoint {
+    @PrivateEndpoint
+    fun settings(vararg options: Pair<String, Any?>) = client.session.getObject<Setting>("/account/settings.json") {
+        query("include_alt_text_compose" to "true", "include_mention_filter" to "true", "include_ranked_timeline" to "true", "include_universal_quality_filtering" to "true", *options)
     }
 
-    @GET
-    fun verifyCredentials(includeEntities: Boolean?=null, skipStatus: Boolean?=null, includeEmail: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<VerifyCredentials> {
-        return client.session.new()
-                .url("/account/verify_credentials.json")
-                .param("include_entities" to includeEntities)
-                .param("skip_status" to skipStatus)
-                .param("include_email" to includeEmail)
-                .params(*options)
-                .get()
-                .getResponseObject()
+    fun verifyCredentials(includeEntities: Boolean? = null, skipStatus: Boolean? = null, includeEmail: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.getObject<VerifyCredentials>("/account/verify_credentials.json") {
+        query("include_entities" to includeEntities, "skip_status" to skipStatus, "include_email" to includeEmail, *options)
     }
 
-    @POST
-    fun removeProfileBanner(vararg options: Pair<String, String?>): ResponseObject<Empty> {
-        return client.session.new()
-                .url("/account/remove_profile_banner.json")
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
+    fun removeProfileBanner(vararg options: Pair<String, Any?>) = client.session.postObject<Empty>("/account/remove_profile_banner.json") {
+        form(*options)
     }
 
-    @POST
-    fun updateSettings(sleepTimeEnabled: Boolean?=null, startSleepTime: Int?=null, endSleepTime: Int?=null, timeZone: String?=null, trendLocationWoeid: Int?=null, lang: String?=null, vararg options: Pair<String, String?>): ResponseObject<Setting> {
-        return client.session.new()
-                .url("/account/settings.json")
-                .dataAsForm("sleep_time_enabled" to sleepTimeEnabled)
-                .dataAsForm("start_sleep_time" to startSleepTime)
-                .dataAsForm("end_sleep_time" to endSleepTime)
-                .dataAsForm("time_zone" to timeZone)
-                .dataAsForm("trend_location_woeid" to trendLocationWoeid)
-                .dataAsForm("lang" to lang)
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
+    fun updateSettings(sleepTimeEnabled: Boolean? = null, startSleepTime: Int? = null, endSleepTime: Int? = null, timeZone: String? = null, trendLocationWoeid: Int? = null, lang: String? = null, vararg options: Pair<String, Any?>) = client.session.postObject<Setting>("/account/settings.json") {
+        form("sleep_time_enabled" to sleepTimeEnabled, "start_sleep_time" to startSleepTime, "end_sleep_time" to endSleepTime, "time_zone" to timeZone, "trend_location_woeid" to trendLocationWoeid, "lang" to lang, *options)
     }
 
-    @POST
-    fun updateProfile(name: String?=null, url: URL?=null, location: String?=null, description: String?=null, profileLinkColor: String?=null, includeEntities: Boolean?=null, skipStatus: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<User> {
-        return client.session.new()
-                .url("/account/update_profile.json")
-                .dataAsForm("name" to name)
-                .dataAsForm("url" to url)
-                .dataAsForm("location" to location)
-                .dataAsForm("description" to description)
-                .dataAsForm("profile_link_color" to profileLinkColor)
-                .dataAsForm("include_entities" to includeEntities)
-                .dataAsForm("skip_status" to skipStatus)
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
+    fun updateProfile(name: String? = null, url: String? = null, location: String? = null, description: String? = null, profileLinkColor: String? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.postObject<User>("/account/update_profile.json") {
+        form("name" to name, "url" to url, "location" to location, "description" to description, "profile_link_color" to profileLinkColor, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
     }
 
-    @POST
-    fun updateProfileBackgroundImage(file: ByteArray, mediaType: MediaType, tile: Boolean?=null, includeEntities: Boolean?=null, skipStatus: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<User> {
-        val upload = client.media.uploadMedia(file, mediaType)
-
-        return client.session.new()
-                .url("/account/update_profile_background_image.json")
-                .dataAsForm("tile" to tile)
-                .dataAsForm("include_entities" to includeEntities)
-                .dataAsForm("skip_status" to skipStatus)
-                .dataAsForm("media_id" to upload.result.mediaId)
-                .dataAsForm(*options)
-                .post()
-                .getResponseObject()
+    fun updateProfileBackgroundImage(file: ByteArray, mediaType: MediaType, tile: Boolean? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.postObject<User>("/account/update_profile_background_image.json") {
+        val upload = client.media.uploadMedia(file, mediaType).complete()
+        form("tile" to tile, "include_entities" to includeEntities, "skip_status" to skipStatus, "media_id" to upload.result.mediaId, *options)
     }
 
-    @POST
-    fun updateProfileBanner(file: ByteArray, mediaType: MediaType, width: Int?=null, height: Int?=null, offsetLeft: Int?=null, offsetTop: Int?=null, vararg options: Pair<String, String?>): ResponseObject<Empty> {
-        return client.session.new()
-                .url("/account/update_profile_banner.json")
-                .dataAsForm("width" to width)
-                .dataAsForm("height" to height)
-                .dataAsForm("offset_left" to offsetLeft)
-                .dataAsForm("offset_top" to offsetTop)
-                .dataAsForm(*options)
-                .file(file, mediaType.toMIMEType(), "banner")
-                .post()
-                .getResponseObject()
+    fun updateProfileBanner(file: ByteArray, mediaType: MediaType, width: Int? = null, height: Int? = null, offsetLeft: Int? = null, offsetTop: Int? = null, vararg options: Pair<String, Any?>) = client.session.postObject<Empty>("/account/update_profile_banner.json") {
+        form("width" to width, "height" to height, "offset_left" to offsetLeft, "offset_top" to offsetTop, *options)
+        file(file, mediaType.mimeType, "banner")
     }
 
-    @POST
-    fun updateProfileImage(file: ByteArray, mediaType: MediaType, includeEntities: Boolean?=null, skipStatus: Boolean?=null, vararg options: Pair<String, String?>): ResponseObject<User> {
-        return client.session.new()
-                .url("/account/update_profile_image.json")
-                .dataAsForm("include_entities" to includeEntities)
-                .dataAsForm("skip_status" to skipStatus)
-                .dataAsForm(*options)
-                .file(file, mediaType.toMIMEType(), "image")
-                .post()
-                .getResponseObject()
+    fun updateProfileImage(file: ByteArray, mediaType: MediaType, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.postObject<User>("/account/update_profile_image.json") {
+        form("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
+        file(file, mediaType.mimeType, "image")
     }
 }

@@ -2,10 +2,9 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.misc.Country
-import jp.nephy.penicillin.misc.CreatedAt
-import jp.nephy.penicillin.misc.Language
-import jp.nephy.penicillin.misc.StatusID
+import jp.nephy.penicillin.util.CreatedAt
+import jp.nephy.penicillin.util.Language
+import jp.nephy.penicillin.util.StatusID
 
 
 open class User(final override val json: JsonObject): JsonModel {
@@ -69,6 +68,6 @@ open class User(final override val json: JsonObject): JsonModel {
     val url by json.byNullableUrl
     val utcOffset by json.byNullableInt("utc_offset")
     val verified by json.byBool
-    val withheldInCountries by json.byLambdaList("withheld_in_countries") { Country(string) }
+    val withheldInCountries by json.byStringList("withheld_in_countries")
     val withheldScope by json.byNullableString("withheld_scope")
 }

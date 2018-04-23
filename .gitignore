@@ -2,5 +2,6 @@
 
 build/
 out/
+logs/
 
 src/test/*
