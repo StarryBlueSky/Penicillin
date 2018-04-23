@@ -1,6 +1,6 @@
 #### 2.0.0 (2018-04-24)
 
- * Support async api execusion.
+ * Support async api execution.
  * Refactoring all classes.
 
 #### 1.4.1 (2018-03-27)
