@@ -4,8 +4,8 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.penicillin.LocalizedString
 import jp.nephy.penicillin.PenicillinLocalizedException
 import jp.nephy.penicillin.model.Cursor
-import jp.nephy.penicillin.util.AccessLevel
-import jp.nephy.penicillin.util.RateLimit
+import jp.nephy.penicillin.model.special.AccessLevel
+import jp.nephy.penicillin.model.special.RateLimit
 import okhttp3.Headers
 import okhttp3.Request
 import okhttp3.Response

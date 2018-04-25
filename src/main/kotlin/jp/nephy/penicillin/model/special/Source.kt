@@ -1,6 +1,7 @@
-package jp.nephy.penicillin.util
+package jp.nephy.penicillin.model.special
 
-class ATagParser(html: String) {
+
+private class ATagParser(html: String) {
     private val tagPattern = "^<a (.+?)>(.+?)</a>$".toRegex()
     private val attributePattern = "^(.+?)=\"(.+?)\"$".toRegex()
     private val matches = tagPattern.matchEntire(html)
@@ -21,4 +22,10 @@ class ATagParser(html: String) {
         } else {
             ""
         }
+}
+
+class Source(val value: String) {
+    private val tag = ATagParser(value)
+    val url = tag.attributes.getOrDefault("href", "http://url.invalid")
+    val name = tag.value
 }

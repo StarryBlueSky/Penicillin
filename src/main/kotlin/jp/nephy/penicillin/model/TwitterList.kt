@@ -2,7 +2,7 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.util.CreatedAt
+import jp.nephy.penicillin.model.special.CreatedAt
 
 
 class TwitterList(override val json: JsonObject): JsonModel {

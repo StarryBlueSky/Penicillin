@@ -14,10 +14,10 @@ class SavedSearch(override val client: PenicillinClient): Endpoint {
     }
 
     fun create(query: String, vararg options: Pair<String, Any?>)= client.session.postObject<SavedSearch>("/saved_searches/create.json") {
-        query("query" to query, *options)
+        form("query" to query, *options)
     }
 
     fun destroy(id: Long, vararg options: Pair<String, Any?>)= client.session.postObject<SavedSearch>("/saved_searches/destroy/$id.json") {
-        query(*options)
+        form(*options)
     }
 }

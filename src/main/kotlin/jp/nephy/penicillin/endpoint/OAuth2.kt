@@ -1,8 +1,8 @@
 package jp.nephy.penicillin.endpoint
 
-import jp.nephy.penicillin.AuthorizationType
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.model.OAuth2Token
+import jp.nephy.penicillin.request.AuthorizationType
 
 
 class OAuth2(override val client: PenicillinClient): Endpoint {

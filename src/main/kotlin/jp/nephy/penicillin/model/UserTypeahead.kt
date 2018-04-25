@@ -16,8 +16,8 @@ class UserTypeahead(override val json: JsonObject): JsonModel {
     val isProtected by json.byBool("is_protected")
     val location by json.byNullableString
     val name by json.byString
-    val profileImageUrl by json.byNullableUrl("profile_image_url")
-    val profileImageUrlHttps by json.byNullableUrl("profile_image_url_https")
+    val profileImageUrl by json.byNullableString("profile_image_url")
+    val profileImageUrlHttps by json.byNullableString("profile_image_url_https")
     val roundedGraphWeight by json.byInt("rounded_graph_weight")
     val roundedScore by json.byInt("rounded_score")
     val screenName by json.byString("screen_name")

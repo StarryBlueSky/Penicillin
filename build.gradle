@@ -1,5 +1,5 @@
 group "jp.nephy"
-version "2.0.0"
+version "2.0.1"
 
 buildscript {
     ext.kotlin_version = "1.2.40"
@@ -31,10 +31,10 @@ dependencies {
     compile "com.google.code.gson:gson:2.8.2"
     compile "jp.nephy:jsonkt:1.4"
 
-    compile "io.github.microutils:kotlin-logging:1.4.8"
+    compile "io.github.microutils:kotlin-logging:1.4.9"
     compile "ch.qos.logback:logback-core:1.2.3"
     compile "ch.qos.logback:logback-classic:1.2.3"
-    compile "org.fusesource.jansi:jansi:1.16"
+    compile "org.fusesource.jansi:jansi:1.17.1"
 }
 
 compileKotlin {

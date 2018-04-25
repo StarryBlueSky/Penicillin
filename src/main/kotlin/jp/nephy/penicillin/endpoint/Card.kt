@@ -8,7 +8,7 @@ import jp.nephy.penicillin.model.CardState
 class Card(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun create(cardData: String, vararg options: Pair<String, Any?>)= client.session.postObject<Card>("https://caps.twitter.com/v2/cards/create.json") {
-        query("card_data" to cardData, *options)
+        form("card_data" to cardData, *options)
     }
 
     @PrivateEndpoint

@@ -36,6 +36,7 @@ class PenicillinClient private constructor(val session: Session) {
     val oauth = OAuth(this)
     val oauth2 = OAuth2(this)
     val savedSearch = SavedSearch(this)
+    val search = Search(this)
     val status = Status(this)
     val stream = Stream(this)
     val timeline = Timeline(this)
@@ -48,15 +49,17 @@ class PenicillinClient private constructor(val session: Session) {
         private var isOfficialClient = false
         private var consumerKey: String? = null
         private var consumerSecret: String? = null
-        fun application(client: OfficialClient) {
+        private var knownDeviceToken: String? = null
+        fun application(client: OfficialClient, knownDeviceToken: String? = null) {
             isOfficialClient = true
             consumerKey = client.consumerKey
             consumerSecret = client.consumerSecret
+            this.knownDeviceToken = knownDeviceToken
         }
-
-        fun application(consumerKey: String, consumerSecret: String) {
+        fun application(consumerKey: String, consumerSecret: String, knownDeviceToken: String? = null) {
             this.consumerKey = consumerKey
             this.consumerSecret = consumerSecret
+            this.knownDeviceToken = knownDeviceToken
             OfficialClient.values().find { it.consumerKey == consumerKey && it.consumerSecret == consumerSecret }
                     ?: return
             isOfficialClient = true
@@ -69,7 +72,6 @@ class PenicillinClient private constructor(val session: Session) {
             this.accessToken = accessToken
             this.accessTokenSecret = accessTokenSecret
         }
-
         fun token(bearerToken: String) {
             this.bearerToken = bearerToken
         }
@@ -79,13 +81,13 @@ class PenicillinClient private constructor(val session: Session) {
             httpClientBuilder = builder
         }
 
-        private var maxRetries = 3
-        fun maxRetries(count: Int) {
-            maxRetries = count
+        private var optionBuilder: PenicillinOption.Builder.() -> Unit = {  }
+        fun option(builder: PenicillinOption.Builder.() -> Unit) {
+            optionBuilder = builder
         }
 
         fun build(): PenicillinClient {
-            val session = Session(consumerKey, consumerSecret, accessToken, accessTokenSecret, isOfficialClient, bearerToken, httpClientBuilder, maxRetries)
+            val session = Session(consumerKey, consumerSecret, accessToken, accessTokenSecret, isOfficialClient, bearerToken, knownDeviceToken, httpClientBuilder, optionBuilder)
 
             return PenicillinClient(session)
         }

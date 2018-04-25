@@ -3,14 +3,9 @@ package jp.nephy.penicillin.request
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.LocalizedString
-import jp.nephy.penicillin.PenicillinException
-import jp.nephy.penicillin.PenicillinLocalizedException
-import jp.nephy.penicillin.TwitterApiError
+import jp.nephy.penicillin.*
 import jp.nephy.penicillin.model.Cursor
-import jp.nephy.penicillin.streaming.*
-import jp.nephy.penicillin.util.Util
-import jp.nephy.penicillin.util.unescapeHTMLCharacters
+import jp.nephy.penicillin.request.streaming.*
 import okhttp3.Request
 import okhttp3.Response
 import java.util.concurrent.TimeUnit
@@ -30,13 +25,13 @@ abstract class Action {
     val okHttpResponse: Response
         get() {
             if (! ::okHttpResponseCache.isInitialized) {
-                repeat(requestBuilder.session.maxRetries) {
+                repeat(requestBuilder.session.option.maxRetries) {
                     try {
                         okHttpResponseCache = requestBuilder.session.httpClient.newCall(okHttpRequest).execute()
                         return okHttpResponseCache
                     } catch (e: Exception) {
-                        Util.logger.error(e) { LocalizedString.ApiRequestFailedLog.format(it + 1, requestBuilder.session.maxRetries) }
-                        Thread.sleep(100)
+                        Util.logger.error(e) { LocalizedString.ApiRequestFailedLog.format(it + 1, requestBuilder.session.option.maxRetries) }
+                        requestBuilder.session.option.retryIntervalUnit.sleep(requestBuilder.session.option.retryInterval)
                     }
                 }
                 throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, requestBuilder.url)
@@ -173,14 +168,15 @@ class TextAction(override val requestBuilder: PenicillinRequestBuilder): RestAct
     }
 }
 
-class StreamAction<T: StreamHandler>(override val requestBuilder: PenicillinRequestBuilder): Action() {
+class StreamAction<T: StreamListener>(override val requestBuilder: PenicillinRequestBuilder): Action() {
     val result = StreamResult(okHttpRequest, okHttpResponse)
 
-    fun listen(listener: StreamListener<T>) = when (listener) {
-        is UserStreamListener -> UserStreamHandler(okHttpResponse, listener)
-        is SampleStreamListener -> SampleStreamHandler(okHttpResponse, listener)
-        is FilterStreamListener -> FilterStreamHandler(okHttpResponse, listener)
-        is LivePipelineListener -> LivePipelineHandler(okHttpResponse, listener)
+    @Suppress("UNCHECKED_CAST")
+    fun listen(listener: T) = when (listener) {
+        is UserStreamListener -> UserStream(this as StreamAction<UserStreamListener>, listener)
+        is SampleStreamListener -> SampleStream(this as StreamAction<SampleStreamListener>, listener)
+        is FilterStreamListener -> FilterStream(this as StreamAction<FilterStreamListener>, listener)
+        is LivePipelineListener -> LivePipeline(this as StreamAction<LivePipelineListener>, listener)
         else -> throw IllegalArgumentException()
     }
 }

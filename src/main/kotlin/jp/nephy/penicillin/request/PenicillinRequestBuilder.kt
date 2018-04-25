@@ -3,24 +3,21 @@ package jp.nephy.penicillin.request
 import jp.nephy.jsonkt.JsonKt
 import jp.nephy.penicillin.*
 import jp.nephy.penicillin.endpoint.PrivateEndpoint
-import jp.nephy.penicillin.util.Util
-import jp.nephy.penicillin.util.toQueryString
-import jp.nephy.penicillin.util.toURLEncode
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.Request
 import okhttp3.RequestBody
 
 
-val deviceUUID = Util.getRandomUUID()
-val clientUUID = Util.getRandomUUID()
+val deviceUUID = OAuthSigner.getRandomUUID()
+val clientUUID = OAuthSigner.getRandomUUID()
 private val officialClientHeaders = arrayOf(
         "User-Agent" to "Twitter-iPhone/7.21.2 iOS/11.0.2 (Apple;iPhone10,1;;;;;1;2017)",
         "X-Twitter-Client" to "Twitter-iPhone",
         //"Geolocation" to "",
         "X-Twitter-Client-DeviceID" to deviceUUID,
         "X-Twitter-Active-User" to "yes",
-        "kdt" to "", // TODO: known device token
+        "kdt" to null,
         "X-Twitter-Client-Version" to "7.21.2",
         "X-Twitter-Client-Limit-Ad-Tracking" to "1",
         "X-Twitter-Polling" to "false",
@@ -127,7 +124,7 @@ class PenicillinRequestBuilder(val session: Session, val httpMethod: HTTPMethod,
         }
 
         if (authorizationType == AuthorizationType.OAuth1a && ! session.isOfficialClient) {
-            header(*officialClientHeaders, "X-B3-TraceId" to Util.getB3TraceId())
+            header(*officialClientHeaders, "kdt" to session.knownDeviceToken, "X-B3-TraceId" to OAuthSigner.getB3TraceId())
         }
         header("Authorization" to OAuthSigner(session, this).sign())
 
@@ -143,7 +140,7 @@ class PenicillinRequestBuilder(val session: Session, val httpMethod: HTTPMethod,
                 okhttpRequestBuilder.post(body)
             }
             HTTPMethod.DELETE -> okhttpRequestBuilder.delete()
-        }.url(Util.buildUrl(url, *queries.toList().toTypedArray())
+        }.url(buildUrl(url, *queries.toList().toTypedArray())
         ).apply {
             headers.forEach { header(it.key, it.value) }
         }

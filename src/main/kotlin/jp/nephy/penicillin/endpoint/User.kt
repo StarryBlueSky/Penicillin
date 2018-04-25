@@ -37,7 +37,7 @@ class User(override val client: PenicillinClient): Endpoint {
     }
 
     fun reportSpam(screenName: String? = null, userId: Long? = null, performBlock: Boolean? = null, vararg options: Pair<String, Any?>)= client.session.postObject<User>("/users/report_spam.json") {
-        query("screen_name" to screenName, "user_id" to userId, "perform_block" to performBlock, *options)
+        form("screen_name" to screenName, "user_id" to userId, "perform_block" to performBlock, *options)
     }
 
     @PrivateEndpoint

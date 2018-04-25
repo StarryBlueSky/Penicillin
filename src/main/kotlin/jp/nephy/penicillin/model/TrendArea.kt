@@ -10,6 +10,6 @@ class TrendArea(override val json: JsonObject): JsonModel {
     val name by json.byString
     val parentid by json.byInt
     val placeType by json.byModel<PlaceType>()
-    val url by json.byUrl
+    val url by json.byString
     val woeid by json.byInt
 }
