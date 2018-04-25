@@ -1,9 +1,9 @@
-package jp.nephy.penicillin
+package jp.nephy.penicillin.request
 
-import jp.nephy.penicillin.request.PenicillinRequestBuilder
-import jp.nephy.penicillin.util.Util
-import jp.nephy.penicillin.util.toBase64Encode
-import jp.nephy.penicillin.util.toURLEncode
+import jp.nephy.penicillin.Session
+import jp.nephy.penicillin.toBase64Encode
+import jp.nephy.penicillin.toURLEncode
+import java.security.SecureRandom
 import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -14,6 +14,21 @@ enum class AuthorizationType {
 }
 
 class OAuthSigner(private val session: Session, private val requestBuilder: PenicillinRequestBuilder) {
+    companion object {
+        fun getRandomUUID(): String {
+            return UUID.randomUUID().toString().toUpperCase()
+        }
+
+        fun getB3TraceId(n: Int = 16): String {
+            val seed = SecureRandom()
+            return buildString {
+                repeat(n) {
+                    append(Integer.toHexString(seed.nextInt(16)))
+                }
+            }
+        }
+    }
+
     fun sign(): String? {
         return when (requestBuilder.authorizationType) {
             AuthorizationType.OAuth1a -> {
@@ -23,7 +38,7 @@ class OAuthSigner(private val session: Session, private val requestBuilder: Peni
                 } else {
                     null
                 },
-                        "oauth_nonce" to Util.getRandomUUID(), "oauth_timestamp" to getCurrentEpochTime(),
+                        "oauth_nonce" to getRandomUUID(), "oauth_timestamp" to getCurrentEpochTime(),
                         "oauth_consumer_key" to session.consumerKey !!, "oauth_token" to session.accessToken,
                         "oauth_version" to "1.0", "oauth_signature_method" to "HMAC-SHA1"
                 )

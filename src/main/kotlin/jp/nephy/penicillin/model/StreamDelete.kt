@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.get
 
 
-class Delete(override val json: JsonObject): JsonModel {
+class StreamDelete(override val json: JsonObject): JsonModel {
     val timestampMs by json["delete"].byString("timestamp_ms")
     val statusId by json["delete"]["status"].byLong("id")
     val statusIdStr by json["delete"]["status"].byString("id_str")

@@ -2,9 +2,9 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.util.CreatedAt
-import jp.nephy.penicillin.util.Language
-import jp.nephy.penicillin.util.StatusID
+import jp.nephy.penicillin.model.special.CreatedAt
+import jp.nephy.penicillin.model.special.Language
+import jp.nephy.penicillin.model.special.StatusID
 
 
 open class User(final override val json: JsonObject): JsonModel {
@@ -44,14 +44,14 @@ open class User(final override val json: JsonObject): JsonModel {
     val pinnedTweetIds by json.byLambdaList("pinned_tweet_ids") { StatusID(long) }
     val pinnedTweetIdsStr by json.byStringList("pinned_tweet_ids_str")
     val profileBackgroundColor by json.byString("profile_background_color")
-    val profileBackgroundImageUrl by json.byUrl("profile_background_image_url")
-    val profileBackgroundImageUrlHttps by json.byUrl("profile_background_image_url_https")
+    val profileBackgroundImageUrl by json.byString("profile_background_image_url")
+    val profileBackgroundImageUrlHttps by json.byString("profile_background_image_url_https")
     val profileBackgroundTile by json.byBool("profile_background_tile")
     val profileBannerExtension by json.byModel<ProfileImageExtension?>(key = "profile_banner_extensions")
-    val profileBannerUrl by json.byUrl("profile_banner_url")
+    val profileBannerUrl by json.byString("profile_banner_url")
     val profileImageExtensions by json.byModel<ProfileImageExtension?>(key = "profile_image_extensions")
-    val profileImageUrl by json.byUrl("profile_image_url")
-    val profileImageUrlHttps by json.byUrl("profile_image_url_https")
+    val profileImageUrl by json.byString("profile_image_url")
+    val profileImageUrlHttps by json.byString("profile_image_url_https")
     val profileInterstitialType by json.byNullableString("profile_interstitial_type")
     val profileLinkColor by json.byString("profile_link_color")
     val profileSidebarBorderColor by json.byString("profile_sidebar_border_color")
@@ -65,7 +65,7 @@ open class User(final override val json: JsonObject): JsonModel {
     val suspended by json.byNullableBool
     val timeZone by json.byNullableString("time_zone")
     val translatorType by json.byString("translator_type")
-    val url by json.byNullableUrl
+    val url by json.byNullableString
     val utcOffset by json.byNullableInt("utc_offset")
     val verified by json.byBool
     val withheldInCountries by json.byStringList("withheld_in_countries")

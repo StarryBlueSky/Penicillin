@@ -53,7 +53,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }
 
     fun destroy(ownerScreenName: String? = null, ownerId: Long? = null, listId: Long? = null, slug: String? = null, vararg options: Pair<String, Any?>)= client.session.postObject<TwitterList>("/lists/destroy.json") {
-        query("owner_screen_name" to ownerScreenName, "owner_id" to ownerId, "list_id" to listId, "slug" to slug, *options)
+        form("owner_screen_name" to ownerScreenName, "owner_id" to ownerId, "list_id" to listId, "slug" to slug, *options)
     }
 
     fun update(listId: Long? = null, slug: String? = null, name: String? = null, mode: ListCreationMode? = null, description: String? = null, ownerScreenName: String? = null, ownerId: Long? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Empty>("/lists/update.json") {

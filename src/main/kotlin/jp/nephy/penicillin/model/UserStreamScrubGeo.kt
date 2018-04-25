@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
 
-class ScrubGeo(override val json: JsonObject): JsonModel {
+class UserStreamScrubGeo(override val json: JsonObject): JsonModel {
     val userId by json["scrub_geo"].byLong("user_id")
     val userIdStr by json["scrub_geo"].byString("user_id_str")
     val upToStatusId by json["scrub_geo"].byLong("up_to_status_id")

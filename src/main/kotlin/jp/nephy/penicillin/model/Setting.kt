@@ -2,7 +2,7 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.util.Language
+import jp.nephy.penicillin.model.special.Language
 
 
 class Setting(override val json: JsonObject): JsonModel {

@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.util
+package jp.nephy.penicillin.model.special
 
 import java.text.SimpleDateFormat
 import java.util.*

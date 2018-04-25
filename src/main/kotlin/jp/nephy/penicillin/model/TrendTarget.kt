@@ -2,7 +2,7 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.util.StatusID
+import jp.nephy.penicillin.model.special.StatusID
 
 
 class TrendTarget(override val json: JsonObject): JsonModel {

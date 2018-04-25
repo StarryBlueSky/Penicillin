@@ -26,8 +26,8 @@ class Account(override val client: PenicillinClient): Endpoint {
         form("sleep_time_enabled" to sleepTimeEnabled, "start_sleep_time" to startSleepTime, "end_sleep_time" to endSleepTime, "time_zone" to timeZone, "trend_location_woeid" to trendLocationWoeid, "lang" to lang, *options)
     }
 
-    fun updateProfile(name: String? = null, url: String? = null, location: String? = null, description: String? = null, profileLinkColor: String? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.postObject<User>("/account/update_profile.json") {
-        form("name" to name, "url" to url, "location" to location, "description" to description, "profile_link_color" to profileLinkColor, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
+    fun updateProfile(name: String? = null, url: String? = null, location: String? = null, description: String? = null, profileLinkColor: String? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, birthdateYear: Int? = null, birthdateMonth: Int? = null, birthdateDay: Int? = null, vararg options: Pair<String, Any?>) = client.session.postObject<User>("/account/update_profile.json") {
+        form("name" to name, "url" to url, "location" to location, "description" to description, "profile_link_color" to profileLinkColor, "include_entities" to includeEntities, "skip_status" to skipStatus, "birthdate_year" to birthdateYear, "birthdate_month" to birthdateMonth, "birthdate_day" to birthdateDay, *options)
     }
 
     fun updateProfileBackgroundImage(file: ByteArray, mediaType: MediaType, tile: Boolean? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.postObject<User>("/account/update_profile_background_image.json") {

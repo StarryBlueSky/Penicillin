@@ -2,10 +2,10 @@ package jp.nephy.penicillin.model
 
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.util.CreatedAt
-import jp.nephy.penicillin.util.Language
-import jp.nephy.penicillin.util.Source
-import jp.nephy.penicillin.util.StatusID
+import jp.nephy.penicillin.model.special.CreatedAt
+import jp.nephy.penicillin.model.special.Language
+import jp.nephy.penicillin.model.special.Source
+import jp.nephy.penicillin.model.special.StatusID
 
 
 class Status(override val json: JsonObject): JsonModel {

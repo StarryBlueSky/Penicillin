@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.endpoint
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.buildUrl
 import jp.nephy.penicillin.model.special.AccessTokenResponse
 import jp.nephy.penicillin.model.special.RequestTokenResponse
-import jp.nephy.penicillin.util.Util
 
 
 class OAuth(override val client: PenicillinClient): Endpoint {
@@ -20,11 +20,11 @@ class OAuth(override val client: PenicillinClient): Endpoint {
     }
 
     fun authorizeUrl(accessToken: String, forceLogin: Boolean? = null, screenName: String? = null): String {
-        return Util.buildUrl("https://api.twitter.com/oauth/authorize", "oauth_token" to accessToken, "force_login" to forceLogin, "screen_name" to screenName)
+        return buildUrl("https://api.twitter.com/oauth/authorize", "oauth_token" to accessToken, "force_login" to forceLogin, "screen_name" to screenName)
     }
 
     fun authenticateUrl(accessToken: String, forceLogin: Boolean? = null, screenName: String? = null): String {
-        return Util.buildUrl("https://api.twitter.com/oauth/authenticate", "oauth_token" to accessToken, "force_login" to forceLogin, "screen_name" to screenName)
+        return buildUrl("https://api.twitter.com/oauth/authenticate", "oauth_token" to accessToken, "force_login" to forceLogin, "screen_name" to screenName)
     }
 
     fun accessToken(requestToken: String, requestTokenSecret: String, verifier: String, vararg options: Pair<String, Any?>): AccessTokenResponse {

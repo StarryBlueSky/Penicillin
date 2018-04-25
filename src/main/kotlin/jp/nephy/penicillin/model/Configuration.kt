@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.*
 
 class Configuration(override val json: JsonObject): JsonModel {
     val charactersReservedPerMedia by json.byInt("characters_reserved_per_media")
-    val clientEventUrl by json.byUrl("client_event_url")
+    val clientEventUrl by json.byString("client_event_url")
     val dmTextCharacterLimit by json.byInt("dm_text_character_limit")
     val maxMediaPerUpload by json.byInt("max_media_per_upload")
     val nonUsernamePaths by json.byStringList("non_username_paths")

@@ -1,3 +1,11 @@
+#### 2.0.1 (2018-04-25)
+
+ * Add #option to PenicillinClient.Builder.
+ * Add #onAnyEvent, #onAnyUserEvent, #onAnyStatusEvent, #onAnyListEvent to UserStreamListener.
+ * Change all byUrl or byNullableUrl to byString or byNullableString.
+ * Fix `media_url_https` in MediaEntity.
+ * Update dependencies.
+
 #### 2.0.0 (2018-04-24)
 
  * Support async api execution.

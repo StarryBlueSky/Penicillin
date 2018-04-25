@@ -17,5 +17,5 @@ class Place(override val json: JsonObject): JsonModel {
     val name by json.byString
     val placeType by json.byString("place_type")
     val polylines by json.byJsonArray // []
-    val url by json.byUrl
+    val url by json.byString
 }

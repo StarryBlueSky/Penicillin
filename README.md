@@ -63,6 +63,10 @@ val client = PenicillinClient.build {
         readTimeout(40, TimeUnit.SECONDS)
         writeTimeout(20, TimeUnit.SECONDS)
     }
+    option { // this = PenicillinOption.Builder
+        maxRetries(5)  // APIエラー発生時のリトライを最大で5回まで行う
+        retryInterval(1, TimeUnit.SECONDS)  // APIエラー発生時のリトライに1秒間隔をあける
+    }
 }
 ```
 
@@ -144,7 +148,7 @@ val listener = api.listen(object: UserStreamListener {
     override fun onStatus(status: Status) {
         println(status.fullText)
     }
-}).start(wait = false)
+}).start(wait = false, autoReconnect = true)
 
 // wait = falseで非同期でストリームを処理します
 
