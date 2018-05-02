@@ -33,11 +33,7 @@ class OAuthSigner(private val session: Session, private val requestBuilder: Peni
         return when (requestBuilder.authorizationType) {
             AuthorizationType.OAuth1a -> {
                 val authorizationHeaderComponent = linkedMapOf(
-                        "oauth_signature" to null, "oauth_callback" to if (session.accessToken == null) {
-                    (requestBuilder.callbackUrl ?: "oob")
-                } else {
-                    null
-                },
+                        "oauth_signature" to null, "oauth_callback" to requestBuilder.callbackUrl,
                         "oauth_nonce" to getRandomUUID(), "oauth_timestamp" to getCurrentEpochTime(),
                         "oauth_consumer_key" to session.consumerKey !!, "oauth_token" to session.accessToken,
                         "oauth_version" to "1.0", "oauth_signature_method" to "HMAC-SHA1"
@@ -52,7 +48,7 @@ class OAuthSigner(private val session: Session, private val requestBuilder: Peni
                 "Bearer ${session.bearerToken !!}"
             }
             AuthorizationType.OAuth2RequestToken -> {
-                val encoded = "${session.consumerKey !!.toURLEncode()}:${session.consumerSecret !!.toURLEncode()}".toBase64Encode()
+                val encoded = "${session.consumerKey!!.toURLEncode()}:${session.consumerSecret!!.toURLEncode()}".toBase64Encode()
                 return "Basic $encoded"
             }
             AuthorizationType.None -> null

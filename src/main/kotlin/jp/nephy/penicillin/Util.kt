@@ -14,7 +14,7 @@ class Util {
 fun buildUrl(baseUrl: String, vararg queries: Pair<String, Any?>): String {
     return buildString {
         append(baseUrl)
-        val queryString = queries.filter { it.second != null }.joinToString("&") { "${it.first}=${it.second.toString()}" }
+        val queryString = queries.filter { it.second != null }.joinToString("&") { "${it.first.toURLEncode()}=${it.second.toString().toURLEncode()}" }
         if (queryString.isNotBlank()) {
             append("?$queryString")
         }
@@ -27,7 +27,7 @@ internal fun Map<String, String>.toQueryString(): String {
 
 internal fun String.toURLEncode(): String {
     return buildString {
-        for (c in URLEncoder.encode(this@toURLEncode, "UTF-8")) {
+        for (c in URLEncoder.encode(this@toURLEncode, "UTF-8").replace("%7E", "~")) {
             append(when (c) {
                 '+' -> "%20"
                 '*' -> "%2A"
