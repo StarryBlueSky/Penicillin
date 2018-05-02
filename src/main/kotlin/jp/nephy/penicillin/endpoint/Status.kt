@@ -40,7 +40,7 @@ class Status(override val client: PenicillinClient): Endpoint {
         query("url" to url, "maxwidth" to maxwidth, "hide_media" to hideMedia, "hide_thread" to hideThread, "omit_script" to omitScript, "align" to align?.value, "related" to related?.joinToString(","), "lang" to lang, "theme" to theme, "link_color" to linkColor, "widget_type" to widgetType?.value, "dnt" to dnt, *options)
     }
 
-    fun update(status: String, inReplyToStatusId: Long? = null, possiblySensitive: Boolean? = null, lat: Float? = null, long: Float? = null, placeId: String? = null, displayCoordinates: Boolean? = null, trimUser: Boolean? = null, mediaIds: kotlin.collections.List<Long>? = null, enableDMCommands: Boolean? = null, failDMCommands: Boolean? = null, cardUri: String? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Status>("/statuses/update.json") {
+    fun update(status: String, inReplyToStatusId: Long? = null, possiblySensitive: Boolean? = null, lat: Float? = null, long: Float? = null, placeId: String? = null, displayCoordinates: Boolean? = null, trimUser: Boolean? = null, mediaIds: List<Long>? = null, enableDMCommands: Boolean? = null, failDMCommands: Boolean? = null, cardUri: String? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Status>("/statuses/update.json") {
         form("auto_populate_reply_metadata" to "true",
                 "batch_mode" to "off",
                 "cards_platform" to "iPhone-13",

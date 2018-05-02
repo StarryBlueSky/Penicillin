@@ -38,6 +38,10 @@ enum class LocalizedString(private val ja: String, private val en: String) {
     UnknownApiErrorWithStatusCode(
             "不明なAPIエラーが発生しました. (HTTP %d)\n%s",
             "Unknown API error occured. (HTTP %d)\n%s"
+    ),
+    ExceptionInAsyncBlock(
+            "非同期実行中にエラーが発生しました.",
+            "Exception in async block."
     );
 
     fun format(vararg args: Any?): String {
