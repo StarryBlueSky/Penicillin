@@ -132,9 +132,9 @@ class PenicillinRequestBuilder(val session: Session, val httpMethod: HTTPMethod,
             HTTPMethod.GET -> okhttpRequestBuilder.get()
             HTTPMethod.POST -> {
                 val body = when {
+                    isFileData -> fileData!!
                     isFormData -> RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), data.toQueryString())
                     isJsonData -> RequestBody.create(MediaType.parse("application/json"), JsonKt.toJsonString(data))
-                    isFileData -> fileData !!
                     else -> RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8"), "")
                 }
                 okhttpRequestBuilder.post(body)
