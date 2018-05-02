@@ -7,6 +7,6 @@ import jp.nephy.jsonkt.byModelList
 
 
 class Search(override val json: JsonObject): JsonModel {
-    val searchMetadata by json.byModel<SettingMetadata>(key = "search_metadata")
+    val searchMetadata by json.byModel<SearchMetadata>(key = "search_metadata")
     val statuses by json.byModelList<Status>()
 }
