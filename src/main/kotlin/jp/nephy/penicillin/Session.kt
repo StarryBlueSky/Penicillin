@@ -5,7 +5,9 @@ import jp.nephy.penicillin.model.Cursor
 import jp.nephy.penicillin.request.*
 import jp.nephy.penicillin.request.streaming.StreamListener
 import okhttp3.OkHttpClient
+import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledThreadPoolExecutor
+import java.util.concurrent.ThreadFactory
 import java.util.concurrent.TimeUnit
 
 
@@ -20,7 +22,11 @@ class Session(val consumerKey: String?, val consumerSecret: String?, val accessT
         readTimeout(60, TimeUnit.SECONDS)
     }.apply(httpClientBuilder).build()!!
     val option = PenicillinOption.Builder().apply(optionBuilder).build()
-    val pool = ScheduledThreadPoolExecutor(5)
+    val pool = ScheduledThreadPoolExecutor(4, ThreadFactory {
+        Executors.defaultThreadFactory().newThread(it).also {
+            it.isDaemon = true
+        }
+    })
 
     inline fun <reified T: JsonModel> getObject(url: String, authorizationType: AuthorizationType = AuthorizationType.OAuth1a, operation: PenicillinRequestBuilder.() -> Unit): ObjectAction<T> {
         return ObjectAction(T::class.java, PenicillinRequestBuilder(this, HTTPMethod.GET, url, authorizationType).apply(operation))
