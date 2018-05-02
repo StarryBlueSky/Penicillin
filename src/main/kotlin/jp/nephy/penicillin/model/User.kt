@@ -4,7 +4,6 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.model.special.CreatedAt
 import jp.nephy.penicillin.model.special.Language
-import jp.nephy.penicillin.model.special.StatusID
 
 
 open class User(final override val json: JsonObject): JsonModel {
@@ -41,7 +40,7 @@ open class User(final override val json: JsonObject): JsonModel {
     val needsPhoneVerification by json.byNullableBool("needs_phone_verification")
     val normalFollowersCount by json.byNullableInt("normal_followers_count")
     val notifications by json.byNullableBool
-    val pinnedTweetIds by json.byLambdaList("pinned_tweet_ids") { StatusID(long) }
+    val pinnedTweetIds by json.byLongList("pinned_tweet_ids")
     val pinnedTweetIdsStr by json.byStringList("pinned_tweet_ids_str")
     val profileBackgroundColor by json.byString("profile_background_color")
     val profileBackgroundImageUrl by json.byString("profile_background_image_url")

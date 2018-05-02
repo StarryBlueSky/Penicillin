@@ -24,10 +24,12 @@ class Status(override val json: JsonObject): JsonModel {
     private val fullTextInternal by json.byNullableString("full_text")
     @Deprecated("geo field is deprecated. Use coordinates instead.")
     val geo by json.byNullableJsonObject
-    val id by json.byLambda { StatusID(long) }
+    val id by json.byLong
+    val idObj by json.byLambda { StatusID(id) }
     val idStr by json.byString("id_str")
     val inReplyToScreenName by json.byNullableString("in_reply_to_screen_name")
-    val inReplyToStatusId by json.byLambda("in_reply_to_status_id") { StatusID(long) }
+    val inReplyToStatusId by json.byNullableLong("in_reply_to_status_id")
+    val inReplyToStatusIdObj by json.byNullableLambda("in_reply_to_status_id") { StatusID(long) }
     val inReplyToStatusIdStr by json.byNullableString("in_reply_to_status_id_str")
     val inReplyToUserId by json.byNullableLong("in_reply_to_user_id")
     val inReplyToUserIdStr by json.byNullableString("in_reply_to_user_id_str")
@@ -37,7 +39,8 @@ class Status(override val json: JsonObject): JsonModel {
     val possiblySensitive by json.byNullableBool("possibly_sensitive")
     val possiblySensitiveEditable by json.byNullableBool("possibly_sensitive_editable")
     val quotedStatus by json.byModel<Status?>(key = "quoted_status")
-    val quotedStatusId by json.byLambda("quoted_status_id") { StatusID(long) }
+    val quotedStatusId by json.byNullableLong("quoted_status_id")
+    val quotedStatusIdObj by json.byNullableLambda("quoted_status_id") { StatusID(long) }
     val quotedStatusIdStr by json.byNullableString("quoted_status_id_str")
     val quoteCount by json.byNullableInt("quote_count") // 0
     val replyCount by json.byNullableInt("reply_count") // 0
