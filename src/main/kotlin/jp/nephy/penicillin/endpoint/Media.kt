@@ -8,7 +8,6 @@ import jp.nephy.penicillin.model.Media
 import jp.nephy.penicillin.request.ObjectAction
 import java.io.ByteArrayInputStream
 import java.io.File
-import java.io.FileInputStream
 
 
 class Media(override val client: PenicillinClient): Endpoint {
@@ -21,13 +20,7 @@ class Media(override val client: PenicillinClient): Endpoint {
     }
 
     fun uploadMediaFile(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): ObjectAction<Media> {
-        val binary = ByteArray(file.length().toInt())
-
-        FileInputStream(file).use {
-            it.read(binary)
-        }
-
-        return uploadMedia(binary, mediaType, mediaCategory)
+        return uploadMedia(file.readBytes(), mediaType, mediaCategory)
     }
 
     fun uploadMedia(file: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): ObjectAction<Media> {
@@ -41,11 +34,9 @@ class Media(override val client: PenicillinClient): Endpoint {
             for (i in 0 until separateCount) {
                 val startByte = i * maxSeparateByte
                 val size = if ((i + 1) * maxSeparateByte <= totalBytes) maxSeparateByte else (totalBytes - startByte).toInt()
-                val data = ByteArray(size)
+                val data = it.readBytes(size)
 
-                it.read(data)
-
-                uploadAppend(data, mediaType, i.toInt(), initResult.result.mediaId)
+                uploadAppend(data, mediaType, i.toInt(), initResult.result.mediaId).complete()
             }
         }
 
@@ -58,7 +49,7 @@ class Media(override val client: PenicillinClient): Endpoint {
 
     private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Empty>("https://upload.twitter.com/1.1/media/upload.json") {
         form("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
-            file(file, mediaType.mimeType, "media")
+        file(file, mediaType.mimeType, "media")
     }
 
     private fun uploadFinalize(mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Media>("https://upload.twitter.com/1.1/media/upload.json") {

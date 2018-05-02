@@ -1,6 +1,9 @@
 package jp.nephy.penicillin.request
 
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import jp.nephy.jsonkt.JsonModel
+import jp.nephy.jsonkt.jsonArray
 import jp.nephy.penicillin.LocalizedString
 import jp.nephy.penicillin.PenicillinLocalizedException
 import jp.nephy.penicillin.model.Cursor
@@ -31,8 +34,14 @@ interface ModelResult: Result {
     val model: Class<*>
 }
 
-class ObjectResult<T: JsonModel>(val result: T, override val model: Class<T>, override val request: Request, override val response: Response): ModelResult
-class ListResult<T: JsonModel>(val result: List<T>, override val model: Class<T>, override val request: Request, override val response: Response): ModelResult
+class ObjectResult<T: JsonModel>(val result: T, override val model: Class<T>, override val request: Request, override val response: Response): ModelResult {
+    val json: JsonObject
+        get() = result.json
+}
+class ListResult<T: JsonModel>(val result: List<T>, override val model: Class<T>, override val request: Request, override val response: Response): ModelResult {
+    val json: JsonArray
+        get() = jsonArray(*result.map { it.json }.toTypedArray())
+}
 class TextResult(val result: String, override val request: Request, override val response: Response): Result
 class CursorObjectResult<T: Cursor>(val result: T, override val model: Class<T>, private val requestBuilder: PenicillinRequestBuilder, override val request: Request, override val response: Response): ModelResult {
     fun next() = byCursor(result.nextCursor)
