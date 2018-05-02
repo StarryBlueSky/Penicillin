@@ -1,13 +1,14 @@
 package jp.nephy.penicillin.model.special
 
 import okhttp3.Headers
+import java.util.*
 
 class RateLimit(headers: Headers) {
     val limit = headers["x-rate-limit-limit"]?.toIntOrNull()
     val remaining = headers["x-rate-limit-remaining"]?.toIntOrNull()
     private val resetAtLong = headers["x-rate-limit-reset"]?.toLongOrNull()
     val resetAt = if (resetAtLong != null) {
-        EpochTime(resetAtLong)
+        Date(resetAtLong * 1000)
     } else {
         null
     }
