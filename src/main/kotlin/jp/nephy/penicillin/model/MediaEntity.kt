@@ -17,7 +17,8 @@ class MediaEntity(override val json: JsonObject): JsonModel {
     val mediaUrl by json.byString("media_url")
     val mediaUrlHttps by json.byString("media_url_https")
     val sizes by json.byModel<Photo>()
-    val sourceStatusId by json.byLambda("source_status_id") { StatusID(long) }
+    val sourceStatusId by json.byNullableLong("source_status_id")
+    val sourceStatusIdObj by json.byNullableLambda("source_status_id") { StatusID(long) }
     val sourceStatusIdStr by json.byNullableString("source_status_id_str")
     val type by json.byString
     val url by json.byString
