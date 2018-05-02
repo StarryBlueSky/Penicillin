@@ -1,3 +1,10 @@
+#### 2.0.2 (2018-05-02)
+
+ * Fix cursor operation not working.
+ * Add Status#idObj in order to access StatusID instance.
+ * Fix created_at string parsing.
+ * Add some Apis.
+
 #### 2.0.1 (2018-04-25)
 
  * Add #option to PenicillinClient.Builder.
