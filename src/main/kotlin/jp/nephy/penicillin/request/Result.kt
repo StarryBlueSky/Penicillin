@@ -4,6 +4,9 @@ import jp.nephy.jsonkt.JsonModel
 import jp.nephy.penicillin.LocalizedString
 import jp.nephy.penicillin.PenicillinLocalizedException
 import jp.nephy.penicillin.model.Cursor
+import jp.nephy.penicillin.model.CursorIds
+import jp.nephy.penicillin.model.CursorLists
+import jp.nephy.penicillin.model.CursorUsers
 import jp.nephy.penicillin.model.special.AccessLevel
 import jp.nephy.penicillin.model.special.RateLimit
 import okhttp3.Headers
@@ -39,15 +42,17 @@ class CursorObjectResult<T: Cursor>(val result: T, override val model: Class<T>,
         val results = mutableListOf(this)
 
         var cursor = result.nextCursor
-        while (true) {
-            if (cursor == 0L) {
-                return results
+        while (cursor != 0L) {
+            val response = try {
+                byCursor(cursor).complete()
+            } catch (e: Exception) {
+                break
             }
 
-            val response = byCursor(cursor).complete()
             results.add(response)
             cursor = response.result.nextCursor
         }
+        return results
     }
 
     fun byCursor(cursor: Long): CursorObjectAction<T> {
@@ -55,7 +60,14 @@ class CursorObjectResult<T: Cursor>(val result: T, override val model: Class<T>,
             throw PenicillinLocalizedException(LocalizedString.CursorIsZero)
         }
 
-        return CursorObjectAction(model, requestBuilder)
+        return CursorObjectAction(model, requestBuilder.apply { query("cursor" to cursor) })
     }
 }
 class StreamResult(override val request: Request, override val response: Response): Result
+
+val List<CursorObjectResult<CursorIds>>.allIds
+    get() = map { it.result.ids }.flatten()
+val List<CursorObjectResult<CursorLists>>.allLists
+    get() = map { it.result.lists }.flatten()
+val List<CursorObjectResult<CursorUsers>>.allUsers
+    get() = map { it.result.users }.flatten()
