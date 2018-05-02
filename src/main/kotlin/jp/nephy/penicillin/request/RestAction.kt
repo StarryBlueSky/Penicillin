@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.*
 import jp.nephy.penicillin.model.Cursor
+import jp.nephy.penicillin.model.Empty
 import jp.nephy.penicillin.request.streaming.*
 import okhttp3.Request
 import okhttp3.Response
@@ -46,10 +47,18 @@ abstract class RestAction<T: Result>: Action() {
             val result = try {
                 complete()
             } catch (e: PenicillinException) {
-                return@execute onFailure(e)
+                return@execute try {
+                    onFailure(e)
+                } catch (e: Exception) {
+                    Util.logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
+                }
             }
 
-            return@execute onSuccess(result)
+            try {
+                onSuccess(result)
+            } catch (e: Exception) {
+                Util.logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
+            }
         }
     }
     fun queue(onSuccess: (T) -> Unit) {
@@ -63,10 +72,18 @@ abstract class RestAction<T: Result>: Action() {
             val result = try {
                 complete()
             } catch (e: PenicillinException) {
-                return@schedule onFailure(e)
+                return@schedule try {
+                    onFailure(e)
+                } catch (e: Exception) {
+                    Util.logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
+                }
             }
 
-            onSuccess(result)
+            try {
+                onSuccess(result)
+            } catch (e: Exception) {
+                Util.logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
+            }
         }, delay, unit)
     }
     fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (T) -> Unit) {
@@ -110,12 +127,14 @@ abstract class RestAction<T: Result>: Action() {
 
         val result = jsonObject
         if (result.contains("errors") && result["errors"].isJsonArray) {
-            val error = result["errors"].jsonArray.firstOrNull()
-                    ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, okHttpResponse.code(), content)
-            throw TwitterApiError(error["code"].int, error["message"].string, content)
+            val error = result["errors"].jsonArray.firstOrNull() ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, okHttpResponse.code(), content)
+            throw TwitterApiError(error["code"].nullableInt ?: -1, error["message"].nullableString.orEmpty(), content)
         } else if (result.contains("error") && result["error"].isJsonObject) {
             val error = result["error"]
-            throw TwitterApiError(error["code"].int, error["message"].string, content)
+            throw TwitterApiError(error["code"].nullableInt ?: -1, error["message"].nullableString.orEmpty(), content)
+        } else if (result.contains("error") && result["error"].isJsonPrimitive) {
+            val error = result["error"].nullableString.orEmpty()
+            throw TwitterApiError(-1, error, content)
         }
     }
 }
@@ -127,9 +146,14 @@ class ObjectAction<T: JsonModel>(private val model: Class<T>, override val reque
         val result = try {
             model.getConstructor(JsonObject::class.java).newInstance(jsonObject)
         } catch (e: Exception) {
-            Util.logger.error(e) { LocalizedString.JsonParsingFailed.format(model.simpleName) }
-            Util.logger.debug { content }
-            throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, model.simpleName)
+            if (model == Empty::class.java) {
+                @Suppress("UNCHECKED_CAST")
+                model.getConstructor(JsonObject::class.java).newInstance(jsonObject()) as T
+            } else {
+                Util.logger.error(e) { LocalizedString.JsonParsingFailed.format(model.simpleName) }
+                Util.logger.debug { content }
+                throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, model.simpleName)
+            }
         }
         return ObjectResult(result, model, okHttpRequest, okHttpResponse)
     }
