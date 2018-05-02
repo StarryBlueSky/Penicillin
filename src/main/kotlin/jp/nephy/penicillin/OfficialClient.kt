@@ -8,5 +8,5 @@ enum class OfficialClient(val consumerKey: String, val consumerSecret: String) {
     TwitterForWindowsPhone("yN3DUNVO0Me63IAQdhTfCA", "c768oTKdzAjIYCmpSNIdZbGaG0t6rOhSFQP0S5uC79g");
 
     val appName: String
-        get() = name.replace("_", " ")
+        get() = name.replace("For", " for ")
 }
