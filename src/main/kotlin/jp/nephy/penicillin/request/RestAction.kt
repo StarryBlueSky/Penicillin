@@ -49,11 +49,14 @@ abstract class RestAction<T: Result>: Action() {
                 return@execute onFailure(e)
             }
 
-            onSuccess(result)
+            return@execute onSuccess(result)
         }
     }
     fun queue(onSuccess: (T) -> Unit) {
         queue(onSuccess, {  })
+    }
+    fun queue() {
+        queue({  })
     }
     fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (T) -> Unit, onFailure: (PenicillinException) -> Unit) {
         requestBuilder.session.pool.schedule({
@@ -68,6 +71,9 @@ abstract class RestAction<T: Result>: Action() {
     }
     fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (T) -> Unit) {
         queueAfter(delay, unit, onSuccess, {  })
+    }
+    fun queueAfter(delay: Long, unit: TimeUnit) {
+        queueAfter(delay, unit, {  })
     }
 
     abstract fun complete(): T
