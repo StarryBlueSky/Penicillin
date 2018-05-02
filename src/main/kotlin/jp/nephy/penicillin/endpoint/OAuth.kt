@@ -7,7 +7,7 @@ import jp.nephy.penicillin.model.special.RequestTokenResponse
 
 
 class OAuth(override val client: PenicillinClient): Endpoint {
-    fun requestToken(callbackUrl: String? = null, vararg options: Pair<String, Any?>): RequestTokenResponse {
+    fun requestToken(callbackUrl: String = "oob", vararg options: Pair<String, Any?>): RequestTokenResponse {
         val result = client.session.postText("https://api.twitter.com/oauth/request_token") {
             callback(callbackUrl)
             form(*options)
