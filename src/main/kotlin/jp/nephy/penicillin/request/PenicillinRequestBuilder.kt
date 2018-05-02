@@ -140,11 +140,9 @@ class PenicillinRequestBuilder(val session: Session, val httpMethod: HTTPMethod,
                 okhttpRequestBuilder.post(body)
             }
             HTTPMethod.DELETE -> okhttpRequestBuilder.delete()
-        }.url(buildUrl(url, *queries.toList().toTypedArray())
-        ).apply {
+        }.url(buildUrl(url, *queries.toList().toTypedArray())).apply {
             headers.forEach { header(it.key, it.value) }
         }
-
         return request.build()
     }
 }
