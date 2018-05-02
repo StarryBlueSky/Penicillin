@@ -4,6 +4,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.*
+import jp.nephy.penicillin.Util.Companion.logger
 import jp.nephy.penicillin.model.Cursor
 import jp.nephy.penicillin.model.Empty
 import jp.nephy.penicillin.request.streaming.*
@@ -42,6 +43,10 @@ abstract class Action {
 }
 
 abstract class RestAction<T: Result>: Action() {
+    private val defaultFallback: (PenicillinException) -> Unit = {
+        logger.error(it) { LocalizedString.ExceptionInAsyncBlock.format() }
+    }
+
     fun queue(onSuccess: (T) -> Unit, onFailure: (PenicillinException) -> Unit) {
         requestBuilder.session.pool.execute {
             val result = try {
@@ -62,7 +67,7 @@ abstract class RestAction<T: Result>: Action() {
         }
     }
     fun queue(onSuccess: (T) -> Unit) {
-        queue(onSuccess, {  })
+        queue(onSuccess, defaultFallback)
     }
     fun queue() {
         queue({  })
@@ -87,7 +92,7 @@ abstract class RestAction<T: Result>: Action() {
         }, delay, unit)
     }
     fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (T) -> Unit) {
-        queueAfter(delay, unit, onSuccess, {  })
+        queueAfter(delay, unit, onSuccess, defaultFallback)
     }
     fun queueAfter(delay: Long, unit: TimeUnit) {
         queueAfter(delay, unit, {  })
