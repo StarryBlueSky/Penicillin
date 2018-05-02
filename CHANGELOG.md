@@ -1,3 +1,8 @@
+#### 2.0.3 (2018-05-02)
+
+ * Fix ':', '~' encoding.
+ * Fix
+
 #### 2.0.2 (2018-05-02)
 
  * Fix cursor operation not working.
