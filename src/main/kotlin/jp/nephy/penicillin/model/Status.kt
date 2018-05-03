@@ -25,7 +25,7 @@ class Status(override val json: JsonObject): JsonModel {
     @Deprecated("geo field is deprecated. Use coordinates instead.")
     val geo by json.byNullableJsonObject
     val id by json.byLong
-    val idObj by json.byLambda { StatusID(id) }
+    val idObj by json.byLambda("id") { StatusID(id) }
     val idStr by json.byString("id_str")
     val inReplyToScreenName by json.byNullableString("in_reply_to_screen_name")
     val inReplyToStatusId by json.byNullableLong("in_reply_to_status_id")
@@ -42,8 +42,8 @@ class Status(override val json: JsonObject): JsonModel {
     val quotedStatusId by json.byNullableLong("quoted_status_id")
     val quotedStatusIdObj by json.byNullableLambda("quoted_status_id") { StatusID(long) }
     val quotedStatusIdStr by json.byNullableString("quoted_status_id_str")
-    val quoteCount by json.byNullableInt("quote_count") // 0
-    val replyCount by json.byNullableInt("reply_count") // 0
+    val quoteCount by json.byNullableInt("quote_count")
+    val replyCount by json.byNullableInt("reply_count")
     val retweetCount by json.byInt("retweet_count")
     val retweeted by json.byBool
     val retweetedStatus by json.byModel<Status?>(key = "retweeted_status")
