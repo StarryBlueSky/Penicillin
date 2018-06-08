@@ -69,4 +69,6 @@ open class User(final override val json: JsonObject): JsonModel {
     val verified by json.byBool
     val withheldInCountries by json.byStringList("withheld_in_countries")
     val withheldScope by json.byNullableString("withheld_scope")
+
+    val isLockedAccount by lazy { profileInterstitialType == "fake_account" }
 }
