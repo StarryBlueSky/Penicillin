@@ -1,4 +1,4 @@
-[![Kotlin 1.2.41](https://img.shields.io/badge/Kotlin-1.2.40-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.2.41](https://img.shields.io/badge/Kotlin-1.2.41-blue.svg)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)
 [![Travis](https://img.shields.io/travis/NephyProject/Penicillin.svg)](https://travis-ci.org/NephyProject/Penicillin/builds)
 [![MIT License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
@@ -22,7 +22,8 @@ Penicillin: *Kotlin*のためのTwitter API ラッパー
 導入
 -------
 現在のバージョンは [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22) です.  
-バージョン履歴は [CHANGELOG.md](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md) に記載しています.
+バージョン履歴は [CHANGELOG.md](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md) に記載しています.  
+GitHubのリリースには`v2.0.3`までJarを公開していましたが, 今後はMaven Centralのアーティファクトをご利用ください.
 
 Gradle:
 ```groovy
