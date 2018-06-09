@@ -102,8 +102,8 @@ client.timeline.home().queue {
 フォロワー一覧を全件取得する. (カーソル操作)
 ```kotlin
 val firstResponse = client.follower.list().complete()
-val secondResponse = firstResponse.next()  // next cursor
-secondResponse.previous()  // this is same as firstResponse
+val secondResponse = firstResponse.next()  // 次のカーソルオブジェクト
+secondResponse.previous()  // 最初のレスポンスと同様
 
 firstResponse.untilLast().forEach {
     it.result.users.forEach {
@@ -117,7 +117,28 @@ firstResponse.untilLast().forEach {
 ```kotlin
 client.status.updateWithMediaFile(
     status = "this is a media tweet.",
-    media = listOf(File("/path/to/file.png") to MediaType.PNG)
+    media = listOf(
+        MediaFileComponent(
+            file = Paths.get("/path/to/file.png").toFile(),
+            type = MediaType.PNG
+        )
+    )
+).complete()
+```
+
+
+動画ツイートを投稿する.
+```kotlin
+client.status.updateWithMediaFile(
+    status = "this is a video tweet.",
+    media = listOf(
+        MediaFileComponent(
+            file = Paths.get("/path/to/file.mp4").toFile(),
+            type = MediaType.MP4,
+            category = MediaCategory.TweetVideo
+        )
+    ),
+    wait = 5  // Twitterの仕様で数秒待たないと動画が利用可能になりません
 ).complete()
 ```
 
