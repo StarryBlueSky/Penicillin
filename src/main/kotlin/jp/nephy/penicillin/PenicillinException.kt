@@ -1,8 +1,10 @@
 package jp.nephy.penicillin
 
+import jp.nephy.penicillin.request.RestAction
 
-open class PenicillinException(override val message: String, val errorMessage: TwitterErrorMessage? = null): Exception()
-class PenicillinLocalizedException(localizedString: LocalizedString, vararg args: Any?): PenicillinException(localizedString.format(*args))
+
+open class PenicillinException(override val message: String, val error: TwitterErrorMessage? = null, val action: RestAction<*>? = null): Exception()
+class PenicillinLocalizedException(localizedString: LocalizedString, action: RestAction<*>? = null, vararg args: Any?): PenicillinException(localizedString.format(*args), action = action)
 
 enum class TwitterErrorMessage(val code: Int, val title: String, val description: String) {
     InvalidCoordinates(3, "Invalid coordinates.", "Corresponds with HTTP 400. The coordinates provided as parameters were not valid for the request."),
@@ -55,11 +57,11 @@ enum class TwitterErrorMessage(val code: Int, val title: String, val description
     TheGivenURLIsInvalid(407, "The given URL is invalid.", "Corresponds with HTTP 400. A URL included in the Tweet could not be handled. This may be because a non-ASCII URL could not be converted, or for other reasons.")
 }
 
-class TwitterApiError(code: Int, title: String, content: String): Exception() {
+class TwitterApiError(code: Int, title: String, content: String, action: RestAction<*>): Exception() {
     init {
-        val message = TwitterErrorMessage.values().find { it.code == code } ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiError, code, title, content)
+        val message = TwitterErrorMessage.values().find { it.code == code } ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiError, action, code, title, content)
 
-        throw PenicillinException("${message.title} (${message.code}): ${message.description}", message)
+        throw PenicillinException("${message.title} (${message.code}): ${message.description} (${action.requestBuilder.url})", message, action)
     }
 }
 

@@ -36,7 +36,7 @@ abstract class Action {
                         requestBuilder.session.option.retryIntervalUnit.sleep(requestBuilder.session.option.retryInterval)
                     }
                 }
-                throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, requestBuilder.url)
+                throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, args = *arrayOf(requestBuilder.url))
             }
             return okHttpResponseCache
         }
@@ -116,13 +116,13 @@ abstract class RestAction<T: Result>: Action() {
         get() = try {
             JsonKt.toJsonObject(content)
         } catch (e: Exception) {
-            throw PenicillinLocalizedException(LocalizedString.InvalidJsonReturned, content)
+            throw PenicillinLocalizedException(LocalizedString.InvalidJsonReturned, args = *arrayOf(content))
         }
     val jsonArray: JsonArray
         get() = try {
             JsonKt.toJsonArray(content)
         } catch (e: Exception) {
-            throw PenicillinLocalizedException(LocalizedString.InvalidJsonReturned, content)
+            throw PenicillinLocalizedException(LocalizedString.InvalidJsonReturned, args = *arrayOf(content))
         }
 
     fun checkError() {
@@ -132,14 +132,14 @@ abstract class RestAction<T: Result>: Action() {
 
         val result = jsonObject
         if (result.contains("errors") && result["errors"].isJsonArray) {
-            val error = result["errors"].jsonArray.firstOrNull() ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, okHttpResponse.code(), content)
-            throw TwitterApiError(error["code"].nullableInt ?: -1, error["message"].nullableString.orEmpty(), content)
+            val error = result["errors"].jsonArray.firstOrNull() ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, args = *arrayOf(okHttpResponse.code(), content))
+            throw TwitterApiError(error["code"].nullableInt ?: -1, error["message"].nullableString.orEmpty(), content, this)
         } else if (result.contains("error") && result["error"].isJsonObject) {
             val error = result["error"]
-            throw TwitterApiError(error["code"].nullableInt ?: -1, error["message"].nullableString.orEmpty(), content)
+            throw TwitterApiError(error["code"].nullableInt ?: -1, error["message"].nullableString.orEmpty(), content, this)
         } else if (result.contains("error") && result["error"].isJsonPrimitive) {
             val error = result["error"].nullableString.orEmpty()
-            throw TwitterApiError(-1, error, content)
+            throw TwitterApiError(-1, error, content, this)
         }
     }
 }
@@ -157,7 +157,7 @@ class ObjectAction<T: JsonModel>(private val model: Class<T>, override val reque
             } else {
                 Util.logger.error(e) { LocalizedString.JsonParsingFailed.format(model.simpleName) }
                 Util.logger.debug { content }
-                throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, model.simpleName)
+                throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, args = *arrayOf(model.simpleName))
             }
         }
         return ObjectResult(result, model, okHttpRequest, okHttpResponse)
@@ -174,7 +174,7 @@ class ListAction<T: JsonModel>(private val model: Class<T>, override val request
             } catch (e: Exception) {
                 Util.logger.error(e) { LocalizedString.JsonParsingFailed.format(model.simpleName) }
                 Util.logger.debug { content }
-                throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, model.simpleName)
+                throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, args = *arrayOf(model.simpleName))
             }
         }
         return ListResult(result, model, okHttpRequest, okHttpResponse)
@@ -190,7 +190,7 @@ class CursorObjectAction<T: Cursor>(private val model: Class<T>, override val re
         } catch (e: Exception) {
             Util.logger.error(e) { LocalizedString.JsonParsingFailed.format(model.simpleName) }
             Util.logger.debug { content }
-            throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, model.simpleName)
+            throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, args = *arrayOf(model.simpleName))
         }
         return CursorObjectResult(result, model, requestBuilder, okHttpRequest, okHttpResponse)
     }
