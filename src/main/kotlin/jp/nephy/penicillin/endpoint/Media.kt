@@ -8,6 +8,13 @@ import jp.nephy.penicillin.model.Media
 import jp.nephy.penicillin.request.ObjectAction
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledThreadPoolExecutor
+import java.util.concurrent.ThreadFactory
+import java.util.concurrent.TimeUnit
+import kotlin.math.ceil
 
 
 class Media(override val client: PenicillinClient): Endpoint {
@@ -20,27 +27,38 @@ class Media(override val client: PenicillinClient): Endpoint {
     }
 
     fun uploadMediaFile(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): ObjectAction<Media> {
-        return uploadMedia(file.readBytes(), mediaType, mediaCategory)
+        val mediaId = uploadInit(file.length(), mediaType, mediaCategory).complete().result.mediaId
+        uploadData(FileInputStream(file), mediaId, mediaType)
+
+        return uploadFinalize(mediaId)
     }
 
-    fun uploadMedia(file: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): ObjectAction<Media> {
-        val maxSeparateByte = 5 * 1024 * 1024
-        val totalBytes = file.size.toLong()
+    fun uploadMedia(data: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): ObjectAction<Media> {
+        val mediaId = uploadInit(data.size.toLong(), mediaType, mediaCategory).complete().result.mediaId
+        uploadData(ByteArrayInputStream(data), mediaId, mediaType)
 
-        val initResult = uploadInit(totalBytes, mediaType, mediaCategory).complete()
+        return uploadFinalize(mediaId)
+    }
 
-        val separateCount = totalBytes / maxSeparateByte + (if (totalBytes % maxSeparateByte > 0) 1 else 0)
-        ByteArrayInputStream(file).use {
-            for (i in 0 until separateCount) {
-                val startByte = i * maxSeparateByte
-                val size = if ((i + 1) * maxSeparateByte <= totalBytes) maxSeparateByte else (totalBytes - startByte).toInt()
-                val data = it.readBytes(size)
-
-                uploadAppend(data, mediaType, i.toInt(), initResult.result.mediaId).complete()
+    private val segmentMaxSize = 5 * 1024 * 1024
+    private fun uploadData(stream: InputStream, mediaId: Long, mediaType: MediaType) {
+        val segmentCount = ceil(1.0 * stream.available() / segmentMaxSize).toInt()
+        val pool = ScheduledThreadPoolExecutor(segmentMaxSize, ThreadFactory {
+            Executors.defaultThreadFactory().newThread(it).also {
+                it.isDaemon = true
+            }
+        })
+        stream.use {
+            repeat(segmentCount) { i ->
+                val data = ByteArray(minOf(segmentMaxSize, it.available()))
+                it.read(data)
+                pool.execute {
+                    uploadAppend(data, mediaType, i, mediaId).complete()
+                }
             }
         }
 
-        return uploadFinalize(initResult.result.mediaId)
+        pool.awaitTermination(30, TimeUnit.SECONDS)
     }
 
     private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Media>("https://upload.twitter.com/1.1/media/upload.json") {

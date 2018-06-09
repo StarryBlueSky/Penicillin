@@ -4,15 +4,15 @@ import jp.nephy.jsonkt.JsonKt
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.endpoint.parameter.EmbedAlign
 import jp.nephy.penicillin.endpoint.parameter.EmbedWidgetType
-import jp.nephy.penicillin.endpoint.parameter.MediaCategory
-import jp.nephy.penicillin.endpoint.parameter.MediaType
+import jp.nephy.penicillin.endpoint.parameter.MediaComponent
+import jp.nephy.penicillin.endpoint.parameter.MediaFileComponent
 import jp.nephy.penicillin.model.CursorIds
 import jp.nephy.penicillin.model.Embed
 import jp.nephy.penicillin.model.PinTweet
 import jp.nephy.penicillin.model.Status
 import jp.nephy.penicillin.request.AuthorizationType
 import jp.nephy.penicillin.request.ObjectAction
-import java.io.File
+import java.util.concurrent.TimeUnit
 
 
 class Status(override val client: PenicillinClient): Endpoint {
@@ -78,22 +78,24 @@ class Status(override val client: PenicillinClient): Endpoint {
         form("trim_user" to trimUser, *options)
     }
 
-    fun updateWithMediaFile(status: String, media: List<Pair<File, MediaType>>, vararg options: Pair<String, Any?>): ObjectAction<Status> {
+    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, waitSec: Long = 0, vararg options: Pair<String, Any?>): ObjectAction<Status> {
         val mediaIds = media.map {
-            client.media.uploadMediaFile(it.first, it.second, MediaCategory.TweetImage).complete().result.mediaId
+            client.media.uploadMediaFile(it.file, it.type, it.category).complete().result.mediaId
+        }
+        TimeUnit.SECONDS.sleep(waitSec)
+
+        return update(status, mediaIds = mediaIds, options = *options)
+    }
+
+    fun updateWithMedia(status: String, media: List<MediaComponent>, vararg options: Pair<String, Any?>): ObjectAction<Status> {
+        val mediaIds = media.map {
+            client.media.uploadMedia(it.data, it.type, it.category).complete().result.mediaId
         }
 
         return update(status, mediaIds = mediaIds, options = *options)
     }
 
-    fun updateWithMedia(status: String, media: List<Pair<ByteArray, MediaType>>, vararg options: Pair<String, Any?>): ObjectAction<Status> {
-        val mediaIds = media.map {
-            client.media.uploadMedia(it.first, it.second, MediaCategory.TweetImage).complete().result.mediaId
-        }
-
-        return update(status, mediaIds = mediaIds, options = *options)
-    }
-
+    @PrivateEndpoint
     fun createPollTweet(status: String, choices: List<String>, minutes: Int = 1440, vararg options: Pair<String, Any?>): ObjectAction<Status> {
         val card = client.card.create(
                 cardData = JsonKt.toJsonString(linkedMapOf<String, Any>().apply {
