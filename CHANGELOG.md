@@ -1,3 +1,9 @@
+#### 2.0.4 (2018-06-09)
+
+ * Add support of uploading videos.
+ * Add endpoint information in PenicillinException.
+ * Delete some official clients.
+
 #### 2.0.3 (2018-05-02)
 
  * Fix ':', '~' encoding.
