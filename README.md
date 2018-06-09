@@ -1,4 +1,4 @@
-[![Kotlin 1.2.40](https://img.shields.io/badge/Kotlin-1.2.40-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.2.41](https://img.shields.io/badge/Kotlin-1.2.40-blue.svg)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)
 [![Travis](https://img.shields.io/travis/NephyProject/Penicillin.svg)](https://travis-ci.org/NephyProject/Penicillin/builds)
 [![MIT License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
@@ -37,9 +37,6 @@ Maven:
     <version>{penicillin-version}</version>
 </dependency>
 ```
-
-Release: リリース版のJarは [GitHub](https://github.com/NephyProject/Penicillin/releases) から利用可能です.  
-Snapshot: 開発版のJarは [Sonatype Snapshots Repository](https://oss.sonatype.org/content/repositories/snapshots/jp/nephy/penicillin/) から利用可能です.
 
 使用例
 =====
