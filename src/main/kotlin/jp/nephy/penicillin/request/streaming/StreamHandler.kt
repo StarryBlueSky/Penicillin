@@ -7,9 +7,11 @@ import jp.nephy.penicillin.unescapeHTMLCharacters
 import okio.BufferedSource
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.concurrent.Executors
 import kotlin.concurrent.thread
 
 abstract class StreamHandler<T: StreamListener>(private var action: StreamAction<T>, val listener: T) {
+    val executor = Executors.newCachedThreadPool()
     private val source: BufferedSource
         get() = action.okHttpResponse.body()!!.source()
     private var stop = false
@@ -46,37 +48,36 @@ abstract class StreamHandler<T: StreamListener>(private var action: StreamAction
     private fun readLine(callback: (JsonObject) -> Unit) {
         listener.onConnect()
 
-        source.inputStream().use {
-            BufferedReader(InputStreamReader(it)).use {
-                while (true) {
-                    if (stop || isEndStream) {
-                        break
-                    }
+        source.inputStream().bufferedReader().use {
+            while (true) {
+                if (stop || isEndStream) {
+                    break
+                }
 
-                    val line = try {
-                        it.readLine()
+                val line = try {
+                    it.readLine()
+                } catch (e: Exception) {
+                    null
+                } ?: return
+
+                if (line.isBlank()) {
+                    continue
+                }
+
+                executor.execute { listener.onRawData(line) }
+                executor.execute {
+                    val json = try {
+                        JsonKt.toJsonObject(line.trim().unescapeHTMLCharacters())
                     } catch (e: Exception) {
-                        null
-                    } ?: return
-
-                    if (line.isBlank()) {
-                        continue
+                        return@execute
                     }
 
-                    thread {
-                        val json = try {
-                            JsonKt.toJsonObject(line.unescapeHTMLCharacters())
-                        } catch (e: Exception) {
-                            return@thread
-                        }
-
-                        callback(json)
-                    }
+                    callback(json)
                 }
             }
-        }
 
-        stop = true
-        listener.onDisconnect()
+            stop = true
+            listener.onDisconnect()
+        }
     }
 }

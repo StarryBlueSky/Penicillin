@@ -15,6 +15,7 @@ private val userEvents = arrayOf("follow", "unfollow", "block", "unblock", "mute
 
 class UserStream(action: StreamAction<UserStreamListener>, listener: UserStreamListener): StreamHandler<UserStreamListener>(action, listener) {
     override fun handle(json: JsonObject) {
+        executor.execute { listener.onAnyData(json) }
         when {
             json.contains("text") -> listener.onStatus(Status(json))
             json.contains("direct_message") -> listener.onDirectMessage(DirectMessage(json))
@@ -23,43 +24,49 @@ class UserStream(action: StreamAction<UserStreamListener>, listener: UserStreamL
                 when (event) {
                     in statusEvents -> {
                         val statusEvent = UserStreamStatusEvent(json)
-                        when (event) {
-                            "favorite" -> listener.onFavorite(statusEvent)
-                            "unfavorite" -> listener.onUnfavorite(statusEvent)
-                            "favorited_retweet" -> listener.onFavoritedRetweet(statusEvent)
-                            "retweeted_retweet" -> listener.onRetweetedRetweet(statusEvent)
-                            "quoted_tweet" -> listener.onQuotedTweet(statusEvent)
+                        executor.execute {
+                            when (event) {
+                                "favorite" -> listener.onFavorite(statusEvent)
+                                "unfavorite" -> listener.onUnfavorite(statusEvent)
+                                "favorited_retweet" -> listener.onFavoritedRetweet(statusEvent)
+                                "retweeted_retweet" -> listener.onRetweetedRetweet(statusEvent)
+                                "quoted_tweet" -> listener.onQuotedTweet(statusEvent)
+                            }
                         }
-                        thread { listener.onAnyStatusEvent(statusEvent) }
-                        thread { listener.onAnyEvent(statusEvent) }
+                        executor.execute { listener.onAnyStatusEvent(statusEvent) }
+                        listener.onAnyEvent(statusEvent)
                     }
                     in listEvents -> {
                         val listEvent = UserStreamListEvent(json)
-                        when (event) {
-                            "list_created" -> listener.onListCreated(listEvent)
-                            "list_destroyed" -> listener.onListDestroyed(listEvent)
-                            "list_updated" -> listener.onListUpdated(listEvent)
-                            "list_member_added" -> listener.onListMemberAdded(listEvent)
-                            "list_member_removed" -> listener.onListMemberRemoved(listEvent)
-                            "list_user_subscribed" -> listener.onListUserSubscribed(listEvent)
-                            "list_user_unsubscribed" -> listener.onListUserUnsubscribed(listEvent)
+                        executor.execute {
+                            when (event) {
+                                "list_created" -> listener.onListCreated(listEvent)
+                                "list_destroyed" -> listener.onListDestroyed(listEvent)
+                                "list_updated" -> listener.onListUpdated(listEvent)
+                                "list_member_added" -> listener.onListMemberAdded(listEvent)
+                                "list_member_removed" -> listener.onListMemberRemoved(listEvent)
+                                "list_user_subscribed" -> listener.onListUserSubscribed(listEvent)
+                                "list_user_unsubscribed" -> listener.onListUserUnsubscribed(listEvent)
+                            }
                         }
-                        thread { listener.onAnyListEvent(listEvent) }
-                        thread { listener.onAnyEvent(listEvent) }
+                        executor.execute { listener.onAnyListEvent(listEvent) }
+                        listener.onAnyEvent(listEvent)
                     }
                     in userEvents -> {
                         val userEvent = UserStreamUserEvent(json)
-                        when (event) {
-                            "follow" -> listener.onFollow(userEvent)
-                            "unfollow" -> listener.onUnfollow(userEvent)
-                            "block" -> listener.onBlock(userEvent)
-                            "unblock" -> listener.onUnblock(userEvent)
-                            "mute" -> listener.onMute(userEvent)
-                            "unmute" -> listener.onUnmute(userEvent)
-                            "user_update" -> listener.onUserUpdate(userEvent)
+                        executor.execute {
+                            when (event) {
+                                "follow" -> listener.onFollow(userEvent)
+                                "unfollow" -> listener.onUnfollow(userEvent)
+                                "block" -> listener.onBlock(userEvent)
+                                "unblock" -> listener.onUnblock(userEvent)
+                                "mute" -> listener.onMute(userEvent)
+                                "unmute" -> listener.onUnmute(userEvent)
+                                "user_update" -> listener.onUserUpdate(userEvent)
+                            }
                         }
-                        thread { listener.onAnyUserEvent(userEvent) }
-                        thread { listener.onAnyEvent(userEvent) }
+                        executor.execute { listener.onAnyUserEvent(userEvent) }
+                        listener.onAnyEvent(userEvent)
                     }
                     else -> listener.onUnknownData(json)
                 }

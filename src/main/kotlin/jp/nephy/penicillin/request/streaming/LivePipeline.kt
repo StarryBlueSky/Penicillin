@@ -9,8 +9,9 @@ typealias LivePipelineListener = LivePipeline.Listener
 
 class LivePipeline(action: StreamAction<LivePipelineListener>, listener: LivePipelineListener): StreamHandler<LivePipelineListener>(action, listener) {
     override fun handle(json: JsonObject) {
-        val topic = json["topic"].string
+        executor.execute { listener.onAnyData(json) }
 
+        val topic = json["topic"].string
         if (topic.startsWith("/tweet_engagement/")) {
             val id = StatusID(topic.split("/").last().toLong())
             val engagement = json["payload"]["tweet_engagement"].jsonObject
