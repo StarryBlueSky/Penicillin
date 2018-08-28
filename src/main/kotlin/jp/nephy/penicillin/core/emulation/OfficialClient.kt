@@ -1,4 +1,4 @@
-package jp.nephy.penicillin
+package jp.nephy.penicillin.core.emulation
 
 enum class OfficialClient(val consumerKey: String, val consumerSecret: String) {
     TwitterForiPhone("IQKbtAYlXLripLGPWd0HUA", "GgDYlkSvaPxGxC4X8liwpUoqKwwr3lCADbz8A7ADU"),
