@@ -9,7 +9,7 @@ private class ATagParser(html: String) {
     val attributes: Map<String, String>
         get() = if (matches != null && matches.groupValues.size == 3) {
             matches.groupValues[1].split(" ").map {
-                val (key, value) = attributePattern.matchEntire(it) !!.destructured
+                val (key, value) = attributePattern.matchEntire(it)!!.destructured
                 key to value
             }.toMap()
         } else {

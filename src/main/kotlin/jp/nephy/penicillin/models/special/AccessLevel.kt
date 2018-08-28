@@ -1,6 +1,6 @@
 package jp.nephy.penicillin.models.special
 
-import okhttp3.Headers
+import io.ktor.http.Headers
 
 enum class AccessLevel {
     Read, ReadWrite, ReadWriteDM, Undefined;
