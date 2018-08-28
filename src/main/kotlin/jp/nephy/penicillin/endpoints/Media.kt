@@ -1,11 +1,11 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.endpoints.parameter.MediaCategory
-import jp.nephy.penicillin.endpoints.parameter.MediaType
-import jp.nephy.penicillin.models.Empty
+import jp.nephy.penicillin.core.EndpointHost
+import jp.nephy.penicillin.core.PenicillinJsonObjectAction
+import jp.nephy.penicillin.endpoints.parameters.MediaCategory
+import jp.nephy.penicillin.endpoints.parameters.MediaType
 import jp.nephy.penicillin.models.Media
-import jp.nephy.penicillin.request.ObjectAction
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
@@ -18,22 +18,26 @@ import kotlin.math.ceil
 
 
 class Media(override val client: PenicillinClient): Endpoint {
-    fun createMetadata(mediaId: Long, vararg options: Pair<String, String>)= client.session.postObject<Empty>("https://upload.twitter.com/1.1/media/metadata/create.json") {
-        json("media_id" to mediaId.toString(), *options)
-    }
+    fun createMetadata(mediaId: Long, vararg options: Pair<String, String>) = client.session.post("/1.1/media/metadata/create.json", EndpointHost.MediaUpload) {
+        body {
+            json {
+                add("media_id" to mediaId.toString(), *options)
+            }
+        }
+    }.emptyJsonObject()
 
-    fun uploadStatus(mediaId: Long, mediaKey: String? = null)= client.session.getObject<Media>("https://upload.twitter.com/1.1/media/upload.json") {
-        query("command" to "STATUS", "media_id" to mediaId, "media_key" to mediaKey)
-    }
+    fun uploadStatus(mediaId: Long, mediaKey: String? = null) = client.session.get("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+        parameter("command" to "STATUS", "media_id" to mediaId, "media_key" to mediaKey)
+    }.jsonObject<Media>()
 
-    fun uploadMediaFile(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): ObjectAction<Media> {
+    fun uploadMediaFile(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): PenicillinJsonObjectAction<Media> {
         val mediaId = uploadInit(file.length(), mediaType, mediaCategory).complete().result.mediaId
         uploadData(FileInputStream(file), mediaId, mediaType)
 
         return uploadFinalize(mediaId)
     }
 
-    fun uploadMedia(data: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): ObjectAction<Media> {
+    fun uploadMedia(data: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): PenicillinJsonObjectAction<Media> {
         val mediaId = uploadInit(data.size.toLong(), mediaType, mediaCategory).complete().result.mediaId
         uploadData(ByteArrayInputStream(data), mediaId, mediaType)
 
@@ -61,16 +65,31 @@ class Media(override val client: PenicillinClient): Endpoint {
         pool.awaitTermination(30, TimeUnit.SECONDS)
     }
 
-    private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Media>("https://upload.twitter.com/1.1/media/upload.json") {
-        form("command" to "INIT", "total_bytes" to totalBytes, "media_type" to mediaType.mimeType, "media_category" to mediaCategory?.value, "additional_owners" to additionalOwners?.joinToString(","), *options)
-    }
+    private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+        body {
+            form {
+                add("command" to "INIT", "total_bytes" to totalBytes, "media_type" to mediaType.contentType, "media_category" to mediaCategory?.value, "additional_owners" to additionalOwners?.joinToString(","), *options)
+            }
+        }
+    }.jsonObject<Media>()
 
-    private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Empty>("https://upload.twitter.com/1.1/media/upload.json") {
-        form("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
-        file(file, mediaType.mimeType, "media")
-    }
+    private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+        body {
+            form {
+                // TODO
+                add("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
+            }
+            multiPart {
+                add("media", "blob", mediaType.contentType, file)
+            }
+        }
+    }.emptyJsonObject()
 
-    private fun uploadFinalize(mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>)= client.session.postObject<Media>("https://upload.twitter.com/1.1/media/upload.json") {
-        form("command" to "FINALIZE", "media_id" to mediaId, "media_key" to mediaKey, *options)
-    }
+    private fun uploadFinalize(mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+        body {
+            form {
+                add("command" to "FINALIZE", "media_id" to mediaId, "media_key" to mediaKey, *options)
+            }
+        }
+    }.jsonObject<Media>()
 }

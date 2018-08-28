@@ -1,11 +1,14 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.models.Empty
 
 
 class AccountActivity(override val client: PenicillinClient): Endpoint {
-    fun registerWebhook(url: String, vararg options: Pair<String, Any?>)= client.session.postObject<Empty>("/account_activity/all/webhooks.json") {
-        form("url" to url, *options)
-    }
+    fun registerWebhook(url: String, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account_activity/all/webhooks.json") {
+        body {
+            form {
+                add("url" to url, *options)
+            }
+        }
+    }.emptyJsonObject()
 }
