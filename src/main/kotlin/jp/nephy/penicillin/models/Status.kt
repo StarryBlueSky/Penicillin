@@ -60,7 +60,7 @@ class Status(override val json: JsonObject): PenicillinModel {
     val fullText: String
         get() = if (retweetedStatus != null) {
             if (retweetedStatus?.extendedTweet != null) {
-                "RT @${retweetedStatus !!.user.screenName}: ${retweetedStatus !!.extendedTweet !!.fullText}"
+                "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.extendedTweet!!.fullText}"
             } else {
                 text
             }

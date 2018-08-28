@@ -1,7 +1,10 @@
 package jp.nephy.penicillin.models
 
 import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.byFloat
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byLong
+import jp.nephy.jsonkt.byString
 
 
 class SearchMetadata(override val json: JsonObject): PenicillinModel {

@@ -1,7 +1,10 @@
 package jp.nephy.penicillin.models
 
 import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.byNullableString
+import jp.nephy.jsonkt.byString
 
 
 class TrendArea(override val json: JsonObject): PenicillinModel {
