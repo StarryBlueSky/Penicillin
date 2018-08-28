@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.endpoints.parameter
+package jp.nephy.penicillin.endpoints.parameters
 
 import java.io.File
 import java.util.*
@@ -12,7 +12,7 @@ data class MediaComponent(val data: ByteArray, val type: MediaType, val category
 
         other as MediaComponent
 
-        if (! Arrays.equals(data, other.data)) return false
+        if (!Arrays.equals(data, other.data)) return false
         if (type != other.type) return false
         if (category != other.category) return false
 
