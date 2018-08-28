@@ -1,14 +1,12 @@
 package jp.nephy.penicillin
 
-import jp.nephy.penicillin.endpoint.*
-import jp.nephy.penicillin.endpoint.Collection
-import okhttp3.OkHttpClient
+import jp.nephy.penicillin.core.SessionBuilder
+import jp.nephy.penicillin.endpoints.*
+import jp.nephy.penicillin.endpoints.Collection
+import java.io.Closeable
 
-
-class PenicillinClient private constructor(val session: Session) {
-    companion object {
-        fun build(operation: Builder.() -> Unit) = Builder().apply(operation).build()
-    }
+class PenicillinClient(session: SessionBuilder.() -> Unit = {}): Closeable {
+    val session = SessionBuilder().apply(session).build()
 
     val account = Account(this)
     val accountActivity = AccountActivity(this)
@@ -45,51 +43,11 @@ class PenicillinClient private constructor(val session: Session) {
     val welcomeMessage = WelcomeMessage(this)
     val welcomeMessageRule = WelcomeMessageRule(this)
 
-    class Builder {
-        private var isOfficialClient = false
-        private var consumerKey: String? = null
-        private var consumerSecret: String? = null
-        private var knownDeviceToken: String? = null
-        fun application(client: OfficialClient, knownDeviceToken: String? = null) {
-            isOfficialClient = true
-            consumerKey = client.consumerKey
-            consumerSecret = client.consumerSecret
-            this.knownDeviceToken = knownDeviceToken
-        }
-        fun application(consumerKey: String, consumerSecret: String, knownDeviceToken: String? = null) {
-            this.consumerKey = consumerKey
-            this.consumerSecret = consumerSecret
-            this.knownDeviceToken = knownDeviceToken
-            OfficialClient.values().find { it.consumerKey == consumerKey && it.consumerSecret == consumerSecret }
-                    ?: return
-            isOfficialClient = true
-        }
-
-        private var accessToken: String? = null
-        private var accessTokenSecret: String? = null
-        private var bearerToken: String? = null
-        fun token(accessToken: String, accessTokenSecret: String) {
-            this.accessToken = accessToken
-            this.accessTokenSecret = accessTokenSecret
-        }
-        fun token(bearerToken: String) {
-            this.bearerToken = bearerToken
-        }
-
-        private var httpClientBuilder: OkHttpClient.Builder.() -> Unit = {  }
-        fun httpClient(builder: OkHttpClient.Builder.() -> Unit) {
-            httpClientBuilder = builder
-        }
-
-        private var optionBuilder: PenicillinOption.Builder.() -> Unit = {  }
-        fun option(builder: PenicillinOption.Builder.() -> Unit) {
-            optionBuilder = builder
-        }
-
-        fun build(): PenicillinClient {
-            val session = Session(consumerKey, consumerSecret, accessToken, accessTokenSecret, isOfficialClient, bearerToken, knownDeviceToken, httpClientBuilder, optionBuilder)
-
-            return PenicillinClient(session)
-        }
+    override fun close() {
+        session.close()
     }
+}
+
+fun PenicillinClient.with(operation: PenicillinClient.() -> Unit) {
+    use { it.apply(operation) }
 }

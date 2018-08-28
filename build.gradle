@@ -1,8 +1,9 @@
 group "jp.nephy"
-version "2.0.4"
+version "3.0.0"
 
 buildscript {
-    ext.kotlin_version = "1.2.41"
+    ext.kotlin_version = "1.2.61"
+    ext.ktor_version = "0.9.4-alpha-2"
 
     repositories {
         mavenCentral()
@@ -21,20 +22,22 @@ apply plugin: "signing"
 
 repositories {
     mavenCentral()
+    jcenter()
+    maven { url "https://dl.bintray.com/kotlin/ktor" }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-    compile "com.squareup.okhttp3:okhttp:3.10.0"
-    compile "com.google.code.gson:gson:2.8.2"
-    compile "jp.nephy:jsonkt:1.4"
+    compile "io.ktor:ktor-client-core:$ktor_version"
+    compile "io.ktor:ktor-client-apache:$ktor_version"
+    
+    compile "jp.nephy:jsonkt:2.0"
 
-    compile "io.github.microutils:kotlin-logging:1.4.9"
-    compile "ch.qos.logback:logback-core:1.2.3"
-    compile "ch.qos.logback:logback-classic:1.2.3"
-    compile "org.fusesource.jansi:jansi:1.17.1"
+    compile "io.github.microutils:kotlin-logging:1.5.9"
+    testCompile "ch.qos.logback:logback-core:1.2.3"
+    testCompile "ch.qos.logback:logback-classic:1.2.3"
+    testCompile "org.fusesource.jansi:jansi:1.17.1"
 }
 
 compileKotlin {
@@ -42,6 +45,12 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
 
 dokka {
