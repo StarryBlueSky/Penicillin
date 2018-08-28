@@ -1,10 +1,11 @@
-package jp.nephy.penicillin.request.streaming
+package jp.nephy.penicillin.core.streaming
 
 import com.google.gson.JsonObject
 
 interface StreamListener {
     fun onConnect() {}
     fun onDisconnect() {}
-    fun onAnyData(json: JsonObject) {}
+    fun onRawJson(json: JsonObject) {}
     fun onRawData(data: String) {}
+    fun onUnhandledData(data: JsonObject) {}
 }

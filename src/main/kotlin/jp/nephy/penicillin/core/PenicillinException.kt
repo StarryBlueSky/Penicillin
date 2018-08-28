@@ -1,10 +1,12 @@
-package jp.nephy.penicillin
+package jp.nephy.penicillin.core
 
-import jp.nephy.penicillin.request.RestAction
+import io.ktor.client.request.HttpRequest
+import io.ktor.client.response.HttpResponse
+import jp.nephy.penicillin.core.i18n.LocalizedString
 
 
-open class PenicillinException(override val message: String, val error: TwitterErrorMessage? = null, val action: RestAction<*>? = null): Exception()
-class PenicillinLocalizedException(localizedString: LocalizedString, action: RestAction<*>? = null, vararg args: Any?): PenicillinException(localizedString.format(*args), action = action)
+open class PenicillinException(override val message: String, val error: TwitterErrorMessage? = null, val request: HttpRequest? = null, val response: HttpResponse? = null): Exception()
+class PenicillinLocalizedException(localizedString: LocalizedString, request: HttpRequest? = null, response: HttpResponse? = null, vararg args: Any?): PenicillinException(localizedString.format(*args), request = request, response = response)
 
 enum class TwitterErrorMessage(val code: Int, val title: String, val description: String) {
     InvalidCoordinates(3, "Invalid coordinates.", "Corresponds with HTTP 400. The coordinates provided as parameters were not valid for the request."),
@@ -24,6 +26,7 @@ enum class TwitterErrorMessage(val code: Int, val title: String, val description
     SSLIsRequired(92, "SSL is required", "Only SSL connections are allowed in the API. Update the request to a secure connection. See how to connect using TLS"),
     ThisApplicationIsNotAllowedToAccessOrDeleteYourDirectMessages(93, "This application is not allowed to access or delete your direct messages", "Corresponds with HTTP 403. The OAuth token does not provide access to Direct Messages."),
     UnableToVerifyYourCredentials(99, "Unable to verify your credentials.", "Corresponds with HTTP 403. The OAuth credentials cannot be validated. Check that the token is still valid."),
+    UserNotInThisList(109, "User not in this list", "The specified user is not a member of this list."),
     AccountUpdateFailed(120, "Account update failed: value is too long (maximum is nn characters).", "Corresponds with HTTP 403. Thrown when one of the values passed to the update_profile.json endpoint exceeds the maximum value currently permitted for that field. The error message will specify the allowable maximum number of nn characters."),
     OverCapacity(130, "Over capacity", "Corresponds with HTTP 503. Twitter is temporarily over capacity."),
     InternalError(131, "Internal error", "Corresponds with HTTP 500. An unknown internal error occurred."),
@@ -57,11 +60,12 @@ enum class TwitterErrorMessage(val code: Int, val title: String, val description
     TheGivenURLIsInvalid(407, "The given URL is invalid.", "Corresponds with HTTP 400. A URL included in the Tweet could not be handled. This may be because a non-ASCII URL could not be converted, or for other reasons.")
 }
 
-class TwitterApiError(code: Int, title: String, content: String, action: RestAction<*>): Exception() {
+class TwitterApiError(code: Int, title: String, content: String, request: HttpRequest, response: HttpResponse): Exception() {
     init {
-        val message = TwitterErrorMessage.values().find { it.code == code } ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiError, action, code, title, content)
+        val message = TwitterErrorMessage.values().find { it.code == code }
+                ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiError, request, response, code, title, content)
 
-        throw PenicillinException("${message.title} (${message.code}): ${message.description} (${action.requestBuilder.url})", message, action)
+        throw PenicillinException("${message.title} (${message.code}): ${message.description} (${request.url})", message, request, response)
     }
 }
 
