@@ -1,16 +1,26 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.models.OAuth2Token
-import jp.nephy.penicillin.request.AuthorizationType
 
 
 class OAuth2(override val client: PenicillinClient): Endpoint {
-    fun bearerToken(grantType: String = "client_credentials", vararg options: Pair<String, Any?>)= client.session.postObject<OAuth2Token>("https://api.twitter.com/oauth2/token", AuthorizationType.OAuth2RequestToken) {
-        form("grant_type" to grantType, *options)
-    }
+    fun bearerToken(grantType: String = "client_credentials", vararg options: Pair<String, Any?>) = client.session.post("/oauth2/token") {
+        authType(AuthorizationType.OAuth2RequestToken)
+        body {
+            form {
+                add("grant_type" to grantType, *options)
+            }
+        }
+    }.jsonObject<OAuth2Token>()
 
-    fun invalidateToken(bearerToken: String, vararg options: Pair<String, Any?>)= client.session.postObject<OAuth2Token>("https://api.twitter.com/oauth2/invalidate_token", AuthorizationType.OAuth2RequestToken) {
-        form("access_token" to bearerToken, *options)
-    }
+    fun invalidateToken(bearerToken: String, vararg options: Pair<String, Any?>) = client.session.post("/oauth2/invalidate_token") {
+        authType(AuthorizationType.OAuth2RequestToken)
+        body {
+            form {
+                add("access_token" to bearerToken, *options)
+            }
+        }
+    }.jsonObject<OAuth2Token>()
 }
