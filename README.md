@@ -1,13 +1,11 @@
-[![Kotlin 1.2.41](https://img.shields.io/badge/Kotlin-1.2.41-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.2.61](https://img.shields.io/badge/Kotlin-1.2.61-blue.svg)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)
 [![Travis](https://img.shields.io/travis/NephyProject/Penicillin.svg)](https://travis-ci.org/NephyProject/Penicillin/builds)
 [![MIT License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/issues)
 
-English README is [here](https://github.com/NephyProject/Penicillin/blob/master/README_EN.md).  
 
-
-Penicillin: *Kotlin*のためのTwitter API ラッパー
+Penicillin: Full-featured Twitter API wrapper for Kotlin.
 ===========================
 
 - すべての公開Twitter APIと認証方式(OAuth 1.0a, OAuth 2.0)に対応しています.
@@ -19,177 +17,16 @@ Penicillin: *Kotlin*のためのTwitter API ラッパー
 
 もし未対応のエンドポイントやバグを発見した際は, お気軽に [Issue](https://github.com/NephyProject/Penicillin/issues) を立ててください. すぐに対応します.
 
-導入
--------
-現在のバージョンは [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22) です.  
-バージョン履歴は [CHANGELOG.md](https://github.com/NephyProject/Penicillin/blob/master/CHANGELOG.md) に記載しています.  
-GitHubのリリースには`v2.0.3`までJarを公開していましたが, 今後はMaven Centralのアーティファクトをご利用ください.
 
-Gradle:
-```groovy
-compile "jp.nephy:penicillin:{penicillin_version}"
-```
+- [サンプル](https://github.com/NephyProject/Penicillin/wiki/Sample-%5Bja%5D) / [Sample](https://github.com/NephyProject/Penicillin/wiki/Sample-%5Ben%5D)
+- 導入 / Get Started
+  - [with Gradle](https://github.com/NephyProject/Penicillin/wiki/Get-Started#gradle-buildgradle)
+  - [with Maven](https://github.com/NephyProject/Penicillin/wiki/Get-Started#maven)
+- [変更履歴 / Change Logs](https://github.com/NephyProject/Penicillin/wiki/Change-Logs)
+- [Contributing](https://github.com/NephyProject/Penicillin/wiki/Contributing)
 
-Maven:
-```xml
-<dependency>
-    <groupId>jp.nephy</groupId>
-    <artifactId>penicillin</artifactId>
-    <version>{penicillin-version}</version>
-</dependency>
-```
-
-使用例
-=====
-
-ユーザ認証
--------------
-```kotlin
-val client = PenicillinClient.build {
-    // ConsumerKey = XXXXX, ConsumerSecret = YYYYY
-    application("XXXXX", "YYYYY")
-    // 公式クライアントのConsumerKey, ConsumerSecretは定義済みです
-    // application(OfficialClient.TwitterForiPhone)
-    
-    // AccessToken = xxxxx-xxxxx, AccessTokenSecret = yyyyy
-    token("xxxxx-xxxxx", "yyyyy")
-    // BearerToken = ZZZZZ
-    token("ZZZZZ")
-    
-    httpClient { // this = OkhttpHttpClient.Builder
-        connectTimeout(20, TimeUnit.SECONDS)
-        readTimeout(40, TimeUnit.SECONDS)
-        writeTimeout(20, TimeUnit.SECONDS)
-    }
-    option { // this = PenicillinOption.Builder
-        maxRetries(5)  // APIエラー発生時のリトライを最大で5回まで行う
-        retryInterval(1, TimeUnit.SECONDS)  // APIエラー発生時のリトライに1秒間隔をあける
-    }
-}
-```
-
-API実行
--------------
-@Twitterのお気に入りを表示する. (現在のスレッドで実行; ブロッキング)
-```kotlin
-val api = try {
-    client.favorite.list(screenName = "Twitter").complete()
-} catch (e: PenicillinException) {
-    logger.error(e) { "APIリクエスト中にエラーが発生しました." }
-    return
-}
-
-api.result.forEach {
-    println("${it.user.name} @${it.user.screenName}\n${it.fullText}")
-    // XXX @YYY
-    // TWEET TEXT
-}
-```
-
-
-ホームタイムラインを表示する. (非同期で実行)
-```kotlin
-client.timeline.home().queue {
-    it.result.forEach {
-        println("${it.user.name} @${it.user.screenName}\n${it.fullText}")
-        // XXX @YYY
-        // TWEET TEXT
-    }
-}
-```
-
-
-フォロワー一覧を全件取得する. (カーソル操作)
-```kotlin
-val firstResponse = client.follower.list().complete()
-val secondResponse = firstResponse.next()  // 次のカーソルオブジェクト
-secondResponse.previous()  // 最初のレスポンスと同様
-
-firstResponse.untilLast().forEach {
-    it.result.users.forEach {
-        println(it.screenName)
-    }
-}
-```
-
-
-画像付きツイートを投稿する.
-```kotlin
-client.status.updateWithMediaFile(
-    status = "this is a media tweet.",
-    media = listOf(
-        MediaFileComponent(
-            file = Paths.get("/path/to/file.png").toFile(),
-            type = MediaType.PNG
-        )
-    )
-).complete()
-```
-
-
-動画ツイートを投稿する.
-```kotlin
-client.status.updateWithMediaFile(
-    status = "this is a video tweet.",
-    media = listOf(
-        MediaFileComponent(
-            file = Paths.get("/path/to/file.mp4").toFile(),
-            type = MediaType.MP4,
-            category = MediaCategory.TweetVideo
-        )
-    ),
-    wait = 5  // Twitterの仕様で数秒待たないと動画が利用可能になりません
-).complete()
-```
-
-
-投票ツイートを投稿する. (公式クライアントの認証情報が必要です！)
-```kotlin
-client.status.createPollTweet(
-    status = "どのSNSが一番好き？",
-    choices = listOf("Twitter", "Facebook", "Mastodon", "Weibo"),
-    minutes = 60 * 24 * 5 // 5 days
-).complete()
-```
-
-
-UserStreamに接続し, ツイートを表示する.
-```kotlin
-val api = client.stream.userStream()
-val listener = api.listen(object: UserStreamListener {
-    override fun onConnect() {
-        println("UserStreamに接続しました.")
-    }
-    override fun onDisconnect() {
-        println("UserStreamから切断されました.")
-    }
-
-    override fun onStatus(status: Status) {
-        println(status.fullText)
-    }
-}).start(wait = false, autoReconnect = true)
-
-// wait = falseで非同期でストリームを処理します
-
-Thread.sleep(10000)
-listener.terminate() // UserStreamを切断
-```
-
-
-TODO
--------
-- ドキュメントを整備する.
-
-
-謝辞
+License
 ---------
-Penicillinは以下のサードパーティライブラリを利用しています.
-- OkHttp3 (https://github.com/square/okhttp) by Square, Inc.
-- Gson (https://github.com/google/gson) by Google, Inc.
-
-
-ライセンス
----------
-PenicillinはMITライセンスで提供されています. Nephy ProjectにおけるMITライセンスは [こちら](https://nephy.jp/license/mit) をご覧ください.
+Penicillin is provided under MIT license. A copy of MIT license of Nephy Project is available [here](https://nephy.jp/license/mit).
 
 Copyright (c) 2018 Nephy Project.
