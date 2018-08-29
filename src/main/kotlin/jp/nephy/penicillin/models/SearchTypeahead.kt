@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
 
-class SearchTypeahead(override val json: JsonObject): PenicillinModel {
+data class SearchTypeahead(override val json: JsonObject): PenicillinModel {
     val completedIn by json.byFloat("completed_in")
     val hashtags by json.byStringList
     val numResults by json.byInt("num_results")

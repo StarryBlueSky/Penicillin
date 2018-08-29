@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.models.special.Language
 
 
-class Setting(override val json: JsonObject): PenicillinModel {
+data class Setting(override val json: JsonObject): PenicillinModel {
     val addressBookLiveSyncEnabled by json.byBool("address_book_live_sync_enabled")
     val allowAdsPersonalization by json.byBool("allow_ads_personalization")
     val allowAuthenticatedPeriscopeRequests by json.byBool("allow_authenticated_periscope_requests")

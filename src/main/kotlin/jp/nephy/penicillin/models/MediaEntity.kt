@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.models.special.StatusID
 
 
-class MediaEntity(override val json: JsonObject): PenicillinModel {
+data class MediaEntity(override val json: JsonObject): PenicillinModel {
     val additionalMediaInfo by json.byModel<AdditionalMediaInfo?>(key = "additional_media_info")
     val displayUrl by json.byString("display_url")
     val expandedUrl by json.byString("expanded_url")

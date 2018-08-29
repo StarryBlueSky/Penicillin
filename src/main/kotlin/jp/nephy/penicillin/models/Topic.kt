@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.byModelList
 import jp.nephy.jsonkt.byString
 
 
-class Topic(override val json: JsonObject): PenicillinModel {
+data class Topic(override val json: JsonObject): PenicillinModel {
     val inline by json.byBool
     val roundedScore by json.byInt("rounded_score")
     val tokens by json.byModelList<SearchToken>()

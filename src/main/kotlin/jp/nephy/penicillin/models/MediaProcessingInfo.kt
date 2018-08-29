@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byNullableInt
 import jp.nephy.jsonkt.byString
 
 
-class MediaProcessingInfo(override val json: JsonObject): PenicillinModel {
+data class MediaProcessingInfo(override val json: JsonObject): PenicillinModel {
     val checkAfterSecs by json.byNullableInt("check_after_secs")
     val error by json.byModel<Error?>()
     val progressPercent by json.byNullableInt("progress_percent")

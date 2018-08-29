@@ -4,6 +4,6 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.byStringList
 
 
-class TrendContext(override val json: JsonObject): PenicillinModel {
+data class TrendContext(override val json: JsonObject): PenicillinModel {
     val relatedQuery by json.byStringList("query")
 }

@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
 
-class Place(override val json: JsonObject): PenicillinModel {
+data class Place(override val json: JsonObject): PenicillinModel {
     val attributes by json.byModel<PlaceAttribute>()
     val boundingBox by json.byModel<BoundingBox>(key = "bounding_box")
     val centroid by json.byFloatList

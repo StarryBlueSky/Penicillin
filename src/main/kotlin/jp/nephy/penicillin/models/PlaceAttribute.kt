@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.byNullableString
 
 
-class PlaceAttribute(override val json: JsonObject): PenicillinModel {
+data class PlaceAttribute(override val json: JsonObject): PenicillinModel {
     val streetAddress by json.byNullableString("street_address")
     val locality by json.byNullableString
     val region by json.byNullableString

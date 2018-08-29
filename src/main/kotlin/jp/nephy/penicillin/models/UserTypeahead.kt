@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
 
-class UserTypeahead(override val json: JsonObject): PenicillinModel {
+data class UserTypeahead(override val json: JsonObject): PenicillinModel {
     val canMediaTag by json.byBool("can_media_tag")
     val connectingUserCount by json.byInt("connecting_user_count")
     val connectingUserIds by json.byLongList("connecting_user_ids")

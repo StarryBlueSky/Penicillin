@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.byModelList
 import jp.nephy.jsonkt.byString
 
 
-class MomentGuide(override val json: JsonObject): PenicillinModel {
+data class MomentGuide(override val json: JsonObject): PenicillinModel {
     val categoryId by json["category"].byString("category_id")
     val categoryName by json["category"].byString("name")
     val categoryUri by json["category"].byString("uri")

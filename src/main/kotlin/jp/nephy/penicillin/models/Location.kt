@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.byInt
 import jp.nephy.jsonkt.byString
 
 
-class Location(override val json: JsonObject): PenicillinModel {
+data class Location(override val json: JsonObject): PenicillinModel {
     val name by json.byString
     val woeid by json.byInt
 }

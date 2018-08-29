@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.byNullableString
 import jp.nephy.jsonkt.byString
 
 
-class TrendModule(override val json: JsonObject): PenicillinModel {
+data class TrendModule(override val json: JsonObject): PenicillinModel {
     val name by json.byString
     val description by json.byNullableString("meta_description")
     val rank by json.byInt

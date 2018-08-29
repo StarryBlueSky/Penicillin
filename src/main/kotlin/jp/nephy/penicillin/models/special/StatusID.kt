@@ -3,7 +3,7 @@ package jp.nephy.penicillin.models.special
 import java.util.*
 
 
-class StatusID(val value: Long) {
+data class StatusID(val value: Long) {
     val date: Date
         get() = Date(epochTimeMs)
     val epochTimeMs: Long

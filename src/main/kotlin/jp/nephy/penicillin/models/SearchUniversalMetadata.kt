@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.byInt
 import jp.nephy.jsonkt.byString
 
 
-class SearchUniversalMetadata(override val json: JsonObject): PenicillinModel {
+data class SearchUniversalMetadata(override val json: JsonObject): PenicillinModel {
     val cursor by json.byString
     val refreshIntervalInSec by json.byInt("refresh_interval_in_sec")
 }

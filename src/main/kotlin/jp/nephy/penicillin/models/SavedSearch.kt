@@ -8,7 +8,7 @@ import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 
 
-class SavedSearch(override val json: JsonObject): PenicillinModel {
+data class SavedSearch(override val json: JsonObject): PenicillinModel {
     val createdAt by json.byLambda("created_at") { CreatedAt(string) }
     val id by json.byLong
     val idStr by json.byString("id_str")

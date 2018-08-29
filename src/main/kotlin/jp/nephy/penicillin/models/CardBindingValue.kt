@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
 
-class CardBindingValue(override val json: JsonObject): PenicillinModel {
+data class CardBindingValue(override val json: JsonObject): PenicillinModel {
     val choices by lazy {
         (1..5).filter { json.contains("choice${it}_label") }.map {
             json["choice${it}_label"]["string_value"].string to if (json.contains("choice${it}_count")) {

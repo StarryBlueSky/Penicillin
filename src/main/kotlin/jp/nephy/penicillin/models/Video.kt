@@ -4,6 +4,6 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.byString
 
 
-class Video(override val json: JsonObject): PenicillinModel {
+data class Video(override val json: JsonObject): PenicillinModel {
     val videoType by json.byString("video_type")
 }

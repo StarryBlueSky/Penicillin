@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.byModel
 import jp.nephy.jsonkt.byString
 
 
-class CardState(override val json: JsonObject): PenicillinModel {
+data class CardState(override val json: JsonObject): PenicillinModel {
     val name by json["card"].byString
     val url by json["card"].byString
     val cardTypeUrl by json["card"].byString("card_type_url")

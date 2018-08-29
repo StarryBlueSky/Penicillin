@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.byModel
 
 
-class UserProfileBanner(override val json: JsonObject): PenicillinModel {
+data class UserProfileBanner(override val json: JsonObject): PenicillinModel {
     val resolution1080x360 by json.byModel<Banner?>(key = "1080x360")
     val resolution1500x500 by json.byModel<Banner?>(key = "1500x500")
     val resolution300x100 by json.byModel<Banner?>(key = "300x100")

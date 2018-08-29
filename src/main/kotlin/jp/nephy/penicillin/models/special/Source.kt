@@ -24,7 +24,7 @@ private class ATagParser(html: String) {
         }
 }
 
-class Source(val value: String) {
+data class Source(val value: String) {
     private val tag = ATagParser(value)
     val url = tag.attributes.getOrDefault("href", "http://url.invalid")
     val name = tag.value

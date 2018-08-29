@@ -8,7 +8,7 @@ import jp.nephy.penicillin.models.special.Source
 import jp.nephy.penicillin.models.special.StatusID
 
 
-class Status(override val json: JsonObject): PenicillinModel {
+data class Status(override val json: JsonObject): PenicillinModel {
     val contributors by json.byModelList<Contributor>()
     val conversationId by json.byNullableLong("conversation_id")
     val coordinates by json.byModel<Coordinate?>()

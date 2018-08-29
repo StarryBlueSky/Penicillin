@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.get
 
 
-class CardPlatform(override val json: JsonObject): PenicillinModel {
+data class CardPlatform(override val json: JsonObject): PenicillinModel {
     val deviceName by json["platform"]["device"].byString("name")
     val deviceVersion by json["platform"]["device"].byString("version")
 

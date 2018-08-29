@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byNullableJsonObject
 import jp.nephy.jsonkt.byString
 
 
-class Trend(override val json: JsonObject): PenicillinModel {
+data class Trend(override val json: JsonObject): PenicillinModel {
     val name by json.byString
     val url by json.byString
     val promotedContent by json.byNullableJsonObject // null

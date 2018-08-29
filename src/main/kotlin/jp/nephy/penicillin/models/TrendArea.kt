@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.byNullableString
 import jp.nephy.jsonkt.byString
 
 
-class TrendArea(override val json: JsonObject): PenicillinModel {
+data class TrendArea(override val json: JsonObject): PenicillinModel {
     val country by json.byString
     val countryCode by json.byNullableString // null
     val name by json.byString

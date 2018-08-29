@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byModelList
 import jp.nephy.jsonkt.byString
 
 
-class ActivityAboutMe(override val json: JsonObject): PenicillinModel {
+data class ActivityAboutMe(override val json: JsonObject): PenicillinModel {
     val activityEvents by json.byModelList<ActivityEvent>()
     val genericActivities by json.byJsonObject("generic_activities")
     val pagination by json.byJsonObject

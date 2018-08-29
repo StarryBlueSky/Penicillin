@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
 
-class RelationshipTarget(override val json: JsonObject): PenicillinModel {
+data class RelationshipTarget(override val json: JsonObject): PenicillinModel {
     val followedBy by json.byBool("followed_by")
     val following by json.byBool
     val followingReceived by json.byBool("following_received")
