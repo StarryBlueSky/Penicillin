@@ -20,6 +20,7 @@ enum class TwitterErrorMessage(val code: Int, val title: String, val description
     UserHasBeenSuspended(63, "User has been suspended.", "Corresponds with HTTP 403 The user account has been suspended and information cannot be retrieved."),
     YourAccountIsSuspendedAndIsNotPermittedToAccessThisFeature(64, "Your account is suspended and is not permitted to access this feature", "Corresponds with HTTP 403. The access token being used belongs to a suspended user."),
     TheTwitterRESTAPIv1IsNoLongerActive(68, "The Twitter REST API v1 is no longer active. Please migrate to API v1.1.", "Corresponds to a HTTP request to a retired v1-era URL."),
+    AListsNameCantBeAReservedWord(85, "List name error", "A list's name can't be a reserved word"),
     ClientIsNotPermittedToPerformThisAction(87, "Client is not permitted to perform this action.", "Corresponds with HTTP 403. The endpoint called is not a permitted URL."),
     RateLimitExceeded(88, "Rate limit exceeded", "The request limit for this resource has been reached for the current rate limit window."),
     InvalidOrExpiredToken(89, "Invalid or expired token", "The access token used in the request is incorrect or has expired."),
