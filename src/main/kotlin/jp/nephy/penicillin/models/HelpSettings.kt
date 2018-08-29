@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byJsonObject
 import jp.nephy.jsonkt.byString
 
 
-class HelpSettings(override val json: JsonObject): PenicillinModel {
+data class HelpSettings(override val json: JsonObject): PenicillinModel {
     val featureSwitchesVersion by json["versions"].byString("feature_switches")
     val experimentVersion by json["versions"].byString("experiments")
     val settingsVersion by json["versions"].byString("settings")

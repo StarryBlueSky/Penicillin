@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.models.special.CreatedAt
 
 
-class DirectMessage(override val json: JsonObject): PenicillinModel {
+data class DirectMessage(override val json: JsonObject): PenicillinModel {
     val createdAt by json.byLambda("created_at") { CreatedAt(string) }
     val entities by json.byModel<StatusEntity>()
     val id by json.byLong

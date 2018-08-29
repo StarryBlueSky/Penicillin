@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byModelList
 import jp.nephy.jsonkt.byString
 
 
-class UserSuggestion(override val json: JsonObject): PenicillinModel {
+data class UserSuggestion(override val json: JsonObject): PenicillinModel {
     val name by json.byString
     val size by json.byInt
     val slug by json.byString

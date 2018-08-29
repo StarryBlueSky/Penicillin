@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.models.special.CreatedAt
 
 
-class ActivityEvent(override val json: JsonObject): PenicillinModel {
+data class ActivityEvent(override val json: JsonObject): PenicillinModel {
     val action by json.byString
     val maxPosition by json.byString("max_position")
     val minPosition by json.byString("min_position")

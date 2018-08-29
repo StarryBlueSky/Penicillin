@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byNullableLong
 import jp.nephy.jsonkt.byNullableString
 
 
-class Phone(override val json: JsonObject): PenicillinModel {
+data class Phone(override val json: JsonObject): PenicillinModel {
     val address by json.byNullableString
     val addressForSms by json.byNullableString("address_for_sms")
     val carrier by json.byNullableString

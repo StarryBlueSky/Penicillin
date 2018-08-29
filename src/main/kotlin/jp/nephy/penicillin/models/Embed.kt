@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.byNullableInt
 import jp.nephy.jsonkt.byString
 
 
-class Embed(override val json: JsonObject): PenicillinModel {
+data class Embed(override val json: JsonObject): PenicillinModel {
     val authorName by json.byString("author_name")
     val authorUrl by json.byString("author_url")
     val cacheAge by json.byString("cache_age")

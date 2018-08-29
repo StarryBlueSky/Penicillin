@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.byJsonArray
 import jp.nephy.jsonkt.byString
 
 
-class BoundingBox(override val json: JsonObject): PenicillinModel {
+data class BoundingBox(override val json: JsonObject): PenicillinModel {
     val type by json.byString
     val coordinates by json.byJsonArray
     // [

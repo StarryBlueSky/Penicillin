@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.byModel
 
 
-class Resources(override val json: JsonObject): PenicillinModel {
+data class Resources(override val json: JsonObject): PenicillinModel {
     val accountLoginVerificationEnrollment by json["account"].byModel<ApplicationRateLimit?>(key = "/account/login_verification_enrollment")
     val accountLoginVerificationEnrollmentV2 by json["account"].byModel<ApplicationRateLimit?>(key = "/account/login_verification_enrollment_v2")
     val accountLoginVerificationRequest by json["account"].byModel<ApplicationRateLimit?>(key = "/account/login_verification_request")

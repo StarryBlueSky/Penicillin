@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLambda
 import jp.nephy.jsonkt.byString
 
 
-class Coordinate(override val json: JsonObject): PenicillinModel {
+data class Coordinate(override val json: JsonObject): PenicillinModel {
     val coordinates by json.byFloatList
     val type by json.byString
 

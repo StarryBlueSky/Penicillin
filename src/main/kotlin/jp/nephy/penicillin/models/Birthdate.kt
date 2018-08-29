@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.byNullableInt
 import jp.nephy.jsonkt.byString
 
 
-class Birthdate(override val json: JsonObject): PenicillinModel {
+data class Birthdate(override val json: JsonObject): PenicillinModel {
     val year by json.byNullableInt
     val month by json.byNullableInt
     val day by json.byNullableInt

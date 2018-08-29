@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.models.special.CreatedAt
 
 
-class TwitterList(override val json: JsonObject): PenicillinModel {
+data class TwitterList(override val json: JsonObject): PenicillinModel {
     val createdAt by json.byLambda("created_at") { CreatedAt(string) }
     val description by json.byString
     val following by json.byBool

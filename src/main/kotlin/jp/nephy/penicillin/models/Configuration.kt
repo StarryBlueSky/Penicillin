@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.byStringList
 
 
-class Configuration(override val json: JsonObject): PenicillinModel {
+data class Configuration(override val json: JsonObject): PenicillinModel {
     val charactersReservedPerMedia by json.byInt("characters_reserved_per_media")
     val clientEventUrl by json.byString("client_event_url")
     val dmTextCharacterLimit by json.byInt("dm_text_character_limit")

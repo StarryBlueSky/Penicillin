@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
 
-class RelationshipSource(override val json: JsonObject): PenicillinModel {
+data class RelationshipSource(override val json: JsonObject): PenicillinModel {
     val allReplies by json.byBool("all_replies")
     val blockedBy by json.byBool("blocked_by")
     val blocking by json.byBool

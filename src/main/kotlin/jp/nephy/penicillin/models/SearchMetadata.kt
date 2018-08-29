@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
 
-class SearchMetadata(override val json: JsonObject): PenicillinModel {
+data class SearchMetadata(override val json: JsonObject): PenicillinModel {
     val completedIn by json.byFloat("completed_in")
     val count by json.byInt
     val maxId by json.byLong("max_id")

@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.byInt
 import jp.nephy.jsonkt.byLong
 
 
-class ApplicationRateLimit(override val json: JsonObject): PenicillinModel {
+data class ApplicationRateLimit(override val json: JsonObject): PenicillinModel {
     val limit by json.byInt
     val remaining by json.byInt
     val reset by json.byLong

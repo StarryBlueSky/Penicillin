@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
 
-class Media(override val json: JsonObject): PenicillinModel {
+data class Media(override val json: JsonObject): PenicillinModel {
     val expiresAfterSecs by json.byNullableInt("expires_after_secs")
     val mediaId by json.byLong("media_id")
     val mediaIdString by json.byString("media_id_string")

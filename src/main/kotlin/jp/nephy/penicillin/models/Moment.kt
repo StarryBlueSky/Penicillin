@@ -5,7 +5,7 @@ import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.models.special.CreatedAt
 
 
-class Moment(override val json: JsonObject): PenicillinModel {
+data class Moment(override val json: JsonObject): PenicillinModel {
     val id by json["moment"].byString
     val title by json["moment"].byString
     val description by json["moment"].byString

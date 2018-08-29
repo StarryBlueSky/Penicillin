@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.byLong
 import jp.nephy.jsonkt.byString
 
 
-class PushDevice(override val json: JsonObject): PenicillinModel {
+data class PushDevice(override val json: JsonObject): PenicillinModel {
     val appVersion by json.byInt("app_version")
     val availableLevels by json.byInt("available_levels")
     val clientApplicationId by json.byInt("client_application_id")

@@ -4,6 +4,6 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.byString
 
 
-class Tos(override val json: JsonObject): PenicillinModel {
+data class Tos(override val json: JsonObject): PenicillinModel {
     val tos by json.byString
 }
