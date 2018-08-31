@@ -15,7 +15,7 @@ class Media(override val client: PenicillinClient): Endpoint {
                 add("media_id" to mediaId.toString(), *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun uploadStatus(mediaId: Long, mediaKey: String? = null) = client.session.get("/1.1/media/upload.json", EndpointHost.MediaUpload) {
         parameter("command" to "STATUS", "media_id" to mediaId, "media_key" to mediaKey)
@@ -69,13 +69,13 @@ class Media(override val client: PenicillinClient): Endpoint {
     }.jsonObject<Media>()
 
     private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
-        parameter("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
         body {
             multiPart {
                 add("media", "blob", mediaType.contentType, file)
+                add("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     private fun uploadFinalize(mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
         body {
