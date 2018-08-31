@@ -156,6 +156,8 @@ private val HttpResponse.textContent: String
     }
 
 private fun checkError(request: HttpRequest, response: HttpResponse, content: String) {
+    logger.trace { content }
+
     val json = try {
         content.toJsonObject()
     } catch (e: Exception) {
@@ -183,28 +185,23 @@ class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: Penic
     override fun complete(): PenicillinJsonObjectResponse<M> {
         val (request, response) = executeRequest(request.session, request)
         val content = response.textContent
-        logger.trace { "Raw content = \"$content\"" }
         checkError(request, response, content)
 
         val json = try {
             content.toJsonObject()
         } catch (e: Exception) {
-            logger.error(e) { LocalizedString.JsonParsingFailed.format(content) }
-            throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
+            if (model == Empty::class.java) {
+                jsonObject()
+            } else {
+                logger.error(e) { LocalizedString.JsonParsingFailed.format(content) }
+                throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
+            }
         }
         val result = try {
             model.getConstructor(JsonObject::class.java).newInstance(json)
         } catch (e: Exception) {
-            when (model) {
-                Empty::class.java -> {
-                    @Suppress("UNCHECKED_CAST")
-                    model.getConstructor(JsonObject::class.java).newInstance(jsonObject()) as M
-                }
-                else -> {
-                    logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-                    throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
-                }
-            }
+            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
+            throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
         }
 
         return PenicillinJsonObjectResponse(model, result, request, response, content, this)
@@ -229,16 +226,8 @@ class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: Penici
                 val result = try {
                     model.getConstructor(JsonObject::class.java).newInstance(it.nullableJsonObject ?: continue)
                 } catch (e: Exception) {
-                    when (model) {
-                        Empty::class.java -> {
-                            @Suppress("UNCHECKED_CAST")
-                            model.getConstructor(JsonObject::class.java).newInstance(jsonObject()) as M
-                        }
-                        else -> {
-                            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-                            throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
-                        }
-                    }
+                    logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
+                    throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
                 }
                 add(result)
             }
@@ -261,16 +250,8 @@ class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val re
         val result = try {
             model.getConstructor(JsonObject::class.java).newInstance(json)
         } catch (e: Exception) {
-            when (model) {
-                Empty::class.java -> {
-                    @Suppress("UNCHECKED_CAST")
-                    model.getConstructor(JsonObject::class.java).newInstance(jsonObject()) as M
-                }
-                else -> {
-                    logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-                    throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
-                }
-            }
+            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
+            throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
         }
 
         return PenicillinCursorJsonObjectResponse(model, result, request, response, content, this)
@@ -356,4 +337,9 @@ class PenicillinJoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(
 
 fun <M: PenicillinModel, T: PenicillinModel> List<PenicillinMultipleJsonObjectActions<M>>.join(finalizer: JoinedJsonObjectActionCallback<T>): PenicillinJoinedJsonObjectActions<M, T> {
     return PenicillinJoinedJsonObjectActions(this, finalizer)
+}
+
+inline fun <reified M: PenicillinModel> List<PenicillinJsonObjectResponse<*>>.filter(): List<PenicillinJsonObjectResponse<M>> {
+    @Suppress("UNCHECKED_CAST")
+    return filter { it.model == M::class.java }.map { it as PenicillinJsonObjectResponse<M> }
 }
