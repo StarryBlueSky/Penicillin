@@ -8,12 +8,14 @@ import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.util.appendAll
 import io.ktor.util.flattenEntries
+import io.ktor.util.flattenForEach
 import jp.nephy.jsonkt.jsonObject
 import jp.nephy.jsonkt.set
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.core.auth.AuthorizationHandler
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.emulation.Tweetdeck
 import jp.nephy.penicillin.core.emulation.Twitter4iPhone
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.endpoints.EndpointHost
@@ -39,6 +41,12 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
     fun header(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
         for (pair in pairs) {
             header(pair.first, pair.second, emulationMode)
+        }
+    }
+
+    fun header(headers: Headers, emulationMode: EmulationMode? = null) {
+        headers.flattenForEach { key, value ->
+            header(key, value, emulationMode)
         }
     }
 
@@ -74,17 +82,26 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
         get() = urlCache
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
+        when (session.option.emulationMode) {
+            EmulationMode.TwitterForiPhone -> {
+                if (authorizationType == AuthorizationType.OAuth1a) {
+                    val emulation = Twitter4iPhone(session)
+                    header(emulation.headers)
+                    header("kdt", session.credentials.knownDeviceToken)
+                }
+            }
+            EmulationMode.Tweetdeck -> {
+                authType(AuthorizationType.OAuth2)
+                val emulation = Tweetdeck(session)
+                header(emulation.headers)
+            }
+            else -> {
+            }
+        }
+
         header(AuthorizationHandler.urlHeader, URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path).buildString())
         header(AuthorizationHandler.authorizationTypeHeader, authorizationType.name)
         header(AuthorizationHandler.oauthCallbackUrlHeader, oauthCallbackUrl)
-
-        if (session.option.emulationMode == EmulationMode.TwitterForiPhone) {
-            if (authorizationType == AuthorizationType.OAuth1a) {
-                header(*Twitter4iPhone.headers)
-                header("kdt", session.credentials.knownDeviceToken)
-                header("X-B3-TraceId", Twitter4iPhone.b3TraceId())
-            }
-        }
 
         return {
             it.method = httpMethod

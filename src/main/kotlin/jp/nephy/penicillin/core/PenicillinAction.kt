@@ -6,6 +6,7 @@ import io.ktor.client.request.request
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 import io.ktor.http.isSuccess
+import io.ktor.util.toMap
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.streaming.StreamHandler
@@ -14,6 +15,7 @@ import jp.nephy.penicillin.models.Empty
 import jp.nephy.penicillin.models.PenicillinCursorModel
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.io.charsets.MalformedInputException
 import mu.KotlinLogging
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Future
@@ -138,7 +140,7 @@ private fun executeRequest(session: Session, request: PenicillinRequest): Pair<H
             val response = runBlocking {
                 session.httpClient.request<HttpResponse>(request.builder.finalize())
             }
-            logger.trace { "${response.status.value} ${response.version} ${response.call.request.method.value} ${response.call.request.url}" }
+            logger.trace { "${response.version} ${response.status.value} ${response.call.request.method.value} ${response.call.request.url}" }
             return response.call.request to response
         } catch (e: Exception) {
             logger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
@@ -152,10 +154,16 @@ private fun executeRequest(session: Session, request: PenicillinRequest): Pair<H
 
 private val HttpResponse.textContent: String
     get() = runBlocking {
-        readText()
+        try {
+            readText()
+        } catch (e: MalformedInputException) {
+            ""
+        }
     }
 
 private fun checkError(request: HttpRequest, response: HttpResponse, content: String) {
+    logger.trace { "Request headers = ${request.headers.toMap()}" }
+    logger.trace { "Response headers = ${response.headers.toMap()}" }
     logger.trace { content }
 
     val json = try {
