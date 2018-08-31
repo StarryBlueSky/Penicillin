@@ -61,3 +61,5 @@ class SessionBuilder {
         return Session(httpClient, authorizationData, ClientOption(maxRetries, retryInterval, retryIntervalUnit, emulationMode))
     }
 }
+
+data class ClientOption(val maxRetries: Int, val retryInterval: Long, val retryIntervalUnit: TimeUnit, val emulationMode: EmulationMode)
