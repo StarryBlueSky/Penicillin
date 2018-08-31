@@ -7,7 +7,7 @@ import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 
-open class UserStreamEvent(final override val json: JsonObject): PenicillinModel {
+abstract class UserStreamEvent(json: JsonObject): PenicillinModel {
     val event by json.byString
     val source by json.byModel<User>()
     val target by json.byModel<User>()

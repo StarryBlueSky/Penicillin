@@ -5,8 +5,7 @@ import jp.nephy.jsonkt.byBool
 import jp.nephy.jsonkt.byString
 import jp.nephy.jsonkt.byUrl
 
-
-class CoverFormat(json: JsonObject): CoverMedia(json) {
+data class CoverFormat(override val json: JsonObject): CommonCoverMedia(json) {
     val pageId by json.byString("page_id")
     val isPromoted by json.byBool("is_promoted")
     val linkUrl by json["link_title_card"].byUrl("url")
