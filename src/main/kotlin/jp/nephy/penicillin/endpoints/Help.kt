@@ -27,5 +27,5 @@ class Help(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun setting(includeZeroRate: Boolean? = null, settingsVersion: String? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/help/settings.json") {
         parameter("include_zero_rate" to includeZeroRate, "settings_version" to settingsVersion, *options)
-    }.emptyJsonObject()
+    }.empty()
 }

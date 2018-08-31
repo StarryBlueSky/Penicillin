@@ -24,7 +24,7 @@ class Account(override val client: PenicillinClient): Endpoint {
                 add(*options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun updateSettings(sleepTimeEnabled: Boolean? = null, startSleepTime: Int? = null, endSleepTime: Int? = null, timeZone: String? = null, trendLocationWoeid: Int? = null, lang: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/settings.json") {
         body {
@@ -61,7 +61,7 @@ class Account(override val client: PenicillinClient): Endpoint {
                 add("banner", "blob", mediaType.contentType, file)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun updateProfileImage(file: ByteArray, mediaType: MediaType, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/update_profile_image.json") {
         parameter("include_entities" to includeEntities, "skip_status" to skipStatus, *options)

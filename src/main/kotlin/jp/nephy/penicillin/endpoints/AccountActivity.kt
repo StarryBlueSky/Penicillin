@@ -10,5 +10,5 @@ class AccountActivity(override val client: PenicillinClient): Endpoint {
                 add("url" to url, *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 }

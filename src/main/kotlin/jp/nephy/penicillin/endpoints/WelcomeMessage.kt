@@ -10,11 +10,11 @@ class WelcomeMessage(override val client: PenicillinClient): Endpoint {
                 add(*options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun delete(id: Long, vararg options: Pair<String, String>) = client.session.delete("/1.1/direct_messages/welcome_messages/destroy.json") {
         parameter("id" to id, *options)
-    }.emptyJsonObject()
+    }.empty()
 
     fun show(id: Long, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages/welcome_messages/show.json") {
         parameter("id" to id, *options)
