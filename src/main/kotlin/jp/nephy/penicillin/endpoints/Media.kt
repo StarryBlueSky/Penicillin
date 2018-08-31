@@ -10,12 +10,7 @@ import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledThreadPoolExecutor
-import java.util.concurrent.ThreadFactory
-import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
-
 
 class Media(override val client: PenicillinClient): Endpoint {
     fun createMetadata(mediaId: Long, vararg options: Pair<String, String>) = client.session.post("/1.1/media/metadata/create.json", EndpointHost.MediaUpload) {
@@ -47,22 +42,15 @@ class Media(override val client: PenicillinClient): Endpoint {
     private val segmentMaxSize = 5 * 1024 * 1024
     private fun uploadData(stream: InputStream, mediaId: Long, mediaType: MediaType) {
         val segmentCount = ceil(1.0 * stream.available() / segmentMaxSize).toInt()
-        val pool = ScheduledThreadPoolExecutor(segmentMaxSize, ThreadFactory {
-            Executors.defaultThreadFactory().newThread(it).also {
-                it.isDaemon = true
-            }
-        })
         stream.use {
             repeat(segmentCount) { i ->
                 val data = ByteArray(minOf(segmentMaxSize, it.available()))
                 it.read(data)
-                pool.execute {
+                client.session.executor.execute {
                     uploadAppend(data, mediaType, i, mediaId).complete()
                 }
             }
         }
-
-        pool.awaitTermination(30, TimeUnit.SECONDS)
     }
 
     private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
