@@ -5,6 +5,10 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.engine.apache.ApacheEngineConfig
 import io.ktor.client.features.HttpPlainText
+import io.ktor.client.features.cookies.AcceptAllCookiesStorage
+import io.ktor.client.features.cookies.HttpCookies
+import io.ktor.http.Cookie
+import io.ktor.http.parseClientCookiesHeader
 import jp.nephy.penicillin.core.auth.AuthorizationHandler
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.emulation.EmulationMode
@@ -53,6 +57,20 @@ class SessionBuilder {
         retryIntervalUnit = unit
     }
 
+    private val cookies = mutableMapOf<String, MutableList<Cookie>>()
+    fun cookie(host: String, header: String) {
+        parseClientCookiesHeader(header).map {
+            cookie(host, Cookie(name = it.key, value = it.value))
+        }
+    }
+    fun cookie(host: String, cookie: Cookie) {
+        if (host !in cookies) {
+            cookies[host] = mutableListOf(cookie)
+        } else {
+            cookies[host]!!.add(cookie)
+        }
+    }
+
     internal fun build(): Session {
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
         val httpClient = HttpClient(Apache.create(httpEngineInitializer)) {
@@ -61,6 +79,17 @@ class SessionBuilder {
             }
             install(HttpPlainText) {
                 defaultCharset = Charsets.UTF_8
+            }
+            install(HttpCookies) {
+                storage = AcceptAllCookiesStorage().also {
+                    runBlocking {
+                        for (pair in cookies) {
+                            for (cookie in pair.value) {
+                                it.addCookie(pair.key, cookie)
+                            }
+                        }
+                    }
+                }
             }
             runBlocking {
                 httpClientInitializer()
