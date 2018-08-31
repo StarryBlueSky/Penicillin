@@ -29,7 +29,7 @@ private interface JsonRequest<M: PenicillinModel> {
     val model: Class<M>
 }
 
-abstract class ApiAction<R: PenicillinResponse>(private val executor: ExecutorService) {
+abstract class ApiAction<R>(private val executor: ExecutorService) {
     private val defaultCallback: (R) -> Unit = { }
     private val defaultFallback: (Throwable) -> Unit = {
         logger.error(it) { LocalizedString.ExceptionInAsyncBlock.format() }
@@ -291,4 +291,67 @@ class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override va
 
         return PenicillinStreamResponse(request, response, this)
     }
+}
+
+private typealias JsonObjectActionCallback<M> = (results: PenicillinMultipleJsonObjectActions.Results<M>) -> PenicillinJsonObjectAction<*>
+
+class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: PenicillinJsonObjectAction<M>, private val requests: List<JsonObjectActionCallback<M>>): ApiAction<List<PenicillinJsonObjectResponse<*>>>(first.request.session.executor) {
+    class Builder<M: PenicillinModel>(private val first: () -> PenicillinJsonObjectAction<M>) {
+        private val requests = mutableListOf<JsonObjectActionCallback<M>>()
+        fun request(callback: JsonObjectActionCallback<M>) = apply {
+            requests.add(callback)
+        }
+
+        internal fun build(): PenicillinMultipleJsonObjectActions<M> {
+            return PenicillinMultipleJsonObjectActions(first(), requests)
+        }
+    }
+
+    class Results<M: PenicillinModel>(val first: PenicillinJsonObjectResponse<M>, val responses: Map<Class<out PenicillinModel>, List<PenicillinJsonObjectResponse<*>>>) {
+        inline fun <reified T: PenicillinModel> responses(): List<PenicillinJsonObjectResponse<T>> {
+            @Suppress("UNCHECKED_CAST")
+            return responses[T::class.java].orEmpty().map { it as PenicillinJsonObjectResponse<T> }
+        }
+    }
+
+    override fun complete(): List<PenicillinJsonObjectResponse<*>> {
+        val first = first.complete()
+        val responses = mutableMapOf<Class<out PenicillinModel>, MutableList<PenicillinJsonObjectResponse<*>>>()
+        val responsesList = mutableListOf<PenicillinJsonObjectResponse<*>>()
+        for (request in requests) {
+            val results = Results(first, responses)
+            val result = request.invoke(results).complete()
+
+            if (result.model in responses) {
+                responses[result.model]!!.add(result)
+            } else {
+                responses[result.model] = mutableListOf(result)
+            }
+            responsesList += result
+        }
+
+        return responsesList
+    }
+
+    operator fun plus(callback: JsonObjectActionCallback<M>): PenicillinMultipleJsonObjectActions<M> {
+        return PenicillinMultipleJsonObjectActions.Builder {
+            first
+        }.also { builder ->
+            requests.forEach {
+                builder.request(it)
+            }
+        }.request(callback).build()
+    }
+}
+
+private typealias JoinedJsonObjectActionCallback<M> = (results: List<List<PenicillinJsonObjectResponse<*>>>) -> PenicillinJsonObjectAction<M>
+
+class PenicillinJoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(private val actions: List<PenicillinMultipleJsonObjectActions<M>>, private val finalizer: JoinedJsonObjectActionCallback<T>): ApiAction<PenicillinJsonObjectResponse<T>>(actions.first().first.request.session.executor) {
+    override fun complete(): PenicillinJsonObjectResponse<T> {
+        return finalizer(actions.map { it.complete() }).complete()
+    }
+}
+
+fun <M: PenicillinModel, T: PenicillinModel> List<PenicillinMultipleJsonObjectActions<M>>.join(finalizer: JoinedJsonObjectActionCallback<T>): PenicillinJoinedJsonObjectActions<M, T> {
+    return PenicillinJoinedJsonObjectActions(this, finalizer)
 }
