@@ -70,7 +70,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
                 add("list_id" to listId, "slug" to slug, "name" to name, "mode" to mode?.value, "description" to description, "owner_screen_name" to ownerScreenName, "owner_id" to ownerId, *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun addMember(listId: Long? = null, slug: String? = null, userId: Long? = null, screenName: String? = null, ownerScreenName: String? = null, ownerId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/lists/members/create.json") {
         body {
@@ -78,7 +78,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
                 add("list_id" to listId, "slug" to slug, "user_id" to userId, "screen_name" to screenName, "owner_screen_name" to ownerScreenName, "owner_id" to ownerId, *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun addMembers(listId: Long? = null, slug: String? = null, userIds: List<Long>? = null, screenNames: List<String>? = null, ownerScreenName: String? = null, ownerId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/lists/members/create_all.json") {
         body {
@@ -86,7 +86,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
                 add("list_id" to listId, "slug" to slug, "user_id" to userIds?.joinToString(","), "screen_name" to screenNames?.joinToString(","), "owner_screen_name" to ownerScreenName, "owner_id" to ownerId, *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun removeMember(listId: Long? = null, slug: String? = null, userId: Long? = null, screenName: String? = null, ownerScreenName: String? = null, ownerId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/lists/members/destroy.json") {
         body {
@@ -94,7 +94,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
                 add("list_id" to listId, "slug" to slug, "user_id" to userId, "screen_name" to screenName, "owner_screen_name" to ownerScreenName, "owner_id" to ownerId, *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun removeMembers(listId: Long? = null, slug: String? = null, userIds: List<Long>? = null, screenNames: List<String>? = null, ownerScreenName: String? = null, ownerId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/lists/members/destroy_all.json") {
         body {
@@ -102,7 +102,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
                 add("list_id" to listId, "slug" to slug, "user_id" to userIds?.joinToString(","), "screen_name" to screenNames?.joinToString(","), "owner_screen_name" to ownerScreenName, "owner_id" to ownerId, *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun subscribe(ownerScreenName: String? = null, ownerId: Long? = null, listId: Long? = null, slug: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/lists/subscribers/create.json") {
         body {
@@ -118,5 +118,5 @@ class Lists(override val client: PenicillinClient): Endpoint {
                 add("list_id" to listId, "slug" to slug, "owner_screen_name" to ownerScreenName, "owner_id" to ownerId, *options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 }

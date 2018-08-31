@@ -11,16 +11,12 @@ class PenicillinRequest(val session: Session, val builder: PenicillinRequestBuil
         return PenicillinJsonObjectAction(this, M::class.java)
     }
 
-    fun emptyJsonObject(): PenicillinJsonObjectAction<Empty> {
+    fun empty(): PenicillinJsonObjectAction<Empty> {
         return PenicillinJsonObjectAction(this, Empty::class.java)
     }
 
     inline fun <reified M: PenicillinModel> jsonArray(): PenicillinJsonArrayAction<M> {
         return PenicillinJsonArrayAction(this, M::class.java)
-    }
-
-    fun emptyJsonArray(): PenicillinJsonArrayAction<Empty> {
-        return PenicillinJsonArrayAction(this, Empty::class.java)
     }
 
     inline fun <reified M: PenicillinCursorModel> cursorJsonObject(): PenicillinCursorJsonObjectAction<M> {

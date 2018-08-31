@@ -10,7 +10,7 @@ class DirectMessageEvent(override val client: PenicillinClient): Endpoint {
                 add(*options)
             }
         }
-    }.emptyJsonObject()
+    }.empty()
 
     fun show(id: Long, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages/events/show.json") {
         parameter("id" to id, *options)

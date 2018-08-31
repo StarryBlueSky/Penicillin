@@ -19,5 +19,5 @@ class Misc(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun promptSuggest(vararg options: Pair<String, Any?>) = client.session.get("/1.1/prompts/suggest.json") {
         parameter("client_namespace" to "native", "consecutive_days" to "1", "force_fatigue_on_override" to "false", "format" to "home_timeline", "has_unknown_phone_number" to "false", "lang" to "ja", "notifications_device" to "true", *options)
-    }.emptyJsonObject()
+    }.empty()
 }
