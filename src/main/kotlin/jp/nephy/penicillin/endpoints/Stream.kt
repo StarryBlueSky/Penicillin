@@ -1,7 +1,6 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.EndpointHost
 import jp.nephy.penicillin.core.streaming.*
 import jp.nephy.penicillin.endpoints.parameters.UserStreamFilterLevel
 import jp.nephy.penicillin.endpoints.parameters.UserStreamReplies

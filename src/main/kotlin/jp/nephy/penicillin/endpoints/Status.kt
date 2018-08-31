@@ -2,7 +2,6 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.EndpointHost
 import jp.nephy.penicillin.core.PenicillinJsonObjectAction
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode

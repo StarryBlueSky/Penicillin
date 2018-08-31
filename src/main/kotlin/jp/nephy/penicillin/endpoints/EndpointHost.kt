@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.core
+package jp.nephy.penicillin.endpoints
 
 enum class EndpointHost(val value: String) {
     Default("api.twitter.com"),
