@@ -21,7 +21,10 @@ import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import kotlinx.coroutines.experimental.io.ByteWriteChannel
 import kotlinx.coroutines.experimental.io.writeFully
 import kotlinx.coroutines.experimental.io.writeStringUtf8
+import mu.KotlinLogging
 import java.util.*
+
+private val logger = KotlinLogging.logger("Penicillin.RequestBuilder")
 
 class PenicillinRequestBuilder(private val session: Session, private val httpMethod: HttpMethod, private val protocol: URLProtocol, private val host: EndpointHost, private val path: String) {
     private var headers = HeadersBuilder()
@@ -71,6 +74,18 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
         get() = urlCache
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
+        header(AuthorizationHandler.urlHeader, URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path).buildString())
+        header(AuthorizationHandler.authorizationTypeHeader, authorizationType.name)
+        header(AuthorizationHandler.oauthCallbackUrlHeader, oauthCallbackUrl)
+
+        if (session.option.emulationMode == EmulationMode.TwitterForiPhone) {
+            if (authorizationType == AuthorizationType.OAuth1a) {
+                header(*Twitter4iPhone.headers)
+                header("kdt", session.credentials.knownDeviceToken)
+                header("X-B3-TraceId", Twitter4iPhone.b3TraceId())
+            }
+        }
+
         return {
             it.method = httpMethod
             it.url(url)
@@ -83,9 +98,10 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
         val trace = Thread.currentThread().stackTrace.find {
             it.className.startsWith("jp.nephy.penicillin.endpoints")
         } ?: return
-        val method = javaClass.classLoader.loadClass(trace.className).methods.find {
-            it.name == trace.methodName
-        } ?: return
+        val javaClass = javaClass.classLoader.loadClass(trace.className)
+        val method = javaClass.methods.find { it.name == trace.methodName } ?: return
+
+        logger.trace { "Endpoint: ${javaClass.simpleName}#${method.name}" }
 
         if (method.isAnnotationPresent(PrivateEndpoint::class.java) && session.option.emulationMode == EmulationMode.None) {
             throw PenicillinLocalizedException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
@@ -96,18 +112,6 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
         checkEmulation()
 
         urlCache = URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path, parameters = parameters).buildString()
-
-        header(AuthorizationHandler.urlHeader, URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path).buildString())
-        header(AuthorizationHandler.authorizationTypeHeader, authorizationType.name)
-        header(AuthorizationHandler.oauthCallbackUrlHeader, oauthCallbackUrl)
-
-        if (session.option.emulationMode == EmulationMode.TwitterForiPhone) {
-            if (authorizationType == AuthorizationType.OAuth1a) {
-                header(*Twitter4iPhone.headers)
-                header("kdt", session.credentials.knownDeviceToken)
-                header("X-B3-TraceId", Twitter4iPhone.b3TraceId())
-            }
-        }
 
         return PenicillinRequest(session, this)
     }
