@@ -37,7 +37,7 @@ class AuthorizationHandler(private val credentials: Credentials) {
         }
 
         override fun install(feature: AuthorizationHandler, scope: HttpClient) {
-            scope.requestPipeline.intercept(HttpRequestPipeline.State) {
+            scope.requestPipeline.intercept(HttpRequestPipeline.State) { _ ->
                 val headerKeys = context.headers.names()
                 if (authorizationTypeHeader in headerKeys) {
                     if (HttpHeaders.Authorization !in headerKeys) {
