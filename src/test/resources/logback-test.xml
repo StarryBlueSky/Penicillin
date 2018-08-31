@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="Penicillin" level="DEBUG" />
+    <logger name="Penicillin" level="ALL" />
 
     <logger name="root" level="INFO">
         <appender-ref ref="STDOUT" />
