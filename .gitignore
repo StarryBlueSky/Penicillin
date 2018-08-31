@@ -4,4 +4,4 @@
 build/
 out/
 
-src/test/*
+src/test/kotlin

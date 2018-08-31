@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>true</withJansi>
+        <encoder>
+            <pattern>[%highlight(%-5level)] [%d{HH:mm:ss.SSS}] [%green(%logger) / %thread] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="Penicillin" level="DEBUG" />
+
+    <logger name="root" level="INFO">
+        <appender-ref ref="STDOUT" />
+    </logger>
+</configuration>
