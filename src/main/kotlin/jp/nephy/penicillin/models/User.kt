@@ -6,7 +6,9 @@ import jp.nephy.penicillin.models.special.CreatedAt
 import jp.nephy.penicillin.models.special.Language
 
 
-open class User(final override val json: JsonObject): PenicillinModel {
+data class User(override val json: JsonObject): CommonUser(json)
+
+abstract class CommonUser(json: JsonObject): PenicillinModel {
     val advertiserAccountServiceLevels by json.byStringList("advertiser_account_service_levels")
     val advertiserAccountType by json.byNullableString("advertiser_account_type")
     val analyticsType by json.byNullableString("analytics_type")

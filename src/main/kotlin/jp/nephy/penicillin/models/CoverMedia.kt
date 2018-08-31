@@ -3,8 +3,9 @@ package jp.nephy.penicillin.models
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 
+data class CoverMedia(override val json: JsonObject): CommonCoverMedia(json)
 
-open class CoverMedia(final override val json: JsonObject): PenicillinModel {
+abstract class CommonCoverMedia(json: JsonObject): PenicillinModel {
     val tweetId by json.byString("tweet_id")
     val type by json.byString
 
