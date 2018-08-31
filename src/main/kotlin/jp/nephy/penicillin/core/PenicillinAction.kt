@@ -138,6 +138,7 @@ private fun executeRequest(session: Session, request: PenicillinRequest): Pair<H
             val response = runBlocking {
                 session.httpClient.request<HttpResponse>(request.builder.finalize())
             }
+            logger.trace { "${response.status.value} ${response.version} ${response.call.request.method.value} ${response.call.request.url}" }
             return response.call.request to response
         } catch (e: Exception) {
             logger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
@@ -182,6 +183,7 @@ class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: Penic
     override fun complete(): PenicillinJsonObjectResponse<M> {
         val (request, response) = executeRequest(request.session, request)
         val content = response.textContent
+        logger.trace { "Raw content = \"$content\"" }
         checkError(request, response, content)
 
         val json = try {
