@@ -55,19 +55,19 @@ class Account(override val client: PenicillinClient): Endpoint {
     }
 
     fun updateProfileBanner(file: ByteArray, mediaType: MediaType, width: Int? = null, height: Int? = null, offsetLeft: Int? = null, offsetTop: Int? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/update_profile_banner.json") {
-        parameter("width" to width, "height" to height, "offset_left" to offsetLeft, "offset_top" to offsetTop, *options)
         body {
             multiPart {
                 add("banner", "blob", mediaType.contentType, file)
+                add("width" to width, "height" to height, "offset_left" to offsetLeft, "offset_top" to offsetTop, *options)
             }
         }
     }.empty()
 
     fun updateProfileImage(file: ByteArray, mediaType: MediaType, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/update_profile_image.json") {
-        parameter("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
         body {
             multiPart {
                 add("image", "blob", mediaType.contentType, file)
+                add("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
             }
         }
     }.jsonObject<User>()
