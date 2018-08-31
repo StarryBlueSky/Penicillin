@@ -1,7 +1,6 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.EndpointHost
 import jp.nephy.penicillin.models.Card
 import jp.nephy.penicillin.models.CardState
 

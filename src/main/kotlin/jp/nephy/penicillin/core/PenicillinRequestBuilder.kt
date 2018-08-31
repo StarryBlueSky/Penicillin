@@ -16,6 +16,7 @@ import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.emulation.Twitter4iPhone
 import jp.nephy.penicillin.core.i18n.LocalizedString
+import jp.nephy.penicillin.endpoints.EndpointHost
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import kotlinx.coroutines.experimental.io.ByteWriteChannel
 import kotlinx.coroutines.experimental.io.writeFully
