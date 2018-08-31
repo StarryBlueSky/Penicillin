@@ -9,6 +9,8 @@ import jp.nephy.penicillin.core.auth.AuthorizationHandler
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import kotlinx.coroutines.experimental.runBlocking
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class SessionBuilder {
@@ -17,7 +19,7 @@ class SessionBuilder {
         credentialsBuilder = initializer
     }
 
-    private var emulationMode = EmulationMode.None
+    private var emulationMode: EmulationMode? = null
     fun emulate(mode: EmulationMode) {
         emulationMode = mode
     }
@@ -32,19 +34,26 @@ class SessionBuilder {
         httpEngineInitializer = initializer
     }
 
-    private var maxRetries = 3
+    private var threadPoolExecutorInitializer: () -> ExecutorService = {
+        Executors.newCachedThreadPool()
+    }
+    fun executor(initializer: () -> ExecutorService) {
+        threadPoolExecutorInitializer = initializer
+    }
+
+    private var maxRetries: Int? = null
     fun maxRetries(count: Int) {
         maxRetries = count
     }
 
-    private var retryInterval = 1L
-    private var retryIntervalUnit = TimeUnit.SECONDS
-    fun retryInterval(interval: Long, unit: TimeUnit) {
+    private var retryInterval: Long? = null
+    private var retryIntervalUnit: TimeUnit? = null
+    fun retry(interval: Long, unit: TimeUnit) {
         retryInterval = interval
         retryIntervalUnit = unit
     }
 
-    fun build(): Session {
+    internal fun build(): Session {
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
         val httpClient = HttpClient(Apache.create(httpEngineInitializer)) {
             install(AuthorizationHandler) {
@@ -58,7 +67,7 @@ class SessionBuilder {
             }
         }
 
-        return Session(httpClient, authorizationData, ClientOption(maxRetries, retryInterval, retryIntervalUnit, emulationMode))
+        return Session(threadPoolExecutorInitializer(), httpClient, authorizationData, ClientOption(maxRetries ?: 3, retryInterval ?: 1L, retryIntervalUnit ?: TimeUnit.SECONDS, emulationMode ?: EmulationMode.None))
     }
 }
 

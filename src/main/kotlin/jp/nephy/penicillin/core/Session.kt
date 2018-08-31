@@ -6,12 +6,10 @@ import io.ktor.http.URLProtocol
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.endpoints.EndpointHost
 import java.io.Closeable
-import java.util.concurrent.Executors
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.TimeUnit
 
-class Session(val httpClient: HttpClient, val credentials: Credentials, val option: ClientOption): Closeable {
-    val executor = Executors.newCachedThreadPool()!!
-
+data class Session(val executor: ExecutorService, val httpClient: HttpClient, val credentials: Credentials, val option: ClientOption): Closeable {
     private fun call(method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: PenicillinRequestBuilder.() -> Unit = {}): PenicillinRequest {
         return PenicillinRequestBuilder(this, method, protocol, host, path).apply(builder).build()
     }
