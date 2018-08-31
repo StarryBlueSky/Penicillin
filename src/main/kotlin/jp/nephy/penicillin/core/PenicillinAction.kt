@@ -30,9 +30,9 @@ private interface JsonRequest<M: PenicillinModel> {
 }
 
 abstract class ApiAction<R>(private val executor: ExecutorService) {
-    private val defaultCallback: (R) -> Unit = { }
-    private val defaultFallback: (Throwable) -> Unit = {
-        logger.error(it) { LocalizedString.ExceptionInAsyncBlock.format() }
+    private val defaultCallback: (response: R) -> Unit = { }
+    private val defaultFallback: (e: Exception) -> Unit = { e ->
+        logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
     }
 
     abstract fun complete(): R
@@ -42,7 +42,7 @@ abstract class ApiAction<R>(private val executor: ExecutorService) {
         return complete()
     }
 
-    fun execute(onSuccess: (R) -> Unit, onFailure: (Throwable) -> Unit) {
+    fun execute(onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit) {
         try {
             complete().let(onSuccess)
         } catch (e: Exception) {
@@ -54,7 +54,7 @@ abstract class ApiAction<R>(private val executor: ExecutorService) {
         }
     }
 
-    fun execute(onSuccess: (R) -> Unit) {
+    fun execute(onSuccess: (response: R) -> Unit) {
         execute(onSuccess, defaultFallback)
     }
 
@@ -62,12 +62,12 @@ abstract class ApiAction<R>(private val executor: ExecutorService) {
         execute(defaultCallback, defaultFallback)
     }
 
-    fun executeAfter(delay: Long, unit: TimeUnit, onSuccess: (R) -> Unit, onFailure: (Throwable) -> Unit) {
+    fun executeAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit) {
         unit.sleep(delay)
         execute(onSuccess, onFailure)
     }
 
-    fun executeAfter(delay: Long, unit: TimeUnit, onSuccess: (R) -> Unit) {
+    fun executeAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit) {
         executeAfter(delay, unit, onSuccess, defaultFallback)
     }
 
@@ -75,13 +75,13 @@ abstract class ApiAction<R>(private val executor: ExecutorService) {
         executeAfter(delay, unit, defaultCallback, defaultFallback)
     }
 
-    fun submit(onSuccess: (R) -> Unit, onFailure: (Throwable) -> Unit): Future<*> {
+    fun submit(onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit): Future<*> {
         return executor.submit {
             execute(onSuccess, onFailure)
         }
     }
 
-    fun submit(onSuccess: (R) -> Unit): Future<*> {
+    fun submit(onSuccess: (response: R) -> Unit): Future<*> {
         return submit(onSuccess, defaultFallback)
     }
 
@@ -89,13 +89,13 @@ abstract class ApiAction<R>(private val executor: ExecutorService) {
         return submit(defaultCallback, defaultFallback)
     }
 
-    fun submitAfter(delay: Long, unit: TimeUnit, onSuccess: (R) -> Unit, onFailure: (Throwable) -> Unit): Future<*> {
+    fun submitAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit): Future<*> {
         return executor.submit {
             executeAfter(delay, unit, onSuccess, onFailure)
         }
     }
 
-    fun submitAfter(delay: Long, unit: TimeUnit, onSuccess: (R) -> Unit): Future<*> {
+    fun submitAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit): Future<*> {
         return submitAfter(delay, unit, onSuccess, defaultFallback)
     }
 
@@ -103,13 +103,13 @@ abstract class ApiAction<R>(private val executor: ExecutorService) {
         return submitAfter(delay, unit, defaultCallback, defaultFallback)
     }
 
-    fun queue(onSuccess: (R) -> Unit, onFailure: (Throwable) -> Unit) {
+    fun queue(onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit) {
         executor.execute {
             execute(onSuccess, onFailure)
         }
     }
 
-    fun queue(onSuccess: (R) -> Unit) {
+    fun queue(onSuccess: (response: R) -> Unit) {
         queue(onSuccess, defaultFallback)
     }
 
@@ -117,13 +117,13 @@ abstract class ApiAction<R>(private val executor: ExecutorService) {
         queue(defaultCallback, defaultFallback)
     }
 
-    fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (R) -> Unit, onFailure: (Throwable) -> Unit) {
+    fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit) {
         executor.submit {
             executeAfter(delay, unit, onSuccess, onFailure)
         }
     }
 
-    fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (R) -> Unit) {
+    fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit) {
         queueAfter(delay, unit, onSuccess, defaultFallback)
     }
 
