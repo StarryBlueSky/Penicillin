@@ -6,6 +6,7 @@ import jp.nephy.penicillin.core.PenicillinJoinedJsonObjectActions
 import jp.nephy.penicillin.core.PenicillinJsonObjectAction
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.filter
 import jp.nephy.penicillin.core.join
 import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
 import jp.nephy.penicillin.endpoints.parameters.EmbedWidgetType
@@ -65,10 +66,6 @@ class Status(override val client: PenicillinClient): Endpoint {
                         "include_user_mention_entities" to "true",
                         "include_user_symbol_entities" to "true", emulationMode = EmulationMode.TwitterForiPhone
                 )
-            }
-        }
-        body {
-            form {
                 add("status" to status, "card_uri" to cardUri, "in_reply_to_status_id" to inReplyToStatusId, "possibly_sensitive" to possiblySensitive, "lat" to lat, "long" to long, "place_id" to placeId, "display_coordinates" to displayCoordinates, "trim_user" to trimUser, "media_ids" to mediaIds?.joinToString(","), "enable_dm_commands" to enableDMCommands, "fail_dm_commands" to failDMCommands)
                 add("tweet_mode" to "extended", emulationMode = EmulationMode.TwitterForiPhone)
                 add(*options)
@@ -104,7 +101,7 @@ class Status(override val client: PenicillinClient): Endpoint {
         return media.map {
             client.media.uploadMedia(it.file, it.type, it.category)
         }.join { results ->
-            update(status, mediaIds = results.map { it.first().result as Media }.map { it.mediaId }, options = *options)
+            update(status, mediaIds = results.map { it.filter<Media>().first() }.map { it.result.mediaId }, options = *options)
         }
     }
 
@@ -112,7 +109,7 @@ class Status(override val client: PenicillinClient): Endpoint {
         return media.map {
             client.media.uploadMedia(it.data, it.type, it.category)
         }.join { results ->
-            update(status, mediaIds = results.map { it.first().result as Media }.map { it.mediaId }, options = *options)
+            update(status, mediaIds = results.map { it.filter<Media>().first() }.map { it.result.mediaId }, options = *options)
         }
     }
 
