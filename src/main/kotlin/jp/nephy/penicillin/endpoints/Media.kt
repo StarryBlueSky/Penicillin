@@ -1,14 +1,11 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.PenicillinJsonObjectAction
+import jp.nephy.penicillin.core.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.endpoints.parameters.MediaCategory
 import jp.nephy.penicillin.endpoints.parameters.MediaType
 import jp.nephy.penicillin.models.Media
-import java.io.ByteArrayInputStream
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
 import kotlin.math.ceil
 
 class Media(override val client: PenicillinClient): Endpoint {
@@ -24,32 +21,43 @@ class Media(override val client: PenicillinClient): Endpoint {
         parameter("command" to "STATUS", "media_id" to mediaId, "media_key" to mediaKey)
     }.jsonObject<Media>()
 
-    fun uploadMediaFile(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): PenicillinJsonObjectAction<Media> {
-        val mediaId = uploadInit(file.length(), mediaType, mediaCategory).complete().result.mediaId
-        uploadData(FileInputStream(file), mediaId, mediaType)
-
-        return uploadFinalize(mediaId)
-    }
-
-    fun uploadMedia(data: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): PenicillinJsonObjectAction<Media> {
-        val mediaId = uploadInit(data.size.toLong(), mediaType, mediaCategory).complete().result.mediaId
-        uploadData(ByteArrayInputStream(data), mediaId, mediaType)
-
-        return uploadFinalize(mediaId)
-    }
-
     private val segmentMaxSize = 5 * 1024 * 1024
-    private fun uploadData(stream: InputStream, mediaId: Long, mediaType: MediaType) {
-        val segmentCount = ceil(1.0 * stream.available() / segmentMaxSize).toInt()
-        stream.use {
-            repeat(segmentCount) { i ->
-                val data = ByteArray(minOf(segmentMaxSize, it.available()))
-                it.read(data)
-                client.session.executor.execute {
-                    uploadAppend(data, mediaType, i, mediaId).complete()
+    fun uploadMedia(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): PenicillinMultipleJsonObjectActions<Media> {
+        return PenicillinMultipleJsonObjectActions.Builder {
+            uploadInit(file.length(), mediaType, mediaCategory)
+        }.also { builder ->
+            file.inputStream().use {
+                val segmentCount = ceil(it.available().toDouble() / segmentMaxSize).toInt()
+                repeat(segmentCount) { i ->
+                    val part = ByteArray(minOf(segmentMaxSize, it.available()))
+                    it.read(part)
+                    builder.request { results ->
+                        uploadAppend(part, mediaType, i, results.first.result.mediaId)
+                    }
                 }
             }
-        }
+        }.request { results ->
+            uploadFinalize(results.first.result.mediaId)
+        }.build()
+    }
+
+    fun uploadMedia(data: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): PenicillinMultipleJsonObjectActions<Media> {
+        return PenicillinMultipleJsonObjectActions.Builder {
+            uploadInit(data.size.toLong(), mediaType, mediaCategory)
+        }.also { builder ->
+            data.inputStream().use {
+                val segmentCount = ceil(it.available().toDouble() / segmentMaxSize).toInt()
+                repeat(segmentCount) { i ->
+                    val part = ByteArray(minOf(segmentMaxSize, it.available()))
+                    it.read(part)
+                    builder.request { results ->
+                        uploadAppend(part, mediaType, i, results.first.result.mediaId)
+                    }
+                }
+            }
+        }.request { results ->
+            uploadFinalize(results.first.result.mediaId)
+        }.build()
     }
 
     private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
@@ -61,11 +69,8 @@ class Media(override val client: PenicillinClient): Endpoint {
     }.jsonObject<Media>()
 
     private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+        parameter("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
         body {
-            form {
-                // TODO
-                add("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
-            }
             multiPart {
                 add("media", "blob", mediaType.contentType, file)
             }

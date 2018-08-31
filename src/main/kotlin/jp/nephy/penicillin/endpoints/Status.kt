@@ -2,18 +2,18 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.PenicillinJoinedJsonObjectActions
 import jp.nephy.penicillin.core.PenicillinJsonObjectAction
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.join
 import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
 import jp.nephy.penicillin.endpoints.parameters.EmbedWidgetType
-import jp.nephy.penicillin.endpoints.parameters.MediaComponent
+import jp.nephy.penicillin.endpoints.parameters.MediaDataComponent
 import jp.nephy.penicillin.endpoints.parameters.MediaFileComponent
-import jp.nephy.penicillin.models.CursorIds
-import jp.nephy.penicillin.models.Embed
-import jp.nephy.penicillin.models.PinTweet
+import jp.nephy.penicillin.models.*
+import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Status
-import java.util.concurrent.TimeUnit
 
 
 class Status(override val client: PenicillinClient): Endpoint {
@@ -100,21 +100,20 @@ class Status(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<Status>()
 
-    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, waitSec: Long = 0, vararg options: Pair<String, Any?>): PenicillinJsonObjectAction<Status> {
-        val mediaIds = media.map {
-            client.media.uploadMediaFile(it.file, it.type, it.category).complete().result.mediaId
+    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, vararg options: Pair<String, Any?>): PenicillinJoinedJsonObjectActions<Media, Status> {
+        return media.map {
+            client.media.uploadMedia(it.file, it.type, it.category)
+        }.join { results ->
+            update(status, mediaIds = results.map { it.first().result as Media }.map { it.mediaId }, options = *options)
         }
-        TimeUnit.SECONDS.sleep(waitSec)
-
-        return update(status, mediaIds = mediaIds, options = *options)
     }
 
-    fun updateWithMedia(status: String, media: List<MediaComponent>, vararg options: Pair<String, Any?>): PenicillinJsonObjectAction<Status> {
-        val mediaIds = media.map {
-            client.media.uploadMedia(it.data, it.type, it.category).complete().result.mediaId
+    fun updateWithMedia(status: String, media: List<MediaDataComponent>, vararg options: Pair<String, Any?>): PenicillinJoinedJsonObjectActions<Media, Status> {
+        return media.map {
+            client.media.uploadMedia(it.data, it.type, it.category)
+        }.join { results ->
+            update(status, mediaIds = results.map { it.first().result as Media }.map { it.mediaId }, options = *options)
         }
-
-        return update(status, mediaIds = mediaIds, options = *options)
     }
 
     @PrivateEndpoint

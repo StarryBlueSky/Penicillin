@@ -1,7 +1,9 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.endpoints.parameters.MediaType
+import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Setting
 import jp.nephy.penicillin.models.User
 import jp.nephy.penicillin.models.VerifyCredentials
@@ -40,21 +42,21 @@ class Account(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<User>()
 
-    fun updateProfileBackgroundImage(file: ByteArray, mediaType: MediaType, tile: Boolean? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/update_profile_background_image.json") {
-        val upload = client.media.uploadMedia(file, mediaType).complete()
-        body {
-            form {
-                add("tile" to tile, "include_entities" to includeEntities, "skip_status" to skipStatus, "media_id" to upload.result.mediaId, *options)
-            }
+    fun updateProfileBackgroundImage(data: ByteArray, mediaType: MediaType, tile: Boolean? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>): PenicillinMultipleJsonObjectActions<Media> {
+        return client.media.uploadMedia(data, mediaType) + { results ->
+            client.session.post("/1.1/account/update_profile_background_image.json") {
+                body {
+                    form {
+                        add("tile" to tile, "include_entities" to includeEntities, "skip_status" to skipStatus, "media_id" to results.first.result.mediaId, *options)
+                    }
+                }
+            }.jsonObject<User>()
         }
-    }.jsonObject<User>()
+    }
 
     fun updateProfileBanner(file: ByteArray, mediaType: MediaType, width: Int? = null, height: Int? = null, offsetLeft: Int? = null, offsetTop: Int? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/update_profile_banner.json") {
+        parameter("width" to width, "height" to height, "offset_left" to offsetLeft, "offset_top" to offsetTop, *options)
         body {
-            form {
-                // TODO
-                add("width" to width, "height" to height, "offset_left" to offsetLeft, "offset_top" to offsetTop, *options)
-            }
             multiPart {
                 add("banner", "blob", mediaType.contentType, file)
             }
@@ -62,11 +64,8 @@ class Account(override val client: PenicillinClient): Endpoint {
     }.emptyJsonObject()
 
     fun updateProfileImage(file: ByteArray, mediaType: MediaType, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/update_profile_image.json") {
+        parameter("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
         body {
-            form {
-                // TODO
-                add("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
-            }
             multiPart {
                 add("image", "blob", mediaType.contentType, file)
             }
