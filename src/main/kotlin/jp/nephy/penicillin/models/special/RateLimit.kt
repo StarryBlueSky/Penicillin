@@ -1,12 +1,12 @@
 package jp.nephy.penicillin.models.special
 
-import io.ktor.http.Headers
 import java.util.*
 
-class RateLimit(headers: Headers) {
-    val limit = headers["x-rate-limit-limit"]?.toIntOrNull()
-    val remaining = headers["x-rate-limit-remaining"]?.toIntOrNull()
-    val resetAtLong = headers["x-rate-limit-reset"]?.toLongOrNull()
+class RateLimit(limit: String?, remaining: String?, reset: String?) {
+    val limit = limit?.toIntOrNull()
+    val remaining = remaining?.toIntOrNull()
+
+    private val resetAtLong = reset?.toLongOrNull()
     val resetAt = if (resetAtLong != null) {
         Date(resetAtLong * 1000)
     } else {
