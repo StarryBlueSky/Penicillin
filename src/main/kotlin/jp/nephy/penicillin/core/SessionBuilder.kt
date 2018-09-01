@@ -8,6 +8,7 @@ import io.ktor.client.features.HttpPlainText
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.http.Cookie
+import io.ktor.http.CookieEncoding
 import io.ktor.http.parseClientCookiesHeader
 import jp.nephy.penicillin.core.auth.AuthorizationHandler
 import jp.nephy.penicillin.core.auth.Credentials
@@ -58,9 +59,9 @@ class SessionBuilder {
     }
 
     private val cookies = mutableMapOf<String, MutableList<Cookie>>()
-    fun cookie(host: String, header: String) {
+    fun cookie(host: String, header: String, encoding: CookieEncoding = CookieEncoding.BASE64_ENCODING) {
         parseClientCookiesHeader(header).map {
-            cookie(host, Cookie(name = it.key, value = it.value))
+            cookie(host, Cookie(name = it.key, value = it.value, encoding = encoding))
         }
     }
     fun cookie(host: String, cookie: Cookie) {
