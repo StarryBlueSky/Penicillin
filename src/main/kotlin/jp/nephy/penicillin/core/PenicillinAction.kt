@@ -169,9 +169,9 @@ private val HttpResponse.textContent: String
     }
 
 private fun checkError(request: HttpRequest, response: HttpResponse, content: String) {
-    logger.trace { "Request headers = ${request.headers.toMap()}" }
-    logger.trace { "Response headers = ${response.headers.toMap()}" }
-    logger.trace { content }
+    logger.trace { "Request headers =\n${request.headers.toMap().map { "${it.key}: ${it.value.joinToString(", ")}" }.joinToString("\n")}" }
+    logger.trace { "Response headers =\n${response.headers.toMap().map { "${it.key}: ${it.value.joinToString(", ")}" }.joinToString("\n")}" }
+    logger.trace { if (!content.isBlank()) content else "(Empty Response)" }
 
     val json = try {
         content.toJsonObject()
