@@ -7,13 +7,14 @@ import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.util.appendAll
+import io.ktor.util.encodeBase64
 import io.ktor.util.flattenEntries
 import io.ktor.util.flattenForEach
 import jp.nephy.jsonkt.jsonObject
 import jp.nephy.jsonkt.set
 import jp.nephy.jsonkt.toJsonString
-import jp.nephy.penicillin.core.auth.AuthorizationHandler
 import jp.nephy.penicillin.core.auth.AuthorizationType
+import jp.nephy.penicillin.core.auth.OAuthUtil
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.emulation.Tweetdeck
 import jp.nephy.penicillin.core.emulation.Twitter4iPhone
@@ -77,9 +78,9 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
         body = RequestBodyBuilder(session.option.emulationMode).apply(builder).build()
     }
 
-    private lateinit var urlCache: String
-    val url: String
-        get() = urlCache
+    val url: String by lazy {
+        URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path, parameters = parameters).buildString()
+    }
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
         when (session.option.emulationMode) {
@@ -99,9 +100,7 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
             }
         }
 
-        header(AuthorizationHandler.urlHeader, URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path).buildString())
-        header(AuthorizationHandler.authorizationTypeHeader, authorizationType.name)
-        header(AuthorizationHandler.oauthCallbackUrlHeader, oauthCallbackUrl)
+        signRequest()
 
         return {
             it.method = httpMethod
@@ -109,6 +108,57 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
             it.headers.appendAll(headers)
             it.body = body
         }
+    }
+
+    private fun signRequest() {
+        val signature = when (authorizationType) {
+            AuthorizationType.OAuth1a -> {
+                val authorizationHeaderComponent = linkedMapOf(
+                        "oauth_signature" to null,
+                        "oauth_callback" to oauthCallbackUrl,
+                        "oauth_nonce" to OAuthUtil.randomUUID(),
+                        "oauth_timestamp" to OAuthUtil.currentEpochTime(),
+                        "oauth_consumer_key" to session.credentials.consumerKey!!,
+                        "oauth_token" to session.credentials.accessToken,
+                        "oauth_version" to "1.0",
+                        "oauth_signature_method" to "HMAC-SHA1"
+                )
+
+                val signatureParam = sortedMapOf<String, String>().apply {
+                    authorizationHeaderComponent.filterValues { it != null }.forEach {
+                        put(it.key, it.value)
+                    }
+                    if (body !is MultiPartContent) {
+                        val forms = (body as? EncodedFormContent)?.forms
+                        val params = if (forms != null) {
+                            parameters.build() + forms
+                        } else {
+                            parameters.build()
+                        }
+
+                        params.flattenForEach { key, value ->
+                            put(key.encodeURLParameter(), value.encodeURLParameter())
+                        }
+                    }
+                }
+                val signatureParamString = OAuthUtil.signatureParamString(signatureParam)
+
+                val signingKey = OAuthUtil.signingKey(session.credentials.consumerSecret!!, session.credentials.accessTokenSecret)
+                val signatureBaseString = OAuthUtil.signingBaseString(httpMethod, url, signatureParamString)
+                authorizationHeaderComponent["oauth_signature"] = OAuthUtil.signature(signingKey, signatureBaseString)
+
+                "OAuth ${authorizationHeaderComponent.filterValues { it != null }.toList().joinToString(", ") { "${it.first}=\"${it.second}\"" }}"
+            }
+            AuthorizationType.OAuth2 -> {
+                "Bearer ${session.credentials.bearerToken!!}"
+            }
+            AuthorizationType.OAuth2RequestToken -> {
+                "Basic ${"${session.credentials.consumerKey!!.encodeOAuth()}:${session.credentials.consumerSecret!!.encodeOAuth()}".encodeBase64()}"
+            }
+            AuthorizationType.None -> null
+        } ?: return
+
+        headers.append(HttpHeaders.Authorization, signature)
     }
 
     private fun checkEmulation() {
@@ -127,8 +177,6 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
 
     internal fun build(): PenicillinRequest {
         checkEmulation()
-
-        urlCache = URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path, parameters = parameters).buildString()
 
         return PenicillinRequest(session, this)
     }

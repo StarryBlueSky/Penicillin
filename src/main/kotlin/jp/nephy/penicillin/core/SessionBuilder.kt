@@ -10,7 +10,6 @@ import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.http.Cookie
 import io.ktor.http.CookieEncoding
 import io.ktor.http.parseClientCookiesHeader
-import jp.nephy.penicillin.core.auth.AuthorizationHandler
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import kotlinx.coroutines.experimental.runBlocking
@@ -64,6 +63,7 @@ class SessionBuilder {
             cookie(host, Cookie(name = it.key, value = it.value, encoding = encoding))
         }
     }
+
     fun cookie(host: String, cookie: Cookie) {
         if (host !in cookies) {
             cookies[host] = mutableListOf(cookie)
@@ -75,9 +75,6 @@ class SessionBuilder {
     internal fun build(): Session {
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
         val httpClient = HttpClient(Apache.create(httpEngineInitializer)) {
-            install(AuthorizationHandler) {
-                bind(authorizationData)
-            }
             install(HttpPlainText) {
                 defaultCharset = Charsets.UTF_8
             }
