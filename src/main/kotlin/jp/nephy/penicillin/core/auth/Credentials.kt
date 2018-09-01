@@ -9,7 +9,7 @@ data class Credentials(val consumerKey: String?, val consumerSecret: String?, va
         private var ck: String? = null
         private var cs: String? = null
         private var kdt: String? = null
-        fun application(client: OfficialClient, knownDeviceToken: String? = null) {
+        fun application(client: OfficialClient.OAuth1a, knownDeviceToken: String? = null) {
             ck = client.consumerKey
             cs = client.consumerSecret
             kdt = knownDeviceToken
@@ -31,6 +31,10 @@ data class Credentials(val consumerKey: String?, val consumerSecret: String?, va
         private var bt: String? = null
         fun token(bearerToken: String) {
             bt = bearerToken
+        }
+
+        fun token(client: OfficialClient.OAuth2) {
+            bt = client.bearerToken
         }
 
         internal fun build(): Credentials {
