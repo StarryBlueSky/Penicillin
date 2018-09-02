@@ -28,6 +28,11 @@ class SessionBuilder {
         emulationMode = mode
     }
 
+    private var skipEmulationChecking: Boolean? = null
+    fun skipEmulationChecking() {
+        skipEmulationChecking = true
+    }
+
     private var httpClientInitializer: suspend HttpClientConfig<ApacheEngineConfig>.() -> Unit = {}
     fun httpClient(initializer: suspend HttpClientConfig<ApacheEngineConfig>.() -> Unit) {
         httpClientInitializer = initializer
@@ -89,8 +94,8 @@ class SessionBuilder {
             }
         }
 
-        return Session(threadPoolExecutorInitializer(), httpClient, authorizationData, ClientOption(maxRetries ?: 3, retryInterval ?: 1L, retryIntervalUnit ?: TimeUnit.SECONDS, emulationMode ?: EmulationMode.None))
+        return Session(threadPoolExecutorInitializer(), httpClient, authorizationData, ClientOption(maxRetries ?: 3, retryInterval ?: 1L, retryIntervalUnit ?: TimeUnit.SECONDS, emulationMode ?: EmulationMode.None, skipEmulationChecking ?: false))
     }
 }
 
-data class ClientOption(val maxRetries: Int, val retryInterval: Long, val retryIntervalUnit: TimeUnit, val emulationMode: EmulationMode)
+data class ClientOption(val maxRetries: Int, val retryInterval: Long, val retryIntervalUnit: TimeUnit, val emulationMode: EmulationMode, val skipEmulationChecking: Boolean)
