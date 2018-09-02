@@ -175,7 +175,9 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
     }
 
     internal fun build(): PenicillinRequest {
-        checkEmulation()
+        if (!session.option.skipEmulationChecking) {
+            checkEmulation()
+        }
 
         return PenicillinRequest(session, this)
     }
