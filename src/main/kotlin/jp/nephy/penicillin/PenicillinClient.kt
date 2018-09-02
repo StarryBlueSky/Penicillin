@@ -31,6 +31,7 @@ class PenicillinClient(session: SessionBuilder.() -> Unit = {}): Closeable {
     val misc = Misc(this)
     val moment = Moment(this)
     val mute = Mute(this)
+    val notifications = Notifications(this)
     val oauth = OAuth(this)
     val oauth2 = OAuth2(this)
     val savedSearch = SavedSearch(this)
