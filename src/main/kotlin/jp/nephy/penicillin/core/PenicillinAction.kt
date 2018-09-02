@@ -6,7 +6,7 @@ import io.ktor.client.request.request
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 import io.ktor.http.isSuccess
-import io.ktor.util.toMap
+import io.ktor.util.flattenEntries
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.streaming.StreamHandler
@@ -147,7 +147,6 @@ private fun executeRequest(session: Session, request: PenicillinRequest): Pair<H
             val response = runBlocking {
                 session.httpClient.request<HttpResponse>(request.builder.finalize())
             }
-            logger.trace { "${response.version} ${response.status.value} ${response.call.request.method.value} ${response.call.request.url}" }
             return response.call.request to response
         } catch (e: Exception) {
             logger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
@@ -169,9 +168,18 @@ private val HttpResponse.textContent: String
     }
 
 private fun checkError(request: HttpRequest, response: HttpResponse, content: String) {
-    logger.trace { "Request headers =\n${request.headers.toMap().map { "${it.key}: ${it.value.joinToString(", ")}" }.joinToString("\n")}" }
-    logger.trace { "Response headers =\n${response.headers.toMap().map { "${it.key}: ${it.value.joinToString(", ")}" }.joinToString("\n")}" }
-    logger.trace { if (!content.isBlank()) content else "(Empty Response)" }
+    logger.trace {
+        buildString {
+            appendln("${response.version} ${response.status.value} ${response.call.request.method.value} ${response.call.request.url}")
+
+            val (requestHeaders, responseHeaders) = request.headers.flattenEntries() to response.headers.flattenEntries()
+            val (longestRequestHeaderLength, longestResponseHeaderLength) = requestHeaders.maxBy { it.first.length }?.first.orEmpty().length + 1 to responseHeaders.maxBy { it.first.length }?.first.orEmpty().length + 1
+            appendln("Request headers =\n${requestHeaders.joinToString("\n") { "    ${it.first.padEnd(longestRequestHeaderLength)}: ${it.second}" }}")
+            appendln("Response headers =\n${responseHeaders.joinToString("\n") { "    ${it.first.padEnd(longestResponseHeaderLength)}: ${it.second}" }}\n")
+
+            append(if (!content.isBlank()) content else "(Empty Response)")
+        }
+    }
 
     val json = try {
         content.toJsonObject()
