@@ -30,6 +30,7 @@ class Activity(override val client: PenicillinClient): Endpoint {
                 "tweet_mode" to (tweetMode ?: "extended"),
                 "include_ext_alt_text" to (includeExtAltText ?: true),
                 "include_reply_count" to (includeReplyCount ?: true),
+                *options,
                 emulationMode = EmulationMode.Tweetdeck
         )
     }.jsonArray<ActivityEvent>()
