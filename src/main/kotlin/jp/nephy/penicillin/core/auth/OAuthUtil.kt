@@ -21,7 +21,7 @@ class OAuthUtil private constructor() {
         }
 
         fun signingBaseString(httpMethod: HttpMethod, url: String, signatureParamString: String): String {
-            return "${httpMethod.value}&${url.encodeOAuth()}&$signatureParamString"
+            return "${httpMethod.value}&${url.split("?").first().encodeOAuth()}&$signatureParamString"
         }
 
         fun signingKey(consumerSecret: String, accessTokenSecret: String?): SecretKeySpec {
@@ -32,7 +32,7 @@ class OAuthUtil private constructor() {
             return Mac.getInstance(signingKey.algorithm).apply {
                 init(signingKey)
             }.doFinal(signatureBaseString.toByteArray()).let {
-                Base64.getEncoder().encodeToString(it).orEmpty()
+                Base64.getEncoder().encodeToString(it)
             }.encodeOAuth()
         }
     }
