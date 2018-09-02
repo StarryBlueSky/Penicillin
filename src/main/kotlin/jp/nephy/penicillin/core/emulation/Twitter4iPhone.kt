@@ -7,24 +7,23 @@ import java.security.SecureRandom
 
 class Twitter4iPhone(override val session: Session): Emulation() {
     override val headers = Headers.build {
-        append("User-Agent", "Twitter-iPhone/7.21.2 iOS/11.0.2 (Apple;iPhone10,1;;;;;1;2017)")
-        append("X-Twitter-Client", "Twitter-iPhone")
-        append("X-Twitter-Client-DeviceID", deviceUUID)
-        append("X-Twitter-Active-User", "yes")
-        append("kdt", "")
-        append("X-Twitter-Client-Version", "7.21.2")
-        append("X-Twitter-Client-Limit-Ad-Tracking", "1")
-        append("X-Twitter-Polling", "false")
-        append("X-B3-TraceId", b3TraceId())
         append("Accept-Language", "ja")
         append("Timezone", "Asia/Tokyo")
-        append("X-Twitter-Client-Language", "ja")
+        append("User-Agent", "Twitter-iPhone/7.30 iOS/11.3.1 (Apple;iPhone10,1;;;;;1;2017)")
+        append("X-B3-TraceId", b3TraceId())
         append("X-Client-UUID", clientUUID)
+        append("X-Twitter-Active-User", "yes")
         append("X-Twitter-API-Version", "5")
+        append("X-Twitter-Client", "Twitter-iPhone")
+        append("X-Twitter-Client-DeviceID", "00000000-0000-0000-0000-000000000000")
+        append("X-Twitter-Client-Language", "ja")
+        append("X-Twitter-Client-Limit-Ad-Tracking", "1")
+        append("X-Twitter-Client-Version", "7.30")
+        append("X-Twitter-Polling", "true")
+        append("X-Twitter-UTCOffset",  "+0900")
     }
     
     companion object {
-        private val deviceUUID = OAuthUtil.randomUUID()
         private val clientUUID = OAuthUtil.randomUUID()
 
         fun b3TraceId(): String {

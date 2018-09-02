@@ -78,9 +78,8 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
         body = RequestBodyBuilder(session.option.emulationMode).apply(builder).build()
     }
 
-    val url: String by lazy {
-        URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path, parameters = parameters.copy()).buildString()
-    }
+    val url: String
+        get() = URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path, parameters = parameters.copy()).buildString()
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
         when (session.option.emulationMode) {
@@ -131,9 +130,9 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
                     if (body !is MultiPartContent) {
                         val forms = (body as? EncodedFormContent)?.forms
                         val params = if (forms != null) {
-                            parameters.build() + forms
+                            parameters.copy().build() + forms
                         } else {
-                            parameters.build()
+                            parameters.copy().build()
                         }
 
                         params.flattenForEach { key, value ->
@@ -144,7 +143,7 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
                 val signatureParamString = OAuthUtil.signatureParamString(signatureParam)
 
                 val signingKey = OAuthUtil.signingKey(session.credentials.consumerSecret!!, session.credentials.accessTokenSecret)
-                val signatureBaseString = OAuthUtil.signingBaseString(httpMethod, url, signatureParamString)
+                val signatureBaseString = OAuthUtil.signingBaseString(httpMethod, URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path).buildString(), signatureParamString)
                 authorizationHeaderComponent["oauth_signature"] = OAuthUtil.signature(signingKey, signatureBaseString)
 
                 "OAuth ${authorizationHeaderComponent.filterValues { it != null }.toList().joinToString(", ") { "${it.first}=\"${it.second}\"" }}"
@@ -158,7 +157,7 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
             AuthorizationType.None -> null
         } ?: return
 
-        headers.append(HttpHeaders.Authorization, signature)
+        headers[HttpHeaders.Authorization] = signature
     }
 
     private fun checkEmulation() {
