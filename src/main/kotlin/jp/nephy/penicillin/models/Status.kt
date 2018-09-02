@@ -21,7 +21,7 @@ data class Status(override val json: JsonObject): PenicillinModel {
     val favoriteCount by json.byInt("favorite_count")
     val favorited by json.byBool
     val filterLevel by json.byNullableString("filter_level")
-    private val fullTextInternal by json.byNullableString("full_text")
+    val fullText by json.byNullableString("full_text")
     @Deprecated("geo field is deprecated. Use coordinates instead.")
     val geo by json.byNullableJsonObject
     val id by json.byLong
@@ -57,18 +57,15 @@ data class Status(override val json: JsonObject): PenicillinModel {
     val withheldInCountries by json.byStringList("withheld_in_countries")
     val withheldScope by json.byNullableString("withheld_scope")
 
-    val fullText: String
-        get() = if (retweetedStatus != null) {
+    fun fullText(): String {
+        return if (retweetedStatus != null) {
             if (retweetedStatus?.extendedTweet != null) {
                 "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.extendedTweet!!.fullText}"
             } else {
-                text
+                fullText ?: text
             }
         } else {
-            if (extendedTweet != null) {
-                extendedTweet?.fullText ?: text
-            } else {
-                text
-            }
+            extendedTweet?.fullText ?: fullText ?: text
         }
+    }
 }
