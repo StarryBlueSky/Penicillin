@@ -1,9 +1,9 @@
 group "jp.nephy"
-version "3.0.0"
+version "3.0.1"
 
 buildscript {
     ext.kotlin_version = "1.2.61"
-    ext.ktor_version = "0.9.4-alpha-2"
+    ext.ktor_version = "0.9.4"
 
     repositories {
         mavenCentral()
@@ -11,7 +11,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
     }
 }
 
@@ -31,6 +31,7 @@ dependencies {
 
     compile "io.ktor:ktor-client-core:$ktor_version"
     compile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "org.jetbrains.kotlinx:atomicfu:0.11.3"
     
     compile "jp.nephy:jsonkt:2.0"
 

@@ -79,7 +79,7 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
     }
 
     val url: String by lazy {
-        URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path, parameters = parameters).buildString()
+        URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path, parameters = parameters.copy()).buildString()
     }
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
@@ -180,6 +180,10 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
 
         return PenicillinRequest(session, this)
     }
+}
+
+internal fun ParametersBuilder.copy(): ParametersBuilder {
+    return ParametersBuilder().apply { appendAll(this@copy) }
 }
 
 class RequestBodyBuilder(private val emulationMode: EmulationMode) {

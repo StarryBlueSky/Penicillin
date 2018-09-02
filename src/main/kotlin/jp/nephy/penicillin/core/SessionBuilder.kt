@@ -28,14 +28,9 @@ class SessionBuilder {
         emulationMode = mode
     }
 
-    private var httpClientInitializer: suspend HttpClientConfig.() -> Unit = {}
-    fun httpClient(initializer: suspend HttpClientConfig.() -> Unit) {
+    private var httpClientInitializer: suspend HttpClientConfig<ApacheEngineConfig>.() -> Unit = {}
+    fun httpClient(initializer: suspend HttpClientConfig<ApacheEngineConfig>.() -> Unit) {
         httpClientInitializer = initializer
-    }
-
-    private var httpEngineInitializer: ApacheEngineConfig.() -> Unit = {}
-    fun httpEngine(initializer: ApacheEngineConfig.() -> Unit) {
-        httpEngineInitializer = initializer
     }
 
     private var threadPoolExecutorInitializer: () -> ExecutorService = {
@@ -74,7 +69,7 @@ class SessionBuilder {
 
     internal fun build(): Session {
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
-        val httpClient = HttpClient(Apache.create(httpEngineInitializer)) {
+        val httpClient = HttpClient(Apache) {
             install(HttpPlainText) {
                 defaultCharset = Charsets.UTF_8
             }
