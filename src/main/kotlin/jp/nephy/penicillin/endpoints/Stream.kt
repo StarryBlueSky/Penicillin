@@ -21,11 +21,7 @@ class Stream(override val client: PenicillinClient): Endpoint {
         parameter("delimited" to delimited, "stall_warning" to stallWarnings, *options)
     }.stream<SampleStreamListener, SampleStreamHandler>()
 
-    fun filter(delimited: String? = null, stallWarnings: Boolean? = null, track: List<String>? = null, follow: List<Long>? = null, locations: Pair<Float, Float>? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/statuses/filter.json", EndpointHost.Stream) {
-        body {
-            form {
-                add("delimited" to delimited, "stall_warning" to stallWarnings, "track" to track?.joinToString(","), "follow" to follow?.joinToString(","), "locations" to locations?.toList()?.joinToString(","), *options)
-            }
-        }
+    fun filter(delimited: String? = null, stallWarnings: Boolean? = null, track: List<String>? = null, follow: List<Long>? = null, locations: Pair<Float, Float>? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/statuses/filter.json", EndpointHost.Stream) {
+        parameter("delimited" to delimited, "stall_warning" to stallWarnings, "track" to track?.joinToString(","), "follow" to follow?.joinToString(","), "locations" to locations?.toList()?.joinToString(","), *options)
     }.stream<FilterStreamListener, FilterStreamHandler>()
 }
