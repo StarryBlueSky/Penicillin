@@ -170,7 +170,7 @@ private val HttpResponse.textContent: String
 private fun checkError(request: HttpRequest, response: HttpResponse, content: String) {
     logger.trace {
         buildString {
-            appendln("${response.version} ${response.status.value} ${response.call.request.method.value} ${response.call.request.url}")
+            appendln("${response.version} ${response.status.value} ${request.method.value} ${request.url}")
 
             val (requestHeaders, responseHeaders) = request.headers.flattenEntries() to response.headers.flattenEntries()
             val (longestRequestHeaderLength, longestResponseHeaderLength) = requestHeaders.maxBy { it.first.length }?.first.orEmpty().length + 1 to responseHeaders.maxBy { it.first.length }?.first.orEmpty().length + 1
@@ -294,6 +294,10 @@ class PenicillinTextAction(override val request: PenicillinRequest): PenicillinA
 class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinStreamResponse<L, H>>(request.session.executor) {
     override fun complete(): PenicillinStreamResponse<L, H> {
         val (request, response) = executeRequest(request.session, request)
+
+        if (!response.status.isSuccess()) {
+            throw PenicillinLocalizedException(LocalizedString.StreamingApiRequestFailed, request, response, response.status.value, response.status.description)
+        }
 
         return PenicillinStreamResponse(request, response, this)
     }
