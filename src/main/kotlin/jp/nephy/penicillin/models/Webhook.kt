@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.byBool
 import jp.nephy.jsonkt.byString
 
-class Webhook(override val json: JsonObject): PenicillinModel {
+data class Webhook(override val json: JsonObject): PenicillinModel {
     val id by json.byString
     val url by json.byString
     val valid by json.byBool
