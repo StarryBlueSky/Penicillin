@@ -2,7 +2,7 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
-import jp.nephy.penicillin.models.Empty
+import jp.nephy.penicillin.models.NotificationAll
 
 class Notifications(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
@@ -30,5 +30,5 @@ class Notifications(override val client: PenicillinClient): Endpoint {
                 "tweet_mode" to "extended",
                 emulationMode = EmulationMode.TwitterForiPhone
         )
-    }.jsonObject<Empty>()
+    }.jsonObject<NotificationAll>()
 }
