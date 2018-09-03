@@ -23,6 +23,10 @@ enum class LocalizedString(private val ja: String, private val en: String) {
             "APIのリクエストに失敗しました: %s",
             "Failed to request API: %s"
     ),
+    StreamingApiRequestFailed(
+            "Streaming APIのリクエストに失敗しました: %s %s",
+            "Failed to request streaming API: %s %s"
+    ),
     JsonParsingFailed(
             "JSONをパースする際に例外が発生しました: %s",
             "Failed to parse JSON: %s"
