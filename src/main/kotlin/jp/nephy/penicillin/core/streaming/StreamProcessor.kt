@@ -3,6 +3,7 @@ package jp.nephy.penicillin.core.streaming
 import io.ktor.util.flattenEntries
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.PenicillinStreamResponse
+import jp.nephy.penicillin.core.unescapeHTML
 import kotlinx.coroutines.experimental.io.jvm.javaio.toInputStream
 import mu.KotlinLogging
 import java.io.Closeable
@@ -84,8 +85,4 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var respon
             handler.listener.onDisconnect()
         }
     }
-}
-
-internal fun String.unescapeHTML(): String {
-    return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
 }
