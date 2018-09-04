@@ -161,11 +161,15 @@ private fun executeRequest(session: Session, request: PenicillinRequest): Pair<H
 private val HttpResponse.textContent: String
     get() = runBlocking {
         try {
-            readText()
+            readText().trim().unescapeHTML()
         } catch (e: MalformedInputException) {
             ""
         }
     }
+
+internal fun String.unescapeHTML(): String {
+    return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+}
 
 private fun checkError(request: HttpRequest, response: HttpResponse, content: String) {
     logger.trace {
