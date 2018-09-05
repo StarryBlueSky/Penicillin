@@ -1,3 +1,7 @@
 package jp.nephy.penicillin.endpoints
 
-annotation class PrivateEndpoint
+import jp.nephy.penicillin.core.emulation.EmulationMode
+
+annotation class PrivateEndpoint(
+        val mode: Array<EmulationMode> = []
+)

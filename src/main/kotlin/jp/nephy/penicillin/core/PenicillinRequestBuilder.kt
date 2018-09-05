@@ -169,7 +169,8 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
 
         logger.trace { "Endpoint: ${javaClass.simpleName}#${method.name}" }
 
-        if (method.isAnnotationPresent(PrivateEndpoint::class.java) && session.option.emulationMode == EmulationMode.None) {
+        val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
+        if (session.option.emulationMode == EmulationMode.None || (annotation.mode.isNotEmpty() && session.option.emulationMode !in annotation.mode)) {
             throw PenicillinLocalizedException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
         }
     }
