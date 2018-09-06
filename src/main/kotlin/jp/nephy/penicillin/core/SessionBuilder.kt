@@ -64,7 +64,13 @@ class SessionBuilder {
         }
     }
 
+    private var useCookie = false
+    fun acceptCookie() {
+        useCookie = true
+    }
+
     fun cookie(host: String, cookie: Cookie) {
+        acceptCookie()
         if (host !in cookies) {
             cookies[host] = mutableListOf(cookie)
         } else {
@@ -78,12 +84,14 @@ class SessionBuilder {
             install(HttpPlainText) {
                 defaultCharset = Charsets.UTF_8
             }
-            install(HttpCookies) {
-                storage = AcceptAllCookiesStorage().also {
-                    runBlocking {
-                        for (pair in cookies) {
-                            for (cookie in pair.value) {
-                                it.addCookie(pair.key, cookie)
+            if (useCookie) {
+                install(HttpCookies) {
+                    storage = AcceptAllCookiesStorage().also {
+                        runBlocking {
+                            for (pair in cookies) {
+                                for (cookie in pair.value) {
+                                    it.addCookie(pair.key, cookie)
+                                }
                             }
                         }
                     }

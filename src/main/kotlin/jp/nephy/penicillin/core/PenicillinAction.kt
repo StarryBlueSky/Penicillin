@@ -149,7 +149,12 @@ private fun executeRequest(session: Session, request: PenicillinRequest): Pair<H
             }
             return response.call.request to response
         } catch (e: Exception) {
-            logger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
+            // TEMP FIX: Set-Cookie header format may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
+            if (e is IllegalStateException && e.message.orEmpty().startsWith("Invalid date length.")) {
+                logger.debug(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
+            } else {
+                logger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
+            }
         }
 
         session.option.retryIntervalUnit.sleep(session.option.retryInterval)
