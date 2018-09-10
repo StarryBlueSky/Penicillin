@@ -48,7 +48,3 @@ class PenicillinClient(session: SessionBuilder.() -> Unit = {}): Closeable {
         session.close()
     }
 }
-
-fun PenicillinClient.with(operation: PenicillinClient.() -> Unit) {
-    use { it.apply(operation) }
-}
