@@ -17,7 +17,6 @@ import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.experimental.runBlocking
 import kotlinx.io.charsets.MalformedInputException
 import mu.KotlinLogging
-import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
@@ -32,16 +31,13 @@ private interface JsonRequest<M: PenicillinModel> {
     val model: Class<M>
 }
 
-abstract class ApiAction<R>(private val executor: ExecutorService): Callable<R> {
+abstract class ApiAction<R>(private val executor: ExecutorService) {
     private val defaultCallback: (response: R) -> Unit = { }
     private val defaultFallback: (e: Exception) -> Unit = { e ->
         logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
     }
 
     abstract fun complete(): R
-    override fun call(): R {
-        return complete()
-    }
     operator fun invoke(): R  {
         return complete()
     }
