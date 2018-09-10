@@ -16,6 +16,7 @@ import jp.nephy.penicillin.models.*
 import jp.nephy.penicillin.models.Card
 import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Status
+import java.util.concurrent.TimeUnit
 
 
 class Status(override val client: PenicillinClient): Endpoint {
@@ -98,18 +99,24 @@ class Status(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<Status>()
 
-    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, vararg options: Pair<String, Any?>): PenicillinJoinedJsonObjectActions<Media, Status> {
+    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, waitSec: Long? = null, vararg options: Pair<String, Any?>): PenicillinJoinedJsonObjectActions<Media, Status> {
         return media.map {
             client.media.uploadMedia(it.file, it.type, it.category)
         }.join { results ->
+            if (waitSec != null) {
+                TimeUnit.SECONDS.sleep(waitSec)
+            }
             update(status, mediaIds = results.asSequence().map { it.filter<Media>().first() }.map { it.result.mediaId }.toList(), options = *options)
         }
     }
 
-    fun updateWithMedia(status: String, media: List<MediaDataComponent>, vararg options: Pair<String, Any?>): PenicillinJoinedJsonObjectActions<Media, Status> {
+    fun updateWithMedia(status: String, media: List<MediaDataComponent>, waitSec: Long? = null, vararg options: Pair<String, Any?>): PenicillinJoinedJsonObjectActions<Media, Status> {
         return media.map {
             client.media.uploadMedia(it.data, it.type, it.category)
         }.join { results ->
+            if (waitSec != null) {
+                TimeUnit.SECONDS.sleep(waitSec)
+            }
             update(status, mediaIds = results.asSequence().map { it.filter<Media>().first() }.map { it.result.mediaId }.toList(), options = *options)
         }
     }
