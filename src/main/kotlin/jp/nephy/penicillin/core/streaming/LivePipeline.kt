@@ -3,11 +3,11 @@ package jp.nephy.penicillin.core.streaming
 import com.google.gson.JsonObject
 import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.models.special.StatusID
-import java.util.concurrent.ExecutorService
+import kotlinx.coroutines.experimental.launch
 
-class LivePipelineHandler(override val listener: LivePipelineListener, override val executor: ExecutorService): StreamHandler<LivePipelineListener> {
-    override fun handle(json: JsonObject) {
-        executor.execute { listener.onRawJson(json) }
+class LivePipelineHandler(override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
+    override suspend fun handle(json: JsonObject) {
+        launch { listener.onRawJson(json) }
 
         val topic = json["topic"].string
         if (topic.startsWith("/tweet_engagement/")) {
@@ -27,7 +27,7 @@ class LivePipelineHandler(override val listener: LivePipelineListener, override 
 }
 
 interface LivePipelineListener: StreamListener {
-    fun onUpdateLikeCount(id: StatusID, count: Int) {}
-    fun onUpdateRetweetCount(id: StatusID, count: Int) {}
-    fun onUpdateReplyCount(id: StatusID, count: Int) {}
+    suspend fun onUpdateLikeCount(id: StatusID, count: Int) {}
+    suspend fun onUpdateRetweetCount(id: StatusID, count: Int) {}
+    suspend fun onUpdateReplyCount(id: StatusID, count: Int) {}
 }

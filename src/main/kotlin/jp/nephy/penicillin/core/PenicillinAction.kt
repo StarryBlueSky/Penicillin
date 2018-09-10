@@ -14,12 +14,11 @@ import jp.nephy.penicillin.core.streaming.StreamListener
 import jp.nephy.penicillin.models.Empty
 import jp.nephy.penicillin.models.PenicillinCursorModel
 import jp.nephy.penicillin.models.PenicillinModel
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.*
 import kotlinx.io.charsets.MalformedInputException
 import mu.KotlinLogging
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.experimental.CoroutineContext
 
 private val logger = KotlinLogging.logger("Penicillin.ApiAction")
 
@@ -31,118 +30,101 @@ private interface JsonRequest<M: PenicillinModel> {
     val model: Class<M>
 }
 
-abstract class ApiAction<R>(private val executor: ExecutorService) {
+abstract class ApiAction<R> {
     private val defaultCallback: (response: R) -> Unit = { }
-    private val defaultFallback: (e: Exception) -> Unit = { e ->
+    private val defaultFallback: (e: Throwable) -> Unit = { e ->
         logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
     }
 
-    abstract fun complete(): R
-    operator fun invoke(): R  {
-        return complete()
+    @Throws(PenicillinException::class)
+    abstract suspend fun await(): R
+
+    @Throws(PenicillinException::class)
+    suspend fun awaitWithTimeout(timeout: Long, unit: TimeUnit): R? {
+        return withTimeoutOrNull(timeout, unit) {
+            await()
+        }
     }
 
-    fun completeAfter(delay: Long, unit: TimeUnit): R {
-        unit.sleep(delay)
-        return complete()
+    @Throws(PenicillinException::class)
+    fun complete(): R {
+        return runBlocking {
+            await()
+        }
     }
 
-    fun execute(onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit) {
-        try {
-            complete().let(onSuccess)
-        } catch (e: Exception) {
+    @Throws(PenicillinException::class)
+    fun completeWithTimeout(timeout: Long, unit: TimeUnit): R? {
+        return runBlocking {
+            awaitWithTimeout(timeout, unit)
+        }
+    }
+
+    @Throws(PenicillinException::class)
+    fun async(context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT): Deferred<R> {
+        return async(context, start) {
+            await()
+        }
+    }
+
+    @Throws(PenicillinException::class)
+    fun asyncWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT): Deferred<R?> {
+        return async(context, start) {
+            awaitWithTimeout(timeout, unit)
+        }
+    }
+
+    fun queue(context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT, onSuccess: (response: R) -> Unit, onFailure: (e: Throwable) -> Unit): Job {
+        return launch(context, start) {
             try {
-                e.let(onFailure)
+                complete().let(onSuccess)
             } catch (e: Exception) {
-                e.let(defaultFallback)
+                try {
+                    onFailure(e)
+                } catch (e: Exception) {
+                    defaultFallback(e)
+                }
             }
         }
     }
 
-    fun execute(onSuccess: (response: R) -> Unit) {
-        execute(onSuccess, defaultFallback)
+    fun queue(context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT, onSuccess: (response: R) -> Unit): Job {
+        return queue(context, start, onSuccess, defaultFallback)
     }
 
-    fun execute() {
-        execute(defaultCallback, defaultFallback)
+    fun queue(context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT): Job {
+        return queue(context, start, defaultCallback, defaultFallback)
     }
 
-    fun executeAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit) {
-        unit.sleep(delay)
-        execute(onSuccess, onFailure)
-    }
-
-    fun executeAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit) {
-        executeAfter(delay, unit, onSuccess, defaultFallback)
-    }
-
-    fun executeAfter(delay: Long, unit: TimeUnit) {
-        executeAfter(delay, unit, defaultCallback, defaultFallback)
-    }
-
-    fun submit(onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit): Future<*> {
-        return executor.submit {
-            execute(onSuccess, onFailure)
+    fun queueWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT, onSuccess: (response: R) -> Unit, onFailure: (e: Throwable) -> Unit): Job {
+        return launch(context, start) {
+            try {
+                withTimeout(timeout, unit) {
+                    complete()
+                }.let(onSuccess)
+            } catch (e: Exception) {
+                try {
+                    onFailure(e)
+                } catch (e: Exception) {
+                    defaultFallback(e)
+                }
+            }
         }
     }
 
-    fun submit(onSuccess: (response: R) -> Unit): Future<*> {
-        return submit(onSuccess, defaultFallback)
+    fun queueWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT, onSuccess: (response: R) -> Unit): Job {
+        return queueWithTimeout(timeout, unit, context, start, onSuccess, defaultFallback)
     }
 
-    fun submit(): Future<*> {
-        return submit(defaultCallback, defaultFallback)
-    }
-
-    fun submitAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit): Future<*> {
-        return executor.submit {
-            executeAfter(delay, unit, onSuccess, onFailure)
-        }
-    }
-
-    fun submitAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit): Future<*> {
-        return submitAfter(delay, unit, onSuccess, defaultFallback)
-    }
-
-    fun submitAfter(delay: Long, unit: TimeUnit): Future<*> {
-        return submitAfter(delay, unit, defaultCallback, defaultFallback)
-    }
-
-    fun queue(onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit) {
-        executor.execute {
-            execute(onSuccess, onFailure)
-        }
-    }
-
-    fun queue(onSuccess: (response: R) -> Unit) {
-        queue(onSuccess, defaultFallback)
-    }
-
-    fun queue() {
-        queue(defaultCallback, defaultFallback)
-    }
-
-    fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit, onFailure: (e: Exception) -> Unit) {
-        executor.submit {
-            executeAfter(delay, unit, onSuccess, onFailure)
-        }
-    }
-
-    fun queueAfter(delay: Long, unit: TimeUnit, onSuccess: (response: R) -> Unit) {
-        queueAfter(delay, unit, onSuccess, defaultFallback)
-    }
-
-    fun queueAfter(delay: Long, unit: TimeUnit) {
-        queueAfter(delay, unit, defaultCallback, defaultFallback)
+    fun queueWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT): Job {
+        return queueWithTimeout(timeout, unit, context, start, defaultCallback, defaultFallback)
     }
 }
 
-private fun executeRequest(session: Session, request: PenicillinRequest): Pair<HttpRequest, HttpResponse> {
+private suspend fun executeRequest(session: Session, request: PenicillinRequest): Pair<HttpRequest, HttpResponse> {
     repeat(session.option.maxRetries) {
         try {
-            val response = runBlocking {
-                session.httpClient.request<HttpResponse>(request.builder.finalize())
-            }
+            val response = session.httpClient.request<HttpResponse>(request.builder.finalize())
             return response.call.request to response
         } catch (e: Exception) {
             // TEMP FIX: Set-Cookie header format may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
@@ -153,20 +135,19 @@ private fun executeRequest(session: Session, request: PenicillinRequest): Pair<H
             }
         }
 
-        session.option.retryIntervalUnit.sleep(session.option.retryInterval)
+        delay(session.option.retryInterval, session.option.retryIntervalUnit)
     }
 
     throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, args = *arrayOf(request.builder.url))
 }
 
-private val HttpResponse.textContent: String
-    get() = runBlocking {
-        try {
-            readText().trim().unescapeHTML()
-        } catch (e: MalformedInputException) {
-            ""
-        }
+private suspend fun HttpResponse.readTextSafe(): String {
+    return try {
+        readText().trim().unescapeHTML()
+    } catch (e: MalformedInputException) {
+        ""
     }
+}
 
 internal fun String.unescapeHTML(): String {
     return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
@@ -209,10 +190,10 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
     }
 }
 
-class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: PenicillinRequest, override val model: Class<M>): PenicillinAction, JsonRequest<M>, ApiAction<PenicillinJsonObjectResponse<M>>(request.session.executor) {
-    override fun complete(): PenicillinJsonObjectResponse<M> {
+class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: PenicillinRequest, override val model: Class<M>): PenicillinAction, JsonRequest<M>, ApiAction<PenicillinJsonObjectResponse<M>>() {
+    override suspend fun await(): PenicillinJsonObjectResponse<M> {
         val (request, response) = executeRequest(request.session, request)
-        val content = response.textContent
+        val content = response.readTextSafe()
         checkError(request, response, content)
 
         val json = try {
@@ -236,10 +217,10 @@ class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: Penic
     }
 }
 
-class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: PenicillinRequest, override val model: Class<M>): PenicillinAction, JsonRequest<M>, ApiAction<PenicillinJsonArrayResponse<M>>(request.session.executor) {
-    override fun complete(): PenicillinJsonArrayResponse<M> {
+class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: PenicillinRequest, override val model: Class<M>): PenicillinAction, JsonRequest<M>, ApiAction<PenicillinJsonArrayResponse<M>>() {
+    override suspend fun await(): PenicillinJsonArrayResponse<M> {
         val (request, response) = executeRequest(request.session, request)
-        val content = response.textContent
+        val content = response.readTextSafe()
         checkError(request, response, content)
 
         val json = try {
@@ -263,10 +244,10 @@ class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: Penici
     }
 }
 
-class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val request: PenicillinRequest, override val model: Class<M>): PenicillinAction, JsonRequest<M>, ApiAction<PenicillinCursorJsonObjectResponse<M>>(request.session.executor) {
-    override fun complete(): PenicillinCursorJsonObjectResponse<M> {
+class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val request: PenicillinRequest, override val model: Class<M>): PenicillinAction, JsonRequest<M>, ApiAction<PenicillinCursorJsonObjectResponse<M>>() {
+    override suspend fun await(): PenicillinCursorJsonObjectResponse<M> {
         val (request, response) = executeRequest(request.session, request)
-        val content = response.textContent
+        val content = response.readTextSafe()
         checkError(request, response, content)
 
         val json = try {
@@ -286,18 +267,18 @@ class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val re
     }
 }
 
-class PenicillinTextAction(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinTextResponse>(request.session.executor) {
-    override fun complete(): PenicillinTextResponse {
+class PenicillinTextAction(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinTextResponse>() {
+    override suspend fun await(): PenicillinTextResponse {
         val (request, response) = executeRequest(request.session, request)
-        val content = response.textContent
+        val content = response.readTextSafe()
         checkError(request, response, content)
 
         return PenicillinTextResponse(request, response, content, this)
     }
 }
 
-class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinStreamResponse<L, H>>(request.session.executor) {
-    override fun complete(): PenicillinStreamResponse<L, H> {
+class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinStreamResponse<L, H>>() {
+    override suspend fun await(): PenicillinStreamResponse<L, H> {
         val (request, response) = executeRequest(request.session, request)
 
         if (!response.status.isSuccess()) {
@@ -310,7 +291,7 @@ class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override va
 
 private typealias JsonObjectActionCallback<M> = (results: PenicillinMultipleJsonObjectActions.Results<M>) -> PenicillinJsonObjectAction<*>
 
-class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: PenicillinJsonObjectAction<M>, private val requests: List<JsonObjectActionCallback<M>>): ApiAction<List<PenicillinJsonObjectResponse<*>>>(first.request.session.executor) {
+class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: PenicillinJsonObjectAction<M>, private val requests: List<JsonObjectActionCallback<M>>): ApiAction<List<PenicillinJsonObjectResponse<*>>>() {
     class Builder<M: PenicillinModel>(private val first: () -> PenicillinJsonObjectAction<M>) {
         private val requests = mutableListOf<JsonObjectActionCallback<M>>()
         fun request(callback: JsonObjectActionCallback<M>) = apply {
@@ -329,13 +310,13 @@ class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: Penicil
         }
     }
 
-    override fun complete(): List<PenicillinJsonObjectResponse<*>> {
-        val first = first.complete()
+    override suspend fun await(): List<PenicillinJsonObjectResponse<*>> {
+        val first = first.await()
         val responses = mutableMapOf<Class<out PenicillinModel>, MutableList<PenicillinJsonObjectResponse<*>>>()
         val responsesList = mutableListOf<PenicillinJsonObjectResponse<*>>()
         for (request in requests) {
             val results = Results(first, responses)
-            val result = request.invoke(results).complete()
+            val result = request.invoke(results).await()
 
             if (result.model in responses) {
                 responses[result.model]!!.add(result)
@@ -361,9 +342,9 @@ class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: Penicil
 
 private typealias JoinedJsonObjectActionCallback<M> = (results: List<List<PenicillinJsonObjectResponse<*>>>) -> PenicillinJsonObjectAction<M>
 
-class PenicillinJoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(private val actions: List<PenicillinMultipleJsonObjectActions<M>>, private val finalizer: JoinedJsonObjectActionCallback<T>): ApiAction<PenicillinJsonObjectResponse<T>>(actions.first().first.request.session.executor) {
-    override fun complete(): PenicillinJsonObjectResponse<T> {
-        return finalizer(actions.map { it.complete() }).complete()
+class PenicillinJoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(private val actions: List<PenicillinMultipleJsonObjectActions<M>>, private val finalizer: JoinedJsonObjectActionCallback<T>): ApiAction<PenicillinJsonObjectResponse<T>>() {
+    override suspend fun await(): PenicillinJsonObjectResponse<T> {
+        return finalizer(actions.map { it.await() }).await()
     }
 }
 

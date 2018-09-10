@@ -102,7 +102,7 @@ class Status(override val client: PenicillinClient): Endpoint {
         return media.map {
             client.media.uploadMedia(it.file, it.type, it.category)
         }.join { results ->
-            update(status, mediaIds = results.map { it.filter<Media>().first() }.map { it.result.mediaId }, options = *options)
+            update(status, mediaIds = results.asSequence().map { it.filter<Media>().first() }.map { it.result.mediaId }.toList(), options = *options)
         }
     }
 
@@ -110,7 +110,7 @@ class Status(override val client: PenicillinClient): Endpoint {
         return media.map {
             client.media.uploadMedia(it.data, it.type, it.category)
         }.join { results ->
-            update(status, mediaIds = results.map { it.filter<Media>().first() }.map { it.result.mediaId }, options = *options)
+            update(status, mediaIds = results.asSequence().map { it.filter<Media>().first() }.map { it.result.mediaId }.toList(), options = *options)
         }
     }
 
