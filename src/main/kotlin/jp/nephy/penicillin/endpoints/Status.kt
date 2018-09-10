@@ -3,7 +3,7 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.PenicillinJoinedJsonObjectActions
-import jp.nephy.penicillin.core.PenicillinJsonObjectAction
+import jp.nephy.penicillin.core.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.filter
@@ -13,6 +13,7 @@ import jp.nephy.penicillin.endpoints.parameters.EmbedWidgetType
 import jp.nephy.penicillin.endpoints.parameters.MediaDataComponent
 import jp.nephy.penicillin.endpoints.parameters.MediaFileComponent
 import jp.nephy.penicillin.models.*
+import jp.nephy.penicillin.models.Card
 import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Status
 
@@ -113,20 +114,22 @@ class Status(override val client: PenicillinClient): Endpoint {
         }
     }
 
-    @PrivateEndpoint
-    fun createPollTweet(status: String, choices: List<String>, minutes: Int = 1440, vararg options: Pair<String, Any?>): PenicillinJsonObjectAction<Status> {
-        val card = client.card.create(
-                cardData = linkedMapOf<String, Any>().apply {
-                    choices.forEachIndexed { i, choice ->
-                        put("twitter:string:choice${i + 1}_label", choice)
-                    }
-                    put("twitter:api:api:endpoint", "1")
-                    put("twitter:card", "poll${choices.size}choice_text_only")
-                    put("twitter:long:duration_minutes", minutes)
-                }.toJsonString()
-        ).complete()
-
-        return update(status, cardUri = card.result.cardUri, options = *options)
+    @PrivateEndpoint(EmulationMode.TwitterForiPhone)
+    fun createPollTweet(status: String, choices: List<String>, minutes: Int = 1440, vararg options: Pair<String, Any?>): PenicillinMultipleJsonObjectActions<Card> {
+        return PenicillinMultipleJsonObjectActions.Builder {
+            client.card.create(
+                    cardData = linkedMapOf<String, Any>().apply {
+                        choices.forEachIndexed { i, choice ->
+                            put("twitter:string:choice${i + 1}_label", choice)
+                        }
+                        put("twitter:api:api:endpoint", "1")
+                        put("twitter:card", "poll${choices.size}choice_text_only")
+                        put("twitter:long:duration_minutes", minutes)
+                    }.toJsonString()
+            )
+        }.request {
+            update(status, cardUri = it.first.result.cardUri, options = *options)
+        }.build()
     }
 
     @PrivateEndpoint
