@@ -5,7 +5,7 @@ import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.models.ActivityEvent
 
 class Activity(override val client: PenicillinClient): Endpoint {
-    @PrivateEndpoint(mode = [EmulationMode.TwitterForiPhone])
+    @PrivateEndpoint(EmulationMode.TwitterForiPhone)
     fun aboutMe(count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/activity/about_me.json") {
         parameter(
                 "cards_platform" to "iPhone-13",
@@ -34,7 +34,7 @@ class Activity(override val client: PenicillinClient): Endpoint {
         )
     }.jsonArray<ActivityEvent>()
 
-    @PrivateEndpoint(mode = [EmulationMode.Tweetdeck])
+    @PrivateEndpoint(EmulationMode.Tweetdeck)
     fun byFriends(count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/activity/by_friends.json") {
         parameter(
                 "count" to (count ?: 40),
