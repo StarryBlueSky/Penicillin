@@ -2,8 +2,8 @@ package jp.nephy.penicillin.core
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.apache.Apache
-import io.ktor.client.engine.apache.ApacheEngineConfig
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.cio.CIOEngineConfig
 import io.ktor.client.features.HttpPlainText
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
@@ -33,8 +33,8 @@ class SessionBuilder {
         skipEmulationChecking = true
     }
 
-    private var httpClientInitializer: suspend HttpClientConfig<ApacheEngineConfig>.() -> Unit = {}
-    fun httpClient(initializer: suspend HttpClientConfig<ApacheEngineConfig>.() -> Unit) {
+    private var httpClientInitializer: suspend HttpClientConfig<CIOEngineConfig>.() -> Unit = {}
+    fun httpClient(initializer: suspend HttpClientConfig<CIOEngineConfig>.() -> Unit) {
         httpClientInitializer = initializer
     }
 
@@ -80,7 +80,7 @@ class SessionBuilder {
 
     internal fun build(): Session {
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
-        val httpClient = HttpClient(Apache) {
+        val httpClient = HttpClient(CIO) {
             install(HttpPlainText) {
                 defaultCharset = Charsets.UTF_8
             }
