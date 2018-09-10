@@ -36,10 +36,10 @@ abstract class ApiAction<R> {
         logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
     }
 
-    @Throws(PenicillinException::class)
+    @Throws(PenicillinException::class, CancellationException::class)
     abstract suspend fun await(): R
 
-    @Throws(PenicillinException::class)
+    @Throws(PenicillinException::class, CancellationException::class)
     suspend fun awaitWithTimeout(timeout: Long, unit: TimeUnit): R? {
         return withTimeoutOrNull(timeout, unit) {
             await()
@@ -126,6 +126,8 @@ private suspend fun executeRequest(session: Session, request: PenicillinRequest)
         try {
             val response = session.httpClient.request<HttpResponse>(request.builder.finalize())
             return response.call.request to response
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             // TEMP FIX: Set-Cookie header format may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
             if (e is IllegalStateException && e.message.orEmpty().startsWith("Invalid date length.")) {
@@ -169,6 +171,8 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
 
     val json = try {
         content.toJsonObject()
+    } catch (e: CancellationException) {
+        throw e
     } catch (e: Exception) {
         return
     }
@@ -198,6 +202,8 @@ class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: Penic
 
         val json = try {
             content.toJsonObject()
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             if (model == Empty::class.java) {
                 jsonObject()
@@ -208,6 +214,8 @@ class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: Penic
         }
         val result = try {
             model.getConstructor(JsonObject::class.java).newInstance(json)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
             throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
@@ -225,6 +233,8 @@ class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: Penici
 
         val json = try {
             content.toJsonArray()
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logger.error(e) { LocalizedString.JsonParsingFailed.format(content) }
             throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
@@ -234,6 +244,8 @@ class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: Penici
             for (it in json) {
                 val result = try {
                     model.getConstructor(JsonObject::class.java).newInstance(it.nullableJsonObject ?: continue)
+                } catch (e: CancellationException) {
+                    throw e
                 } catch (e: Exception) {
                     logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
                     throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
@@ -252,12 +264,16 @@ class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val re
 
         val json = try {
             content.toJsonObject()
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logger.error(e) { LocalizedString.JsonParsingFailed.format(content) }
             throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
         }
         val result = try {
             model.getConstructor(JsonObject::class.java).newInstance(json)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
             throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
