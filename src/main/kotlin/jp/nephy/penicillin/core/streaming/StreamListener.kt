@@ -3,9 +3,9 @@ package jp.nephy.penicillin.core.streaming
 import com.google.gson.JsonObject
 
 interface StreamListener {
-    fun onConnect() {}
-    fun onDisconnect() {}
-    fun onRawJson(json: JsonObject) {}
-    fun onRawData(data: String) {}
-    fun onUnhandledData(data: JsonObject) {}
+    suspend fun onConnect() {}
+    suspend fun onDisconnect() {}
+    suspend fun onRawJson(json: JsonObject) {}
+    suspend fun onRawData(data: String) {}
+    suspend fun onUnhandledData(data: JsonObject) {}
 }

@@ -13,8 +13,6 @@ import io.ktor.http.parseClientCookiesHeader
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import kotlinx.coroutines.experimental.runBlocking
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class SessionBuilder {
@@ -36,13 +34,6 @@ class SessionBuilder {
     private var httpClientInitializer: suspend HttpClientConfig<CIOEngineConfig>.() -> Unit = {}
     fun httpClient(initializer: suspend HttpClientConfig<CIOEngineConfig>.() -> Unit) {
         httpClientInitializer = initializer
-    }
-
-    private var threadPoolExecutorInitializer: () -> ExecutorService = {
-        Executors.newCachedThreadPool()
-    }
-    fun executor(initializer: () -> ExecutorService) {
-        threadPoolExecutorInitializer = initializer
     }
 
     private var maxRetries: Int? = null
@@ -102,7 +93,7 @@ class SessionBuilder {
             }
         }
 
-        return Session(threadPoolExecutorInitializer(), httpClient, authorizationData, ClientOption(maxRetries ?: 3, retryInterval ?: 1L, retryIntervalUnit ?: TimeUnit.SECONDS, emulationMode ?: EmulationMode.None, skipEmulationChecking ?: false))
+        return Session(httpClient, authorizationData, ClientOption(maxRetries ?: 3, retryInterval ?: 1L, retryIntervalUnit ?: TimeUnit.SECONDS, emulationMode ?: EmulationMode.None, skipEmulationChecking ?: false))
     }
 }
 

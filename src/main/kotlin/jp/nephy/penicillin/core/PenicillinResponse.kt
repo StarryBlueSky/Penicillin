@@ -25,7 +25,7 @@ interface PenicillinResponse: Closeable {
     }
 }
 
-class ResponseHeaders(val headers: Headers) {
+class ResponseHeaders(private val headers: Headers) {
     val responseTimeMs by lazy {
         headers["x-response-time"]?.toIntOrNull()
     }
@@ -108,10 +108,10 @@ data class PenicillinStreamResponse<L: StreamListener, H: StreamHandler<L>>(over
     fun listen(listener: L): StreamProcessor<L, H> {
         @Suppress("UNCHECKED_CAST")
         val handler = when (listener) {
-            is UserStreamListener -> UserStreamHandler(listener, action.request.session.executor)
-            is SampleStreamListener -> SampleStreamHandler(listener, action.request.session.executor)
-            is FilterStreamListener -> FilterStreamHandler(listener, action.request.session.executor)
-            is LivePipelineListener -> LivePipelineHandler(listener, action.request.session.executor)
+            is UserStreamListener -> UserStreamHandler(listener)
+            is SampleStreamListener -> SampleStreamHandler(listener)
+            is FilterStreamListener -> FilterStreamHandler(listener)
+            is LivePipelineListener -> LivePipelineHandler(listener)
             else -> throw UnsupportedOperationException("Unsupported StreamListener: ${listener.javaClass.canonicalName}")
         } as H
 

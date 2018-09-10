@@ -4,11 +4,11 @@ import com.google.gson.JsonObject
 import jp.nephy.jsonkt.contains
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.StreamDelete
-import java.util.concurrent.ExecutorService
+import kotlinx.coroutines.experimental.launch
 
-class FilterStreamHandler(override val listener: FilterStreamListener, override val executor: ExecutorService): StreamHandler<FilterStreamListener> {
-    override fun handle(json: JsonObject) {
-        executor.execute { listener.onRawJson(json) }
+class FilterStreamHandler(override val listener: FilterStreamListener): StreamHandler<FilterStreamListener> {
+    override suspend fun handle(json: JsonObject) {
+        launch { listener.onRawJson(json) }
         when {
             json.contains("text") -> listener.onStatus(Status(json))
             json.contains("delete") -> listener.onDelete(StreamDelete(json))
@@ -18,6 +18,6 @@ class FilterStreamHandler(override val listener: FilterStreamListener, override 
 }
 
 interface FilterStreamListener: StreamListener {
-    fun onStatus(status: Status) {}
-    fun onDelete(delete: StreamDelete) {}
+    suspend fun onStatus(status: Status) {}
+    suspend fun onDelete(delete: StreamDelete) {}
 }
