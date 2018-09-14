@@ -1,7 +1,7 @@
 package jp.nephy.penicillin.core
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.google.gson.JsonParseException
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.request.request
 import io.ktor.client.response.HttpResponse
@@ -16,9 +16,7 @@ import jp.nephy.penicillin.models.Empty
 import jp.nephy.penicillin.models.PenicillinCursorModel
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.experimental.*
-import kotlinx.io.charsets.MalformedInputException
 import mu.KotlinLogging
-import java.lang.reflect.InvocationTargetException
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.CoroutineContext
 
@@ -145,16 +143,56 @@ private suspend fun executeRequest(session: Session, request: PenicillinRequest)
     throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, args = *arrayOf(request.builder.url))
 }
 
-private suspend fun HttpResponse.readTextSafe(): String {
-    return try {
-        readText().trim().unescapeHTML()
-    } catch (e: MalformedInputException) {
-        ""
+private suspend fun HttpResponse.readTextSafe(): String? {
+    val maxRetries = 3
+    repeat(maxRetries) {
+        try {
+            return readText().trim().unescapeHTML()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            logger.error(e) { "Failed to read text. (${it + 1}/$maxRetries)\n${call.request.url}" }
+        }
     }
+
+    return null
 }
 
 internal fun String.unescapeHTML(): String {
     return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+}
+
+private fun String.toJsonObjectSafe(): JsonObject? {
+    return try {
+        toJsonObject()
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        logger.error(e) { LocalizedString.JsonParsingFailed.format(this) }
+        null
+    }
+}
+
+private fun String.toJsonArraySafe(): JsonArray? {
+    return try {
+        toJsonArray()
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        logger.error(e) { LocalizedString.JsonParsingFailed.format(this) }
+        null
+    }
+}
+
+private fun <T: PenicillinModel> JsonObject.parseSafe(model: Class<out T>, content: String?): T? {
+    return try {
+        model.getConstructor(JsonObject::class.java).newInstance(this)
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
+        null
+    }
 }
 
 private fun checkError(request: HttpRequest, response: HttpResponse, content: String? = null) {
@@ -181,20 +219,14 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
         }
     }
 
-    if (content != null) {
-        val json = try {
-            content.toJsonObject()
-        } catch (e: JsonParseException) {
-            return
-        }
+    if (response.status.isSuccess()) {
+        return
+    }
 
-        if (response.status.isSuccess()) {
-            return
-        }
-
+    val json = content?.toJsonObjectSafe()
+    if (json != null) {
         if (json.contains("errors") && json["errors"].isJsonArray) {
-            val error = json["errors"].jsonArray.firstOrNull()
-                    ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, args = *arrayOf(response.status.value, content))
+            val error = json["errors"].jsonArray.firstOrNull() ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, args = *arrayOf(response.status.value, content))
             throw TwitterApiError(error["code"].toIntOrDefault(-1), error["message"].toStringOrDefault(""), content, request, response)
         } else if (json.contains("error") && json["error"].isJsonObject) {
             val error = json["error"]
@@ -203,8 +235,6 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
             val error = json["error"].toStringOrDefault("")
             throw TwitterApiError(-1, error, content, request, response)
         }
-    } else if (response.status.isSuccess()) {
-        return
     }
 
     throw PenicillinLocalizedException(LocalizedString.ApiReturnedNon200StatusCode, request, response, response.status.value, response.status.description)
@@ -216,31 +246,15 @@ class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: Penic
         val content = response.readTextSafe()
         checkError(request, response, content)
 
-        val json = try {
-            content.toJsonObject()
-        } catch (e: JsonParseException) {
-            if (model == Empty::class.java) {
-                jsonObject()
-            } else {
-                logger.error(e) { LocalizedString.JsonParsingFailed.format(content) }
-                throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
-            }
+        val json = content?.toJsonObjectSafe() ?: if (model == Empty::class.java) {
+            jsonObject()
+        } else {
+            throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
         }
 
-        val result = try {
-            model.getConstructor(JsonObject::class.java).newInstance(json)
-        } catch (e: NoSuchMethodException) {
-            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-            null
-        } catch (e: IllegalArgumentException) {
-            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-            null
-        } catch (e: InvocationTargetException) {
-            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-            null
-        } ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
+        val result = json.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
 
-        return PenicillinJsonObjectResponse(model, result, request, response, content, this)
+        return PenicillinJsonObjectResponse(model, result, request, response, content.orEmpty(), this)
     }
 }
 
@@ -250,27 +264,12 @@ class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: Penici
         val content = response.readTextSafe()
         checkError(request, response, content)
 
-        val json = try {
-            content.toJsonArray()
-        } catch (e: JsonParseException) {
-            logger.error(e) { LocalizedString.JsonParsingFailed.format(content) }
-            throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
-        }
+        val json = content?.toJsonArraySafe() ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
 
         return PenicillinJsonArrayResponse(model, request, response, content, this).apply {
             for (it in json) {
-                val result = try {
-                    model.getConstructor(JsonObject::class.java).newInstance(it.nullableJsonObject ?: continue)
-                } catch (e: NoSuchMethodException) {
-                    logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-                    null
-                } catch (e: IllegalArgumentException) {
-                    logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-                    null
-                } catch (e: InvocationTargetException) {
-                    logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-                    null
-                } ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
+                val element = it.nullableJsonObject ?: continue
+                val result =  element.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
                 add(result)
             }
         }
@@ -283,25 +282,9 @@ class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val re
         val content = response.readTextSafe()
         checkError(request, response, content)
 
-        val json = try {
-            content.toJsonObject()
-        } catch (e: JsonParseException) {
-            logger.error(e) { LocalizedString.JsonParsingFailed.format(content) }
-            throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
-        }
+        val json = content?.toJsonObjectSafe() ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
 
-        val result = try {
-            model.getConstructor(JsonObject::class.java).newInstance(json)
-        } catch (e: NoSuchMethodException) {
-            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-            null
-        } catch (e: IllegalArgumentException) {
-            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-            null
-        } catch (e: InvocationTargetException) {
-            logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-            null
-        } ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
+        val result = json.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
 
         return PenicillinCursorJsonObjectResponse(model, result, request, response, content, this)
     }
@@ -313,7 +296,7 @@ class PenicillinTextAction(override val request: PenicillinRequest): PenicillinA
         val content = response.readTextSafe()
         checkError(request, response, content)
 
-        return PenicillinTextResponse(request, response, content, this)
+        return PenicillinTextResponse(request, response, content.orEmpty(), this)
     }
 }
 
