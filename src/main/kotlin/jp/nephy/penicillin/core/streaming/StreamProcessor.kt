@@ -1,6 +1,5 @@
 package jp.nephy.penicillin.core.streaming
 
-import io.ktor.util.flattenEntries
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.PenicillinStreamResponse
 import jp.nephy.penicillin.core.unescapeHTML
@@ -28,27 +27,12 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var respon
         }
     }
 
-    fun terminate() {
-        close()
-    }
-
     override fun close() {
         shouldStop = true
     }
 
     private suspend fun loop(autoReconnect: Boolean) {
         while (!shouldStop) {
-            logger.trace {
-                buildString {
-                    appendln("${response.response.version} ${response.response.status.value} ${response.request.method.value} ${response.request.url}")
-
-                    val (requestHeaders, responseHeaders) = response.request.headers.flattenEntries() to response.response.headers.flattenEntries()
-                    val (longestRequestHeaderLength, longestResponseHeaderLength) = requestHeaders.maxBy { it.first.length }?.first.orEmpty().length + 1 to responseHeaders.maxBy { it.first.length }?.first.orEmpty().length + 1
-                    appendln("Request headers =\n${requestHeaders.joinToString("\n") { "    ${it.first.padEnd(longestRequestHeaderLength)}: ${it.second}" }}")
-                    append("Response headers =\n${responseHeaders.joinToString("\n") { "    ${it.first.padEnd(longestResponseHeaderLength)}: ${it.second}" }}")
-                }
-            }
-
             block()
 
             if (!autoReconnect) {
@@ -69,7 +53,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var respon
                     (reader.readLine() ?: continue).trim().unescapeHTML()
                 } catch (e: IOException) {
                     logger.debug { "IOException caused while readLine. (${response.request.url})" }
-                    terminate()
+                    close()
                     break
                 }
 
