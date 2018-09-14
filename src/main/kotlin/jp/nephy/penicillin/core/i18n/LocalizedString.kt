@@ -23,9 +23,9 @@ enum class LocalizedString(private val ja: String, private val en: String) {
             "APIのリクエストに失敗しました: %s",
             "Failed to request API: %s"
     ),
-    StreamingApiRequestFailed(
-            "Streaming APIのリクエストに失敗しました: %s %s",
-            "Failed to request streaming API: %s %s"
+    ApiReturnedNon200StatusCode(
+            "APIが2xxではないステータスコードを返却しました: %s %s",
+            "API returned non-200 status code: %s %s"
     ),
     JsonParsingFailed(
             "JSONをパースする際に例外が発生しました: %s",
