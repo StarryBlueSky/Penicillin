@@ -3,37 +3,40 @@ package jp.nephy.penicillin.core.streaming
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.PenicillinStreamResponse
 import jp.nephy.penicillin.core.unescapeHTML
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.io.jvm.javaio.toInputStream
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
 import mu.KotlinLogging
 import java.io.Closeable
 import java.io.IOException
+import kotlin.coroutines.experimental.CoroutineContext
 
 private val logger = KotlinLogging.logger("Penicillin.StreamProcessor")
 
 class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var response: PenicillinStreamResponse<L, H>, private val handler: H): Closeable {
-    private var shouldStop = false
+    private val job = Job()
 
-    fun start(wait: Boolean = false, autoReconnect: Boolean = true) = apply {
+    fun start(wait: Boolean = false, autoReconnect: Boolean = true, context: CoroutineContext = DefaultDispatcher) = apply {
         if (wait) {
-            runBlocking {
-                loop(autoReconnect)
+            runBlocking(context) {
+                loop(autoReconnect, context)
             }
         } else {
-            launch {
-                loop(autoReconnect)
+            launch(context, parent = job) {
+                loop(autoReconnect, context)
             }
         }
     }
 
     override fun close() {
-        shouldStop = true
+        runBlocking(CommonPool) {
+            job.cancelChildren()
+            job.cancelAndJoin()
+        }
     }
 
-    private suspend fun loop(autoReconnect: Boolean) {
-        while (!shouldStop) {
-            block()
+    private suspend fun CoroutineScope.loop(autoReconnect: Boolean, context: CoroutineContext) {
+        while (isActive) {
+            block(context)
 
             if (!autoReconnect) {
                 break
@@ -43,12 +46,13 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var respon
         }
     }
 
-    private suspend fun block() {
+    private suspend fun CoroutineScope.block(context: CoroutineContext) {
         response.response.content.toInputStream().bufferedReader().use { reader ->
-            logger.info { "Connected to ${response.request.url}." }
-            handler.listener.onConnect()
+            launch(context) {
+                handler.listener.onConnect()
+            }
 
-            while (!shouldStop) {
+            while (isActive) {
                 val line = try {
                     (reader.readLine() ?: continue).trim().unescapeHTML()
                 } catch (e: IOException) {
@@ -58,19 +62,23 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var respon
                 }
 
                 if (line.isBlank()) {
+                    launch(context) {
+                        handler.listener.onHeartbeat()
+                    }
                     continue
                 }
 
-                launch {
+                launch(context) {
                     handler.listener.onRawData(line)
                 }
-                launch {
-                    line.toJsonObject().let { handler.handle(it) }
+                launch(context) {
+                    line.toJsonObject().let { handler.handle(it, context) }
                 }
             }
 
-            logger.info { "Disconnected from ${response.request.url}." }
-            handler.listener.onDisconnect()
+            launch(context) {
+                handler.listener.onDisconnect()
+            }
         }
     }
 }
