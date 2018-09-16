@@ -5,14 +5,24 @@ import jp.nephy.jsonkt.contains
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.StreamDelete
 import kotlinx.coroutines.experimental.launch
+import kotlin.coroutines.experimental.CoroutineContext
 
 class FilterStreamHandler(override val listener: FilterStreamListener): StreamHandler<FilterStreamListener> {
-    override suspend fun handle(json: JsonObject) {
-        launch { listener.onRawJson(json) }
+    override suspend fun handle(json: JsonObject, context: CoroutineContext) {
         when {
-            json.contains("text") -> listener.onStatus(Status(json))
-            json.contains("delete") -> listener.onDelete(StreamDelete(json))
-            else -> listener.onUnhandledData(json)
+            json.contains("text") -> launch(context) {
+                listener.onStatus(Status(json))
+            }
+            json.contains("delete") -> launch(context) {
+                listener.onDelete(StreamDelete(json))
+            }
+            else -> launch(context) {
+                listener.onUnhandledData(json)
+            }
+        }
+
+        launch(context) {
+            listener.onRawJson(json)
         }
     }
 }

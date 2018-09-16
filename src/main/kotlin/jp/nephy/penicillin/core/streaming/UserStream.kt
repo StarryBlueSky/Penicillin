@@ -5,23 +5,27 @@ import jp.nephy.jsonkt.contains
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.*
 import kotlinx.coroutines.experimental.launch
+import kotlin.coroutines.experimental.CoroutineContext
 
 private val statusEvents = arrayOf("favorite", "unfavorite", "favorited_retweet", "retweeted_retweet", "quoted_tweet")
 private val listEvents = arrayOf("list_created", "list_destroyed", "list_updated", "list_member_added", "list_member_removed", "list_user_subscribed", "list_user_unsubscribed")
 private val userEvents = arrayOf("follow", "unfollow", "block", "unblock", "mute", "unmute", "user_update")
 
 class UserStreamHandler(override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
-    override suspend fun handle(json: JsonObject) {
-        launch { listener.onRawJson(json) }
+    override suspend fun handle(json: JsonObject, context: CoroutineContext) {
         when {
-            json.contains("text") -> listener.onStatus(Status(json))
-            json.contains("direct_message") -> listener.onDirectMessage(DirectMessage(json))
-            json.contains("event") -> {
+            json.contains("text") -> launch(context) {
+                listener.onStatus(Status(json))
+            }
+            json.contains("direct_message") -> launch(context) {
+                listener.onDirectMessage(DirectMessage(json))
+            }
+            json.contains("event") -> launch(context) {
                 val event = json["event"].string
                 when (event) {
                     in statusEvents -> {
                         val statusEvent = UserStreamStatusEvent(json)
-                        launch {
+                        launch(context) {
                             when (event) {
                                 "favorite" -> listener.onFavorite(statusEvent)
                                 "unfavorite" -> listener.onUnfavorite(statusEvent)
@@ -30,12 +34,16 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                                 "quoted_tweet" -> listener.onQuotedTweet(statusEvent)
                             }
                         }
-                        launch { listener.onAnyStatusEvent(statusEvent) }
-                        listener.onAnyEvent(statusEvent)
+                        launch {
+                            listener.onAnyStatusEvent(statusEvent)
+                        }
+                        launch {
+                            listener.onAnyEvent(statusEvent)
+                        }
                     }
                     in listEvents -> {
                         val listEvent = UserStreamListEvent(json)
-                        launch {
+                        launch(context) {
                             when (event) {
                                 "list_created" -> listener.onListCreated(listEvent)
                                 "list_destroyed" -> listener.onListDestroyed(listEvent)
@@ -46,12 +54,16 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                                 "list_user_unsubscribed" -> listener.onListUserUnsubscribed(listEvent)
                             }
                         }
-                        launch { listener.onAnyListEvent(listEvent) }
-                        listener.onAnyEvent(listEvent)
+                        launch(context) {
+                            listener.onAnyListEvent(listEvent)
+                        }
+                        launch(context) {
+                            listener.onAnyEvent(listEvent)
+                        }
                     }
                     in userEvents -> {
                         val userEvent = UserStreamUserEvent(json)
-                        launch {
+                        launch(context) {
                             when (event) {
                                 "follow" -> listener.onFollow(userEvent)
                                 "unfollow" -> listener.onUnfollow(userEvent)
@@ -62,18 +74,49 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                                 "user_update" -> listener.onUserUpdate(userEvent)
                             }
                         }
-                        launch { listener.onAnyUserEvent(userEvent) }
-                        listener.onAnyEvent(userEvent)
+                        launch(context) {
+                            listener.onAnyUserEvent(userEvent)
+                        }
+                        launch(context) {
+                            listener.onAnyEvent(userEvent)
+                        }
                     }
-                    else -> listener.onUnhandledData(json)
+                    else -> launch(context) {
+                        listener.onUnhandledData(json)
+                    }
                 }
             }
-            json.contains("friends") -> listener.onFriends(UserStreamFriends(json))
-            json.contains("delete") -> listener.onDelete(StreamDelete(json))
-            json.contains("scrub_geo") -> listener.onScrubGeo(UserStreamScrubGeo(json))
-            json.contains("status_withheld") -> listener.onStatusWithheld(UserStreamStatusWithheld(json))
-            json.contains("limit") -> listener.onLimit(UserStreamLimit(json))
-            else -> listener.onUnhandledData(json)
+            json.contains("friends") -> launch(context) {
+                listener.onFriends(UserStreamFriends(json))
+            }
+            json.contains("delete") -> launch(context) {
+                listener.onDelete(StreamDelete(json))
+            }
+            json.contains("scrub_geo") -> launch(context) {
+                listener.onScrubGeo(UserStreamScrubGeo(json))
+            }
+            json.contains("status_withheld") -> launch(context) {
+                listener.onStatusWithheld(UserStreamStatusWithheld(json))
+            }
+            json.contains("user_withheld") -> launch(context) {
+                listener.onUserWithheld(UserStreamUserWithheld(json))
+            }
+            json.contains("disconnect") -> launch(context) {
+                listener.onDisconnectMessage(UserStreamDisconnect(json))
+            }
+            json.contains("warning") -> launch(context) {
+                listener.onWarning(UserStreamWarning(json))
+            }
+            json.contains("limit") -> launch(context) {
+                listener.onLimit(UserStreamLimit(json))
+            }
+            else -> launch(context) {
+                listener.onUnhandledData(json)
+            }
+        }
+
+        launch(context) {
+            listener.onRawJson(json)
         }
     }
 }
@@ -117,5 +160,8 @@ interface UserStreamListener: StreamListener {
     suspend fun onDelete(delete: StreamDelete) {}
     suspend fun onScrubGeo(scrubGeo: UserStreamScrubGeo) {}
     suspend fun onStatusWithheld(withheld: UserStreamStatusWithheld) {}
+    suspend fun onUserWithheld(withheld: UserStreamUserWithheld) {}
+    suspend fun onDisconnectMessage(disconnect: UserStreamDisconnect) {}
+    suspend fun onWarning(warning: UserStreamWarning) {}
     suspend fun onLimit(limit: UserStreamLimit) {}
 }
