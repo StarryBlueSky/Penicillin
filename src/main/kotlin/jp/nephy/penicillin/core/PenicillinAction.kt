@@ -47,29 +47,15 @@ abstract class ApiAction<R> {
     }
 
     @Throws(PenicillinException::class)
-    fun complete(): R {
-        return runBlocking {
+    fun complete(context: CoroutineContext = DefaultDispatcher): R {
+        return runBlocking(context) {
             await()
         }
     }
 
     @Throws(PenicillinException::class)
-    fun completeWithTimeout(timeout: Long, unit: TimeUnit): R? {
-        return runBlocking {
-            awaitWithTimeout(timeout, unit)
-        }
-    }
-
-    @Throws(PenicillinException::class)
-    fun async(context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT): Deferred<R> {
-        return async(context, start) {
-            await()
-        }
-    }
-
-    @Throws(PenicillinException::class)
-    fun asyncWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext = DefaultDispatcher, start: CoroutineStart = CoroutineStart.DEFAULT): Deferred<R?> {
-        return async(context, start) {
+    fun completeWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext = DefaultDispatcher): R? {
+        return runBlocking(context) {
             awaitWithTimeout(timeout, unit)
         }
     }
@@ -137,7 +123,9 @@ private suspend fun executeRequest(session: Session, request: PenicillinRequest)
             }
         }
 
-        delay(session.option.retryInterval, session.option.retryIntervalUnit)
+        if (it != session.option.maxRetries) {
+            delay(session.option.retryInterval, session.option.retryIntervalUnit)
+        }
     }
 
     throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, args = *arrayOf(request.builder.url))
