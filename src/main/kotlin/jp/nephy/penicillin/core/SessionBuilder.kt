@@ -2,8 +2,8 @@ package jp.nephy.penicillin.core
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.engine.cio.CIOEngineConfig
+import io.ktor.client.engine.HttpClientEngineConfig
+import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.features.HttpPlainText
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
@@ -29,11 +29,6 @@ class SessionBuilder {
     private var skipEmulationChecking: Boolean? = null
     fun skipEmulationChecking() {
         skipEmulationChecking = true
-    }
-
-    private var httpClientInitializer: suspend HttpClientConfig<CIOEngineConfig>.() -> Unit = {}
-    fun httpClient(initializer: suspend HttpClientConfig<CIOEngineConfig>.() -> Unit) {
-        httpClientInitializer = initializer
     }
 
     private var maxRetries: Int? = null
@@ -69,29 +64,36 @@ class SessionBuilder {
         }
     }
 
-    internal fun build(): Session {
-        val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
-        val httpClient = HttpClient(CIO) {
-            install(HttpPlainText) {
-                defaultCharset = Charsets.UTF_8
-            }
-            if (useCookie) {
-                install(HttpCookies) {
-                    storage = AcceptAllCookiesStorage().also {
-                        runBlocking {
-                            for (pair in cookies) {
-                                for (cookie in pair.value) {
-                                    it.addCookie(pair.key, cookie)
-                                }
+    private fun HttpClientConfig<*>.initialize() {
+        install(HttpPlainText) {
+            defaultCharset = Charsets.UTF_8
+        }
+        if (useCookie) {
+            install(HttpCookies) {
+                storage = AcceptAllCookiesStorage().also {
+                    runBlocking {
+                        for (pair in cookies) {
+                            for (cookie in pair.value) {
+                                it.addCookie(pair.key, cookie)
                             }
                         }
                     }
                 }
             }
-            runBlocking {
-                httpClientInitializer()
-            }
         }
+    }
+
+    private var httpClient: HttpClient? = null
+    fun <T: HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>, useDefaultTransformers: Boolean = false, block: HttpClientConfig<T>.() -> Unit = {}) {
+        httpClient = HttpClient(engineFactory, useDefaultTransformers) {
+            initialize()
+            block()
+        }
+    }
+
+    internal fun build(): Session {
+        val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
+        val httpClient = httpClient ?: HttpClient { initialize() }
 
         return Session(httpClient, authorizationData, ClientOption(maxRetries ?: 3, retryInterval ?: 1L, retryIntervalUnit ?: TimeUnit.SECONDS, emulationMode ?: EmulationMode.None, skipEmulationChecking ?: false))
     }
