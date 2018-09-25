@@ -1,5 +1,5 @@
 group "jp.nephy"
-version "3.0.12"
+version "3.0.14"
 
 buildscript {
     ext.kotlin_version = "1.2.70"
@@ -30,8 +30,8 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    compile "io.ktor:ktor-client-cio:$ktor_version"
-    testCompile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "io.ktor:ktor-client-apache:$ktor_version"
+    testCompile "io.ktor:ktor-client-cio:$ktor_version"
     testCompile "io.ktor:ktor-client-jetty:$ktor_version"
     testCompile "io.ktor:ktor-client-okhttp:$ktor_version"
 
