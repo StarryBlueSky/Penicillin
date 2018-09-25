@@ -22,17 +22,17 @@ class LivePipelineHandler(override val listener: LivePipelineListener): StreamHa
                     listener.onUpdateReplyCount(id, engagement["reply_count"].int)
                 }
                 else -> launch(context) {
-                    listener.onUnhandledData(json)
+                    listener.onUnhandledJson(json)
                 }
             }
         } else {
             launch(context) {
-                listener.onUnhandledData(json)
+                listener.onUnhandledJson(json)
             }
         }
 
         launch(context) {
-            listener.onRawJson(json)
+            listener.onAnyJson(json)
         }
     }
 }

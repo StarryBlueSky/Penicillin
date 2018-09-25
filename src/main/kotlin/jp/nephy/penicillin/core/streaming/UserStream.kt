@@ -82,7 +82,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                         }
                     }
                     else -> launch(context) {
-                        listener.onUnhandledData(json)
+                        listener.onUnhandledJson(json)
                     }
                 }
             }
@@ -111,12 +111,12 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                 listener.onLimit(UserStreamLimit(json))
             }
             else -> launch(context) {
-                listener.onUnhandledData(json)
+                listener.onUnhandledJson(json)
             }
         }
 
         launch(context) {
-            listener.onRawJson(json)
+            listener.onAnyJson(json)
         }
     }
 }
