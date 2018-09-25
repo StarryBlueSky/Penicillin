@@ -17,12 +17,12 @@ class SampleStreamHandler(override val listener: SampleStreamListener): StreamHa
                 listener.onDelete(StreamDelete(json))
             }
             else -> launch(context) {
-                listener.onUnhandledData(json)
+                listener.onUnhandledJson(json)
             }
         }
 
         launch(context) {
-            listener.onRawJson(json)
+            listener.onAnyJson(json)
         }
     }
 }

@@ -17,12 +17,12 @@ class FilterStreamHandler(override val listener: FilterStreamListener): StreamHa
                 listener.onDelete(StreamDelete(json))
             }
             else -> launch(context) {
-                listener.onUnhandledData(json)
+                listener.onUnhandledJson(json)
             }
         }
 
         launch(context) {
-            listener.onRawJson(json)
+            listener.onAnyJson(json)
         }
     }
 }
