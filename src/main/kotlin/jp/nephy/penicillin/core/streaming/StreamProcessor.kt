@@ -6,7 +6,6 @@ import jp.nephy.penicillin.core.unescapeHTML
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.io.jvm.javaio.toInputStream
 import java.io.Closeable
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.CoroutineContext
 
@@ -67,19 +66,17 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private val respon
                 handler.listener.onConnect()
             }
 
-            loop@ while (isActive) {
+            while (isActive) {
                 try {
-                    val line = reader.readLine() ?: break
+                    val line = reader.readLine()?.trim() ?: break
                     when {
                         line.isBlank() -> {
                             launch(context) {
                                 handler.listener.onHeartbeat()
                             }
-
-                            continue@loop
                         }
                         line.startsWith("{") -> {
-                            val content = line.trim().unescapeHTML()
+                            val content = line.unescapeHTML()
 
                             launch(context) {
                                 handler.listener.onRawData(content)
@@ -99,9 +96,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private val respon
                             }
                         }
                     }
-                } catch (e: CancellationException) {
-                    break
-                } catch (e: IOException) {
+                } catch (e: Exception) {
                     break
                 }
             }
