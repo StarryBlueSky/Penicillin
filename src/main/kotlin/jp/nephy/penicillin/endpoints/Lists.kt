@@ -16,8 +16,8 @@ class Lists(override val client: PenicillinClient): Endpoint {
         parameter("user_id" to userId, "screen_name" to screenName, "reverse" to reverse, *options)
     }.jsonArray<TwitterList>()
 
-    fun timeline(listId: Long? = null, slug: String? = null, ownerScreenName: String? = null, ownerId: Long? = null, sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, includeRTs: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/statuses.json") {
-        parameter("list_id" to listId, "slug" to slug, "owner_screen_name" to ownerScreenName, "owner_id" to ownerId, "since_id" to sinceId, "max_id" to maxId, "count" to count, "include_entities" to includeEntities, "include_rts" to includeRTs, *options)
+    fun timeline(listId: Long? = null, slug: String? = null, ownerScreenName: String? = null, ownerId: Long? = null, sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, includeRTs: Boolean? = null, tweetMode: String? = null, includeMyRetweet: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/statuses.json") {
+        parameter("list_id" to listId, "slug" to slug, "owner_screen_name" to ownerScreenName, "owner_id" to ownerId, "since_id" to sinceId, "max_id" to maxId, "count" to count, "include_entities" to includeEntities, "include_rts" to includeRTs, "tweet_mode" to tweetMode, "include_my_retweet" to includeMyRetweet, *options)
     }.jsonArray<Status>()
 
     fun members(listId: Long? = null, slug: String? = null, ownerScreenName: String? = null, ownerId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/members.json") {
