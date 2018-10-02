@@ -1,5 +1,5 @@
 group "jp.nephy"
-version "3.0.15"
+version "3.0.17"
 
 buildscript {
     ext.kotlin_version = "1.2.70"
@@ -35,7 +35,7 @@ dependencies {
     testCompile "io.ktor:ktor-client-jetty:$ktor_version"
     testCompile "io.ktor:ktor-client-okhttp:$ktor_version"
 
-    compile "jp.nephy:jsonkt:2.0"
+    compile "jp.nephy:jsonkt:2.1"
 
     compile "io.github.microutils:kotlin-logging:1.5.9"
     testCompile "ch.qos.logback:logback-core:1.2.3"
