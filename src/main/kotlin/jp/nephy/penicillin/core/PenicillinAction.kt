@@ -19,6 +19,7 @@ import kotlinx.coroutines.experimental.*
 import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.experimental.EmptyCoroutineContext
 
 private val logger = KotlinLogging.logger("Penicillin.ApiAction")
 
@@ -47,14 +48,14 @@ abstract class ApiAction<R> {
     }
 
     @Throws(PenicillinException::class)
-    fun complete(context: CoroutineContext = DefaultDispatcher): R {
+    fun complete(context: CoroutineContext = EmptyCoroutineContext): R {
         return runBlocking(context) {
             await()
         }
     }
 
     @Throws(PenicillinException::class)
-    fun completeWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext = DefaultDispatcher): R? {
+    fun completeWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext = EmptyCoroutineContext): R? {
         return runBlocking(context) {
             awaitWithTimeout(timeout, unit)
         }
@@ -123,7 +124,7 @@ private suspend fun executeRequest(session: Session, request: PenicillinRequest)
             }
         }
 
-        if (it != session.option.maxRetries) {
+        if (it < session.option.maxRetries) {
             delay(session.option.retryInterval, session.option.retryIntervalUnit)
         }
     }
@@ -174,12 +175,23 @@ private fun String.toJsonArraySafe(): JsonArray? {
 
 private fun <T: PenicillinModel> JsonObject.parseSafe(model: Class<out T>, content: String?): T? {
     return try {
-        model.getConstructor(JsonObject::class.java).newInstance(this)
+        parse(model)
     } catch (e: CancellationException) {
         throw e
     } catch (e: Exception) {
         logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
         null
+    }
+}
+
+private fun <T: PenicillinModel> JsonArray.parseSafe(model: Class<out T>, content: String?): List<T> {
+    return try {
+        parseList(model)
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
+        emptyList()
     }
 }
 
@@ -255,11 +267,7 @@ class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: Penici
         val json = content?.toJsonArraySafe() ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
 
         return PenicillinJsonArrayResponse(model, request, response, content, this).apply {
-            for (it in json) {
-                val element = it.nullableJsonObject ?: continue
-                val result =  element.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
-                add(result)
-            }
+            addAll(json.parseSafe(model, content))
         }
     }
 }
