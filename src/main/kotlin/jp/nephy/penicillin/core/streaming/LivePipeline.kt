@@ -7,33 +7,31 @@ import kotlin.coroutines.experimental.CoroutineContext
 
 class LivePipelineHandler(override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
     override suspend fun handle(json: JsonObject, context: CoroutineContext) {
-        val topic = json.getOrNull("topic").nullableString
-        val id = topic?.split("/")?.lastOrNull()?.toLongOrNull()
-        val engagement = json.getOrNull("payload")?.nullableJsonObject?.getOrNull("tweet_engagement").nullableJsonObject
-        if (topic != null && id != null && engagement != null && topic.startsWith("/tweet_engagement/")) {
-            when {
-                engagement.contains("like_count") -> launch(context) {
-                    listener.onUpdateLikeCount(id, engagement["like_count"].int)
+        launch(context) {
+            val topic = json.getOrNull("topic").nullableString?: return@launch listener.onUnhandledJson(json)
+            val id = topic.split("/").lastOrNull()?.toLongOrNull() ?: return@launch listener.onUnhandledJson(json)
+            val engagement = json.getOrNull("payload")?.nullableJsonObject?.getOrNull("tweet_engagement").nullableJsonObject ?: return@launch listener.onUnhandledJson(json)
+            if (topic.startsWith("/tweet_engagement/")) {
+                when {
+                    engagement.contains("like_count") -> {
+                        listener.onUpdateLikeCount(id, engagement["like_count"].nullableInt ?: return@launch)
+                    }
+                    engagement.contains("retweet_count") -> {
+                        listener.onUpdateRetweetCount(id, engagement["retweet_count"].nullableInt ?: return@launch)
+                    }
+                    engagement.contains("reply_count") -> {
+                        listener.onUpdateReplyCount(id, engagement["reply_count"].nullableInt ?: return@launch)
+                    }
+                    else -> {
+                        listener.onUnhandledJson(json)
+                    }
                 }
-                engagement.contains("retweet_count") -> launch(context) {
-                    listener.onUpdateRetweetCount(id, engagement["retweet_count"].int)
-                }
-                engagement.contains("reply_count") -> launch(context) {
-                    listener.onUpdateReplyCount(id, engagement["reply_count"].int)
-                }
-                else -> launch(context) {
-                    listener.onUnhandledJson(json)
-                }
-            }
-        } else {
-            launch(context) {
+            } else {
                 listener.onUnhandledJson(json)
             }
         }
 
-        launch(context) {
-            listener.onAnyJson(json)
-        }
+        listener.onAnyJson(json)
     }
 }
 

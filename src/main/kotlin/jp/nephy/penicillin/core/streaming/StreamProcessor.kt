@@ -4,26 +4,27 @@ import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.PenicillinStreamResponse
 import jp.nephy.penicillin.core.unescapeHTML
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.io.jvm.javaio.toInputStream
+import kotlinx.coroutines.experimental.io.readUTF8Line
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.experimental.EmptyCoroutineContext
 
-class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private val response: PenicillinStreamResponse<L, H>, private val handler: H): Closeable {
+class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result: PenicillinStreamResponse<L, H>, private val handler: H): Closeable {
     private val job = Job()
 
-    fun start(wait: Boolean = false, autoReconnect: Boolean = true, context: CoroutineContext = DefaultDispatcher) = apply {
+    fun start(wait: Boolean = false, autoReconnect: Boolean = true, context: CoroutineContext? = null) = apply {
         if (wait) {
-            runBlocking(context) {
-                loop(autoReconnect, context)
+            runBlocking(context ?: EmptyCoroutineContext) {
+                loop(autoReconnect, context ?: EmptyCoroutineContext)
+                close()
             }
         } else {
-            launch(context, parent = job) {
-                loop(autoReconnect, context)
+            launch(context ?: DefaultDispatcher, parent = job) {
+                loop(autoReconnect, context ?: DefaultDispatcher)
+                close()
             }
         }
-
-        close()
     }
 
     override fun close() {
@@ -34,10 +35,9 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private val respon
     }
 
     private suspend fun CoroutineScope.loop(autoReconnect: Boolean, context: CoroutineContext) {
-        var streamResponse = response
         while (isActive) {
             try {
-                block(streamResponse, context)
+                process(context)
 
                 if (!autoReconnect) {
                     return
@@ -45,7 +45,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private val respon
 
                 while (isActive) {
                     try {
-                        streamResponse = response.action.request.stream<L, H>().await()
+                        result = result.action.request.stream<L, H>().await()
                         break
                     } catch (e: CancellationException) {
                         return
@@ -60,50 +60,41 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private val respon
         }
     }
 
-    private suspend fun CoroutineScope.block(response: PenicillinStreamResponse<L, H>, context: CoroutineContext) {
-        response.response.content.toInputStream(parent = job).bufferedReader().use { reader ->
-            launch(context) {
-                handler.listener.onConnect()
+    private suspend fun CoroutineScope.process(context: CoroutineContext) {
+        launch(context) {
+            handler.listener.onConnect()
+        }
+
+        while (isActive && !result.response.content.isClosedForRead) {
+            val line = try {
+                result.response.content.readUTF8Line()?.trim() ?: break
+            } catch (e: Exception) {
+                break
             }
 
-            while (isActive) {
-                try {
-                    val line = reader.readLine()?.trim() ?: break
-                    when {
-                        line.isBlank() -> {
-                            launch(context) {
-                                handler.listener.onHeartbeat()
-                            }
-                        }
-                        line.startsWith("{") -> {
-                            val content = line.unescapeHTML()
+            launch(context) {
+                when {
+                    line.startsWith("{") -> {
+                        val content = line.unescapeHTML()
 
-                            launch(context) {
-                                handler.listener.onRawData(content)
-                            }
-                            launch(context) {
-                                handler.handle(content.toJsonObject(), context)
-                            }
+                        launch(context) {
+                            handler.listener.onRawData(content)
                         }
-                        line.toIntOrNull() != null -> {
-                            launch(context) {
-                                handler.listener.onLength(line.toInt())
-                            }
-                        }
-                        else -> {
-                            launch(context) {
-                                handler.listener.onUnknownData(line)
-                            }
-                        }
+                        handler.handle(content.toJsonObject(), context)
                     }
-                } catch (e: Exception) {
-                    break
+                    line.isBlank() -> {
+                        handler.listener.onHeartbeat()
+                    }
+                    else -> {
+                        val length = line.toIntOrNull() ?: return@launch handler.listener.onUnknownData(line)
+                        handler.listener.onLength(length)
+                    }
                 }
             }
+        }
 
-            launch(context) {
-                handler.listener.onDisconnect()
-            }
+        launch(context) {
+            handler.listener.onDisconnect()
         }
     }
 }
