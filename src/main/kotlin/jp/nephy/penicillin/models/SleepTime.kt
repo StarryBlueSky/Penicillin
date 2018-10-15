@@ -1,12 +1,11 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byBool
-import jp.nephy.jsonkt.byNullableLong
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class SleepTime(override val json: JsonObject): PenicillinModel {
-    val enabled by json.byBool
-    val startTime by json.byNullableLong("start_time")
-    val endTime by json.byNullableLong("end_time")
+    val enabled by boolean
+    val startTime by nullableLong("start_time")
+    val endTime by nullableLong("end_time")
 }

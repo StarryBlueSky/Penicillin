@@ -1,8 +1,8 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModelList
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.modelList
 
-data class CursorLists(override val json: JsonObject): PenicillinCursorModel(json) {
-    val lists by json.byModelList<TwitterList>()
+data class CursorLists(override val json: JsonObject): PenicillinCursorModel() {
+    val lists by modelList<TwitterList>()
 }

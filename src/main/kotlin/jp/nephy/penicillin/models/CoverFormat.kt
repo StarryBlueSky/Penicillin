@@ -1,15 +1,18 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byBool
-import jp.nephy.jsonkt.byString
-import jp.nephy.jsonkt.byUrl
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.boolean
+import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.delegation.immutableJsonObject
+import jp.nephy.jsonkt.delegation.string
 
-data class CoverFormat(override val json: JsonObject): CommonCoverMedia(json) {
-    val pageId by json.byString("page_id")
-    val isPromoted by json.byBool("is_promoted")
-    val linkUrl by json["link_title_card"].byUrl("url")
-    val linkDisplayUrl by json["link_title_card"].byString("display_url")
-    val linkVanitySource by json["link_title_card"].byString("vanity_source")
-    val linkTitle by json["link_title_card"].byString("title")
+data class CoverFormat(override val json: JsonObject): CommonCoverMedia() {
+    val pageId by string("page_id")
+    val isPromoted by boolean("is_promoted")
+
+    private val linkTitleCard by immutableJsonObject("link_title_card")
+    val linkUrl by linkTitleCard.byString("url")
+    val linkDisplayUrl by linkTitleCard.byString("display_url")
+    val linkVanitySource by linkTitleCard.byString("vanity_source")
+    val linkTitle by linkTitleCard.byString("title")
 }

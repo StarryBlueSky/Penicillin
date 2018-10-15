@@ -1,7 +1,6 @@
 package jp.nephy.penicillin.core.streaming
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.contains
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.*
 import kotlinx.coroutines.experimental.launch
@@ -15,14 +14,14 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
     override suspend fun handle(json: JsonObject, context: CoroutineContext) {
         launch(context) {
             when {
-                json.contains("text") -> {
+                "text" in json -> {
                     listener.onStatus(Status(json))
                 }
-                json.contains("direct_message") -> {
+                "direct_message" in json -> {
                     listener.onDirectMessage(DirectMessage(json))
                 }
-                json.contains("event") -> {
-                    val event = json["event"].string
+                "event" in json -> {
+                    val event = json["event"]!!.string
                     when (event) {
                         in statusEvents -> {
                             val statusEvent = UserStreamStatusEvent(json)
@@ -81,28 +80,28 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                         }
                     }
                 }
-                json.contains("friends") -> {
+                "friends" in json -> {
                     listener.onFriends(UserStreamFriends(json))
                 }
-                json.contains("delete") -> {
+                "delete" in json -> {
                     listener.onDelete(StreamDelete(json))
                 }
-                json.contains("scrub_geo") -> {
+                "scrub_geo" in json -> {
                     listener.onScrubGeo(UserStreamScrubGeo(json))
                 }
-                json.contains("status_withheld") -> {
+                "status_withheld" in json -> {
                     listener.onStatusWithheld(UserStreamStatusWithheld(json))
                 }
-                json.contains("user_withheld") -> {
+                "user_withheld" in json -> {
                     listener.onUserWithheld(UserStreamUserWithheld(json))
                 }
-                json.contains("disconnect") -> {
+                "disconnect" in json -> {
                     listener.onDisconnectMessage(UserStreamDisconnect(json))
                 }
-                json.contains("warning") -> {
+                "warning" in json -> {
                     listener.onWarning(UserStreamWarning(json))
                 }
-                json.contains("limit") -> {
+                "limit" in json -> {
                     listener.onLimit(UserStreamLimit(json))
                 }
                 else -> {
@@ -123,6 +122,7 @@ interface UserStreamListener: StreamListener {
 
     /* Status event */
     suspend fun onAnyStatusEvent(event: UserStreamStatusEvent) {}
+
     suspend fun onFavorite(event: UserStreamStatusEvent) {}
     suspend fun onUnfavorite(event: UserStreamStatusEvent) {}
     suspend fun onFavoritedRetweet(event: UserStreamStatusEvent) {}
@@ -131,6 +131,7 @@ interface UserStreamListener: StreamListener {
 
     /* List event */
     suspend fun onAnyListEvent(event: UserStreamListEvent) {}
+
     suspend fun onListCreated(event: UserStreamListEvent) {}
     suspend fun onListDestroyed(event: UserStreamListEvent) {}
     suspend fun onListUpdated(event: UserStreamListEvent) {}
@@ -141,6 +142,7 @@ interface UserStreamListener: StreamListener {
 
     /* User event */
     suspend fun onAnyUserEvent(event: UserStreamUserEvent) {}
+
     suspend fun onFollow(event: UserStreamUserEvent) {}
     suspend fun onUnfollow(event: UserStreamUserEvent) {}
     suspend fun onBlock(event: UserStreamUserEvent) {}
@@ -151,6 +153,7 @@ interface UserStreamListener: StreamListener {
 
     /* Misc */
     suspend fun onFriends(friends: UserStreamFriends) {}
+
     suspend fun onDelete(delete: StreamDelete) {}
     suspend fun onScrubGeo(scrubGeo: UserStreamScrubGeo) {}
     suspend fun onStatusWithheld(withheld: UserStreamStatusWithheld) {}

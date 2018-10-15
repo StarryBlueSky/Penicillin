@@ -20,9 +20,9 @@ class Twitter4iPhone(override val session: Session): Emulation() {
         append("X-Twitter-Client-Limit-Ad-Tracking", "1")
         append("X-Twitter-Client-Version", "7.30")
         append("X-Twitter-Polling", "true")
-        append("X-Twitter-UTCOffset",  "+0900")
+        append("X-Twitter-UTCOffset", "+0900")
     }
-    
+
     companion object {
         private val clientUUID = OAuthUtil.randomUUID()
 

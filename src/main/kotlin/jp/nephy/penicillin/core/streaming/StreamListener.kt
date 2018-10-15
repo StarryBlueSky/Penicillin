@@ -1,6 +1,6 @@
 package jp.nephy.penicillin.core.streaming
 
-import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonObject
 
 interface StreamListener {
     suspend fun onConnect() {}

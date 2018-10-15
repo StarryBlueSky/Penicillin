@@ -1,10 +1,10 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class TrendType(override val json: JsonObject): PenicillinModel {
-    val trend by json.byModel<TrendModule?>()
-    val promotedTrend by json.byModel<PromotedTrendModule?>()
+    val trend by model<TrendModule?>()
+    val promotedTrend by model<PromotedTrendModule?>()
 }

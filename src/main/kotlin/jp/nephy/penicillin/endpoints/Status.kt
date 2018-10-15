@@ -48,7 +48,8 @@ class Status(override val client: PenicillinClient): Endpoint {
     fun update(status: String, inReplyToStatusId: Long? = null, possiblySensitive: Boolean? = null, lat: Float? = null, long: Float? = null, placeId: String? = null, displayCoordinates: Boolean? = null, trimUser: Boolean? = null, mediaIds: List<Long>? = null, enableDMCommands: Boolean? = null, failDMCommands: Boolean? = null, cardUri: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/statuses/update.json") {
         body {
             form {
-                add("auto_populate_reply_metadata" to "true",
+                add(
+                        "auto_populate_reply_metadata" to "true",
                         "batch_mode" to "off",
                         "cards_platform" to "iPhone-13",
                         "contributor_details" to "1",

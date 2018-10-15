@@ -27,6 +27,7 @@ enum class TwitterErrorMessage(val code: Int, val title: String, val description
     SSLIsRequired(92, "SSL is required", "Only SSL connections are allowed in the API. Update the request to a secure connection. See how to connect using TLS"),
     ThisApplicationIsNotAllowedToAccessOrDeleteYourDirectMessages(93, "This application is not allowed to access or delete your direct messages", "Corresponds with HTTP 403. The OAuth token does not provide access to Direct Messages."),
     UnableToVerifyYourCredentials(99, "Unable to verify your credentials.", "Corresponds with HTTP 403. The OAuth credentials cannot be validated. Check that the token is still valid."),
+    CannotFindSpecifiedUser(108, "Cannot find specified user", "Cannot find specified user."),
     UserNotInThisList(109, "User not in this list", "The specified user is not a member of this list."),
     AccountUpdateFailed(120, "Account update failed: value is too long (maximum is nn characters).", "Corresponds with HTTP 403. Thrown when one of the values passed to the update_profile.json endpoint exceeds the maximum value currently permitted for that field. The error message will specify the allowable maximum number of nn characters."),
     OverCapacity(130, "Over capacity", "Corresponds with HTTP 503. Twitter is temporarily over capacity."),

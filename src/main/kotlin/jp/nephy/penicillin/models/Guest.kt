@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class Guest(override val json: JsonObject): PenicillinModel {
-    val guestToken by json.byString("guest_token")
+    val guestToken by string("guest_token")
 }

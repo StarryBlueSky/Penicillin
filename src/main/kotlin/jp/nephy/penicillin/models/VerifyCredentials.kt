@@ -1,10 +1,10 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.model
+import jp.nephy.jsonkt.delegation.string
 
-data class VerifyCredentials(override val json: JsonObject): CommonUser(json) {
-    val email by json.byString
-    val phone by json.byModel<Phone>()
+data class VerifyCredentials(override val json: JsonObject): CommonUser() {
+    val email by string
+    val phone by model<Phone>()
 }

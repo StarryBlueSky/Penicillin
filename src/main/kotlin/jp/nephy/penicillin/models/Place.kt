@@ -1,21 +1,21 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class Place(override val json: JsonObject): PenicillinModel {
-    val attributes by json.byModel<PlaceAttribute>()
-    val boundingBox by json.byModel<BoundingBox>(key = "bounding_box")
-    val centroid by json.byFloatList
-    val containedWithin by json.byModelList<Place>(key = "contained_within")
-    val country by json.byString
-    val countryCode by json.byString(key = "country_code")
-    val fullName by json.byString("full_name")
-    val geometry by json.byNullableString // null
-    val id by json.byString
-    val name by json.byString
-    val placeType by json.byString("place_type")
-    val polylines by json.byJsonArray // []
-    val url by json.byString
+    val attributes by model<PlaceAttribute>()
+    val boundingBox by model<BoundingBox>(key = "bounding_box")
+    val centroid by floatList
+    val containedWithin by modelList<Place>(key = "contained_within")
+    val country by string
+    val countryCode by string(key = "country_code")
+    val fullName by string("full_name")
+    val geometry by nullableString // null
+    val id by string
+    val name by string
+    val placeType by string("place_type")
+    val polylines by immutableJsonArray // []
+    val url by string
 }

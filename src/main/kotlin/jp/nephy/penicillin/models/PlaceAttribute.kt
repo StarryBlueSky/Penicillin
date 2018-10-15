@@ -1,18 +1,18 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byNullableString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class PlaceAttribute(override val json: JsonObject): PenicillinModel {
-    val streetAddress by json.byNullableString("street_address")
-    val locality by json.byNullableString
-    val region by json.byNullableString
-    val iso3 by json.byNullableString
-    val postalCode by json.byNullableString("postal_code")
-    val phone by json.byNullableString
-    val twitter by json.byNullableString
-    val url by json.byNullableString
-    val appId by json.byNullableString("app:id")
-    val geotagCount by json.byNullableString
+    val streetAddress by nullableString("street_address")
+    val locality by nullableString
+    val region by nullableString
+    val iso3 by nullableString
+    val postalCode by nullableString("postal_code")
+    val phone by nullableString
+    val twitter by nullableString
+    val url by nullableString
+    val appId by nullableString("app:id")
+    val geotagCount by nullableString
 }

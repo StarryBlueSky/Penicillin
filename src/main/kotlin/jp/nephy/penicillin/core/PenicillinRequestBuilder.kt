@@ -1,6 +1,5 @@
 package jp.nephy.penicillin.core
 
-import com.google.gson.JsonObject
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.url
 import io.ktor.client.utils.EmptyContent
@@ -10,9 +9,7 @@ import io.ktor.util.appendAll
 import io.ktor.util.encodeBase64
 import io.ktor.util.flattenEntries
 import io.ktor.util.flattenForEach
-import jp.nephy.jsonkt.jsonObject
-import jp.nephy.jsonkt.set
-import jp.nephy.jsonkt.toJsonString
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.auth.OAuthUtil
 import jp.nephy.penicillin.core.emulation.EmulationMode
@@ -241,6 +238,7 @@ class EncodedFormContent(val forms: Parameters): OutgoingContent.WriteChannelCon
 
 // From https://github.com/ktorio/ktor-samples/blob/183dd65e39565d6d09682a9b273937013d2124cc/other/client-multipart/src/MultipartApp.kt#L57
 class MultiPartContent(private val parts: List<Part>): OutgoingContent.WriteChannelContent() {
+
     private val boundary = "***Penicillin-${UUID.randomUUID()}-Penicillin-${System.currentTimeMillis()}***"
     override val contentType = ContentType.MultiPart.FormData.withParameter("boundary", boundary).withCharset(Charsets.UTF_8)
 
@@ -308,10 +306,10 @@ class JsonTextContent(private val json: JsonObject): OutgoingContent.WriteChanne
     }
 
     class Builder {
-        private val json = jsonObject()
+        private val json = mutableJsonObjectOf()
 
         fun add(key: String, value: Any?) {
-            json[key] = value
+            json[key] = value.toJsonElement()
         }
 
         fun add(vararg pairs: Pair<String, Any?>) {

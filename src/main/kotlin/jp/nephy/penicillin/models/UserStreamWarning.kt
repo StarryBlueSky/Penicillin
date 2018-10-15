@@ -1,14 +1,13 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byInt
-import jp.nephy.jsonkt.byNullableInt
-import jp.nephy.jsonkt.byNullableLong
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 data class UserStreamWarning(override val json: JsonObject): PenicillinModel {
-    val code by json["warning"].byInt
-    val message by json["warning"].byString
-    val percentFull by json["warning"].byNullableInt("percent_full")
-    val userId by json["warning"].byNullableLong
+    private val warning by immutableJsonObject
+
+    val code by warning.byInt
+    val message by warning.byString
+    val percentFull by warning.byNullableInt("percent_full")
+    val userId by warning.byNullableLong
 }

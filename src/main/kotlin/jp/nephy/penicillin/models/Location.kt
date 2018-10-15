@@ -1,11 +1,10 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byInt
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class Location(override val json: JsonObject): PenicillinModel {
-    val name by json.byString
-    val woeid by json.byInt
+    val name by string
+    val woeid by int
 }

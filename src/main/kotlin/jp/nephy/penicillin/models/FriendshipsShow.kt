@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class FriendshipsShow(override val json: JsonObject): PenicillinModel {
-    val relationship by json.byModel<Relationship>()
+    val relationship by model<Relationship>()
 }

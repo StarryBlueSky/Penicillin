@@ -1,7 +1,6 @@
 package jp.nephy.penicillin.core.streaming
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.contains
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.StreamDelete
 import kotlinx.coroutines.experimental.launch
@@ -11,10 +10,10 @@ class FilterStreamHandler(override val listener: FilterStreamListener): StreamHa
     override suspend fun handle(json: JsonObject, context: CoroutineContext) {
         launch(context) {
             when {
-                json.contains("text") -> {
+                "text" in json -> {
                     listener.onStatus(Status(json))
                 }
-                json.contains("delete") -> {
+                "delete" in json -> {
                     listener.onDelete(StreamDelete(json))
                 }
                 else -> {

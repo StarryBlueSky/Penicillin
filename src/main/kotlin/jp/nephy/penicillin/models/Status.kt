@@ -1,61 +1,62 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.long
+import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 import jp.nephy.penicillin.models.special.Language
 import jp.nephy.penicillin.models.special.Source
 import jp.nephy.penicillin.models.special.StatusID
 
-
 data class Status(override val json: JsonObject): PenicillinModel {
-    val contributors by json.byModelList<Contributor>()
-    val conversationId by json.byNullableLong("conversation_id")
-    val coordinates by json.byModel<Coordinate?>()
-    val currentUserRetweet by json.byModel<UserRetweet?>(key = "current_user_retweet")
-    val createdAt by json.byLambda("created_at") { CreatedAt(string) }
-    val displayTextRange by json.byIntList("display_text_range")
-    val entities by json.byModel<StatusEntity>()
-    val extendedEntities by json.byModel<ExtendedEntity?>(key = "extended_entities")
-    val extendedTweet by json.byModel<ExtendedTweet?>(key = "extended_tweet")
-    val favoriteCount by json.byInt("favorite_count")
-    val favorited by json.byBool
-    val filterLevel by json.byNullableString("filter_level")
-    val fullText by json.byNullableString("full_text")
+    val contributors by modelList<Contributor>()
+    val conversationId by nullableLong("conversation_id")
+    val coordinates by model<Coordinate?>()
+    val currentUserRetweet by model<UserRetweet?>(key = "current_user_retweet")
+    val createdAt by lambda("created_at") { CreatedAt(it.string) }
+    val displayTextRange by intList("display_text_range")
+    val entities by model<StatusEntity>()
+    val extendedEntities by model<ExtendedEntity?>(key = "extended_entities")
+    val extendedTweet by model<ExtendedTweet?>(key = "extended_tweet")
+    val favoriteCount by int("favorite_count")
+    val favorited by boolean
+    val filterLevel by nullableString("filter_level")
+    val fullText by nullableString("full_text")
     @Deprecated("geo field is deprecated. Use coordinates instead.")
-    val geo by json.byNullableJsonObject
-    val id by json.byLong
-    val idObj by json.byLambda("id") { StatusID(id) }
-    val idStr by json.byString("id_str")
-    val inReplyToScreenName by json.byNullableString("in_reply_to_screen_name")
-    val inReplyToStatusId by json.byNullableLong("in_reply_to_status_id")
-    val inReplyToStatusIdObj by json.byNullableLambda("in_reply_to_status_id") { StatusID(long) }
-    val inReplyToStatusIdStr by json.byNullableString("in_reply_to_status_id_str")
-    val inReplyToUserId by json.byNullableLong("in_reply_to_user_id")
-    val inReplyToUserIdStr by json.byNullableString("in_reply_to_user_id_str")
-    val isQuoteStatus by json.byBool("is_quote_status")
-    val lang by json.byLambda { Language(string) }
-    val place by json.byModel<Place?>()
-    val possiblySensitive by json.byNullableBool("possibly_sensitive")
-    val possiblySensitiveEditable by json.byNullableBool("possibly_sensitive_editable")
-    val quotedStatus by json.byModel<Status?>(key = "quoted_status")
-    val quotedStatusId by json.byNullableLong("quoted_status_id")
-    val quotedStatusIdObj by json.byNullableLambda("quoted_status_id") { StatusID(long) }
-    val quotedStatusIdStr by json.byNullableString("quoted_status_id_str")
-    val quoteCount by json.byNullableInt("quote_count")
-    val replyCount by json.byNullableInt("reply_count")
-    val retweetCount by json.byInt("retweet_count")
-    val retweeted by json.byBool
-    val retweetedStatus by json.byModel<Status?>(key = "retweeted_status")
-    val source by json.byLambda { Source(string) }
-    val supplementalLanguage by json.byNullableString("supplemental_language") // null
-    val text by json.byString
-    val timestampMs by json.byNullableString("timestamp_ms")
-    val truncated by json.byBool
-    val user by json.byModel<User>()
-    val withheldCopyright by json.byNullableBool("withheld_copyright")
-    val withheldInCountries by json.byStringList("withheld_in_countries")
-    val withheldScope by json.byNullableString("withheld_scope")
+    val geo by nullableImmutableJsonObject
+    val id by long
+    val idObj by lambda("id") { StatusID(it.long) }
+    val idStr by string("id_str")
+    val inReplyToScreenName by nullableString("in_reply_to_screen_name")
+    val inReplyToStatusId by nullableLong("in_reply_to_status_id")
+    val inReplyToStatusIdObj by nullableLambda("in_reply_to_status_id") { StatusID(it.long) }
+    val inReplyToStatusIdStr by nullableString("in_reply_to_status_id_str")
+    val inReplyToUserId by nullableLong("in_reply_to_user_id")
+    val inReplyToUserIdStr by nullableString("in_reply_to_user_id_str")
+    val isQuoteStatus by boolean("is_quote_status")
+    val lang by lambda { Language(it.string) }
+    val place by model<Place?>()
+    val possiblySensitive by nullableBoolean("possibly_sensitive")
+    val possiblySensitiveEditable by nullableBoolean("possibly_sensitive_editable")
+    val quotedStatus by model<Status?>(key = "quoted_status")
+    val quotedStatusId by nullableLong("quoted_status_id")
+    val quotedStatusIdObj by nullableLambda("quoted_status_id") { StatusID(it.long) }
+    val quotedStatusIdStr by nullableString("quoted_status_id_str")
+    val quoteCount by nullableInt("quote_count")
+    val replyCount by nullableInt("reply_count")
+    val retweetCount by int("retweet_count")
+    val retweeted by boolean
+    val retweetedStatus by model<Status?>(key = "retweeted_status")
+    val source by lambda { Source(it.string) }
+    val supplementalLanguage by nullableString("supplemental_language") // null
+    val text by string
+    val timestampMs by nullableString("timestamp_ms")
+    val truncated by boolean
+    val user by model<User>()
+    val withheldCopyright by nullableBoolean("withheld_copyright")
+    val withheldInCountries by stringList("withheld_in_countries")
+    val withheldScope by nullableString("withheld_scope")
 
     fun fullText(): String {
         return if (retweetedStatus != null) {

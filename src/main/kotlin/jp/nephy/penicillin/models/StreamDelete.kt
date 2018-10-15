@@ -1,15 +1,18 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byLong
-import jp.nephy.jsonkt.byString
-import jp.nephy.jsonkt.get
-
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.byImmutableJsonObject
+import jp.nephy.jsonkt.delegation.byLong
+import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.delegation.immutableJsonObject
 
 data class StreamDelete(override val json: JsonObject): PenicillinModel {
-    val timestampMs by json["delete"].byString("timestamp_ms")
-    val statusId by json["delete"]["status"].byLong("id")
-    val statusIdStr by json["delete"]["status"].byString("id_str")
-    val userId by json["delete"]["status"].byLong("user_id")
-    val userIdStr by json["delete"]["status"].byString("user_id_str")
+    private val delete by immutableJsonObject
+    private val status by delete.byImmutableJsonObject
+
+    val timestampMs by delete.byString("timestamp_ms")
+    val statusId by status.byLong("id")
+    val statusIdStr by status.byString("id_str")
+    val userId by status.byLong("user_id")
+    val userIdStr by status.byString("user_id_str")
 }

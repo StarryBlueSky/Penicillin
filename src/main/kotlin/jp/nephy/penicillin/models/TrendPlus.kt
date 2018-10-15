@@ -1,13 +1,11 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byLong
-import jp.nephy.jsonkt.byModel
-import jp.nephy.jsonkt.byModelList
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class TrendPlus(override val json: JsonObject): PenicillinModel {
-    val id by json.byLong
-    val metadata by json.byModel<TrendMetadata>()
-    val trends by json.byModelList<TrendType>(key = "modules")
+    val id by long
+    val metadata by model<TrendMetadata>()
+    val trends by modelList<TrendType>(key = "modules")
 }

@@ -1,21 +1,25 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
-data class CoverMedia(override val json: JsonObject): CommonCoverMedia(json)
+data class CoverMedia(override val json: JsonObject): CommonCoverMedia()
 
-abstract class CommonCoverMedia(json: JsonObject): PenicillinModel {
-    val tweetId by json.byString("tweet_id")
-    val type by json.byString
+abstract class CommonCoverMedia: PenicillinModel {
+    val tweetId by string("tweet_id")
+    val type by string
 
-    val mediaId by json["media"].byString("media_id")
-    val mediaUrl by json["media"].byUrl("url")
-    val mediaWidth by json["media"]["size"].byInt("w")
-    val mediaHeight by json["media"]["size"].byInt("h")
+    private val media by immutableJsonObject
+    val mediaId by media.byString("media_id")
+    val mediaUrl by media.byString("url")
+    private val size by media.byImmutableJsonObject
+    val mediaWidth by size.byInt("w")
+    val mediaHeight by size.byInt("h")
 
-    val renderCropSquare by json["render"]["crops"].byModel<FaceCoordinate>(key = "square")
-    val renderCropPortrait9to16 by json["render"]["crops"].byModel<FaceCoordinate>(key = "portrait_9_16")
-    val renderCropPortrait3to4 by json["render"]["crops"].byModel<FaceCoordinate>(key = "portrait_3_4")
-    val renderCropPortrait16to9 by json["render"]["crops"].byModel<FaceCoordinate>(key = "portrait_16_9")
+    private val render by immutableJsonObject
+    private val crops by render.byImmutableJsonObject
+    val renderCropSquare by crops.byModel<FaceCoordinate>(key = "square")
+    val renderCropPortrait9to16 by crops.byModel<FaceCoordinate>(key = "portrait_9_16")
+    val renderCropPortrait3to4 by crops.byModel<FaceCoordinate>(key = "portrait_3_4")
+    val renderCropPortrait16to9 by crops.byModel<FaceCoordinate>(key = "portrait_16_9")
 }

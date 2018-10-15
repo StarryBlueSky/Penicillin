@@ -1,49 +1,47 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
-import jp.nephy.jsonkt.byModelList
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 class NotificationInstruction private constructor() {
     data class ClearCache(override val json: JsonObject): PenicillinModel
 
     data class AddEntries(override val json: JsonObject): PenicillinModel {
-        val entities by json.byModelList<Entity>()
+        val entities by modelList<Entity>()
 
         data class Entity(override val json: JsonObject): PenicillinModel {
-            val content by json.byModel<Content>()  // {...}
-            val entryId by json.byString
-            val sortIndex by json.byString
+            val content by model<Content>()  // {...}
+            val entryId by string
+            val sortIndex by string
 
             data class Content(override val json: JsonObject): PenicillinModel {
-                val item by json.byModel<Item>()
+                val item by model<Item>()
 
                 data class Item(override val json: JsonObject): PenicillinModel {
-                    val clientEventInfo by json.byModel<ClientEventInfo>()  // {...}
-                    val content by json.byModel<Content>()  // {...}
+                    val clientEventInfo by model<ClientEventInfo>()  // {...}
+                    val content by model<Content>()  // {...}
 
                     data class ClientEventInfo(override val json: JsonObject): PenicillinModel {
-                        val component by json.byString  // "urt"
-                        val details by json.byModel<Details>()  // {...}
-                        val element by json.byString  // "user_replied_to_your_tweet"
+                        val component by string  // "urt"
+                        val details by model<Details>()  // {...}
+                        val element by string  // "user_replied_to_your_tweet"
 
                         data class Details(override val json: JsonObject): PenicillinModel {
-                            val notificationDetails by json.byModel<NotificationDetails>()  // {...}
+                            val notificationDetails by model<NotificationDetails>()  // {...}
 
                             data class NotificationDetails(override val json: JsonObject): PenicillinModel {
-                                val impressionId by json.byString
-                                val metadata by json.byString
+                                val impressionId by string
+                                val metadata by string
                             }
                         }
                     }
 
                     data class Content(override val json: JsonObject): PenicillinModel {
-                        val tweet by json.byModel<Tweet>()  // {...}
+                        val tweet by model<Tweet>()  // {...}
 
                         data class Tweet(override val json: JsonObject): PenicillinModel {
-                            val displayType by json.byString  // "Tweet"
-                            val id by json.byString  // "1036291914469765121"
+                            val displayType by string  // "Tweet"
+                            val id by string  // "1036291914469765121"
                         }
                     }
                 }
@@ -54,6 +52,6 @@ class NotificationInstruction private constructor() {
     data class ClearEntriesUnreadState(override val json: JsonObject): PenicillinModel
 
     data class MarkEntriesUnreadGreaterThanSortIndex(override val json: JsonObject): PenicillinModel {
-        val sortIndex by json.byString
+        val sortIndex by string
     }
 }

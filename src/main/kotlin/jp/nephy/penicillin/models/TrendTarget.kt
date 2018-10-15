@@ -1,13 +1,11 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byLongList
-import jp.nephy.jsonkt.byString
-import jp.nephy.jsonkt.byStringList
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class TrendTarget(override val json: JsonObject): PenicillinModel {
-    val query by json.byString
-    val pinnedTweets by json.byLongList("pinned_tweets")
-    val pinnedTweetsStr by json.byStringList("pinned_tweets_string")
+    val query by string
+    val pinnedTweets by longList("pinned_tweets")
+    val pinnedTweetsStr by stringList("pinned_tweets_string")
 }

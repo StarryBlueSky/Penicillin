@@ -1,10 +1,10 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class Relationship(override val json: JsonObject): PenicillinModel {
-    val source by json.byModel<RelationshipSource>()
-    val target by json.byModel<RelationshipTarget>()
+    val source by model<RelationshipSource>()
+    val target by model<RelationshipTarget>()
 }

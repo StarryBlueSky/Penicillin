@@ -1,12 +1,11 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byLong
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.delegation.long
+import jp.nephy.jsonkt.delegation.string
 
-abstract class PenicillinCursorModel(json: JsonObject): PenicillinModel {
-    val nextCursor by json.byLong("next_cursor")
-    val nextCursorStr by json.byString("next_cursor_str")
-    val previousCursor by json.byLong("previous_cursor")
-    val previousCursorStr by json.byString("previous_cursor_str")
+abstract class PenicillinCursorModel: PenicillinModel {
+    val nextCursor by long("next_cursor")
+    val nextCursorStr by string("next_cursor_str")
+    val previousCursor by long("previous_cursor")
+    val previousCursorStr by string("previous_cursor_str")
 }
