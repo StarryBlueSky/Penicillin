@@ -1,10 +1,10 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byBool
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class SocialContext(override val json: JsonObject): PenicillinModel {
-    val following by json.byBool
-    val followedBy by json.byBool("followed_by")
+    val following by boolean
+    val followedBy by boolean("followed_by")
 }

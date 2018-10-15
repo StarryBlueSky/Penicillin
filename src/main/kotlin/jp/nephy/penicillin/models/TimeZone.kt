@@ -1,12 +1,11 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byInt
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class TimeZone(override val json: JsonObject): PenicillinModel {
-    val name by json.byString
-    val utcOffset by json.byInt("utc_offset")
-    val tzinfoName by json.byString("tzinfo_name")
+    val name by string
+    val utcOffset by int("utc_offset")
+    val tzinfoName by string("tzinfo_name")
 }

@@ -1,15 +1,14 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byNullableInt
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class Birthdate(override val json: JsonObject): PenicillinModel {
-    val year by json.byNullableInt
-    val month by json.byNullableInt
-    val day by json.byNullableInt
+    val year by nullableInt
+    val month by nullableInt
+    val day by nullableInt
 
-    val visibility by json.byString
-    val yearVisibility by json.byString("year_visibility")
+    val visibility by string
+    val yearVisibility by string("year_visibility")
 }

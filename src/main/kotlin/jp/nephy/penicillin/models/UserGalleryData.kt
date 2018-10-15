@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 data class UserGalleryData(override val json: JsonObject): PenicillinModel {
-    val metadata by json.byModel<UserMetadata>()
-    val data by json.byModel<User>()
+    val metadata by model<UserMetadata>()
+    val data by model<User>()
 }

@@ -1,23 +1,22 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byFloatList
-import jp.nephy.jsonkt.byLambda
-import jp.nephy.jsonkt.byString
-
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.floatList
+import jp.nephy.jsonkt.delegation.lambda
+import jp.nephy.jsonkt.delegation.string
 
 data class Coordinate(override val json: JsonObject): PenicillinModel {
-    val coordinates by json.byFloatList
-    val type by json.byString
+    val coordinates by floatList
+    val type by string
 
-    val longitude by json.byLambda {
+    val longitude by lambda {
         if (coordinates.size == 2) {
             coordinates[0]
         } else {
             null
         }
     }
-    val latitude by json.byLambda {
+    val latitude by lambda {
         if (coordinates.size == 2) {
             coordinates[1]
         } else {

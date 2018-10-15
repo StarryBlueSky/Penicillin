@@ -1,15 +1,17 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
-import jp.nephy.jsonkt.byString
-
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.byModel
+import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.delegation.immutableJsonObject
 
 data class CardState(override val json: JsonObject): PenicillinModel {
-    val name by json["card"].byString
-    val url by json["card"].byString
-    val cardTypeUrl by json["card"].byString("card_type_url")
-    val cardPlatform by json["card"].byModel<CardPlatform>()
+    private val card by immutableJsonObject
 
-    val data by json["card"].byModel<CardBindingValue>(key = "binding_values")
+    val name by card.byString
+    val url by card.byString
+    val cardTypeUrl by card.byString("card_type_url")
+    val cardPlatform by card.byModel<CardPlatform>()
+
+    val data by card.byModel<CardBindingValue>(key = "binding_values")
 }

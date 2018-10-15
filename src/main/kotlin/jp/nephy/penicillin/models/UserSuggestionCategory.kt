@@ -1,12 +1,11 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byInt
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class UserSuggestionCategory(override val json: JsonObject): PenicillinModel {
-    val name by json.byString
-    val size by json.byInt
-    val slug by json.byString
+    val name by string
+    val size by int
+    val slug by string
 }

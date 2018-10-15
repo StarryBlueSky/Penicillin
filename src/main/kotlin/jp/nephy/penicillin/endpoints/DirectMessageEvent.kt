@@ -1,6 +1,6 @@
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.jsonkt.jsonObject
+import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.DirectMessageEventList
 import jp.nephy.penicillin.models.DirectMessageEventShow
@@ -9,17 +9,19 @@ class DirectMessageEvent(override val client: PenicillinClient): Endpoint {
     fun create(userId: String, text: String, vararg options: Pair<String, String>) = client.session.post("/1.1/direct_messages/events/new.json") {
         body {
             json {
-                add("event" to jsonObject(
-                        "type" to "message_create",
-                        "message_create" to jsonObject(
-                                "target" to jsonObject(
-                                        "recipient_id" to userId
-                                ),
-                                "message_data" to jsonObject(
-                                        "text" to text
+                add(
+                        "event" to jsonObjectOf(
+                                "type" to "message_create",
+                                "message_create" to jsonObjectOf(
+                                        "target" to jsonObjectOf(
+                                                "recipient_id" to userId
+                                        ),
+                                        "message_data" to jsonObjectOf(
+                                                "text" to text
+                                        )
                                 )
                         )
-                ))
+                )
                 add(*options)
             }
         }

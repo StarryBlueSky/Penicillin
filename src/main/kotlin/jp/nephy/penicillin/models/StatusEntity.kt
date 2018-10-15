@@ -1,13 +1,13 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModelList
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class StatusEntity(override val json: JsonObject): PenicillinModel {
-    val hashtags by json.byModelList<HashtagEntity>()
-    val media by json.byModelList<MediaEntity>()
-    val symbols by json.byModelList<SymbolEntity>()
-    val userMentions by json.byModelList<UserMentionEntity>(key = "user_mentions")
-    val urls by json.byModelList<URLEntity>()
+    val hashtags by modelList<HashtagEntity>()
+    val media by modelList<MediaEntity>()
+    val symbols by modelList<SymbolEntity>()
+    val userMentions by modelList<UserMentionEntity>(key = "user_mentions")
+    val urls by modelList<URLEntity>()
 }

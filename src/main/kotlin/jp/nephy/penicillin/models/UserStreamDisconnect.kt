@@ -1,12 +1,15 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byInt
-import jp.nephy.jsonkt.byNullableString
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.byInt
+import jp.nephy.jsonkt.delegation.byNullableString
+import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.delegation.immutableJsonObject
 
 data class UserStreamDisconnect(override val json: JsonObject): PenicillinModel {
-    val code by json["disconnect"].byInt
-    val streamName by json["disconnect"].byNullableString("stream_name")
-    val reason by json["disconnect"].byString
+    private val disconnect by immutableJsonObject
+
+    val code by disconnect.byInt
+    val streamName by disconnect.byNullableString("stream_name")
+    val reason by disconnect.byString
 }

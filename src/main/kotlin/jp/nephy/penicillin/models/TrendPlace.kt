@@ -1,13 +1,12 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModelList
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class TrendPlace(override val json: JsonObject): PenicillinModel {
-    val asOf by json.byString("as_of")
-    val createdAt by json.byString("created_at")
-    val locations by json.byModelList<Location>()
-    val trends by json.byModelList<Trend>()
+    val asOf by string("as_of")
+    val createdAt by string("created_at")
+    val locations by modelList<Location>()
+    val trends by modelList<Trend>()
 }

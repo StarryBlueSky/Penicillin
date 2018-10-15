@@ -1,12 +1,12 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byInt
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class FaceCoordinate(override val json: JsonObject): PenicillinModel {
-    val x by json.byInt
-    val y by json.byInt
-    val h by json.byInt
-    val w by json.byInt
+    val x by int
+    val y by int
+    val h by int
+    val w by int
 }

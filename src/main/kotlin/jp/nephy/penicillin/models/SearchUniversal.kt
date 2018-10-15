@@ -1,11 +1,17 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
-
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.lambda
+import jp.nephy.jsonkt.delegation.model
+import jp.nephy.jsonkt.immutableJsonArray
+import jp.nephy.jsonkt.immutableJsonObject
 
 data class SearchUniversal(override val json: JsonObject): PenicillinModel {
-    val metadata by json.byModel<SearchUniversalMetadata>(key = "metadata")
-    val statuses by json.byLambda("modules") { jsonArray.map { it.jsonObject }.filter { it.containsKey("status") }.map { StatusModule(it["status"].jsonObject) } }
-    val userGalleries by json.byLambda("modules") { jsonArray.map { it.jsonObject }.filter { it.containsKey("user_gallery") }.map { UserGalleryModule(it["user_gallery"].jsonObject) } }
+    val metadata by model<SearchUniversalMetadata>(key = "metadata")
+    val statuses by lambda("modules") {
+        it.immutableJsonArray.map { json -> json.immutableJsonObject }.filter { json -> json.containsKey("status") }.map { json -> StatusModule(json["status"]!!.immutableJsonObject) }
+    }
+    val userGalleries by lambda("modules") {
+        it.immutableJsonArray.map { json -> json.immutableJsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> UserGalleryModule(json["user_gallery"]!!.immutableJsonObject) }
+    }
 }

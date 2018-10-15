@@ -1,42 +1,42 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.Language
 
-
 data class Setting(override val json: JsonObject): PenicillinModel {
-    val addressBookLiveSyncEnabled by json.byBool("address_book_live_sync_enabled")
-    val allowAdsPersonalization by json.byBool("allow_ads_personalization")
-    val allowAuthenticatedPeriscopeRequests by json.byBool("allow_authenticated_periscope_requests")
-    val allowContributorRequest by json.byString("allow_contributor_request")
-    val allowDmGroupsFrom by json.byString("allow_dm_groups_from")
-    val allowDmsFrom by json.byString("allow_dms_from")
-    val allowLocationHistoryPersonalization by json.byBool("allow_location_history_personalization")
-    val allowLoggedOutDevicePersonalization by json.byBool("allow_logged_out_device_personalization")
-    val allowMediaTagging by json.byString("allow_media_tagging")
-    val allowSharingDataForThirdPartyPersonalization by json.byBool("allow_sharing_data_for_third_party_personalization")
-    val altTextComposeEnabled by json.byNullableString("alt_text_compose_enabled")
-    val alwaysUseHttps by json.byBool("always_use_https")
-    val countryCode by json.byString("country_code")
-    val discoverableByEmail by json.byBool("discoverable_by_email")
-    val discoverableByMobilePhone by json.byBool("discoverable_by_mobile_phone")
-    val displaySensitiveMedia by json.byBool("display_sensitive_media")
-    val dmReceiptSetting by json.byString("dm_receipt_setting")
-    val geoEnabled by json.byBool("geo_enabled")
-    val language by json.byLambda { Language(string) }
-    val mentionFilter by json.byNullableString("mention_filter")
-    val notificationsAbuseFilterQuality by json.byString("notifications_abuse_filter_quality")
-    val notificationsFilterQuality by json.byString("notifications_filter_quality")
-    val personalizedTrends by json.byBool("personalized_trends")
-    val protected by json.byBool
-    val rankedTimelineEligible by json.byNullableString("ranked_timeline_eligible")
-    val rankedTimelineSetting by json.byNullableInt("ranked_timeline_setting")
-    val screenName by json.byString("screen_name")
-    val settingsMetadata by json.byModel<SettingMetadata>(key = "settings_metadata")
-    val sleepTime by json.byModel<SleepTime>(key = "sleep_time")
-    val timeZone by json.byModel<TimeZone>(key = "time_zone")
-    val translatorType by json.byString("translator_type")
-    val universalQualityFilteringEnabled by json.byString("universal_quality_filtering_enabled")
-    val useCookiePersonalization by json.byBool("use_cookie_personalization")
+    val addressBookLiveSyncEnabled by boolean("address_book_live_sync_enabled")
+    val allowAdsPersonalization by boolean("allow_ads_personalization")
+    val allowAuthenticatedPeriscopeRequests by boolean("allow_authenticated_periscope_requests")
+    val allowContributorRequest by string("allow_contributor_request")
+    val allowDmGroupsFrom by string("allow_dm_groups_from")
+    val allowDmsFrom by string("allow_dms_from")
+    val allowLocationHistoryPersonalization by boolean("allow_location_history_personalization")
+    val allowLoggedOutDevicePersonalization by boolean("allow_logged_out_device_personalization")
+    val allowMediaTagging by string("allow_media_tagging")
+    val allowSharingDataForThirdPartyPersonalization by boolean("allow_sharing_data_for_third_party_personalization")
+    val altTextComposeEnabled by nullableString("alt_text_compose_enabled")
+    val alwaysUseHttps by boolean("always_use_https")
+    val countryCode by string("country_code")
+    val discoverableByEmail by boolean("discoverable_by_email")
+    val discoverableByMobilePhone by boolean("discoverable_by_mobile_phone")
+    val displaySensitiveMedia by boolean("display_sensitive_media")
+    val dmReceiptSetting by string("dm_receipt_setting")
+    val geoEnabled by boolean("geo_enabled")
+    val language by lambda { Language(it.string) }
+    val mentionFilter by nullableString("mention_filter")
+    val notificationsAbuseFilterQuality by string("notifications_abuse_filter_quality")
+    val notificationsFilterQuality by string("notifications_filter_quality")
+    val personalizedTrends by boolean("personalized_trends")
+    val protected by boolean
+    val rankedTimelineEligible by nullableString("ranked_timeline_eligible")
+    val rankedTimelineSetting by nullableInt("ranked_timeline_setting")
+    val screenName by string("screen_name")
+    val settingsMetadata by model<SettingMetadata>(key = "settings_metadata")
+    val sleepTime by model<SleepTime>(key = "sleep_time")
+    val timeZone by model<TimeZone>(key = "time_zone")
+    val translatorType by string("translator_type")
+    val universalQualityFilteringEnabled by string("universal_quality_filtering_enabled")
+    val useCookiePersonalization by boolean("use_cookie_personalization")
 }

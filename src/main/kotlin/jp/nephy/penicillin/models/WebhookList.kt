@@ -1,14 +1,13 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModelList
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 data class WebhookList(override val json: JsonObject): PenicillinModel {
-    val environments by json.byModelList<Environment>()
+    val environments by modelList<Environment>()
 
     data class Environment(override val json: JsonObject): PenicillinModel {
-        val name by json.byString("environment_name")
-        val webhooks by json.byModelList<Webhook>()
+        val name by string("environment_name")
+        val webhooks by modelList<Webhook>()
     }
 }

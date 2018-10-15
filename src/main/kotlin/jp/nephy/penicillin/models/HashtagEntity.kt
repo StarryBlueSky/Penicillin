@@ -1,11 +1,10 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byIntList
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class HashtagEntity(override val json: JsonObject): PenicillinModel {
-    val text by json.byString
-    val indices by json.byIntList
+    val text by string
+    val indices by intList
 }

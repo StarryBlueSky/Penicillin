@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 data class StatusModule(override val json: JsonObject): PenicillinModel {
-    val metadata by json.byModel<StatusMetadata>()
-    val data by json.byModel<Status>()
+    val metadata by model<StatusMetadata>()
+    val data by model<Status>()
 }

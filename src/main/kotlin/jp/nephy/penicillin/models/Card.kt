@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 data class Card(override val json: JsonObject): PenicillinModel {
-    val cardUri by json.byString("card_uri")
-    val status by json.byString
+    val cardUri by string("card_uri")
+    val status by string
 }

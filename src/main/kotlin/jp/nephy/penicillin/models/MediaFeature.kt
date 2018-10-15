@@ -1,12 +1,12 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class MediaFeature(override val json: JsonObject): PenicillinModel {
-    val large by json.byModel<Face>()
-    val medium by json.byModel<Face>()
-    val orig by json.byModel<Face>()
-    val small by json.byModel<Face>()
+    val large by model<Face>()
+    val medium by model<Face>()
+    val orig by model<Face>()
+    val small by model<Face>()
 }

@@ -1,14 +1,16 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byLong
-import jp.nephy.jsonkt.byString
-import jp.nephy.jsonkt.byStringList
-
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.byLong
+import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.delegation.byStringList
+import jp.nephy.jsonkt.delegation.immutableJsonObject
 
 data class UserStreamStatusWithheld(override val json: JsonObject): PenicillinModel {
-    val userId by json["status_withheld"].byLong("user_id")
-    val id by json["status_withheld"].byLong
-    val timestampMs by json["status_withheld"].byString("timestamp_ms")
-    val withheldInCountries by json["status_withheld"].byStringList("withheld_in_countries")
+    private val statusWithheld by immutableJsonObject("status_withheld")
+
+    val userId by statusWithheld.byLong("user_id")
+    val id by statusWithheld.byLong
+    val timestampMs by statusWithheld.byString("timestamp_ms")
+    val withheldInCountries by statusWithheld.byStringList("withheld_in_countries")
 }

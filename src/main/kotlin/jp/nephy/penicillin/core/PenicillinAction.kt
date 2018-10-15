@@ -1,7 +1,5 @@
 package jp.nephy.penicillin.core
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.request.request
 import io.ktor.client.response.HttpResponse
@@ -205,17 +203,19 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
             appendln("Request headers =\n${requestHeaders.joinToString("\n") { "    ${it.first.padEnd(longestRequestHeaderLength)}: ${it.second}" }}")
             appendln("Response headers =\n${responseHeaders.joinToString("\n") { "    ${it.first.padEnd(longestResponseHeaderLength)}: ${it.second}" }}\n")
 
-            append(when {
-                content == null -> {
-                    "(Streaming Response)"
-                }
-                content.isBlank() -> {
-                    "(Empty Response)"
-                }
-                else -> {
-                    content
-                }
-            })
+            append(
+                    when {
+                        content == null -> {
+                            "(Streaming Response)"
+                        }
+                        content.isBlank() -> {
+                            "(Empty Response)"
+                        }
+                        else -> {
+                            content
+                        }
+                    }
+            )
         }
     }
 
@@ -225,14 +225,14 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
 
     val json = content?.toJsonObjectSafe()
     if (json != null) {
-        if (json.contains("errors") && json["errors"].isJsonArray) {
-            val error = json["errors"].jsonArray.firstOrNull() ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, args = *arrayOf(response.status.value, content))
-            throw TwitterApiError(error["code"].toIntOrDefault(-1), error["message"].toStringOrDefault(""), content, request, response)
-        } else if (json.contains("error") && json["error"].isJsonObject) {
-            val error = json["error"]
-            throw TwitterApiError(error["code"].toIntOrDefault(-1), error["message"].toStringOrDefault(""), content, request, response)
-        } else if (json.contains("error") && json["error"].isJsonPrimitive) {
-            val error = json["error"].toStringOrDefault("")
+        if ("errors" in json && json["errors"]!!.isJsonArray) {
+            val error = json["errors"]?.nullableImmutableJsonArray?.firstOrNull() ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, args = *arrayOf(response.status.value, content))
+            throw TwitterApiError(error["code"]?.toIntOrNull() ?: -1, error["message"]?.nullableString.orEmpty(), content, request, response)
+        } else if (json.contains("error") && json["error"]!!.isJsonObject) {
+            val error = json["error"]!!
+            throw TwitterApiError(error["code"]?.toIntOrNull() ?: -1, error["message"]?.nullableString.orEmpty(), content, request, response)
+        } else if (json.contains("error") && json["error"]!!.isJsonPrimitive) {
+            val error = json["error"]?.nullableString.orEmpty()
             throw TwitterApiError(-1, error, content, request, response)
         }
     }
@@ -247,7 +247,7 @@ class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: Penic
         checkError(request, response, content)
 
         val json = content?.toJsonObjectSafe() ?: if (model == Empty::class.java) {
-            jsonObject()
+            jsonObjectOf()
         } else {
             throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
         }

@@ -1,8 +1,8 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModel
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.model
 
-data class UserStreamStatusEvent(override val json: JsonObject): UserStreamEvent(json) {
-    val targetObject by json.byModel<Status>(key = "target_object")
+data class UserStreamStatusEvent(override val json: JsonObject): UserStreamEvent() {
+    val targetObject by model<Status>(key = "target_object")
 }

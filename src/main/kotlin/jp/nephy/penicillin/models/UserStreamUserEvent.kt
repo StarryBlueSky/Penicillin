@@ -1,5 +1,5 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
+import jp.nephy.jsonkt.JsonObject
 
-data class UserStreamUserEvent(override val json: JsonObject): UserStreamEvent(json)
+data class UserStreamUserEvent(override val json: JsonObject): UserStreamEvent()

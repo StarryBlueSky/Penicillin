@@ -10,11 +10,13 @@ import java.util.*
 
 class Search(override val client: PenicillinClient): Endpoint {
     fun search(q: String, geocode: String? = null, lang: String? = null, locale: String? = null, resultType: SearchResultType? = null, count: Int? = null, until: Date? = null, sinceId: Long? = null, maxId: Long? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/search/tweets.json") {
-        parameter("q" to q, "geocode" to geocode, "lang" to lang, "locale" to locale, "result_type" to resultType?.value, "count" to count, "until" to if (until != null) {
+        parameter(
+                "q" to q, "geocode" to geocode, "lang" to lang, "locale" to locale, "result_type" to resultType?.value, "count" to count, "until" to if (until != null) {
             SimpleDateFormat("yyyy-MM-dd").format(until)
         } else {
             null
-        }, "since_id" to sinceId, "max_id" to maxId, "include_entities" to includeEntities, *options)
+        }, "since_id" to sinceId, "max_id" to maxId, "include_entities" to includeEntities, *options
+        )
     }.jsonObject<Search>()
 
     @PrivateEndpoint

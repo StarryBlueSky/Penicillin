@@ -1,12 +1,11 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byBool
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 data class Webhook(override val json: JsonObject): PenicillinModel {
-    val id by json.byString
-    val url by json.byString
-    val valid by json.byBool
-    val createdAt by json.byString("created_at")
+    val id by string
+    val url by string
+    val valid by boolean
+    val createdAt by string("created_at")
 }

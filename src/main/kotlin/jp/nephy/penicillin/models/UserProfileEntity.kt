@@ -1,9 +1,9 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byModelList
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class UserProfileEntity(override val json: JsonObject): PenicillinModel {
-    val urls by json.byModelList<URLEntity>()
+    val urls by modelList<URLEntity>()
 }

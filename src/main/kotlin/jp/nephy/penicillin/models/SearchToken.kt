@@ -1,8 +1,8 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byString
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 data class SearchToken(override val json: JsonObject): PenicillinModel {
-    val token by json.byString
+    val token by string
 }

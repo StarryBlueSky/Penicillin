@@ -1,15 +1,14 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byJsonObject
-import jp.nephy.jsonkt.byString
-
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.delegation.immutableJsonObject
 
 data class DMUserUpdate(override val json: JsonObject): PenicillinModel {
-    val userEvents by json.byJsonObject("user_events")
+    private val userEvents by immutableJsonObject("user_events")
 
-    val cursor by json["user_events"].byString
-    val lastSeenEventId by json["user_events"].byString("last_seen_event_id")
-    val trustedLastSeenEventId by json["user_events"].byString("trusted_last_seen_event_id")
-    val untrustedLastSeenEventId by json["user_events"].byString("untrusted_last_seen_event_id")
+    val cursor by userEvents.byString
+    val lastSeenEventId by userEvents.byString("last_seen_event_id")
+    val trustedLastSeenEventId by userEvents.byString("trusted_last_seen_event_id")
+    val untrustedLastSeenEventId by userEvents.byString("untrusted_last_seen_event_id")
 }

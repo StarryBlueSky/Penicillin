@@ -1,12 +1,11 @@
 package jp.nephy.penicillin.core
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
 import io.ktor.http.Headers
-import jp.nephy.jsonkt.jsonArray
+import jp.nephy.jsonkt.JsonArray
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.jsonArrayOf
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.streaming.*
 import jp.nephy.penicillin.models.*
@@ -37,7 +36,7 @@ class ResponseHeaders(private val headers: Headers) {
     }
 }
 
-private interface JsonResponse<M: PenicillinModel, T: JsonElement> {
+private interface JsonResponse<M: PenicillinModel, T: Any> {
     val model: Class<M>
     val json: T
 }
@@ -52,7 +51,7 @@ data class PenicillinJsonObjectResponse<M: PenicillinModel>(override val model: 
 }
 
 data class PenicillinJsonArrayResponse<M: PenicillinModel>(override val model: Class<M>, override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction): PenicillinResponse, JsonResponse<M, JsonArray>, CompletedResponse, ArrayList<M>() {
-    override val json by lazy { jsonArray(*map { it.json }.toTypedArray()) }
+    override val json by lazy { jsonArrayOf(*map { it.json }.toTypedArray()) }
     override val headers by lazy { ResponseHeaders(response.headers) }
 }
 
@@ -104,7 +103,7 @@ data class PenicillinTextResponse(override val request: HttpRequest, override va
 
 data class PenicillinStreamResponse<L: StreamListener, H: StreamHandler<L>>(override val request: HttpRequest, override val response: HttpResponse, override val action: PenicillinAction): PenicillinResponse {
     override val headers = ResponseHeaders(response.headers)
-    
+
     fun listen(listener: L): StreamProcessor<L, H> {
         @Suppress("UNCHECKED_CAST")
         val handler = when (listener) {

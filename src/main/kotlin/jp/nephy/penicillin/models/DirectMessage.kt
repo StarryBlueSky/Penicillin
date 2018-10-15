@@ -1,23 +1,23 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 
-
 data class DirectMessage(override val json: JsonObject): PenicillinModel {
-    val createdAt by json.byLambda("created_at") { CreatedAt(string) }
-    val entities by json.byModel<StatusEntity>()
-    val id by json.byLong
-    val idStr by json.byString("id_str")
-    val read by json.byBool
-    val recipient by json.byModel<User>()
-    val recipientId by json.byLong("recipient_id")
-    val recipientIdStr by json.byString("recipient_id_str")
-    val recipientScreenName by json.byString("recipient_screen_name")
-    val sender by json.byModel<User>()
-    val senderId by json.byLong("sender_id")
-    val senderIdStr by json.byString("sender_id_str")
-    val senderScreenName by json.byString("sender_screen_name")
-    val text by json.byString
+    val createdAt by lambda("created_at") { CreatedAt(it.string) }
+    val entities by model<StatusEntity>()
+    val id by long
+    val idStr by string("id_str")
+    val read by boolean
+    val recipient by model<User>()
+    val recipientId by long("recipient_id")
+    val recipientIdStr by string("recipient_id_str")
+    val recipientScreenName by string("recipient_screen_name")
+    val sender by model<User>()
+    val senderId by long("sender_id")
+    val senderIdStr by string("sender_id_str")
+    val senderScreenName by string("sender_screen_name")
+    val text by string
 }

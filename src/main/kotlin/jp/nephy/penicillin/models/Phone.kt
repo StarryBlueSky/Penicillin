@@ -1,20 +1,19 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byNullableBool
-import jp.nephy.jsonkt.byNullableLong
-import jp.nephy.jsonkt.byNullableString
-
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.nullableBoolean
+import jp.nephy.jsonkt.delegation.nullableLong
+import jp.nephy.jsonkt.delegation.nullableString
 
 data class Phone(override val json: JsonObject): PenicillinModel {
-    val address by json.byNullableString
-    val addressForSms by json.byNullableString("address_for_sms")
-    val carrier by json.byNullableString
-    val countryCode by json.byNullableString("country_code")
-    val countryName by json.byNullableString("country_name")
-    val createdAt by json.byNullableString("created_at")
-    val deviceType by json.byNullableString("device_type")
-    val enabledFor by json.byNullableString("enabled_for")
-    val id by json.byNullableLong
-    val verified by json.byNullableBool
+    val address by nullableString
+    val addressForSms by nullableString("address_for_sms")
+    val carrier by nullableString
+    val countryCode by nullableString("country_code")
+    val countryName by nullableString("country_name")
+    val createdAt by nullableString("created_at")
+    val deviceType by nullableString("device_type")
+    val enabledFor by nullableString("enabled_for")
+    val id by nullableLong
+    val verified by nullableBoolean
 }

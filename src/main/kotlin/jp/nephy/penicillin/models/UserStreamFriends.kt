@@ -1,10 +1,9 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.byNullableLongList
-import jp.nephy.jsonkt.byNullableStringList
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 data class UserStreamFriends(override val json: JsonObject): PenicillinModel {
-    val friends by json.byNullableLongList()
-    val friendsStr by json.byNullableStringList
+    val friends by nullableLongList()
+    val friendsStr by nullableStringList
 }

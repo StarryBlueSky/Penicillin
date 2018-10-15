@@ -1,16 +1,16 @@
 package jp.nephy.penicillin.models
 
-import com.google.gson.JsonObject
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.*
 
 
 data class SearchTypeahead(override val json: JsonObject): PenicillinModel {
-    val completedIn by json.byFloat("completed_in")
-    val hashtags by json.byStringList
-    val numResults by json.byInt("num_results")
-    val oneclick by json.byStringList
-    val query by json.byString
-    val topics by json.byModelList<Topic>()
+    val completedIn by float("completed_in")
+    val hashtags by stringList
+    val numResults by int("num_results")
+    val oneclick by stringList
+    val query by string
+    val topics by modelList<Topic>()
 
-    val users by json.byModelList<UserTypeahead>()
+    val users by modelList<UserTypeahead>()
 }
