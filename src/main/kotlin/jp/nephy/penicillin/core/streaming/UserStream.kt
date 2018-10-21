@@ -1,6 +1,6 @@
 package jp.nephy.penicillin.core.streaming
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.*
 import kotlinx.coroutines.experimental.launch
@@ -11,7 +11,7 @@ private val listEvents = arrayOf("list_created", "list_destroyed", "list_updated
 private val userEvents = arrayOf("follow", "unfollow", "block", "unblock", "mute", "unmute", "user_update")
 
 class UserStreamHandler(override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
-    override suspend fun handle(json: JsonObject, context: CoroutineContext) {
+    override suspend fun handle(json: ImmutableJsonObject, context: CoroutineContext) {
         launch(context) {
             when {
                 "text" in json -> {
@@ -21,7 +21,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                     listener.onDirectMessage(DirectMessage(json))
                 }
                 "event" in json -> {
-                    val event = json["event"]!!.string
+                    val event = json["event"].string
                     when (event) {
                         in statusEvents -> {
                             val statusEvent = UserStreamStatusEvent(json)
