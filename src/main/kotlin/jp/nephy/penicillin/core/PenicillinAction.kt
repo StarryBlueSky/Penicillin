@@ -149,7 +149,7 @@ internal fun String.unescapeHTML(): String {
     return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
 }
 
-private fun String.toJsonObjectSafe(): JsonObject? {
+private fun String.toJsonObjectSafe(): ImmutableJsonObject? {
     return try {
         toJsonObject()
     } catch (e: CancellationException) {
@@ -160,7 +160,7 @@ private fun String.toJsonObjectSafe(): JsonObject? {
     }
 }
 
-private fun String.toJsonArraySafe(): JsonArray? {
+private fun String.toJsonArraySafe(): ImmutableJsonArray? {
     return try {
         toJsonArray()
     } catch (e: CancellationException) {
@@ -171,7 +171,7 @@ private fun String.toJsonArraySafe(): JsonArray? {
     }
 }
 
-private fun <T: PenicillinModel> JsonObject.parseSafe(model: Class<out T>, content: String?): T? {
+private fun <T: PenicillinModel> ImmutableJsonObject.parseSafe(model: Class<out T>, content: String?): T? {
     return try {
         parse(model)
     } catch (e: CancellationException) {
@@ -182,7 +182,7 @@ private fun <T: PenicillinModel> JsonObject.parseSafe(model: Class<out T>, conte
     }
 }
 
-private fun <T: PenicillinModel> JsonArray.parseSafe(model: Class<out T>, content: String?): List<T> {
+private fun <T: PenicillinModel> ImmutableJsonArray.parseSafe(model: Class<out T>, content: String?): List<T> {
     return try {
         parseList(model)
     } catch (e: CancellationException) {
@@ -225,14 +225,14 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
 
     val json = content?.toJsonObjectSafe()
     if (json != null) {
-        if ("errors" in json && json["errors"]!!.isJsonArray) {
-            val error = json["errors"]?.nullableImmutableJsonArray?.firstOrNull() ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, args = *arrayOf(response.status.value, content))
-            throw TwitterApiError(error["code"]?.toIntOrNull() ?: -1, error["message"]?.nullableString.orEmpty(), content, request, response)
-        } else if (json.contains("error") && json["error"]!!.isJsonObject) {
-            val error = json["error"]!!
-            throw TwitterApiError(error["code"]?.toIntOrNull() ?: -1, error["message"]?.nullableString.orEmpty(), content, request, response)
-        } else if (json.contains("error") && json["error"]!!.isJsonPrimitive) {
-            val error = json["error"]?.nullableString.orEmpty()
+        if ("errors" in json && json["errors"].isJsonArray) {
+            val error = json["errors"].nullableImmutableJsonArray?.firstOrNull() ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, args = *arrayOf(response.status.value, content))
+            throw TwitterApiError(error["code"].toIntOrNull() ?: -1, error["message"].nullableString.orEmpty(), content, request, response)
+        } else if (json.contains("error") && json["error"].isJsonObject) {
+            val error = json["error"]
+            throw TwitterApiError(error["code"].toIntOrNull() ?: -1, error["message"].nullableString.orEmpty(), content, request, response)
+        } else if (json.contains("error") && json["error"].isJsonPrimitive) {
+            val error = json["error"].nullableString.orEmpty()
             throw TwitterApiError(-1, error, content, request, response)
         }
     }

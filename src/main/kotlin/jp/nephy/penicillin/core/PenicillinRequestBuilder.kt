@@ -298,7 +298,7 @@ class MultiPartContent(private val parts: List<Part>): OutgoingContent.WriteChan
     }
 }
 
-class JsonTextContent(private val json: JsonObject): OutgoingContent.WriteChannelContent() {
+class JsonTextContent(private val json: ImmutableJsonObject): OutgoingContent.WriteChannelContent() {
     override val contentType = ContentType.Application.Json.withCharset(Charsets.UTF_8)
 
     override suspend fun writeTo(channel: ByteWriteChannel) {

@@ -1,6 +1,6 @@
 package jp.nephy.penicillin.core.streaming
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.byNullableImmutableJsonObject
 import jp.nephy.jsonkt.delegation.byNullableString
 import jp.nephy.jsonkt.nullableImmutableJsonObject
@@ -10,7 +10,7 @@ import kotlin.coroutines.experimental.CoroutineContext
 
 class LivePipelineHandler(override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
     @Suppress("DEPRECATED_SMARTCAST")
-    override suspend fun handle(json: JsonObject, context: CoroutineContext) {
+    override suspend fun handle(json: ImmutableJsonObject, context: CoroutineContext) {
         launch(context) {
             val topic by json.byNullableString("topic")
             if (topic == null) {
@@ -23,13 +23,13 @@ class LivePipelineHandler(override val listener: LivePipelineListener): StreamHa
             if (topic.startsWith("/tweet_engagement/")) {
                 when {
                     "like_count" in engagement -> {
-                        listener.onUpdateLikeCount(id, engagement["like_count"]?.nullableInt ?: return@launch)
+                        listener.onUpdateLikeCount(id, engagement["like_count"].nullableInt ?: return@launch)
                     }
                     "retweet_count" in engagement -> {
-                        listener.onUpdateRetweetCount(id, engagement["retweet_count"]?.nullableInt ?: return@launch)
+                        listener.onUpdateRetweetCount(id, engagement["retweet_count"].nullableInt ?: return@launch)
                     }
                     "reply_count" in engagement -> {
-                        listener.onUpdateReplyCount(id, engagement["reply_count"]?.nullableInt ?: return@launch)
+                        listener.onUpdateReplyCount(id, engagement["reply_count"].nullableInt ?: return@launch)
                     }
                     else -> {
                         listener.onUnhandledJson(json)
