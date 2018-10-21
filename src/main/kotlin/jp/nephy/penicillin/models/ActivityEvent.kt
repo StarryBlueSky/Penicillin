@@ -1,6 +1,8 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.int
 import jp.nephy.jsonkt.delegation.lambda
 import jp.nephy.jsonkt.delegation.modelList
@@ -8,7 +10,7 @@ import jp.nephy.jsonkt.delegation.string
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 
-data class ActivityEvent(override val json: JsonObject): PenicillinModel {
+data class ActivityEvent(override val json: ImmutableJsonObject): PenicillinModel {
     val action by string
     val maxPosition by string("max_position")
     val minPosition by string("min_position")

@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class MomentGuide(override val json: JsonObject): PenicillinModel {
+data class MomentGuide(override val json: ImmutableJsonObject): PenicillinModel {
     private val category by immutableJsonObject
     val categoryId by category.byString("category_id")
     val categoryName by category.byString("name")

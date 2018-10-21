@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class RelationshipSource(override val json: JsonObject): PenicillinModel {
+data class RelationshipSource(override val json: ImmutableJsonObject): PenicillinModel {
     val allReplies by boolean("all_replies")
     val blockedBy by boolean("blocked_by")
     val blocking by boolean

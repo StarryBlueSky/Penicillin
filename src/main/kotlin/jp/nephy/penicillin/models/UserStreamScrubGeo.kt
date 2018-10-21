@@ -1,11 +1,13 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.byLong
 import jp.nephy.jsonkt.delegation.byString
 import jp.nephy.jsonkt.delegation.immutableJsonObject
 
-data class UserStreamScrubGeo(override val json: JsonObject): PenicillinModel {
+data class UserStreamScrubGeo(override val json: ImmutableJsonObject): PenicillinModel {
     private val scrubGeo by immutableJsonObject("scrub_geo")
 
     val userId by scrubGeo.byLong("user_id")

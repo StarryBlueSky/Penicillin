@@ -5,7 +5,9 @@ import jp.nephy.penicillin.endpoints.*
 import jp.nephy.penicillin.endpoints.Collection
 import java.io.Closeable
 
+@Suppress("UNUSED")
 class PenicillinClient(session: SessionBuilder.() -> Unit = {}): Closeable {
+
     val session = SessionBuilder().apply(session).build()
 
     val account = Account(this)

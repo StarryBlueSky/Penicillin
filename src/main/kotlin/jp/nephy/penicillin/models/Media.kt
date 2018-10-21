@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class Media(override val json: JsonObject): PenicillinModel {
+data class Media(override val json: ImmutableJsonObject): PenicillinModel {
     val expiresAfterSecs by nullableInt("expires_after_secs")
     val mediaId by long("media_id")
     val mediaIdString by string("media_id_string")

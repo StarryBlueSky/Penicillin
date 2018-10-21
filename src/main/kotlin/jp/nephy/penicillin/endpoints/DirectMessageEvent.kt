@@ -1,6 +1,8 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.jsonkt.immutableJsonObjectOf
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.DirectMessageEventList
 import jp.nephy.penicillin.models.DirectMessageEventShow
@@ -10,13 +12,13 @@ class DirectMessageEvent(override val client: PenicillinClient): Endpoint {
         body {
             json {
                 add(
-                        "event" to jsonObjectOf(
+                        "event" to immutableJsonObjectOf(
                                 "type" to "message_create",
-                                "message_create" to jsonObjectOf(
-                                        "target" to jsonObjectOf(
+                                "message_create" to immutableJsonObjectOf(
+                                        "target" to immutableJsonObjectOf(
                                                 "recipient_id" to userId
                                         ),
-                                        "message_data" to jsonObjectOf(
+                                        "message_data" to immutableJsonObjectOf(
                                                 "text" to text
                                         )
                                 )

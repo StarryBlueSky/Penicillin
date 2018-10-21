@@ -1,12 +1,14 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.long
 import jp.nephy.penicillin.models.special.StatusID
 
 
-data class MediaEntity(override val json: JsonObject): PenicillinModel {
+data class MediaEntity(override val json: ImmutableJsonObject): PenicillinModel {
     val additionalMediaInfo by model<AdditionalMediaInfo?>(key = "additional_media_info")
     val displayUrl by string("display_url")
     val expandedUrl by string("expanded_url")

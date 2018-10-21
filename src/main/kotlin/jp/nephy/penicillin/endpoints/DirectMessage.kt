@@ -1,8 +1,9 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.DirectMessage
-
 
 class DirectMessage(override val client: PenicillinClient): Endpoint {
     @Deprecated("Legacy Direct Message API retired on September 17th, 2018.", replaceWith = ReplaceWith("jp.nephy.endpoints.DirectMessageEvent"))

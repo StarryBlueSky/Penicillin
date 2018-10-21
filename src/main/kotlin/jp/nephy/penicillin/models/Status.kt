@@ -1,6 +1,9 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import com.twitter.twittertext.TwitterTextParser
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.long
 import jp.nephy.jsonkt.string
@@ -9,7 +12,7 @@ import jp.nephy.penicillin.models.special.Language
 import jp.nephy.penicillin.models.special.Source
 import jp.nephy.penicillin.models.special.StatusID
 
-data class Status(override val json: JsonObject): PenicillinModel {
+data class Status(override val json: ImmutableJsonObject): PenicillinModel {
     val contributors by modelList<Contributor>()
     val conversationId by nullableLong("conversation_id")
     val coordinates by model<Coordinate?>()
@@ -57,6 +60,8 @@ data class Status(override val json: JsonObject): PenicillinModel {
     val withheldCopyright by nullableBoolean("withheld_copyright")
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
+
+    val parsedStatus by lazy { TwitterTextParser.parseTweet(fullText()) }
 
     fun fullText(): String {
         return if (retweetedStatus != null) {

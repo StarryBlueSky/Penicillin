@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class PlaceAttribute(override val json: JsonObject): PenicillinModel {
+data class PlaceAttribute(override val json: ImmutableJsonObject): PenicillinModel {
     val streetAddress by nullableString("street_address")
     val locality by nullableString
     val region by nullableString

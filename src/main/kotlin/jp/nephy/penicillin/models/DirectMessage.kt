@@ -1,11 +1,13 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 
-data class DirectMessage(override val json: JsonObject): PenicillinModel {
+data class DirectMessage(override val json: ImmutableJsonObject): PenicillinModel {
     val createdAt by lambda("created_at") { CreatedAt(it.string) }
     val entities by model<StatusEntity>()
     val id by long
