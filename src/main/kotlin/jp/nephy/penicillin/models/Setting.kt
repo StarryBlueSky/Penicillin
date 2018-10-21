@@ -1,11 +1,13 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.Language
 
-data class Setting(override val json: JsonObject): PenicillinModel {
+data class Setting(override val json: ImmutableJsonObject): PenicillinModel {
     val addressBookLiveSyncEnabled by boolean("address_book_live_sync_enabled")
     val allowAdsPersonalization by boolean("allow_ads_personalization")
     val allowAuthenticatedPeriscopeRequests by boolean("allow_authenticated_periscope_requests")

@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class SearchTypeahead(override val json: JsonObject): PenicillinModel {
+data class SearchTypeahead(override val json: ImmutableJsonObject): PenicillinModel {
     val completedIn by float("completed_in")
     val hashtags by stringList
     val numResults by int("num_results")

@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class Configuration(override val json: JsonObject): PenicillinModel {
+data class Configuration(override val json: ImmutableJsonObject): PenicillinModel {
     val charactersReservedPerMedia by int("characters_reserved_per_media")
     val clientEventUrl by string("client_event_url")
     val dmTextCharacterLimit by int("dm_text_character_limit")

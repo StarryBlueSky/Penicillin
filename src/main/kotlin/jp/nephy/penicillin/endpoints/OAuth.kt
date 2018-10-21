@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.endpoints
 
 import io.ktor.http.ParametersBuilder

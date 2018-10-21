@@ -1,12 +1,14 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.boolean
 import jp.nephy.jsonkt.delegation.byString
 import jp.nephy.jsonkt.delegation.immutableJsonObject
 import jp.nephy.jsonkt.delegation.string
 
-data class CoverFormat(override val json: JsonObject): CommonCoverMedia() {
+data class CoverFormat(val parentJson: ImmutableJsonObject): CommonCoverMedia(parentJson) {
     val pageId by string("page_id")
     val isPromoted by boolean("is_promoted")
 

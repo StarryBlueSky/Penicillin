@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.endpoints
 
 enum class EndpointHost(val value: String) {

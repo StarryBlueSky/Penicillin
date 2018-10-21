@@ -1,9 +1,11 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
-data class UserStreamWarning(override val json: JsonObject): PenicillinModel {
+data class UserStreamWarning(override val json: ImmutableJsonObject): PenicillinModel {
     private val warning by immutableJsonObject
 
     val code by warning.byInt

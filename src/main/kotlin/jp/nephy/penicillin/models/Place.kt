@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class Place(override val json: JsonObject): PenicillinModel {
+data class Place(override val json: ImmutableJsonObject): PenicillinModel {
     val attributes by model<PlaceAttribute>()
     val boundingBox by model<BoundingBox>(key = "bounding_box")
     val centroid by floatList

@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class PushDevice(override val json: JsonObject): PenicillinModel {
+data class PushDevice(override val json: ImmutableJsonObject): PenicillinModel {
     val appVersion by int("app_version")
     val availableLevels by int("available_levels")
     val clientApplicationId by int("client_application_id")

@@ -1,14 +1,16 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 import jp.nephy.penicillin.models.special.Language
 
-data class User(override val json: JsonObject): CommonUser()
+data class User(val parentJson: ImmutableJsonObject): CommonUser(parentJson)
 
-abstract class CommonUser: PenicillinModel {
+abstract class CommonUser(final override val json: ImmutableJsonObject): PenicillinModel {
     val advertiserAccountServiceLevels by stringList("advertiser_account_service_levels")
     val advertiserAccountType by nullableString("advertiser_account_type")
     val analyticsType by nullableString("analytics_type")

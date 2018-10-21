@@ -1,8 +1,10 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.longList
 
-data class FriendshipsNoRetweetsIds(override val json: JsonObject): PenicillinModel {
+data class FriendshipsNoRetweetsIds(override val json: ImmutableJsonObject): PenicillinModel {
     val ids by longList
 }

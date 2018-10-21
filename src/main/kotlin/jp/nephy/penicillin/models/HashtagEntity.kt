@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class HashtagEntity(override val json: JsonObject): PenicillinModel {
+data class HashtagEntity(override val json: ImmutableJsonObject): PenicillinModel {
     val text by string
     val indices by intList
 }

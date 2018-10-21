@@ -1,10 +1,12 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
 
-data class Embed(override val json: JsonObject): PenicillinModel {
+data class Embed(override val json: ImmutableJsonObject): PenicillinModel {
     val authorName by string("author_name")
     val authorUrl by string("author_url")
     val cacheAge by string("cache_age")

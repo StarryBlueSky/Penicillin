@@ -1,11 +1,13 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 
-data class CoverMedia(override val json: JsonObject): CommonCoverMedia()
+data class CoverMedia(val parentJson: ImmutableJsonObject): CommonCoverMedia(parentJson)
 
-abstract class CommonCoverMedia: PenicillinModel {
+abstract class CommonCoverMedia(final override val json: ImmutableJsonObject): PenicillinModel {
     val tweetId by string("tweet_id")
     val type by string
 
