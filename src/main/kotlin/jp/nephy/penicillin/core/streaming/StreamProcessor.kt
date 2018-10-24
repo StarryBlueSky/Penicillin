@@ -1,43 +1,43 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.core.streaming
 
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.PenicillinStreamResponse
 import jp.nephy.penicillin.core.unescapeHTML
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.io.readUTF8Line
+import kotlinx.coroutines.*
+import kotlinx.coroutines.io.readUTF8Line
 import java.io.Closeable
-import java.util.concurrent.TimeUnit
-import kotlin.coroutines.experimental.CoroutineContext
-import kotlin.coroutines.experimental.EmptyCoroutineContext
+import kotlin.coroutines.CoroutineContext
 
 class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result: PenicillinStreamResponse<L, H>, private val handler: H): Closeable {
     private val job = Job()
 
-    fun start(wait: Boolean = false, autoReconnect: Boolean = true, context: CoroutineContext? = null) = apply {
-        if (wait) {
-            runBlocking(context ?: EmptyCoroutineContext) {
-                loop(autoReconnect, context ?: EmptyCoroutineContext)
-                close()
-            }
-        } else {
-            launch(context ?: DefaultDispatcher, parent = job) {
-                loop(autoReconnect, context ?: DefaultDispatcher)
-                close()
-            }
+    fun startBlocking(autoReconnect: Boolean = true, context: CoroutineContext? = null) = apply {
+        runBlocking((context ?: result.action.request.session.dispatcher) + job) {
+            loop(autoReconnect)
+            close()
+        }
+    }
+
+    fun startAsync(autoReconnect: Boolean = true, scope: CoroutineScope = GlobalScope, context: CoroutineContext? = null) = apply {
+        scope.launch((context ?: result.action.request.session.dispatcher) + job) {
+            loop(autoReconnect)
+            close()
         }
     }
 
     override fun close() {
-        runBlocking(CommonPool) {
+        runBlocking(Dispatchers.Default) {
             job.cancelChildren()
             job.cancelAndJoin()
         }
     }
 
-    private suspend fun CoroutineScope.loop(autoReconnect: Boolean, context: CoroutineContext) {
+    private suspend fun CoroutineScope.loop(autoReconnect: Boolean) {
         while (isActive) {
             try {
-                process(context)
+                process()
 
                 if (!autoReconnect) {
                     return
@@ -50,7 +50,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
                     } catch (e: CancellationException) {
                         return
                     } catch (e: Exception) {
-                        delay(1, TimeUnit.SECONDS)
+                        delay(1000)
                         continue
                     }
                 }
@@ -60,8 +60,8 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
         }
     }
 
-    private suspend fun CoroutineScope.process(context: CoroutineContext) {
-        launch(context) {
+    private suspend fun CoroutineScope.process() {
+        launch(coroutineContext) {
             handler.listener.onConnect()
         }
 
@@ -72,15 +72,15 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
                 break
             }
 
-            launch(context) {
+            launch(coroutineContext) {
                 when {
                     line.startsWith("{") -> {
                         val content = line.unescapeHTML()
 
-                        launch(context) {
+                        launch(coroutineContext) {
                             handler.listener.onRawData(content)
                         }
-                        handler.handle(content.toJsonObject(), context)
+                        handler.handle(content.toJsonObject(), this)
                     }
                     line.isBlank() -> {
                         handler.listener.onHeartbeat()
@@ -93,7 +93,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
             }
         }
 
-        launch(context) {
+        launch(coroutineContext) {
             handler.listener.onDisconnect()
         }
     }

@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.core
 
 import io.ktor.client.request.HttpRequestBuilder
@@ -6,10 +8,12 @@ import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.util.appendAll
-import io.ktor.util.encodeBase64
 import io.ktor.util.flattenEntries
 import io.ktor.util.flattenForEach
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.mutableJsonObjectOf
+import jp.nephy.jsonkt.toJsonElement
+import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.auth.OAuthUtil
 import jp.nephy.penicillin.core.emulation.EmulationMode
@@ -18,11 +22,12 @@ import jp.nephy.penicillin.core.emulation.Twitter4iPhone
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.endpoints.EndpointHost
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
-import kotlinx.coroutines.experimental.io.ByteWriteChannel
-import kotlinx.coroutines.experimental.io.writeFully
-import kotlinx.coroutines.experimental.io.writeStringUtf8
+import kotlinx.coroutines.io.ByteWriteChannel
+import kotlinx.coroutines.io.writeFully
+import kotlinx.coroutines.io.writeStringUtf8
 import mu.KotlinLogging
 import java.util.*
+import kotlin.collections.set
 
 private val logger = KotlinLogging.logger("Penicillin.RequestBuilder")
 
@@ -149,7 +154,7 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
                 "Bearer ${session.credentials.bearerToken!!}"
             }
             AuthorizationType.OAuth2RequestToken -> {
-                "Basic ${"${session.credentials.consumerKey!!.encodeOAuth()}:${session.credentials.consumerSecret!!.encodeOAuth()}".encodeBase64()}"
+                "Basic ${Base64.getEncoder().encodeToString("${session.credentials.consumerKey!!.encodeOAuth()}:${session.credentials.consumerSecret!!.encodeOAuth()}".toByteArray())}"
             }
             AuthorizationType.None -> null
         } ?: return

@@ -1,13 +1,14 @@
 group "jp.nephy"
-version "3.0.22"
+version "3.1.0-rc-1"
 
 buildscript {
-    ext.kotlin_version = "1.2.70"
-    ext.ktor_version = "0.9.4"
+    ext.kotlin_version = "1.3.0-rc-198"
+    ext.ktor_version = "1.0.0-beta-1"
 
     repositories {
         mavenCentral()
         jcenter()
+        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -23,6 +24,7 @@ apply plugin: "signing"
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
     maven { url "https://dl.bintray.com/kotlin/ktor" }
     maven { url "https://dl.bintray.com/kotlin/kotlinx" }
 }
@@ -30,15 +32,16 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    compile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "io.ktor:ktor-client-core-jvm:$ktor_version"
+    testCompile "io.ktor:ktor-client-apache:$ktor_version"
     testCompile "io.ktor:ktor-client-cio:$ktor_version"
     testCompile "io.ktor:ktor-client-jetty:$ktor_version"
     testCompile "io.ktor:ktor-client-okhttp:$ktor_version"
 
     compile "jp.nephy:jsonkt:3.5"
-    compile "com.twitter.twittertext:twitter-text:3.0.1"
+    testCompile "com.twitter.twittertext:twitter-text:3.0.1"
 
-    compile "io.github.microutils:kotlin-logging:1.5.9"
+    compile "io.github.microutils:kotlin-logging:1.6.10"
     testCompile "ch.qos.logback:logback-core:1.2.3"
     testCompile "ch.qos.logback:logback-classic:1.2.3"
     testCompile "org.fusesource.jansi:jansi:1.17.1"
@@ -49,12 +52,6 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
 }
 
 dokka {

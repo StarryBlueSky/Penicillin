@@ -23,7 +23,7 @@ data class NotificationAll(override val json: ImmutableJsonObject): PenicillinMo
 
     data class Timeline(override val json: ImmutableJsonObject): PenicillinModel {
         val id by string
-        val instructions by immutableJsonObjectList
+        private val instructions by immutableJsonObjectList
         val clearCache = instructions.find { it.contains("clearCache") }?.values?.firstOrNull()?.nullableImmutableJsonObject?.parse<NotificationInstruction.ClearCache>()
         val addEntries = instructions.find { it.contains("addEntries") }?.values?.firstOrNull()?.nullableImmutableJsonObject?.parse<NotificationInstruction.AddEntries>()
         val clearEntriesUnreadState = instructions.find { it.contains("clearEntriesUnreadState") }?.values?.firstOrNull()?.nullableImmutableJsonObject?.parse<NotificationInstruction.ClearEntriesUnreadState>()
