@@ -3,16 +3,16 @@ package jp.nephy.penicillin.core.streaming
 import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.*
-import kotlinx.coroutines.experimental.launch
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 private val statusEvents = arrayOf("favorite", "unfavorite", "favorited_retweet", "retweeted_retweet", "quoted_tweet")
 private val listEvents = arrayOf("list_created", "list_destroyed", "list_updated", "list_member_added", "list_member_removed", "list_user_subscribed", "list_user_unsubscribed")
 private val userEvents = arrayOf("follow", "unfollow", "block", "unblock", "mute", "unmute", "user_update")
 
 class UserStreamHandler(override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
-    override suspend fun handle(json: ImmutableJsonObject, context: CoroutineContext) {
-        launch(context) {
+    override suspend fun handle(json: ImmutableJsonObject, scope: CoroutineScope) {
+        scope.launch(scope.coroutineContext) {
             when {
                 "text" in json -> {
                     listener.onStatus(Status(json))
@@ -25,7 +25,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                     when (event) {
                         in statusEvents -> {
                             val statusEvent = UserStreamStatusEvent(json)
-                            launch(context) {
+                            launch(scope.coroutineContext) {
                                 when (event) {
                                     "favorite" -> listener.onFavorite(statusEvent)
                                     "unfavorite" -> listener.onUnfavorite(statusEvent)
@@ -34,14 +34,14 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                                     "quoted_tweet" -> listener.onQuotedTweet(statusEvent)
                                 }
                             }
-                            launch {
+                            launch(scope.coroutineContext) {
                                 listener.onAnyStatusEvent(statusEvent)
                             }
                             listener.onAnyEvent(statusEvent)
                         }
                         in listEvents -> {
                             val listEvent = UserStreamListEvent(json)
-                            launch(context) {
+                            launch(scope.coroutineContext) {
                                 when (event) {
                                     "list_created" -> listener.onListCreated(listEvent)
                                     "list_destroyed" -> listener.onListDestroyed(listEvent)
@@ -52,14 +52,14 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                                     "list_user_unsubscribed" -> listener.onListUserUnsubscribed(listEvent)
                                 }
                             }
-                            launch(context) {
+                            launch(scope.coroutineContext) {
                                 listener.onAnyListEvent(listEvent)
                             }
                             listener.onAnyEvent(listEvent)
                         }
                         in userEvents -> {
                             val userEvent = UserStreamUserEvent(json)
-                            launch(context) {
+                            launch(scope.coroutineContext) {
                                 when (event) {
                                     "follow" -> listener.onFollow(userEvent)
                                     "unfollow" -> listener.onUnfollow(userEvent)
@@ -70,7 +70,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                                     "user_update" -> listener.onUserUpdate(userEvent)
                                 }
                             }
-                            launch(context) {
+                            launch(scope.coroutineContext) {
                                 listener.onAnyUserEvent(userEvent)
                             }
                             listener.onAnyEvent(userEvent)

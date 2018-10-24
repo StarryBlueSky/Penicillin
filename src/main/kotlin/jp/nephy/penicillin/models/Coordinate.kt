@@ -8,7 +8,7 @@ import jp.nephy.jsonkt.delegation.lambda
 import jp.nephy.jsonkt.delegation.string
 
 data class Coordinate(override val json: ImmutableJsonObject): PenicillinModel {
-    val coordinates by floatList
+    private val coordinates by floatList
     val type by string
 
     val longitude by lambda {

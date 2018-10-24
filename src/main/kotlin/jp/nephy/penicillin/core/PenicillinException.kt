@@ -1,9 +1,10 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.core
 
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
 import jp.nephy.penicillin.core.i18n.LocalizedString
-
 
 open class PenicillinException(override val message: String, val error: TwitterErrorMessage? = null, val request: HttpRequest? = null, val response: HttpResponse? = null): Exception()
 class PenicillinLocalizedException(localizedString: LocalizedString, request: HttpRequest? = null, response: HttpResponse? = null, vararg args: Any?): PenicillinException(localizedString.format(*args), request = request, response = response)

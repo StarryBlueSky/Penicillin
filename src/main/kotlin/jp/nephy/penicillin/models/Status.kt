@@ -2,7 +2,6 @@
 
 package jp.nephy.penicillin.models
 
-import com.twitter.twittertext.TwitterTextParser
 import jp.nephy.jsonkt.ImmutableJsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.long
@@ -60,8 +59,6 @@ data class Status(override val json: ImmutableJsonObject): PenicillinModel {
     val withheldCopyright by nullableBoolean("withheld_copyright")
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
-
-    val parsedStatus by lazy { TwitterTextParser.parseTweet(fullText()) }
 
     fun fullText(): String {
         return if (retweetedStatus != null) {

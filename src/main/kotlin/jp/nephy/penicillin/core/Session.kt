@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.core
 
 import io.ktor.client.HttpClient
@@ -5,10 +7,12 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.URLProtocol
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.endpoints.EndpointHost
+import kotlinx.coroutines.ExecutorCoroutineDispatcher
+import mu.KLogger
 import java.io.Closeable
 
-data class Session(val httpClient: HttpClient, val credentials: Credentials, val option: ClientOption): Closeable {
-    private fun call(method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: PenicillinRequestBuilder.() -> Unit = {}): PenicillinRequest {
+data class Session(val httpClient: HttpClient, val dispatcher: ExecutorCoroutineDispatcher, val logger: KLogger, val credentials: Credentials, val option: ClientOption): Closeable {
+    fun call(method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: PenicillinRequestBuilder.() -> Unit = {}): PenicillinRequest {
         return PenicillinRequestBuilder(this, method, protocol, host, path).apply(builder).build()
     }
 
@@ -42,5 +46,6 @@ data class Session(val httpClient: HttpClient, val credentials: Credentials, val
 
     override fun close() {
         httpClient.close()
+        dispatcher.close()
     }
 }

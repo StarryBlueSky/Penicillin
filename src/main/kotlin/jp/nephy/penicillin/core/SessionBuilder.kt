@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.core
 
 import io.ktor.client.HttpClient
@@ -7,12 +9,13 @@ import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.features.HttpPlainText
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
+import io.ktor.client.features.cookies.addCookie
 import io.ktor.http.Cookie
-import io.ktor.http.CookieEncoding
-import io.ktor.http.parseClientCookiesHeader
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.emulation.EmulationMode
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.newFixedThreadPoolContext
+import kotlinx.coroutines.runBlocking
+import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
 
 class SessionBuilder {
@@ -21,82 +24,111 @@ class SessionBuilder {
         credentialsBuilder = initializer
     }
 
-    private var emulationMode: EmulationMode? = null
-    fun emulate(mode: EmulationMode) {
-        emulationMode = mode
-    }
-
-    private var skipEmulationChecking: Boolean? = null
+    var emulationMode = EmulationMode.None
+    private var skipEmulationChecking = false
     fun skipEmulationChecking() {
         skipEmulationChecking = true
     }
 
-    private var maxRetries: Int? = null
-    fun maxRetries(count: Int) {
-        maxRetries = count
-    }
+    var maxRetries = 3
 
-    private var retryInterval: Long? = null
-    private var retryIntervalUnit: TimeUnit? = null
+    private var retryInMillis = 1000L
     fun retry(interval: Long, unit: TimeUnit) {
-        retryInterval = interval
-        retryIntervalUnit = unit
+        retryInMillis = unit.toMillis(interval)
     }
 
-    private val cookies = mutableMapOf<String, MutableList<Cookie>>()
-    fun cookie(host: String, header: String, encoding: CookieEncoding = CookieEncoding.BASE64_ENCODING) {
-        parseClientCookiesHeader(header).map {
-            cookie(host, Cookie(name = it.key, value = it.value, encoding = encoding))
+    private var dispatcherConfigBuilder: DispatcherConfig.Builder.() -> Unit = {}
+    fun dispatcher(builder: DispatcherConfig.Builder.() -> Unit) {
+        dispatcherConfigBuilder = builder
+    }
+
+    data class DispatcherConfig(val workingThreadsCount: Int, val connectionThreadsCount: Int?) {
+        class Builder {
+            var workingThreadsCount = minOf(1, Runtime.getRuntime().availableProcessors() / 2)
+            var connectionThreadsCount: Int? = null
+
+            internal fun build(): DispatcherConfig {
+                return DispatcherConfig(workingThreadsCount, connectionThreadsCount)
+            }
         }
     }
 
-    private var useCookie = false
-    fun acceptCookie() {
-        useCookie = true
+    private var cookieConfigBuilder: CookieConfig.Builder.() -> Unit = {}
+    fun cookie(builder: CookieConfig.Builder.() -> Unit) {
+        cookieConfigBuilder = builder
     }
 
-    fun cookie(host: String, cookie: Cookie) {
-        acceptCookie()
-        if (host !in cookies) {
-            cookies[host] = mutableListOf(cookie)
-        } else {
-            cookies[host]!!.add(cookie)
+    data class CookieConfig(val acceptCookie: Boolean, val cookies: Map<String, List<Cookie>>) {
+        class Builder {
+            private var acceptCookie = false
+            fun acceptCookie() {
+                acceptCookie = true
+            }
+
+            private val cookies = mutableMapOf<String, MutableList<Cookie>>()
+            fun addCookie(host: String, cookie: Cookie) {
+                if (host !in cookies) {
+                    cookies[host] = mutableListOf(cookie)
+                } else {
+                    cookies[host]!!.add(cookie)
+                }
+            }
+
+            internal fun build(): SessionBuilder.CookieConfig {
+                return CookieConfig(acceptCookie, cookies)
+            }
         }
     }
 
-    private fun HttpClientConfig<*>.initialize() {
-        install(HttpPlainText) {
-            defaultCharset = Charsets.UTF_8
-        }
-        if (useCookie) {
-            install(HttpCookies) {
-                storage = AcceptAllCookiesStorage().also {
-                    runBlocking {
-                        for (pair in cookies) {
-                            for (cookie in pair.value) {
-                                it.addCookie(pair.key, cookie)
+    private var httpClientEngineFactory: HttpClientEngineFactory<*>? = null
+    private var httpClientConfig: (HttpClientConfig<*>.() -> Unit)? = null
+    fun <T: HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
+        httpClientEngineFactory = engineFactory
+        @Suppress("UNCHECKED_CAST")
+        httpClientConfig = block as HttpClientConfig<*>.() -> Unit
+    }
+
+    internal fun build(): Session {
+        val cookieConfig = CookieConfig.Builder().apply(cookieConfigBuilder).build()
+        val dispatcherConfig = DispatcherConfig.Builder().apply(dispatcherConfigBuilder).build()
+
+        val httpClient = if (httpClientEngineFactory != null) HttpClient(httpClientEngineFactory!!) else HttpClient()
+        httpClient.config {
+            install(HttpPlainText) {
+                defaultCharset = Charsets.UTF_8
+            }
+
+            if (cookieConfig.acceptCookie) {
+                install(HttpCookies) {
+                    storage = AcceptAllCookiesStorage()
+
+                    if (cookieConfig.cookies.isNotEmpty()) {
+                        runBlocking {
+                            for (pair in cookieConfig.cookies) {
+                                for (cookie in pair.value) {
+                                    storage.addCookie(pair.key, cookie)
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-    }
 
-    private var httpClient: HttpClient? = null
-    fun <T: HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>, useDefaultTransformers: Boolean = false, block: HttpClientConfig<T>.() -> Unit = {}) {
-        httpClient = HttpClient(engineFactory, useDefaultTransformers) {
-            initialize()
-            block()
-        }
-    }
+            if (dispatcherConfig.connectionThreadsCount != null) {
+                engine {
+                    threadsCount = dispatcherConfig.connectionThreadsCount
+                }
+            }
 
-    internal fun build(): Session {
+            httpClientConfig?.invoke(this)
+        }
+
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
-        val httpClient = httpClient ?: HttpClient { initialize() }
+        val dispatcher = newFixedThreadPoolContext(dispatcherConfig.workingThreadsCount, "Penicillin")
+        val logger = KotlinLogging.logger("Penicillin.Client")
 
-        return Session(httpClient, authorizationData, ClientOption(maxRetries ?: 3, retryInterval ?: 1L, retryIntervalUnit ?: TimeUnit.SECONDS, emulationMode ?: EmulationMode.None, skipEmulationChecking ?: false))
+        return Session(httpClient, dispatcher, logger, authorizationData, ClientOption(maxRetries, retryInMillis, emulationMode, skipEmulationChecking))
     }
 }
 
-data class ClientOption(val maxRetries: Int, val retryInterval: Long, val retryIntervalUnit: TimeUnit, val emulationMode: EmulationMode, val skipEmulationChecking: Boolean)
+data class ClientOption(val maxRetries: Int, val retryInMillis: Long, val emulationMode: EmulationMode, val skipEmulationChecking: Boolean)
