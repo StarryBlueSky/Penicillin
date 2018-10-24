@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.core
 
 import io.ktor.client.request.HttpRequest
@@ -12,6 +14,7 @@ import jp.nephy.penicillin.models.*
 import jp.nephy.penicillin.models.special.AccessLevel
 import jp.nephy.penicillin.models.special.RateLimit
 import java.io.Closeable
+import kotlin.coroutines.CoroutineContext
 
 interface PenicillinResponse: Closeable {
     val request: HttpRequest
@@ -56,27 +59,15 @@ data class PenicillinJsonArrayResponse<M: PenicillinModel>(override val model: C
 }
 
 data class PenicillinCursorJsonObjectResponse<M: PenicillinCursorModel>(override val model: Class<M>, val result: M, override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction): PenicillinResponse, JsonResponse<M, ImmutableJsonObject>, CompletedResponse {
-    override val json by lazy { result.json }
+    override val json = result.json
     override val headers = ResponseHeaders(response.headers)
 
     fun next() = byCursor(result.nextCursor)
     fun previous() = byCursor(result.previousCursor)
 
-    fun untilLast(): List<PenicillinCursorJsonObjectResponse<M>> {
-        val results = mutableListOf(this)
-
-        var cursor = result.nextCursor
-        while (cursor != 0L) {
-            val response = try {
-                byCursor(cursor).complete()
-            } catch (e: Exception) {
-                break
-            }
-
-            results.add(response)
-            cursor = response.result.nextCursor
-        }
-        return results
+    fun untilLast(context: CoroutineContext? = null) = sequence {
+        yield(this@PenicillinCursorJsonObjectResponse)
+        yieldAll(next().untilLast(context))
     }
 
     fun byCursor(cursor: Long): PenicillinCursorJsonObjectAction<M> {
@@ -90,12 +81,12 @@ data class PenicillinCursorJsonObjectResponse<M: PenicillinCursorModel>(override
     }
 }
 
-val List<PenicillinCursorJsonObjectResponse<CursorIds>>.allIds
-    get() = flatMap { it.result.ids }
-val List<PenicillinCursorJsonObjectResponse<CursorLists>>.allLists
-    get() = flatMap { it.result.lists }
-val List<PenicillinCursorJsonObjectResponse<CursorUsers>>.allUsers
-    get() = flatMap { it.result.users }
+val Sequence<PenicillinCursorJsonObjectResponse<CursorIds>>.allIds
+    get() = toList().flatMap { it.result.ids }
+val Sequence<PenicillinCursorJsonObjectResponse<CursorLists>>.allLists
+    get() = toList().flatMap { it.result.lists }
+val Sequence<PenicillinCursorJsonObjectResponse<CursorUsers>>.allUsers
+    get() = toList().flatMap { it.result.users }
 
 data class PenicillinTextResponse(override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction): PenicillinResponse, CompletedResponse {
     override val headers = ResponseHeaders(response.headers)
