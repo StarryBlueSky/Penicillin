@@ -40,6 +40,7 @@ abstract class ApiAction<R>(private val dispatcher: CoroutineDispatcher) {
     }
 
     @Throws(PenicillinException::class, CancellationException::class)
+    // TODO: suspendCancellableCoroutine
     abstract suspend fun await(): R
 
     @Throws(PenicillinException::class, CancellationException::class)
@@ -66,7 +67,7 @@ abstract class ApiAction<R>(private val dispatcher: CoroutineDispatcher) {
     fun queue(scope: CoroutineScope = GlobalScope, context: CoroutineContext? = null, start: CoroutineStart = CoroutineStart.DEFAULT, onSuccess: ApiCallback<R>, onFailure: ApiFallback): Job {
         return scope.launch(context ?: dispatcher, start) {
             try {
-                complete().let(onSuccess)
+                await().let(onSuccess)
             } catch (e: Exception) {
                 try {
                     onFailure(e)
@@ -89,7 +90,7 @@ abstract class ApiAction<R>(private val dispatcher: CoroutineDispatcher) {
         return scope.launch(context ?: dispatcher, start) {
             try {
                 withTimeout(unit.toMillis(timeout)) {
-                    complete()
+                    await()
                 }.let(onSuccess)
             } catch (e: Exception) {
                 try {
