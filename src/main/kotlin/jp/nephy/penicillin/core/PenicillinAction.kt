@@ -40,7 +40,6 @@ abstract class ApiAction<R>(private val dispatcher: CoroutineDispatcher) {
     }
 
     @Throws(PenicillinException::class, CancellationException::class)
-    // TODO: suspendCancellableCoroutine
     abstract suspend fun await(): R
 
     @Throws(PenicillinException::class, CancellationException::class)
