@@ -2,10 +2,9 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
-import jp.nephy.jsonkt.delegation.immutableJsonObject
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.jsonObject
 
-
-data class LivePipelineSubscription(override val json: ImmutableJsonObject): PenicillinModel {
-    val subscriptions by immutableJsonObject
+data class LivePipelineSubscription(override val json: JsonObject): PenicillinModel {
+    val subscriptions by jsonObject
 }

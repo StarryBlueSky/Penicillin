@@ -2,10 +2,10 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 
-data class Webhook(override val json: ImmutableJsonObject): PenicillinModel {
+data class Webhook(override val json: JsonObject): PenicillinModel {
     val id by string
     val url by string
     val valid by boolean

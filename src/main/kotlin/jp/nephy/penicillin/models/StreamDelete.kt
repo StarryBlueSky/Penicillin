@@ -2,16 +2,15 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
-import jp.nephy.jsonkt.delegation.byImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.byJsonObject
 import jp.nephy.jsonkt.delegation.byLong
 import jp.nephy.jsonkt.delegation.byString
-import jp.nephy.jsonkt.delegation.immutableJsonObject
+import jp.nephy.jsonkt.delegation.jsonObject
 
-data class StreamDelete(override val json: ImmutableJsonObject): PenicillinModel {
-    private val delete by immutableJsonObject
-    private val status by delete.byImmutableJsonObject
-
+data class StreamDelete(override val json: JsonObject): PenicillinModel {
+    private val delete by jsonObject
+    private val status by delete.byJsonObject
     val timestampMs by delete.byString("timestamp_ms")
     val statusId by status.byLong("id")
     val statusIdStr by status.byString("id_str")

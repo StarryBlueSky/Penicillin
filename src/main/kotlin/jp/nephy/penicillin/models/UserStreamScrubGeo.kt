@@ -2,14 +2,13 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.byLong
 import jp.nephy.jsonkt.delegation.byString
-import jp.nephy.jsonkt.delegation.immutableJsonObject
+import jp.nephy.jsonkt.delegation.jsonObject
 
-data class UserStreamScrubGeo(override val json: ImmutableJsonObject): PenicillinModel {
-    private val scrubGeo by immutableJsonObject("scrub_geo")
-
+data class UserStreamScrubGeo(override val json: JsonObject): PenicillinModel {
+    private val scrubGeo by jsonObject("scrub_geo")
     val userId by scrubGeo.byLong("user_id")
     val userIdStr by scrubGeo.byString("user_id_str")
     val upToStatusId by scrubGeo.byLong("up_to_status_id")

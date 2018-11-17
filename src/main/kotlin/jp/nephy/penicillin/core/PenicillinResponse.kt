@@ -5,8 +5,8 @@ package jp.nephy.penicillin.core
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
 import io.ktor.http.Headers
-import jp.nephy.jsonkt.ImmutableJsonArray
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonArray
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonArrayOf
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.streaming.*
@@ -15,6 +15,7 @@ import jp.nephy.penicillin.models.special.AccessLevel
 import jp.nephy.penicillin.models.special.RateLimit
 import java.io.Closeable
 import kotlin.coroutines.CoroutineContext
+import kotlin.reflect.KClass
 
 interface PenicillinResponse: Closeable {
     val request: HttpRequest
@@ -40,7 +41,7 @@ class ResponseHeaders(private val headers: Headers) {
 }
 
 private interface JsonResponse<M: PenicillinModel, T: Any> {
-    val model: Class<M>
+    val model: KClass<M>
     val json: T
 }
 
@@ -48,17 +49,23 @@ private interface CompletedResponse {
     val content: String
 }
 
-data class PenicillinJsonObjectResponse<M: PenicillinModel>(override val model: Class<M>, val result: M, override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction): PenicillinResponse, JsonResponse<M, ImmutableJsonObject>, CompletedResponse {
+data class PenicillinJsonObjectResponse<M: PenicillinModel>(
+    override val model: KClass<M>, val result: M, override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction
+): PenicillinResponse, JsonResponse<M, JsonObject>, CompletedResponse {
     override val json by lazy { result.json }
     override val headers by lazy { ResponseHeaders(response.headers) }
 }
 
-data class PenicillinJsonArrayResponse<M: PenicillinModel>(override val model: Class<M>, override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction): PenicillinResponse, JsonResponse<M, ImmutableJsonArray>, CompletedResponse, ArrayList<M>() {
+data class PenicillinJsonArrayResponse<M: PenicillinModel>(
+    override val model: KClass<M>, override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction
+): PenicillinResponse, JsonResponse<M, JsonArray>, CompletedResponse, ArrayList<M>() {
     override val json by lazy { jsonArrayOf(*map { it.json }.toTypedArray()) }
     override val headers by lazy { ResponseHeaders(response.headers) }
 }
 
-data class PenicillinCursorJsonObjectResponse<M: PenicillinCursorModel>(override val model: Class<M>, val result: M, override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction): PenicillinResponse, JsonResponse<M, ImmutableJsonObject>, CompletedResponse {
+data class PenicillinCursorJsonObjectResponse<M: PenicillinCursorModel>(
+    override val model: KClass<M>, val result: M, override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction
+): PenicillinResponse, JsonResponse<M, JsonObject>, CompletedResponse {
     override val json = result.json
     override val headers = ResponseHeaders(response.headers)
 
@@ -88,11 +95,13 @@ val Sequence<PenicillinCursorJsonObjectResponse<CursorLists>>.allLists
 val Sequence<PenicillinCursorJsonObjectResponse<CursorUsers>>.allUsers
     get() = toList().flatMap { it.result.users }
 
-data class PenicillinTextResponse(override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction): PenicillinResponse, CompletedResponse {
+data class PenicillinTextResponse(override val request: HttpRequest, override val response: HttpResponse, override val content: String, override val action: PenicillinAction): PenicillinResponse,
+    CompletedResponse {
     override val headers = ResponseHeaders(response.headers)
 }
 
-data class PenicillinStreamResponse<L: StreamListener, H: StreamHandler<L>>(override val request: HttpRequest, override val response: HttpResponse, override val action: PenicillinAction): PenicillinResponse {
+data class PenicillinStreamResponse<L: StreamListener, H: StreamHandler<L>>(override val request: HttpRequest, override val response: HttpResponse, override val action: PenicillinAction):
+    PenicillinResponse {
     override val headers = ResponseHeaders(response.headers)
 
     fun listen(listener: L): StreamProcessor<L, H> {

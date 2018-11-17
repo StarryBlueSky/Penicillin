@@ -2,11 +2,10 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 
-
-data class StatusEntity(override val json: ImmutableJsonObject): PenicillinModel {
+data class StatusEntity(override val json: JsonObject): PenicillinModel {
     val hashtags by modelList<HashtagEntity>()
     val media by modelList<MediaEntity>()
     val symbols by modelList<SymbolEntity>()

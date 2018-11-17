@@ -8,7 +8,6 @@ import jp.nephy.penicillin.models.Language
 import jp.nephy.penicillin.models.Privacy
 import jp.nephy.penicillin.models.Tos
 
-
 class Help(override val client: PenicillinClient): Endpoint {
     fun configuration(vararg options: Pair<String, Any?>) = client.session.get("/1.1/help/configuration.json") {
         parameter(*options)

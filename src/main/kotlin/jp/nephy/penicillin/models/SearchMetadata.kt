@@ -2,11 +2,10 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 
-
-data class SearchMetadata(override val json: ImmutableJsonObject): PenicillinModel {
+data class SearchMetadata(override val json: JsonObject): PenicillinModel {
     val completedIn by float("completed_in")
     val count by int
     val maxId by long("max_id")

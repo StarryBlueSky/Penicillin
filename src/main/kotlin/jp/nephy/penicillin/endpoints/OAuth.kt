@@ -10,7 +10,6 @@ import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.models.special.AccessTokenResponse
 import jp.nephy.penicillin.models.special.RequestTokenResponse
 
-
 class OAuth(override val client: PenicillinClient): Endpoint {
     fun requestToken(callbackUrl: String = "oob", vararg options: Pair<String, Any?>): RequestTokenResponse {
         val result = client.session.post("/oauth/request_token") {
@@ -21,7 +20,6 @@ class OAuth(override val client: PenicillinClient): Endpoint {
                 }
             }
         }.text().complete()
-
         val pattern = "^oauth_token=(.+)&oauth_token_secret=(.+)&oauth_callback_confirmed=(.+)$".toRegex()
         val (requestToken, requestTokenSecret, callbackConfirmed) = pattern.matchEntire(result.content)!!.destructured
 
@@ -67,7 +65,6 @@ class OAuth(override val client: PenicillinClient): Endpoint {
                 }
             }
         }.text().complete()
-
         val pattern = "^oauth_token=(.+)&oauth_token_secret=(.+)&user_id=(\\d+)&screen_name=(.+)$".toRegex()
         val (accessToken, accessTokenSecret, userId, screenName) = pattern.matchEntire(result.content)!!.destructured
 

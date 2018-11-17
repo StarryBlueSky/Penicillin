@@ -2,15 +2,15 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 import jp.nephy.penicillin.models.special.Language
 
-data class User(val parentJson: ImmutableJsonObject): CommonUser(parentJson)
+data class User(val parentJson: JsonObject): CommonUser(parentJson)
 
-abstract class CommonUser(final override val json: ImmutableJsonObject): PenicillinModel {
+abstract class CommonUser(final override val json: JsonObject): PenicillinModel {
     val advertiserAccountServiceLevels by stringList("advertiser_account_service_levels")
     val advertiserAccountType by nullableString("advertiser_account_type")
     val analyticsType by nullableString("analytics_type")
@@ -73,6 +73,5 @@ abstract class CommonUser(final override val json: ImmutableJsonObject): Penicil
     val verified by boolean
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
-
     val isLockedAccount by lazy { profileInterstitialType == "fake_account" }
 }

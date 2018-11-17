@@ -12,7 +12,9 @@ import mu.KLogger
 import java.io.Closeable
 
 data class Session(val httpClient: HttpClient, val dispatcher: ExecutorCoroutineDispatcher, val logger: KLogger, val credentials: Credentials, val option: ClientOption): Closeable {
-    fun call(method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: PenicillinRequestBuilder.() -> Unit = {}): PenicillinRequest {
+    fun call(
+        method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: PenicillinRequestBuilder.() -> Unit = {}
+    ): PenicillinRequest {
         return PenicillinRequestBuilder(this, method, protocol, host, path).apply(builder).build()
     }
 
