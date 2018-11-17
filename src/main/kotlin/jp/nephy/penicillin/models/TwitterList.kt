@@ -2,13 +2,13 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 
 
-data class TwitterList(override val json: ImmutableJsonObject): PenicillinModel {
+data class TwitterList(override val json: JsonObject): PenicillinModel {
     val createdAt by lambda("created_at") { CreatedAt(it.string) }
     val description by string
     val following by boolean

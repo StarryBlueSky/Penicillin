@@ -2,11 +2,10 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 
-
-data class UserTypeahead(override val json: ImmutableJsonObject): PenicillinModel {
+data class UserTypeahead(override val json: JsonObject): PenicillinModel {
     val canMediaTag by boolean("can_media_tag")
     val connectingUserCount by int("connecting_user_count")
     val connectingUserIds by longList("connecting_user_ids")

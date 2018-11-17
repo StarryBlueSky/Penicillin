@@ -2,12 +2,12 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.nullableBoolean
 import jp.nephy.jsonkt.delegation.nullableLong
 import jp.nephy.jsonkt.delegation.nullableString
 
-data class Phone(override val json: ImmutableJsonObject): PenicillinModel {
+data class Phone(override val json: JsonObject): PenicillinModel {
     val address by nullableString
     val addressForSms by nullableString("address_for_sms")
     val carrier by nullableString

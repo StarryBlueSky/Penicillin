@@ -1,8 +1,8 @@
 group "jp.nephy"
-version "3.1.0"
+version "3.2.0"
 
 buildscript {
-    ext.kotlin_version = "1.3.0"
+    ext.kotlin_version = "1.3.10"
     ext.ktor_version = "1.0.0-beta-3"
 
     repositories {
@@ -12,11 +12,13 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
     }
 }
 
 apply plugin: "kotlin"
+apply plugin: "kotlinx-serialization"
 apply plugin: "org.jetbrains.dokka"
 apply plugin: "maven"
 apply plugin: "signing"
@@ -38,10 +40,10 @@ dependencies {
     testCompile "io.ktor:ktor-client-jetty:$ktor_version"
     testCompile "io.ktor:ktor-client-okhttp:$ktor_version"
 
-    compile "jp.nephy:jsonkt:3.5"
+    compile "jp.nephy:jsonkt:4.0"
     testCompile "com.twitter.twittertext:twitter-text:3.0.1"
 
-    compile "io.github.microutils:kotlin-logging:1.6.10"
+    compile "io.github.microutils:kotlin-logging:1.6.20"
     testCompile "ch.qos.logback:logback-core:1.2.3"
     testCompile "ch.qos.logback:logback-classic:1.2.3"
     testCompile "org.fusesource.jansi:jansi:1.17.1"

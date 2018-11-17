@@ -2,14 +2,13 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.jsonkt.immutableJsonObject
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 
-data class Moment(override val json: ImmutableJsonObject): PenicillinModel {
-    private val moment by immutableJsonObject
+data class Moment(override val json: JsonObject): PenicillinModel {
+    private val moment by jsonObject
     val id by moment.byString
     val title by moment.byString
     val description by moment.byString
@@ -23,17 +22,13 @@ data class Moment(override val json: ImmutableJsonObject): PenicillinModel {
     val canSubscribe by moment.byBoolean("can_subscribe")
     val capsuleContentsVersion by moment.byString("capsule_contents_version")
     val totalLikes by moment.byInt("total_likes")
-
-    val users by moment.byLambda { it.immutableJsonObject.toMap().values.map { json -> User(json.immutableJsonObject) } }
+    val users by moment.byLambda { it.jsonObject.toMap().values.map { json -> User(json.jsonObject) } }
     val coverMedia by moment.byModel<CoverMedia>(key = "cover_media")
-
     val displayStyle by string("display_style")
-
-    private val context by immutableJsonObject
-    private val contectScribeInfo by context.byImmutableJsonObject
+    private val context by jsonObject
+    private val contectScribeInfo by context.byJsonObject
     val momentPosition by contectScribeInfo.byString("moment_position")
-    val tweets by lambda { it.immutableJsonObject.toMap().values.map { json -> Status(json.immutableJsonObject) } }
-
+    val tweets by lambda { it.jsonObject.toMap().values.map { json -> Status(json.jsonObject) } }
     val coverFormat by model<CoverFormat>(key = "cover_format")
     val largeFormat by model<CoverFormat>(key = "large_format")
     val thumbnailFormat by model<CoverFormat>(key = "thumbnail_format")

@@ -2,16 +2,16 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.jsonkt.long
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 import jp.nephy.penicillin.models.special.Language
 import jp.nephy.penicillin.models.special.Source
 import jp.nephy.penicillin.models.special.StatusID
+import kotlinx.serialization.json.long
 
-data class Status(override val json: ImmutableJsonObject): PenicillinModel {
+data class Status(override val json: JsonObject): PenicillinModel {
     val contributors by modelList<Contributor>()
     val conversationId by nullableLong("conversation_id")
     val coordinates by model<Coordinate?>()
@@ -26,7 +26,7 @@ data class Status(override val json: ImmutableJsonObject): PenicillinModel {
     val filterLevel by nullableString("filter_level")
     val fullText by nullableString("full_text")
     @Deprecated("geo field is deprecated. Use coordinates instead.")
-    val geo by nullableImmutableJsonObject
+    val geo by nullableJsonObject
     val id by long
     val idObj by lambda("id") { StatusID(it.long) }
     val idStr by string("id_str")

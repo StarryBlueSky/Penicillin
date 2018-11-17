@@ -2,6 +2,6 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 
-data class PromotedTrendModule(override val json: ImmutableJsonObject): PenicillinModel
+data class PromotedTrendModule(override val json: JsonObject): PenicillinModel

@@ -10,9 +10,8 @@ import io.ktor.http.content.OutgoingContent
 import io.ktor.util.appendAll
 import io.ktor.util.flattenEntries
 import io.ktor.util.flattenForEach
-import jp.nephy.jsonkt.ImmutableJsonObject
-import jp.nephy.jsonkt.mutableJsonObjectOf
-import jp.nephy.jsonkt.toJsonElement
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.asJsonElement
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.auth.OAuthUtil
@@ -25,6 +24,8 @@ import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import kotlinx.coroutines.io.ByteWriteChannel
 import kotlinx.coroutines.io.writeFully
 import kotlinx.coroutines.io.writeStringUtf8
+import kotlinx.serialization.json.JsonBuilder
+import kotlinx.serialization.json.json
 import mu.KotlinLogging
 import java.util.*
 import kotlin.collections.set
@@ -42,8 +43,8 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
     }
 
     fun header(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
-        for (pair in pairs) {
-            header(pair.first, pair.second, emulationMode)
+        for ((first, second) in pairs) {
+            header(first, second, emulationMode)
         }
     }
 
@@ -70,8 +71,8 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
     }
 
     fun parameter(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
-        for (pair in pairs) {
-            parameter(pair.first, pair.second, emulationMode)
+        for ((first, second) in pairs) {
+            parameter(first, second, emulationMode)
         }
     }
 
@@ -115,16 +116,15 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
         val signature = when (authorizationType) {
             AuthorizationType.OAuth1a -> {
                 val authorizationHeaderComponent = linkedMapOf(
-                        "oauth_signature" to null,
-                        "oauth_callback" to oauthCallbackUrl,
-                        "oauth_nonce" to OAuthUtil.randomUUID(),
-                        "oauth_timestamp" to OAuthUtil.currentEpochTime(),
-                        "oauth_consumer_key" to session.credentials.consumerKey!!,
-                        "oauth_token" to session.credentials.accessToken,
-                        "oauth_version" to "1.0",
-                        "oauth_signature_method" to "HMAC-SHA1"
+                    "oauth_signature" to null,
+                    "oauth_callback" to oauthCallbackUrl,
+                    "oauth_nonce" to OAuthUtil.randomUUID(),
+                    "oauth_timestamp" to OAuthUtil.currentEpochTime(),
+                    "oauth_consumer_key" to session.credentials.consumerKey!!,
+                    "oauth_token" to session.credentials.accessToken,
+                    "oauth_version" to "1.0",
+                    "oauth_signature_method" to "HMAC-SHA1"
                 )
-
                 val signatureParam = sortedMapOf<String, String>().apply {
                     authorizationHeaderComponent.filterValues { it != null }.forEach {
                         put(it.key, it.value)
@@ -143,9 +143,9 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
                     }
                 }
                 val signatureParamString = OAuthUtil.signatureParamString(signatureParam)
-
                 val signingKey = OAuthUtil.signingKey(session.credentials.consumerSecret!!, session.credentials.accessTokenSecret)
-                val signatureBaseString = OAuthUtil.signingBaseString(httpMethod, URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path).buildString(), signatureParamString)
+                val signatureBaseString =
+                    OAuthUtil.signingBaseString(httpMethod, URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path).buildString(), signatureParamString)
                 authorizationHeaderComponent["oauth_signature"] = OAuthUtil.signature(signingKey, signatureBaseString)
 
                 "OAuth ${authorizationHeaderComponent.filterValues { it != null }.toList().joinToString(", ") { "${it.first}=\"${it.second}\"" }}"
@@ -170,7 +170,6 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
         val method = javaClass.methods.find { it.name == trace.methodName } ?: return
 
         logger.trace { "Endpoint: ${javaClass.simpleName}#${method.name}" }
-
         val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
         if (session.option.emulationMode == EmulationMode.None || (annotation.mode.isNotEmpty() && session.option.emulationMode !in annotation.mode)) {
             throw PenicillinLocalizedException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
@@ -230,8 +229,8 @@ class EncodedFormContent(val forms: Parameters): OutgoingContent.WriteChannelCon
         }
 
         fun add(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
-            for (pair in pairs) {
-                add(pair.first, pair.second, emulationMode)
+            for ((first, second) in pairs) {
+                add(first, second, emulationMode)
             }
         }
 
@@ -243,7 +242,6 @@ class EncodedFormContent(val forms: Parameters): OutgoingContent.WriteChannelCon
 
 // From https://github.com/ktorio/ktor-samples/blob/183dd65e39565d6d09682a9b273937013d2124cc/other/client-multipart/src/MultipartApp.kt#L57
 class MultiPartContent(private val parts: List<Part>): OutgoingContent.WriteChannelContent() {
-
     private val boundary = "***Penicillin-${UUID.randomUUID()}-Penicillin-${System.currentTimeMillis()}***"
     override val contentType = ContentType.MultiPart.FormData.withParameter("boundary", boundary).withCharset(Charsets.UTF_8)
 
@@ -292,8 +290,8 @@ class MultiPartContent(private val parts: List<Part>): OutgoingContent.WriteChan
         }
 
         fun add(vararg pairs: Pair<String, Any?>) {
-            for (pair in pairs) {
-                add(pair.first, pair.second?.toString() ?: continue)
+            for ((first, second) in pairs) {
+                add(first, second?.toString() ?: continue)
             }
         }
 
@@ -303,7 +301,7 @@ class MultiPartContent(private val parts: List<Part>): OutgoingContent.WriteChan
     }
 }
 
-class JsonTextContent(private val json: ImmutableJsonObject): OutgoingContent.WriteChannelContent() {
+class JsonTextContent(private val json: JsonObject): OutgoingContent.WriteChannelContent() {
     override val contentType = ContentType.Application.Json.withCharset(Charsets.UTF_8)
 
     override suspend fun writeTo(channel: ByteWriteChannel) {
@@ -311,20 +309,26 @@ class JsonTextContent(private val json: ImmutableJsonObject): OutgoingContent.Wr
     }
 
     class Builder {
-        private val json = mutableJsonObjectOf()
+        private val updates = mutableListOf<JsonBuilder.() -> Unit>()
 
         fun add(key: String, value: Any?) {
-            json[key] = value.toJsonElement()
+            updates += {
+                key to value.asJsonElement()
+            }
         }
 
         fun add(vararg pairs: Pair<String, Any?>) {
-            for (pair in pairs) {
-                add(pair.first, pair.second)
+            for ((first, second) in pairs) {
+                add(first, second)
             }
         }
 
         internal fun build(): JsonTextContent {
-            return JsonTextContent(json)
+            return JsonTextContent(json {
+                for (update in updates) {
+                    update()
+                }
+            })
         }
     }
 }

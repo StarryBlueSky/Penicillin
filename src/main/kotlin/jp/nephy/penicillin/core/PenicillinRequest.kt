@@ -8,19 +8,19 @@ import jp.nephy.penicillin.models.PenicillinModel
 
 class PenicillinRequest(val session: Session, val builder: PenicillinRequestBuilder) {
     inline fun <reified M: PenicillinModel> jsonObject(): PenicillinJsonObjectAction<M> {
-        return PenicillinJsonObjectAction(this, M::class.java)
+        return PenicillinJsonObjectAction(this, M::class)
     }
 
     fun empty(): PenicillinJsonObjectAction<Empty> {
-        return PenicillinJsonObjectAction(this, Empty::class.java)
+        return PenicillinJsonObjectAction(this, Empty::class)
     }
 
     inline fun <reified M: PenicillinModel> jsonArray(): PenicillinJsonArrayAction<M> {
-        return PenicillinJsonArrayAction(this, M::class.java)
+        return PenicillinJsonArrayAction(this, M::class)
     }
 
     inline fun <reified M: PenicillinCursorModel> cursorJsonObject(): PenicillinCursorJsonObjectAction<M> {
-        return PenicillinCursorJsonObjectAction(this, M::class.java)
+        return PenicillinCursorJsonObjectAction(this, M::class)
     }
 
     fun text(): PenicillinTextAction {

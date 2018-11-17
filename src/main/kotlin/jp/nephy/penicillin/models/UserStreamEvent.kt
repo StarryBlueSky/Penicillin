@@ -2,14 +2,14 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.lambda
 import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.string
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.models.special.CreatedAt
 
-abstract class UserStreamEvent(final override val json: ImmutableJsonObject): PenicillinModel {
+abstract class UserStreamEvent(final override val json: JsonObject): PenicillinModel {
     val event by string
     val source by model<User>()
     val target by model<User>()

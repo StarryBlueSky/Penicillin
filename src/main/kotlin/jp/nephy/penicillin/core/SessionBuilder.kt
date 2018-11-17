@@ -31,7 +31,6 @@ class SessionBuilder {
     }
 
     var maxRetries = 3
-
     private var retryInMillis = 1000L
     fun retry(interval: Long, unit: TimeUnit) {
         retryInMillis = unit.toMillis(interval)
@@ -82,17 +81,21 @@ class SessionBuilder {
 
     private var httpClientEngineFactory: HttpClientEngineFactory<*>? = null
     private var httpClientConfig: (HttpClientConfig<*>.() -> Unit)? = null
+    @Suppress("UNCHECKED_CAST")
     fun <T: HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
         httpClientEngineFactory = engineFactory
-        @Suppress("UNCHECKED_CAST")
         httpClientConfig = block as HttpClientConfig<*>.() -> Unit
+    }
+
+    private var httpClient: HttpClient? = null
+    fun httpClient(client: HttpClient) {
+        httpClient = client
     }
 
     internal fun build(): Session {
         val cookieConfig = CookieConfig.Builder().apply(cookieConfigBuilder).build()
         val dispatcherConfig = DispatcherConfig.Builder().apply(dispatcherConfigBuilder).build()
-
-        val httpClient = if (httpClientEngineFactory != null) HttpClient(httpClientEngineFactory!!) else HttpClient()
+        val httpClient = httpClient ?: if (httpClientEngineFactory != null) HttpClient(httpClientEngineFactory!!) else HttpClient()
         httpClient.config {
             install(HttpPlainText) {
                 defaultCharset = Charsets.UTF_8
@@ -104,9 +107,9 @@ class SessionBuilder {
 
                     if (cookieConfig.cookies.isNotEmpty()) {
                         runBlocking {
-                            for (pair in cookieConfig.cookies) {
-                                for (cookie in pair.value) {
-                                    storage.addCookie(pair.key, cookie)
+                            for ((key, value) in cookieConfig.cookies) {
+                                for (cookie in value) {
+                                    storage.addCookie(key, cookie)
                                 }
                             }
                         }
@@ -122,7 +125,6 @@ class SessionBuilder {
 
             httpClientConfig?.invoke(this)
         }
-
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
         val dispatcher = newFixedThreadPoolContext(dispatcherConfig.workingThreadsCount, "Penicillin")
         val logger = KotlinLogging.logger("Penicillin.Client")

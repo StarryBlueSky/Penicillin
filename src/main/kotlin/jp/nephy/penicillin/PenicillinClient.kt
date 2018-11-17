@@ -7,9 +7,7 @@ import java.io.Closeable
 
 @Suppress("UNUSED")
 class PenicillinClient(session: SessionBuilder.() -> Unit = {}): Closeable {
-
     val session = SessionBuilder().apply(session).build()
-
     val account = Account(this)
     val accountActivity = AccountActivity(this)
     val activity = Activity(this)

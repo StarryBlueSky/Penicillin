@@ -1,13 +1,13 @@
 package jp.nephy.penicillin.core.streaming
 
-import jp.nephy.jsonkt.ImmutableJsonObject
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.StreamDelete
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class SampleStreamHandler(override val listener: SampleStreamListener): StreamHandler<SampleStreamListener> {
-    override suspend fun handle(json: ImmutableJsonObject, scope: CoroutineScope) {
+    override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
         scope.launch(scope.coroutineContext) {
             when {
                 "text" in json -> {
