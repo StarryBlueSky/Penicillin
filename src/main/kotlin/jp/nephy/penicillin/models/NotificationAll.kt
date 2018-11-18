@@ -26,6 +26,7 @@ data class NotificationAll(override val json: JsonObject): PenicillinModel {
         val clearCache = instructions.find { it.contains("clearCache") }?.values?.firstOrNull()?.jsonObjectOrNull?.parse<NotificationInstruction.ClearCache>()
         val addEntries = instructions.find { it.contains("addEntries") }?.values?.firstOrNull()?.jsonObjectOrNull?.parse<NotificationInstruction.AddEntries>()
         val clearEntriesUnreadState = instructions.find { it.contains("clearEntriesUnreadState") }?.values?.firstOrNull()?.jsonObjectOrNull?.parse<NotificationInstruction.ClearEntriesUnreadState>()
-        val markEntriesUnreadGreaterThanSortIndex = instructions.find { it.contains("markEntriesUnreadGreaterThanSortIndex") }?.values?.firstOrNull()?.jsonObjectOrNull?.parse<NotificationInstruction.MarkEntriesUnreadGreaterThanSortIndex>()
+        val markEntriesUnreadGreaterThanSortIndex =
+            instructions.find { it.contains("markEntriesUnreadGreaterThanSortIndex") }?.values?.firstOrNull()?.jsonObjectOrNull?.parse<NotificationInstruction.MarkEntriesUnreadGreaterThanSortIndex>()
     }
 }
