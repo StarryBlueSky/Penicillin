@@ -70,10 +70,10 @@ abstract class ApiAction<R>(private val dispatcher: CoroutineDispatcher) {
         return scope.launch(context ?: dispatcher, start) {
             try {
                 await().let(onSuccess)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 try {
                     onFailure(e)
-                } catch (e: Exception) {
+                } catch (e: Throwable) {
                     defaultFallback(e)
                 }
             }
@@ -102,10 +102,10 @@ abstract class ApiAction<R>(private val dispatcher: CoroutineDispatcher) {
                 withTimeout(unit.toMillis(timeout)) {
                     await()
                 }.let(onSuccess)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 try {
                     onFailure(e)
-                } catch (e: Exception) {
+                } catch (e: Throwable) {
                     defaultFallback(e)
                 }
             }
@@ -130,7 +130,7 @@ private suspend fun executeRequest(session: Session, request: PenicillinRequest)
             return response.call.request to response
         } catch (e: CancellationException) {
             throw e
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             // TEMP FIX: Set-CookieConfig header format may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
             if (e is IllegalStateException && e.message.orEmpty().startsWith("Invalid date length.")) {
                 logger.debug(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
@@ -154,7 +154,7 @@ private suspend fun HttpResponse.readTextSafe(): String? {
             return readText().trim().unescapeHTML()
         } catch (e: CancellationException) {
             throw e
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             logger.error(e) { "Failed to read text. (${it + 1}/$maxRetries)\n${call.request.url}" }
         }
     }
@@ -166,23 +166,31 @@ internal fun String.unescapeHTML(): String {
     return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
 }
 
-private fun String.toJsonObjectSafe(): JsonObject? {
+private fun String.toJsonObjectSafe(ignoreError: Boolean = false): JsonObject? {
     return try {
         toJsonObject()
     } catch (e: CancellationException) {
         throw e
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
+        if (ignoreError) {
+            return jsonObjectOf()
+        }
+
         logger.error(e) { LocalizedString.JsonParsingFailed.format(this) }
         null
     }
 }
 
-private fun String.toJsonArraySafe(): JsonArray? {
+private fun String.toJsonArraySafe(ignoreError: Boolean = false): JsonArray? {
     return try {
         toJsonArray()
     } catch (e: CancellationException) {
         throw e
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
+        if (ignoreError) {
+            return jsonArrayOf()
+        }
+
         logger.error(e) { LocalizedString.JsonParsingFailed.format(this) }
         null
     }
@@ -193,7 +201,7 @@ private fun <T: PenicillinModel> JsonObject.parseSafe(model: KClass<T>, content:
         parse(model)
     } catch (e: CancellationException) {
         throw e
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
         null
     }
@@ -204,7 +212,7 @@ private fun <T: PenicillinModel> JsonArray.parseSafe(model: KClass<T>, content: 
         parseList(model)
     } catch (e: CancellationException) {
         throw e
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
         emptyList()
     }
@@ -239,7 +247,7 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
     if (response.status.isSuccess()) {
         return
     }
-    val json = content?.toJsonObjectSafe()
+    val json = content?.toJsonObjectSafe(true)
     if (json != null) {
         val error = json.getOrNull("errors")?.jsonArrayOrNull?.firstOrNull() ?: json.getOrNull("error")
         when (error) {
@@ -266,11 +274,7 @@ class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: Penic
         val (request, response) = executeRequest(request.session, request)
         val content = response.readTextSafe()
         checkError(request, response, content)
-        val json = content?.toJsonObjectSafe() ?: if (model == Empty::class.java) {
-            jsonObjectOf()
-        } else {
-            throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
-        }
+        val json = content?.toJsonObjectSafe(model == Empty::class) ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
         val result = json.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
 
         return PenicillinJsonObjectResponse(model, result, request, response, content.orEmpty(), this)
@@ -340,7 +344,7 @@ class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override va
     }
 }
 
-private typealias JsonObjectActionCallback<M> = (results: PenicillinMultipleJsonObjectActions.Results<M>) -> PenicillinJsonObjectAction<*>
+private typealias JsonObjectActionCallback<M> = suspend (results: PenicillinMultipleJsonObjectActions.Results<M>) -> PenicillinJsonObjectAction<*>
 
 class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: PenicillinJsonObjectAction<M>, private val requests: List<JsonObjectActionCallback<M>>):
     ApiAction<List<PenicillinJsonObjectResponse<*>>>(first.request.session.dispatcher) {
@@ -366,8 +370,9 @@ class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: Penicil
         val responses = mutableMapOf<KClass<out PenicillinModel>, MutableList<PenicillinJsonObjectResponse<*>>>()
         val responsesList = mutableListOf<PenicillinJsonObjectResponse<*>>()
         for (request in requests) {
-            val results = Results(first, responses)
-            val result = request.invoke(results).await()
+            val result = runCatching {
+                request.invoke(Results(first, responses)).await()
+            }.getOrNull() ?: continue
 
             if (result.model in responses) {
                 responses[result.model]!!.add(result)
