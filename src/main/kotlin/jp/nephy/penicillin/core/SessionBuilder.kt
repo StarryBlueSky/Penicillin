@@ -11,8 +11,10 @@ import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.client.features.cookies.addCookie
 import io.ktor.http.Cookie
+import io.ktor.util.KtorExperimentalAPI
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
@@ -92,6 +94,7 @@ class SessionBuilder {
         httpClient = client
     }
 
+    @UseExperimental(ObsoleteCoroutinesApi::class, KtorExperimentalAPI::class)
     internal fun build(): Session {
         val cookieConfig = CookieConfig.Builder().apply(cookieConfigBuilder).build()
         val dispatcherConfig = DispatcherConfig.Builder().apply(dispatcherConfigBuilder).build()
