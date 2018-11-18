@@ -12,17 +12,15 @@ class DirectMessageEvent(override val client: PenicillinClient): Endpoint {
         body {
             json {
                 add(
-                        "event" to jsonObjectOf(
-                                "type" to "message_create",
-                                "message_create" to jsonObjectOf(
-                                    "target" to jsonObjectOf(
-                                            "recipient_id" to userId
-                                    ),
-                                    "message_data" to jsonObjectOf(
-                                            "text" to text
-                                    )
-                                )
+                    "event" to jsonObjectOf(
+                        "type" to "message_create", "message_create" to jsonObjectOf(
+                            "target" to jsonObjectOf(
+                                "recipient_id" to userId
+                            ), "message_data" to jsonObjectOf(
+                                "text" to text
+                            )
                         )
+                    )
                 )
                 add(*options)
             }

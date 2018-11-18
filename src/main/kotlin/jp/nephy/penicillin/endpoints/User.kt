@@ -7,15 +7,33 @@ import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.models.*
 import jp.nephy.penicillin.models.User
 
-
 class User(override val client: PenicillinClient): Endpoint {
     fun show(screenName: String? = null, userId: Long? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/show.json") {
-        parameter("ext" to "mediaColor", "include_entities" to 1, "include_user_entities" to true, "include_profile_interstitial_type" to true, "include_user_symbol_entities" to true, "include_user_hashtag_entities" to true, "include_user_mention_entities" to true, emulationMode = EmulationMode.TwitterForiPhone)
+        parameter(
+            "ext" to "mediaColor",
+            "include_entities" to 1,
+            "include_user_entities" to true,
+            "include_profile_interstitial_type" to true,
+            "include_user_symbol_entities" to true,
+            "include_user_hashtag_entities" to true,
+            "include_user_mention_entities" to true,
+            emulationMode = EmulationMode.TwitterForiPhone
+        )
         parameter("screen_name" to screenName, "user_id" to userId, "include_entities" to includeEntities, *options)
     }.jsonObject<User>()
 
     fun lookup(screenNames: List<String>? = null, userIds: List<Long>? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/lookup.json") {
-        parameter("ext" to "mediaColor", "include_entities" to 1, "include_user_entities" to true, "include_profile_interstitial_type" to true, "include_profile_location" to true, "include_user_symbol_entities" to true, "include_user_hashtag_entities" to true, "include_user_mention_entities" to true, emulationMode = EmulationMode.TwitterForiPhone)
+        parameter(
+            "ext" to "mediaColor",
+            "include_entities" to 1,
+            "include_user_entities" to true,
+            "include_profile_interstitial_type" to true,
+            "include_profile_location" to true,
+            "include_user_symbol_entities" to true,
+            "include_user_hashtag_entities" to true,
+            "include_user_mention_entities" to true,
+            emulationMode = EmulationMode.TwitterForiPhone
+        )
         parameter("screen_name" to screenNames?.joinToString(","), "user_id" to userIds?.joinToString(","), "include_entities" to includeEntities, *options)
     }.jsonArray<User>()
 
@@ -49,7 +67,23 @@ class User(override val client: PenicillinClient): Endpoint {
 
     @PrivateEndpoint
     fun recommendations(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/recommendations.json") {
-        parameter("connections" to "true", "display_location" to "st-component", "ext" to "mediaColor", "include_entities" to "1", "include_profile_interstitial_type" to "true", "include_profile_location" to "true", "include_user_entities" to "true", "include_user_hashtag_entities" to "true", "include_user_mention_entities" to "true", "include_user_symbol_entities" to "true", "limit" to "3", "pc" to "true", "screen_name" to screenName, "user_id" to userId, *options)
+        parameter(
+            "connections" to "true",
+            "display_location" to "st-component",
+            "ext" to "mediaColor",
+            "include_entities" to "1",
+            "include_profile_interstitial_type" to "true",
+            "include_profile_location" to "true",
+            "include_user_entities" to "true",
+            "include_user_hashtag_entities" to "true",
+            "include_user_mention_entities" to "true",
+            "include_user_symbol_entities" to "true",
+            "limit" to "3",
+            "pc" to "true",
+            "screen_name" to screenName,
+            "user_id" to userId,
+            *options
+        )
     }.jsonArray<Recommendation>()
 
     @PrivateEndpoint

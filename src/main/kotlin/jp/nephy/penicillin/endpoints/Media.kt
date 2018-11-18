@@ -62,22 +62,31 @@ class Media(override val client: PenicillinClient): Endpoint {
         }.build()
     }
 
-    private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
-        body {
-            form {
-                add("command" to "INIT", "total_bytes" to totalBytes, "media_type" to mediaType.contentType, "media_category" to mediaCategory?.value, "additional_owners" to additionalOwners?.joinToString(","), *options)
+    private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Pair<String, Any?>) =
+        client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+            body {
+                form {
+                    add(
+                        "command" to "INIT",
+                        "total_bytes" to totalBytes,
+                        "media_type" to mediaType.contentType,
+                        "media_category" to mediaCategory?.value,
+                        "additional_owners" to additionalOwners?.joinToString(","),
+                        *options
+                    )
+                }
             }
-        }
-    }.jsonObject<Media>()
+        }.jsonObject<Media>()
 
-    private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
-        body {
-            multiPart {
-                add("media", "blob", mediaType.contentType, file)
-                add("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
+    private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) =
+        client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+            body {
+                multiPart {
+                    add("media", "blob", mediaType.contentType, file)
+                    add("command" to "APPEND", "media_id" to mediaId, "media_key" to mediaKey, "segment_index" to segmentIndex, *options)
+                }
             }
-        }
-    }.empty()
+        }.empty()
 
     private fun uploadFinalize(mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
         body {
