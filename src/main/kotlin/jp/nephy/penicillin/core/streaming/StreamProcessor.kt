@@ -49,7 +49,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
                         break
                     } catch (e: CancellationException) {
                         return
-                    } catch (e: Exception) {
+                    } catch (e: Throwable) {
                         delay(1000)
                         continue
                     }
@@ -68,7 +68,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
         while (isActive && !result.response.content.isClosedForRead) {
             val line = try {
                 result.response.content.readUTF8Line()?.trim() ?: break
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 break
             }
 
