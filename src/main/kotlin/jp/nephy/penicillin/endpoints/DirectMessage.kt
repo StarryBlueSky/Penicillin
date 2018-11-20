@@ -12,14 +12,16 @@ class DirectMessage(override val client: PenicillinClient): Endpoint {
     }.jsonObject<DirectMessage>()
 
     @Deprecated("Legacy Direct Message API retired on September 17th, 2018.", replaceWith = ReplaceWith("jp.nephy.endpoints.DirectMessageEvent"))
-    fun list(sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages.json") {
-        parameter("since_id" to sinceId, "max_id" to maxId, "count" to count, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
-    }.jsonArray<DirectMessage>()
+    fun list(sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
+        client.session.get("/1.1/direct_messages.json") {
+            parameter("since_id" to sinceId, "max_id" to maxId, "count" to count, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
+        }.jsonArray<DirectMessage>()
 
     @Deprecated("Legacy Direct Message API retired on September 17th, 2018.", replaceWith = ReplaceWith("jp.nephy.endpoints.DirectMessageEvent"))
-    fun sentMessages(sinceId: Long? = null, maxId: Long? = null, count: Int? = null, page: Int? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages/sent.json") {
-        parameter("since_id" to sinceId, "max_id" to maxId, "count" to count, "include_entities" to includeEntities, "page" to page, *options)
-    }.jsonArray<DirectMessage>()
+    fun sentMessages(sinceId: Long? = null, maxId: Long? = null, count: Int? = null, page: Int? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) =
+        client.session.get("/1.1/direct_messages/sent.json") {
+            parameter("since_id" to sinceId, "max_id" to maxId, "count" to count, "include_entities" to includeEntities, "page" to page, *options)
+        }.jsonArray<DirectMessage>()
 
     @Deprecated("Legacy Direct Message API retired on September 17th, 2018.", replaceWith = ReplaceWith("jp.nephy.endpoints.DirectMessageEvent"))
     fun create(text: String, userId: Long? = null, screenName: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/direct_messages/new.json") {
