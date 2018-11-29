@@ -163,6 +163,10 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
     }
 
     private fun checkEmulation() {
+        if (session.option.skipEmulationChecking) {
+            return
+        }
+
         val trace = Thread.currentThread().stackTrace.find {
             it.className.startsWith("jp.nephy.penicillin.endpoints")
         } ?: return
@@ -177,9 +181,7 @@ class PenicillinRequestBuilder(private val session: Session, private val httpMet
     }
 
     internal fun build(): PenicillinRequest {
-        if (!session.option.skipEmulationChecking) {
-            checkEmulation()
-        }
+        checkEmulation()
 
         return PenicillinRequest(session, this)
     }
@@ -240,6 +242,7 @@ class EncodedFormContent(val forms: Parameters): OutgoingContent.WriteChannelCon
     }
 }
 
+// TODO: Replace formData
 // From https://github.com/ktorio/ktor-samples/blob/183dd65e39565d6d09682a9b273937013d2124cc/other/client-multipart/src/MultipartApp.kt#L57
 class MultiPartContent(private val parts: List<Part>): OutgoingContent.WriteChannelContent() {
     private val boundary = "***Penicillin-${UUID.randomUUID()}-Penicillin-${System.currentTimeMillis()}***"
