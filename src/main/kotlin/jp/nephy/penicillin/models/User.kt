@@ -74,4 +74,39 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
     val isLockedAccount by lazy { profileInterstitialType == "fake_account" }
+
+    fun profileImageUrlWithVariantSize(size: ProfileImageSize) = profileImageUrl.run {
+        if (size == ProfileImageSize.Original) this
+        else dropLast(4) + "_" + when (size) {
+            ProfileImageSize.Normal -> "normal"
+            ProfileImageSize.Bigger -> "bigger"
+            else -> "mini"
+        } + ".png"
+    }
+
+    fun profileImageUrlHttpsWithVariantSize(size: ProfileImageSize): String = profileImageUrl.let { url ->
+        if (size == ProfileImageSize.Original) url
+        else url.dropLast(4) + "_" + size.suffix + ".png"
+    }
+
+    fun profileBannerUrlWithVariantSize(size: ProfileBannersSize): String = profileBannerUrl + "/" + size.suffix
+
+    enum class ProfileImageSize(val suffix: String){
+        Normal("normal"),
+        Bigger("bigger"),
+        Mini("mini"),
+        Original("")
+    }
+
+    enum class ProfileBannersSize(val suffix: String){
+        Normal("600x200"),
+        Bigger("1500x500"),
+        Mini("300x100"),
+        Web("web"),
+        WebRetina("web_retina"),
+        IPad("ipad"),
+        IPadRetina("ipad_retina"),
+        Mobile("mobile"),
+        MobileRetina("mobile_retina")
+    }
 }
