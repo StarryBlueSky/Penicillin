@@ -74,4 +74,38 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
     val isLockedAccount by lazy { profileInterstitialType == "fake_account" }
+
+    fun profileImageUrlWithVariantSize(size: ProfileImageSize) = profileImageUrl.run {
+        if (size == ProfileImageSize.Original) this
+        else dropLast(4) + "_" + when (size) {
+            ProfileImageSize.Normal -> "normal"
+            ProfileImageSize.Bigger -> "bigger"
+            else -> "mini"
+        } + ".png"
+    }
+
+    fun profileImageUrlHttpsWithVariantSize(size: ProfileImageSize) = profileImageUrl.run {
+        if (size == ProfileImageSize.Original) this
+        else dropLast(4) + "_" + when (size) {
+            ProfileImageSize.Normal -> "normal"
+            ProfileImageSize.Bigger -> "bigger"
+            else -> "mini"
+        } + ".png"
+    }
+
+    fun profileBannerUrlWithVariantSize(size: ProfileBannersSize) = profileBannerUrl + "/" + when(size) {
+        ProfileBannersSize.Normal -> "600x200"
+        ProfileBannersSize.Bigger -> "1500x500"
+        ProfileBannersSize.Mini -> "300x100"
+        ProfileBannersSize.Web -> "web"
+        ProfileBannersSize.WebRetina -> "web_retina"
+        ProfileBannersSize.IPad -> "ipad"
+        ProfileBannersSize.IPadRetina -> "ipad_retina"
+        ProfileBannersSize.Mobile -> "mobile"
+        ProfileBannersSize.MobileRetina -> "mobile_retina"
+    }
+
+    enum class ProfileImageSize{Normal, Bigger, Mini, Original}
+
+    enum class ProfileBannersSize{Normal, Bigger, Mini, Web, WebRetina, IPad, IPadRetina, Mobile, MobileRetina}
 }
