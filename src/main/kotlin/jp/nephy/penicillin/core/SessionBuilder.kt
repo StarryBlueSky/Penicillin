@@ -14,8 +14,7 @@ import io.ktor.http.Cookie
 import io.ktor.util.KtorExperimentalAPI
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.emulation.EmulationMode
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newFixedThreadPoolContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
@@ -46,13 +45,11 @@ class SessionBuilder {
 
     data class DispatcherConfig(val coroutineContext: CoroutineContext, val connectionThreadsCount: Int?) {
         class Builder {
-            var workingThreadsCount = minOf(1, Runtime.getRuntime().availableProcessors() / 2)
             var connectionThreadsCount: Int? = null
-            var coroutineContext: CoroutineContext? = null
+            var coroutineContext: CoroutineContext = Dispatchers.Default
 
-            @UseExperimental(ObsoleteCoroutinesApi::class)
             internal fun build(): DispatcherConfig {
-                return DispatcherConfig(coroutineContext ?: newFixedThreadPoolContext(workingThreadsCount, "Penicillin"), connectionThreadsCount)
+                return DispatcherConfig(coroutineContext, connectionThreadsCount)
             }
         }
     }

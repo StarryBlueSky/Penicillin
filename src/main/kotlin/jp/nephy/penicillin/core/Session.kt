@@ -49,8 +49,5 @@ data class Session(val httpClient: HttpClient, override val coroutineContext: Co
 
     override fun close() {
         httpClient.close()
-        if (coroutineContext is Closeable) {
-            coroutineContext.close()
-        }
     }
 }
