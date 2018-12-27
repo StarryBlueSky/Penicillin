@@ -6,9 +6,10 @@ import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
 import jp.nephy.penicillin.core.i18n.LocalizedString
 
-open class PenicillinException(override val message: String, val error: TwitterErrorMessage? = null, val request: HttpRequest? = null, val response: HttpResponse? = null): Exception()
-class PenicillinLocalizedException(localizedString: LocalizedString, request: HttpRequest? = null, response: HttpResponse? = null, vararg args: Any?):
-    PenicillinException(localizedString.format(*args), request = request, response = response)
+open class PenicillinException(override val message: String, val error: TwitterErrorMessage? = null, val request: HttpRequest? = null, val response: HttpResponse? = null,
+    override val cause: Throwable? = null): Exception()
+class PenicillinLocalizedException(localizedString: LocalizedString, request: HttpRequest? = null, response: HttpResponse? = null, cause: Throwable? = null, vararg args: Any?):
+    PenicillinException(localizedString.format(*args), request = request, response = response, cause = cause)
 
 enum class TwitterErrorMessage(val code: Int, val title: String, val description: String) {
     InvalidCoordinates(3, "Invalid coordinates.", "Corresponds with HTTP 400. The coordinates provided as parameters were not valid for the request."), NoLocationAssociatedWithTheSpecifiedIPAddress(
@@ -120,11 +121,12 @@ enum class TwitterErrorMessage(val code: Int, val title: String, val description
 
 class TwitterApiError(code: Int, title: String, content: String, request: HttpRequest, response: HttpResponse): Exception() {
     init {
-        val message = TwitterErrorMessage.values().find { it.code == code } ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiError, request, response, code, title, content)
+        val message = TwitterErrorMessage.values().find { it.code == code } ?: throw PenicillinLocalizedException(LocalizedString.UnknownApiError, request, response, null, code, title, content)
 
-        throw PenicillinException("${message.title} (${message.code}): ${message.description} (${request.url})", message, request, response)
+        throw PenicillinException("${message.title} (${message.code}): ${message.description} (${request.url})", message, request, response, this)
     }
 }
+
 //for x in lxml.html.fromstring(requests.get("https://developer.twitter.com/en/docs/basics/response-codes").text).xpath("//*[@id=\"component-wrapper\"]/div[4]/div/div[2]/div[3]/div/div/div/div/div/div/div/div[3]/table/tbody/tr"):
 //    p = x.xpath("td")
 //    code = p[0].text_content().strip()
