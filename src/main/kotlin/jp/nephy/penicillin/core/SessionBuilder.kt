@@ -19,6 +19,7 @@ import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
 
 class SessionBuilder {
     private var credentialsBuilder: Credentials.Builder.() -> Unit = {}
@@ -43,13 +44,15 @@ class SessionBuilder {
         dispatcherConfigBuilder = builder
     }
 
-    data class DispatcherConfig(val workingThreadsCount: Int, val connectionThreadsCount: Int?) {
+    data class DispatcherConfig(val coroutineContext: CoroutineContext, val connectionThreadsCount: Int?) {
         class Builder {
             var workingThreadsCount = minOf(1, Runtime.getRuntime().availableProcessors() / 2)
             var connectionThreadsCount: Int? = null
+            var coroutineContext: CoroutineContext? = null
 
+            @UseExperimental(ObsoleteCoroutinesApi::class)
             internal fun build(): DispatcherConfig {
-                return DispatcherConfig(workingThreadsCount, connectionThreadsCount)
+                return DispatcherConfig(coroutineContext ?: newFixedThreadPoolContext(workingThreadsCount, "Penicillin"), connectionThreadsCount)
             }
         }
     }
@@ -94,7 +97,7 @@ class SessionBuilder {
         httpClient = client
     }
 
-    @UseExperimental(ObsoleteCoroutinesApi::class, KtorExperimentalAPI::class)
+    @UseExperimental(KtorExperimentalAPI::class)
     internal fun build(): Session {
         val cookieConfig = CookieConfig.Builder().apply(cookieConfigBuilder).build()
         val dispatcherConfig = DispatcherConfig.Builder().apply(dispatcherConfigBuilder).build()
@@ -129,10 +132,9 @@ class SessionBuilder {
             httpClientConfig?.invoke(this)
         }
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
-        val dispatcher = newFixedThreadPoolContext(dispatcherConfig.workingThreadsCount, "Penicillin")
         val logger = KotlinLogging.logger("Penicillin.Client")
 
-        return Session(httpClient, dispatcher, logger, authorizationData, ClientOption(maxRetries, retryInMillis, emulationMode, skipEmulationChecking))
+        return Session(httpClient, dispatcherConfig.coroutineContext, logger, authorizationData, ClientOption(maxRetries, retryInMillis, emulationMode, skipEmulationChecking))
     }
 }
 
