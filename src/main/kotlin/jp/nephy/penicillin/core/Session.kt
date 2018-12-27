@@ -7,11 +7,12 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.URLProtocol
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.endpoints.EndpointHost
-import kotlinx.coroutines.ExecutorCoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import mu.KLogger
 import java.io.Closeable
+import kotlin.coroutines.CoroutineContext
 
-data class Session(val httpClient: HttpClient, val dispatcher: ExecutorCoroutineDispatcher, val logger: KLogger, val credentials: Credentials, val option: ClientOption): Closeable {
+data class Session(val httpClient: HttpClient, override val coroutineContext: CoroutineContext, val logger: KLogger, val credentials: Credentials, val option: ClientOption): Closeable, CoroutineScope {
     fun call(
         method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: PenicillinRequestBuilder.() -> Unit = {}
     ): PenicillinRequest {
@@ -48,6 +49,5 @@ data class Session(val httpClient: HttpClient, val dispatcher: ExecutorCoroutine
 
     override fun close() {
         httpClient.close()
-        dispatcher.close()
     }
 }

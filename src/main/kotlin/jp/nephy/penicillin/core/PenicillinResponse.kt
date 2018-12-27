@@ -14,7 +14,6 @@ import jp.nephy.penicillin.models.*
 import jp.nephy.penicillin.models.special.AccessLevel
 import jp.nephy.penicillin.models.special.RateLimit
 import java.io.Closeable
-import kotlin.coroutines.CoroutineContext
 import kotlin.reflect.KClass
 
 interface PenicillinResponse: Closeable {
@@ -72,14 +71,14 @@ data class PenicillinCursorJsonObjectResponse<M: PenicillinCursorModel>(
     fun next() = byCursor(result.nextCursor)
     fun previous() = byCursor(result.previousCursor)
 
-    fun untilLast(context: CoroutineContext? = null) = sequence {
+    fun untilLast() = sequence {
         yield(this@PenicillinCursorJsonObjectResponse)
-        yieldAll(next().untilLast(context))
+        yieldAll(next().untilLast())
     }
 
     fun byCursor(cursor: Long): PenicillinCursorJsonObjectAction<M> {
         if (cursor == 0L) {
-            throw PenicillinLocalizedException(LocalizedString.CursorIsZero)
+            throw PenicillinLocalizedException(LocalizedString.CursorIsZero, request, response)
         }
 
         action.request.builder.parameter("cursor" to cursor)

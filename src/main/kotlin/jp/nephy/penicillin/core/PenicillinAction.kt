@@ -20,7 +20,6 @@ import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.*
 import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
-import kotlin.coroutines.CoroutineContext
 import kotlin.reflect.KClass
 
 private val logger = KotlinLogging.logger("Penicillin.ApiAction")
@@ -33,10 +32,10 @@ private interface JsonRequest<M: PenicillinModel> {
     val model: KClass<M>
 }
 
-private typealias ApiCallback<R> = (response: R) -> Unit
-private typealias ApiFallback = (e: Throwable) -> Unit
+private typealias ApiCallback<R> = suspend (response: R) -> Unit
+private typealias ApiFallback = suspend (e: Throwable) -> Unit
 
-abstract class ApiAction<R>(private val dispatcher: CoroutineDispatcher) {
+abstract class ApiAction<R>(private val session: Session) {
     private val defaultCallback: ApiCallback<R> = { }
     private val defaultFallback: ApiFallback = { e ->
         logger.error(e) { LocalizedString.ExceptionInAsyncBlock.format() }
@@ -53,77 +52,49 @@ abstract class ApiAction<R>(private val dispatcher: CoroutineDispatcher) {
     }
 
     @Throws(PenicillinException::class)
-    fun complete(context: CoroutineContext? = null): R {
-        return runBlocking(context ?: dispatcher) {
+    fun complete(): R {
+        return runBlocking(session.coroutineContext) {
             await()
         }
     }
 
     @Throws(PenicillinException::class)
-    fun completeWithTimeout(timeout: Long, unit: TimeUnit, context: CoroutineContext? = null): R? {
-        return runBlocking(context ?: dispatcher) {
+    fun completeWithTimeout(timeout: Long, unit: TimeUnit): R? {
+        return runBlocking(session.coroutineContext) {
             awaitWithTimeout(timeout, unit)
         }
     }
 
-    fun queue(scope: CoroutineScope = GlobalScope, context: CoroutineContext? = null, start: CoroutineStart = CoroutineStart.DEFAULT, onSuccess: ApiCallback<R>, onFailure: ApiFallback): Job {
-        return scope.launch(context ?: dispatcher, start) {
-            try {
-                await().let(onSuccess)
-            } catch (e: Throwable) {
-                try {
-                    onFailure(e)
-                } catch (e: Throwable) {
-                    defaultFallback(e)
-                }
+    fun queue(onFailure: ApiFallback = defaultFallback, onSuccess: ApiCallback<R> = defaultCallback): Job {
+        return session.launch {
+            runCatching {
+                await()
+            }.onSuccess {
+                onSuccess.invoke(it)
+            }.onFailure {
+                onFailure.invoke(it)
             }
         }
     }
 
-    fun queue(scope: CoroutineScope = GlobalScope, context: CoroutineContext? = null, start: CoroutineStart = CoroutineStart.DEFAULT, onSuccess: ApiCallback<R>): Job {
-        return queue(scope, context, start, onSuccess, defaultFallback)
-    }
-
-    fun queue(scope: CoroutineScope = GlobalScope, context: CoroutineContext? = null, start: CoroutineStart = CoroutineStart.DEFAULT): Job {
-        return queue(scope, context, start, defaultCallback, defaultFallback)
-    }
-
-    fun queueWithTimeout(
-        timeout: Long,
-        unit: TimeUnit,
-        scope: CoroutineScope = GlobalScope,
-        context: CoroutineContext? = null,
-        start: CoroutineStart = CoroutineStart.DEFAULT,
-        onSuccess: ApiCallback<R>,
-        onFailure: ApiFallback
-    ): Job {
-        return scope.launch(context ?: dispatcher, start) {
-            try {
+    fun queueWithTimeout(timeout: Long, unit: TimeUnit, onFailure: ApiFallback = defaultFallback, onSuccess: ApiCallback<R> = defaultCallback): Job {
+        return session.launch {
+            runCatching {
                 withTimeout(unit.toMillis(timeout)) {
                     await()
-                }.let(onSuccess)
-            } catch (e: Throwable) {
-                try {
-                    onFailure(e)
-                } catch (e: Throwable) {
-                    defaultFallback(e)
                 }
+            }.onSuccess {
+                onSuccess.invoke(it)
+            }.onFailure {
+                onFailure.invoke(it)
             }
         }
-    }
-
-    fun queueWithTimeout(
-        timeout: Long, unit: TimeUnit, scope: CoroutineScope = GlobalScope, context: CoroutineContext? = null, start: CoroutineStart = CoroutineStart.DEFAULT, onSuccess: ApiCallback<R>
-    ): Job {
-        return queueWithTimeout(timeout, unit, scope, context, start, onSuccess, defaultFallback)
-    }
-
-    fun queueWithTimeout(timeout: Long, unit: TimeUnit, scope: CoroutineScope = GlobalScope, context: CoroutineContext? = null, start: CoroutineStart = CoroutineStart.DEFAULT): Job {
-        return queueWithTimeout(timeout, unit, scope, context, start, defaultCallback, defaultFallback)
     }
 }
 
 private suspend fun executeRequest(session: Session, request: PenicillinRequest): Pair<HttpRequest, HttpResponse> {
+    lateinit var lastException: Throwable
+
     repeat(session.option.maxRetries) {
         try {
             val response = session.httpClient.request<HttpResponse>(request.builder.finalize())
@@ -137,6 +108,8 @@ private suspend fun executeRequest(session: Session, request: PenicillinRequest)
             } else {
                 logger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
             }
+
+            lastException = e
         }
 
         if (it < session.option.maxRetries) {
@@ -144,11 +117,12 @@ private suspend fun executeRequest(session: Session, request: PenicillinRequest)
         }
     }
 
-    throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, args = *arrayOf(request.builder.url))
+    throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, cause = lastException, args = *arrayOf(request.builder.url))
 }
 
 private suspend fun HttpResponse.readTextSafe(): String? {
     val maxRetries = 3
+
     repeat(maxRetries) {
         try {
             return readText().trim().unescapeHTML()
@@ -247,6 +221,7 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
     if (response.status.isSuccess()) {
         return
     }
+
     val json = content?.toJsonObjectSafe(true)
     if (json != null) {
         val error = json.getOrNull("errors")?.jsonArrayOrNull?.firstOrNull() ?: json.getOrNull("error")
@@ -260,34 +235,36 @@ private fun checkError(request: HttpRequest, response: HttpResponse, content: St
                 throw TwitterApiError(-1, error.content, content, request, response)
             }
             else -> {
-                throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, args = *arrayOf(response.status.value, content))
+                throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, request, response, null, response.status.value, content)
             }
         }
     }
 
-    throw PenicillinLocalizedException(LocalizedString.ApiReturnedNon200StatusCode, request, response, response.status.value, response.status.description)
+    throw PenicillinLocalizedException(LocalizedString.ApiReturnedNon200StatusCode, request, response, null, response.status.value, response.status.description)
 }
 
 class PenicillinJsonObjectAction<M: PenicillinModel>(override val request: PenicillinRequest, override val model: KClass<M>): PenicillinAction, JsonRequest<M>,
-    ApiAction<PenicillinJsonObjectResponse<M>>(request.session.dispatcher) {
+    ApiAction<PenicillinJsonObjectResponse<M>>(request.session) {
     override suspend fun await(): PenicillinJsonObjectResponse<M> {
         val (request, response) = executeRequest(request.session, request)
         val content = response.readTextSafe()
         checkError(request, response, content)
-        val json = content?.toJsonObjectSafe(model == Empty::class) ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
-        val result = json.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
+
+        val json = content?.toJsonObjectSafe(model == Empty::class) ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, null, content)
+        val result = json.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, request, response, null, model.simpleName, content)
 
         return PenicillinJsonObjectResponse(model, result, request, response, content.orEmpty(), this)
     }
 }
 
 class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: PenicillinRequest, override val model: KClass<M>): PenicillinAction, JsonRequest<M>,
-    ApiAction<PenicillinJsonArrayResponse<M>>(request.session.dispatcher) {
+    ApiAction<PenicillinJsonArrayResponse<M>>(request.session) {
     override suspend fun await(): PenicillinJsonArrayResponse<M> {
         val (request, response) = executeRequest(request.session, request)
         val content = response.readTextSafe()
         checkError(request, response, content)
-        val json = content?.toJsonArraySafe() ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
+
+        val json = content?.toJsonArraySafe() ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, null, content)
 
         return PenicillinJsonArrayResponse(model, request, response, content, this).apply {
             addAll(json.parseSafe(model, content))
@@ -296,25 +273,26 @@ class PenicillinJsonArrayAction<M: PenicillinModel>(override val request: Penici
 }
 
 class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val request: PenicillinRequest, override val model: KClass<M>): PenicillinAction, JsonRequest<M>,
-    ApiAction<PenicillinCursorJsonObjectResponse<M>>(request.session.dispatcher) {
+    ApiAction<PenicillinCursorJsonObjectResponse<M>>(request.session) {
     override suspend fun await(): PenicillinCursorJsonObjectResponse<M> {
         val (request, response) = executeRequest(request.session, request)
         val content = response.readTextSafe()
         checkError(request, response, content)
-        val json = content?.toJsonObjectSafe() ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, content)
-        val result = json.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, args = *arrayOf(model.simpleName, content))
+
+        val json = content?.toJsonObjectSafe() ?: throw PenicillinLocalizedException(LocalizedString.JsonParsingFailed, request, response, null, content)
+        val result = json.parseSafe(model, content) ?: throw PenicillinLocalizedException(LocalizedString.JsonModelCastFailed, request, response, null, model.simpleName, content)
 
         return PenicillinCursorJsonObjectResponse(model, result, request, response, content, this)
     }
 
     // TODO
-    fun untilLast(context: CoroutineContext? = null) = sequence {
-        val first = complete(context)
+    fun untilLast() = sequence {
+        val first = complete()
         yield(first)
         var cursor = first.result.nextCursor
         while (cursor != 0L) {
             val result = try {
-                first.byCursor(cursor).complete(context)
+                first.byCursor(cursor).complete()
             } catch (e: PenicillinException) {
                 break
             }
@@ -325,7 +303,7 @@ class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val re
     }
 }
 
-class PenicillinTextAction(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinTextResponse>(request.session.dispatcher) {
+class PenicillinTextAction(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinTextResponse>(request.session) {
     override suspend fun await(): PenicillinTextResponse {
         val (request, response) = executeRequest(request.session, request)
         val content = response.readTextSafe()
@@ -335,7 +313,7 @@ class PenicillinTextAction(override val request: PenicillinRequest): PenicillinA
     }
 }
 
-class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinStreamResponse<L, H>>(request.session.dispatcher) {
+class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override val request: PenicillinRequest): PenicillinAction, ApiAction<PenicillinStreamResponse<L, H>>(request.session) {
     override suspend fun await(): PenicillinStreamResponse<L, H> {
         val (request, response) = executeRequest(request.session, request)
         checkError(request, response)
@@ -347,7 +325,7 @@ class PenicillinStreamAction<L: StreamListener, H: StreamHandler<L>>(override va
 private typealias JsonObjectActionCallback<M> = suspend (results: PenicillinMultipleJsonObjectActions.Results<M>) -> PenicillinJsonObjectAction<*>
 
 class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: PenicillinJsonObjectAction<M>, private val requests: List<JsonObjectActionCallback<M>>):
-    ApiAction<List<PenicillinJsonObjectResponse<*>>>(first.request.session.dispatcher) {
+    ApiAction<List<PenicillinJsonObjectResponse<*>>>(first.request.session) {
     class Builder<M: PenicillinModel>(private val first: () -> PenicillinJsonObjectAction<M>) {
         private val requests = mutableListOf<JsonObjectActionCallback<M>>()
         fun request(callback: JsonObjectActionCallback<M>) = apply {
@@ -400,7 +378,7 @@ private typealias JoinedJsonObjectActionCallback<M> = (results: List<List<Penici
 
 class PenicillinJoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(
     private val actions: List<PenicillinMultipleJsonObjectActions<M>>, private val finalizer: JoinedJsonObjectActionCallback<T>
-): ApiAction<PenicillinJsonObjectResponse<T>>(actions.first().first.request.session.dispatcher) {
+): ApiAction<PenicillinJsonObjectResponse<T>>(actions.first().first.request.session) {
     override suspend fun await(): PenicillinJsonObjectResponse<T> {
         return finalizer(actions.map { it.await() }).await()
     }
