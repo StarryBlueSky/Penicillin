@@ -8,20 +8,19 @@ import jp.nephy.penicillin.core.unescapeHTML
 import kotlinx.coroutines.*
 import kotlinx.coroutines.io.readUTF8Line
 import java.io.Closeable
-import kotlin.coroutines.CoroutineContext
 
 class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result: PenicillinStreamResponse<L, H>, private val handler: H): Closeable {
     private val job = Job()
 
-    fun startBlocking(autoReconnect: Boolean = true, context: CoroutineContext? = null) = apply {
-        runBlocking((context ?: result.action.request.session.dispatcher) + job) {
+    fun startBlocking(autoReconnect: Boolean = true) = apply {
+        runBlocking(result.action.request.session.coroutineContext + job) {
             loop(autoReconnect)
             close()
         }
     }
 
-    fun startAsync(autoReconnect: Boolean = true, scope: CoroutineScope = GlobalScope, context: CoroutineContext? = null) = apply {
-        scope.launch((context ?: result.action.request.session.dispatcher) + job) {
+    fun startAsync(autoReconnect: Boolean = true) = apply {
+        result.action.request.session.launch(job) {
             loop(autoReconnect)
             close()
         }
