@@ -16,21 +16,39 @@ class Block(override val client: PenicillinClient): Endpoint {
         parameter("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
     }.cursorJsonObject<CursorUsers>()
 
-    fun create(screenName: String? = null, userId: Long? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun create(screenName: String, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
         client.session.post("/1.1/blocks/create.json") {
             body {
                 form {
-                    add("screen_name" to screenName, "user_id" to userId, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
+                    add("screen_name" to screenName, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
                 }
             }
         }.jsonObject<User>()
 
-    fun destroy(screenName: String? = null, userId: Long? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun create(userId: Long, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
+            client.session.post("/1.1/blocks/create.json") {
+                body {
+                    form {
+                        add("user_id" to userId, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
+                    }
+                }
+            }.jsonObject<User>()
+
+    fun destroy(screenName: String, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
         client.session.post("/1.1/blocks/destroy.json") {
             body {
                 form {
-                    add("screen_name" to screenName, "user_id" to userId, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
+                    add("screen_name" to screenName, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
                 }
             }
         }.jsonObject<User>()
+
+    fun destroy(userId: Long, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
+            client.session.post("/1.1/blocks/destroy.json") {
+                body {
+                    form {
+                        add("user_id" to userId, "include_entities" to includeEntities, "skip_status" to skipStatus, *options)
+                    }
+                }
+            }.jsonObject<User>()
 }
