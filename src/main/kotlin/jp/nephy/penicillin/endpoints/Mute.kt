@@ -16,18 +16,34 @@ class Mute(override val client: PenicillinClient): Endpoint {
         parameter("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
     }.cursorJsonObject<CursorUsers>()
 
-    fun create(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/mutes/users/create.json") {
+    fun create(screenName: String, vararg options: Pair<String, Any?>) = client.session.post("/1.1/mutes/users/create.json") {
         body {
             form {
-                add("screen_name" to screenName, "user_id" to userId, *options)
+                add("screen_name" to screenName, *options)
             }
         }
     }.jsonObject<User>()
 
-    fun destroy(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/mutes/users/destroy.json") {
+    fun create(userId: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/mutes/users/create.json") {
         body {
             form {
-                add("screen_name" to screenName, "user_id" to userId, *options)
+                add("user_id" to userId, *options)
+            }
+        }
+    }.jsonObject<User>()
+
+    fun destroy(screenName: String, vararg options: Pair<String, Any?>) = client.session.post("/1.1/mutes/users/destroy.json") {
+        body {
+            form {
+                add("screen_name" to screenName, *options)
+            }
+        }
+    }.jsonObject<User>()
+
+    fun destroy(userId: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/mutes/users/destroy.json") {
+        body {
+            form {
+                add("user_id" to userId, *options)
             }
         }
     }.jsonObject<User>()

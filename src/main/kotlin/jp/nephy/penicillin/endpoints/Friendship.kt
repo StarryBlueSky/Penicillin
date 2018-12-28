@@ -13,15 +13,24 @@ class Friendship(override val client: PenicillinClient): Endpoint {
             parameter("source_id" to sourceId, "source_screen_name" to sourceScreenName, "target_id" to targetId, "target_screen_name" to targetScreenName, *options)
         }.jsonObject<FriendshipsShow>()
 
-    fun lookup(screenNames: List<String>? = null, userIds: List<Long>? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
-        parameter("screen_name" to screenNames?.joinToString(","), "user_id" to userIds?.joinToString(","), *options)
+    fun lookup(vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
+        parameter(*options)
+    }.jsonArray<FriendshipsLookup>()
+
+    fun lookupByScreenNames(screenNames: List<String>, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
+        parameter("screen_name" to screenNames.joinToString(","), *options)
+    }.jsonArray<FriendshipsLookup>()
+
+    fun lookupByUserIds(userIds: List<Long>, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
+        parameter("user_id" to userIds.joinToString(","), *options)
     }.jsonArray<FriendshipsLookup>()
 
     fun noRetweetsIds(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/no_retweets/ids.json") {
         parameter("stringify_ids" to stringifyIds, *options)
     }.jsonObject<FriendshipsNoRetweetsIds>()
 
-    fun create(screenName: String? = null, userId: Long? = null, follow: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/create.json") {
+    // TODO screen_name and user_id are optional on 'friendships/create', so I can't expect the response when both are null.
+    fun create(userId: Long, follow: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/create.json") {
         body {
             form {
                 add(
@@ -36,27 +45,66 @@ class Friendship(override val client: PenicillinClient): Endpoint {
                     "include_user_symbol_entities" to "true",
                     emulationMode = EmulationMode.TwitterForiPhone
                 )
-                add("screen_name" to screenName, "user_id" to userId, "follow" to follow, *options)
+                add("user_id" to userId, "follow" to follow, *options)
             }
         }
     }.jsonObject<User>()
 
-    fun destroy(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/destroy.json") {
+    fun create(screenName: String, follow: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/create.json") {
         body {
             form {
-                add("screen_name" to screenName, "user_id" to userId, *options)
+                add(
+                        "ext" to "mediaColor",
+                        "handles_challenges" to "1",
+                        "include_entities" to "1",
+                        "include_profile_interstitial_type" to "true",
+                        "include_profile_location" to "true",
+                        "include_user_entities" to "true",
+                        "include_user_hashtag_entities" to "true",
+                        "include_user_mention_entities" to "true",
+                        "include_user_symbol_entities" to "true",
+                        emulationMode = EmulationMode.TwitterForiPhone
+                )
+                add("screen_name" to screenName, "follow" to follow, *options)
             }
         }
     }.jsonObject<User>()
 
-    fun update(screenName: String? = null, userId: Long? = null, devide: Boolean? = null, retweets: Boolean? = null, vararg options: Pair<String, Any?>) =
+    // TODO Same to 'friendships/create'.
+    fun destroy(userId: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/destroy.json") {
+        body {
+            form {
+                add("user_id" to userId, *options)
+            }
+        }
+    }.jsonObject<User>()
+
+    fun destroy(screenName: String, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/destroy.json") {
+        body {
+            form {
+                add("screen_name" to screenName, *options)
+            }
+        }
+    }.jsonObject<User>()
+
+    // TODO Same to 'friendships/create'.
+    fun update(userId: Long, device: Boolean? = null, retweets: Boolean? = null, vararg options: Pair<String, Any?>) =
         client.session.post("/1.1/friendships/update.json") {
             body {
                 form {
-                    add("screen_name" to screenName, "user_id" to userId, "device" to devide, "retweets" to retweets, *options)
+                    add("user_id" to userId, "device" to device, "retweets" to retweets, *options)
                 }
             }
         }.jsonObject<Relationship>()
+
+    fun update(screenName: String, device: Boolean? = null, retweets: Boolean? = null, vararg options: Pair<String, Any?>) =
+            client.session.post("/1.1/friendships/update.json") {
+                body {
+                    form {
+                        add("screen_name" to screenName, "device" to device, "retweets" to retweets, *options)
+                    }
+                }
+            }.jsonObject<Relationship>()
 
     @PrivateEndpoint
     fun readAll(vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/read_all.json") {
