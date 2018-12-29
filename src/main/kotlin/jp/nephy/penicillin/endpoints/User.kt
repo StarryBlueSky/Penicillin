@@ -8,7 +8,7 @@ import jp.nephy.penicillin.models.*
 import jp.nephy.penicillin.models.User
 
 class User(override val client: PenicillinClient): Endpoint {
-    fun show(screenName: String? = null, userId: Long? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/show.json") {
+    fun show(screenName: String, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/show.json") {
         parameter(
             "ext" to "mediaColor",
             "include_entities" to 1,
@@ -19,10 +19,24 @@ class User(override val client: PenicillinClient): Endpoint {
             "include_user_mention_entities" to true,
             emulationMode = EmulationMode.TwitterForiPhone
         )
-        parameter("screen_name" to screenName, "user_id" to userId, "include_entities" to includeEntities, *options)
+        parameter("screen_name" to screenName, "include_entities" to includeEntities, *options)
     }.jsonObject<User>()
 
-    fun lookup(screenNames: List<String>? = null, userIds: List<Long>? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/lookup.json") {
+    fun show(userId: Long, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/show.json") {
+        parameter(
+                "ext" to "mediaColor",
+                "include_entities" to 1,
+                "include_user_entities" to true,
+                "include_profile_interstitial_type" to true,
+                "include_user_symbol_entities" to true,
+                "include_user_hashtag_entities" to true,
+                "include_user_mention_entities" to true,
+                emulationMode = EmulationMode.TwitterForiPhone
+        )
+        parameter("user_id" to userId, "include_entities" to includeEntities, *options)
+    }.jsonObject<User>()
+
+    fun lookupByScreenNames(screenNames: List<String>, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/lookup.json") {
         parameter(
             "ext" to "mediaColor",
             "include_entities" to 1,
@@ -34,11 +48,30 @@ class User(override val client: PenicillinClient): Endpoint {
             "include_user_mention_entities" to true,
             emulationMode = EmulationMode.TwitterForiPhone
         )
-        parameter("screen_name" to screenNames?.joinToString(","), "user_id" to userIds?.joinToString(","), "include_entities" to includeEntities, *options)
+        parameter("screen_name" to screenNames.joinToString(","), "include_entities" to includeEntities, *options)
     }.jsonArray<User>()
 
-    fun profileBanner(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/profile_banner.json") {
-        parameter("screen_name" to screenName, "user_id" to userId, *options)
+    fun lookupByIds(userIds: List<Long>, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/lookup.json") {
+        parameter(
+                "ext" to "mediaColor",
+                "include_entities" to 1,
+                "include_user_entities" to true,
+                "include_profile_interstitial_type" to true,
+                "include_profile_location" to true,
+                "include_user_symbol_entities" to true,
+                "include_user_hashtag_entities" to true,
+                "include_user_mention_entities" to true,
+                emulationMode = EmulationMode.TwitterForiPhone
+        )
+        parameter("user_id" to userIds.joinToString(","), "include_entities" to includeEntities, *options)
+    }.jsonArray<User>()
+
+    fun profileBanner(screenName: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/profile_banner.json") {
+        parameter("screen_name" to screenName, *options)
+    }.jsonObject<UserProfileBanner>()
+
+    fun profileBanner(userId: Long, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/profile_banner.json") {
+        parameter("user_id" to userId, *options)
     }.jsonObject<UserProfileBanner>()
 
     fun search(q: String, page: Int? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/search.json") {
@@ -57,16 +90,24 @@ class User(override val client: PenicillinClient): Endpoint {
         parameter(*options)
     }.jsonArray<User>()
 
-    fun reportSpam(screenName: String? = null, userId: Long? = null, performBlock: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/users/report_spam.json") {
+    fun reportSpam(screenName: String, performBlock: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/users/report_spam.json") {
         body {
             form {
-                add("screen_name" to screenName, "user_id" to userId, "perform_block" to performBlock, *options)
+                add("screen_name" to screenName, "perform_block" to performBlock, *options)
+            }
+        }
+    }.jsonObject<User>()
+
+    fun reportSpam(userId: Long, performBlock: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/users/report_spam.json") {
+        body {
+            form {
+                add("user_id" to userId, "perform_block" to performBlock, *options)
             }
         }
     }.jsonObject<User>()
 
     @PrivateEndpoint
-    fun recommendations(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/recommendations.json") {
+    fun recommendations(screenName: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/recommendations.json") {
         parameter(
             "connections" to "true",
             "display_location" to "st-component",
@@ -81,8 +122,27 @@ class User(override val client: PenicillinClient): Endpoint {
             "limit" to "3",
             "pc" to "true",
             "screen_name" to screenName,
-            "user_id" to userId,
             *options
+        )
+    }.jsonArray<Recommendation>()
+
+    @PrivateEndpoint
+    fun recommendations(userId: Long, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/recommendations.json") {
+        parameter(
+                "connections" to "true",
+                "display_location" to "st-component",
+                "ext" to "mediaColor",
+                "include_entities" to "1",
+                "include_profile_interstitial_type" to "true",
+                "include_profile_location" to "true",
+                "include_user_entities" to "true",
+                "include_user_hashtag_entities" to "true",
+                "include_user_mention_entities" to "true",
+                "include_user_symbol_entities" to "true",
+                "limit" to "3",
+                "pc" to "true",
+                "user_id" to userId,
+                *options
         )
     }.jsonArray<Recommendation>()
 
