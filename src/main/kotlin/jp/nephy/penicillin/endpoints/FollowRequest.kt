@@ -15,6 +15,7 @@ class FollowRequest(override val client: PenicillinClient): Endpoint {
         parameter("stringify_ids" to stringifyIds, *options)
     }.cursorJsonObject<CursorIds>()
 
+    // TODO
     @PrivateEndpoint
     fun accept(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/accept.json") {
         body {

@@ -10,8 +10,12 @@ class Collection(override val client: PenicillinClient): Endpoint {
         parameter("id" to id, *options)
     }.empty()
 
-    fun list(userId: Long? = null, screenName: String? = null, tweetId: Long? = null, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/list.json") {
-        parameter("user_id" to userId, "screen_name" to screenName, "tweet_id" to tweetId, "count" to count, *options)
+    fun list(userId: Long, tweetId: Long? = null, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/list.json") {
+        parameter("user_id" to userId, "tweet_id" to tweetId, "count" to count, *options)
+    }.empty()
+
+    fun list(screenName: String, tweetId: Long? = null, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/list.json") {
+        parameter("screen_name" to screenName, "tweet_id" to tweetId, "count" to count, *options)
     }.empty()
 
     fun create(name: String, description: String? = null, url: String? = null, timelineOrder: CollectionCreationTimelineOrder? = null, vararg options: Pair<String, Any?>) =

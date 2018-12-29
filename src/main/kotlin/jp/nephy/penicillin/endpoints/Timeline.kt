@@ -81,8 +81,7 @@ class Timeline(override val client: PenicillinClient): Endpoint {
     }.jsonArray<Status>()
 
     fun user(
-        userId: Long? = null,
-        screenName: String? = null,
+        userId: Long,
         count: Int? = null,
         sinceId: Long? = null,
         maxId: Long? = null,
@@ -96,7 +95,6 @@ class Timeline(override val client: PenicillinClient): Endpoint {
     ) = client.session.get("/1.1/statuses/user_timeline.json") {
         parameter(
             "user_id" to userId,
-            "screen_name" to screenName,
             "count" to count,
             "since_id" to sinceId,
             "max_id" to maxId,
@@ -107,6 +105,34 @@ class Timeline(override val client: PenicillinClient): Endpoint {
             "include_entities" to includeEntities,
             "include_my_retweet" to includeMyRetweet,
             *options
+        )
+    }.jsonArray<Status>()
+
+    fun user(
+            screenName: String,
+            count: Int? = null,
+            sinceId: Long? = null,
+            maxId: Long? = null,
+            trimUser: Boolean? = null,
+            excludeReplies: Boolean? = null,
+            includeRTs: Boolean? = null,
+            tweetMode: String? = null,
+            includeEntities: Boolean? = null,
+            includeMyRetweet: Boolean? = null,
+            vararg options: Pair<String, Any?>
+    ) = client.session.get("/1.1/statuses/user_timeline.json") {
+        parameter(
+                "screen_name" to screenName,
+                "count" to count,
+                "since_id" to sinceId,
+                "max_id" to maxId,
+                "trim_user" to trimUser,
+                "exclude_replies" to excludeReplies,
+                "include_rts" to includeRTs,
+                "tweet_mode" to tweetMode,
+                "include_entities" to includeEntities,
+                "include_my_retweet" to includeMyRetweet,
+                *options
         )
     }.jsonArray<Status>()
 }
