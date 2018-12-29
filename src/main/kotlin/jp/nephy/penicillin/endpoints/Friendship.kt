@@ -29,7 +29,6 @@ class Friendship(override val client: PenicillinClient): Endpoint {
         parameter("stringify_ids" to stringifyIds, *options)
     }.jsonObject<FriendshipsNoRetweetsIds>()
 
-    // TODO screen_name and user_id are optional on 'friendships/create', so I can't expect the response when both are null.
     fun create(userId: Long, follow: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/create.json") {
         body {
             form {
@@ -70,7 +69,6 @@ class Friendship(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<User>()
 
-    // TODO Same to 'friendships/create'.
     fun destroy(userId: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/destroy.json") {
         body {
             form {
@@ -87,7 +85,6 @@ class Friendship(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<User>()
 
-    // TODO Same to 'friendships/create'.
     fun update(userId: Long, device: Boolean? = null, retweets: Boolean? = null, vararg options: Pair<String, Any?>) =
         client.session.post("/1.1/friendships/update.json") {
             body {
