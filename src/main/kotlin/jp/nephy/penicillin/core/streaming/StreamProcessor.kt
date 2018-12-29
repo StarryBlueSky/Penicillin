@@ -64,6 +64,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
             handler.listener.onConnect()
         }
 
+        // TODO: investigate streaming delays
         while (isActive && !result.response.content.isClosedForRead) {
             val line = try {
                 result.response.content.readUTF8Line()?.trim() ?: break

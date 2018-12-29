@@ -173,8 +173,10 @@ class Status(override val client: PenicillinClient): Endpoint {
             client.media.uploadMedia(it.file, it.type, it.category)
         }.join { results ->
             if (waitSec != null) {
+                // TODO: wait until media process completes
                 TimeUnit.SECONDS.sleep(waitSec)
             }
+
             update(status, mediaIds = results.asSequence().map { it.filter<Media>().first() }.map { it.result.mediaId }.toList(), options = *options)
         }
     }

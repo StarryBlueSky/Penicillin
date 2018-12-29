@@ -285,7 +285,7 @@ class PenicillinCursorJsonObjectAction<M: PenicillinCursorModel>(override val re
         return PenicillinCursorJsonObjectResponse(model, result, request, response, content, this)
     }
 
-    // TODO
+    // TODO: make it suspend
     fun untilLast() = sequence {
         val first = complete()
         yield(first)

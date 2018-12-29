@@ -34,7 +34,6 @@ class Friend(override val client: PenicillinClient): Endpoint {
                 parameter("screen_name" to screenName, "count" to count, "skip_status" to skipStatus, "include_user_entities" to includeUserEntities, *options)
             }.cursorJsonObject<CursorUsers>()
 
-    // TODO
     @PrivateEndpoint
     fun followingList(userId: Long? = null, screenName: String? = null, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friends/following/list.json") {
         parameter("user_id" to userId, "screen_name" to screenName, "count" to count, *options)
