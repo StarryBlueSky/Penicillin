@@ -82,11 +82,15 @@ class SessionBuilder {
     }
 
     private var httpClientEngineFactory: HttpClientEngineFactory<*>? = null
-    private var httpClientConfig: (HttpClientConfig<*>.() -> Unit)? = null
+    private var httpClientConfig: HttpClientConfig<*>.() -> Unit = {}
     @Suppress("UNCHECKED_CAST")
     fun <T: HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
         httpClientEngineFactory = engineFactory
         httpClientConfig = block as HttpClientConfig<*>.() -> Unit
+    }
+
+    fun httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
+        httpClientConfig = block
     }
 
     private var httpClient: HttpClient? = null
@@ -126,7 +130,7 @@ class SessionBuilder {
                 }
             }
 
-            httpClientConfig?.invoke(this)
+            httpClientConfig.invoke(this)
         }
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
         val logger = KotlinLogging.logger("Penicillin.Client")
