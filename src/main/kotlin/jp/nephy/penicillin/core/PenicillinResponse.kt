@@ -68,8 +68,19 @@ data class PenicillinCursorJsonObjectResponse<M: PenicillinCursorModel>(
     override val json = result.json
     override val headers = ResponseHeaders(response.headers)
 
-    fun next() = byCursor(result.nextCursor)
-    fun previous() = byCursor(result.previousCursor)
+    val nextCursor: Long
+        get() = result.nextCursor
+    fun hasNext(): Boolean {
+        return nextCursor > 0
+    }
+    fun next() = byCursor(nextCursor)
+
+    val previousCursor: Long
+        get() = result.previousCursor
+    fun hasPrevious(): Boolean {
+        return previousCursor > 0
+    }
+    fun previous() = byCursor(previousCursor)
 
     fun untilLast() = sequence {
         yield(this@PenicillinCursorJsonObjectResponse)
