@@ -84,7 +84,9 @@ data class PenicillinCursorJsonObjectResponse<M: PenicillinCursorModel>(
 
     fun untilLast() = sequence {
         yield(this@PenicillinCursorJsonObjectResponse)
-        yieldAll(next().untilLast())
+        if (hasNext()) {
+            yieldAll(next().untilLast())
+        }
     }
 
     fun byCursor(cursor: Long): PenicillinCursorJsonObjectAction<M> {
