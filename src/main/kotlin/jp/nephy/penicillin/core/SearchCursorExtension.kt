@@ -10,4 +10,4 @@ fun PenicillinJsonObjectResponse<Search>.next(): PenicillinJsonObjectAction<Sear
     return action.request.jsonObject()
 }
 
-fun PenicillinJsonObjectResponse<Search>.hasNext() = result.searchMetadata.nextResults.isNullOrBlank()
+fun PenicillinJsonObjectResponse<Search>.hasNext() = !result.searchMetadata.nextResults.isNullOrBlank()
