@@ -5,8 +5,6 @@ import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
-import jp.nephy.penicillin.extensions.complete
-import jp.nephy.penicillin.extensions.cursor.byCursor
 import jp.nephy.penicillin.models.PenicillinCursorModel
 import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
@@ -30,22 +28,5 @@ data class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val requ
         )
 
         return CursorJsonObjectResponse(model, result, request, response, content, this)
-    }
-
-    // TODO: make it suspend, extension
-    fun untilLast() = sequence {
-        val first = complete()
-        yield(first)
-        var cursor = first.result.nextCursor
-        while (cursor != 0L) {
-            val result = try {
-                first.byCursor(cursor).complete()
-            } catch (e: PenicillinException) {
-                break
-            }
-
-            yield(result)
-            cursor = result.result.nextCursor
-        }
     }
 }

@@ -2,10 +2,12 @@
 
 package jp.nephy.penicillin.extensions.cursor
 
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
+import jp.nephy.penicillin.extensions.complete
 import jp.nephy.penicillin.models.PenicillinCursorModel
 
 /*
@@ -44,7 +46,23 @@ fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long
     return CursorJsonObjectApiAction(action.request, model)
 }
 
-// TODO: Make it suspend
+@Throws(PenicillinException::class)
+fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(): Sequence<CursorJsonObjectResponse<M>> {
+    return sequence {
+        val first = complete()
+        yield(first)
+
+        var cursor = first.nextCursor
+        while (cursor != 0L) {
+            val result = first.byCursor(cursor).complete()
+
+            yield(result)
+            cursor = result.nextCursor
+        }
+    }
+}
+
+@Throws(PenicillinException::class)
 fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.untilLast(): Sequence<CursorJsonObjectResponse<M>> {
     return sequence {
         yield(this@untilLast)
