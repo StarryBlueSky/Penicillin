@@ -1,7 +1,7 @@
 package jp.nephy.penicillin.core.emulation
 
 import io.ktor.http.Headers
-import jp.nephy.penicillin.core.Session
+import jp.nephy.penicillin.core.session.Session
 
 class Tweetdeck(override val session: Session): Emulation() {
     override val headers = Headers.build {

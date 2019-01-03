@@ -1,6 +1,6 @@
 package jp.nephy.penicillin
 
-import jp.nephy.penicillin.core.SessionBuilder
+import jp.nephy.penicillin.core.session.SessionBuilder
 import jp.nephy.penicillin.endpoints.*
 import jp.nephy.penicillin.endpoints.Collection
 import java.io.Closeable
