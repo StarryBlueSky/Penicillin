@@ -1,5 +1,7 @@
-package jp.nephy.penicillin.core
+package jp.nephy.penicillin.extensions
 
+import jp.nephy.penicillin.core.PenicillinJsonObjectAction
+import jp.nephy.penicillin.core.PenicillinJsonObjectResponse
 import jp.nephy.penicillin.models.Search
 
 fun PenicillinJsonObjectResponse<Search>.next(): PenicillinJsonObjectAction<Search> {
