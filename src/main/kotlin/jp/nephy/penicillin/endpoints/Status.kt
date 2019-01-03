@@ -4,12 +4,12 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.PenicillinJoinedJsonObjectActions
-import jp.nephy.penicillin.core.PenicillinMultipleJsonObjectActions
+import jp.nephy.penicillin.core.request.action.JoinedJsonObjectActions
+import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
-import jp.nephy.penicillin.core.filter
-import jp.nephy.penicillin.core.join
+import jp.nephy.penicillin.extensions.filter
+import jp.nephy.penicillin.extensions.join
 import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
 import jp.nephy.penicillin.endpoints.parameters.EmbedWidgetType
 import jp.nephy.penicillin.endpoints.parameters.MediaDataComponent
@@ -168,7 +168,7 @@ class Status(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<Status>()
 
-    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, waitSec: Long? = null, vararg options: Pair<String, Any?>): PenicillinJoinedJsonObjectActions<Media, Status> {
+    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, waitSec: Long? = null, vararg options: Pair<String, Any?>): JoinedJsonObjectActions<Media, Status> {
         return media.map {
             client.media.uploadMedia(it.file, it.type, it.category)
         }.join { results ->
@@ -181,7 +181,7 @@ class Status(override val client: PenicillinClient): Endpoint {
         }
     }
 
-    fun updateWithMedia(status: String, media: List<MediaDataComponent>, waitSec: Long? = null, vararg options: Pair<String, Any?>): PenicillinJoinedJsonObjectActions<Media, Status> {
+    fun updateWithMedia(status: String, media: List<MediaDataComponent>, waitSec: Long? = null, vararg options: Pair<String, Any?>): JoinedJsonObjectActions<Media, Status> {
         return media.map {
             client.media.uploadMedia(it.data, it.type, it.category)
         }.join { results ->

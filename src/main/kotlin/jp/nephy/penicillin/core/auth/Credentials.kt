@@ -1,6 +1,6 @@
 package jp.nephy.penicillin.core.auth
 
-import jp.nephy.penicillin.core.PenicillinLocalizedException
+import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.emulation.OfficialClient
 import jp.nephy.penicillin.core.i18n.LocalizedString
 
