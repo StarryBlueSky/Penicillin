@@ -19,9 +19,8 @@ data class JsonArrayApiAction<M: PenicillinModel>(override val request: ApiReque
         val json = content?.toJsonArraySafe() ?: throw PenicillinLocalizedException(
             LocalizedString.JsonParsingFailed, request, response, null, content
         )
+        val results = json.parseSafe(model, content)
 
-        return JsonArrayResponse(model, request, response, content, this).apply {
-            addAll(json.parseSafe(model, content))
-        }
+        return JsonArrayResponse(model, results, request, response, content, this)
     }
 }
