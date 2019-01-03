@@ -3,24 +3,25 @@
 package jp.nephy.penicillin.core.streaming
 
 import jp.nephy.jsonkt.toJsonObject
-import jp.nephy.penicillin.core.PenicillinStreamResponse
-import jp.nephy.penicillin.core.unescapeHTML
+import jp.nephy.penicillin.core.request.action.unescapeHTML
+import jp.nephy.penicillin.core.response.StreamResponse
 import kotlinx.coroutines.*
 import kotlinx.coroutines.io.readUTF8Line
 import java.io.Closeable
 
-class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result: PenicillinStreamResponse<L, H>, private val handler: H): Closeable {
+class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result: StreamResponse<L, H>, private val handler: H): Closeable {
     private val job = Job()
 
     fun startBlocking(autoReconnect: Boolean = true) = apply {
-        runBlocking(result.action.request.session.coroutineContext + job) {
-            loop(autoReconnect)
-            close()
+        use {
+            runBlocking(result.action.session.coroutineContext + job) {
+                loop(autoReconnect)
+            }
         }
     }
 
     fun startAsync(autoReconnect: Boolean = true) = apply {
-        result.action.request.session.launch(job) {
+        result.action.session.launch(job) {
             loop(autoReconnect)
             close()
         }
