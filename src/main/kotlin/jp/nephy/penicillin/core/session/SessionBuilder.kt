@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.core
+package jp.nephy.penicillin.core.session
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
@@ -75,7 +75,7 @@ class SessionBuilder {
                 }
             }
 
-            internal fun build(): SessionBuilder.CookieConfig {
+            internal fun build(): CookieConfig {
                 return CookieConfig(acceptCookie, cookies)
             }
         }
@@ -135,8 +135,13 @@ class SessionBuilder {
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
         val logger = KotlinLogging.logger("Penicillin.Client")
 
-        return Session(httpClient, dispatcherConfig.coroutineContext, logger, authorizationData, ClientOption(maxRetries, retryInMillis, emulationMode, skipEmulationChecking))
+        return Session(
+            httpClient,
+            dispatcherConfig.coroutineContext,
+            logger,
+            authorizationData,
+            ClientOption(maxRetries, retryInMillis, emulationMode, skipEmulationChecking)
+        )
     }
 }
 
-data class ClientOption(val maxRetries: Int, val retryInMillis: Long, val emulationMode: EmulationMode, val skipEmulationChecking: Boolean)
