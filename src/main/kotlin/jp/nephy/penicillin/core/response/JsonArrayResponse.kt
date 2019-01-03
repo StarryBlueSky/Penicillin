@@ -10,12 +10,12 @@ import kotlin.reflect.KClass
 
 data class JsonArrayResponse<M: PenicillinModel>(
     override val model: KClass<M>,
+    val results: List<M>,
     override val request: HttpRequest,
     override val response: HttpResponse,
     override val content: String,
     override val action: ApiAction<JsonArrayResponse<M>>
-// TODO: immutable list
-): ApiResponse, JsonResponse<M, JsonArray>, CompletedResponse, ArrayList<M>() {
+): ApiResponse, JsonResponse<M, JsonArray>, CompletedResponse, List<M> by results {
 
     override val json: JsonArray
         get() = map { it.json }.toJsonArray()
