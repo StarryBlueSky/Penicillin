@@ -12,7 +12,7 @@ data class SearchMetadata(override val json: JsonObject): PenicillinModel {
     val maxIdStr by string("max_id_str")
     val nextResults by nullableString("next_results")
     val query by string
-    val refreshUrl by string("refresh_url")
+    val refreshUrl by nullableString("refresh_url")
     val sinceId by int("since_id")
     val sinceIdStr by string("since_id_str")
 }
