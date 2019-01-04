@@ -32,4 +32,14 @@ data class Moment(override val json: JsonObject): PenicillinModel {
     val coverFormat by model<CoverFormat>(key = "cover_format")
     val largeFormat by model<CoverFormat>(key = "large_format")
     val thumbnailFormat by model<CoverFormat>(key = "thumbnail_format")
+
+    data class CoverFormat(val parentJson: JsonObject): CommonCoverMedia(parentJson) {
+        val pageId by string("page_id")
+        val isPromoted by boolean("is_promoted")
+        private val linkTitleCard by jsonObject("link_title_card")
+        val linkUrl by linkTitleCard.byString("url")
+        val linkDisplayUrl by linkTitleCard.byString("display_url")
+        val linkVanitySource by linkTitleCard.byString("vanity_source")
+        val linkTitle by linkTitleCard.byString("title")
+    }
 }

@@ -4,30 +4,31 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
-import jp.nephy.penicillin.models.*
+import jp.nephy.penicillin.models.Friendships
+import jp.nephy.penicillin.models.Relationship
 import jp.nephy.penicillin.models.User
 
-class Friendship(override val client: PenicillinClient): Endpoint {
+class Friendships(override val client: PenicillinClient): Endpoint {
     fun show(sourceId: Long? = null, sourceScreenName: String? = null, targetId: Long? = null, targetScreenName: String? = null, vararg options: Pair<String, Any?>) =
         client.session.get("/1.1/friendships/show.json") {
             parameter("source_id" to sourceId, "source_screen_name" to sourceScreenName, "target_id" to targetId, "target_screen_name" to targetScreenName, *options)
-        }.jsonObject<FriendshipsShow>()
+        }.jsonObject<Friendships.Show>()
 
     fun lookup(vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
         parameter(*options)
-    }.jsonArray<FriendshipsLookup>()
+    }.jsonArray<Friendships.Lookup>()
 
     fun lookupByScreenNames(screenNames: List<String>, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
         parameter("screen_name" to screenNames.joinToString(","), *options)
-    }.jsonArray<FriendshipsLookup>()
+    }.jsonArray<Friendships.Lookup>()
 
     fun lookupByUserIds(userIds: List<Long>, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
         parameter("user_id" to userIds.joinToString(","), *options)
-    }.jsonArray<FriendshipsLookup>()
+    }.jsonArray<Friendships.Lookup>()
 
     fun noRetweetsIds(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/no_retweets/ids.json") {
         parameter("stringify_ids" to stringifyIds, *options)
-    }.jsonObject<FriendshipsNoRetweetsIds>()
+    }.jsonObject<Friendships.NoRetweetsIds>()
 
     fun create(userId: Long, follow: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/create.json") {
         body {

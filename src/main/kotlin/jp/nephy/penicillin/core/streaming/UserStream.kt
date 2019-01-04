@@ -2,7 +2,10 @@ package jp.nephy.penicillin.core.streaming
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.string
-import jp.nephy.penicillin.models.*
+import jp.nephy.penicillin.models.DirectMessage
+import jp.nephy.penicillin.models.Status
+import jp.nephy.penicillin.models.Stream
+import jp.nephy.penicillin.models.UserStream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -24,7 +27,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                     val event = json["event"].string
                     when (event) {
                         in statusEvents -> {
-                            val statusEvent = UserStreamStatusEvent(json)
+                            val statusEvent = UserStream.StatusEvent(json)
                             launch(scope.coroutineContext) {
                                 when (event) {
                                     "favorite" -> listener.onFavorite(statusEvent)
@@ -40,7 +43,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                             listener.onAnyEvent(statusEvent)
                         }
                         in listEvents -> {
-                            val listEvent = UserStreamListEvent(json)
+                            val listEvent = UserStream.ListEvent(json)
                             launch(scope.coroutineContext) {
                                 when (event) {
                                     "list_created" -> listener.onListCreated(listEvent)
@@ -58,7 +61,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                             listener.onAnyEvent(listEvent)
                         }
                         in userEvents -> {
-                            val userEvent = UserStreamUserEvent(json)
+                            val userEvent = UserStream.UserEvent(json)
                             launch(scope.coroutineContext) {
                                 when (event) {
                                     "follow" -> listener.onFollow(userEvent)
@@ -81,28 +84,28 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                     }
                 }
                 "friends" in json -> {
-                    listener.onFriends(UserStreamFriends(json))
+                    listener.onFriends(UserStream.Friends(json))
                 }
                 "delete" in json -> {
-                    listener.onDelete(StreamDelete(json))
+                    listener.onDelete(Stream.Delete(json))
                 }
                 "scrub_geo" in json -> {
-                    listener.onScrubGeo(UserStreamScrubGeo(json))
+                    listener.onScrubGeo(UserStream.ScrubGeo(json))
                 }
                 "status_withheld" in json -> {
-                    listener.onStatusWithheld(UserStreamStatusWithheld(json))
+                    listener.onStatusWithheld(UserStream.StatusWithheld(json))
                 }
                 "user_withheld" in json -> {
-                    listener.onUserWithheld(UserStreamUserWithheld(json))
+                    listener.onUserWithheld(UserStream.UserWithheld(json))
                 }
                 "disconnect" in json -> {
-                    listener.onDisconnectMessage(UserStreamDisconnect(json))
+                    listener.onDisconnectMessage(UserStream.Disconnect(json))
                 }
                 "warning" in json -> {
-                    listener.onWarning(UserStreamWarning(json))
+                    listener.onWarning(UserStream.Warning(json))
                 }
                 "limit" in json -> {
-                    listener.onLimit(UserStreamLimit(json))
+                    listener.onLimit(UserStream.Limit(json))
                 }
                 else -> {
                     listener.onUnhandledJson(json)
@@ -118,47 +121,47 @@ interface UserStreamListener: StreamListener {
     suspend fun onStatus(status: Status) {}
     suspend fun onDirectMessage(message: DirectMessage) {}
 
-    suspend fun onAnyEvent(event: UserStreamEvent) {}
+    suspend fun onAnyEvent(event: UserStream.Event) {}
 
     /* Status event */
-    suspend fun onAnyStatusEvent(event: UserStreamStatusEvent) {}
+    suspend fun onAnyStatusEvent(event: UserStream.StatusEvent) {}
 
-    suspend fun onFavorite(event: UserStreamStatusEvent) {}
-    suspend fun onUnfavorite(event: UserStreamStatusEvent) {}
-    suspend fun onFavoritedRetweet(event: UserStreamStatusEvent) {}
-    suspend fun onRetweetedRetweet(event: UserStreamStatusEvent) {}
-    suspend fun onQuotedTweet(event: UserStreamStatusEvent) {}
+    suspend fun onFavorite(event: UserStream.StatusEvent) {}
+    suspend fun onUnfavorite(event: UserStream.StatusEvent) {}
+    suspend fun onFavoritedRetweet(event: UserStream.StatusEvent) {}
+    suspend fun onRetweetedRetweet(event: UserStream.StatusEvent) {}
+    suspend fun onQuotedTweet(event: UserStream.StatusEvent) {}
 
     /* List event */
-    suspend fun onAnyListEvent(event: UserStreamListEvent) {}
+    suspend fun onAnyListEvent(event: UserStream.ListEvent) {}
 
-    suspend fun onListCreated(event: UserStreamListEvent) {}
-    suspend fun onListDestroyed(event: UserStreamListEvent) {}
-    suspend fun onListUpdated(event: UserStreamListEvent) {}
-    suspend fun onListMemberAdded(event: UserStreamListEvent) {}
-    suspend fun onListMemberRemoved(event: UserStreamListEvent) {}
-    suspend fun onListUserSubscribed(event: UserStreamListEvent) {}
-    suspend fun onListUserUnsubscribed(event: UserStreamListEvent) {}
+    suspend fun onListCreated(event: UserStream.ListEvent) {}
+    suspend fun onListDestroyed(event: UserStream.ListEvent) {}
+    suspend fun onListUpdated(event: UserStream.ListEvent) {}
+    suspend fun onListMemberAdded(event: UserStream.ListEvent) {}
+    suspend fun onListMemberRemoved(event: UserStream.ListEvent) {}
+    suspend fun onListUserSubscribed(event: UserStream.ListEvent) {}
+    suspend fun onListUserUnsubscribed(event: UserStream.ListEvent) {}
 
     /* User event */
-    suspend fun onAnyUserEvent(event: UserStreamUserEvent) {}
+    suspend fun onAnyUserEvent(event: UserStream.UserEvent) {}
 
-    suspend fun onFollow(event: UserStreamUserEvent) {}
-    suspend fun onUnfollow(event: UserStreamUserEvent) {}
-    suspend fun onBlock(event: UserStreamUserEvent) {}
-    suspend fun onUnblock(event: UserStreamUserEvent) {}
-    suspend fun onMute(event: UserStreamUserEvent) {}
-    suspend fun onUnmute(event: UserStreamUserEvent) {}
-    suspend fun onUserUpdate(event: UserStreamUserEvent) {}
+    suspend fun onFollow(event: UserStream.UserEvent) {}
+    suspend fun onUnfollow(event: UserStream.UserEvent) {}
+    suspend fun onBlock(event: UserStream.UserEvent) {}
+    suspend fun onUnblock(event: UserStream.UserEvent) {}
+    suspend fun onMute(event: UserStream.UserEvent) {}
+    suspend fun onUnmute(event: UserStream.UserEvent) {}
+    suspend fun onUserUpdate(event: UserStream.UserEvent) {}
 
     /* Misc */
-    suspend fun onFriends(friends: UserStreamFriends) {}
+    suspend fun onFriends(friends: UserStream.Friends) {}
 
-    suspend fun onDelete(delete: StreamDelete) {}
-    suspend fun onScrubGeo(scrubGeo: UserStreamScrubGeo) {}
-    suspend fun onStatusWithheld(withheld: UserStreamStatusWithheld) {}
-    suspend fun onUserWithheld(withheld: UserStreamUserWithheld) {}
-    suspend fun onDisconnectMessage(disconnect: UserStreamDisconnect) {}
-    suspend fun onWarning(warning: UserStreamWarning) {}
-    suspend fun onLimit(limit: UserStreamLimit) {}
+    suspend fun onDelete(delete: Stream.Delete) {}
+    suspend fun onScrubGeo(scrubGeo: UserStream.ScrubGeo) {}
+    suspend fun onStatusWithheld(withheld: UserStream.StatusWithheld) {}
+    suspend fun onUserWithheld(withheld: UserStream.UserWithheld) {}
+    suspend fun onDisconnectMessage(disconnect: UserStream.Disconnect) {}
+    suspend fun onWarning(warning: UserStream.Warning) {}
+    suspend fun onLimit(limit: UserStream.Limit) {}
 }

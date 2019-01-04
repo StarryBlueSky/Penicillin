@@ -2,7 +2,7 @@ package jp.nephy.penicillin.core.streaming
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.models.Status
-import jp.nephy.penicillin.models.StreamDelete
+import jp.nephy.penicillin.models.Stream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -14,7 +14,7 @@ class SampleStreamHandler(override val listener: SampleStreamListener): StreamHa
                     listener.onStatus(Status(json))
                 }
                 "delete" in json -> {
-                    listener.onDelete(StreamDelete(json))
+                    listener.onDelete(Stream.Delete(json))
                 }
                 else -> {
                     listener.onUnhandledJson(json)
@@ -28,5 +28,5 @@ class SampleStreamHandler(override val listener: SampleStreamListener): StreamHa
 
 interface SampleStreamListener: StreamListener {
     suspend fun onStatus(status: Status) {}
-    suspend fun onDelete(delete: StreamDelete) {}
+    suspend fun onDelete(delete: Stream.Delete) {}
 }

@@ -8,4 +8,16 @@ import jp.nephy.jsonkt.delegation.*
 data class Search(override val json: JsonObject): PenicillinModel {
     val searchMetadata by model<SearchMetadata>(key = "search_metadata")
     val statuses by modelList<Status>()
+
+    data class SearchMetadata(override val json: JsonObject): PenicillinModel {
+        val completedIn by float("completed_in")
+        val count by int
+        val maxId by long("max_id")
+        val maxIdStr by string("max_id_str")
+        val nextResults by nullableString("next_results")
+        val query by string
+        val refreshUrl by nullableString("refresh_url")
+        val sinceId by int("since_id")
+        val sinceIdStr by string("since_id_str")
+    }
 }
