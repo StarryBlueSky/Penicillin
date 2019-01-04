@@ -13,8 +13,8 @@ import jp.nephy.penicillin.core.request.ApiRequestBuilder
 import jp.nephy.penicillin.endpoints.EndpointHost
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.isActive
+import kotlinx.io.core.Closeable
 import mu.KLogger
-import java.io.Closeable
 import kotlin.coroutines.CoroutineContext
 
 data class Session(private val underlyingHttpClient: HttpClient, override val coroutineContext: CoroutineContext, val logger: KLogger, val credentials: Credentials, val option: ClientOption): Closeable, CoroutineScope {

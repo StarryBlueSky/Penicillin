@@ -7,7 +7,7 @@ import jp.nephy.penicillin.core.request.action.unescapeHTML
 import jp.nephy.penicillin.core.response.StreamResponse
 import kotlinx.coroutines.*
 import kotlinx.coroutines.io.readUTF8Line
-import java.io.Closeable
+import kotlinx.io.core.Closeable
 
 class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result: StreamResponse<L, H>, private val handler: H): Closeable {
     private val job = Job()

@@ -3,7 +3,7 @@ package jp.nephy.penicillin.core.response
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
 import jp.nephy.penicillin.core.request.action.ApiAction
-import java.io.Closeable
+import kotlinx.io.core.Closeable
 
 interface ApiResponse: Closeable {
     val request: HttpRequest
