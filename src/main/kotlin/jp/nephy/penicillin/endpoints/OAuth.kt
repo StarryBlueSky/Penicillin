@@ -7,8 +7,8 @@ import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
-import jp.nephy.penicillin.models.special.AccessTokenResponse
-import jp.nephy.penicillin.models.special.RequestTokenResponse
+import jp.nephy.penicillin.models.AccessTokenResponse
+import jp.nephy.penicillin.models.RequestTokenResponse
 
 class OAuth(override val client: PenicillinClient): Endpoint {
     suspend fun requestToken(callbackUrl: String = "oob", vararg options: Pair<String, Any?>): RequestTokenResponse {
