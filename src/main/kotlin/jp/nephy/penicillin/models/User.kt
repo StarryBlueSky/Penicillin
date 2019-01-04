@@ -4,9 +4,6 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.jsonkt.string
-import jp.nephy.penicillin.models.special.CreatedAt
-import jp.nephy.penicillin.models.special.Language
 
 data class User(val parentJson: JsonObject): CommonUser(parentJson)
 
@@ -17,7 +14,7 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val businessProfileState by nullableString("business_profile_state")
     val canMediaTag by nullableBoolean("can_media_tag")
     val contributorsEnabled by boolean("contributors_enabled")
-    val createdAt by lambda("created_at") { CreatedAt(it.string) }
+    // val createdAt by string("created_at")
     val defaultProfile by boolean("default_profile")
     val defaultProfileImage by boolean("default_profile_image")
     val description by nullableString
@@ -36,7 +33,7 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val idStr by string("id_str")
     val isTranslationEnabled by nullableBoolean("is_translation_enabled")
     val isTranslator by boolean("is_translator")
-    val lang by lambda { Language(it.string) }
+    // val lang by string
     val listedCount by int("listed_count")
     val location by nullableString
     val mediaCount by nullableInt("media_count")
@@ -73,8 +70,6 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val verified by boolean
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
-    val isLockedAccount: Boolean
-        get() = profileInterstitialType == "fake_account"
 
     data class ProfileImageExtension(override val json: JsonObject): PenicillinModel {
         val mediaColor by model<MediaColor>()
@@ -83,40 +78,5 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
             val r by jsonObject
             val ttl by int
         }
-    }
-
-    fun profileImageUrlWithVariantSize(size: ProfileImageSize) = profileImageUrl.run {
-        if (size == ProfileImageSize.Original) this
-        else dropLast(4) + "_" + when (size) {
-            ProfileImageSize.Normal -> "normal"
-            ProfileImageSize.Bigger -> "bigger"
-            else -> "mini"
-        } + ".png"
-    }
-
-    fun profileImageUrlHttpsWithVariantSize(size: ProfileImageSize): String = profileImageUrl.let { url ->
-        if (size == ProfileImageSize.Original) url
-        else url.dropLast(4) + "_" + size.suffix + ".png"
-    }
-
-    fun profileBannerUrlWithVariantSize(size: ProfileBannersSize): String = profileBannerUrl + "/" + size.suffix
-
-    enum class ProfileImageSize(val suffix: String){
-        Normal("normal"),
-        Bigger("bigger"),
-        Mini("mini"),
-        Original("")
-    }
-
-    enum class ProfileBannersSize(val suffix: String){
-        Normal("600x200"),
-        Bigger("1500x500"),
-        Mini("300x100"),
-        Web("web"),
-        WebRetina("web_retina"),
-        IPad("ipad"),
-        IPadRetina("ipad_retina"),
-        Mobile("mobile"),
-        MobileRetina("mobile_retina")
     }
 }

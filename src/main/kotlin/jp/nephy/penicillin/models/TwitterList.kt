@@ -4,11 +4,9 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.jsonkt.string
-import jp.nephy.penicillin.models.special.CreatedAt
 
 data class TwitterList(override val json: JsonObject): PenicillinModel {
-    val createdAt by lambda("created_at") { CreatedAt(it.string) }
+    // val createdAt by string("created_at")
     val description by string
     val following by boolean
     val fullName by string("full_name")
