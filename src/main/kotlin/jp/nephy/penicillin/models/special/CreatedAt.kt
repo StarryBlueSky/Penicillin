@@ -5,9 +5,11 @@ package jp.nephy.penicillin.models.special
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val createdAtPattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy"
-
 data class CreatedAt(val value: String) {
+    companion object {
+        private const val pattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy"
+    }
+
     val date: Date
-        get() = SimpleDateFormat(createdAtPattern, Locale.ENGLISH).parse(value)
+        get() = SimpleDateFormat(pattern, Locale.ENGLISH).parse(value)
 }

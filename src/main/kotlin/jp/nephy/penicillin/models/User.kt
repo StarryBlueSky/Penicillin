@@ -76,6 +76,15 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val isLockedAccount: Boolean
         get() = profileInterstitialType == "fake_account"
 
+    data class ProfileImageExtension(override val json: JsonObject): PenicillinModel {
+        val mediaColor by model<MediaColor>()
+
+        data class MediaColor(override val json: JsonObject): PenicillinModel {
+            val r by jsonObject
+            val ttl by int
+        }
+    }
+
     fun profileImageUrlWithVariantSize(size: ProfileImageSize) = profileImageUrl.run {
         if (size == ProfileImageSize.Original) this
         else dropLast(4) + "_" + when (size) {

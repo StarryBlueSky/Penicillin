@@ -15,7 +15,7 @@ data class Status(override val json: JsonObject): PenicillinModel {
     val contributors by modelList<Contributor>()
     val conversationId by nullableLong("conversation_id")
     val coordinates by model<Coordinate?>()
-    val currentUserRetweet by model<UserRetweet?>(key = "current_user_retweet")
+    val currentUserRetweet by model<CurrentUserRetweet?>(key = "current_user_retweet")
     val createdAt by lambda("created_at") { CreatedAt(it.string) }
     val displayTextRange by intList("display_text_range")
     val entities by model<StatusEntity>()
@@ -59,6 +59,48 @@ data class Status(override val json: JsonObject): PenicillinModel {
     val withheldCopyright by nullableBoolean("withheld_copyright")
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
+
+    data class Contributor(override val json: JsonObject): PenicillinModel {
+        val id by long
+        val idStr by string("id_str")
+        val screenName by string("screen_name")
+    }
+
+    data class Coordinate(override val json: JsonObject): PenicillinModel {
+        private val coordinates by floatList
+        val type by string
+        val longitude by lambda {
+            if (coordinates.size == 2) {
+                coordinates[0]
+            } else {
+                null
+            }
+        }
+        val latitude by lambda {
+            if (coordinates.size == 2) {
+                coordinates[1]
+            } else {
+                null
+            }
+        }
+    }
+
+    data class CurrentUserRetweet(override val json: JsonObject): PenicillinModel {
+        val id by long
+        val idStr by string("id_str")
+    }
+
+    data class ExtendedEntity(override val json: JsonObject): PenicillinModel {
+        val displayTextRange by intList("display_text_range")
+        val media by modelList<MediaEntity>()
+        val fullText by nullableString("full_text")
+    }
+
+    data class ExtendedTweet(override val json: JsonObject): PenicillinModel {
+        val displayTextRange by intList("display_text_range")
+        val entities by model<StatusEntity>()
+        val fullText by nullableString("full_text")
+    }
 
     fun fullText(): String {
         return if (retweetedStatus != null) {
