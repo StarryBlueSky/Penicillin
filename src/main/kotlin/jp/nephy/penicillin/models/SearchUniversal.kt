@@ -8,10 +8,19 @@ import jp.nephy.jsonkt.delegation.*
 data class SearchUniversal(override val json: JsonObject): PenicillinModel {
     val metadata by model<Metadata>(key = "metadata")
     val statuses by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> StatusModule(json["status"].jsonObject) }
+        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> Status(json["status"].jsonObject) }
     }
     val userGalleries by lambda("modules") {
         it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> UserGallery(json["user_gallery"].jsonObject) }
+    }
+
+    data class Status(override val json: JsonObject): PenicillinModel {
+        val metadata by model<StatusMetadata>()
+        val data by model<jp.nephy.penicillin.models.Status>()
+
+        data class StatusMetadata(override val json: JsonObject): PenicillinModel {
+            val resultType by string("result_type")
+        }
     }
 
     data class Metadata(override val json: JsonObject): PenicillinModel {
