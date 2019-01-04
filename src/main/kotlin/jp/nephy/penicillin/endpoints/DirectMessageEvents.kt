@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.DirectMessageEvent
 
-class DirectMessageEvent(override val client: PenicillinClient): Endpoint {
+class DirectMessageEvents(override val client: PenicillinClient): Endpoint {
     fun create(userId: String, text: String, vararg options: Pair<String, String>) = client.session.post("/1.1/direct_messages/events/new.json") {
         body {
             json {

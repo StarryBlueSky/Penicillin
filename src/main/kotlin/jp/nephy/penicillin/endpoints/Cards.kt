@@ -6,7 +6,7 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.Card
 import jp.nephy.penicillin.models.CardState
 
-class Card(override val client: PenicillinClient): Endpoint {
+class Cards(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun create(cardData: String, vararg options: Pair<String, Any?>) = client.session.post("/v2/cards/create.json", EndpointHost.Card) {
         body {

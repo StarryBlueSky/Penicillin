@@ -5,7 +5,7 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.WelcomeMessage
 
-class WelcomeMessage(override val client: PenicillinClient): Endpoint {
+class WelcomeMessages(override val client: PenicillinClient): Endpoint {
     fun create(vararg options: Pair<String, String>) = client.session.post("/1.1/direct_messages/welcome_messages/new.json") {
         body {
             json {

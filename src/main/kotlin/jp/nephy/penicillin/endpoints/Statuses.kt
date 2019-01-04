@@ -20,7 +20,7 @@ import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Status
 import java.util.concurrent.TimeUnit
 
-class Status(override val client: PenicillinClient): Endpoint {
+class Statuses(override val client: PenicillinClient): Endpoint {
     fun show(id: Long, trimUser: Boolean? = null, includeMyRetweet: Boolean? = null, includeEntities: Boolean? = null, includeExtAltText: Boolean? = null, vararg options: Pair<String, Any?>) =
         client.session.get("/1.1/statuses/show.json") {
             parameter("id" to id, "trim_user" to trimUser, "include_my_retweet" to includeMyRetweet, "include_entities" to includeEntities, "include_ext_alt_text" to includeExtAltText, *options)
