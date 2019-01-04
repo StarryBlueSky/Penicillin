@@ -5,7 +5,7 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.DirectMessage
 
-class DirectMessage(override val client: PenicillinClient): Endpoint {
+class DirectMessages(override val client: PenicillinClient): Endpoint {
     @Deprecated("Legacy Direct Message API retired on September 17th, 2018.", replaceWith = ReplaceWith("jp.nephy.endpoints.DirectMessageEvent"))
     fun show(id: Long, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages/show.json") {
         parameter("id" to id, *options)

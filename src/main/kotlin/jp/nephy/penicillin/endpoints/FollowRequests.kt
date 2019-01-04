@@ -6,7 +6,7 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.CursorIds
 import jp.nephy.penicillin.models.User
 
-class FollowRequest(override val client: PenicillinClient): Endpoint {
+class FollowRequests(override val client: PenicillinClient): Endpoint {
     fun received(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/incoming.json") {
         parameter("stringify_ids" to stringifyIds, *options)
     }.cursorJsonObject<CursorIds>()

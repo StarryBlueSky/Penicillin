@@ -8,7 +8,7 @@ import jp.nephy.penicillin.models.TrendArea
 import jp.nephy.penicillin.models.TrendPlace
 import jp.nephy.penicillin.models.TrendPlus
 
-class Trend(override val client: PenicillinClient): Endpoint {
+class Trends(override val client: PenicillinClient): Endpoint {
     fun availableAreas(vararg options: Pair<String, Any?>) = client.session.get("/1.1/trends/available.json") {
         parameter(*options)
     }.jsonArray<TrendArea>()

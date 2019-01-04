@@ -7,7 +7,7 @@ import jp.nephy.penicillin.models.CursorIds
 import jp.nephy.penicillin.models.CursorUsers
 import jp.nephy.penicillin.models.User
 
-class Block(override val client: PenicillinClient): Endpoint {
+class Blocks(override val client: PenicillinClient): Endpoint {
     fun listIds(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/blocks/ids.json") {
         parameter("stringify_ids" to stringifyIds, *options)
     }.cursorJsonObject<CursorIds>()

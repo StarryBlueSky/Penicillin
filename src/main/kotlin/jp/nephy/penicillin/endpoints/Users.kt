@@ -5,9 +5,8 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.models.*
-import jp.nephy.penicillin.models.User
 
-class User(override val client: PenicillinClient): Endpoint {
+class Users(override val client: PenicillinClient): Endpoint {
     fun show(screenName: String, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/users/show.json") {
         parameter(
             "ext" to "mediaColor",
