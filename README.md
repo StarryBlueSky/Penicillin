@@ -8,12 +8,12 @@
 Penicillin: Full-featured Twitter API wrapper for Kotlin.
 ===========================
 
-- すべての公開 Twitter API と認証方式 (OAuth 1.0a, OAuth 2.0) に対応しています。
+- Enterprise API を除く, すべての公開 Twitter API と認証方式 (OAuth 1.0a, OAuth 2.0) に対応しています。
 - 一部の非公開 API に対応しています(投票など)。今後もサポートを充実する予定です。
 - エンドポイントのパラメータが名前付き引数として解決できるため, 簡単に API が利用できます。
 - エンドポイントのレスポンスのモデルクラスが用意されているので, API の返り値の利用が容易にできます。
 - 同期 `.complete()` / 非同期 `.await()` どちらの実行にも対応しています。コールバックスタイル `.queue {}` にも対応しています。タイムアウトも設定可能です。
-- カーソル操作があるエンドポイントでは `.next()` や `.untilLast()` といったメソッドでページングできます。
+- カーソル操作があるエンドポイントでは `.next` や `.untilLast()` といったメソッドでページングできます。
 
 もし未対応のエンドポイントやバグを発見した際は, お気軽に [Issue](https://github.com/NephyProject/Penicillin/issues) を立ててください。すぐに対応します。
 
