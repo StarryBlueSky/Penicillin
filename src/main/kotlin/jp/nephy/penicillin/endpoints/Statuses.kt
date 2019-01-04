@@ -4,20 +4,18 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.request.action.JoinedJsonObjectActions
-import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
-import jp.nephy.penicillin.extensions.filter
-import jp.nephy.penicillin.extensions.join
+import jp.nephy.penicillin.core.request.action.JoinedJsonObjectActions
+import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
 import jp.nephy.penicillin.endpoints.parameters.EmbedWidgetType
 import jp.nephy.penicillin.endpoints.parameters.MediaDataComponent
 import jp.nephy.penicillin.endpoints.parameters.MediaFileComponent
+import jp.nephy.penicillin.extensions.filter
+import jp.nephy.penicillin.extensions.join
 import jp.nephy.penicillin.models.*
-import jp.nephy.penicillin.models.Card
 import jp.nephy.penicillin.models.Media
-import jp.nephy.penicillin.models.Status
 import java.util.concurrent.TimeUnit
 
 class Statuses(override val client: PenicillinClient): Endpoint {
@@ -198,7 +196,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint(EmulationMode.TwitterForiPhone)
     fun createPollTweet(status: String, choices: List<String>, minutes: Int = 1440, vararg options: Pair<String, Any?>): PenicillinMultipleJsonObjectActions<Card> {
         return PenicillinMultipleJsonObjectActions.Builder {
-            client.card.create(
+            client.cards.create(
                 cardData = linkedMapOf<String, Any>().apply {
                     choices.forEachIndexed { i, choice ->
                         put("twitter:string:choice${i + 1}_label", choice)
