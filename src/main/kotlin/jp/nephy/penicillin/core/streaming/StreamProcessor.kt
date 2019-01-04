@@ -5,6 +5,8 @@ package jp.nephy.penicillin.core.streaming
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.request.action.unescapeHTML
 import jp.nephy.penicillin.core.response.StreamResponse
+import jp.nephy.penicillin.core.streaming.handler.StreamHandler
+import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import kotlinx.coroutines.*
 import kotlinx.coroutines.io.readUTF8Line
 import kotlinx.io.core.Closeable
@@ -34,6 +36,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
         }
     }
 
+    // TODO
     private suspend fun CoroutineScope.loop(autoReconnect: Boolean) {
         while (isActive) {
             try {
