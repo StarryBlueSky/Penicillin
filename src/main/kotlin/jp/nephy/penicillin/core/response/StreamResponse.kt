@@ -3,7 +3,9 @@ package jp.nephy.penicillin.core.response
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
 import jp.nephy.penicillin.core.request.action.ApiAction
-import jp.nephy.penicillin.core.streaming.*
+import jp.nephy.penicillin.core.streaming.StreamProcessor
+import jp.nephy.penicillin.core.streaming.handler.*
+import jp.nephy.penicillin.core.streaming.listener.*
 
 data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
     override val request: HttpRequest,
@@ -18,7 +20,7 @@ data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
             is SampleStreamListener -> SampleStreamHandler(listener)
             is FilterStreamListener -> FilterStreamHandler(listener)
             is LivePipelineListener -> LivePipelineHandler(listener)
-            else -> throw UnsupportedOperationException("Unsupported StreamListener: ${listener.javaClass.canonicalName}")
+            else -> throw IllegalArgumentException("Unsupported StreamListener: ${listener.javaClass.canonicalName}")
         } as H
 
         return StreamProcessor(this, handler)

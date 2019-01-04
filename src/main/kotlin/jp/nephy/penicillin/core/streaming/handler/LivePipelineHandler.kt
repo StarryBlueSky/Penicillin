@@ -1,9 +1,10 @@
-package jp.nephy.penicillin.core.streaming
+package jp.nephy.penicillin.core.streaming.handler
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.byNullableJsonObject
 import jp.nephy.jsonkt.jsonObjectOrNull
 import jp.nephy.jsonkt.stringOrNull
+import jp.nephy.penicillin.core.streaming.listener.LivePipelineListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.intOrNull
@@ -38,10 +39,4 @@ class LivePipelineHandler(override val listener: LivePipelineListener): StreamHa
 
         listener.onAnyJson(json)
     }
-}
-
-interface LivePipelineListener: StreamListener {
-    suspend fun onUpdateLikeCount(id: Long, count: Int) {}
-    suspend fun onUpdateRetweetCount(id: Long, count: Int) {}
-    suspend fun onUpdateReplyCount(id: Long, count: Int) {}
 }

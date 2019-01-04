@@ -1,4 +1,4 @@
-package jp.nephy.penicillin.core.streaming
+package jp.nephy.penicillin.core.streaming.listener
 
 import jp.nephy.jsonkt.JsonObject
 

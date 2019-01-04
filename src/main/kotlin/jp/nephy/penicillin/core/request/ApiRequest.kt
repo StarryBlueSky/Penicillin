@@ -2,8 +2,8 @@ package jp.nephy.penicillin.core.request
 
 import jp.nephy.penicillin.core.request.action.*
 import jp.nephy.penicillin.core.session.Session
-import jp.nephy.penicillin.core.streaming.StreamHandler
-import jp.nephy.penicillin.core.streaming.StreamListener
+import jp.nephy.penicillin.core.streaming.handler.StreamHandler
+import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.models.Empty
 import jp.nephy.penicillin.models.PenicillinCursorModel
 import jp.nephy.penicillin.models.PenicillinModel
