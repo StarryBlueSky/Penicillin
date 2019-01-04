@@ -3,40 +3,46 @@
 package jp.nephy.penicillin.core.streaming
 
 import jp.nephy.jsonkt.toJsonObject
+import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.unescapeHTML
 import jp.nephy.penicillin.core.response.StreamResponse
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import kotlinx.coroutines.*
-import kotlinx.coroutines.io.readUTF8Line
+import kotlinx.coroutines.io.jvm.javaio.toInputStream
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.io.core.Closeable
+import mu.KotlinLogging
 
 class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result: StreamResponse<L, H>, private val handler: H): Closeable {
     private val job = Job()
+    private val mutex = Mutex()
+    private object Dummy
 
-    fun startBlocking(autoReconnect: Boolean = true) = apply {
-        use {
-            runBlocking(result.action.session.coroutineContext + job) {
-                loop(autoReconnect)
+    private val logger = KotlinLogging.logger("Penicillin.StreamProcessor")
+
+    suspend fun await() {
+        mutex.lock()
+    }
+
+    suspend fun startAsync(autoReconnect: Boolean = true): StreamProcessor<L, H> {
+        return mutex.withLock(Dummy) {
+            apply {
+                result.action.session.launch(result.action.session.coroutineContext + job) {
+                    use {
+                        loop(autoReconnect)
+                    }
+                }
             }
         }
     }
 
-    fun startAsync(autoReconnect: Boolean = true) = apply {
-        result.action.session.launch(job) {
-            loop(autoReconnect)
-            close()
-        }
-    }
-
     override fun close() {
-        runBlocking(Dispatchers.Default) {
-            job.cancelChildren()
-            job.cancelAndJoin()
-        }
+        result.close()
+        job.cancelChildren()
     }
 
-    // TODO
     private suspend fun CoroutineScope.loop(autoReconnect: Boolean) {
         while (isActive) {
             try {
@@ -48,56 +54,62 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
 
                 while (isActive) {
                     try {
+                        result.close()
                         result = result.action.request.stream<L, H>().await()
                         break
                     } catch (e: CancellationException) {
                         return
                     } catch (e: Throwable) {
+                        logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
+
                         delay(1000)
                         continue
                     }
                 }
             } catch (e: CancellationException) {
                 return
+            } catch (e: Throwable) {
+                logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
             }
         }
     }
 
     private suspend fun CoroutineScope.process() {
-        launch(coroutineContext) {
+        launch {
             handler.listener.onConnect()
         }
 
-        // TODO: investigate streaming delays
-        while (isActive && !result.response.content.isClosedForRead) {
-            val line = try {
-                result.response.content.readUTF8Line()?.trim() ?: break
-            } catch (e: Throwable) {
-                break
-            }
+        result.response.content.toInputStream(job).bufferedReader().use { reader ->
+            for (line in reader.lineSequence()) {
+                if (!isActive) {
+                    break
+                }
 
-            launch(coroutineContext) {
-                when {
-                    line.startsWith("{") -> {
-                        val content = line.unescapeHTML()
+                // TODO: investigate streaming delays
+                val content = line.trim().unescapeHTML()
 
-                        launch(coroutineContext) {
-                            handler.listener.onRawData(content)
+                launch {
+                    handler.listener.onRawData(content)
+                }
+
+                launch {
+                    when {
+                        content.startsWith("{") -> {
+                            handler.handle(content.toJsonObject(), this)
                         }
-                        handler.handle(content.toJsonObject(), this)
-                    }
-                    line.isBlank() -> {
-                        handler.listener.onHeartbeat()
-                    }
-                    else -> {
-                        val length = line.toIntOrNull() ?: return@launch handler.listener.onUnknownData(line)
-                        handler.listener.onLength(length)
+                        content.isBlank() -> {
+                            handler.listener.onHeartbeat()
+                        }
+                        else -> {
+                            val length = content.toIntOrNull() ?: return@launch handler.listener.onUnknownData(content)
+                            handler.listener.onLength(length)
+                        }
                     }
                 }
             }
         }
 
-        launch(coroutineContext) {
+        launch {
             handler.listener.onDisconnect()
         }
     }
