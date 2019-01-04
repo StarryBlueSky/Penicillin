@@ -73,7 +73,8 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val verified by boolean
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
-    val isLockedAccount by lazy { profileInterstitialType == "fake_account" }
+    val isLockedAccount: Boolean
+        get() = profileInterstitialType == "fake_account"
 
     fun profileImageUrlWithVariantSize(size: ProfileImageSize) = profileImageUrl.run {
         if (size == ProfileImageSize.Original) this

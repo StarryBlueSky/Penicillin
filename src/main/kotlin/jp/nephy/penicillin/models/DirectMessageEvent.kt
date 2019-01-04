@@ -11,7 +11,8 @@ data class DirectMessageEventList(override val json: JsonObject): PenicillinMode
     val nextCursor by nullableString("next_cursor")
 
     data class App(override val json: JsonObject): PenicillinModel {
-        val id by lazy { json.keys.first() }
+        val id: String
+            get() = json.keys.first()
         val name by json[id].jsonObject.byString
         val url by json[id].jsonObject.byString
     }
