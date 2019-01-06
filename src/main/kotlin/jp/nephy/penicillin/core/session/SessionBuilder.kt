@@ -39,8 +39,8 @@ class SessionBuilder {
     }
 
     private var defaultTimeoutInMillis = 5000L
-    fun defaultTimeout(interval: Long, unit: TimeUnit) {
-        defaultTimeoutInMillis = unit.toMillis(interval)
+    fun defaultTimeout(timeout: Long, unit: TimeUnit) {
+        defaultTimeoutInMillis = unit.toMillis(timeout)
     }
 
     private var dispatcherConfigBuilder: DispatcherConfig.Builder.() -> Unit = {}
