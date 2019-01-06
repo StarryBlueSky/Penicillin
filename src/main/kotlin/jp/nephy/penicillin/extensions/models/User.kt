@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.extensions.models
 
 import jp.nephy.penicillin.models.CommonUser
@@ -8,8 +10,15 @@ val CommonUser.isLockedAccount: Boolean
 fun CommonUser.profileImageUrlWithVariantSize(size: ProfileImageSize): String {
     return profileImageUrl.let {
         when (size) {
-            ProfileImageSize.Original -> it
-            else -> "${it.dropLast(4)}_${size.suffix}.png"
+            ProfileImageSize.Normal -> it
+            ProfileImageSize.Original -> {
+                val format = it.split(".").last()
+                "${it.dropLast(11)}.$format"
+            }
+            else -> {
+                val format = it.split(".").last()
+                "${it.dropLast(10)}${size.suffix}.$format"
+            }
         }
     }
 }
@@ -17,14 +26,21 @@ fun CommonUser.profileImageUrlWithVariantSize(size: ProfileImageSize): String {
 fun CommonUser.profileImageUrlHttpsWithVariantSize(size: ProfileImageSize): String {
     return profileImageUrlHttps.let {
         when (size) {
-            ProfileImageSize.Original -> it
-            else -> "${it.dropLast(4)}_${size.suffix}.png"
+            ProfileImageSize.Normal -> it
+            ProfileImageSize.Original -> {
+                val format = it.split(".").last()
+                "${it.dropLast(11)}.$format"
+            }
+            else -> {
+                val format = it.split(".").last()
+                "${it.dropLast(10)}${size.suffix}.$format"
+            }
         }
     }
 }
 
-fun CommonUser.profileBannerUrlWithVariantSize(size: ProfileBannerSize): String {
-    return "$profileBannerUrl/${size.suffix}"
+fun CommonUser.profileBannerUrlWithVariantSize(size: ProfileBannerSize): String? {
+    return profileBannerUrl?.let { "$profileBannerUrl/${size.suffix}" }
 }
 
 enum class ProfileImageSize(val suffix: String) {

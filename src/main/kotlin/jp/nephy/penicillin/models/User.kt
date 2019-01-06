@@ -48,7 +48,7 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val profileBackgroundImageUrlHttps by string("profile_background_image_url_https")
     val profileBackgroundTile by boolean("profile_background_tile")
     val profileBannerExtension by model<ProfileImageExtension?>(key = "profile_banner_extensions")
-    val profileBannerUrl by string("profile_banner_url")
+    val profileBannerUrl by nullableString("profile_banner_url")
     val profileImageExtensions by model<ProfileImageExtension?>(key = "profile_image_extensions")
     val profileImageUrl by string("profile_image_url")
     val profileImageUrlHttps by string("profile_image_url_https")
