@@ -17,7 +17,7 @@ suspend fun <R> ApiAction<R>.awaitWithTimeout(timeout: Long, unit: TimeUnit): R?
 
 @Throws(PenicillinException::class, CancellationException::class)
 suspend fun <R> ApiAction<R>.awaitWithTimeout(): R? {
-    return awaitWithTimeout(session.option.defaultTimeoutInMillis, TimeUnit.MILLISECONDS)
+    return awaitWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
 @Throws(PenicillinException::class)
@@ -36,11 +36,11 @@ fun <R> ApiAction<R>.completeWithTimeout(timeout: Long, unit: TimeUnit): R? {
 
 @Throws(PenicillinException::class)
 fun <R> ApiAction<R>.completeWithTimeout(): R? {
-    return completeWithTimeout(session.option.defaultTimeoutInMillis, TimeUnit.MILLISECONDS)
+    return completeWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
-private typealias ApiCallback<R> = suspend (response: R) -> Unit
-private typealias ApiFallback = suspend (e: Throwable) -> Unit
+internal typealias ApiCallback<R> = suspend (response: R) -> Unit
+internal typealias ApiFallback = suspend (e: Throwable) -> Unit
 
 val ApiAction<*>.defaultApiFallback: ApiFallback
     get() = {
@@ -98,7 +98,7 @@ fun <R> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit): Job {
 }
 
 inline fun <R> ApiAction<R>.queueWithTimeout(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
-    return queueWithTimeout(session.option.defaultTimeoutInMillis, TimeUnit.MILLISECONDS, onFailure, onSuccess)
+    return queueWithTimeout(session.option.defaultTimeoutInMillis, onFailure, onSuccess)
 }
 
 inline fun <R> ApiAction<R>.queueWithTimeout(crossinline onSuccess: ApiCallback<R>): Job {
