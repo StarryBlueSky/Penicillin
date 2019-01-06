@@ -17,10 +17,10 @@ A clear and concise description of what the bug is.
 e.g.) Status.fullText() doesn't return full-length status text. Text body seems to be omitted as "...".
 
 **Example Codes To Reproduce / バグ再現コード:**  
-Shows example source codes to be able to reproduce the behavior.  
-このバグを再現できるようにソースコードを例示してください。  
+Shows example source codes to be able to reproduce the behavior. If it is obvious, you don't need to specify import statements.  
+このバグを再現できるようにソースコードを例示してください。自明であれば import 文を明示する必要はありません。  
 
-```kotlin=
+```kotlin
 fun main() {
     val client = PenicillinClient {
         application("XXX", "YYY")
