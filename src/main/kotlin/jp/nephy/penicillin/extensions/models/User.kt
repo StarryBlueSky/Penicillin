@@ -13,11 +13,11 @@ fun CommonUser.profileImageUrlWithVariantSize(size: ProfileImageSize): String {
             ProfileImageSize.Normal -> it
             ProfileImageSize.Original -> {
                 val format = it.split(".").last()
-                "${it.dropLast(11)}.$format"
+                "${it.dropLast(8 + format.length)}.$format"
             }
             else -> {
                 val format = it.split(".").last()
-                "${it.dropLast(10)}${size.suffix}.$format"
+                "${it.dropLast(7 + format.length)}${size.suffix}.$format"
             }
         }
     }
@@ -29,11 +29,11 @@ fun CommonUser.profileImageUrlHttpsWithVariantSize(size: ProfileImageSize): Stri
             ProfileImageSize.Normal -> it
             ProfileImageSize.Original -> {
                 val format = it.split(".").last()
-                "${it.dropLast(11)}.$format"
+                "${it.dropLast(8 + format.length)}.$format"
             }
             else -> {
                 val format = it.split(".").last()
-                "${it.dropLast(10)}${size.suffix}.$format"
+                "${it.dropLast(7 + format.length)}${size.suffix}.$format"
             }
         }
     }
