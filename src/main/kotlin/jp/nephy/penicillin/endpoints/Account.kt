@@ -3,23 +3,22 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.PenicillinMultipleJsonObjectActions
+import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.endpoints.parameters.MediaType
+import jp.nephy.penicillin.models.Account
 import jp.nephy.penicillin.models.Media
-import jp.nephy.penicillin.models.Setting
 import jp.nephy.penicillin.models.User
-import jp.nephy.penicillin.models.VerifyCredentials
 
 class Account(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun settings(vararg options: Pair<String, Any?>) = client.session.get("/1.1/account/settings.json") {
         parameter("include_alt_text_compose" to "true", "include_mention_filter" to "true", "include_ranked_timeline" to "true", "include_universal_quality_filtering" to "true", *options)
-    }.jsonObject<Setting>()
+    }.jsonObject<Account.Settings>()
 
     fun verifyCredentials(includeEntities: Boolean? = null, skipStatus: Boolean? = null, includeEmail: Boolean? = null, vararg options: Pair<String, Any?>) =
         client.session.get("/1.1/account/verify_credentials.json") {
             parameter("include_entities" to includeEntities, "skip_status" to skipStatus, "include_email" to includeEmail, *options)
-        }.jsonObject<VerifyCredentials>()
+        }.jsonObject<Account.VerifyCredentials>()
 
     fun removeProfileBanner(vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/remove_profile_banner.json") {
         body {
@@ -51,7 +50,7 @@ class Account(override val client: PenicillinClient): Endpoint {
                 )
             }
         }
-    }.jsonObject<Setting>()
+    }.jsonObject<Account.Settings>()
 
     fun updateProfile(
         name: String? = null,

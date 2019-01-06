@@ -4,8 +4,6 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.jsonkt.string
-import jp.nephy.penicillin.models.special.CreatedAt
 
 data class Moment(override val json: JsonObject): PenicillinModel {
     private val moment by jsonObject
@@ -15,7 +13,7 @@ data class Moment(override val json: JsonObject): PenicillinModel {
     val url by moment.byString
     val isLive by moment.byBoolean("is_live")
     val time by moment.byString("time_string")
-    val lastPublishTime by moment.byLambda("last_publish_time") { CreatedAt(it.string) }
+    // val lastPublishTime by moment.byString("last_publish_time")
     val subcategory by moment.byString("subcategory_string")
     val sensitive by moment.byBoolean
     val duration by moment.byString("duration_string")
@@ -32,4 +30,14 @@ data class Moment(override val json: JsonObject): PenicillinModel {
     val coverFormat by model<CoverFormat>(key = "cover_format")
     val largeFormat by model<CoverFormat>(key = "large_format")
     val thumbnailFormat by model<CoverFormat>(key = "thumbnail_format")
+
+    data class CoverFormat(val parentJson: JsonObject): CommonCoverMedia(parentJson) {
+        val pageId by string("page_id")
+        val isPromoted by boolean("is_promoted")
+        private val linkTitleCard by jsonObject("link_title_card")
+        val linkUrl by linkTitleCard.byString("url")
+        val linkDisplayUrl by linkTitleCard.byString("display_url")
+        val linkVanitySource by linkTitleCard.byString("vanity_source")
+        val linkTitle by linkTitleCard.byString("title")
+    }
 }
