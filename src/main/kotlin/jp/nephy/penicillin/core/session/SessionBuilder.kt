@@ -38,6 +38,11 @@ class SessionBuilder {
         retryInMillis = unit.toMillis(interval)
     }
 
+    private var defaultTimeoutInMillis = 5000L
+    fun defaultTimeout(interval: Long, unit: TimeUnit) {
+        defaultTimeoutInMillis = unit.toMillis(interval)
+    }
+
     private var dispatcherConfigBuilder: DispatcherConfig.Builder.() -> Unit = {}
     fun dispatcher(builder: DispatcherConfig.Builder.() -> Unit) {
         dispatcherConfigBuilder = builder
@@ -140,8 +145,7 @@ class SessionBuilder {
             dispatcherConfig.coroutineContext,
             logger,
             authorizationData,
-            ClientOption(maxRetries, retryInMillis, emulationMode, skipEmulationChecking)
+            ClientOption(maxRetries, retryInMillis, defaultTimeoutInMillis, emulationMode, skipEmulationChecking)
         )
     }
 }
-
