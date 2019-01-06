@@ -3,9 +3,11 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.delegation.model
+import jp.nephy.jsonkt.delegation.modelList
+import jp.nephy.jsonkt.delegation.string
 
-class NotificationInstruction private constructor() {
+object NotificationInstruction {
     data class ClearCache(override val json: JsonObject): PenicillinModel
 
     data class AddEntries(override val json: JsonObject): PenicillinModel {

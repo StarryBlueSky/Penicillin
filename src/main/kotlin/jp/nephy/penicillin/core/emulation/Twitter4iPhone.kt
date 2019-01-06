@@ -1,11 +1,11 @@
 package jp.nephy.penicillin.core.emulation
 
 import io.ktor.http.Headers
-import jp.nephy.penicillin.core.Session
 import jp.nephy.penicillin.core.auth.OAuthUtil
+import jp.nephy.penicillin.core.session.Session
 import java.security.SecureRandom
 
-class Twitter4iPhone(override val session: Session): Emulation() {
+class Twitter4iPhone(override val session: Session): Emulation {
     override val headers = Headers.build {
         append("Accept-Language", "ja")
         append("Timezone", "Asia/Tokyo")

@@ -3,7 +3,9 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.delegation.int
+import jp.nephy.jsonkt.delegation.model
+import jp.nephy.jsonkt.delegation.string
 
 data class UserProfileBanner(override val json: JsonObject): PenicillinModel {
     val resolution1080x360 by model<Banner?>(key = "1080x360")
@@ -16,4 +18,10 @@ data class UserProfileBanner(override val json: JsonObject): PenicillinModel {
     val mobileRetina by model<Banner?>(key = "mobile_retina")
     val web by model<Banner?>()
     val webRetina by model<Banner?>(key = "web_retina")
+
+    data class Banner(override val json: JsonObject): PenicillinModel {
+        val h by int
+        val w by int
+        val url by string
+    }
 }

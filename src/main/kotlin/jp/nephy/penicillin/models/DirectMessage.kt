@@ -3,12 +3,13 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
-import jp.nephy.jsonkt.string
-import jp.nephy.penicillin.models.special.CreatedAt
+import jp.nephy.jsonkt.delegation.boolean
+import jp.nephy.jsonkt.delegation.long
+import jp.nephy.jsonkt.delegation.model
+import jp.nephy.jsonkt.delegation.string
 
 data class DirectMessage(override val json: JsonObject): PenicillinModel {
-    val createdAt by lambda("created_at") { CreatedAt(it.string) }
+    // val createdAt by string("created_at")
     val entities by model<StatusEntity>()
     val id by long
     val idStr by string("id_str")
