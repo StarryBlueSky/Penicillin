@@ -62,7 +62,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
                     } catch (e: Throwable) {
                         logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
 
-                        delay(1000)
+                        delay(result.action.session.option.retryInMillis)
                         continue
                     }
                 }
