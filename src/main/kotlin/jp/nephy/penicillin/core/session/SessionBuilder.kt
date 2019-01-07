@@ -33,7 +33,7 @@ class SessionBuilder {
     }
 
     var maxRetries = 3
-    private var retryInMillis = 1000L
+    private var retryInMillis = 3000L
     fun retry(interval: Long, unit: TimeUnit) {
         retryInMillis = unit.toMillis(interval)
     }
