@@ -27,9 +27,9 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(private var result
     }
 
     suspend fun startAsync(autoReconnect: Boolean = true): StreamProcessor<L, H> {
-        return mutex.withLock(Dummy) {
-            apply {
-                result.action.session.launch(result.action.session.coroutineContext + job) {
+        return apply {
+            result.action.session.launch(result.action.session.coroutineContext + job) {
+                mutex.withLock(Dummy) {
                     use {
                         loop(autoReconnect)
                     }
