@@ -24,7 +24,7 @@ import jp.nephy.penicillin.PenicillinClient
 
 fun main() {
     val client = PenicillinClient {
-        application("YConsumerKey", "ConsumerSecret")
+        application("ConsumerKey", "ConsumerSecret")
         token("AccessToken", "AccessToken Secret")
     }
 
