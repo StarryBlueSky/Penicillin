@@ -74,8 +74,22 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     compile "jp.nephy:penicillin:$penicillin_version"
+    
+    // Choose prefered Ktor Http Engine for JVM. Full list is available at https://ktor.io/clients/http-client/engines.html.
+    compile "io.ktor:ktor-client-apache:$ktor_version"
+    // compile "io.ktor:ktor-client-cio:$ktor_version"
+    // compile "io.ktor:ktor-client-jetty:$ktor_version"
+    // compile "io.ktor:ktor-client-okhttp:$ktor_version"
 }
 ```
+
+## Multiplatform Support
+
+Currently Penicillin does **NOT** provide supports for non-JVM environment yet. Penicillin uses Json.kt which depends on JVM.  
+
+Android has JVM environment, so you may use Penicillin to develop Android apps.  
+
+In the future, Penicillin is plan to support Kotlin/Multiplatform.
 
 ## Contributing
 
