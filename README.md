@@ -97,6 +97,7 @@ In the future, Penicillin is plan to support Kotlin/Multiplatform.
 * [Guide](https://github.com/NephyProject/Penicillin/blob/master/CONTRIBUTING.md)
 * [Pull Request Template](https://github.com/NephyProject/Penicillin/blob/master/PULL_REQUEST_TEMPLATE.md)
 * [Issue: Bug Report Template](https://github.com/NephyProject/Penicillin/blob/master/.github/ISSUE_TEMPLATE/bug-report.md)
+* [Issue: Feature Request Template](https://github.com/NephyProject/Penicillin/blob/master/.github/ISSUE_TEMPLATE/feature-request.md)
 
 ## License
 
