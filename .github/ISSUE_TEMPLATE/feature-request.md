@@ -7,16 +7,14 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-- [] Finish my changes
-- [ ] Push my commits to GitHub
-- [ ] Open a pull request
+**Request type / Request の種類**
+- [ ] Add Twitter API endpoints / Twitter API エンドポイントの追加
+- [ ] Others / その他
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Description / 概要:**  
+A clear and concise description of what the request is.  
+どのような Request であるのかを明確かつ簡潔に説明してください。  
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**Additional context / 備考:**  
+Add any other context about the request here.  
+Request に際して, 他に記すことがあれば記載してください。  
