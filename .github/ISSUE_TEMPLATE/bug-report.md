@@ -9,13 +9,13 @@ assignees: SlashNephy
 
 **Description / 概要:**  
 A clear and concise description of what the bug is.  
-どのようなバグであるのかを明確かつ簡潔に説明してください。  
+どのような Bug であるのかを明確かつ簡潔に説明してください。  
 
 e.g.) Status.fullText() doesn't return full-length status text. Text body seems to be omitted as "...".
 
 **Example Codes To Reproduce / バグ再現コード:**  
 Shows example source codes to be able to reproduce the behavior. If it is obvious, you don't need to specify import statements.  
-このバグを再現できるようにソースコードを例示してください。自明であれば import 文を明示する必要はありません。  
+この Bug を再現できるようにソースコードを例示してください。自明であれば import 文を明示する必要はありません。  
 
 e.g.)
 ```kotlin
@@ -39,7 +39,7 @@ A clear and concise description of what you expected to happen.
 
 e.g.) Status.fullText() will return full-length status text without omitting as "...".
 
-**Emvironment / 環境:**  
+**Environment / 環境:**  
 Please complete the following information to specify the problem.  
 問題を特定するために以下の情報を埋めてください。  
 
