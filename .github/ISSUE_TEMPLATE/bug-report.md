@@ -7,13 +7,18 @@ assignees: SlashNephy
 
 ---
 
+**Bug Type / Bug の種類:**
+- [ ] Uncaught exceptions / キャッチされていない例外
+- [ ] Related to Model Class / モデルクラス関連
+- [ ] Others / その他
+
 **Description / 概要:**  
 A clear and concise description of what the bug is.  
 どのような Bug であるのかを明確かつ簡潔に説明してください。  
 
 e.g.) Status.fullText() doesn't return full-length status text. Text body seems to be omitted as "...".
 
-**Example Codes To Reproduce / バグ再現コード:**  
+**Example Codes To Reproduce / Bug 再現コード:**  
 Shows example source codes to be able to reproduce the behavior. If it is obvious, you don't need to specify import statements.  
 この Bug を再現できるようにソースコードを例示してください。自明であれば import 文を明示する必要はありません。  
 
@@ -51,4 +56,4 @@ Please complete the following information to specify the problem.
 
 **Additional context / 備考:**  
 Add any other context about the problem here.  
-問題の報告に際して, 他に記すことがあれば記載してください。  
+問題の報告に際して, 他に記すことがあれば記載してください。
