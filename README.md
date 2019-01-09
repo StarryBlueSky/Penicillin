@@ -75,7 +75,8 @@ dependencies {
 
     compile "jp.nephy:penicillin:$penicillin_version"
     
-    // Choose prefered Ktor Http Engine for JVM. Full list is available at https://ktor.io/clients/http-client/engines.html.
+    // Choose preferred Ktor Http Engine for JVM.
+    // Full list is available at https://ktor.io/clients/http-client/engines.html.
     compile "io.ktor:ktor-client-apache:$ktor_version"
     // compile "io.ktor:ktor-client-cio:$ktor_version"
     // compile "io.ktor:ktor-client-jetty:$ktor_version"
