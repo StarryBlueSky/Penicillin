@@ -7,9 +7,6 @@ assignees: SlashNephy
 
 ---
 
-English and Japanese are also available in bug reporting.  
-バグ報告は日本語と英語のどちらで記載しても構いません。  
-
 **Description / 概要:**  
 A clear and concise description of what the bug is.  
 どのようなバグであるのかを明確かつ簡潔に説明してください。  
@@ -20,6 +17,7 @@ e.g.) Status.fullText() doesn't return full-length status text. Text body seems 
 Shows example source codes to be able to reproduce the behavior. If it is obvious, you don't need to specify import statements.  
 このバグを再現できるようにソースコードを例示してください。自明であれば import 文を明示する必要はありません。  
 
+e.g.)
 ```kotlin
 fun main() {
     val client = PenicillinClient {
