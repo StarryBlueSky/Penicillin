@@ -2,6 +2,9 @@ package jp.nephy.penicillin.core.auth
 
 import io.ktor.http.HttpMethod
 import io.ktor.http.encodeOAuth
+import io.ktor.util.InternalAPI
+import io.ktor.util.date.GMTDate
+import io.ktor.util.encodeBase64
 import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
@@ -12,7 +15,7 @@ object OAuthUtil {
     }
 
     fun currentEpochTime(): String {
-        return "${Date().time / 1000}"
+        return "${GMTDate().timestamp / 1000}"
     }
 
     fun signatureParamString(param: Map<String, String>): String {
@@ -26,12 +29,13 @@ object OAuthUtil {
     fun signingKey(consumerSecret: String, accessTokenSecret: String?): SecretKeySpec {
         return SecretKeySpec("${consumerSecret.encodeOAuth()}&${accessTokenSecret.orEmpty().encodeOAuth()}".toByteArray(), "HmacSHA1")
     }
-
+    
+    @UseExperimental(InternalAPI::class)
     fun signature(signingKey: SecretKeySpec, signatureBaseString: String): String {
         return Mac.getInstance(signingKey.algorithm).apply {
             init(signingKey)
         }.doFinal(signatureBaseString.toByteArray()).let {
-            Base64.getEncoder().encodeToString(it)
+            encodeBase64(it)
         }.encodeOAuth()
     }
 }

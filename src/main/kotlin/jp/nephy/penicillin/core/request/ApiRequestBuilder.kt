@@ -6,6 +6,7 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.url
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
+import io.ktor.util.InternalAPI
 import io.ktor.util.appendAll
 import io.ktor.util.flattenForEach
 import jp.nephy.penicillin.core.auth.AuthorizationType
@@ -109,6 +110,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
         }
     }
 
+    @UseExperimental(InternalAPI::class)
     private fun signRequest() {
         val signature = when (authorizationType) {
             AuthorizationType.OAuth1a -> {
