@@ -14,7 +14,7 @@
 * 従来の同期的な関数 `.complete()` / Kotlin Coroutines の中断関数 `.await()` のどちらにも対応しています。コールバックスタイル `.queue {}` にも対応しています。タイムアウトも設定可能です。
 * カーソル操作があるエンドポイントでは `.next` や `.untilLast()` といったメソッドでページングできます。
 
-もし未対応のエンドポイントやバグを発見した際は, お気軽に [Issue](https://github.com/NephyProject/Penicillin/issues) を立ててください。すぐに対応します。
+KDoc is available at [docs.nephy.jp](https://docs.nephy.jp/penicillin). Documentation is WIP :(
 
 ## Quick example
 
