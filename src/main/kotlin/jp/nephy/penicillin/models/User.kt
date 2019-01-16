@@ -18,7 +18,7 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val defaultProfile by boolean("default_profile")
     val defaultProfileImage by boolean("default_profile_image")
     val description by nullableString
-    val entities by model<UserEntity?>()
+    val entities by nullableModel<UserEntity>()
     val fastFollowersCount by nullableInt("fast_followers_count")
     val favouritesCount by int("favourites_count")
     val followRequestSent by nullableBoolean("follow_request_sent")
@@ -47,9 +47,9 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val profileBackgroundImageUrl by string("profile_background_image_url")
     val profileBackgroundImageUrlHttps by string("profile_background_image_url_https")
     val profileBackgroundTile by boolean("profile_background_tile")
-    val profileBannerExtension by model<ProfileImageExtension?>(key = "profile_banner_extensions")
+    val profileBannerExtension by nullableModel<ProfileImageExtension>(key = "profile_banner_extensions")
     val profileBannerUrl by nullableString("profile_banner_url")
-    val profileImageExtensions by model<ProfileImageExtension?>(key = "profile_image_extensions")
+    val profileImageExtensions by nullableModel<ProfileImageExtension>(key = "profile_image_extensions")
     val profileImageUrl by string("profile_image_url")
     val profileImageUrlHttps by string("profile_image_url_https")
     val profileInterstitialType by nullableString("profile_interstitial_type")
@@ -60,7 +60,7 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val profileUseBackgroundImage by boolean("profile_use_background_image")
     val protected by boolean
     val screenName by string("screen_name")
-    val status by model<Status?>()
+    val status by nullableModel<Status>()
     val statusesCount by int("statuses_count")
     val suspended by nullableBoolean
     val timeZone by nullableString("time_zone")

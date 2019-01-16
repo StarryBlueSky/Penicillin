@@ -12,12 +12,12 @@ data class Media(override val json: JsonObject): PenicillinModel {
     val mediaKey by nullableString("media_key")
     val processingInfo by model<ProcessingInfo>(key = "processing_info")
     val size by nullableInt
-    val image by model<Image?>()
-    val video by model<Video?>()
+    val image by nullableModel<Image>()
+    val video by nullableModel<Video>()
 
     data class ProcessingInfo(override val json: JsonObject): PenicillinModel {
         val checkAfterSecs by nullableInt("check_after_secs")
-        val error by model<Error?>()
+        val error by nullableModel<Error>()
         val progressPercent by nullableInt("progress_percent")
         val state by string
 
