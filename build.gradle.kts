@@ -9,7 +9,7 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 project.group = "jp.nephy"
-project.version = "4.0.1"
+project.version = "4.0.2"
 
 val githubOrganizationName = "NephyProject"
 val githubRepositoryName = "Penicillin"
@@ -240,26 +240,59 @@ val githubToken by property()
 githubRelease {
     token(githubToken)
 
-    releaseAssets(files("$buildDir/libs"))
+    val assets = jar.destinationDir.listFiles { _, filename ->
+        project.version.toString() in filename && filename.endsWith(".jar")
+    }
+    releaseAssets(*assets)
 
     owner(githubOrganizationName)
     repo(githubRepositoryName)
 
-    tagName("v${project.name}")
-    releaseName("v${project.name}")
+    tagName("v${project.version}")
+    releaseName("v${project.version}")
     targetCommitish("master")
     draft(false)
     prerelease(false)
-    overwrite(true)
+    overwrite(false)
 
     changelog(closureOf<ChangeLogSupplier> {
         currentCommit("HEAD")
         lastCommit("HEAD~10")
         options(listOf("--format=oneline", "--abbrev-commit", "--max-count=50", "graph"))
     })
+    
+    fun buildChangelog(): String {
+        return try {
+            changelog().call().lines().takeWhile {
+                println(it)
+                "Version bump" !in it
+            }.joinToString("\n") {
+                val (tag, message) = it.split(" ", limit = 2)
+                "| $tag | $message |"
+            }
+        } catch (e: Exception) {
+            ""
+        }
+    }
+    
+    body {
+        buildString {
+            appendln("## Version\n")
+            appendln("**Latest** Penicillin version: [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)\n")
+            appendln("The latest release build: `${project.version}`\n")
+            
+            appendln()
+            
+            appendln("## Changelogs\n")
+            appendln("| Commits | Message |")
+            appendln("|:------------:|:-----------|")
+            append(buildChangelog())
+        }
+    }
 }
 
-task<Task>("publish") {
+task<Task>("release") {
+    dependsOn("publish")
     if (githubToken != null && !isEAPBuild) {
         dependsOn("githubRelease")
     }
