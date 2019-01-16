@@ -8,7 +8,7 @@ import jp.nephy.jsonkt.asJsonElement
 import jp.nephy.jsonkt.toJsonString
 import kotlinx.coroutines.io.ByteWriteChannel
 import kotlinx.coroutines.io.writeStringUtf8
-import kotlinx.serialization.json.JsonBuilder
+import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.json
 
 class JsonTextContent(private val json: JsonObject): OutgoingContent.WriteChannelContent() {
@@ -19,7 +19,7 @@ class JsonTextContent(private val json: JsonObject): OutgoingContent.WriteChanne
     }
 
     class Builder {
-        private val updates = mutableListOf<JsonBuilder.() -> Unit>()
+        private val updates = mutableListOf<JsonObjectBuilder.() -> Unit>()
 
         fun add(key: String, value: Any?) {
             updates += {
