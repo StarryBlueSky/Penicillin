@@ -226,6 +226,10 @@ publishing {
                     password = sonatypePassword
                 }
             }
+        } else {
+            jar.destinationDir.listFiles().forEach { 
+                it.delete()
+            }
         }
     }
 
