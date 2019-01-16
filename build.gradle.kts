@@ -4,16 +4,16 @@ import com.github.breadmoirai.ChangeLogSupplier
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URI
+import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-project.group = "jp.nephy"
-project.version = "4.0.2"
-
 val githubOrganizationName = "NephyProject"
 val githubRepositoryName = "Penicillin"
+val packageGroupId = "jp.nephy"
 val packageName = "Penicillin"
+val packageVersion = Version(4, 0, 3)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 val ktorVersion = "1.1.1"
@@ -44,6 +44,10 @@ buildscript {
     }
 }
 
+/*
+ * Extensions
+ */
+
 inline fun <reified T: Task> Project.task(name: String, crossinline block: T.() -> Unit): T {
     return (tasks.findByName(name) as? T ?: task<T>(name)).apply(block)
 }
@@ -53,6 +57,10 @@ fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, St
         return properties[key ?: property.name]?.toString()
     }
 }
+
+/*
+ * Dependencies
+ */
 
 repositories {
     mavenCentral()
@@ -98,6 +106,38 @@ task<KotlinCompile>("compileTestKotlin") {
 }
 
 /*
+ * Versioning
+ */
+
+data class Version(val major: Int, val minor: Int, val patch: Int) {
+    val label: String
+        get() = "$major.$minor.$patch"
+}
+
+val isEAPBuild: Boolean
+    get() = hasProperty("snapshot")
+
+fun incrementBuildNumber(): Int {
+    val buildNumberPath = Paths.get(buildDir.absolutePath, "build-number-${packageVersion.label}.txt")
+    val buildNumber = if (Files.exists(buildNumberPath)) {
+        buildNumberPath.toFile().readText().toIntOrNull()
+    } else {
+        null
+    }?.coerceAtLeast(0)?.plus(1) ?: 1
+
+    buildNumberPath.toFile().writeText(buildNumber.toString())
+    
+    return buildNumber
+}
+
+project.group = packageGroupId
+project.version = if (isEAPBuild) {
+    "${packageVersion.label}-eap-${incrementBuildNumber()}"
+} else {
+    packageVersion.label
+}
+
+/*
  * Tests
  */
 
@@ -118,7 +158,7 @@ testlogger {
  * Documentation
  */
 
-task<DokkaTask>("dokka") {
+val dokka = task<DokkaTask>("dokka") {
     outputFormat = "html"
     outputDirectory = "$buildDir/kdoc"
     
@@ -159,8 +199,13 @@ val javadocJar = task<Jar>("javadocJar") {
     from("$buildDir/javadoc")
 }
 
-val isEAPBuild: Boolean
-    get() = "eap" in project.version.toString()
+val kdocJar = task<Jar>("kdocJar") {
+    dependsOn(dokka)
+
+    classifier = "kdoc"
+    from("$buildDir/kdoc")
+}
+
 val sonatypeUsername by property()
 val sonatypePassword by property()
 
@@ -171,18 +216,15 @@ publishing {
             url = Paths.get(buildDir.absolutePath, "maven-local").toUri()
         }
         
-        maven {
-            if (!isEAPBuild) {
+        if (!isEAPBuild) {
+            maven {
                 name = "Sonatype"
                 url = URI("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-            } else {
-                name = "Sonatype Snapshot"
-                url = URI("https://oss.sonatype.org/content/repositories/snapshots")
-            }
 
-            credentials {
-                username = sonatypeUsername
-                password = sonatypePassword
+                credentials {
+                    username = sonatypeUsername
+                    password = sonatypePassword
+                }
             }
         }
     }
@@ -231,7 +273,7 @@ publishing {
 }
 
 signing {
-    setRequired({ gradle.taskGraph.hasTask("publish") || gradle.taskGraph.hasTask("githubRelease") })
+    setRequired({ gradle.taskGraph.hasTask("publish") })
     sign(publishing.publications)
 }
 
@@ -264,7 +306,6 @@ githubRelease {
     fun buildChangelog(): String {
         return try {
             changelog().call().lines().takeWhile {
-                println(it)
                 "Version bump" !in it
             }.joinToString("\n") {
                 val (tag, message) = it.split(" ", limit = 2)
