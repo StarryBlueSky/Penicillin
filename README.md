@@ -43,7 +43,8 @@ More examples of Penicillin can be found at [Wiki](https://github.com/NephyProje
 
 ## Setup
 
-Latest Penicillin version is [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22).
+Latest Penicillin version is [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22).  
+EAP builds are available at our [Jenkins](https://jenkins.nephy.jp/job/Penicillin/).
 
 ### Gradle Kotlin DSL
 
