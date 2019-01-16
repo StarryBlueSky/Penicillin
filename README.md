@@ -1,6 +1,6 @@
 # Penicillin: Full-featured Twitter API wrapper for Kotlin
 
-[![Kotlin 1.3.11](https://img.shields.io/badge/Kotlin-1.3.11-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.3.20](https://img.shields.io/badge/Kotlin-1.3.20-blue.svg)](http://kotlinlang.org)
 [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)
 [![Travis](https://img.shields.io/travis/NephyProject/Penicillin.svg)](https://travis-ci.org/NephyProject/Penicillin/builds)
 [![MIT License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
@@ -45,21 +45,56 @@ More examples of Penicillin can be found at [Wiki](https://github.com/NephyProje
 
 Latest Penicillin version is [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22).
 
+### Gradle Kotlin DSL
+
+We recommend using Gradle Kotlin DSL instead of old build.gradle.  
+
+#### build.gradle.kts
+
+```kotlin
+val penicillinVersion = "PUT desired Penicillin version here"
+val ktorVersion = "1.1.1"
+
+plugins { 
+    kotlin("jvm") version "1.3.20"
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven(url = "https://kotlin.bintray.com/ktor")
+    maven(url = "https://kotlin.bintray.com/kotlinx")
+}
+
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("jp.nephy:penicillin:$penicillinVersion")
+    
+    // Choose preferred Ktor Http Engine for JVM.
+    // Full list is available at https://ktor.io/clients/http-client/engines.html.
+    implementation("io.ktor:ktor-client-apache:$ktorVersion")
+    // implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    // implementation("io.ktor:ktor-client-jetty:$ktorVersion")
+    // implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+}
+```
+
 ### Gradle
+
+#### build.gradle
 
 ```groovy
 buildscript {
-    ext.kotlin_version = "1.3.11"
-    ext.penicillin_version = "Put desired Penicillin version here"
+    ext.penicillin_version = "PUT desired Penicillin version here"
+    ext.kotlin_version = "1.3.20"
+    ext.ktor_version = "1.1.1"
 
     repositories {
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
     }
 }
 
@@ -71,16 +106,15 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
-    compile "jp.nephy:penicillin:$penicillin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "jp.nephy:penicillin:$penicillin_version"
     
     // Choose preferred Ktor Http Engine for JVM.
     // Full list is available at https://ktor.io/clients/http-client/engines.html.
-    compile "io.ktor:ktor-client-apache:$ktor_version"
-    // compile "io.ktor:ktor-client-cio:$ktor_version"
-    // compile "io.ktor:ktor-client-jetty:$ktor_version"
-    // compile "io.ktor:ktor-client-okhttp:$ktor_version"
+    implementation "io.ktor:ktor-client-apache:$ktor_version"
+    // implementation "io.ktor:ktor-client-cio:$ktor_version"
+    // implementation "io.ktor:ktor-client-jetty:$ktor_version"
+    // implementation "io.ktor:ktor-client-okhttp:$ktor_version"
 }
 ```
 
