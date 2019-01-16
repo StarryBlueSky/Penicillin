@@ -1,8 +1,5 @@
 .gradle/
 .idea/
-gradle/
 
 build/
 out/
-
-src/test/kotlin
