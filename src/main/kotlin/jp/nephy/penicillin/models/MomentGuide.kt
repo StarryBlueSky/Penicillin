@@ -13,7 +13,7 @@ data class MomentGuide(override val json: JsonObject): PenicillinModel {
     val impressionId by long("impression_id")
     val cursor by string("scroll_cursor")
     val modules by modelList<Module>()
-    val trendModule by model<TrendModule?>()
+    val trendModule by nullableModel<TrendModule>()
 
     data class Module(override val json: JsonObject): PenicillinModel {
         val moduleType by string("module_type")

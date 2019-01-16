@@ -6,15 +6,15 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 
 data class TrendType(override val json: JsonObject): PenicillinModel {
-    val trend by model<Trend?>()
-    val promotedTrend by model<PromotedTrend?>()
+    val trend by nullableModel<Trend>()
+    val promotedTrend by nullableModel<PromotedTrend>()
 
     data class Trend(override val json: JsonObject): PenicillinModel {
         val name by string
         val description by nullableString("meta_description")
         val rank by int
         val token by string
-        val context by model<Context?>()
+        val context by nullableModel<Context>()
         val target by model<Target>()
 
         data class Context(override val json: JsonObject): PenicillinModel {

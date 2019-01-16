@@ -2,6 +2,7 @@
 
 package jp.nephy.penicillin.endpoints
 
+import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
@@ -204,7 +205,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
                     put("twitter:api:api:endpoint", "1")
                     put("twitter:card", "poll${choices.size}choice_text_only")
                     put("twitter:long:duration_minutes", minutes)
-                }.toJsonString()
+                }.toJsonObject().toJsonString()
             )
         }.request {
             update(status, cardUri = it.first.result.cardUri, options = *options)

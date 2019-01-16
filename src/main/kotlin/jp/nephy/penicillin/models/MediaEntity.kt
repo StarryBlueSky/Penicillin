@@ -6,7 +6,7 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 
 data class MediaEntity(override val json: JsonObject): PenicillinModel {
-    val additionalMediaInfo by model<AdditionalMediaInfo?>(key = "additional_media_info")
+    val additionalMediaInfo by nullableModel<AdditionalMediaInfo>(key = "additional_media_info")
     val displayUrl by string("display_url")
     val expandedUrl by string("expanded_url")
     val extAltText by nullableString("ext_alt_text")
@@ -21,7 +21,7 @@ data class MediaEntity(override val json: JsonObject): PenicillinModel {
     val sourceStatusIdStr by nullableString("source_status_id_str")
     val type by string
     val url by string
-    val videoInfo by model<VideoInfo?>(key = "video_info")
+    val videoInfo by nullableModel<VideoInfo>(key = "video_info")
 
     data class AdditionalMediaInfo(override val json: JsonObject): PenicillinModel {
         val title by string
