@@ -71,7 +71,7 @@ repositories {
 }
 
 dependencies {
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    api(kotlin("stdlib-jdk8"))
 
     implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
     testImplementation("io.ktor:ktor-client-apache:$ktorVersion")
