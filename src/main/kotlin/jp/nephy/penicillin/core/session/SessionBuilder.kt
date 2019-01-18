@@ -131,8 +131,7 @@ class SessionBuilder {
     internal fun build(): Session {
         val cookieConfig = CookieConfig.Builder().apply(cookieConfigBuilder).build()
         val dispatcherConfig = DispatcherConfig.Builder().apply(dispatcherConfigBuilder).build()
-        val httpClient = httpClient ?: if (httpClientEngineFactory != null) HttpClient(httpClientEngineFactory!!) else HttpClient()
-        httpClient.config {
+        val httpClient = (httpClient ?: httpClientEngineFactory?.let { HttpClient(it) } ?: HttpClient()).config {
             install(HttpPlainText) {
                 defaultCharset = Charsets.UTF_8
             }
