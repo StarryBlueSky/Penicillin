@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.endpoints.parameters.MediaCategory
 import jp.nephy.penicillin.endpoints.parameters.MediaType

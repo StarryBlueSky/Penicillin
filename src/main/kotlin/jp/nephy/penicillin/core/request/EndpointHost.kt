@@ -24,7 +24,7 @@
 
 @file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.core.request
 
 enum class EndpointHost(val value: String) {
     Default("api.twitter.com"), Card("caps.twitter.com"), MediaUpload("upload.twitter.com"), Publish("publish.twitter.com"),

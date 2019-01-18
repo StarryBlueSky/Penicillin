@@ -34,7 +34,7 @@ import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.request.ApiRequestBuilder
-import jp.nephy.penicillin.endpoints.EndpointHost
+import jp.nephy.penicillin.core.request.EndpointHost
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.isActive
 import kotlinx.io.core.Closeable

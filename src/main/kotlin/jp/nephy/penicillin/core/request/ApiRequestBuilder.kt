@@ -44,7 +44,6 @@ import jp.nephy.penicillin.core.request.body.EncodedFormContent
 import jp.nephy.penicillin.core.request.body.MultiPartContent
 import jp.nephy.penicillin.core.request.body.RequestBodyBuilder
 import jp.nephy.penicillin.core.session.Session
-import jp.nephy.penicillin.endpoints.EndpointHost
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import mu.KotlinLogging
 import java.util.*

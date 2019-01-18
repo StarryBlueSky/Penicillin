@@ -31,6 +31,7 @@ import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JoinedJsonObjectActions
 import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
 import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
