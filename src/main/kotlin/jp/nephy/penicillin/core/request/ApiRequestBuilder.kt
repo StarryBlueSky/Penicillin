@@ -32,6 +32,7 @@ import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.util.InternalAPI
 import io.ktor.util.appendAll
+import io.ktor.util.encodeBase64
 import io.ktor.util.flattenForEach
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.auth.OAuthUtil
@@ -46,7 +47,6 @@ import jp.nephy.penicillin.core.request.body.RequestBodyBuilder
 import jp.nephy.penicillin.core.session.Session
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import mu.KotlinLogging
-import java.util.*
 import kotlin.collections.set
 
 class ApiRequestBuilder(private val session: Session, private val httpMethod: HttpMethod, private val protocol: URLProtocol, private val host: EndpointHost, private val path: String) {
@@ -176,7 +176,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
                 "Bearer ${session.credentials.bearerToken!!}"
             }
             AuthorizationType.OAuth2RequestToken -> {
-                "Basic ${Base64.getEncoder().encodeToString("${session.credentials.consumerKey!!.encodeOAuth()}:${session.credentials.consumerSecret!!.encodeOAuth()}".toByteArray())}"
+                "Basic ${"${session.credentials.consumerKey!!.encodeOAuth()}:${session.credentials.consumerSecret!!.encodeOAuth()}".encodeBase64()}"
             }
             AuthorizationType.None -> null
         } ?: return
