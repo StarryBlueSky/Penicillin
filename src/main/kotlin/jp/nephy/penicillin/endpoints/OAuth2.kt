@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.models.OAuth2Token
 
+val PenicillinClient.oauth2: OAuth2
+    get() = OAuth2(this)
+
 class OAuth2(override val client: PenicillinClient): Endpoint {
     fun bearerToken(grantType: String = "client_credentials", vararg options: Pair<String, Any?>) = client.session.post("/oauth2/token") {
         authType(AuthorizationType.OAuth2RequestToken)

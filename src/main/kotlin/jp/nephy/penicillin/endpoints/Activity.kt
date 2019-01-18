@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.models.ActivityEvent
 
+val PenicillinClient.activity: Activity
+    get() = Activity(this)
+
 class Activity(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint(EmulationMode.TwitterForiPhone)
     fun aboutMe(count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/activity/about_me.json") {

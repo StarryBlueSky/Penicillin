@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.models.NotificationAll
 
+val PenicillinClient.notifications: Notifications
+    get() = Notifications(this)
+
 class Notifications(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun all() = client.session.get("/2/notifications/all.json") {

@@ -29,6 +29,9 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.MomentGuide
 
+val PenicillinClient.moments: Moments
+    get() = Moments(this)
+
 class Moments(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun guide(vararg options: Pair<String, Any?>) = client.session.get("/1.1/moments/guide.json") {

@@ -33,6 +33,9 @@ import jp.nephy.penicillin.models.Account
 import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.User
 
+val PenicillinClient.account: jp.nephy.penicillin.endpoints.Account
+    get() = Account(this)
+
 class Account(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun settings(vararg options: Pair<String, Any?>) = client.session.get("/1.1/account/settings.json") {

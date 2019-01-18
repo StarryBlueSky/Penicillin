@@ -29,6 +29,9 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.SavedSearch
 
+val PenicillinClient.savedSearches: SavedSearches
+    get() = SavedSearches(this)
+
 class SavedSearches(override val client: PenicillinClient): Endpoint {
     fun list(vararg options: Pair<String, Any?>) = client.session.get("/1.1/saved_searches/list.json") {
         parameter(*options)

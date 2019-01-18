@@ -32,6 +32,9 @@ import jp.nephy.penicillin.models.Friendships
 import jp.nephy.penicillin.models.Relationship
 import jp.nephy.penicillin.models.User
 
+val PenicillinClient.friendships: jp.nephy.penicillin.endpoints.Friendships
+    get() = Friendships(this)
+
 class Friendships(override val client: PenicillinClient): Endpoint {
     fun show(sourceId: Long? = null, sourceScreenName: String? = null, targetId: Long? = null, targetScreenName: String? = null, vararg options: Pair<String, Any?>) =
         client.session.get("/1.1/friendships/show.json") {

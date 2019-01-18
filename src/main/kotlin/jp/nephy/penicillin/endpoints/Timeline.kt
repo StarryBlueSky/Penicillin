@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.models.Status
 
+val PenicillinClient.timeline: Timeline
+    get() = Timeline(this)
+
 class Timeline(override val client: PenicillinClient): Endpoint {
     fun home(
         count: Int? = null,

@@ -34,6 +34,9 @@ import jp.nephy.penicillin.models.Media
 import java.io.File
 import kotlin.math.ceil
 
+val PenicillinClient.media: jp.nephy.penicillin.endpoints.Media
+    get() = Media(this)
+
 class Media(override val client: PenicillinClient): Endpoint {
     fun createMetadata(mediaId: Long, vararg options: Pair<String, String>) = client.session.post("/1.1/media/metadata/create.json", EndpointHost.MediaUpload) {
         body {
