@@ -82,7 +82,7 @@ dependencies {
     api("jp.nephy:jsonkt:4.3")
     testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
 
-    implementation("io.github.microutils:kotlin-logging:1.6.22")
+    api("io.github.microutils:kotlin-logging:1.6.22")
     testApi("ch.qos.logback:logback-core:1.2.3")
     testApi("ch.qos.logback:logback-classic:1.2.3")
     testImplementation("org.fusesource.jansi:jansi:1.17.1")
