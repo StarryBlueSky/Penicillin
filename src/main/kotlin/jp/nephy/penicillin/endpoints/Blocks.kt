@@ -31,6 +31,9 @@ import jp.nephy.penicillin.models.CursorIds
 import jp.nephy.penicillin.models.CursorUsers
 import jp.nephy.penicillin.models.User
 
+val PenicillinClient.blocks: Blocks
+    get() = Blocks(this)
+
 class Blocks(override val client: PenicillinClient): Endpoint {
     fun listIds(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/blocks/ids.json") {
         parameter("stringify_ids" to stringifyIds, *options)

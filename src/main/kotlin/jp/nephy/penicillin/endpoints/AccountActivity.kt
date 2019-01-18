@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.Subscription
 import jp.nephy.penicillin.models.Webhook
 
+val PenicillinClient.accountActivity: AccountActivity
+    get() = AccountActivity(this)
+
 class AccountActivity(override val client: PenicillinClient): Endpoint {
     fun registerWebhook(url: String, envName: String, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account_activity/all/$envName/webhooks.json") {
         body {

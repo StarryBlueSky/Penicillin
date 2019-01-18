@@ -34,6 +34,9 @@ import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.models.AccessTokenResponse
 import jp.nephy.penicillin.models.RequestTokenResponse
 
+val PenicillinClient.oauth: OAuth
+    get() = OAuth(this)
+
 class OAuth(override val client: PenicillinClient): Endpoint {
     suspend fun requestToken(callbackUrl: String = "oob", vararg options: Pair<String, Any?>): RequestTokenResponse {
         val result = client.session.post("/oauth/request_token") {

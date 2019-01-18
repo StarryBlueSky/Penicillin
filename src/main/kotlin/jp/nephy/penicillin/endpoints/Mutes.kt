@@ -31,6 +31,9 @@ import jp.nephy.penicillin.models.CursorIds
 import jp.nephy.penicillin.models.CursorUsers
 import jp.nephy.penicillin.models.User
 
+val PenicillinClient.mutes: Mutes
+    get() = Mutes(this)
+
 class Mutes(override val client: PenicillinClient): Endpoint {
     fun listIds(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/mutes/users/ids.json") {
         parameter("stringify_ids" to stringifyIds, *options)

@@ -29,6 +29,9 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.endpoints.parameters.CollectionCreationTimelineOrder
 
+val PenicillinClient.collections: Collections
+    get() = Collections(this)
+
 class Collections(override val client: PenicillinClient): Endpoint {
     fun show(id: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/show.json") {
         parameter("id" to id, *options)

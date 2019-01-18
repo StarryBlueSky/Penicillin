@@ -28,6 +28,9 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 
+val PenicillinClient.collectionEntries: CollectionEntries
+    get() = CollectionEntries(this)
+
 class CollectionEntries(override val client: PenicillinClient): Endpoint {
     fun entries(id: String, count: Int? = null, maxPosition: Int? = null, minPosition: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/entries.json") {
         parameter("id" to id, "count" to count, "max_position" to maxPosition, "min_position" to minPosition, *options)

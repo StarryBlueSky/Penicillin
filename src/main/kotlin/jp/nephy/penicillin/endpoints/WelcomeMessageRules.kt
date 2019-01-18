@@ -29,6 +29,9 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.WelcomeMessageRule
 
+val PenicillinClient.welcomeMessageRules: WelcomeMessageRules
+    get() = WelcomeMessageRules(this)
+
 class WelcomeMessageRules(override val client: PenicillinClient): Endpoint {
     fun delete(id: Long, vararg options: Pair<String, String>) = client.session.delete("/1.1/direct_messages/welcome_messages/rules/destroy.json") {
         parameter("id" to id, *options)

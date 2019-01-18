@@ -29,6 +29,9 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.Help
 
+val PenicillinClient.help: jp.nephy.penicillin.endpoints.Help
+    get() = Help(this)
+
 class Help(override val client: PenicillinClient): Endpoint {
     fun configuration(vararg options: Pair<String, Any?>) = client.session.get("/1.1/help/configuration.json") {
         parameter(*options)

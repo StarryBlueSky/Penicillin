@@ -29,6 +29,9 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.Status
 
+val PenicillinClient.favorites: Favorites
+    get() = Favorites(this)
+
 class Favorites(override val client: PenicillinClient): Endpoint {
     fun list(sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) =
             client.session.get("/1.1/favorites/list.json") {

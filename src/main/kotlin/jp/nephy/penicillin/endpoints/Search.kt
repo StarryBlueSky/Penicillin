@@ -34,6 +34,9 @@ import jp.nephy.penicillin.models.SearchUniversal
 import java.text.SimpleDateFormat
 import java.util.*
 
+val PenicillinClient.search: jp.nephy.penicillin.endpoints.Search
+    get() = Search(this)
+
 class Search(override val client: PenicillinClient): Endpoint {
     fun search(
         q: String,

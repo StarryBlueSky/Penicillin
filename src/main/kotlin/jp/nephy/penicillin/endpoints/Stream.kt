@@ -37,6 +37,9 @@ import jp.nephy.penicillin.endpoints.parameters.UserStreamFilterLevel
 import jp.nephy.penicillin.endpoints.parameters.UserStreamReplies
 import jp.nephy.penicillin.endpoints.parameters.UserStreamWith
 
+val PenicillinClient.stream: Stream
+    get() = Stream(this)
+
 class Stream(override val client: PenicillinClient): Endpoint {
     @Deprecated("UserStream API retired on August 23th, 2018.", replaceWith = ReplaceWith("Tweetstorm or Account Activity API (AAA)"))
     fun user(

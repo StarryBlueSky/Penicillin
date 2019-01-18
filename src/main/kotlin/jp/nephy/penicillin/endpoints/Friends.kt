@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.CursorIds
 import jp.nephy.penicillin.models.CursorUsers
 
+val PenicillinClient.friends: Friends
+    get() = Friends(this)
+
 class Friends(override val client: PenicillinClient): Endpoint {
     fun listIds(stringifyIds: Boolean? = null, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friends/ids.json") {
         parameter("stringify_ids" to stringifyIds, "count" to count, *options)

@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.BadgeCount
 import jp.nephy.penicillin.models.DMUserUpdate
 
+val PenicillinClient.misc: Misc
+    get() = Misc(this)
+
 class Misc(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun badgeCount(vararg options: Pair<String, Any?>) = client.session.get("/2/badge_count/badge_count.json") {

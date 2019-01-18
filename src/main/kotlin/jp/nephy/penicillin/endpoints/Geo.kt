@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.GeoResult
 import jp.nephy.penicillin.models.Place
 
+val PenicillinClient.geo: Geo
+    get() = Geo(this)
+
 class Geo(override val client: PenicillinClient): Endpoint {
     fun place(placeId: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/geo/id/$placeId.json") {
         parameter(*options)

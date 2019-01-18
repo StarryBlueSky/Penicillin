@@ -30,6 +30,9 @@ import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.Card
 import jp.nephy.penicillin.models.CardState
 
+val PenicillinClient.cards: Cards
+    get() = Cards(this)
+
 class Cards(override val client: PenicillinClient): Endpoint {
     @PrivateEndpoint
     fun create(cardData: String, vararg options: Pair<String, Any?>) = client.session.post("/v2/cards/create.json", EndpointHost.Card) {

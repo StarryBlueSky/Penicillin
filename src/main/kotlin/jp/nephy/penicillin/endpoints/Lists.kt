@@ -29,8 +29,9 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.endpoints.parameters.ListCreationMode
 import jp.nephy.penicillin.models.*
-import jp.nephy.penicillin.models.Status
-import jp.nephy.penicillin.models.User
+
+val PenicillinClient.lists: Lists
+    get() = Lists(this)
 
 class Lists(override val client: PenicillinClient): Endpoint {
     fun show(listId: Long, vararg options: Pair<String, Any?>)  = client.session.get("/1.1/lists/show.json") {
