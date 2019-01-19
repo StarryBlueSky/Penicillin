@@ -26,8 +26,19 @@
 
 package jp.nephy.penicillin.core.request
 
-enum class EndpointHost(val value: String) {
-    Default("api.twitter.com"), Card("caps.twitter.com"), MediaUpload("upload.twitter.com"), Publish("publish.twitter.com"),
+import io.ktor.http.URLProtocol
 
-    UserStream("userstream.twitter.com"), SiteStream("sitestream.twitter.com"), Stream("stream.twitter.com")
+data class EndpointHost(val domain: String, val protocol: URLProtocol) {
+    companion object {
+        val Default = EndpointHost("api.twitter.com", URLProtocol.HTTPS)
+        
+        val Card = EndpointHost("caps.twitter.com", URLProtocol.HTTPS)
+        val MediaUpload = EndpointHost("upload.twitter.com", URLProtocol.HTTPS)
+        val Publish = EndpointHost("publish.twitter.com", URLProtocol.HTTPS)
+
+        /* Stream Endpoins */
+        val UserStream = EndpointHost("userstream.twitter.com", URLProtocol.HTTPS)
+        val SiteStream = EndpointHost("sitestream.twitter.com", URLProtocol.HTTPS)
+        val Stream = EndpointHost("stream.twitter.com", URLProtocol.HTTPS)
+    }
 }

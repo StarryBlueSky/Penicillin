@@ -49,7 +49,7 @@ import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import mu.KotlinLogging
 import kotlin.collections.set
 
-class ApiRequestBuilder(private val session: Session, private val httpMethod: HttpMethod, private val protocol: URLProtocol, private val host: EndpointHost, private val path: String) {
+class ApiRequestBuilder(private val session: Session, private val httpMethod: HttpMethod, private val host: EndpointHost, private val path: String) {
     companion object {
         private val logger = KotlinLogging.logger("Penicillin.RequestBuilder")
     }
@@ -103,7 +103,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
     }
 
     val url: String
-        get() = URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path, parameters = parameters.copy()).buildString()
+        get() = URLBuilder(protocol = host.protocol, host = host.domain, port = host.protocol.defaultPort, encodedPath = path, parameters = parameters.copy()).buildString()
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
         when (session.option.emulationMode) {
@@ -167,7 +167,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
                 val signatureParamString = OAuthUtil.signatureParamString(signatureParam)
                 val signingKey = OAuthUtil.signingKey(session.credentials.consumerSecret!!, session.credentials.accessTokenSecret)
                 val signatureBaseString =
-                    OAuthUtil.signingBaseString(httpMethod, URLBuilder(protocol = protocol, host = host.value, port = protocol.defaultPort, encodedPath = path).buildString(), signatureParamString)
+                    OAuthUtil.signingBaseString(httpMethod, URLBuilder(protocol = host.protocol, host = host.domain, port = host.protocol.defaultPort, encodedPath = path).buildString(), signatureParamString)
                 authorizationHeaderComponent["oauth_signature"] = OAuthUtil.signature(signingKey, signatureBaseString)
 
                 "OAuth ${authorizationHeaderComponent.filterValues { it != null }.toList().joinToString(", ") { "${it.first}=\"${it.second}\"" }}"
