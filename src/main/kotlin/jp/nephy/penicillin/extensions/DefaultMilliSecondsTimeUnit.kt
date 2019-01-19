@@ -42,23 +42,23 @@ fun ApiConfig.Builder.defaultTimeout(timeoutInMillis: Long) {
 }
 
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R> ApiAction<R>.awaitWithTimeout(timeoutInMillis: Long): R? {
+suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeoutInMillis: Long): R? {
     return awaitWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
 }
 
 @Throws(PenicillinException::class)
-fun <R> ApiAction<R>.completeWithTimeout(timeoutInMillis: Long): R? {
+fun <R: Any> ApiAction<R>.completeWithTimeout(timeoutInMillis: Long): R? {
     return completeWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
 }
 
-inline fun <R> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS, onFailure, onSuccess)
 }
 
-inline fun <R> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(timeoutInMillis, defaultApiFallback, onSuccess)
 }
 
-fun <R> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long): Job {
+fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long): Job {
     return queueWithTimeout(timeoutInMillis, defaultApiFallback, {})
 }
