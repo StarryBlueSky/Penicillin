@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+
+
 package jp.nephy.penicillin.core.request.action
 
 import jp.nephy.penicillin.core.exceptions.PenicillinException
@@ -49,11 +51,7 @@ data class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: Js
         }
     }
 
-    class Results<M: PenicillinModel>(val first: JsonObjectResponse<M>, val responses: Map<KClass<out PenicillinModel>, List<JsonObjectResponse<*>>>) {
-        inline fun <reified T: PenicillinModel> responses(): List<JsonObjectResponse<T>> {
-            @Suppress("UNCHECKED_CAST") return responses[T::class].orEmpty().map { it as JsonObjectResponse<T> }
-        }
-    }
+    class Results<M: PenicillinModel>(val first: JsonObjectResponse<M>, val responses: Map<KClass<out PenicillinModel>, List<JsonObjectResponse<*>>>)
 
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): List<JsonObjectResponse<*>> {
@@ -65,11 +63,7 @@ data class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: Js
                 request.invoke(Results(first, responses)).await()
             }.getOrNull() ?: continue
 
-            if (result.model in responses) {
-                responses[result.model]!!.add(result)
-            } else {
-                responses[result.model] = mutableListOf(result)
-            }
+            responses.getOrPut(result.model) { mutableListOf() } += result
             responsesList += result
         }
 

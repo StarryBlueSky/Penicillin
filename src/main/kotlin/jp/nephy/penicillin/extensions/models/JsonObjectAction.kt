@@ -24,31 +24,13 @@
 
 @file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.core.response
+package jp.nephy.penicillin.extensions.models
 
-import io.ktor.client.request.HttpRequest
-import io.ktor.client.response.HttpResponse
-import jp.nephy.penicillin.core.request.action.ApiAction
-import jp.nephy.penicillin.core.streaming.StreamProcessor
-import jp.nephy.penicillin.core.streaming.handler.*
-import jp.nephy.penicillin.core.streaming.listener.*
+import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
+import jp.nephy.penicillin.core.response.JsonObjectResponse
+import jp.nephy.penicillin.models.PenicillinModel
 
-data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
-    override val request: HttpRequest,
-    override val response: HttpResponse,
-    override val action: ApiAction<StreamResponse<L, H>>
-): ApiResponse {
-
-    fun listen(listener: L): StreamProcessor<L, H> {
-        @Suppress("UNCHECKED_CAST")
-        val handler = when (listener) {
-            is UserStreamListener -> UserStreamHandler(listener)
-            is SampleStreamListener -> SampleStreamHandler(listener)
-            is FilterStreamListener -> FilterStreamHandler(listener)
-            is LivePipelineListener -> LivePipelineHandler(listener)
-            else -> throw IllegalArgumentException("Unsupported StreamListener: ${listener.javaClass.canonicalName}")
-        } as H
-
-        return StreamProcessor(this, handler)
-    }
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T: PenicillinModel> PenicillinMultipleJsonObjectActions.Results<T>.responses(): List<JsonObjectResponse<T>> {
+    return responses[T::class].orEmpty().map { it as JsonObjectResponse<T> }
 }

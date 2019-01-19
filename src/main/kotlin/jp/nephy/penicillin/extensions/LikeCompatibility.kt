@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.extensions
 
 import jp.nephy.penicillin.models.Status
