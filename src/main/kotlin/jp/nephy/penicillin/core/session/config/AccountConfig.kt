@@ -24,27 +24,16 @@
 
 @file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.core.session
+package jp.nephy.penicillin.core.session.config
 
-import io.ktor.client.HttpClient
 import jp.nephy.penicillin.core.auth.Credentials
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
-import jp.nephy.penicillin.core.i18n.LocalizedString
-import jp.nephy.penicillin.core.session.config.ApiConfig
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.isActive
-import kotlinx.io.core.Closeable
-import kotlin.coroutines.CoroutineContext
+import jp.nephy.penicillin.core.session.SessionBuilder
 
-data class Session(private val underlyingHttpClient: HttpClient, override val coroutineContext: CoroutineContext, val credentials: Credentials, val option: ApiConfig): Closeable, CoroutineScope {
-    val httpClient: HttpClient
-        get() = if (underlyingHttpClient.coroutineContext.isActive) {
-            underlyingHttpClient
-        } else {
-            throw PenicillinLocalizedException(LocalizedString.SessionAlreadyClosed)
-        }
+private var credentialsBuilder: Credentials.Builder.() -> Unit = {}
+fun SessionBuilder.account(block: Credentials.Builder.() -> Unit) {
+    credentialsBuilder = block
+}
 
-    override fun close() {
-        underlyingHttpClient.close()
-    }
+internal fun createCredentials(): Credentials {
+    return Credentials.Builder().apply(credentialsBuilder).build()
 }

@@ -24,27 +24,34 @@
 
 @file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.core.session
+package jp.nephy.penicillin.core.session.config
 
-import io.ktor.client.HttpClient
-import jp.nephy.penicillin.core.auth.Credentials
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
-import jp.nephy.penicillin.core.i18n.LocalizedString
-import jp.nephy.penicillin.core.session.config.ApiConfig
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.isActive
-import kotlinx.io.core.Closeable
-import kotlin.coroutines.CoroutineContext
+import io.ktor.http.Cookie
+import jp.nephy.penicillin.core.session.SessionBuilder
 
-data class Session(private val underlyingHttpClient: HttpClient, override val coroutineContext: CoroutineContext, val credentials: Credentials, val option: ApiConfig): Closeable, CoroutineScope {
-    val httpClient: HttpClient
-        get() = if (underlyingHttpClient.coroutineContext.isActive) {
-            underlyingHttpClient
-        } else {
-            throw PenicillinLocalizedException(LocalizedString.SessionAlreadyClosed)
+private var cookieConfigBuilder: CookieConfig.Builder.() -> Unit = {}
+fun SessionBuilder.cookie(block: CookieConfig.Builder.() -> Unit) {
+    cookieConfigBuilder = block
+}
+
+internal fun createCookieConfig(): CookieConfig {
+    return CookieConfig.Builder().apply(cookieConfigBuilder).build()
+}
+
+data class CookieConfig(val acceptCookie: Boolean, val cookies: Map<String, List<Cookie>>) {
+    class Builder {
+        private var acceptCookie = false
+        fun acceptCookie() {
+            acceptCookie = true
         }
 
-    override fun close() {
-        underlyingHttpClient.close()
+        private val cookies = mutableMapOf<String, MutableList<Cookie>>()
+        fun addCookie(host: String, cookie: Cookie) {
+            cookies.getOrPut(host) { mutableListOf() } += cookie
+        }
+
+        internal fun build(): CookieConfig {
+            return CookieConfig(acceptCookie, cookies)
+        }
     }
 }

@@ -28,16 +28,16 @@ package jp.nephy.penicillin.extensions
 
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.action.ApiAction
-import jp.nephy.penicillin.core.session.SessionBuilder
+import jp.nephy.penicillin.core.session.config.ApiConfig
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import java.util.concurrent.TimeUnit
 
-fun SessionBuilder.retry(intervalInMillis: Long) {
-    retry(intervalInMillis, TimeUnit.MILLISECONDS)
+fun ApiConfig.Builder.retryInterval(intervalInMillis: Long) {
+    retryInterval(intervalInMillis, TimeUnit.MILLISECONDS)
 }
 
-fun SessionBuilder.defaultTimeout(timeoutInMillis: Long) {
+fun ApiConfig.Builder.defaultTimeout(timeoutInMillis: Long) {
     defaultTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
 }
 
