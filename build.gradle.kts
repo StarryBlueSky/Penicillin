@@ -13,7 +13,7 @@ val githubOrganizationName = "NephyProject"
 val githubRepositoryName = "Penicillin"
 val packageGroupId = "jp.nephy"
 val packageName = "Penicillin"
-val packageVersion = Version(4, 0, 3)
+val packageVersion = Version(4, 0, 4)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 val ktorVersion = "1.1.1"
@@ -285,62 +285,56 @@ signing {
 
 val githubToken by property()
 
-githubRelease {
-    token(githubToken)
+if (hasProperty("github") && githubToken != null) {
+    githubRelease {
+        token(githubToken)
+        val assets = jar.destinationDir.listFiles { _, filename ->
+            project.version.toString() in filename && filename.endsWith(".jar")
+        }
+        releaseAssets(*assets)
 
-    val assets = jar.destinationDir.listFiles { _, filename ->
-        project.version.toString() in filename && filename.endsWith(".jar")
-    }
-    releaseAssets(*assets)
+        owner(githubOrganizationName)
+        repo(githubRepositoryName)
 
-    owner(githubOrganizationName)
-    repo(githubRepositoryName)
+        tagName("v${project.version}")
+        releaseName("v${project.version}")
+        targetCommitish("master")
+        draft(false)
+        prerelease(false)
+        overwrite(false)
 
-    tagName("v${project.version}")
-    releaseName("v${project.version}")
-    targetCommitish("master")
-    draft(false)
-    prerelease(false)
-    overwrite(false)
+        changelog(closureOf<ChangeLogSupplier> {
+            currentCommit("HEAD")
+            lastCommit("HEAD~10")
+            options(listOf("--format=oneline", "--abbrev-commit", "--max-count=50", "graph"))
+        })
 
-    changelog(closureOf<ChangeLogSupplier> {
-        currentCommit("HEAD")
-        lastCommit("HEAD~10")
-        options(listOf("--format=oneline", "--abbrev-commit", "--max-count=50", "graph"))
-    })
-    
-    fun buildChangelog(): String {
-        return try {
-            changelog().call().lines().takeWhile {
-                "Version bump" !in it
-            }.joinToString("\n") {
-                val (tag, message) = it.split(" ", limit = 2)
-                "| $tag | $message |"
+        fun buildChangelog(): String {
+            return try {
+                changelog().call().lines().takeWhile {
+                    "Version bump" !in it
+                }.joinToString("\n") {
+                    val (tag, message) = it.split(" ", limit = 2)
+                    "| $tag | $message |"
+                }
+            } catch (e: Exception) {
+                ""
             }
-        } catch (e: Exception) {
-            ""
         }
-    }
-    
-    body {
-        buildString {
-            appendln("## Version\n")
-            appendln("**Latest** Penicillin version: [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)\n")
-            appendln("The latest release build: `${project.version}`\n")
-            
-            appendln()
-            
-            appendln("## Changelogs\n")
-            appendln("| Commits | Message |")
-            appendln("|:------------:|:-----------|")
-            append(buildChangelog())
-        }
-    }
-}
 
-task<Task>("release") {
-    dependsOn("publish")
-    if (githubToken != null && !isEAPBuild) {
-        dependsOn("githubRelease")
+        body {
+            buildString {
+                appendln("## Version\n")
+                appendln("**Latest** Penicillin version: [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)\n")
+                appendln("The latest release build: `${project.version}`\n")
+
+                appendln()
+
+                appendln("## Changelogs\n")
+                appendln("| Commits | Message |")
+                appendln("|:------------:|:-----------|")
+                append(buildChangelog())
+            }
+        }
     }
 }
