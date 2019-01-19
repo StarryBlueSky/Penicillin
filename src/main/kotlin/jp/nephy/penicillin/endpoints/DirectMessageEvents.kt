@@ -28,6 +28,9 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.delete
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.DirectMessageEvent
 
 val PenicillinClient.directMessageEvent: DirectMessageEvents

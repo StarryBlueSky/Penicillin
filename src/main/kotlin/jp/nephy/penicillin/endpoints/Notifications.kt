@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.models.NotificationAll
 
 val PenicillinClient.notifications: Notifications

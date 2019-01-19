@@ -28,6 +28,8 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.EndpointHost
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.Card
 import jp.nephy.penicillin.models.CardState
 

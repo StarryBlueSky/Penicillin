@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.parameters.SearchResultType
 import jp.nephy.penicillin.models.Search
 import jp.nephy.penicillin.models.SearchTypeahead

@@ -27,6 +27,8 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.core.session.post
 
 val PenicillinClient.collectionEntries: CollectionEntries
     get() = CollectionEntries(this)

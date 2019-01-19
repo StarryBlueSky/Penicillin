@@ -28,6 +28,8 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.Friendships
 import jp.nephy.penicillin.models.Relationship
 import jp.nephy.penicillin.models.User

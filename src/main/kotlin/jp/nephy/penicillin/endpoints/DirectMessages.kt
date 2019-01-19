@@ -27,6 +27,8 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.DirectMessage
 
 @Deprecated("Legacy Direct Message API retired on September 17th, 2018.", replaceWith = ReplaceWith("jp.nephy.endpoints.DirectMessageEvent"))
