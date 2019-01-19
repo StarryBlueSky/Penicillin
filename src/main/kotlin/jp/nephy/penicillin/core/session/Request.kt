@@ -27,41 +27,40 @@
 package jp.nephy.penicillin.core.session
 
 import io.ktor.http.HttpMethod
-import io.ktor.http.URLProtocol
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.request.ApiRequestBuilder
 import jp.nephy.penicillin.core.request.EndpointHost
 
 private fun Session.call(
-    method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: ApiRequestBuilder.() -> Unit = {}
+    method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}
 ): ApiRequest {
-    return ApiRequestBuilder(this, method, protocol, host, path).apply(builder).build()
+    return ApiRequestBuilder(this, method, host, path).apply(builder).build()
 }
 
-fun Session.get(path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
-    return call(HttpMethod.Get, path, host, protocol, builder)
+fun Session.get(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+    return call(HttpMethod.Get, path, host, builder)
 }
 
-fun Session.post(path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
-    return call(HttpMethod.Post, path, host, protocol, builder)
+fun Session.post(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+    return call(HttpMethod.Post, path, host, builder)
 }
 
-fun Session.put(path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
-    return call(HttpMethod.Put, path, host, protocol, builder)
+fun Session.put(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+    return call(HttpMethod.Put, path, host, builder)
 }
 
-fun Session.patch(path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
-    return call(HttpMethod.Patch, path, host, protocol, builder)
+fun Session.patch(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+    return call(HttpMethod.Patch, path, host, builder)
 }
 
-fun Session.delete(path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
-    return call(HttpMethod.Delete, path, host, protocol, builder)
+fun Session.delete(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+    return call(HttpMethod.Delete, path, host, builder)
 }
 
-fun Session.head(path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
-    return call(HttpMethod.Head, path, host, protocol, builder)
+fun Session.head(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+    return call(HttpMethod.Head, path, host, builder)
 }
 
-fun Session.options(path: String, host: EndpointHost = EndpointHost.Default, protocol: URLProtocol = URLProtocol.HTTPS, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
-    return call(HttpMethod.Options, path, host, protocol, builder)
+fun Session.options(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+    return call(HttpMethod.Options, path, host, builder)
 }
