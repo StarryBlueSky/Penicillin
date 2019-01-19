@@ -34,33 +34,33 @@ import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
 
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R> ApiAction<R>.awaitWithTimeout(timeout: Long, unit: TimeUnit): R? {
+suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeout: Long, unit: TimeUnit): R? {
     return withTimeoutOrNull(unit.toMillis(timeout)) {
         await()
     }
 }
 
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R> ApiAction<R>.awaitWithTimeout(): R? {
+suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(): R? {
     return awaitWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
 @Throws(PenicillinException::class)
-fun <R> ApiAction<R>.complete(): R {
+fun <R: Any> ApiAction<R>.complete(): R {
     return runBlocking(session.coroutineContext) {
         await()
     }
 }
 
 @Throws(PenicillinException::class)
-fun <R> ApiAction<R>.completeWithTimeout(timeout: Long, unit: TimeUnit): R? {
+fun <R: Any> ApiAction<R>.completeWithTimeout(timeout: Long, unit: TimeUnit): R? {
     return runBlocking(session.coroutineContext) {
         awaitWithTimeout(timeout, unit)
     }
 }
 
 @Throws(PenicillinException::class)
-fun <R> ApiAction<R>.completeWithTimeout(): R? {
+fun <R: Any> ApiAction<R>.completeWithTimeout(): R? {
     return completeWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
@@ -77,7 +77,7 @@ val ApiAction<*>.defaultApiFallback: ApiFallback
     queue
  */
 
-inline fun <R> ApiAction<R>.queue(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queue(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
             await()
@@ -89,11 +89,11 @@ inline fun <R> ApiAction<R>.queue(crossinline onFailure: ApiFallback, crossinlin
     }
 }
 
-inline fun <R> ApiAction<R>.queue(crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queue(crossinline onSuccess: ApiCallback<R>): Job {
     return queue(defaultApiFallback, onSuccess)
 }
 
-fun <R> ApiAction<R>.queue(): Job {
+fun <R: Any> ApiAction<R>.queue(): Job {
     return queue(defaultApiFallback, {})
 }
 
@@ -101,7 +101,7 @@ fun <R> ApiAction<R>.queue(): Job {
     queueWithTimeout
  */
 
-inline fun <R> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
             withTimeout(unit.toMillis(timeout)) {
@@ -115,22 +115,22 @@ inline fun <R> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit, cros
     }
 }
 
-inline fun <R> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit, crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit, crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(timeout, unit, defaultApiFallback, onSuccess)
 }
 
-fun <R> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit): Job {
+fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit): Job {
     return queueWithTimeout(timeout, unit, defaultApiFallback, {})
 }
 
-inline fun <R> ApiAction<R>.queueWithTimeout(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(session.option.defaultTimeoutInMillis, onFailure, onSuccess)
 }
 
-inline fun <R> ApiAction<R>.queueWithTimeout(crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(defaultApiFallback, onSuccess)
 }
 
-fun <R> ApiAction<R>.queueWithTimeout(): Job {
+fun <R: Any> ApiAction<R>.queueWithTimeout(): Job {
     return queueWithTimeout(defaultApiFallback, {})
 }
