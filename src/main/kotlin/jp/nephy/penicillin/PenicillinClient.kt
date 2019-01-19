@@ -24,6 +24,7 @@
 
 package jp.nephy.penicillin
 
+import jp.nephy.penicillin.core.session.PenicillinClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 import kotlinx.io.core.Closeable
 
@@ -33,6 +34,7 @@ import kotlinx.io.core.Closeable
  * @param builder Session configuration builder.
  * @constructor Creates new PenicillinClient with new Session.
  */
+@PenicillinClientDsl
 class PenicillinClient(builder: SessionBuilder.() -> Unit): Closeable {
     val session = SessionBuilder().apply(builder).build()
 
