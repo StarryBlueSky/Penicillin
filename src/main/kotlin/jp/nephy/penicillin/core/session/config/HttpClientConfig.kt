@@ -24,27 +24,35 @@
 
 @file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.core.session
+package jp.nephy.penicillin.core.session.config
 
 import io.ktor.client.HttpClient
-import jp.nephy.penicillin.core.auth.Credentials
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
-import jp.nephy.penicillin.core.i18n.LocalizedString
-import jp.nephy.penicillin.core.session.config.ApiConfig
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.isActive
-import kotlinx.io.core.Closeable
-import kotlin.coroutines.CoroutineContext
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngineConfig
+import io.ktor.client.engine.HttpClientEngineFactory
+import jp.nephy.penicillin.core.session.SessionBuilder
 
-data class Session(private val underlyingHttpClient: HttpClient, override val coroutineContext: CoroutineContext, val credentials: Credentials, val option: ApiConfig): Closeable, CoroutineScope {
-    val httpClient: HttpClient
-        get() = if (underlyingHttpClient.coroutineContext.isActive) {
-            underlyingHttpClient
-        } else {
-            throw PenicillinLocalizedException(LocalizedString.SessionAlreadyClosed)
-        }
+private var httpClientEngineFactory: HttpClientEngineFactory<*>? = null
+private var httpClientConfig: HttpClientConfig<*>.() -> Unit = {}
+private var httpClient: HttpClient? = null
 
-    override fun close() {
-        underlyingHttpClient.close()
+@Suppress("UNCHECKED_CAST")
+fun <T: HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
+    httpClientEngineFactory = engineFactory
+    httpClientConfig = block as HttpClientConfig<*>.() -> Unit
+}
+
+fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
+    httpClientConfig = block
+}
+
+fun SessionBuilder.httpClient(client: HttpClient) {
+    httpClient = client
+}
+
+internal fun createHttpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient {
+    return (httpClient ?: httpClientEngineFactory?.let { HttpClient(it) } ?: HttpClient()).config {
+        block()
+        httpClientConfig()
     }
 }
