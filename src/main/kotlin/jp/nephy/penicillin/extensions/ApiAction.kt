@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.ApiAction
 import kotlinx.coroutines.*
+import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
 
 @Throws(PenicillinException::class, CancellationException::class)
@@ -66,9 +67,10 @@ fun <R> ApiAction<R>.completeWithTimeout(): R? {
 internal typealias ApiCallback<R> = suspend (response: R) -> Unit
 internal typealias ApiFallback = suspend (e: Throwable) -> Unit
 
+private val defaultLogger = KotlinLogging.logger("Penicillin.Client")
 val ApiAction<*>.defaultApiFallback: ApiFallback
     get() = {
-        session.logger.error(it) { LocalizedString.ExceptionInAsyncBlock.format() }
+        defaultLogger.error(it) { LocalizedString.ExceptionInAsyncBlock.format() }
     }
 
 /*
