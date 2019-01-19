@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.parameters.TrendExclude
 import jp.nephy.penicillin.models.TrendArea
 import jp.nephy.penicillin.models.TrendPlace

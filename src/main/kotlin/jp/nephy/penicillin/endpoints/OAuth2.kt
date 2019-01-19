@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
+import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.OAuth2Token
 
 val PenicillinClient.oauth2: OAuth2

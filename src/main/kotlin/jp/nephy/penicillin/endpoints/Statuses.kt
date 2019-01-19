@@ -34,6 +34,8 @@ import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JoinedJsonObjectActions
 import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
 import jp.nephy.penicillin.endpoints.parameters.EmbedWidgetType
 import jp.nephy.penicillin.endpoints.parameters.MediaDataComponent

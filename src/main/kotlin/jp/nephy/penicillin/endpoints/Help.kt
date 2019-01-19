@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.models.Help
 
 val PenicillinClient.help: jp.nephy.penicillin.endpoints.Help

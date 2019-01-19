@@ -40,7 +40,6 @@ import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
@@ -161,12 +160,10 @@ class SessionBuilder {
             httpClientConfig.invoke(this)
         }
         val authorizationData = Credentials.Builder().apply(credentialsBuilder).build()
-        val logger = KotlinLogging.logger("Penicillin.Client")
 
         return Session(
             httpClient,
             dispatcherConfig.coroutineContext,
-            logger,
             authorizationData,
             ClientOption(maxRetries, retryInMillis, defaultTimeoutInMillis, emulationMode, skipEmulationChecking)
         )
