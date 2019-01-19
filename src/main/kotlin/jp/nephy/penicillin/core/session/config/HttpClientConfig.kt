@@ -37,7 +37,7 @@ private var httpClientConfig: HttpClientConfig<*>.() -> Unit = {}
 private var httpClient: HttpClient? = null
 
 @Suppress("UNCHECKED_CAST")
-fun <T: HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
+fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
     httpClientEngineFactory = engineFactory
     httpClientConfig = block as HttpClientConfig<*>.() -> Unit
 }

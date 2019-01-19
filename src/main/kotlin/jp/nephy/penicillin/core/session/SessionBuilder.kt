@@ -26,7 +26,6 @@
 
 package jp.nephy.penicillin.core.session
 
-import io.ktor.client.features.HttpPlainText
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.client.features.cookies.addCookie
@@ -40,10 +39,6 @@ class SessionBuilder {
         val cookieConfig = createCookieConfig()
         val dispatcherConfig = createDispatcherConfig()
         val httpClient = createHttpClient {
-            install(HttpPlainText) {
-                defaultCharset = Charsets.UTF_8
-            }
-
             if (cookieConfig.acceptCookie) {
                 install(HttpCookies) {
                     storage = AcceptAllCookiesStorage()
@@ -59,12 +54,10 @@ class SessionBuilder {
                     }
                 }
             }
-
-            if (dispatcherConfig.connectionThreadsCount != null) {
-                engine {
-                    threadsCount = dispatcherConfig.connectionThreadsCount
-                }
-            }
+        }
+        
+        if (dispatcherConfig.connectionThreadsCount != null) {
+            httpClient.engineConfig.threadsCount = dispatcherConfig.connectionThreadsCount
         }
 
         return Session(httpClient, dispatcherConfig.coroutineContext, createCredentials(), createApiConfig())
