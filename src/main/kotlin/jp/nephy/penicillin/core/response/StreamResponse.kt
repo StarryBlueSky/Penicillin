@@ -32,6 +32,8 @@ import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.streaming.StreamProcessor
 import jp.nephy.penicillin.core.streaming.handler.*
 import jp.nephy.penicillin.core.streaming.listener.*
+import jp.nephy.penicillin.extensions.endpoints.TweetstormHandler
+import jp.nephy.penicillin.extensions.endpoints.TweetstormListener
 
 data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
     override val request: HttpRequest,
@@ -46,7 +48,8 @@ data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
             is SampleStreamListener -> SampleStreamHandler(listener)
             is FilterStreamListener -> FilterStreamHandler(listener)
             is LivePipelineListener -> LivePipelineHandler(listener)
-            else -> throw IllegalArgumentException("Unsupported StreamListener: ${listener.javaClass.canonicalName}")
+            is TweetstormListener -> TweetstormHandler(listener)
+            else -> throw IllegalArgumentException("Unsupported StreamListener: ${listener::class.qualifiedName}")
         } as H
 
         return StreamProcessor(this, handler)
