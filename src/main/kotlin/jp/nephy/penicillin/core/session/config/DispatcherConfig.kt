@@ -42,13 +42,18 @@ internal fun SessionBuilder.createDispatcherConfig(): DispatcherConfig {
     }.build()
 }
 
-data class DispatcherConfig(val coroutineContext: CoroutineContext, val connectionThreadsCount: Int?): SessionConfig {
+data class DispatcherConfig(val coroutineContext: CoroutineContext, val connectionThreadsCount: Int?, val shouldClose: Boolean): SessionConfig {
     class Builder: SessionConfigBuilder<DispatcherConfig> {
         var connectionThreadsCount: Int? = null
         var coroutineContext: CoroutineContext = Dispatchers.Default
         
+        private var shouldClose = false
+        fun shouldClose() {
+            shouldClose = true
+        }
+        
         override fun build(): DispatcherConfig {
-            return DispatcherConfig(coroutineContext, connectionThreadsCount)
+            return DispatcherConfig(coroutineContext, connectionThreadsCount, shouldClose)
         }
     }
 }
