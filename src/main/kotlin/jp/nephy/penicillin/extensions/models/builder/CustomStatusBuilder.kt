@@ -31,9 +31,7 @@ import jp.nephy.jsonkt.edit
 import jp.nephy.jsonkt.jsonArrayOf
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.models.Status
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlinx.atomicfu.atomic
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -135,9 +133,7 @@ class CustomStatusBuilder: JsonBuilder<Status> {
     }
 
     override fun build(): Status {
-        val id = runBlocking {
-            generateId()
-        }
+        val id = generateId()
         val user = user.build()
 
         return Status(json.edit {
@@ -187,12 +183,9 @@ internal fun Date?.toCreatedAt(): String {
     return dateFormatter.format(this ?: Date())
 }
 
-private var id = 100000001L
-private val idMutex = Mutex()
-internal suspend fun generateId(): Long {
-    return idMutex.withLock {
-        id.also {
-            id += 2
-        }
-    }
+private var id = atomic(100000001L)
+internal fun generateId(): Long {
+    return id.also {
+        id.plusAssign(2)
+    }.value
 }
