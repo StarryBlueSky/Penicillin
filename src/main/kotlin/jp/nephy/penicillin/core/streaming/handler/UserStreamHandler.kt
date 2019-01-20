@@ -27,6 +27,9 @@ package jp.nephy.penicillin.core.streaming.handler
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
+import jp.nephy.penicillin.extensions.models.builder.ListEventType
+import jp.nephy.penicillin.extensions.models.builder.StatusEventType
+import jp.nephy.penicillin.extensions.models.builder.UserEventType
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.Stream
@@ -36,9 +39,9 @@ import kotlinx.coroutines.launch
 
 class UserStreamHandler(override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
     companion object {
-        private val statusEvents = arrayOf("favorite", "unfavorite", "favorited_retweet", "retweeted_retweet", "quoted_tweet")
-        private val listEvents = arrayOf("list_created", "list_destroyed", "list_updated", "list_member_added", "list_member_removed", "list_user_subscribed", "list_user_unsubscribed")
-        private val userEvents = arrayOf("follow", "unfollow", "block", "unblock", "mute", "unmute", "user_update")
+        private val statusEvents = StatusEventType.values().map { it.key }
+        private val listEvents = ListEventType.values().map { it.key }
+        private val userEvents = UserEventType.values().map { it.key }
     }
 
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
