@@ -62,6 +62,6 @@ class SessionBuilder {
             httpClient.engineConfig.threadsCount = dispatcher.connectionThreadsCount
         }
 
-        return Session(httpClient, dispatcher.coroutineContext, createCredentials(), createApiConfig())
+        return Session(httpClient, dispatcher.coroutineContext, dispatcher.shouldClose, createCredentials(), createApiConfig())
     }
 }
