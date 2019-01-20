@@ -1,8 +1,7 @@
 # Penicillin: Full-featured Twitter API wrapper for Kotlin
 
 [![Kotlin 1.3.20](https://img.shields.io/badge/Kotlin-1.3.20-blue.svg)](http://kotlinlang.org)
-[![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)
-[![Travis](https://img.shields.io/travis/NephyProject/Penicillin.svg)](https://travis-ci.org/NephyProject/Penicillin/builds)
+[![Bintray](https://api.bintray.com/packages/nephyproject/penicillin/Penicillin/images/download.svg)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion)
 [![MIT License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/pulls)
@@ -65,6 +64,7 @@ repositories {
     jcenter()
     maven(url = "https://kotlin.bintray.com/ktor")
     maven(url = "https://kotlin.bintray.com/kotlinx")
+    maven(url = "https://dl.bintray.com/nephyproject/penicillin")
 }
 
 dependencies {
@@ -104,6 +104,7 @@ repositories {
     jcenter()
     maven { url "https://kotlin.bintray.com/ktor" }
     maven { url "https://kotlin.bintray.com/kotlinx" }
+    maven { url "https://dl.bintray.com/nephyproject/penicillin" } 
 }
 
 dependencies {
