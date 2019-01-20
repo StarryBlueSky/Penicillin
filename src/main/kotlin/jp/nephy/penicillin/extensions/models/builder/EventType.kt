@@ -22,9 +22,11 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.extensions.models.builder
 
-internal interface EventType {
+interface EventType {
     val key: String
 }
 
@@ -47,7 +49,7 @@ enum class UserEventType(override val key: String): EventType {
     UserUpdate("user_update")
 }
 
-internal fun String.toEventType(): EventType? {
+fun String.toEventType(): EventType? {
     val statusEvent = StatusEventType.values().find { it.key == this }
     if (statusEvent != null) {
         return statusEvent
