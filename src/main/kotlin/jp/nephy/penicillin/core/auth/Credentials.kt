@@ -29,9 +29,11 @@ package jp.nephy.penicillin.core.auth
 import jp.nephy.penicillin.core.emulation.OfficialClient
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
+import jp.nephy.penicillin.core.session.config.SessionConfig
+import jp.nephy.penicillin.core.session.config.SessionConfigBuilder
 
-data class Credentials(val consumerKey: String?, val consumerSecret: String?, val accessToken: String?, val accessTokenSecret: String?, val bearerToken: String?, val knownDeviceToken: String?) {
-    class Builder {
+data class Credentials(val consumerKey: String?, val consumerSecret: String?, val accessToken: String?, val accessTokenSecret: String?, val bearerToken: String?, val knownDeviceToken: String?): SessionConfig {
+    class Builder: SessionConfigBuilder<Credentials> {
         private var ck: String? = null
         private var cs: String? = null
         private var kdt: String? = null
@@ -63,7 +65,7 @@ data class Credentials(val consumerKey: String?, val consumerSecret: String?, va
             bt = client.bearerToken
         }
 
-        internal fun build(): Credentials {
+        override fun build(): Credentials {
             if (ck == null && cs == null && at == null && ats == null && bt == null) {
                 throw PenicillinLocalizedException(LocalizedString.CredentialsAreAllNull)
             }

@@ -22,39 +22,18 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
-
 package jp.nephy.penicillin.core.session.config
 
-import io.ktor.http.Cookie
 import jp.nephy.penicillin.core.session.SessionBuilder
 
-fun SessionBuilder.cookie(block: CookieConfig.Builder.() -> Unit) {
-    getOrPutBuilder { 
-        CookieConfig.Builder()
-    }.apply(block)
+interface SessionConfig
+
+interface SessionConfigBuilder<C: SessionConfig> {
+    fun build(): C
 }
 
-internal fun SessionBuilder.createCookieConfig(): CookieConfig {
-    return getOrPutBuilder {
-        CookieConfig.Builder()
-    }.build()
-}
-
-data class CookieConfig(val acceptCookie: Boolean, val cookies: Map<String, List<Cookie>>): SessionConfig {
-    class Builder: SessionConfigBuilder<CookieConfig> {
-        private var acceptCookie = false
-        fun acceptCookie() {
-            acceptCookie = true
-        }
-
-        private val cookies = mutableMapOf<String, MutableList<Cookie>>()
-        fun addCookie(host: String, cookie: Cookie) {
-            cookies.getOrPut(host) { mutableListOf() } += cookie
-        }
-
-        override fun build(): CookieConfig {
-            return CookieConfig(acceptCookie, cookies)
-        }
+internal inline fun <reified T: SessionConfigBuilder<*>> SessionBuilder.getOrPutBuilder(crossinline block: () -> T): T {
+    return configBuilders.filterIsInstance<T>().firstOrNull() ?: block.invoke().also {
+        configBuilders.add(it)
     }
 }

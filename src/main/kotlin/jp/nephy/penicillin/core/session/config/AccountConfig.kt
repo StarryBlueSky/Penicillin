@@ -29,11 +29,14 @@ package jp.nephy.penicillin.core.session.config
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.session.SessionBuilder
 
-private var credentialsBuilder: Credentials.Builder.() -> Unit = {}
 fun SessionBuilder.account(block: Credentials.Builder.() -> Unit) {
-    credentialsBuilder = block
+    getOrPutBuilder {
+        Credentials.Builder()
+    }.apply(block)
 }
 
-internal fun createCredentials(): Credentials {
-    return Credentials.Builder().apply(credentialsBuilder).build()
+internal fun SessionBuilder.createCredentials(): Credentials {
+    return getOrPutBuilder {
+        Credentials.Builder()
+    }.build()
 }
