@@ -29,7 +29,6 @@ package jp.nephy.penicillin.extensions.models.builder
 import jp.nephy.jsonkt.edit
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.models.TwitterList
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class CustomListBuilder: JsonBuilder<TwitterList> {
@@ -82,9 +81,7 @@ class CustomListBuilder: JsonBuilder<TwitterList> {
     }
 
     override fun build(): TwitterList {
-        val id = runBlocking {
-            generateId()
-        }
+        val id = generateId()
         
         return TwitterList(json.edit {
             it["name"] = listName

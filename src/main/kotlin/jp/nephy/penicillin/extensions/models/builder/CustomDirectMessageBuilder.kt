@@ -30,7 +30,6 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.edit
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.models.DirectMessage
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class CustomDirectMessageBuilder: JsonBuilder<DirectMessage> {
@@ -81,9 +80,7 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage> {
     }
 
     override fun build(): DirectMessage {
-        val id = runBlocking {
-            generateId()
-        }
+        val id = generateId()
         val recipient = recipientBuilder.build()
         val sender = senderBuilder.build()
 
