@@ -56,7 +56,8 @@ inline fun <reified T: Task> Project.task(name: String, crossinline block: T.() 
 
 fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, String?> {
     override fun getValue(thisRef: Project, property: KProperty<*>): String? {
-        return properties[key ?: property.name]?.toString()
+        val name = key ?: property.name
+        return (properties[name] ?: System.getProperty(name) ?: System.getenv(name))?.toString()
     }
 }
 
