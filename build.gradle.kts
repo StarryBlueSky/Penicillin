@@ -82,7 +82,7 @@ dependencies {
     testImplementation("io.ktor:ktor-client-jetty:$ktorVersion")
     testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
-    api("jp.nephy:jsonkt:4.3")
+    api("jp.nephy:jsonkt:4.4")
     testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
 
     api("io.github.microutils:kotlin-logging:1.6.22")
