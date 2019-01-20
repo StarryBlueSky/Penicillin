@@ -34,7 +34,7 @@ class Twitter4iPhone(override val session: Session): Emulation {
         append("Accept-Language", "ja")
         append("Timezone", "Asia/Tokyo")
         append("User-Agent", "Twitter-iPhone/7.30 iOS/11.3.1 (Apple;iPhone10,1;;;;;1;2017)")
-        append("X-B3-TraceId", b3TraceId())
+        append("X-B3-TraceId", b3TraceId)
         append("X-Client-UUID", clientUUID)
         append("X-Twitter-Active-User", "yes")
         append("X-Twitter-API-Version", "5")
@@ -48,15 +48,13 @@ class Twitter4iPhone(override val session: Session): Emulation {
     }
 
     companion object {
-        private val clientUUID = OAuthUtil.randomUUID()
-
-        fun b3TraceId(): String {
-            val seed = SecureRandom()
-            return buildString {
+        private val clientUUID = OAuthUtil.randomUUID
+        val b3TraceId: String
+            get() = buildString {
+                val seed = SecureRandom()
                 repeat(16) {
                     append(Integer.toHexString(seed.nextInt(16)))
                 }
             }
-        }
     }
 }

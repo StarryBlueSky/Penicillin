@@ -24,39 +24,74 @@
 
 package jp.nephy.penicillin.core.auth
 
-import io.ktor.http.HttpMethod
-import io.ktor.http.encodeOAuth
+import io.ktor.http.*
 import io.ktor.util.InternalAPI
 import io.ktor.util.date.GMTDate
 import io.ktor.util.encodeBase64
+import io.ktor.util.flattenForEach
+import jp.nephy.penicillin.core.request.body.EncodedFormContent
+import jp.nephy.penicillin.core.request.body.MultiPartContent
+import jp.nephy.penicillin.core.request.copy
 import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
 object OAuthUtil {
-    fun randomUUID(): String {
-        return UUID.randomUUID().toString().toUpperCase()
-    }
+    private const val macAlgorithm = "HmacSHA1"
+    
+    val randomUUID: String
+        get() = UUID.randomUUID().toString().toUpperCase()
+    
+    val currentEpochTime: String
+        get() = "${GMTDate().timestamp / 1000}"
 
-    fun currentEpochTime(): String {
-        return "${GMTDate().timestamp / 1000}"
+    fun initialAuthorizationHeaderComponents(callback: String? = null, nonce: String = randomUUID, timestamp: String = currentEpochTime, consumerKey: String? = null, accessToken: String? = null): MutableMap<String, String?> {
+        requireNotNull(consumerKey)
+        
+        return linkedMapOf(
+            "oauth_signature" to null,
+            "oauth_callback" to callback,
+            "oauth_nonce" to nonce,
+            "oauth_timestamp" to timestamp,
+            "oauth_consumer_key" to consumerKey,
+            "oauth_token" to accessToken,
+            "oauth_version" to "1.0",
+            "oauth_signature_method" to "HMAC-SHA1"
+        )
     }
-
+    
+    fun signatureParam(authorizationHeaderComponent: Map<String, String?>, body: Any, parameters: ParametersBuilder): Map<String, String> {
+        return sortedMapOf<String, String>().also { map ->
+            authorizationHeaderComponent.filterValues { it != null }.forEach {
+                map[it.key.encodeURLParameter()] = it.value?.encodeURLParameter()
+            }
+            
+            if (body !is MultiPartContent) {
+                val forms = (body as? EncodedFormContent)?.forms ?: parametersOf()
+                val params = parameters.copy().build() + forms
+                
+                params.flattenForEach { key, value ->
+                    map[key.encodeURLParameter()] = value.encodeURLParameter()
+                }
+            }
+        }
+    }
+    
     fun signatureParamString(param: Map<String, String>): String {
         return param.toList().joinToString("&") { "${it.first}=${it.second}" }.encodeOAuth()
     }
 
-    fun signingBaseString(httpMethod: HttpMethod, url: String, signatureParamString: String): String {
-        return "${httpMethod.value}&${url.split("?").first().encodeOAuth()}&$signatureParamString"
+    fun signingBaseString(httpMethod: HttpMethod, url: Url, signatureParamString: String): String {
+        return "${httpMethod.value.toUpperCase()}&${url.toString().split("?").first().encodeOAuth()}&$signatureParamString"
     }
 
-    fun signingKey(consumerSecret: String, accessTokenSecret: String?): SecretKeySpec {
-        return SecretKeySpec("${consumerSecret.encodeOAuth()}&${accessTokenSecret.orEmpty().encodeOAuth()}".toByteArray(), "HmacSHA1")
+    fun signingKey(consumerSecret: String, accessTokenSecret: String? = null): SecretKeySpec {
+        return SecretKeySpec("${consumerSecret.encodeOAuth()}&${accessTokenSecret?.encodeOAuth().orEmpty()}".toByteArray(), macAlgorithm)
     }
     
     @UseExperimental(InternalAPI::class)
     fun signature(signingKey: SecretKeySpec, signatureBaseString: String): String {
-        return Mac.getInstance(signingKey.algorithm).apply {
+        return Mac.getInstance(macAlgorithm).apply {
             init(signingKey)
         }.doFinal(signatureBaseString.toByteArray()).let {
             encodeBase64(it)

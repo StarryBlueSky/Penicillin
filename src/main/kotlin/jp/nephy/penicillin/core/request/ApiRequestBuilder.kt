@@ -41,8 +41,6 @@ import jp.nephy.penicillin.core.emulation.Tweetdeck
 import jp.nephy.penicillin.core.emulation.Twitter4iPhone
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
-import jp.nephy.penicillin.core.request.body.EncodedFormContent
-import jp.nephy.penicillin.core.request.body.MultiPartContent
 import jp.nephy.penicillin.core.request.body.RequestBodyBuilder
 import jp.nephy.penicillin.core.session.Session
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
@@ -137,37 +135,15 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
     private fun signRequest() {
         val signature = when (authorizationType) {
             AuthorizationType.OAuth1a -> {
-                val authorizationHeaderComponent = linkedMapOf(
-                    "oauth_signature" to null,
-                    "oauth_callback" to oauthCallbackUrl,
-                    "oauth_nonce" to OAuthUtil.randomUUID(),
-                    "oauth_timestamp" to OAuthUtil.currentEpochTime(),
-                    "oauth_consumer_key" to session.credentials.consumerKey!!,
-                    "oauth_token" to session.credentials.accessToken,
-                    "oauth_version" to "1.0",
-                    "oauth_signature_method" to "HMAC-SHA1"
+                val authorizationHeaderComponent = OAuthUtil.initialAuthorizationHeaderComponents(
+                    oauthCallbackUrl, consumerKey = session.credentials.consumerKey, accessToken = session.credentials.accessToken
                 )
-                val signatureParam = sortedMapOf<String, String>().apply {
-                    authorizationHeaderComponent.filterValues { it != null }.forEach {
-                        put(it.key, it.value)
-                    }
-                    if (body !is MultiPartContent) {
-                        val forms = (body as? EncodedFormContent)?.forms
-                        val params = if (forms != null) {
-                            parameters.copy().build() + forms
-                        } else {
-                            parameters.copy().build()
-                        }
-
-                        params.flattenForEach { key, value ->
-                            put(key.encodeURLParameter(), value.encodeURLParameter())
-                        }
-                    }
-                }
+                val signatureParam = OAuthUtil.signatureParam(authorizationHeaderComponent, body, parameters)
                 val signatureParamString = OAuthUtil.signatureParamString(signatureParam)
                 val signingKey = OAuthUtil.signingKey(session.credentials.consumerSecret!!, session.credentials.accessTokenSecret)
-                val signatureBaseString =
-                    OAuthUtil.signingBaseString(httpMethod, URLBuilder(protocol = host.protocol, host = host.domainForSigning ?: host.domain, port = host.protocol.defaultPort, encodedPath = path).buildString(), signatureParamString)
+                val signatureBaseString = OAuthUtil.signingBaseString(
+                    httpMethod, URLBuilder(protocol = host.protocol, host = host.domainForSigning ?: host.domain, encodedPath = path).build(), signatureParamString
+                )
                 authorizationHeaderComponent["oauth_signature"] = OAuthUtil.signature(signingKey, signatureBaseString)
 
                 "OAuth ${authorizationHeaderComponent.filterValues { it != null }.toList().joinToString(", ") { "${it.first}=\"${it.second}\"" }}"
@@ -207,8 +183,8 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
 
         return ApiRequest(session, this)
     }
+}
 
-    private fun ParametersBuilder.copy(): ParametersBuilder {
-        return ParametersBuilder().apply { appendAll(this@copy) }
-    }
+internal fun ParametersBuilder.copy(): ParametersBuilder {
+    return ParametersBuilder().apply { appendAll(this@copy) }
 }
