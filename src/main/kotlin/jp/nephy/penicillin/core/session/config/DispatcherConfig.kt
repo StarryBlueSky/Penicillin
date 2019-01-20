@@ -30,21 +30,24 @@ import jp.nephy.penicillin.core.session.SessionBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
-private var dispatcherConfigBuilder: DispatcherConfig.Builder.() -> Unit = {}
 fun SessionBuilder.dispatcher(block: DispatcherConfig.Builder.() -> Unit) {
-    dispatcherConfigBuilder = block
+    getOrPutBuilder { 
+        DispatcherConfig.Builder()
+    }.apply(block)
 }
 
-internal fun createDispatcherConfig(): DispatcherConfig {
-    return DispatcherConfig.Builder().apply(dispatcherConfigBuilder).build()
+internal fun SessionBuilder.createDispatcherConfig(): DispatcherConfig {
+    return getOrPutBuilder {
+        DispatcherConfig.Builder()
+    }.build()
 }
 
-data class DispatcherConfig(val coroutineContext: CoroutineContext, val connectionThreadsCount: Int?) {
-    class Builder {
+data class DispatcherConfig(val coroutineContext: CoroutineContext, val connectionThreadsCount: Int?): SessionConfig {
+    class Builder: SessionConfigBuilder<DispatcherConfig> {
         var connectionThreadsCount: Int? = null
         var coroutineContext: CoroutineContext = Dispatchers.Default
-
-        internal fun build(): DispatcherConfig {
+        
+        override fun build(): DispatcherConfig {
             return DispatcherConfig(coroutineContext, connectionThreadsCount)
         }
     }

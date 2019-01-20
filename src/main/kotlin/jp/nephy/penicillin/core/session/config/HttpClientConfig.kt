@@ -32,27 +32,56 @@ import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
 import jp.nephy.penicillin.core.session.SessionBuilder
 
-private var httpClientEngineFactory: HttpClientEngineFactory<*>? = null
-private var httpClientConfig: HttpClientConfig<*>.() -> Unit = {}
-private var httpClient: HttpClient? = null
-
 @Suppress("UNCHECKED_CAST")
 fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
-    httpClientEngineFactory = engineFactory
-    httpClientConfig = block as HttpClientConfig<*>.() -> Unit
+    getOrPutBuilder { 
+        KtorHttpClientConfig.Builder()
+    }.apply {
+        this.engineFactory = engineFactory
+        this.clientConfigs.add(block as HttpClientConfig<*>.() -> Unit)
+    }
 }
 
 fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
-    httpClientConfig = block
+    getOrPutBuilder {
+        KtorHttpClientConfig.Builder()
+    }.apply {
+        this.clientConfigs.add(block)
+    }
 }
 
 fun SessionBuilder.httpClient(client: HttpClient) {
-    httpClient = client
+    getOrPutBuilder {
+        KtorHttpClientConfig.Builder()
+    }.apply {
+        this.client = client
+    }
 }
 
-internal fun createHttpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient {
-    return (httpClient ?: httpClientEngineFactory?.let { HttpClient(it) } ?: HttpClient()).config {
-        block()
-        httpClientConfig()
+private data class KtorHttpClientConfig(val engineFactory: HttpClientEngineFactory<*>?, val clientConfigs: List<HttpClientConfig<*>.() -> Unit>, val client: HttpClient?): SessionConfig {
+    fun httpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient {
+        return (client ?: engineFactory?.let { HttpClient(it) } ?: HttpClient()).config { 
+            block()
+            
+            for (config in clientConfigs) {
+                config()
+            }
+        }
     }
+    
+    internal class Builder: SessionConfigBuilder<KtorHttpClientConfig> {
+        var engineFactory: HttpClientEngineFactory<*>? = null
+        var clientConfigs = mutableListOf<HttpClientConfig<*>.() -> Unit>()
+        var client: HttpClient? = null
+        
+        override fun build(): KtorHttpClientConfig {
+            return KtorHttpClientConfig(engineFactory, clientConfigs, client)
+        }
+    }
+}
+
+internal fun SessionBuilder.createHttpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient {
+    return getOrPutBuilder {
+        KtorHttpClientConfig.Builder()
+    }.build().httpClient(block)
 }

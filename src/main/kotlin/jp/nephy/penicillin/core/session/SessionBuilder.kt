@@ -34,20 +34,21 @@ import jp.nephy.penicillin.core.session.config.*
 import kotlinx.coroutines.runBlocking
 
 class SessionBuilder {
-    @UseExperimental(KtorExperimentalAPI::class)
+    internal val configBuilders = mutableSetOf<SessionConfigBuilder<*>>()
+    
     internal fun build(): Session {
-        val cookieConfig = createCookieConfig()
-        val dispatcherConfig = createDispatcherConfig()
+        val cookie = createCookieConfig()
+        val dispatcher = createDispatcherConfig()
         val httpClient = createHttpClient {
-            if (cookieConfig.acceptCookie) {
+            if (cookie.acceptCookie) {
                 install(HttpCookies) {
                     storage = AcceptAllCookiesStorage()
 
-                    if (cookieConfig.cookies.isNotEmpty()) {
-                        runBlocking {
-                            for ((key, value) in cookieConfig.cookies) {
-                                for (cookie in value) {
-                                    storage.addCookie(key, cookie)
+                    if (cookie.cookies.isNotEmpty()) {
+                        for ((key, cookies) in cookie.cookies) {
+                            for (it in cookies) {
+                                runBlocking {
+                                    storage.addCookie(key, it)
                                 }
                             }
                         }
@@ -56,10 +57,11 @@ class SessionBuilder {
             }
         }
         
-        if (dispatcherConfig.connectionThreadsCount != null) {
-            httpClient.engineConfig.threadsCount = dispatcherConfig.connectionThreadsCount
+        if (dispatcher.connectionThreadsCount != null) {
+            @UseExperimental(KtorExperimentalAPI::class)
+            httpClient.engineConfig.threadsCount = dispatcher.connectionThreadsCount
         }
 
-        return Session(httpClient, dispatcherConfig.coroutineContext, createCredentials(), createApiConfig())
+        return Session(httpClient, dispatcher.coroutineContext, createCredentials(), createApiConfig())
     }
 }

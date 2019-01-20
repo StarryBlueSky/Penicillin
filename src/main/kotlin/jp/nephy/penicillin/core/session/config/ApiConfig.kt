@@ -31,23 +31,26 @@ import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.session.SessionBuilder
 import java.util.concurrent.TimeUnit
 
-private var apiConfigBuilder: ApiConfig.Builder.() -> Unit = {}
 fun SessionBuilder.api(block: ApiConfig.Builder.() -> Unit) {
-    apiConfigBuilder = block
+    getOrPutBuilder { 
+        ApiConfig.Builder()
+    }.apply(block)
 }
 
-internal fun createApiConfig(): ApiConfig {
-    return ApiConfig.Builder().apply(apiConfigBuilder).build()
+internal fun SessionBuilder.createApiConfig(): ApiConfig {
+    return getOrPutBuilder {
+        ApiConfig.Builder()
+    }.build()
 }
 
-data class ApiConfig(val maxRetries: Int, val retryInMillis: Long, val defaultTimeoutInMillis: Long, val emulationMode: EmulationMode, val skipEmulationChecking: Boolean) {
+data class ApiConfig(val maxRetries: Int, val retryInMillis: Long, val defaultTimeoutInMillis: Long, val emulationMode: EmulationMode, val skipEmulationChecking: Boolean): SessionConfig {
     companion object {
         private const val defaultMaxRetries = 3
         private const val defaultRetryIntervalInMillis = 3000L
         private const val defaultTimeoutInMillis = 5000L
     }
     
-    class Builder {
+    class Builder: SessionConfigBuilder<ApiConfig> {
         var maxRetries: Int = defaultMaxRetries
             set(value) {
                 require(value >= 0)
@@ -78,7 +81,7 @@ data class ApiConfig(val maxRetries: Int, val retryInMillis: Long, val defaultTi
         }
         
         @UseExperimental(PenicillinExperimentalApi::class)
-        internal fun build(): ApiConfig {
+        override fun build(): ApiConfig {
             return ApiConfig(maxRetries, retryIntervalInMillis, timeoutInMillis, emulationMode, skipEmulationChecking)
         }
     }
