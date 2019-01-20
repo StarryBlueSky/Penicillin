@@ -167,7 +167,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
                 val signatureParamString = OAuthUtil.signatureParamString(signatureParam)
                 val signingKey = OAuthUtil.signingKey(session.credentials.consumerSecret!!, session.credentials.accessTokenSecret)
                 val signatureBaseString =
-                    OAuthUtil.signingBaseString(httpMethod, URLBuilder(protocol = host.protocol, host = host.domain, port = host.protocol.defaultPort, encodedPath = path).buildString(), signatureParamString)
+                    OAuthUtil.signingBaseString(httpMethod, URLBuilder(protocol = host.protocol, host = host.domainForSigning ?: host.domain, port = host.protocol.defaultPort, encodedPath = path).buildString(), signatureParamString)
                 authorizationHeaderComponent["oauth_signature"] = OAuthUtil.signature(signingKey, signatureBaseString)
 
                 "OAuth ${authorizationHeaderComponent.filterValues { it != null }.toList().joinToString(", ") { "${it.first}=\"${it.second}\"" }}"

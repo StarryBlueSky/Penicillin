@@ -39,10 +39,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 fun Stream.tweetstorm(
-    customHost: EndpointHost = EndpointHost.UserStream,
-    delimited: String? = null,
-    stringifyFriendIds: Boolean? = null,
-    vararg options: Pair<String, Any?>
+    customHost: EndpointHost = EndpointHost.UserStream, delimited: String? = null, stringifyFriendIds: Boolean? = null, vararg options: Pair<String, Any?>
 ) = client.session.get("/1.1/user.json", customHost) {
     parameter(
         "delimited" to delimited,
@@ -50,6 +47,10 @@ fun Stream.tweetstorm(
         *options
     )
 }.stream<TweetstormListener, TweetstormHandler>()
+
+fun Stream.tweetstorm(
+    customHost: String, delimited: String? = null, stringifyFriendIds: Boolean? = null, vararg options: Pair<String, Any?>
+) = tweetstorm(EndpointHost(customHost, domainForSigning = EndpointHost.UserStream.domain), delimited, stringifyFriendIds, *options)
 
 interface TweetstormListener: StreamListener {
     suspend fun onStatus(status: Status) {}
