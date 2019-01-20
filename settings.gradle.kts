@@ -12,6 +12,9 @@ pluginManagement {
                 "kotlinx-serialization" -> {
                     useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
                 }
+                "com.jfrog.bintray" -> {
+                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
+                }
                 "com.github.breadmoirai.github-release" -> {
                     useModule("gradle.plugin.com.github.breadmoirai:github-release:${requested.version}")
                 }

@@ -1,11 +1,13 @@
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.breadmoirai.ChangeLogSupplier
+import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.net.URI
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -28,7 +30,7 @@ plugins {
     
     // For publishing
     id("maven-publish")
-    id("signing")
+    id("com.jfrog.bintray") version "1.8.4"
     id("com.github.breadmoirai.github-release") version "2.2.3"
     
     // For documentation
@@ -188,6 +190,12 @@ val dokkaJavadoc = task<DokkaTask>("dokkaJavadoc") {
 
 val jar = task<Jar>("jar") {}
 
+if (isEAPBuild) {
+    jar.destinationDir.listFiles().forEach {
+        it.delete()
+    }
+}
+
 val sourcesJar = task<Jar>("sourcesJar") {
     classifier = "sources"
     from(sourceSets["main"].allSource)
@@ -207,86 +215,59 @@ val kdocJar = task<Jar>("kdocJar") {
     from("$buildDir/kdoc")
 }
 
-val sonatypeUsername by property()
-val sonatypePassword by property()
-
 publishing {
-    repositories {
-        maven {
-            name = "Local"
-            url = Paths.get(buildDir.absolutePath, "maven-local").toUri()
-        }
-        
-        if (!isEAPBuild) {
-            maven {
-                name = "Sonatype"
-                url = URI("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-
-                credentials {
-                    username = sonatypeUsername
-                    password = sonatypePassword
-                }
-            }
-        } else {
-            jar.destinationDir.listFiles().forEach { 
-                it.delete()
-            }
-        }
-    }
-
     publications {
         create<MavenPublication>("kotlin") {
-            artifact(jar)
+            from(components.getByName("java"))
+            
             artifact(sourcesJar)
             artifact(javadocJar)
-
-            pom {
-                name.set(packageName)
-                description.set(packageDescription)
-                url.set("https://github.com/$githubOrganizationName/$githubRepositoryName")
-                packaging = "jar"
-
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("http://opensource.org/licenses/MIT")
-                    }
-                }
-
-                developers {
-                    developer {
-                        id.set("SlashNephy")
-                        name.set("Slash Nephy")
-                        email.set("admin@nephy.jp")
-                    }
-                }
-
-                scm {
-                    url.set("https://github.com/$githubOrganizationName/$githubRepositoryName")
-                    connection.set("scm:git:https://github.com/$githubOrganizationName/$githubRepositoryName.git")
-                    developerConnection.set("scm:git:git@github.com:$githubOrganizationName/$githubRepositoryName.git")
-                    tag.set("HEAD")
-                }
-
-                issueManagement {
-                    system.set("GitHub")
-                    url.set("https://github.com/$githubOrganizationName/$githubRepositoryName/issues")
-                }
-            }
         }
     }
 }
 
-signing {
-    setRequired({ gradle.taskGraph.hasTask("publish") })
-    if (!isEAPBuild) {
-        sign(publishing.publications)
+val bintrayUsername by property()
+val bintrayApiKey by property()
+
+bintray {
+    setPublications("kotlin")
+    
+    user = bintrayUsername
+    key = bintrayApiKey
+    publish = true
+    override = true
+    
+    pkg.apply { 
+        repo = githubRepositoryName.toLowerCase()
+        userOrg = githubOrganizationName.toLowerCase()
+        
+        name = packageName
+        desc = packageDescription
+        
+        setLicenses("MIT")
+        publicDownloadNumbers = true
+        
+        githubRepo = "$githubOrganizationName/$githubRepositoryName"
+        websiteUrl = "https://github.com/$githubOrganizationName/$githubRepositoryName"
+        issueTrackerUrl = "https://github.com/$githubOrganizationName/$githubRepositoryName/issues"
+        vcsUrl = "https://github.com/$githubOrganizationName/$githubRepositoryName.git"
+        
+        version.apply { 
+            name = project.version.toString()
+            desc = "$packageName ${project.version}"
+            released = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(Date())
+            vcsTag = project.version.toString()
+        }
     }
+}
+
+task<BintrayUploadTask>("bintrayUpload") {
+    dependsOn("publishToMavenLocal")
 }
 
 val githubToken by property()
 
-if (hasProperty("github") && githubToken != null) {
+if (hasProperty("github")) {
     githubRelease {
         token(githubToken)
         val assets = jar.destinationDir.listFiles { _, filename ->
