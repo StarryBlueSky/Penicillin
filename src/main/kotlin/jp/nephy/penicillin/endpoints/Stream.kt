@@ -35,6 +35,7 @@ import jp.nephy.penicillin.core.streaming.handler.UserStreamHandler
 import jp.nephy.penicillin.core.streaming.listener.FilterStreamListener
 import jp.nephy.penicillin.core.streaming.listener.SampleStreamListener
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
+import jp.nephy.penicillin.endpoints.parameters.StreamDelimitedBy
 import jp.nephy.penicillin.endpoints.parameters.UserStreamFilterLevel
 import jp.nephy.penicillin.endpoints.parameters.UserStreamReplies
 import jp.nephy.penicillin.endpoints.parameters.UserStreamWith
@@ -45,7 +46,7 @@ val PenicillinClient.stream: Stream
 class Stream(override val client: PenicillinClient): Endpoint {
     @Deprecated("UserStream API retired on August 23th, 2018.", replaceWith = ReplaceWith("Tweetstorm or Account Activity API (AAA)"))
     fun user(
-        delimited: String? = null,
+        delimited: StreamDelimitedBy? = null,
         stallWarnings: Boolean? = null,
         with: UserStreamWith? = null,
         replies: UserStreamReplies? = null,
@@ -60,7 +61,7 @@ class Stream(override val client: PenicillinClient): Endpoint {
         vararg options: Pair<String, Any?>
     ) = client.session.get("/1.1/user.json", EndpointHost.UserStream) {
         parameter(
-            "delimited" to delimited,
+            "delimited" to delimited?.value,
             "stall_warning" to stallWarnings,
             "with" to with?.value,
             "replies" to replies?.value,
@@ -78,18 +79,30 @@ class Stream(override val client: PenicillinClient): Endpoint {
 
     @Deprecated("SiteStream API retired on August 23th, 2018.", replaceWith = ReplaceWith("Tweetstorm or Account Activity API (AAA)"))
     fun site(
-        delimited: String? = null, stallWarnings: Boolean? = null, with: UserStreamWith? = null, replies: UserStreamReplies? = null, follow: List<Long>? = null, vararg options: Pair<String, Any?>
+        delimited: StreamDelimitedBy? = null, stallWarnings: Boolean? = null, with: UserStreamWith? = null, replies: UserStreamReplies? = null, follow: List<Long>? = null, vararg options: Pair<String, Any?>
     ) = client.session.get("/1.1/site.json", EndpointHost.SiteStream) {
-        parameter("delimited" to delimited, "stall_warning" to stallWarnings, "with" to with?.value, "replies" to replies?.value, "follow" to follow?.joinToString(","), *options)
+        parameter(
+            "delimited" to delimited?.value,
+            "stall_warning" to stallWarnings,
+            "with" to with?.value,
+            "replies" to replies?.value,
+            "follow" to follow?.joinToString(","),
+            *options
+        )
     }.stream<UserStreamListener, UserStreamHandler>()
 
-    fun sample(delimited: String? = null, stallWarnings: Boolean? = null, language: String? = null, vararg options: Pair<String, Any?>) =
+    fun sample(delimited: StreamDelimitedBy? = null, stallWarnings: Boolean? = null, language: String? = null, vararg options: Pair<String, Any?>) =
         client.session.get("/1.1/statuses/sample.json", EndpointHost.Stream) {
-            parameter("delimited" to delimited, "stall_warning" to stallWarnings, "language" to language, *options)
+            parameter(
+                "delimited" to delimited?.value,
+                "stall_warning" to stallWarnings,
+                "language" to language,
+                *options
+            )
         }.stream<SampleStreamListener, SampleStreamHandler>()
 
     fun filter(
-        delimited: String? = null,
+        delimited: StreamDelimitedBy? = null,
         stallWarnings: Boolean? = null,
         track: List<String>? = null,
         follow: List<Long>? = null,
@@ -98,7 +111,7 @@ class Stream(override val client: PenicillinClient): Endpoint {
         vararg options: Pair<String, Any?>
     ) = client.session.get("/1.1/statuses/filter.json", EndpointHost.Stream) {
         parameter(
-            "delimited" to delimited,
+            "delimited" to delimited?.value,
             "stall_warning" to stallWarnings,
             "track" to track?.joinToString(","),
             "follow" to follow?.joinToString(","),

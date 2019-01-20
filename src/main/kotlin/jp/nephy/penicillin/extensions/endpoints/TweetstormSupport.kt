@@ -32,6 +32,7 @@ import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.endpoints.Stream
+import jp.nephy.penicillin.endpoints.parameters.StreamDelimitedBy
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.UserStream
@@ -39,17 +40,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 fun Stream.tweetstorm(
-    customHost: EndpointHost = EndpointHost.UserStream, delimited: String? = null, stringifyFriendIds: Boolean? = null, vararg options: Pair<String, Any?>
+    customHost: EndpointHost = EndpointHost.UserStream, delimited: StreamDelimitedBy? = null, stringifyFriendIds: Boolean? = null, vararg options: Pair<String, Any?>
 ) = client.session.get("/1.1/user.json", customHost) {
     parameter(
-        "delimited" to delimited,
+        "delimited" to delimited?.value,
         "stringify_friend_ids" to stringifyFriendIds,
         *options
     )
 }.stream<TweetstormListener, TweetstormHandler>()
 
 fun Stream.tweetstorm(
-    customHost: String, delimited: String? = null, stringifyFriendIds: Boolean? = null, vararg options: Pair<String, Any?>
+    customHost: String, delimited: StreamDelimitedBy? = null, stringifyFriendIds: Boolean? = null, vararg options: Pair<String, Any?>
 ) = tweetstorm(EndpointHost(customHost, domainForSigning = EndpointHost.UserStream.domain), delimited, stringifyFriendIds, *options)
 
 interface TweetstormListener: StreamListener {
