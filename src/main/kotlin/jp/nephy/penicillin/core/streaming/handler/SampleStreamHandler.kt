@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 
 class SampleStreamHandler(override val listener: SampleStreamListener): StreamHandler<SampleStreamListener> {
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
-        scope.launch(scope.coroutineContext) {
+        scope.launch {
             when {
                 "text" in json -> {
                     listener.onStatus(Status(json))
