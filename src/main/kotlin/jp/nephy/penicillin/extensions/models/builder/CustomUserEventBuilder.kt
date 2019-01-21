@@ -28,10 +28,11 @@ package jp.nephy.penicillin.extensions.models.builder
 
 import jp.nephy.jsonkt.edit
 import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
 import jp.nephy.penicillin.models.UserStream
 import java.util.*
 
-class CustomUserEventBuilder(type: UserEventType): JsonBuilder<UserStream.UserEvent> {
+class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<UserStream.UserEvent> {
     override var json = jsonObjectOf(
             "event" to type.key,
             "source" to null,

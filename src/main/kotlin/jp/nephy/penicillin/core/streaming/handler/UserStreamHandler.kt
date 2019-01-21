@@ -27,9 +27,6 @@ package jp.nephy.penicillin.core.streaming.handler
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
-import jp.nephy.penicillin.extensions.models.builder.ListEventType
-import jp.nephy.penicillin.extensions.models.builder.StatusEventType
-import jp.nephy.penicillin.extensions.models.builder.UserEventType
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.Stream
@@ -38,14 +35,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class UserStreamHandler(override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
-    companion object {
-        private val statusEvents = StatusEventType.values().map { it.key }
-        private val listEvents = ListEventType.values().map { it.key }
-        private val userEvents = UserEventType.values().map { it.key }
-    }
-
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
-        scope.launch(scope.coroutineContext) {
+        scope.launch {
             when {
                 "text" in json -> {
                     listener.onStatus(Status(json))
@@ -54,56 +45,59 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                     listener.onDirectMessage(DirectMessage(json))
                 }
                 "event" in json -> {
-                    val event = json["event"].string
-                    when (event) {
-                        in statusEvents -> {
+                    val event = UserStreamEvent.byKey(json["event"].string)
+                    when (event?.type) {
+                        UserStreamEventType.Status -> {
                             val statusEvent = UserStream.StatusEvent(json)
-                            launch(scope.coroutineContext) {
+                            launch {
                                 when (event) {
-                                    "favorite" -> listener.onFavorite(statusEvent)
-                                    "unfavorite" -> listener.onUnfavorite(statusEvent)
-                                    "favorited_retweet" -> listener.onFavoritedRetweet(statusEvent)
-                                    "retweeted_retweet" -> listener.onRetweetedRetweet(statusEvent)
-                                    "quoted_tweet" -> listener.onQuotedTweet(statusEvent)
+                                    UserStreamEvent.Favorite -> listener.onFavorite(statusEvent)
+                                    UserStreamEvent.Unfavorite -> listener.onUnfavorite(statusEvent)
+                                    UserStreamEvent.FavoritedRetweet -> listener.onFavoritedRetweet(statusEvent)
+                                    UserStreamEvent.RetweetedRetweet -> listener.onRetweetedRetweet(statusEvent)
+                                    UserStreamEvent.QuotedTweet -> listener.onQuotedTweet(statusEvent)
+                                    else -> listener.onUnhandledJson(json)
                                 }
                             }
-                            launch(scope.coroutineContext) {
+                            launch {
                                 listener.onAnyStatusEvent(statusEvent)
                             }
                             listener.onAnyEvent(statusEvent)
                         }
-                        in listEvents -> {
+                        UserStreamEventType.List -> {
                             val listEvent = UserStream.ListEvent(json)
-                            launch(scope.coroutineContext) {
+                            launch {
                                 when (event) {
-                                    "list_created" -> listener.onListCreated(listEvent)
-                                    "list_destroyed" -> listener.onListDestroyed(listEvent)
-                                    "list_updated" -> listener.onListUpdated(listEvent)
-                                    "list_member_added" -> listener.onListMemberAdded(listEvent)
-                                    "list_member_removed" -> listener.onListMemberRemoved(listEvent)
-                                    "list_user_subscribed" -> listener.onListUserSubscribed(listEvent)
-                                    "list_user_unsubscribed" -> listener.onListUserUnsubscribed(listEvent)
+                                    UserStreamEvent.ListCreated -> listener.onListCreated(listEvent)
+                                    UserStreamEvent.ListDestroyed -> listener.onListDestroyed(listEvent)
+                                    UserStreamEvent.ListUpdated -> listener.onListUpdated(listEvent)
+                                    UserStreamEvent.ListMemberAdded -> listener.onListMemberAdded(listEvent)
+                                    UserStreamEvent.ListMemberRemoved -> listener.onListMemberRemoved(listEvent)
+                                    UserStreamEvent.ListUserSubscribed -> listener.onListUserSubscribed(listEvent)
+                                    UserStreamEvent.ListUserUnsubscribed -> listener.onListUserUnsubscribed(listEvent)
+                                    else -> listener.onUnhandledJson(json)
                                 }
                             }
-                            launch(scope.coroutineContext) {
+                            launch {
                                 listener.onAnyListEvent(listEvent)
                             }
                             listener.onAnyEvent(listEvent)
                         }
-                        in userEvents -> {
+                        UserStreamEventType.User -> {
                             val userEvent = UserStream.UserEvent(json)
-                            launch(scope.coroutineContext) {
+                            launch {
                                 when (event) {
-                                    "follow" -> listener.onFollow(userEvent)
-                                    "unfollow" -> listener.onUnfollow(userEvent)
-                                    "block" -> listener.onBlock(userEvent)
-                                    "unblock" -> listener.onUnblock(userEvent)
-                                    "mute" -> listener.onMute(userEvent)
-                                    "unmute" -> listener.onUnmute(userEvent)
-                                    "user_update" -> listener.onUserUpdate(userEvent)
+                                    UserStreamEvent.Follow -> listener.onFollow(userEvent)
+                                    UserStreamEvent.Unfollow -> listener.onUnfollow(userEvent)
+                                    UserStreamEvent.Block -> listener.onBlock(userEvent)
+                                    UserStreamEvent.Unblock -> listener.onUnblock(userEvent)
+                                    UserStreamEvent.Mute -> listener.onMute(userEvent)
+                                    UserStreamEvent.Unmute -> listener.onUnmute(userEvent)
+                                    UserStreamEvent.UserUpdate -> listener.onUserUpdate(userEvent)
+                                    else -> listener.onUnhandledJson(json)
                                 }
                             }
-                            launch(scope.coroutineContext) {
+                            launch {
                                 listener.onAnyUserEvent(userEvent)
                             }
                             listener.onAnyEvent(userEvent)
@@ -146,4 +140,3 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
         listener.onAnyJson(json)
     }
 }
-
