@@ -53,6 +53,8 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
     }
 
     private var headers = HeadersBuilder()
+    
+    @Suppress("MemberVisibilityCanBePrivate")
     fun header(key: String, value: Any?, emulationMode: EmulationMode? = null) {
         if (emulationMode != null && session.option.emulationMode != emulationMode) {
             return
@@ -67,6 +69,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
         }
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun header(headers: Headers, emulationMode: EmulationMode? = null) {
         headers.flattenForEach { key, value ->
             header(key, value, emulationMode)

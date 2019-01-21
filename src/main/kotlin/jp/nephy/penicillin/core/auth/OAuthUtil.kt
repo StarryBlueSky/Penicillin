@@ -42,6 +42,7 @@ object OAuthUtil {
     val randomUUID: String
         get() = UUID.randomUUID().toString().toUpperCase()
     
+    @Suppress("MemberVisibilityCanBePrivate")
     val currentEpochTime: String
         get() = "${GMTDate().timestamp / 1000}"
 

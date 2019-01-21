@@ -47,6 +47,7 @@ data class StatusID(val value: Long) {
         private const val magicNumber = 1288834974657
     }
 
+    @Suppress("MemberVisibilityCanBePrivate")
     val epochTimeMillis: Long
         get() = (value shr 22) + magicNumber
 

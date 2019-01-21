@@ -34,7 +34,6 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.intOrNull
 
 class LivePipelineHandler(override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
-    @Suppress("DEPRECATED_SMARTCAST")
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
         scope.launch(scope.coroutineContext) {
             val topic = json.getOrNull("topic")?.stringOrNull ?: return@launch listener.onUnhandledJson(json)

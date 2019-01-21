@@ -51,6 +51,7 @@ data class ApiConfig(val maxRetries: Int, val retryInMillis: Long, val defaultTi
     }
     
     class Builder: SessionConfigBuilder<ApiConfig> {
+        @Suppress("MemberVisibilityCanBePrivate")
         var maxRetries: Int = defaultMaxRetries
             set(value) {
                 require(value >= 0)
