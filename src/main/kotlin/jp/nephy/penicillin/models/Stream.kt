@@ -27,10 +27,7 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.byJsonObject
-import jp.nephy.jsonkt.delegation.byLong
-import jp.nephy.jsonkt.delegation.byString
-import jp.nephy.jsonkt.delegation.jsonObject
+import jp.nephy.jsonkt.delegation.*
 
 object Stream {
     data class Delete(override val json: JsonObject): PenicillinModel {
@@ -41,5 +38,20 @@ object Stream {
         val statusIdStr by status.byString("id_str")
         val userId by status.byLong("user_id")
         val userIdStr by status.byString("user_id_str")
+    }
+    
+    data class LivePipeline(override val json: JsonObject): PenicillinModel {
+        val topic by string
+        val payload by model<Payload>()
+        
+        data class Payload(override val json: JsonObject): PenicillinModel {
+            val tweetEngagement by model<TweetEngagement>("tweet_engagement")
+            
+            data class TweetEngagement(override val json: JsonObject): PenicillinModel {
+                val likeCount by nullableInt("like_count")
+                val retweetCount by nullableInt("retweet_count")
+                val replyCount by nullableInt("reply_count") 
+            }
+        }
     }
 }

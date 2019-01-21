@@ -25,31 +25,29 @@
 package jp.nephy.penicillin.core.streaming.handler
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.byNullableJsonObject
-import jp.nephy.jsonkt.jsonObjectOrNull
-import jp.nephy.jsonkt.stringOrNull
+import jp.nephy.jsonkt.parse
 import jp.nephy.penicillin.core.streaming.listener.LivePipelineListener
+import jp.nephy.penicillin.models.Stream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.intOrNull
 
 class LivePipelineHandler(override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
         scope.launch(scope.coroutineContext) {
-            val topic = json.getOrNull("topic")?.stringOrNull ?: return@launch listener.onUnhandledJson(json)
+            val pipeline = json.parse<Stream.LivePipeline>()
+            val topic = pipeline.topic
             val id = topic.split("/").lastOrNull()?.toLongOrNull() ?: return@launch listener.onUnhandledJson(json)
-            val payload by json.byNullableJsonObject
-            val engagement = payload?.get("tweet_engagement")?.jsonObjectOrNull ?: return@launch listener.onUnhandledJson(json)
-            if (topic.startsWith("/tweet_engagement/")) {
+            
+            if (pipeline.topic.startsWith("/tweet_engagement/")) {
                 when {
-                    "like_count" in engagement -> {
-                        listener.onUpdateLikeCount(id, engagement["like_count"].intOrNull ?: return@launch listener.onUnhandledJson(json))
+                    pipeline.payload.tweetEngagement.likeCount != null -> {
+                        listener.onUpdateLikeCount(id, pipeline.payload.tweetEngagement.likeCount!!)
                     }
-                    "retweet_count" in engagement -> {
-                        listener.onUpdateRetweetCount(id, engagement["retweet_count"].intOrNull ?: return@launch listener.onUnhandledJson(json))
+                    pipeline.payload.tweetEngagement.retweetCount != null -> {
+                        listener.onUpdateRetweetCount(id, pipeline.payload.tweetEngagement.retweetCount!!)
                     }
-                    "reply_count" in engagement -> {
-                        listener.onUpdateReplyCount(id, engagement["reply_count"].intOrNull ?: return@launch listener.onUnhandledJson(json))
+                    pipeline.payload.tweetEngagement.replyCount != null -> {
+                        listener.onUpdateReplyCount(id, pipeline.payload.tweetEngagement.replyCount!!)
                     }
                     else -> {
                         listener.onUnhandledJson(json)
