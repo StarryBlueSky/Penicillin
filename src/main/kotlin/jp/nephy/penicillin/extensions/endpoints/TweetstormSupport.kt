@@ -64,7 +64,7 @@ interface TweetstormListener: StreamListener {
 
 class TweetstormHandler(override val listener: TweetstormListener): StreamHandler<TweetstormListener> {
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
-        scope.launch(scope.coroutineContext) {
+        scope.launch {
             when {
                 "text" in json -> {
                     listener.onStatus(Status(json))
