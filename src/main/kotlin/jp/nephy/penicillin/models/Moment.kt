@@ -48,8 +48,8 @@ data class Moment(override val json: JsonObject): PenicillinModel {
     val coverMedia by moment.byModel<CoverMedia>(key = "cover_media")
     val displayStyle by string("display_style")
     private val context by jsonObject
-    private val contectScribeInfo by context.byJsonObject
-    val momentPosition by contectScribeInfo.byString("moment_position")
+    private val contextScribeInfo by context.byJsonObject
+    val momentPosition by contextScribeInfo.byString("moment_position")
     val tweets by lambda { it.jsonObject.toMap().values.map { json -> Status(json.jsonObject) } }
     val coverFormat by model<CoverFormat>(key = "cover_format")
     val largeFormat by model<CoverFormat>(key = "large_format")

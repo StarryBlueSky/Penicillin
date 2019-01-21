@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress
+@file:Suppress("UNUSED")
 
 package jp.nephy.penicillin.endpoints.parameters
 

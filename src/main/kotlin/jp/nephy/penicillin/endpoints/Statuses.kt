@@ -114,6 +114,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         )
     }.jsonObject<Embed>()
 
+    @Suppress("MemberVisibilityCanBePrivate")
     fun update(
         status: String,
         inReplyToStatusId: Long? = null,
