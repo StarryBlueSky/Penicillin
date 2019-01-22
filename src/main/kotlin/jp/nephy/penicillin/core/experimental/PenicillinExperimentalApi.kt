@@ -32,4 +32,5 @@ package jp.nephy.penicillin.core.experimental
 )
 @Retention(AnnotationRetention.SOURCE)
 @Experimental(level = Experimental.Level.WARNING)
+@MustBeDocumented
 annotation class PenicillinExperimentalApi
