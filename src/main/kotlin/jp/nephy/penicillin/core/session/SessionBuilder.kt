@@ -55,6 +55,9 @@ class SessionBuilder {
                     }
                 }
             }
+            
+            // To handle API errors
+            expectSuccess = false
         }
         
         if (dispatcher.connectionThreadsCount != null) {
