@@ -29,7 +29,7 @@ import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.TextResponse
 import kotlinx.coroutines.CancellationException
 
-data class TextApiAction(override val request: ApiRequest): ApiAction<TextResponse> {
+class TextApiAction(override val request: ApiRequest): ApiAction<TextResponse> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): TextResponse {
         val (request, response) = execute()

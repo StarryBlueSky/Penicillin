@@ -31,7 +31,7 @@ import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import kotlinx.coroutines.CancellationException
 
-data class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(override val request: ApiRequest): ApiAction<StreamResponse<L, H>> {
+class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(override val request: ApiRequest): ApiAction<StreamResponse<L, H>> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): StreamResponse<L, H> {
         val (request, response) = execute()

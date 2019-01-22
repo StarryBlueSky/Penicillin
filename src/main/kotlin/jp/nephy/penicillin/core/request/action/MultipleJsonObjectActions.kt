@@ -36,7 +36,7 @@ import kotlin.reflect.KClass
 private typealias JsonObjectActionCallback<M> = suspend (results: MultipleJsonObjectActions.Results<M>) -> ApiAction<*>
 
 // TODO
-data class MultipleJsonObjectActions<M: PenicillinModel>(val first: JsonObjectApiAction<M>, private val requests: List<JsonObjectActionCallback<M>>): ApiAction<List<JsonObjectResponse<*>>> {
+class MultipleJsonObjectActions<M: PenicillinModel>(val first: JsonObjectApiAction<M>, private val requests: List<JsonObjectActionCallback<M>>): ApiAction<List<JsonObjectResponse<*>>> {
     override val request: ApiRequest
         get() = first.request
 

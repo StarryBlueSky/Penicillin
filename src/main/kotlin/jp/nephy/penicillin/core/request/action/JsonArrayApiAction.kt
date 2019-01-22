@@ -35,7 +35,7 @@ import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
 
-data class JsonArrayApiAction<M: PenicillinModel>(override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
+class JsonArrayApiAction<M: PenicillinModel>(override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): JsonArrayResponse<M> {
         val (request, response) = execute()
