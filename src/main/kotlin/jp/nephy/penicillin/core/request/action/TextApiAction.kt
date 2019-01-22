@@ -32,8 +32,8 @@ import kotlinx.coroutines.CancellationException
 data class TextApiAction(override val request: ApiRequest): ApiAction<TextResponse> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): TextResponse {
-        val (request, response) = execute(request)
-        val content = response.readTextSafe()
+        val (request, response) = execute()
+        val content = response.readTextOrNull()
         checkError(request, response, content)
 
         return TextResponse(request, response, content.orEmpty(), this)

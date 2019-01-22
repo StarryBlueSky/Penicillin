@@ -34,7 +34,7 @@ typealias JoinedJsonObjectActionCallback<M> = (results: List<List<JsonObjectResp
 
 // TODO
 data class JoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(
-    private val actions: List<PenicillinMultipleJsonObjectActions<M>>,
+    private val actions: List<MultipleJsonObjectActions<M>>,
     private val finalizer: JoinedJsonObjectActionCallback<T>
 ): ApiAction<JsonObjectResponse<T>> {
     override val request: ApiRequest
