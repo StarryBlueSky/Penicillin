@@ -29,7 +29,6 @@ package jp.nephy.penicillin.core.streaming
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.session
-import jp.nephy.penicillin.core.request.action.unescapeHTML
 import jp.nephy.penicillin.core.response.StreamResponse
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
@@ -64,9 +63,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(response: StreamRe
                         }
                         
                         result.response.content.toInputStream(job).bufferedReader().useLines { lines ->
-                            for (line in lines) {
-                                val content = line.trim().unescapeHTML()
-
+                            for (content in lines) {
                                 launch {
                                     when {
                                         content.startsWith("{") -> {
