@@ -33,10 +33,10 @@ import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
 
-private typealias JsonObjectActionCallback<M> = suspend (results: PenicillinMultipleJsonObjectActions.Results<M>) -> JsonObjectApiAction<*>
+private typealias JsonObjectActionCallback<M> = suspend (results: MultipleJsonObjectActions.Results<M>) -> ApiAction<*>
 
 // TODO
-data class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: JsonObjectApiAction<M>, private val requests: List<JsonObjectActionCallback<M>>): ApiAction<List<JsonObjectResponse<*>>> {
+data class MultipleJsonObjectActions<M: PenicillinModel>(val first: JsonObjectApiAction<M>, private val requests: List<JsonObjectActionCallback<M>>): ApiAction<List<JsonObjectResponse<*>>> {
     override val request: ApiRequest
         get() = first.request
 
@@ -46,8 +46,8 @@ data class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: Js
             requests.add(callback)
         }
 
-        internal fun build(): PenicillinMultipleJsonObjectActions<M> {
-            return PenicillinMultipleJsonObjectActions(first(), requests)
+        internal fun build(): MultipleJsonObjectActions<M> {
+            return MultipleJsonObjectActions(first(), requests)
         }
     }
 
@@ -57,20 +57,19 @@ data class PenicillinMultipleJsonObjectActions<M: PenicillinModel>(val first: Js
     override suspend fun await(): List<JsonObjectResponse<*>> {
         val first = first.await()
         val responses = mutableMapOf<KClass<out PenicillinModel>, MutableList<JsonObjectResponse<*>>>()
-        val responsesList = mutableListOf<JsonObjectResponse<*>>()
-        for (request in requests) {
+
+        return requests.mapNotNull { request ->
+            @Suppress("UNCHECKED_CAST")
             val result = runCatching {
-                request.invoke(Results(first, responses)).await()
-            }.getOrNull() ?: continue
+                request.invoke(Results(first, responses)).await() as? JsonObjectResponse<*>
+            }.getOrNull() ?: return@mapNotNull null
 
             responses.getOrPut(result.model) { mutableListOf() } += result
-            responsesList += result
+            result
         }
-
-        return responsesList
     }
 
-    operator fun plus(callback: JsonObjectActionCallback<M>): PenicillinMultipleJsonObjectActions<M> {
+    operator fun plus(callback: JsonObjectActionCallback<M>): MultipleJsonObjectActions<M> {
         return Builder {
             first
         }.also { builder ->

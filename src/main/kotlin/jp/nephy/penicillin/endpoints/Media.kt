@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.EndpointHost
-import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
+import jp.nephy.penicillin.core.request.action.MultipleJsonObjectActions
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.parameters.MediaCategory
@@ -54,8 +54,8 @@ class Media(override val client: PenicillinClient): Endpoint {
     }.jsonObject<Media>()
 
     private val segmentMaxSize = 5 * 1024 * 1024
-    fun uploadMedia(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): PenicillinMultipleJsonObjectActions<Media> {
-        return PenicillinMultipleJsonObjectActions.Builder {
+    fun uploadMedia(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): MultipleJsonObjectActions<Media> {
+        return MultipleJsonObjectActions.Builder {
             uploadInit(file.length(), mediaType, mediaCategory)
         }.also { builder ->
             file.inputStream().use {
@@ -73,8 +73,8 @@ class Media(override val client: PenicillinClient): Endpoint {
         }.build()
     }
 
-    fun uploadMedia(data: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): PenicillinMultipleJsonObjectActions<Media> {
-        return PenicillinMultipleJsonObjectActions.Builder {
+    fun uploadMedia(data: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): MultipleJsonObjectActions<Media> {
+        return MultipleJsonObjectActions.Builder {
             uploadInit(data.size.toLong(), mediaType, mediaCategory)
         }.also { builder ->
             data.inputStream().use {
