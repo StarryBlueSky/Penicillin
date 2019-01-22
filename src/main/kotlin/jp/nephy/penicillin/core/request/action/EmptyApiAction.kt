@@ -22,10 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+package jp.nephy.penicillin.core.request.action
 
-package jp.nephy.penicillin.models
+import jp.nephy.penicillin.core.request.ApiRequest
 
-import jp.nephy.jsonkt.JsonObject
-
-data class Empty(override val json: JsonObject): PenicillinModel
+class EmptyApiAction(override val request: ApiRequest): ApiAction<Unit> {
+    override suspend fun await() {
+        val (request, response) = execute()
+        val content = response.readTextOrNull()
+        checkError(request, response, content)
+    }
+}
