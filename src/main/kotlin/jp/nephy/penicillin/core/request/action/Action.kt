@@ -128,7 +128,7 @@ internal suspend fun HttpResponse.readTextSafe(): String? {
 
     repeat(maxRetries) {
         try {
-            return readText().trim().unescapeHTML()
+            return readText()
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
@@ -190,8 +190,4 @@ internal fun <T: PenicillinModel> JsonArray.parseSafe(model: KClass<T>, content:
         logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
         emptyList()
     }
-}
-
-internal fun String.unescapeHTML(): String {
-    return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
 }
