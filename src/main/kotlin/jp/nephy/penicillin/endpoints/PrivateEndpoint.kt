@@ -29,6 +29,7 @@ import jp.nephy.penicillin.core.emulation.EmulationMode
 /**
  * Indicates that this endpoint is used with OfficialClient and EmulationMode.
  */
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
 annotation class PrivateEndpoint(
     vararg val modes: EmulationMode
 )
