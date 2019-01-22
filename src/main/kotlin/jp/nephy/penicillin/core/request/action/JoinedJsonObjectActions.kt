@@ -33,7 +33,7 @@ import kotlinx.coroutines.CancellationException
 typealias JoinedJsonObjectActionCallback<M> = (results: List<List<JsonObjectResponse<*>>>) -> JsonObjectApiAction<M>
 
 // TODO
-data class JoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(
+class JoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(
     private val actions: List<MultipleJsonObjectActions<M>>,
     private val finalizer: JoinedJsonObjectActionCallback<T>
 ): ApiAction<JsonObjectResponse<T>> {
