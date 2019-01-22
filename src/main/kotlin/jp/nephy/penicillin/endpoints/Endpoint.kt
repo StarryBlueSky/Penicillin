@@ -29,3 +29,5 @@ import jp.nephy.penicillin.PenicillinClient
 interface Endpoint {
     val client: PenicillinClient
 }
+
+internal typealias Option = Pair<String, Any?>
