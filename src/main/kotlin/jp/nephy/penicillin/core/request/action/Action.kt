@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.core.request.action
 
 import io.ktor.client.request.HttpRequest
@@ -30,22 +32,22 @@ import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 import io.ktor.http.isSuccess
 import io.ktor.util.flattenEntries
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.JsonPrimitive
 import jp.nephy.jsonkt.delegation.byInt
 import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.jsonArrayOrNull
+import jp.nephy.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.exceptions.TwitterApiError
 import jp.nephy.penicillin.core.i18n.LocalizedString
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import mu.KotlinLogging
-import kotlin.reflect.KClass
 
-internal val logger = KotlinLogging.logger("Penicillin.ApiAction")
+private val apiActionLogger = KotlinLogging.logger("Penicillin.ApiAction")
 
-internal suspend fun ApiAction<*>.execute(request: ApiRequest): Pair<HttpRequest, HttpResponse> {
+internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
     lateinit var lastException: Throwable
 
     repeat(session.option.maxRetries) {
@@ -56,10 +58,10 @@ internal suspend fun ApiAction<*>.execute(request: ApiRequest): Pair<HttpRequest
             throw e
         } catch (e: Throwable) {
             // TEMP FIX: Set-CookieConfig header format may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
-            if (e is IllegalStateException && e.message.orEmpty().startsWith("Invalid date length.")) {
-                logger.debug(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
+            if (e is IllegalStateException && e.message?.startsWith("Invalid date length.") == true) {
+                apiActionLogger.debug(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
             } else {
-                logger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
+                apiActionLogger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
             }
 
             lastException = e
@@ -73,8 +75,8 @@ internal suspend fun ApiAction<*>.execute(request: ApiRequest): Pair<HttpRequest
     throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, cause = lastException, args = *arrayOf(request.builder.url))
 }
 
-internal fun checkError(request: HttpRequest, response: HttpResponse, content: String? = null) {
-    logger.trace {
+internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpResponse, content: String? = null) {
+    apiActionLogger.trace {
         buildString {
             appendln("${response.version} ${response.status.value} ${request.method.value} ${request.url}")
 
@@ -102,10 +104,10 @@ internal fun checkError(request: HttpRequest, response: HttpResponse, content: S
     if (response.status.isSuccess()) {
         return
     }
-    val json = content?.toJsonObjectSafe(true)
+    
+    val json = content?.toJsonObjectOrNull()
     if (json != null) {
-        val error = json.getOrNull("errors")?.jsonArrayOrNull?.firstOrNull() ?: json.getOrNull("error")
-        when (error) {
+        when (val error = json.getOrNull("errors")?.jsonArrayOrNull?.firstOrNull() ?: json.getOrNull("error")) {
             is JsonObject -> {
                 val code by error.byInt { -1 }
                 val message by error.byString { "" }
@@ -123,71 +125,8 @@ internal fun checkError(request: HttpRequest, response: HttpResponse, content: S
     throw PenicillinLocalizedException(LocalizedString.ApiReturnedNon200StatusCode, request, response, null, response.status.value, response.status.description)
 }
 
-internal suspend fun HttpResponse.readTextSafe(): String? {
-    val maxRetries = 3
-
-    repeat(maxRetries) {
-        try {
-            return readText()
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Throwable) {
-            logger.error(e) { "Failed to read text. (${it + 1}/$maxRetries)\n${call.request.url}" }
-        }
-    }
-
-    return null
-}
-
-internal fun String.toJsonObjectSafe(ignoreError: Boolean = false): JsonObject? {
-    return try {
-        toJsonObject()
-    } catch (e: CancellationException) {
-        throw e
-    } catch (e: Throwable) {
-        if (ignoreError) {
-            return jsonObjectOf()
-        }
-
-        // TODO: throws
-        logger.error(e) { LocalizedString.JsonParsingFailed.format(this) }
-        null
-    }
-}
-
-internal fun String.toJsonArraySafe(ignoreError: Boolean = false): JsonArray? {
-    return try {
-        toJsonArray()
-    } catch (e: CancellationException) {
-        throw e
-    } catch (e: Throwable) {
-        if (ignoreError) {
-            return jsonArrayOf()
-        }
-
-        logger.error(e) { LocalizedString.JsonParsingFailed.format(this) }
-        null
-    }
-}
-
-internal fun <T: PenicillinModel> JsonObject.parseSafe(model: KClass<T>, content: String?): T? {
-    return try {
-        parse(model)
-    } catch (e: CancellationException) {
-        throw e
-    } catch (e: Throwable) {
-        logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-        null
-    }
-}
-
-internal fun <T: PenicillinModel> JsonArray.parseSafe(model: KClass<T>, content: String?): List<T> {
-    return try {
-        parseList(model)
-    } catch (e: CancellationException) {
-        throw e
-    } catch (e: Throwable) {
-        logger.error(e) { LocalizedString.JsonModelCastFailed.format(model.simpleName, content) }
-        emptyList()
-    }
+internal suspend fun HttpResponse.readTextOrNull(): String? {
+    return runCatching { 
+        readText()
+    }.getOrNull()
 }

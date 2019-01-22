@@ -34,7 +34,7 @@ import kotlinx.coroutines.CancellationException
 data class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(override val request: ApiRequest): ApiAction<StreamResponse<L, H>> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): StreamResponse<L, H> {
-        val (request, response) = execute(request)
+        val (request, response) = execute()
         checkError(request, response)
 
         return StreamResponse(request, response, this)

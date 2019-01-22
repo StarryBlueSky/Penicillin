@@ -26,11 +26,11 @@
 
 package jp.nephy.penicillin.extensions.models
 
-import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
+import jp.nephy.penicillin.core.request.action.MultipleJsonObjectActions
 import jp.nephy.penicillin.core.response.JsonObjectResponse
 import jp.nephy.penicillin.models.PenicillinModel
 
 @Suppress("UNCHECKED_CAST")
-inline fun <reified T: PenicillinModel> PenicillinMultipleJsonObjectActions.Results<T>.responses(): List<JsonObjectResponse<T>> {
+inline fun <reified T: PenicillinModel> MultipleJsonObjectActions.Results<T>.responses(): List<JsonObjectResponse<T>> {
     return responses[T::class].orEmpty().map { it as JsonObjectResponse<T> }
 }

@@ -24,6 +24,8 @@
 
 package jp.nephy.penicillin.core.request.action
 
+import jp.nephy.jsonkt.parseListOrNull
+import jp.nephy.jsonkt.toJsonArrayOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
@@ -36,14 +38,16 @@ import kotlin.reflect.KClass
 data class JsonArrayApiAction<M: PenicillinModel>(override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): JsonArrayResponse<M> {
-        val (request, response) = execute(request)
-        val content = response.readTextSafe()
+        val (request, response) = execute()
+        val content = response.readTextOrNull()
         checkError(request, response, content)
 
-        val json = content?.toJsonArraySafe() ?: throw PenicillinLocalizedException(
+        val json = content?.toJsonArrayOrNull() ?: throw PenicillinLocalizedException(
             LocalizedString.JsonParsingFailed, request, response, null, content
         )
-        val results = json.parseSafe(model, content)
+        val results = json.parseListOrNull(model) ?: throw PenicillinLocalizedException(
+            LocalizedString.JsonModelCastFailed, request, response, null, model.simpleName, content
+        )
 
         return JsonArrayResponse(model, results, request, response, content, this)
     }
