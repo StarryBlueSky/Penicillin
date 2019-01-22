@@ -28,6 +28,7 @@ package jp.nephy.penicillin.core.streaming
 
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.i18n.LocalizedString
+import jp.nephy.penicillin.core.request.action.session
 import jp.nephy.penicillin.core.request.action.unescapeHTML
 import jp.nephy.penicillin.core.response.StreamResponse
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
