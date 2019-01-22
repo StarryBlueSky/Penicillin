@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
+import jp.nephy.penicillin.core.request.action.MultipleJsonObjectActions
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.parameters.MediaType
@@ -115,7 +115,7 @@ class Account(override val client: PenicillinClient): Endpoint {
 
     fun updateProfileBackgroundImage(
         data: ByteArray, mediaType: MediaType, tile: Boolean? = null, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>
-    ): PenicillinMultipleJsonObjectActions<Media> {
+    ): MultipleJsonObjectActions<Media> {
         return client.media.uploadMedia(data, mediaType) + { results ->
             client.session.post("/1.1/account/update_profile_background_image.json") {
                 body {

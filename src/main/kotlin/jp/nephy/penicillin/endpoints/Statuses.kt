@@ -33,7 +33,7 @@ import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JoinedJsonObjectActions
-import jp.nephy.penicillin.core.request.action.PenicillinMultipleJsonObjectActions
+import jp.nephy.penicillin.core.request.action.MultipleJsonObjectActions
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
@@ -226,8 +226,8 @@ class Statuses(override val client: PenicillinClient): Endpoint {
     }
 
     @PrivateEndpoint(EmulationMode.TwitterForiPhone)
-    fun createPollTweet(status: String, choices: List<String>, minutes: Int = 1440, vararg options: Pair<String, Any?>): PenicillinMultipleJsonObjectActions<Card> {
-        return PenicillinMultipleJsonObjectActions.Builder {
+    fun createPollTweet(status: String, choices: List<String>, minutes: Int = 1440, vararg options: Pair<String, Any?>): MultipleJsonObjectActions<Card> {
+        return MultipleJsonObjectActions.Builder {
             client.cards.create(
                 cardData = linkedMapOf<String, Any>().apply {
                     choices.forEachIndexed { i, choice ->
