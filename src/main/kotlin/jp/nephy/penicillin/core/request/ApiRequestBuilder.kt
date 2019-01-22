@@ -47,11 +47,9 @@ import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import mu.KotlinLogging
 import kotlin.collections.set
 
-class ApiRequestBuilder(private val session: Session, private val httpMethod: HttpMethod, private val host: EndpointHost, private val path: String) {
-    companion object {
-        private val logger = KotlinLogging.logger("Penicillin.RequestBuilder")
-    }
+private val apiRequestBuilderLogger = KotlinLogging.logger("Penicillin.RequestBuilder")
 
+class ApiRequestBuilder(private val session: Session, private val httpMethod: HttpMethod, private val host: EndpointHost, private val path: String) {
     private var headers = HeadersBuilder()
     
     @Suppress("MemberVisibilityCanBePrivate")
@@ -174,7 +172,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
         val javaClass = javaClass.classLoader.loadClass(trace.className)
         val method = javaClass.methods.find { it.name == trace.methodName } ?: return
 
-        logger.trace { "Endpoint: ${javaClass.simpleName}#${method.name}" }
+        apiRequestBuilderLogger.trace { "Endpoint: ${javaClass.simpleName}#${method.name}" }
         val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
         if (session.option.emulationMode == EmulationMode.None || (annotation.modes.isNotEmpty() && session.option.emulationMode !in annotation.modes)) {
             throw PenicillinLocalizedException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
