@@ -29,8 +29,9 @@ import jp.nephy.penicillin.core.session.Session
 
 interface ApiAction<R: Any> {
     val request: ApiRequest
-    val session: Session
-        get() = request.session
 
     suspend fun await(): R
 }
+
+val ApiAction<*>.session: Session
+    get() = request.session
