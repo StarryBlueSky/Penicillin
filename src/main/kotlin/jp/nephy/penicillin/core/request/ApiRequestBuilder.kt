@@ -176,7 +176,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
 
         logger.trace { "Endpoint: ${javaClass.simpleName}#${method.name}" }
         val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
-        if (session.option.emulationMode == EmulationMode.None || (annotation.mode.isNotEmpty() && session.option.emulationMode !in annotation.mode)) {
+        if (session.option.emulationMode == EmulationMode.None || (annotation.modes.isNotEmpty() && session.option.emulationMode !in annotation.modes)) {
             throw PenicillinLocalizedException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
         }
     }
