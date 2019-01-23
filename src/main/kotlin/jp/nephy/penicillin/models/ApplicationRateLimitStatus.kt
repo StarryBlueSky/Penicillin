@@ -34,6 +34,8 @@ import jp.nephy.jsonkt.delegation.model
 data class ApplicationRateLimitStatus(override val json: JsonObject): PenicillinModel {
     val content by jsonObject("rate_limit_content")
     val accessToken by content.byNullableString("access_token")
-    val application by content.jsonObject.byNullableString
+    val application by content.byNullableString
     val resources by model<Resources>()
+
+    data class Resources(override val json: JsonObject): PenicillinModel
 }

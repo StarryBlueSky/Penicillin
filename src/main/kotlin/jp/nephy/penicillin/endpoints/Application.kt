@@ -27,14 +27,23 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.models.ApplicationRateLimitStatus
 
+/**
+ * Returns [Application] endpoint instance.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/overview)
+ *
+ * @return New [Application] endpoint instance.
+ * @receiver Current [PenicillinClient] instance.
+ */
 val PenicillinClient.application: Application
     get() = Application(this)
 
-class Application(override val client: PenicillinClient): Endpoint {
-    fun getRateLimitStatus(resources: List<String>? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/application/rate_limit_status.json") {
-        parameter("resources" to resources?.joinToString(","), *options)
-    }.jsonObject<ApplicationRateLimitStatus>()
-}
+/**
+ * Collection of api endpoints related to application rate limits.
+ *
+ * @constructor Creates new [Application] endpoint instance.
+ * @param client Current [PenicillinClient] instance.
+ * @see PenicillinClient.application
+ */
+class Application(override val client: PenicillinClient): Endpoint
