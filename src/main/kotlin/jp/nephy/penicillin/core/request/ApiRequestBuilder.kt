@@ -30,12 +30,11 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.url
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
-import io.ktor.util.InternalAPI
 import io.ktor.util.appendAll
-import io.ktor.util.encodeBase64
 import io.ktor.util.flattenForEach
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.auth.OAuthUtil
+import jp.nephy.penicillin.core.auth.encodeBase64
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.emulation.Tweetdeck
 import jp.nephy.penicillin.core.emulation.Twitter4iPhone
@@ -131,8 +130,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
             it.body = body
         }
     }
-
-    @UseExperimental(InternalAPI::class)
+    
     private fun signRequest() {
         val signature = when (authorizationType) {
             AuthorizationType.OAuth1a -> {
@@ -160,7 +158,7 @@ class ApiRequestBuilder(private val session: Session, private val httpMethod: Ht
 
         headers[HttpHeaders.Authorization] = signature
     }
-
+    
     private fun checkEmulation() {
         if (session.option.skipEmulationChecking) {
             return
