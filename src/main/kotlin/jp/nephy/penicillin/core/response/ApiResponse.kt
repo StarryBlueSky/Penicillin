@@ -26,12 +26,12 @@ package jp.nephy.penicillin.core.response
 
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.action.ApiAction
+import jp.nephy.penicillin.core.session.ApiClient
 import kotlinx.io.core.Closeable
 
 interface ApiResponse<R: Any>: Closeable {
-    val client: PenicillinClient
+    val client: ApiClient
     val request: HttpRequest
     val response: HttpResponse
     val action: ApiAction<R>

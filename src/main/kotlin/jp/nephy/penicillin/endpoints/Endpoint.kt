@@ -24,11 +24,11 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.session.ApiClient
 
 interface Endpoint {
-    val client: PenicillinClient
+    val client: ApiClient
 }
 
 internal typealias Option = Pair<String, Any?>
@@ -39,7 +39,6 @@ internal typealias Option = Pair<String, Any?>
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
 @MustBeDocumented
-@Experimental(level = Experimental.Level.WARNING)
 annotation class PrivateEndpoint(
     vararg val modes: EmulationMode
 )

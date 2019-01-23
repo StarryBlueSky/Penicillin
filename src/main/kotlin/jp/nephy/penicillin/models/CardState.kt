@@ -30,9 +30,9 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.get
 import jp.nephy.jsonkt.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class CardState(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class CardState(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     private val card by jsonObject
     val name by card.byString
     val url by card.byString
@@ -40,7 +40,7 @@ data class CardState(override val json: JsonObject, override val client: Penicil
     val cardPlatform by card.byModel<Platform>(null, client)
     val data by card.byModel<Data>("binding_values", client)
 
-    data class Platform(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Platform(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         private val platform by jsonObject
         private val device by platform.byJsonObject
         private val audience by platform.byJsonObject
@@ -50,7 +50,7 @@ data class CardState(override val json: JsonObject, override val client: Penicil
         val audienceBucket by audience.byNullableString("bucket")
     }
 
-    data class Data(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Data(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val choices: Map<String, Int>
             get() = (1..5).filter { json.contains("choice${it}_label") }.map {
                 json["choice${it}_label"]["string_value"].string to if (json.contains("choice${it}_count")) {

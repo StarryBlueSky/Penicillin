@@ -28,10 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
 object Account {
-    data class Settings(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Settings(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val addressBookLiveSyncEnabled by boolean("address_book_live_sync_enabled")
         val allowAdsPersonalization by boolean("allow_ads_personalization")
         val allowAuthenticatedPeriscopeRequests by boolean("allow_authenticated_periscope_requests")
@@ -66,26 +67,26 @@ object Account {
         val universalQualityFilteringEnabled by string("universal_quality_filtering_enabled")
         val useCookiePersonalization by boolean("use_cookie_personalization")
 
-        data class SettingMetadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
+        data class SettingMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 
-        data class SleepTime(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class SleepTime(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val enabled by boolean
             val startTime by nullableLong("start_time")
             val endTime by nullableLong("end_time")
         }
 
-        data class TimeZone(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class TimeZone(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val name by string
             val utcOffset by int("utc_offset")
             val tzinfoName by string("tzinfo_name")
         }
     }
 
-    data class VerifyCredentials(val parentJson: JsonObject, override val client: PenicillinClient): CommonUser(parentJson, client) {
+    data class VerifyCredentials(val parentJson: JsonObject, override val client: ApiClient): CommonUser(parentJson, client) {
         val email by string
         val phone by penicillinModel<Phone>()
 
-        data class Phone(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class Phone(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val address by nullableString
             val addressForSms by nullableString("address_for_sms")
             val carrier by nullableString

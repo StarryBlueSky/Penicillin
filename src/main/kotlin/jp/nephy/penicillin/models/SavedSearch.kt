@@ -29,9 +29,9 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.long
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class SavedSearch(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class SavedSearch(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     // val createdAt by string("created_at")
     val id by long
     val idStr by string("id_str")

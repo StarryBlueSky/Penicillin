@@ -27,13 +27,13 @@
 package jp.nephy.penicillin.extensions.models.builder
 
 import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
+import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.UserStream
-import jp.nephy.penicillin.models.parsePenicillinModel
 import java.util.*
 
-class CustomStatusEventBuilder(private val client: PenicillinClient, type: UserStreamEvent): JsonBuilder<UserStream.StatusEvent> {
+class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<UserStream.StatusEvent> {
     override var json = jsonObjectOf(
             "event" to type.key,
             "source" to null,
@@ -42,17 +42,17 @@ class CustomStatusEventBuilder(private val client: PenicillinClient, type: UserS
             "created_at" to null
     )
 
-    private var source = CustomUserBuilder(client)
+    private var source = CustomUserBuilder()
     fun source(builder: CustomUserBuilder.() -> Unit) {
         source.apply(builder)
     }
 
-    private var target = CustomUserBuilder(client)
+    private var target = CustomUserBuilder()
     fun target(builder: CustomUserBuilder.() -> Unit) {
         target.apply(builder)
     }
 
-    private var targetObject = CustomStatusBuilder(client)
+    private var targetObject = CustomStatusBuilder()
     fun targetObject(builder: CustomStatusBuilder.() -> Unit) {
         targetObject.apply(builder)
     }
@@ -62,6 +62,7 @@ class CustomStatusEventBuilder(private val client: PenicillinClient, type: UserS
         createdAt = date
     }
 
+    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): UserStream.StatusEvent {
         val source = source.build()
         val target = target.build()
@@ -74,6 +75,6 @@ class CustomStatusEventBuilder(private val client: PenicillinClient, type: UserS
             it["created_at"] = createdAt.toCreatedAt()
         }
 
-        return client.parsePenicillinModel(json)
+        return json.parseModel()
     }
 }

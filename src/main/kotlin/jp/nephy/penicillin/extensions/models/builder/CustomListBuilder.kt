@@ -27,12 +27,12 @@
 package jp.nephy.penicillin.extensions.models.builder
 
 import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
+import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.TwitterList
-import jp.nephy.penicillin.models.parsePenicillinModel
 import java.util.*
 
-class CustomListBuilder(private val client: PenicillinClient): JsonBuilder<TwitterList> {
+class CustomListBuilder: JsonBuilder<TwitterList> {
     override var json = jsonObjectOf(
             "created_at" to null,
             "description" to "Tweetstorm",
@@ -81,6 +81,7 @@ class CustomListBuilder(private val client: PenicillinClient): JsonBuilder<Twitt
         subscriberCount = subscriber
     }
 
+    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): TwitterList {
         val id = generateId()
         
@@ -102,6 +103,6 @@ class CustomListBuilder(private val client: PenicillinClient): JsonBuilder<Twitt
             it["id_str"] = id.toString()
         }
 
-        return client.parsePenicillinModel(json)
+        return json.parseModel()
     }
 }

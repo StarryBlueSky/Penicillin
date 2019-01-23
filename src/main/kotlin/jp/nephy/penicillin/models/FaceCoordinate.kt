@@ -28,9 +28,9 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.int
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class FaceCoordinate(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class FaceCoordinate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val x by int
     val y by int
     val h by int

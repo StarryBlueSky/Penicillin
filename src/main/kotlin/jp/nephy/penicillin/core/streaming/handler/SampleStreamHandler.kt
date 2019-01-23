@@ -25,21 +25,21 @@
 package jp.nephy.penicillin.core.streaming.handler
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.listener.SampleStreamListener
-import jp.nephy.penicillin.models.parsePenicillinModel
+import jp.nephy.penicillin.extensions.parseModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class SampleStreamHandler(override val client: PenicillinClient, override val listener: SampleStreamListener): StreamHandler<SampleStreamListener> {
+class SampleStreamHandler(override val client: ApiClient, override val listener: SampleStreamListener): StreamHandler<SampleStreamListener> {
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
         scope.launch {
             when {
                 "text" in json -> {
-                    listener.onStatus(client.parsePenicillinModel(json))
+                    listener.onStatus(json.parseModel(client))
                 }
                 "delete" in json -> {
-                    listener.onDelete(client.parsePenicillinModel(json))
+                    listener.onDelete(json.parseModel(client))
                 }
                 else -> {
                     listener.onUnhandledJson(json)

@@ -22,11 +22,21 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+package jp.nephy.penicillin.core.session
 
-package jp.nephy.penicillin.models
+import kotlinx.io.core.Closeable
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+/**
+ * Penicillin Api Endpoints controller.
+ */
+interface ApiClient: Closeable {
+    /**
+     * The [Session] instance.
+     */
+    val session: Session
 
-data class Resources(override val json: JsonObject): PenicillinModel
+    /**
+     * Closes [Session] instance.
+     */
+    override fun close()
+}

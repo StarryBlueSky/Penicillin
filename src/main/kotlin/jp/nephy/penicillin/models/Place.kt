@@ -28,9 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class Place(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class Place(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val attributes by penicillinModel<Attribute>()
     val boundingBox by penicillinModel<BoundingBox>("bounding_box")
     val centroid by floatList
@@ -45,7 +47,7 @@ data class Place(override val json: JsonObject, override val client: PenicillinC
     val polylines by jsonArray // []
     val url by string
 
-    data class Attribute(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Attribute(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val streetAddress by nullableString("street_address")
         val locality by nullableString
         val region by nullableString
@@ -58,7 +60,7 @@ data class Place(override val json: JsonObject, override val client: PenicillinC
         val geotagCount by nullableString
     }
 
-    data class BoundingBox(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class BoundingBox(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val type by string
         val coordinates by jsonArray
         // [

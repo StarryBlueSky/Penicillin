@@ -26,37 +26,37 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.parameters.ListCreationMode
 import jp.nephy.penicillin.models.*
 
-val PenicillinClient.lists: Lists
+val ApiClient.lists: Lists
     get() = Lists(this)
 
-class Lists(override val client: PenicillinClient): Endpoint {
-    fun show(listId: Long, vararg options: Pair<String, Any?>)  = client.session.get("/1.1/lists/show.json") {
+class Lists(override val client: ApiClient): Endpoint {
+    fun show(listId: Long, vararg options: Option)  = client.session.get("/1.1/lists/show.json") {
         parameter("list_id" to listId,  *options)
     }.jsonObject<TwitterList>()
 
-    fun show(slug: String, ownerScreenName: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/show.json") {
+    fun show(slug: String, ownerScreenName: String, vararg options: Option) = client.session.get("/1.1/lists/show.json") {
         parameter("slug" to slug, "owner_screen_name" to ownerScreenName, *options)
     }.jsonObject<TwitterList>()
 
-    fun show(slug: String, ownerId: Long, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/show.json") {
+    fun show(slug: String, ownerId: Long, vararg options: Option) = client.session.get("/1.1/lists/show.json") {
         parameter("slug" to slug, "owner_id" to ownerId, *options)
     }.jsonObject<TwitterList>()
 
-    fun list(reverse: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/list.json") {
+    fun list(reverse: Boolean? = null, vararg options: Option) = client.session.get("/1.1/lists/list.json") {
         parameter("reverse" to reverse, *options)
     }.jsonArray<TwitterList>()
 
-    fun list(userId: Long, reverse: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/list.json") {
+    fun list(userId: Long, reverse: Boolean? = null, vararg options: Option) = client.session.get("/1.1/lists/list.json") {
         parameter("user_id" to userId, "reverse" to reverse, *options)
     }.jsonArray<TwitterList>()
 
-    fun list(screenName: String, reverse: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/list.json") {
+    fun list(screenName: String, reverse: Boolean? = null, vararg options: Option) = client.session.get("/1.1/lists/list.json") {
         parameter("screen_name" to screenName, "reverse" to reverse, *options)
     }.jsonArray<TwitterList>()
 
@@ -69,7 +69,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         includeRTs: Boolean? = null,
         tweetMode: String? = null,
         includeMyRetweet: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/lists/statuses.json") {
         parameter(
             "list_id" to listId,
@@ -94,7 +94,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             includeRTs: Boolean? = null,
             tweetMode: String? = null,
             includeMyRetweet: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/statuses.json") {
         parameter(
                 "slug" to slug,
@@ -120,7 +120,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             includeRTs: Boolean? = null,
             tweetMode: String? = null,
             includeMyRetweet: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/statuses.json") {
         parameter(
                 "slug" to slug,
@@ -141,7 +141,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         count: Int? = null,
         includeEntities: Boolean? = null,
         skipStatus: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/lists/members.json") {
         parameter(
             "list_id" to listId,
@@ -158,7 +158,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             count: Int? = null,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/members.json") {
         parameter(
                 "slug" to slug,
@@ -176,7 +176,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             count: Int? = null,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/members.json") {
         parameter(
                 "slug" to slug,
@@ -193,7 +193,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         count: Int? = null,
         includeEntities: Boolean? = null,
         skipStatus: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/lists/subscribers.json") {
         parameter(
             "list_id" to listId,
@@ -210,7 +210,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             count: Int? = null,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/subscribers.json") {
         parameter(
                 "slug" to slug,
@@ -228,7 +228,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             count: Int? = null,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/subscribers.json") {
         parameter(
                 "slug" to slug,
@@ -240,46 +240,46 @@ class Lists(override val client: PenicillinClient): Endpoint {
         )
     }.cursorJsonObject<CursorUsers>()
 
-    fun ownerships(count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/ownerships.json") {
+    fun ownerships(count: Int? = null, vararg options: Option) = client.session.get("/1.1/lists/ownerships.json") {
         parameter("count" to count, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun ownerships(userId: Long, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/ownerships.json") {
+    fun ownerships(userId: Long, count: Int? = null, vararg options: Option) = client.session.get("/1.1/lists/ownerships.json") {
         parameter("user_id" to userId, "count" to count, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun ownerships(screenName: String, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/ownerships.json") {
+    fun ownerships(screenName: String, count: Int? = null, vararg options: Option) = client.session.get("/1.1/lists/ownerships.json") {
         parameter("screen_name" to screenName, "count" to count, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun memberships(count: Int? = null, filterToOwnedLists: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun memberships(count: Int? = null, filterToOwnedLists: Boolean? = null, vararg options: Option) =
     client.session.get("/1.1/lists/memberships.json") {
         parameter("count" to count, "filter_to_owned_lists" to filterToOwnedLists, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun memberships(userId: Long, count: Int? = null, filterToOwnedLists: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun memberships(userId: Long, count: Int? = null, filterToOwnedLists: Boolean? = null, vararg options: Option) =
     client.session.get("/1.1/lists/memberships.json") {
         parameter("user_id" to userId, "count" to count, "filter_to_owned_lists" to filterToOwnedLists, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun memberships(screenName: String, count: Int? = null, filterToOwnedLists: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun memberships(screenName: String, count: Int? = null, filterToOwnedLists: Boolean? = null, vararg options: Option) =
     client.session.get("/1.1/lists/memberships.json") {
         parameter("screen_name" to screenName, "count" to count, "filter_to_owned_lists" to filterToOwnedLists, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun subscriptions(count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/subscriptions.json") {
+    fun subscriptions(count: Int? = null, vararg options: Option) = client.session.get("/1.1/lists/subscriptions.json") {
         parameter("count" to count, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun subscriptions(userId: Long, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/subscriptions.json") {
+    fun subscriptions(userId: Long, count: Int? = null, vararg options: Option) = client.session.get("/1.1/lists/subscriptions.json") {
         parameter("user_id" to userId, "count" to count, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun subscriptions(screenName: String, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/lists/subscriptions.json") {
+    fun subscriptions(screenName: String, count: Int? = null, vararg options: Option) = client.session.get("/1.1/lists/subscriptions.json") {
         parameter("screen_name" to screenName, "count" to count, *options)
     }.cursorJsonObject<CursorLists>()
 
-    fun member(listId: Long, userId: Long, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun member(listId: Long, userId: Long, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Option) =
     client.session.get("/1.1/lists/members/show.json") {
         parameter(
             "list_id" to listId,
@@ -295,7 +295,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             screenName: String,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/members/show.json") {
         parameter(
             "list_id" to listId,
@@ -312,7 +312,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             ownerScreenName: String,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/members/show.json") {
         parameter(
             "slug" to slug,
@@ -330,7 +330,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             ownerId: Long,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/members/show.json") {
         parameter(
             "slug" to slug,
@@ -348,7 +348,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             ownerScreenName: String,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/members/show.json") {
         parameter(
             "slug" to slug,
@@ -366,7 +366,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             ownerId: Long,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/members/show.json") {
         parameter(
             "slug" to slug,
@@ -378,7 +378,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         )
     }.jsonObject<User>()
 
-    fun subscriber(listId: Long, userId: Long, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun subscriber(listId: Long, userId: Long, includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Option) =
     client.session.get("/1.1/lists/subscribers/show.json") {
         parameter(
             "list_id" to listId,
@@ -394,7 +394,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         screenName: String,
         includeEntities: Boolean? = null,
         skipStatus: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/lists/subscribers/show.json") {
         parameter(
             "list_id" to listId,
@@ -411,7 +411,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         ownerScreenName: String,
         includeEntities: Boolean? = null,
         skipStatus: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/lists/subscribers/show.json") {
         parameter(
             "slug" to slug,
@@ -429,7 +429,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             ownerId: Long,
             includeEntities: Boolean? = null,
             skipStatus: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/lists/subscribers/show.json") {
         parameter(
                 "slug" to slug,
@@ -447,7 +447,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         ownerScreenName: String,
         includeEntities: Boolean? = null,
         skipStatus: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/lists/subscribers/show.json") {
         parameter(
             "slug" to slug,
@@ -465,7 +465,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         ownerId: Long,
         includeEntities: Boolean? = null,
         skipStatus: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/lists/subscribers/show.json") {
         parameter(
             "slug" to slug,
@@ -477,7 +477,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         )
     }.jsonObject<User>()
 
-    fun create(name: String, mode: ListCreationMode? = null, description: String? = null, vararg options: Pair<String, Any?>) =
+    fun create(name: String, mode: ListCreationMode? = null, description: String? = null, vararg options: Option) =
     client.session.post("/1.1/lists/create.json") {
         body {
             form {
@@ -486,7 +486,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<TwitterList>()
 
-    fun destroy(listId: Long, vararg options: Pair<String, Any?>) =
+    fun destroy(listId: Long, vararg options: Option) =
     client.session.post("/1.1/lists/destroy.json") {
         body {
             form {
@@ -495,7 +495,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<TwitterList>()
 
-    fun destroy(ownerScreenName: String, slug: String? = null, vararg options: Pair<String, Any?>) =
+    fun destroy(ownerScreenName: String, slug: String? = null, vararg options: Option) =
     client.session.post("/1.1/lists/destroy.json") {
         body {
             form {
@@ -504,7 +504,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<TwitterList>()
 
-    fun destroy(ownerId: Long, slug: String? = null, vararg options: Pair<String, Any?>) =
+    fun destroy(ownerId: Long, slug: String? = null, vararg options: Option) =
     client.session.post("/1.1/lists/destroy.json") {
         body {
             form {
@@ -518,7 +518,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         name: String? = null,
         mode: ListCreationMode? = null,
         description: String? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.post("/1.1/lists/update.json") {
         body {
             form {
@@ -533,7 +533,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         mode: ListCreationMode? = null,
         description: String? = null,
         ownerScreenName: String,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.post("/1.1/lists/update.json") {
         body {
             form {
@@ -548,7 +548,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         mode: ListCreationMode? = null,
         description: String? = null,
         ownerId: Long,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.post("/1.1/lists/update.json") {
         body {
             form {
@@ -557,7 +557,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun addMember(listId: Long, userId: Long, vararg options: Pair<String, Any?>) =
+    fun addMember(listId: Long, userId: Long, vararg options: Option) =
     client.session.post("/1.1/lists/members/create.json") {
         body {
             form {
@@ -566,7 +566,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun addMember(listId: Long, screenName: String, vararg options: Pair<String, Any?>) =
+    fun addMember(listId: Long, screenName: String, vararg options: Option) =
     client.session.post("/1.1/lists/members/create.json") {
         body {
             form {
@@ -576,7 +576,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun addMember(
-        slug: String, userId: Long, ownerScreenName: String, vararg options: Pair<String, Any?>
+        slug: String, userId: Long, ownerScreenName: String, vararg options: Option
     ) = client.session.post("/1.1/lists/members/create.json") {
         body {
             form {
@@ -586,7 +586,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun addMember(
-        slug: String, userId: Long, ownerId: Long, vararg options: Pair<String, Any?>
+        slug: String, userId: Long, ownerId: Long, vararg options: Option
     ) = client.session.post("/1.1/lists/members/create.json") {
         body {
             form {
@@ -596,7 +596,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun addMember(
-        slug: String, screenName: String, ownerScreenName: String, vararg options: Pair<String, Any?>
+        slug: String, screenName: String, ownerScreenName: String, vararg options: Option
     ) = client.session.post("/1.1/lists/members/create.json") {
         body {
             form {
@@ -606,7 +606,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun addMember(
-        slug: String, screenName: String, ownerId: Long, vararg options: Pair<String, Any?>
+        slug: String, screenName: String, ownerId: Long, vararg options: Option
     ) = client.session.post("/1.1/lists/members/create.json") {
         body {
             form {
@@ -615,7 +615,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun addMembersByIds(listId: Long, userIds: List<Long>, vararg options: Pair<String, Any?>) =
+    fun addMembersByIds(listId: Long, userIds: List<Long>, vararg options: Option) =
         client.session.post("/1.1/lists/members/create_all.json") {
             body {
                 form {
@@ -624,7 +624,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             }
         }.empty()
 
-    fun addMembersByScreenName(listId: Long, screenNames: List<String>, vararg options: Pair<String, Any?>) =
+    fun addMembersByScreenName(listId: Long, screenNames: List<String>, vararg options: Option) =
         client.session.post("/1.1/lists/members/create_all.json") {
             body {
                 form {
@@ -634,7 +634,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }.empty()
 
     fun addMembersByIds(
-            slug: String, userIds: List<Long>, ownerScreenName: String, vararg options: Pair<String, Any?>
+            slug: String, userIds: List<Long>, ownerScreenName: String, vararg options: Option
     ) = client.session.post("/1.1/lists/members/create_all.json") {
         body {
             form {
@@ -644,7 +644,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun addMembersByIds(
-            slug: String, userIds: List<Long>, ownerId: Long, vararg options: Pair<String, Any?>
+            slug: String, userIds: List<Long>, ownerId: Long, vararg options: Option
     ) = client.session.post("/1.1/lists/members/create_all.json") {
         body {
             form {
@@ -654,7 +654,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun addMembersByScreenName(
-            slug: String, screenNames: List<String>, ownerScreenName: String, vararg options: Pair<String, Any?>
+            slug: String, screenNames: List<String>, ownerScreenName: String, vararg options: Option
     ) = client.session.post("/1.1/lists/members/create_all.json") {
         body {
             form {
@@ -664,7 +664,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun addMembersByScreenName(
-            slug: String, screenNames: List<String>, ownerId: Long, vararg options: Pair<String, Any?>
+            slug: String, screenNames: List<String>, ownerId: Long, vararg options: Option
     ) = client.session.post("/1.1/lists/members/create_all.json") {
         body {
             form {
@@ -673,7 +673,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun removeMember(listId: Long, userId: Long, vararg options: Pair<String, Any?>) =
+    fun removeMember(listId: Long, userId: Long, vararg options: Option) =
         client.session.post("/1.1/lists/members/destroy.json") {
             body {
                 form {
@@ -682,7 +682,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             }
         }.empty()
 
-    fun removeMember(listId: Long, screenName: String, vararg options: Pair<String, Any?>) =
+    fun removeMember(listId: Long, screenName: String, vararg options: Option) =
         client.session.post("/1.1/lists/members/destroy.json") {
             body {
                 form {
@@ -692,7 +692,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }.empty()
 
     fun removeMember(
-            slug: String, userId: Long, ownerScreenName: String, vararg options: Pair<String, Any?>
+            slug: String, userId: Long, ownerScreenName: String, vararg options: Option
     ) = client.session.post("/1.1/lists/members/destroy.json") {
         body {
             form {
@@ -702,7 +702,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun removeMember(
-            slug: String, userId: Long, ownerId: Long, vararg options: Pair<String, Any?>
+            slug: String, userId: Long, ownerId: Long, vararg options: Option
     ) = client.session.post("/1.1/lists/members/destroy.json") {
         body {
             form {
@@ -712,7 +712,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun removeMember(
-            slug: String, screenName: String, ownerScreenName: String, vararg options: Pair<String, Any?>
+            slug: String, screenName: String, ownerScreenName: String, vararg options: Option
     ) = client.session.post("/1.1/lists/members/destroy.json") {
         body {
             form {
@@ -722,7 +722,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun removeMember(
-            slug: String, screenName: String, ownerId: Long, vararg options: Pair<String, Any?>
+            slug: String, screenName: String, ownerId: Long, vararg options: Option
     ) = client.session.post("/1.1/lists/members/destroy.json") {
         body {
             form {
@@ -731,7 +731,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun removeMembersByIds(listId: Long, userIds: List<Long>, vararg options: Pair<String, Any?>) =
+    fun removeMembersByIds(listId: Long, userIds: List<Long>, vararg options: Option) =
         client.session.post("/1.1/lists/members/destroy_all.json") {
             body {
                 form {
@@ -740,7 +740,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             }
         }.empty()
 
-    fun removeMembersByScreenName(listId: Long, screenNames: List<String>, vararg options: Pair<String, Any?>) =
+    fun removeMembersByScreenName(listId: Long, screenNames: List<String>, vararg options: Option) =
         client.session.post("/1.1/lists/members/destroy_all.json") {
             body {
                 form {
@@ -750,7 +750,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }.empty()
 
     fun removeMembersByIds(
-            slug: String, userIds: List<Long>, ownerScreenName: String, vararg options: Pair<String, Any?>
+            slug: String, userIds: List<Long>, ownerScreenName: String, vararg options: Option
     ) = client.session.post("/1.1/lists/members/destroy_all.json") {
         body {
             form {
@@ -760,7 +760,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun removeMembersByIds(
-            slug: String, userIds: List<Long>, ownerId: Long, vararg options: Pair<String, Any?>
+            slug: String, userIds: List<Long>, ownerId: Long, vararg options: Option
     ) = client.session.post("/1.1/lists/members/destroy_all.json") {
         body {
             form {
@@ -770,7 +770,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun removeMembersByScreenName(
-            slug: String, screenNames: List<String>, ownerScreenName: String, vararg options: Pair<String, Any?>
+            slug: String, screenNames: List<String>, ownerScreenName: String, vararg options: Option
     ) = client.session.post("/1.1/lists/members/destroy_all.json") {
         body {
             form {
@@ -780,7 +780,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
     }.empty()
 
     fun removeMembersByScreenName(
-            slug: String, screenNames: List<String>, ownerId: Long, vararg options: Pair<String, Any?>
+            slug: String, screenNames: List<String>, ownerId: Long, vararg options: Option
     ) = client.session.post("/1.1/lists/members/destroy_all.json") {
         body {
             form {
@@ -789,7 +789,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun subscribe(listId: Long, vararg options: Pair<String, Any?>) =
+    fun subscribe(listId: Long, vararg options: Option) =
         client.session.post("/1.1/lists/subscribers/create.json") {
             body {
                 form {
@@ -798,7 +798,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             }
         }.jsonObject<TwitterList>()
 
-    fun subscribe(ownerScreenName: String, slug: String, vararg options: Pair<String, Any?>) =
+    fun subscribe(ownerScreenName: String, slug: String, vararg options: Option) =
         client.session.post("/1.1/lists/subscribers/create.json") {
             body {
                 form {
@@ -807,7 +807,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             }
         }.jsonObject<TwitterList>()
 
-    fun subscribe(ownerId: Long, slug: String, vararg options: Pair<String, Any?>) =
+    fun subscribe(ownerId: Long, slug: String, vararg options: Option) =
         client.session.post("/1.1/lists/subscribers/create.json") {
             body {
                 form {
@@ -816,7 +816,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             }
         }.jsonObject<TwitterList>()
 
-    fun unsubscribe(listId: Long, vararg options: Pair<String, Any?>) =
+    fun unsubscribe(listId: Long, vararg options: Option) =
         client.session.post("/1.1/lists/subscribers/destroy.json") {
             body {
                 form {
@@ -825,7 +825,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             }
         }.empty()
 
-    fun unsubscribe(slug: String, ownerScreenName: String, vararg options: Pair<String, Any?>) =
+    fun unsubscribe(slug: String, ownerScreenName: String, vararg options: Option) =
         client.session.post("/1.1/lists/subscribers/destroy.json") {
             body {
                 form {
@@ -834,7 +834,7 @@ class Lists(override val client: PenicillinClient): Endpoint {
             }
         }.empty()
 
-    fun unsubscribe(slug: String, ownerId: Long, vararg options: Pair<String, Any?>) =
+    fun unsubscribe(slug: String, ownerId: Long, vararg options: Option) =
         client.session.post("/1.1/lists/subscribers/destroy.json") {
             body {
                 form {

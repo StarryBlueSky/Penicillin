@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
 /**
  * Returns [Application] endpoint instance.
@@ -34,16 +34,16 @@ import jp.nephy.penicillin.PenicillinClient
  * [Twitter API reference](https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/overview)
  *
  * @return New [Application] endpoint instance.
- * @receiver Current [PenicillinClient] instance.
+ * @receiver Current [ApiClient] instance.
  */
-val PenicillinClient.application: Application
+val ApiClient.application: Application
     get() = Application(this)
 
 /**
  * Collection of api endpoints related to application rate limits.
  *
  * @constructor Creates new [Application] endpoint instance.
- * @param client Current [PenicillinClient] instance.
- * @see PenicillinClient.application
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.application
  */
-class Application(override val client: PenicillinClient): Endpoint
+class Application(override val client: ApiClient): Endpoint

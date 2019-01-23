@@ -28,12 +28,12 @@ package jp.nephy.penicillin.extensions.models.builder
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
+import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.DirectMessage
-import jp.nephy.penicillin.models.parsePenicillinModel
 import java.util.*
 
-class CustomDirectMessageBuilder(private val client: PenicillinClient): JsonBuilder<DirectMessage> {
+class CustomDirectMessageBuilder: JsonBuilder<DirectMessage> {
     override var json = jsonObjectOf(
         "created_at" to null,
         "entities" to jsonObjectOf(),
@@ -60,12 +60,12 @@ class CustomDirectMessageBuilder(private val client: PenicillinClient): JsonBuil
         read = true
     }
 
-    private val recipientBuilder = CustomUserBuilder(client)
+    private val recipientBuilder = CustomUserBuilder()
     fun recipient(builder: CustomUserBuilder.() -> Unit) {
         recipientBuilder.apply(builder)
     }
 
-    private val senderBuilder = CustomUserBuilder(client)
+    private val senderBuilder = CustomUserBuilder()
     fun sender(builder: CustomUserBuilder.() -> Unit) {
         senderBuilder.apply(builder)
     }
@@ -80,6 +80,7 @@ class CustomDirectMessageBuilder(private val client: PenicillinClient): JsonBuil
         entities = json
     }
 
+    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): DirectMessage {
         val id = generateId()
         val recipient = recipientBuilder.build()
@@ -105,6 +106,6 @@ class CustomDirectMessageBuilder(private val client: PenicillinClient): JsonBuil
             it["entities"] = entities
         }
         
-        return client.parsePenicillinModel(json)
+        return json.parseModel()
     }
 }

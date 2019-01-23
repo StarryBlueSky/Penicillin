@@ -26,10 +26,10 @@
 
 package jp.nephy.penicillin.core.request.action
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonObjectResponse
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
@@ -38,14 +38,14 @@ private typealias JsonObjectActionCallback<M> = suspend (results: MultipleJsonOb
 
 // TODO
 class MultipleJsonObjectActions<M: PenicillinModel>(
-    override val client: PenicillinClient,
+    override val client: ApiClient,
     val first: JsonObjectApiAction<M>,
     private val requests: List<JsonObjectActionCallback<M>>
 ): ApiAction<List<JsonObjectResponse<*>>> {
     override val request: ApiRequest
         get() = first.request
 
-    class Builder<M: PenicillinModel>(private val client: PenicillinClient, private val first: () -> JsonObjectApiAction<M>) {
+    class Builder<M: PenicillinModel>(private val client: ApiClient, private val first: () -> JsonObjectApiAction<M>) {
         private val requests = mutableListOf<JsonObjectActionCallback<M>>()
         fun request(callback: JsonObjectActionCallback<M>) = apply {
             requests.add(callback)

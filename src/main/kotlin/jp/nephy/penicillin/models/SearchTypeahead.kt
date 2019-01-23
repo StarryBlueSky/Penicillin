@@ -28,9 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class SearchTypeahead(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class SearchTypeahead(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val completedIn by float("completed_in")
     val hashtags by stringList
     val numResults by int("num_results")
@@ -39,14 +41,14 @@ data class SearchTypeahead(override val json: JsonObject, override val client: P
     val topics by penicillinModelList<Topic>()
     val users by penicillinModelList<UserTypeahead>()
 
-    data class Topic(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Topic(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val inline by boolean
         val roundedScore by int("rounded_score")
         val tokens by penicillinModelList<SearchToken>()
         val topic by string
     }
 
-    data class UserTypeahead(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class UserTypeahead(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val canMediaTag by boolean("can_media_tag")
         val connectingUserCount by int("connecting_user_count")
         val connectingUserIds by longList("connecting_user_ids")
@@ -69,7 +71,7 @@ data class SearchTypeahead(override val json: JsonObject, override val client: P
         val tokens by penicillinModelList<SearchToken>()
         val verified by boolean
 
-        data class SocialContext(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class SocialContext(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val following by boolean
             val followedBy by boolean("followed_by")
         }

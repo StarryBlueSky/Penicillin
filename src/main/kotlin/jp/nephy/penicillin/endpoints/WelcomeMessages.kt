@@ -26,16 +26,16 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.delete
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.WelcomeMessage
 
-val PenicillinClient.welcomeMessages: WelcomeMessages
+val ApiClient.welcomeMessages: WelcomeMessages
     get() = WelcomeMessages(this)
 
-class WelcomeMessages(override val client: PenicillinClient): Endpoint {
+class WelcomeMessages(override val client: ApiClient): Endpoint {
     fun create(vararg options: Pair<String, String>) = client.session.post("/1.1/direct_messages/welcome_messages/new.json") {
         body {
             json {
@@ -48,11 +48,11 @@ class WelcomeMessages(override val client: PenicillinClient): Endpoint {
         parameter("id" to id, *options)
     }.empty()
 
-    fun show(id: Long, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages/welcome_messages/show.json") {
+    fun show(id: Long, vararg options: Option) = client.session.get("/1.1/direct_messages/welcome_messages/show.json") {
         parameter("id" to id, *options)
     }.jsonObject<WelcomeMessage>()
 
-    fun list(count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages/welcome_messages/list.json") {
+    fun list(count: Int? = null, vararg options: Option) = client.session.get("/1.1/direct_messages/welcome_messages/list.json") {
         parameter("count" to count, *options)
     }.jsonArray<WelcomeMessage>()
 }

@@ -25,18 +25,18 @@
 package jp.nephy.penicillin.core.request.action
 
 import jp.nephy.jsonkt.toJsonArrayOrNull
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonArrayResponse
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.parseModelListOrNull
 import jp.nephy.penicillin.models.PenicillinModel
-import jp.nephy.penicillin.models.parsePenicillinModelListOrNull
 import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
 
-class JsonArrayApiAction<M: PenicillinModel>(override val client: PenicillinClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
+class JsonArrayApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): JsonArrayResponse<M> {
         val (request, response) = execute()
@@ -46,7 +46,7 @@ class JsonArrayApiAction<M: PenicillinModel>(override val client: PenicillinClie
         val json = content?.toJsonArrayOrNull() ?: throw PenicillinLocalizedException(
             LocalizedString.JsonParsingFailed, request, response, null, content
         )
-        val results = client.parsePenicillinModelListOrNull(model, json) ?: throw PenicillinLocalizedException(
+        val results = json.parseModelListOrNull(model, client) ?: throw PenicillinLocalizedException(
             LocalizedString.JsonModelCastFailed, request, response, null, model.simpleName, content
         )
 

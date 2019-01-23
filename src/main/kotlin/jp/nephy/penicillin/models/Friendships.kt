@@ -28,14 +28,15 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
 object Friendships {
-    data class Show(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Show(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val relationship by penicillinModel<Relationship>()
     }
 
-    data class Lookup(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Lookup(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val connections by stringList
         val id by long
         val idStr by string("id_str")
@@ -43,7 +44,7 @@ object Friendships {
         val screenName by string("screen_name")
     }
 
-    data class NoRetweetsIds(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class NoRetweetsIds(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val ids by longList
     }
 }

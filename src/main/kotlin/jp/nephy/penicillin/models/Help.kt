@@ -28,10 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
 object Help {
-    data class Configuration(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Configuration(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val charactersReservedPerMedia by int("characters_reserved_per_media")
         val clientEventUrl by string("client_event_url")
         val dmTextCharacterLimit by int("dm_text_character_limit")
@@ -43,21 +44,21 @@ object Help {
         val shortUrlLengthHttps by int("short_url_length_https")
     }
 
-    data class Language(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Language(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val code by string
         val status by string
         val name by string
     }
 
-    data class Privacy(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Privacy(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val privacy by string
     }
 
-    data class Tos(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Tos(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val tos by string
     }
 
-    data class Settings(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Settings(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         private val versions by jsonObject
         val featureSwitchesVersion by versions.byString("feature_switches")
         val experimentVersion by versions.byString("experiments")

@@ -29,9 +29,9 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.intList
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class URLEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class URLEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val url by string
     val expandedUrl by string("expanded_url")
     val displayUrl by string("display_url")

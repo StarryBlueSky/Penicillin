@@ -24,10 +24,10 @@
 
 package jp.nephy.penicillin.core.request.action
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonObjectResponse
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.CancellationException
 
@@ -35,7 +35,7 @@ typealias JoinedJsonObjectActionCallback<M> = (results: List<List<JsonObjectResp
 
 // TODO
 class JoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(
-    override val client: PenicillinClient,
+    override val client: ApiClient,
     private val actions: List<MultipleJsonObjectActions<M>>,
     private val finalizer: JoinedJsonObjectActionCallback<T>
 ): ApiAction<JsonObjectResponse<T>> {

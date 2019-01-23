@@ -28,9 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class MediaEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class MediaEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val additionalMediaInfo by nullableModel<AdditionalMediaInfo>("additional_media_info")
     val displayUrl by string("display_url")
     val expandedUrl by string("expanded_url")
@@ -48,29 +50,29 @@ data class MediaEntity(override val json: JsonObject, override val client: Penic
     val url by string
     val videoInfo by nullableModel<VideoInfo>("video_info")
 
-    data class AdditionalMediaInfo(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class AdditionalMediaInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val title by string
         val description by string
         val embeddable by boolean
     }
 
-    data class Feature(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Feature(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val large by penicillinModel<Size>()
         val medium by penicillinModel<Size>()
         val orig by penicillinModel<Size>()
         val small by penicillinModel<Size>()
 
-        data class Size(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class Size(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val faces by penicillinModelList<FaceCoordinate>()
         }
     }
 
-    data class VideoInfo(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class VideoInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val durationMillis by int("duration_millis")
         val aspectRatio by intList
         val variants by penicillinModelList<Variant>()
 
-        data class Variant(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class Variant(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val bitrate by nullableInt
             val contentType by string("content_type")
             val url by string

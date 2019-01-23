@@ -32,7 +32,6 @@ import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.util.appendAll
 import io.ktor.util.flattenForEach
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.auth.OAuthUtil
 import jp.nephy.penicillin.core.auth.encodeBase64
@@ -42,6 +41,7 @@ import jp.nephy.penicillin.core.emulation.Twitter4iPhone
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.body.RequestBodyBuilder
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import jp.nephy.penicillin.extensions.session
 import mu.KotlinLogging
@@ -49,7 +49,7 @@ import kotlin.collections.set
 
 private val apiRequestBuilderLogger = KotlinLogging.logger("Penicillin.RequestBuilder")
 
-class ApiRequestBuilder(val client: PenicillinClient, private val httpMethod: HttpMethod, private val host: EndpointHost, private val path: String) {
+class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMethod, private val host: EndpointHost, private val path: String) {
     private var headers = HeadersBuilder()
     
     @Suppress("MemberVisibilityCanBePrivate")

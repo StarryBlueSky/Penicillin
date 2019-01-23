@@ -26,17 +26,17 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.models.BadgeCount
 import jp.nephy.penicillin.models.DMUserUpdate
 
-val PenicillinClient.misc: Misc
+val ApiClient.misc: Misc
     get() = Misc(this)
 
-class Misc(override val client: PenicillinClient): Endpoint {
+class Misc(override val client: ApiClient): Endpoint {
     @PrivateEndpoint
-    fun badgeCount(vararg options: Pair<String, Any?>) = client.session.get("/2/badge_count/badge_count.json") {
+    fun badgeCount(vararg options: Option) = client.session.get("/2/badge_count/badge_count.json") {
         parameter(
             "cards_platform" to "iPhone-13",
             "contributor_details" to 1,
@@ -62,7 +62,7 @@ class Misc(override val client: PenicillinClient): Endpoint {
     }.jsonObject<BadgeCount>()
 
     @PrivateEndpoint
-    fun userUpdates(cursor: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/dm/user_updates.json") {
+    fun userUpdates(cursor: String, vararg options: Option) = client.session.get("/1.1/dm/user_updates.json") {
         parameter(
             "cards_platform" to "iPhone-13",
             "contributor_details" to "1",
@@ -90,7 +90,7 @@ class Misc(override val client: PenicillinClient): Endpoint {
     }.jsonObject<DMUserUpdate>()
 
     @PrivateEndpoint
-    fun promptSuggest(vararg options: Pair<String, Any?>) = client.session.get("/1.1/prompts/suggest.json") {
+    fun promptSuggest(vararg options: Option) = client.session.get("/1.1/prompts/suggest.json") {
         parameter(
             "client_namespace" to "native",
             "consecutive_days" to "1",

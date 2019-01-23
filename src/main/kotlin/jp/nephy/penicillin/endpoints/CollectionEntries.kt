@@ -26,19 +26,19 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 
-val PenicillinClient.collectionEntries: CollectionEntries
+val ApiClient.collectionEntries: CollectionEntries
     get() = CollectionEntries(this)
 
-class CollectionEntries(override val client: PenicillinClient): Endpoint {
-    fun entries(id: String, count: Int? = null, maxPosition: Int? = null, minPosition: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/entries.json") {
+class CollectionEntries(override val client: ApiClient): Endpoint {
+    fun entries(id: String, count: Int? = null, maxPosition: Int? = null, minPosition: Int? = null, vararg options: Option) = client.session.get("/1.1/collections/entries.json") {
         parameter("id" to id, "count" to count, "max_position" to maxPosition, "min_position" to minPosition, *options)
     }.empty()
 
-    fun add(id: String, tweetId: Long, relativeTo: Long? = null, above: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/collections/entries/add.json") {
+    fun add(id: String, tweetId: Long, relativeTo: Long? = null, above: Boolean? = null, vararg options: Option) = client.session.post("/1.1/collections/entries/add.json") {
         body {
             form {
                 add("id" to id, "tweet_id" to tweetId, "relative_to" to relativeTo, "above" to above, *options)
@@ -54,7 +54,7 @@ class CollectionEntries(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun move(id: String, tweetId: Long, relativeTo: Long, above: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/collections/entries/move.json") {
+    fun move(id: String, tweetId: Long, relativeTo: Long, above: Boolean? = null, vararg options: Option) = client.session.post("/1.1/collections/entries/move.json") {
         body {
             form {
                 add("id" to id, "tweet_id" to tweetId, "relative_to" to relativeTo, "above" to above, *options)
@@ -62,7 +62,7 @@ class CollectionEntries(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun remove(id: String, tweetId: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/collections/entries/remove.json") {
+    fun remove(id: String, tweetId: Long, vararg options: Option) = client.session.post("/1.1/collections/entries/remove.json") {
         body {
             form {
                 add("id" to id, "tweet_id" to tweetId, *options)

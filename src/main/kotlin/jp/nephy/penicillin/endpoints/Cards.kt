@@ -26,22 +26,22 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
 /**
  * Returns [Cards] endpoint instance.
  *  
  * @return New [Cards] endpoint instance.
- * @receiver Current [PenicillinClient] instance.
+ * @receiver Current [ApiClient] instance.
  */
-val PenicillinClient.cards: Cards
+val ApiClient.cards: Cards
     get() = Cards(this)
 
 /**
  * Collection of api endpoints related to Cards API (maybe private endpoints).
  *
  * @constructor Creates new [Cards] endpoint instance.
- * @param client Current [PenicillinClient] instance.
- * @see PenicillinClient.cards
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.cards
  */
-class Cards(override val client: PenicillinClient): Endpoint
+class Cards(override val client: ApiClient): Endpoint

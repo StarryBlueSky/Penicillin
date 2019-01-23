@@ -28,11 +28,12 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
-data class User(val parentJson: JsonObject, override val client: PenicillinClient): CommonUser(parentJson, client)
+data class User(val parentJson: JsonObject, override val client: ApiClient): CommonUser(parentJson, client)
 
-abstract class CommonUser(final override val json: JsonObject, client: PenicillinClient): PenicillinModel {
+abstract class CommonUser(final override val json: JsonObject, client: ApiClient): PenicillinModel {
     val advertiserAccountServiceLevels by stringList("advertiser_account_service_levels")
     val advertiserAccountType by nullableString("advertiser_account_type")
     val analyticsType by nullableString("analytics_type")
@@ -96,10 +97,10 @@ abstract class CommonUser(final override val json: JsonObject, client: Penicilli
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
 
-    data class ProfileImageExtension(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class ProfileImageExtension(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val mediaColor by penicillinModel<MediaColor>()
 
-        data class MediaColor(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class MediaColor(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val r by jsonObject
             val ttl by int
         }

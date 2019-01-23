@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
 /**
  * Returns [Blocks] endpoint instance.
@@ -34,16 +34,16 @@ import jp.nephy.penicillin.PenicillinClient
  * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/mute-block-report-users/overview)
  *
  * @return New [Blocks] endpoint instance.
- * @receiver Current [PenicillinClient] instance.
+ * @receiver Current [ApiClient] instance.
  */
-val PenicillinClient.blocks: Blocks
+val ApiClient.blocks: Blocks
     get() = Blocks(this)
 
 /**
  * Collection of api endpoints related to blocks.
  *
  * @constructor Creates new [Blocks] endpoint instance.
- * @param client Current [PenicillinClient] instance.
- * @see PenicillinClient.blocks
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.blocks
  */
-class Blocks(override val client: PenicillinClient): Endpoint
+class Blocks(override val client: ApiClient): Endpoint

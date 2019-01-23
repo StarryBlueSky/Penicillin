@@ -26,31 +26,31 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.Status
 
-val PenicillinClient.favorites: Favorites
+val ApiClient.favorites: Favorites
     get() = Favorites(this)
 
-class Favorites(override val client: PenicillinClient): Endpoint {
-    fun list(sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) =
+class Favorites(override val client: ApiClient): Endpoint {
+    fun list(sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Option) =
             client.session.get("/1.1/favorites/list.json") {
                 parameter("count" to count, "since_id" to sinceId, "max_id" to maxId, "include_entities" to includeEntities, *options)
             }.jsonArray<Status>()
 
-    fun list(userId: Long, sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun list(userId: Long, sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Option) =
         client.session.get("/1.1/favorites/list.json") {
             parameter("user_id" to userId, "count" to count, "since_id" to sinceId, "max_id" to maxId, "include_entities" to includeEntities, *options)
         }.jsonArray<Status>()
 
-    fun list(screenName: String, sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun list(screenName: String, sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Option) =
             client.session.get("/1.1/favorites/list.json") {
                 parameter("screen_name" to screenName, "count" to count, "since_id" to sinceId, "max_id" to maxId, "include_entities" to includeEntities, *options)
             }.jsonArray<Status>()
 
-    fun create(id: Long, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/favorites/create.json") {
+    fun create(id: Long, includeEntities: Boolean? = null, vararg options: Option) = client.session.post("/1.1/favorites/create.json") {
         body {
             form {
                 add("id" to id, "include_entities" to includeEntities, *options)
@@ -58,7 +58,7 @@ class Favorites(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<Status>()
 
-    fun destroy(id: Long, includeEntities: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/favorites/destroy.json") {
+    fun destroy(id: Long, includeEntities: Boolean? = null, vararg options: Option) = client.session.post("/1.1/favorites/destroy.json") {
         body {
             form {
                 add("id" to id, "include_entities" to includeEntities, *options)

@@ -24,29 +24,21 @@
 
 package jp.nephy.penicillin
 
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.PenicillinClientDsl
 import jp.nephy.penicillin.core.session.Session
 import jp.nephy.penicillin.core.session.SessionBuilder
-import kotlinx.io.core.Closeable
 
 /**
- * The Penicillin main client.
- * [PenicillinClient] is [Closeable].
+ * Creates Penicillin api client.
  *
- * @constructor Creates new [PenicillinClient] with new [Session].
- * @param builder [Session] configuration builder.
+ * @param block [Session] configuration builder.
  */
 @PenicillinClientDsl
-class PenicillinClient(builder: SessionBuilder.() -> Unit): Closeable {
-    /**
-     * The [Session] instance.
-     * [Session] is [Closeable].
-     */
-    val session: Session = SessionBuilder(this).apply(builder).build()
+@Suppress("FunctionName")
+fun PenicillinClient(block: SessionBuilder.() -> Unit): ApiClient = object: ApiClient {
+    override val session = SessionBuilder(this).apply(block).build()
 
-    /**
-     * Closes [Session] instance.
-     */
     override fun close() {
         session.close()
     }

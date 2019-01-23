@@ -26,24 +26,24 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.SavedSearch
 
-val PenicillinClient.savedSearches: SavedSearches
+val ApiClient.savedSearches: SavedSearches
     get() = SavedSearches(this)
 
-class SavedSearches(override val client: PenicillinClient): Endpoint {
-    fun list(vararg options: Pair<String, Any?>) = client.session.get("/1.1/saved_searches/list.json") {
+class SavedSearches(override val client: ApiClient): Endpoint {
+    fun list(vararg options: Option) = client.session.get("/1.1/saved_searches/list.json") {
         parameter(*options)
     }.jsonArray<SavedSearch>()
 
-    fun show(id: Long, vararg options: Pair<String, Any?>) = client.session.get("/1.1/saved_searches/show/$id.json") {
+    fun show(id: Long, vararg options: Option) = client.session.get("/1.1/saved_searches/show/$id.json") {
         parameter(*options)
     }.jsonObject<SavedSearch>()
 
-    fun create(query: String, vararg options: Pair<String, Any?>) = client.session.post("/1.1/saved_searches/create.json") {
+    fun create(query: String, vararg options: Option) = client.session.post("/1.1/saved_searches/create.json") {
         body {
             form {
                 add("query" to query, *options)
@@ -51,7 +51,7 @@ class SavedSearches(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<SavedSearch>()
 
-    fun destroy(id: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/saved_searches/destroy/$id.json") {
+    fun destroy(id: Long, vararg options: Option) = client.session.post("/1.1/saved_searches/destroy/$id.json") {
         body {
             form {
                 add(*options)

@@ -27,8 +27,9 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class CursorLists(val parentJson: JsonObject, override val client: PenicillinClient): PenicillinCursorModel(parentJson) {
+data class CursorLists(val parentJson: JsonObject, override val client: ApiClient): PenicillinCursorModel(parentJson) {
     val lists by penicillinModelList<TwitterList>()
 }

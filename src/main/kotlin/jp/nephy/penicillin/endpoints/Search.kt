@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.parameters.SearchResultType
 import jp.nephy.penicillin.models.Search
@@ -35,10 +35,10 @@ import jp.nephy.penicillin.models.SearchUniversal
 import java.text.SimpleDateFormat
 import java.util.*
 
-val PenicillinClient.search: jp.nephy.penicillin.endpoints.Search
+val ApiClient.search: jp.nephy.penicillin.endpoints.Search
     get() = Search(this)
 
-class Search(override val client: PenicillinClient): Endpoint {
+class Search(override val client: ApiClient): Endpoint {
     fun search(
         q: String,
         geocode: String? = null,
@@ -50,7 +50,7 @@ class Search(override val client: PenicillinClient): Endpoint {
         sinceId: Long? = null,
         maxId: Long? = null,
         includeEntities: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/search/tweets.json") {
         parameter(
             "q" to q, "geocode" to geocode, "lang" to lang, "locale" to locale, "result_type" to resultType?.value, "count" to count, "until" to if (until != null) {
@@ -62,7 +62,7 @@ class Search(override val client: PenicillinClient): Endpoint {
     }.jsonObject<Search>()
 
     @PrivateEndpoint
-    fun typeahead(q: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/search/typeahead.json") {
+    fun typeahead(q: String, vararg options: Option) = client.session.get("/1.1/search/typeahead.json") {
         parameter(
             "cards_platform" to "iPhone-13",
             "contributor_details" to "1",
@@ -93,7 +93,7 @@ class Search(override val client: PenicillinClient): Endpoint {
     }.jsonObject<SearchTypeahead>()
 
     @PrivateEndpoint
-    fun searchUniversal(q: String, modules: String? = null, resultType: SearchResultType? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/search/universal.json") {
+    fun searchUniversal(q: String, modules: String? = null, resultType: SearchResultType? = null, vararg options: Option) = client.session.get("/1.1/search/universal.json") {
         parameter("q" to q, "modules" to modules, "result_type" to resultType?.value, *options)
     }.jsonObject<SearchUniversal>()
 }

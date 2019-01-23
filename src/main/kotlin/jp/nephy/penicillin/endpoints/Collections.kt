@@ -26,28 +26,28 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.parameters.CollectionCreationTimelineOrder
 
-val PenicillinClient.collections: Collections
+val ApiClient.collections: Collections
     get() = Collections(this)
 
-class Collections(override val client: PenicillinClient): Endpoint {
-    fun show(id: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/show.json") {
+class Collections(override val client: ApiClient): Endpoint {
+    fun show(id: String, vararg options: Option) = client.session.get("/1.1/collections/show.json") {
         parameter("id" to id, *options)
     }.empty()
 
-    fun list(userId: Long, tweetId: Long? = null, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/list.json") {
+    fun list(userId: Long, tweetId: Long? = null, count: Int? = null, vararg options: Option) = client.session.get("/1.1/collections/list.json") {
         parameter("user_id" to userId, "tweet_id" to tweetId, "count" to count, *options)
     }.empty()
 
-    fun list(screenName: String, tweetId: Long? = null, count: Int? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/collections/list.json") {
+    fun list(screenName: String, tweetId: Long? = null, count: Int? = null, vararg options: Option) = client.session.get("/1.1/collections/list.json") {
         parameter("screen_name" to screenName, "tweet_id" to tweetId, "count" to count, *options)
     }.empty()
 
-    fun create(name: String, description: String? = null, url: String? = null, timelineOrder: CollectionCreationTimelineOrder? = null, vararg options: Pair<String, Any?>) =
+    fun create(name: String, description: String? = null, url: String? = null, timelineOrder: CollectionCreationTimelineOrder? = null, vararg options: Option) =
         client.session.post("/1.1/collections/create.json") {
             body {
                 form {
@@ -56,7 +56,7 @@ class Collections(override val client: PenicillinClient): Endpoint {
             }
         }.empty()
 
-    fun destroy(id: String, vararg options: Pair<String, Any?>) = client.session.post("/1.1/collections/destroy.json") {
+    fun destroy(id: String, vararg options: Option) = client.session.post("/1.1/collections/destroy.json") {
         body {
             form {
                 add("id" to id, *options)
@@ -64,7 +64,7 @@ class Collections(override val client: PenicillinClient): Endpoint {
         }
     }.empty()
 
-    fun update(id: String, name: String? = null, description: String? = null, url: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/collections/update.json") {
+    fun update(id: String, name: String? = null, description: String? = null, url: String? = null, vararg options: Option) = client.session.post("/1.1/collections/update.json") {
         body {
             form {
                 add("id" to id, "name" to name, "description" to description, "url" to url, *options)

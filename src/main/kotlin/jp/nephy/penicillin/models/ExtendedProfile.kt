@@ -31,14 +31,14 @@ import jp.nephy.jsonkt.delegation.long
 import jp.nephy.jsonkt.delegation.nullableInt
 import jp.nephy.jsonkt.delegation.nullableModel
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class ExtendedProfile(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class ExtendedProfile(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val id by long
     val idStr by string
     val birthdate by nullableModel<BirthDate>()
 
-    data class BirthDate(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class BirthDate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val year by nullableInt
         val month by nullableInt
         val day by nullableInt

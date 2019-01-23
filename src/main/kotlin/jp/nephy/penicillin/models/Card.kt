@@ -28,9 +28,9 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class Card(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class Card(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val cardUri by string("card_uri")
     val status by string
 }

@@ -30,9 +30,9 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.int
 import jp.nephy.jsonkt.delegation.long
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class PushDevice(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class PushDevice(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val appVersion by int("app_version")
     val availableLevels by int("available_levels")
     val clientApplicationId by int("client_application_id")

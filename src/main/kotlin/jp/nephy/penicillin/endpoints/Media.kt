@@ -26,9 +26,9 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.MultipleJsonObjectActions
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.parameters.MediaCategory
@@ -37,10 +37,10 @@ import jp.nephy.penicillin.models.Media
 import java.io.File
 import kotlin.math.ceil
 
-val PenicillinClient.media: jp.nephy.penicillin.endpoints.Media
+val ApiClient.media: jp.nephy.penicillin.endpoints.Media
     get() = Media(this)
 
-class Media(override val client: PenicillinClient): Endpoint {
+class Media(override val client: ApiClient): Endpoint {
     fun createMetadata(mediaId: Long, vararg options: Pair<String, String>) = client.session.post("/1.1/media/metadata/create.json", EndpointHost.MediaUpload) {
         body {
             json {
@@ -55,7 +55,7 @@ class Media(override val client: PenicillinClient): Endpoint {
 
     private val segmentMaxSize = 5 * 1024 * 1024
     fun uploadMedia(file: File, mediaType: MediaType, mediaCategory: MediaCategory? = null): MultipleJsonObjectActions<Media> {
-        return MultipleJsonObjectActions.Builder {
+        return MultipleJsonObjectActions.Builder(client) {
             uploadInit(file.length(), mediaType, mediaCategory)
         }.also { builder ->
             file.inputStream().use {
@@ -74,7 +74,7 @@ class Media(override val client: PenicillinClient): Endpoint {
     }
 
     fun uploadMedia(data: ByteArray, mediaType: MediaType, mediaCategory: MediaCategory? = null): MultipleJsonObjectActions<Media> {
-        return MultipleJsonObjectActions.Builder {
+        return MultipleJsonObjectActions.Builder(client) {
             uploadInit(data.size.toLong(), mediaType, mediaCategory)
         }.also { builder ->
             data.inputStream().use {
@@ -92,7 +92,7 @@ class Media(override val client: PenicillinClient): Endpoint {
         }.build()
     }
 
-    private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Pair<String, Any?>) =
+    private fun uploadInit(totalBytes: Long, mediaType: MediaType, mediaCategory: MediaCategory? = null, additionalOwners: List<Long>? = null, vararg options: Option) =
         client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
             body {
                 form {
@@ -108,7 +108,7 @@ class Media(override val client: PenicillinClient): Endpoint {
             }
         }.jsonObject<Media>()
 
-    private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) =
+    private fun uploadAppend(file: ByteArray, mediaType: MediaType, segmentIndex: Int, mediaId: Long, mediaKey: String? = null, vararg options: Option) =
         client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
             body {
                 multiPart {
@@ -118,7 +118,7 @@ class Media(override val client: PenicillinClient): Endpoint {
             }
         }.empty()
 
-    private fun uploadFinalize(mediaId: Long, mediaKey: String? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+    private fun uploadFinalize(mediaId: Long, mediaKey: String? = null, vararg options: Option) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
         body {
             form {
                 add("command" to "FINALIZE", "media_id" to mediaId, "media_key" to mediaKey, *options)

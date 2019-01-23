@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
 /**
  * Returns [Account] endpoint instance.
@@ -34,16 +34,16 @@ import jp.nephy.penicillin.PenicillinClient
  * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/overview)
  * 
  * @return New [Account] endpoint instance.
- * @receiver Current [PenicillinClient] instance.
+ * @receiver Current [ApiClient] instance.
  */
-val PenicillinClient.account: Account
+val ApiClient.account: Account
     get() = Account(this)
 
 /**
  * Collection of api endpoints related to account information for the authenticating user.
  * 
  * @constructor Creates new [Account] endpoint instance.
- * @param client Current [PenicillinClient] instance.
- * @see PenicillinClient.account
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.account
  */
-class Account(override val client: PenicillinClient): Endpoint
+class Account(override val client: ApiClient): Endpoint

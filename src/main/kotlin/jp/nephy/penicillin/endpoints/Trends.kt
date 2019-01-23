@@ -26,31 +26,31 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.parameters.TrendExclude
 import jp.nephy.penicillin.models.TrendArea
 import jp.nephy.penicillin.models.TrendPlace
 import jp.nephy.penicillin.models.TrendPlus
 
-val PenicillinClient.trends: Trends
+val ApiClient.trends: Trends
     get() = Trends(this)
 
-class Trends(override val client: PenicillinClient): Endpoint {
-    fun availableAreas(vararg options: Pair<String, Any?>) = client.session.get("/1.1/trends/available.json") {
+class Trends(override val client: ApiClient): Endpoint {
+    fun availableAreas(vararg options: Option) = client.session.get("/1.1/trends/available.json") {
         parameter(*options)
     }.jsonArray<TrendArea>()
 
-    fun closestAreas(lat: Float, long: Float, vararg options: Pair<String, Any?>) = client.session.get("/1.1/trends/closest.json") {
+    fun closestAreas(lat: Float, long: Float, vararg options: Option) = client.session.get("/1.1/trends/closest.json") {
         parameter("lat" to lat, "long" to long, *options)
     }.jsonArray<TrendArea>()
 
-    fun listPlaceTrends(id: Long, exclude: TrendExclude? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/trends/place.json") {
+    fun listPlaceTrends(id: Long, exclude: TrendExclude? = null, vararg options: Option) = client.session.get("/1.1/trends/place.json") {
         parameter("id" to id, "exclude" to exclude?.value, *options)
     }.jsonArray<TrendPlace>()
 
     @PrivateEndpoint
-    fun trendPlus(vararg options: Pair<String, Any?>) = client.session.get("/1.1/trends/plus.json") {
+    fun trendPlus(vararg options: Option) = client.session.get("/1.1/trends/plus.json") {
         parameter(
             "cards_platform" to "iPhone-13",
             "contributor_details" to "1",

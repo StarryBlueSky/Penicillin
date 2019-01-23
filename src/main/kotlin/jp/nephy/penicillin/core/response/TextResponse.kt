@@ -26,11 +26,11 @@ package jp.nephy.penicillin.core.response
 
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.action.ApiAction
+import jp.nephy.penicillin.core.session.ApiClient
 
 data class TextResponse(
-    override val client: PenicillinClient,
+    override val client: ApiClient,
     override val request: HttpRequest,
     override val response: HttpResponse,
     override val content: String,

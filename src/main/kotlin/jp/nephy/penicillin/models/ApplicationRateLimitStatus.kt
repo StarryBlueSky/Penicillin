@@ -29,13 +29,14 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.byNullableString
 import jp.nephy.jsonkt.delegation.jsonObject
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
-data class ApplicationRateLimitStatus(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class ApplicationRateLimitStatus(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val content by jsonObject("rate_limit_content")
     val accessToken by content.byNullableString("access_token")
     val application by content.byNullableString
     val resources by penicillinModel<Resources>()
 
-    data class Resources(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
+    data class Resources(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 }

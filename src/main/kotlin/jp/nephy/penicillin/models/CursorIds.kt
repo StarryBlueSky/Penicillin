@@ -28,8 +28,8 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.longList
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class CursorIds(val parentJson: JsonObject, override val client: PenicillinClient): PenicillinCursorModel(parentJson) {
+data class CursorIds(val parentJson: JsonObject, override val client: ApiClient): PenicillinCursorModel(parentJson) {
     val ids by longList
 }

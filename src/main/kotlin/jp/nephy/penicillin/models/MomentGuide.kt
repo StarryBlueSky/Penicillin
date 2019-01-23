@@ -28,9 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class MomentGuide(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class MomentGuide(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     private val category by jsonObject
     val categoryId by category.byString("category_id")
     val categoryName by category.byString("name")
@@ -40,12 +42,12 @@ data class MomentGuide(override val json: JsonObject, override val client: Penic
     val modules by penicillinModelList<Module>()
     val trendModule by nullableModel<TrendModule>()
 
-    data class Module(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Module(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val moduleType by string("module_type")
         val moments by penicillinModelList<Moment>()
     }
 
-    data class TrendModule(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class TrendModule(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val metadata by penicillinModel<TrendMetadata>()
         val trends by penicillinModelList<TrendType>()
     }

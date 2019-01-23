@@ -28,13 +28,15 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class Search(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class Search(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val searchMetadata by penicillinModel<SearchMetadata>("search_metadata")
     val statuses by penicillinModelList<Status>()
 
-    data class SearchMetadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class SearchMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val completedIn by float("completed_in")
         val count by int
         val maxId by long("max_id")

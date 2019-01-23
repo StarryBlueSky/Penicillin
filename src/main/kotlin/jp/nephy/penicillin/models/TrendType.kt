@@ -28,13 +28,14 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
-data class TrendType(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class TrendType(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val trend by nullableModel<Trend>()
     val promotedTrend by nullableModel<PromotedTrend>()
 
-    data class Trend(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Trend(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val name by string
         val description by nullableString("meta_description")
         val rank by int
@@ -42,16 +43,16 @@ data class TrendType(override val json: JsonObject, override val client: Penicil
         val context by nullableModel<Context>()
         val target by penicillinModel<Target>()
 
-        data class Context(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class Context(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val relatedQuery by stringList("query")
         }
 
-        data class Target(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class Target(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val query by string
             val pinnedTweets by longList("pinned_tweets")
             val pinnedTweetsStr by stringList("pinned_tweets_string")
         }
     }
 
-    data class PromotedTrend(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
+    data class PromotedTrend(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 }
