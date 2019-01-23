@@ -25,9 +25,29 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.emulation.EmulationMode
 
 interface Endpoint {
     val client: PenicillinClient
 }
 
 internal typealias Option = Pair<String, Any?>
+
+/**
+ * Indicates that this endpoint is used with OfficialClient and EmulationMode.
+ */
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
+@MustBeDocumented
+@Experimental(level = Experimental.Level.WARNING)
+annotation class PrivateEndpoint(
+    vararg val modes: EmulationMode
+)
+
+/**
+ * Indicates that this endpoint has overloads.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FUNCTION)
+@MustBeDocumented
+annotation class EndpointOverloads
