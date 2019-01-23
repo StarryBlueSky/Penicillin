@@ -46,6 +46,7 @@ data class DispatcherConfig(val coroutineContext: CoroutineContext, val connecti
     class Builder: SessionConfigBuilder<DispatcherConfig> {
         @Suppress("MemberVisibilityCanBePrivate")
         var connectionThreadsCount: Int? = null
+        @Suppress("MemberVisibilityCanBePrivate")
         var coroutineContext: CoroutineContext = Dispatchers.Default
         
         private var shouldClose = false

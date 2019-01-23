@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
@@ -34,7 +35,7 @@ import jp.nephy.penicillin.models.UserStream
 import java.util.*
 
 class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<UserStream.UserEvent> {
-    override var json = jsonObjectOf(
+    override var json: JsonObject = jsonObjectOf(
             "event" to type.key,
             "source" to null,
             "target" to null,

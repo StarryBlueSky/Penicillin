@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
@@ -34,7 +35,7 @@ import java.util.*
 import kotlin.properties.Delegates
 
 class CustomDeleteBuilder: JsonBuilder<Stream.Delete> {
-    override var json = jsonObjectOf(
+    override var json: JsonObject = jsonObjectOf(
         "delete" to jsonObjectOf(
             "status" to jsonObjectOf(
                 "id" to null,

@@ -26,10 +26,7 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.asJsonElement
-import jp.nephy.jsonkt.edit
-import jp.nephy.jsonkt.jsonArrayOf
-import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Status
@@ -39,7 +36,7 @@ import java.util.*
 import kotlin.collections.set
 
 class CustomStatusBuilder: JsonBuilder<Status> {
-    override var json = jsonObjectOf(
+    override var json: JsonObject = jsonObjectOf(
             "created_at" to null,
             "id" to null,
             "id_str" to null,

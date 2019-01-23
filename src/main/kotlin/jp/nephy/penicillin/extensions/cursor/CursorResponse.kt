@@ -27,13 +27,13 @@
 package jp.nephy.penicillin.extensions.cursor
 
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
-import jp.nephy.penicillin.models.CursorIds
-import jp.nephy.penicillin.models.CursorLists
-import jp.nephy.penicillin.models.CursorUsers
+import jp.nephy.penicillin.models.*
 
-val Sequence<CursorJsonObjectResponse<CursorIds>>.allIds
+val Sequence<CursorJsonObjectResponse<CursorIds>>.allIds: List<Long>
     get() = toList().flatMap { it.result.ids }
-val Sequence<CursorJsonObjectResponse<CursorLists>>.allLists
+
+val Sequence<CursorJsonObjectResponse<CursorLists>>.allLists: List<TwitterList>
     get() = toList().flatMap { it.result.lists }
-val Sequence<CursorJsonObjectResponse<CursorUsers>>.allUsers
+
+val Sequence<CursorJsonObjectResponse<CursorUsers>>.allUsers: List<User>
     get() = toList().flatMap { it.result.users }

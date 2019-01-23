@@ -32,6 +32,7 @@ import jp.nephy.penicillin.core.response.StreamResponse
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
+import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.extensions.session
 import kotlinx.coroutines.*
 import kotlinx.coroutines.io.jvm.javaio.toInputStream
@@ -45,7 +46,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
     var result = response
         private set
     
-    val job = Job()
+    internal val job = Job()
     private val mutex = Mutex()
     private object Dummy
 

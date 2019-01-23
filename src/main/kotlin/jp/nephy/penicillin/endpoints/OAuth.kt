@@ -34,6 +34,7 @@ import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.config.account
 import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.models.AccessTokenResponse
 import jp.nephy.penicillin.models.RequestTokenResponse
 

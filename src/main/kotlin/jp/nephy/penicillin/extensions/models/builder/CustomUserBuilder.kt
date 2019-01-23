@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonArrayOf
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
@@ -38,7 +39,7 @@ class CustomUserBuilder: JsonBuilder<User> {
         private const val userId = 1L
     }
 
-    override var json = jsonObjectOf(
+    override var json: JsonObject = jsonObjectOf(
         "id" to userId,
         "id_str" to userId.toString(),
         "name" to "Tweetstorm",
