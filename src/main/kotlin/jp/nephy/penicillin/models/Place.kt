@@ -22,20 +22,21 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
-data class Place(override val json: JsonObject): PenicillinModel {
-    val attributes by model<Attribute>()
-    val boundingBox by model<BoundingBox>(key = "bounding_box")
+data class Place(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val attributes by penicillinModel<Attribute>()
+    val boundingBox by penicillinModel<BoundingBox>("bounding_box")
     val centroid by floatList
-    val containedWithin by modelList<Place>(key = "contained_within")
+    val containedWithin by penicillinModelList<Place>("contained_within")
     val country by string
-    val countryCode by string(key = "country_code")
+    val countryCode by string("country_code")
     val fullName by string("full_name")
     val geometry by nullableString // null
     val id by string
@@ -44,7 +45,7 @@ data class Place(override val json: JsonObject): PenicillinModel {
     val polylines by jsonArray // []
     val url by string
 
-    data class Attribute(override val json: JsonObject): PenicillinModel {
+    data class Attribute(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val streetAddress by nullableString("street_address")
         val locality by nullableString
         val region by nullableString
@@ -57,7 +58,7 @@ data class Place(override val json: JsonObject): PenicillinModel {
         val geotagCount by nullableString
     }
 
-    data class BoundingBox(override val json: JsonObject): PenicillinModel {
+    data class BoundingBox(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val type by string
         val coordinates by jsonArray
         // [

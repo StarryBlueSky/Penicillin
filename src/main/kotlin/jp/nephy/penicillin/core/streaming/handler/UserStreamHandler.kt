@@ -26,29 +26,28 @@ package jp.nephy.penicillin.core.streaming.handler
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.string
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
-import jp.nephy.penicillin.models.DirectMessage
-import jp.nephy.penicillin.models.Status
-import jp.nephy.penicillin.models.Stream
 import jp.nephy.penicillin.models.UserStream
+import jp.nephy.penicillin.models.parsePenicillinModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class UserStreamHandler(override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
+class UserStreamHandler(override val client: PenicillinClient, override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
         scope.launch {
             when {
                 "text" in json -> {
-                    listener.onStatus(Status(json))
+                    listener.onStatus(client.parsePenicillinModel(json))
                 }
                 "direct_message" in json -> {
-                    listener.onDirectMessage(DirectMessage(json))
+                    listener.onDirectMessage(client.parsePenicillinModel(json))
                 }
                 "event" in json -> {
                     val event = UserStreamEvent.byKey(json["event"].string)
                     when (event?.type) {
                         UserStreamEventType.Status -> {
-                            val statusEvent = UserStream.StatusEvent(json)
+                            val statusEvent = client.parsePenicillinModel<UserStream.StatusEvent>(json)
                             launch {
                                 when (event) {
                                     UserStreamEvent.Favorite -> listener.onFavorite(statusEvent)
@@ -65,7 +64,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                             listener.onAnyEvent(statusEvent)
                         }
                         UserStreamEventType.List -> {
-                            val listEvent = UserStream.ListEvent(json)
+                            val listEvent = client.parsePenicillinModel<UserStream.ListEvent>(json)
                             launch {
                                 when (event) {
                                     UserStreamEvent.ListCreated -> listener.onListCreated(listEvent)
@@ -84,7 +83,7 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                             listener.onAnyEvent(listEvent)
                         }
                         UserStreamEventType.User -> {
-                            val userEvent = UserStream.UserEvent(json)
+                            val userEvent = client.parsePenicillinModel<UserStream.UserEvent>(json)
                             launch {
                                 when (event) {
                                     UserStreamEvent.Follow -> listener.onFollow(userEvent)
@@ -108,28 +107,28 @@ class UserStreamHandler(override val listener: UserStreamListener): StreamHandle
                     }
                 }
                 "friends" in json -> {
-                    listener.onFriends(UserStream.Friends(json))
+                    listener.onFriends(client.parsePenicillinModel(json))
                 }
                 "delete" in json -> {
-                    listener.onDelete(Stream.Delete(json))
+                    listener.onDelete(client.parsePenicillinModel(json))
                 }
                 "scrub_geo" in json -> {
-                    listener.onScrubGeo(UserStream.ScrubGeo(json))
+                    listener.onScrubGeo(client.parsePenicillinModel(json))
                 }
                 "status_withheld" in json -> {
-                    listener.onStatusWithheld(UserStream.StatusWithheld(json))
+                    listener.onStatusWithheld(client.parsePenicillinModel(json))
                 }
                 "user_withheld" in json -> {
-                    listener.onUserWithheld(UserStream.UserWithheld(json))
+                    listener.onUserWithheld(client.parsePenicillinModel(json))
                 }
                 "disconnect" in json -> {
-                    listener.onDisconnectMessage(UserStream.Disconnect(json))
+                    listener.onDisconnectMessage(client.parsePenicillinModel(json))
                 }
                 "warning" in json -> {
-                    listener.onWarning(UserStream.Warning(json))
+                    listener.onWarning(client.parsePenicillinModel(json))
                 }
                 "limit" in json -> {
-                    listener.onLimit(UserStream.Limit(json))
+                    listener.onLimit(client.parsePenicillinModel(json))
                 }
                 else -> {
                     listener.onUnhandledJson(json)

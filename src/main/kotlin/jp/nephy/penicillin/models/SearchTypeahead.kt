@@ -22,30 +22,31 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
-data class SearchTypeahead(override val json: JsonObject): PenicillinModel {
+data class SearchTypeahead(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     val completedIn by float("completed_in")
     val hashtags by stringList
     val numResults by int("num_results")
     val oneclick by stringList
     val query by string
-    val topics by modelList<Topic>()
-    val users by modelList<UserTypeahead>()
+    val topics by penicillinModelList<Topic>()
+    val users by penicillinModelList<UserTypeahead>()
 
-    data class Topic(override val json: JsonObject): PenicillinModel {
+    data class Topic(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val inline by boolean
         val roundedScore by int("rounded_score")
-        val tokens by modelList<SearchToken>()
+        val tokens by penicillinModelList<SearchToken>()
         val topic by string
     }
 
-    data class UserTypeahead(override val json: JsonObject): PenicillinModel {
+    data class UserTypeahead(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val canMediaTag by boolean("can_media_tag")
         val connectingUserCount by int("connecting_user_count")
         val connectingUserIds by longList("connecting_user_ids")
@@ -62,13 +63,13 @@ data class SearchTypeahead(override val json: JsonObject): PenicillinModel {
         val roundedGraphWeight by int("rounded_graph_weight")
         val roundedScore by int("rounded_score")
         val screenName by string("screen_name")
-        val socialContext by model<SocialContext>(key = "social_context")
+        val socialContext by penicillinModel<SocialContext>("social_context")
         val socialProof by int("social_proof")
         val socialProofsOrdered by intList("social_proofs_ordered")
-        val tokens by modelList<SearchToken>()
+        val tokens by penicillinModelList<SearchToken>()
         val verified by boolean
 
-        data class SocialContext(override val json: JsonObject): PenicillinModel {
+        data class SocialContext(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val following by boolean
             val followedBy by boolean("followed_by")
         }

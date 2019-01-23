@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.modelList
+import jp.nephy.penicillin.PenicillinClient
 
-data class CursorLists(val parentJson: JsonObject): PenicillinCursorModel(parentJson) {
-    val lists by modelList<TwitterList>()
+data class CursorLists(val parentJson: JsonObject, override val client: PenicillinClient): PenicillinCursorModel(parentJson) {
+    val lists by penicillinModelList<TwitterList>()
 }

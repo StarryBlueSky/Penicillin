@@ -22,15 +22,16 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
 object Stream {
-    data class Delete(override val json: JsonObject): PenicillinModel {
+    data class Delete(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         private val delete by jsonObject
         private val status by delete.byJsonObject
         val timestampMs by delete.byString("timestamp_ms")
@@ -40,14 +41,14 @@ object Stream {
         val userIdStr by status.byString("user_id_str")
     }
     
-    data class LivePipeline(override val json: JsonObject): PenicillinModel {
+    data class LivePipeline(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val topic by string
-        val payload by model<Payload>()
+        val payload by penicillinModel<Payload>()
         
-        data class Payload(override val json: JsonObject): PenicillinModel {
-            val tweetEngagement by model<TweetEngagement>("tweet_engagement")
+        data class Payload(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+            val tweetEngagement by penicillinModel<TweetEngagement>("tweet_engagement")
             
-            data class TweetEngagement(override val json: JsonObject): PenicillinModel {
+            data class TweetEngagement(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
                 val likeCount by nullableInt("like_count")
                 val retweetCount by nullableInt("retweet_count")
                 val replyCount by nullableInt("reply_count") 

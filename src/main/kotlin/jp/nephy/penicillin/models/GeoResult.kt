@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -31,13 +31,14 @@ import jp.nephy.jsonkt.delegation.byModelList
 import jp.nephy.jsonkt.delegation.jsonObject
 import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class GeoResult(override val json: JsonObject): PenicillinModel {
-    val query by model<Query>()
+data class GeoResult(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val query by penicillinModel<Query>()
     private val jsonResult by jsonObject("result")
-    val result by jsonResult.byModelList<Place>(key = "places")
+    val result by jsonResult.byModelList<Place>("places", client)
 
-    data class Query(override val json: JsonObject): PenicillinModel {
+    data class Query(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val params by jsonObject
         val type by string
         val url by string

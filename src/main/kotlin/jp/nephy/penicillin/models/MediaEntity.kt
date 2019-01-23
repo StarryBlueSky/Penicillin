@@ -22,54 +22,55 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
-data class MediaEntity(override val json: JsonObject): PenicillinModel {
-    val additionalMediaInfo by nullableModel<AdditionalMediaInfo>(key = "additional_media_info")
+data class MediaEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val additionalMediaInfo by nullableModel<AdditionalMediaInfo>("additional_media_info")
     val displayUrl by string("display_url")
     val expandedUrl by string("expanded_url")
     val extAltText by nullableString("ext_alt_text")
-    val features by model<Feature>()
+    val features by penicillinModel<Feature>()
     val id by long
     val idStr by string("id_str")
     val indices by intList
     val mediaUrl by string("media_url")
     val mediaUrlHttps by string("media_url_https")
-    val sizes by model<Photo>()
+    val sizes by penicillinModel<Photo>()
     val sourceStatusId by nullableLong("source_status_id")
     val sourceStatusIdStr by nullableString("source_status_id_str")
     val type by string
     val url by string
-    val videoInfo by nullableModel<VideoInfo>(key = "video_info")
+    val videoInfo by nullableModel<VideoInfo>("video_info")
 
-    data class AdditionalMediaInfo(override val json: JsonObject): PenicillinModel {
+    data class AdditionalMediaInfo(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val title by string
         val description by string
         val embeddable by boolean
     }
 
-    data class Feature(override val json: JsonObject): PenicillinModel {
-        val large by model<Size>()
-        val medium by model<Size>()
-        val orig by model<Size>()
-        val small by model<Size>()
+    data class Feature(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        val large by penicillinModel<Size>()
+        val medium by penicillinModel<Size>()
+        val orig by penicillinModel<Size>()
+        val small by penicillinModel<Size>()
 
-        data class Size(override val json: JsonObject): PenicillinModel {
-            val faces by modelList<FaceCoordinate>()
+        data class Size(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+            val faces by penicillinModelList<FaceCoordinate>()
         }
     }
 
-    data class VideoInfo(override val json: JsonObject): PenicillinModel {
+    data class VideoInfo(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val durationMillis by int("duration_millis")
         val aspectRatio by intList
-        val variants by modelList<Variant>()
+        val variants by penicillinModelList<Variant>()
 
-        data class Variant(override val json: JsonObject): PenicillinModel {
+        data class Variant(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val bitrate by nullableInt
             val contentType by string("content_type")
             val url by string

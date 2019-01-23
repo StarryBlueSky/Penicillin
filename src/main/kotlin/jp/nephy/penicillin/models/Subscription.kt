@@ -22,27 +22,28 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.modelList
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
 object Subscription {
-    data class Count(override val json: JsonObject): PenicillinModel {
+    data class Count(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val accountName by string("account_name")
         val subscriptionsCountAll by string("subscriptions_count_all")
         val subscriptionsCountDirectMessages by string("subscriptions_count_direct_messages")
     }
 
-    data class List(override val json: JsonObject): PenicillinModel {
+    data class List(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val environment by string
         val applicationId by string("application_id")
-        val subscriptions by modelList<Subscription>()
+        val subscriptions by penicillinModelList<Subscription>()
 
-        data class Subscription(override val json: JsonObject): PenicillinModel {
+        data class Subscription(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val userId by string("user_id")
         }
     }

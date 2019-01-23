@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -30,16 +30,17 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.get
 import jp.nephy.jsonkt.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class CardState(override val json: JsonObject): PenicillinModel {
+data class CardState(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     private val card by jsonObject
     val name by card.byString
     val url by card.byString
     val cardTypeUrl by card.byString("card_type_url")
-    val cardPlatform by card.byModel<Platform>()
-    val data by card.byModel<Data>(key = "binding_values")
+    val cardPlatform by card.byModel<Platform>(null, client)
+    val data by card.byModel<Data>("binding_values", client)
 
-    data class Platform(override val json: JsonObject): PenicillinModel {
+    data class Platform(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         private val platform by jsonObject
         private val device by platform.byJsonObject
         private val audience by platform.byJsonObject
@@ -49,7 +50,7 @@ data class CardState(override val json: JsonObject): PenicillinModel {
         val audienceBucket by audience.byNullableString("bucket")
     }
 
-    data class Data(override val json: JsonObject): PenicillinModel {
+    data class Data(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val choices: Map<String, Int>
             get() = (1..5).filter { json.contains("choice${it}_label") }.map {
                 json["choice${it}_label"]["string_value"].string to if (json.contains("choice${it}_count")) {

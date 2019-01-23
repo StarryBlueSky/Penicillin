@@ -22,35 +22,36 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
-data class TrendType(override val json: JsonObject): PenicillinModel {
+data class TrendType(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     val trend by nullableModel<Trend>()
     val promotedTrend by nullableModel<PromotedTrend>()
 
-    data class Trend(override val json: JsonObject): PenicillinModel {
+    data class Trend(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val name by string
         val description by nullableString("meta_description")
         val rank by int
         val token by string
         val context by nullableModel<Context>()
-        val target by model<Target>()
+        val target by penicillinModel<Target>()
 
-        data class Context(override val json: JsonObject): PenicillinModel {
+        data class Context(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val relatedQuery by stringList("query")
         }
 
-        data class Target(override val json: JsonObject): PenicillinModel {
+        data class Target(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val query by string
             val pinnedTweets by longList("pinned_tweets")
             val pinnedTweetsStr by stringList("pinned_tweets_string")
         }
     }
 
-    data class PromotedTrend(override val json: JsonObject): PenicillinModel
+    data class PromotedTrend(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
 }

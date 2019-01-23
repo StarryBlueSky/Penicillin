@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -30,21 +30,22 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.boolean
 import jp.nephy.jsonkt.delegation.modelList
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
 object Webhook {
-    data class Model(override val json: JsonObject): PenicillinModel {
+    data class Model(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val id by string
         val url by string
         val valid by boolean
         val createdAt by string("created_at")
     }
 
-    data class List(override val json: JsonObject): PenicillinModel {
-        val environments by modelList<Environment>()
+    data class List(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        val environments by penicillinModelList<Environment>()
 
-        data class Environment(override val json: JsonObject): PenicillinModel {
+        data class Environment(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val name by string("environment_name")
-            val webhooks by modelList<Model>()
+            val webhooks by penicillinModelList<Model>()
         }
     }
 }

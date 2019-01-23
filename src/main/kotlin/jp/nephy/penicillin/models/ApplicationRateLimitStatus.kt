@@ -22,20 +22,20 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.byNullableString
 import jp.nephy.jsonkt.delegation.jsonObject
-import jp.nephy.jsonkt.delegation.model
+import jp.nephy.penicillin.PenicillinClient
 
-data class ApplicationRateLimitStatus(override val json: JsonObject): PenicillinModel {
+data class ApplicationRateLimitStatus(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     val content by jsonObject("rate_limit_content")
     val accessToken by content.byNullableString("access_token")
     val application by content.byNullableString
-    val resources by model<Resources>()
+    val resources by penicillinModel<Resources>()
 
-    data class Resources(override val json: JsonObject): PenicillinModel
+    data class Resources(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
 }

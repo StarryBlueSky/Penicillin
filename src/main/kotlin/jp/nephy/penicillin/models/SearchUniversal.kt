@@ -22,49 +22,52 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.delegation.int
+import jp.nephy.jsonkt.delegation.lambda
+import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class SearchUniversal(override val json: JsonObject): PenicillinModel {
-    val metadata by model<Metadata>(key = "metadata")
+data class SearchUniversal(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val metadata by penicillinModel<Metadata>("metadata")
     val statuses by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> Status(json["status"].jsonObject) }
+        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> client.parsePenicillinModel<Status>(json["status"]) }
     }
     val userGalleries by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> UserGallery(json["user_gallery"].jsonObject) }
+        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> client.parsePenicillinModel<UserGallery>(json["user_gallery"]) }
     }
 
-    data class Status(override val json: JsonObject): PenicillinModel {
-        val metadata by model<StatusMetadata>()
-        val data by model<jp.nephy.penicillin.models.Status>()
+    data class Status(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        val metadata by penicillinModel<StatusMetadata>()
+        val data by penicillinModel<jp.nephy.penicillin.models.Status>()
 
-        data class StatusMetadata(override val json: JsonObject): PenicillinModel {
+        data class StatusMetadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val resultType by string("result_type")
         }
     }
 
-    data class Metadata(override val json: JsonObject): PenicillinModel {
+    data class Metadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val cursor by string
         val refreshIntervalInSec by int("refresh_interval_in_sec")
     }
 
-    data class UserGallery(override val json: JsonObject): PenicillinModel {
-        val metadata by model<Metadata>()
-        val data by modelList<Data>()
+    data class UserGallery(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        val metadata by penicillinModel<Metadata>()
+        val data by penicillinModelList<Data>()
 
-        data class Metadata(override val json: JsonObject): PenicillinModel {
+        data class Metadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val resultType by string("result_type")
         }
 
-        data class Data(override val json: JsonObject): PenicillinModel {
-            val metadata by model<Metadata>()
-            val data by model<User>()
+        data class Data(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+            val metadata by penicillinModel<Metadata>()
+            val data by penicillinModel<User>()
 
-            data class Metadata(override val json: JsonObject): PenicillinModel {
+            data class Metadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
                 val resultType by string("result_type")
             }
         }
