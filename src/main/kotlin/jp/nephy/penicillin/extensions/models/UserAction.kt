@@ -26,7 +26,16 @@
 
 package jp.nephy.penicillin.extensions.models
 
+import jp.nephy.penicillin.endpoints.blocks
+import jp.nephy.penicillin.endpoints.blocks.createByUserId
+import jp.nephy.penicillin.endpoints.blocks.destroyByUserId
+import jp.nephy.penicillin.endpoints.friendships
 import jp.nephy.penicillin.models.CommonUser
 
-val CommonUser.isLockedAccount: Boolean
-    get() = profileInterstitialType == "fake_account"
+fun CommonUser.follow() = client.friendships.create(userId = id)
+
+fun CommonUser.unfollow() = client.friendships.destroy(userId = id)
+
+fun CommonUser.block() = client.blocks.createByUserId(userId = id)
+
+fun CommonUser.unblock() = client.blocks.destroyByUserId(userId = id)

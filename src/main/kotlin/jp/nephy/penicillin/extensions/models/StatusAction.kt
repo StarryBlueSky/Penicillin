@@ -26,7 +26,14 @@
 
 package jp.nephy.penicillin.extensions.models
 
-import jp.nephy.penicillin.models.CommonUser
+import jp.nephy.penicillin.endpoints.favorites
+import jp.nephy.penicillin.endpoints.statuses
+import jp.nephy.penicillin.models.Status
 
-val CommonUser.isLockedAccount: Boolean
-    get() = profileInterstitialType == "fake_account"
+fun Status.refresh() = client.statuses.show(id = id)
+
+fun Status.favorite() = client.favorites.create(id = id)
+
+fun Status.unfavorite() = client.favorites.destroy(id = id)
+
+fun Status.delete() = client.statuses.delete(id = id)
