@@ -22,26 +22,38 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.cards
 
-import jp.nephy.penicillin.PenicillinClient
-
-/**
- * Returns [Cards] endpoint instance.
- *  
- * @return New [Cards] endpoint instance.
- * @receiver Current [PenicillinClient] instance.
- */
-val PenicillinClient.cards: Cards
-    get() = Cards(this)
+import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.request.EndpointHost
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.Cards
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.PrivateEndpoint
+import jp.nephy.penicillin.models.Card
 
 /**
- * Collection of api endpoints related to Cards API (maybe private endpoints).
+ * Creates new "card" object. This is what we call polls.
  *
- * @constructor Creates new [Cards] endpoint instance.
- * @param client Current [PenicillinClient] instance.
- * @see PenicillinClient.cards
+ * @param cardData Required. The card data encoded with JSON.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Cards] endpoint instance.
+ * @return [JsonObjectApiAction] for [Card] model.
  */
-class Cards(override val client: PenicillinClient): Endpoint
+@PrivateEndpoint(EmulationMode.TwitterForiPhone)
+fun Cards.create(
+    cardData: String,
+    vararg options: Option
+) = client.session.post("/v2/cards/create.json", EndpointHost.Card) {
+    body {
+        form {
+            add(
+                "card_data" to cardData,
+                *options
+            )
+        }
+    }
+}.jsonObject<Card>()
