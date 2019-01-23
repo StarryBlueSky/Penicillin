@@ -73,7 +73,7 @@ enum class TwitterErrorMessage(val code: Int, val title: String, val description
     SorryYouAreNotAuthorizedToSeeThisStatus(
         179,
         "Sorry, you are not authorized to see this status",
-        "Corresponds with HTTP 403. Thrown when a Tweet cannot be viewed by the authenticating user, usually due to the Tweetâs author having protected their Tweets."
+        "Corresponds with HTTP 403. Thrown when a Tweet cannot be viewed by the authenticating user, usually due to the Tweet's author having protected their Tweets."
     ),
     UserIsOverDailyStatusUpdateLimit(
         185,
