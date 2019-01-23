@@ -34,6 +34,10 @@ import jp.nephy.penicillin.core.streaming.listener.*
 import jp.nephy.penicillin.extensions.endpoints.TweetstormHandler
 import jp.nephy.penicillin.extensions.endpoints.TweetstormListener
 
+fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(handler: H): StreamProcessor<L, H> {
+    return StreamProcessor(client, this, handler)
+}
+
 fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(listener: L): StreamProcessor<L, H> {
     @Suppress("UNCHECKED_CAST")
     val handler = when (listener) {

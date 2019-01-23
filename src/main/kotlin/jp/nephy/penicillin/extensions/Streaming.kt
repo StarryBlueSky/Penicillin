@@ -26,7 +26,6 @@
 
 package jp.nephy.penicillin.extensions
 
-import jp.nephy.penicillin.core.request.action.session
 import jp.nephy.penicillin.core.streaming.StreamProcessor
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener

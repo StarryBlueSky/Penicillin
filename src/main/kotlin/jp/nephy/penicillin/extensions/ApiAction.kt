@@ -29,7 +29,6 @@ package jp.nephy.penicillin.extensions
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.ApiAction
-import jp.nephy.penicillin.core.request.action.session
 import kotlinx.coroutines.*
 import mu.KotlinLogging
 import java.util.concurrent.TimeUnit

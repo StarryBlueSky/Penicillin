@@ -24,35 +24,35 @@
 
 package jp.nephy.penicillin.core.request
 
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.action.*
-import jp.nephy.penicillin.core.session.Session
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.models.PenicillinCursorModel
 import jp.nephy.penicillin.models.PenicillinModel
 
-class ApiRequest(val session: Session, val builder: ApiRequestBuilder) {
+class ApiRequest(val client: PenicillinClient, val builder: ApiRequestBuilder) {
     inline fun <reified M: PenicillinModel> jsonObject(): JsonObjectApiAction<M> {
-        return JsonObjectApiAction(this, M::class)
+        return JsonObjectApiAction(client, this, M::class)
     }
 
     inline fun <reified M: PenicillinModel> jsonArray(): JsonArrayApiAction<M> {
-        return JsonArrayApiAction(this, M::class)
+        return JsonArrayApiAction(client, this, M::class)
     }
 
     inline fun <reified M: PenicillinCursorModel> cursorJsonObject(): CursorJsonObjectApiAction<M> {
-        return CursorJsonObjectApiAction(this, M::class)
+        return CursorJsonObjectApiAction(client, this, M::class)
     }
 
     fun text(): TextApiAction {
-        return TextApiAction(this)
+        return TextApiAction(client, this)
     }
 
     fun empty(): EmptyApiAction {
-        return EmptyApiAction(this)
+        return EmptyApiAction(client, this)
     }
 
     fun <L: StreamListener, H: StreamHandler<L>> stream(): StreamApiAction<L, H> {
-        return StreamApiAction(this)
+        return StreamApiAction(client, this)
     }
 }

@@ -28,7 +28,7 @@ package jp.nephy.penicillin.extensions
 
 import jp.nephy.penicillin.core.response.ApiResponse
 
-val ApiResponse.accessLevel: AccessLevel?
+val ApiResponse<*>.accessLevel: AccessLevel?
     get() = AccessLevel.from(response.headers["x-access-level"])
 
 enum class AccessLevel(private val identifier: String) {

@@ -26,6 +26,7 @@ package jp.nephy.penicillin.core.request.action
 
 import jp.nephy.jsonkt.parseOrNull
 import jp.nephy.jsonkt.toJsonObjectOrNull
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
@@ -35,7 +36,7 @@ import jp.nephy.penicillin.models.PenicillinCursorModel
 import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
 
-class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M>> {
+class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val client: PenicillinClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M>> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): CursorJsonObjectResponse<M> {
         val (request, response) = execute()
@@ -45,10 +46,10 @@ class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val request: 
         val json = content?.toJsonObjectOrNull() ?: throw PenicillinLocalizedException(
             LocalizedString.JsonParsingFailed, request, response, null, content
         )
-        val result = json.parseOrNull(model) ?: throw PenicillinLocalizedException(
+        val result = json.parseOrNull(model, client) ?: json.parseOrNull(model) ?: throw PenicillinLocalizedException(
             LocalizedString.JsonModelCastFailed, request, response, null, model.simpleName, content
         )
 
-        return CursorJsonObjectResponse(model, result, request, response, content, this)
+        return CursorJsonObjectResponse(client, model, result, request, response, content, this)
     }
 }
