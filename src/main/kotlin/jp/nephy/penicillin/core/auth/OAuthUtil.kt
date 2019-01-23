@@ -25,9 +25,7 @@
 package jp.nephy.penicillin.core.auth
 
 import io.ktor.http.*
-import io.ktor.util.InternalAPI
 import io.ktor.util.date.GMTDate
-import io.ktor.util.encodeBase64
 import io.ktor.util.flattenForEach
 import jp.nephy.penicillin.core.request.body.EncodedFormContent
 import jp.nephy.penicillin.core.request.body.MultiPartContent
@@ -90,12 +88,11 @@ object OAuthUtil {
         return SecretKeySpec("${consumerSecret.encodeOAuth()}&${accessTokenSecret?.encodeOAuth().orEmpty()}".toByteArray(), macAlgorithm)
     }
     
-    @UseExperimental(InternalAPI::class)
     fun signature(signingKey: SecretKeySpec, signatureBaseString: String): String {
         return Mac.getInstance(macAlgorithm).apply {
             init(signingKey)
         }.doFinal(signatureBaseString.toByteArray()).let {
-            encodeBase64(it)
+            it.encodeBase64()
         }.encodeOAuth()
     }
 }
