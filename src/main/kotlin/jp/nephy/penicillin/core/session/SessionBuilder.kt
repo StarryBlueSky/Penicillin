@@ -30,10 +30,11 @@ import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.client.features.cookies.addCookie
 import io.ktor.util.KtorExperimentalAPI
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.session.config.*
 import kotlinx.coroutines.runBlocking
 
-class SessionBuilder {
+class SessionBuilder(private val client: PenicillinClient) {
     internal val configBuilders = mutableSetOf<SessionConfigBuilder<*>>()
     
     internal fun build(): Session {
@@ -65,6 +66,6 @@ class SessionBuilder {
             httpClient.engineConfig.threadsCount = dispatcher.connectionThreadsCount
         }
 
-        return Session(httpClient, dispatcher.coroutineContext, dispatcher.shouldClose, createCredentials(), createApiConfig())
+        return Session(client, httpClient, dispatcher.coroutineContext, dispatcher.shouldClose, createCredentials(), createApiConfig())
     }
 }

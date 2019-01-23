@@ -22,21 +22,22 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.response
+package jp.nephy.penicillin.extensions
 
-import io.ktor.client.request.HttpRequest
-import io.ktor.client.response.HttpResponse
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.request.ApiRequest
+import jp.nephy.penicillin.core.request.ApiRequestBuilder
 import jp.nephy.penicillin.core.request.action.ApiAction
-import kotlinx.io.core.Closeable
+import jp.nephy.penicillin.core.response.ApiResponse
+import jp.nephy.penicillin.core.session.Session
 
-interface ApiResponse<R: Any>: Closeable {
-    val client: PenicillinClient
-    val request: HttpRequest
-    val response: HttpResponse
-    val action: ApiAction<R>
+val ApiRequestBuilder.session: Session
+    get() = client.session
 
-    override fun close() {
-        response.close()
-    }
-}
+val ApiRequest.session: Session
+    get() = client.session
+
+val ApiAction<*>.session: Session
+    get() = client.session
+
+val ApiResponse<*>.session: Session
+    get() = client.session

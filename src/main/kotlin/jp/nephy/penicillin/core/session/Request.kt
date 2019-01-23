@@ -34,7 +34,7 @@ import jp.nephy.penicillin.core.request.EndpointHost
 private fun Session.call(
     method: HttpMethod, path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}
 ): ApiRequest {
-    return ApiRequestBuilder(this, method, host, path).apply(builder).build()
+    return ApiRequestBuilder(client, method, host, path).apply(builder).build()
 }
 
 fun Session.get(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {

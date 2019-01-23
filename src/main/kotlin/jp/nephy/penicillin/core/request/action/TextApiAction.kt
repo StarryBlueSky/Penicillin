@@ -24,18 +24,19 @@
 
 package jp.nephy.penicillin.core.request.action
 
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.TextResponse
 import kotlinx.coroutines.CancellationException
 
-class TextApiAction(override val request: ApiRequest): ApiAction<TextResponse> {
+class TextApiAction(override val client: PenicillinClient, override val request: ApiRequest): ApiAction<TextResponse> {
     @Throws(PenicillinException::class, CancellationException::class)
     override suspend fun await(): TextResponse {
         val (request, response) = execute()
         val content = response.readTextOrNull()
         checkError(request, response, content)
 
-        return TextResponse(request, response, content.orEmpty(), this)
+        return TextResponse(client, request, response, content.orEmpty(), this)
     }
 }

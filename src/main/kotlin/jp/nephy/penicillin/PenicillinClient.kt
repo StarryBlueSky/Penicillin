@@ -30,15 +30,23 @@ import jp.nephy.penicillin.core.session.SessionBuilder
 import kotlinx.io.core.Closeable
 
 /**
- * Penicillin main client.
- * 
- * @param builder Session configuration builder.
- * @constructor Creates new PenicillinClient with new Session.
+ * The Penicillin main client.
+ * [PenicillinClient] is [Closeable].
+ *
+ * @constructor Creates new [PenicillinClient] with new [Session].
+ * @param builder [Session] configuration builder.
  */
 @PenicillinClientDsl
 class PenicillinClient(builder: SessionBuilder.() -> Unit): Closeable {
-    val session: Session = SessionBuilder().apply(builder).build()
+    /**
+     * The [Session] instance.
+     * [Session] is [Closeable].
+     */
+    val session: Session = SessionBuilder(this).apply(builder).build()
 
+    /**
+     * Closes [Session] instance.
+     */
     override fun close() {
         session.close()
     }

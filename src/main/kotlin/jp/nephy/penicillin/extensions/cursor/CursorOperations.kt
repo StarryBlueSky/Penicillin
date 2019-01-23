@@ -67,7 +67,7 @@ fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long
 
     action.request.builder.parameter("cursor" to cursor)
 
-    return CursorJsonObjectApiAction(action.request, model)
+    return CursorJsonObjectApiAction(client, action.request, model)
 }
 
 @Throws(PenicillinException::class)

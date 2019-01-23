@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.core.request.action
 
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonObjectResponse
@@ -36,18 +37,22 @@ import kotlin.reflect.KClass
 private typealias JsonObjectActionCallback<M> = suspend (results: MultipleJsonObjectActions.Results<M>) -> ApiAction<*>
 
 // TODO
-class MultipleJsonObjectActions<M: PenicillinModel>(val first: JsonObjectApiAction<M>, private val requests: List<JsonObjectActionCallback<M>>): ApiAction<List<JsonObjectResponse<*>>> {
+class MultipleJsonObjectActions<M: PenicillinModel>(
+    override val client: PenicillinClient,
+    val first: JsonObjectApiAction<M>,
+    private val requests: List<JsonObjectActionCallback<M>>
+): ApiAction<List<JsonObjectResponse<*>>> {
     override val request: ApiRequest
         get() = first.request
 
-    class Builder<M: PenicillinModel>(private val first: () -> JsonObjectApiAction<M>) {
+    class Builder<M: PenicillinModel>(private val client: PenicillinClient, private val first: () -> JsonObjectApiAction<M>) {
         private val requests = mutableListOf<JsonObjectActionCallback<M>>()
         fun request(callback: JsonObjectActionCallback<M>) = apply {
             requests.add(callback)
         }
 
         internal fun build(): MultipleJsonObjectActions<M> {
-            return MultipleJsonObjectActions(first(), requests)
+            return MultipleJsonObjectActions(client, first(), requests)
         }
     }
 
@@ -70,7 +75,7 @@ class MultipleJsonObjectActions<M: PenicillinModel>(val first: JsonObjectApiActi
     }
 
     operator fun plus(callback: JsonObjectActionCallback<M>): MultipleJsonObjectActions<M> {
-        return Builder {
+        return Builder(client) {
             first
         }.also { builder ->
             requests.forEach {

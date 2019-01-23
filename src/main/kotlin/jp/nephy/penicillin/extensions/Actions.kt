@@ -35,5 +35,5 @@ inline fun <reified M: PenicillinModel> List<JsonObjectResponse<*>>.filter(): Li
 }
 
 fun <M: PenicillinModel, T: PenicillinModel> List<MultipleJsonObjectActions<M>>.join(finalizer: JoinedJsonObjectActionCallback<T>): JoinedJsonObjectActions<M, T> {
-    return JoinedJsonObjectActions(this, finalizer)
+    return JoinedJsonObjectActions(first().client, this, finalizer)
 }

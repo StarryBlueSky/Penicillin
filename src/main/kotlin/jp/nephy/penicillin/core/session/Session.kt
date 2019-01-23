@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.core.session
 
 import io.ktor.client.HttpClient
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.Credentials
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
@@ -36,7 +37,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.io.core.Closeable
 import kotlin.coroutines.CoroutineContext
 
-data class Session(private val underlyingHttpClient: HttpClient, override val coroutineContext: CoroutineContext, private val shouldClose: Boolean, val credentials: Credentials, val option: ApiConfig): Closeable, CoroutineScope {
+data class Session(val client: PenicillinClient, private val underlyingHttpClient: HttpClient, override val coroutineContext: CoroutineContext, private val shouldClose: Boolean, val credentials: Credentials, val option: ApiConfig): Closeable, CoroutineScope {
     val httpClient: HttpClient
         get() = if (underlyingHttpClient.coroutineContext.isActive) {
             underlyingHttpClient

@@ -29,7 +29,7 @@ package jp.nephy.penicillin.extensions
 import jp.nephy.penicillin.core.response.ApiResponse
 import java.util.*
 
-val ApiResponse.rateLimit: RateLimit
+val ApiResponse<*>.rateLimit: RateLimit
     get() {
         val limit = response.headers["x-rate-limit-limit"]?.toIntOrNull()
         val remaining = response.headers["x-rate-limit-remaining"]?.toIntOrNull()
