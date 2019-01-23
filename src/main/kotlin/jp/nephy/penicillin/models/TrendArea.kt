@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -31,17 +31,18 @@ import jp.nephy.jsonkt.delegation.int
 import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.nullableString
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class TrendArea(override val json: JsonObject): PenicillinModel {
+data class TrendArea(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     val country by string
     val countryCode by nullableString // null
     val name by string
     val parentid by int
-    val placeType by model<PlaceType>()
+    val placeType by penicillinModel<PlaceType>()
     val url by string
     val woeid by int
 
-    data class PlaceType(override val json: JsonObject): PenicillinModel {
+    data class PlaceType(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val code by int
         val name by string
     }

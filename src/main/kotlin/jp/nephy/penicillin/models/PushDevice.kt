@@ -22,14 +22,17 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.delegation.int
+import jp.nephy.jsonkt.delegation.long
+import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class PushDevice(override val json: JsonObject): PenicillinModel {
+data class PushDevice(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     val appVersion by int("app_version")
     val availableLevels by int("available_levels")
     val clientApplicationId by int("client_application_id")

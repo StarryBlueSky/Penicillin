@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -30,44 +30,45 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.modelList
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
 object NotificationInstruction {
-    data class ClearCache(override val json: JsonObject): PenicillinModel
+    data class ClearCache(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
 
-    data class AddEntries(override val json: JsonObject): PenicillinModel {
-        val entities by modelList<Entity>()
+    data class AddEntries(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        val entities by penicillinModelList<Entity>()
 
-        data class Entity(override val json: JsonObject): PenicillinModel {
-            val content by model<Content>()  // {...}
+        data class Entity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+            val content by penicillinModel<Content>()  // {...}
             val entryId by string
             val sortIndex by string
 
-            data class Content(override val json: JsonObject): PenicillinModel {
-                val item by model<Item>()
+            data class Content(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+                val item by penicillinModel<Item>()
 
-                data class Item(override val json: JsonObject): PenicillinModel {
-                    val clientEventInfo by model<ClientEventInfo>()  // {...}
-                    val content by model<Content>()  // {...}
+                data class Item(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+                    val clientEventInfo by penicillinModel<ClientEventInfo>()  // {...}
+                    val content by penicillinModel<Content>()  // {...}
 
-                    data class ClientEventInfo(override val json: JsonObject): PenicillinModel {
+                    data class ClientEventInfo(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
                         val component by string  // "urt"
-                        val details by model<Details>()  // {...}
+                        val details by penicillinModel<Details>()  // {...}
                         val element by string  // "user_replied_to_your_tweet"
 
-                        data class Details(override val json: JsonObject): PenicillinModel {
-                            val notificationDetails by model<NotificationDetails>()  // {...}
+                        data class Details(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+                            val notificationDetails by penicillinModel<NotificationDetails>()  // {...}
 
-                            data class NotificationDetails(override val json: JsonObject): PenicillinModel {
+                            data class NotificationDetails(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
                                 val impressionId by string
                                 val metadata by string
                             }
                         }
                     }
 
-                    data class Content(override val json: JsonObject): PenicillinModel {
-                        val tweet by model<Tweet>()  // {...}
+                    data class Content(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+                        val tweet by penicillinModel<Tweet>()  // {...}
 
-                        data class Tweet(override val json: JsonObject): PenicillinModel {
+                        data class Tweet(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
                             val displayType by string  // "Tweet"
                             val id by string  // "1036291914469765121"
                         }
@@ -77,9 +78,9 @@ object NotificationInstruction {
         }
     }
 
-    data class ClearEntriesUnreadState(override val json: JsonObject): PenicillinModel
+    data class ClearEntriesUnreadState(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
 
-    data class MarkEntriesUnreadGreaterThanSortIndex(override val json: JsonObject): PenicillinModel {
+    data class MarkEntriesUnreadGreaterThanSortIndex(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val sortIndex by string
     }
 }

@@ -25,16 +25,17 @@
 package jp.nephy.penicillin.core.streaming.handler
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.parse
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.streaming.listener.LivePipelineListener
 import jp.nephy.penicillin.models.Stream
+import jp.nephy.penicillin.models.parsePenicillinModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class LivePipelineHandler(override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
+class LivePipelineHandler(override val client: PenicillinClient, override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
         scope.launch(scope.coroutineContext) {
-            val pipeline = json.parse<Stream.LivePipeline>()
+            val pipeline = client.parsePenicillinModel<Stream.LivePipeline>(json)
             val topic = pipeline.topic
             val id = topic.split("/").lastOrNull()?.toLongOrNull() ?: return@launch listener.onUnhandledJson(json)
             

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -31,13 +31,14 @@ import jp.nephy.jsonkt.delegation.long
 import jp.nephy.jsonkt.delegation.nullableInt
 import jp.nephy.jsonkt.delegation.nullableModel
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class ExtendedProfile(override val json: JsonObject): PenicillinModel {
+data class ExtendedProfile(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     val id by long
     val idStr by string
     val birthdate by nullableModel<BirthDate>()
 
-    data class BirthDate(override val json: JsonObject): PenicillinModel {
+    data class BirthDate(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val year by nullableInt
         val month by nullableInt
         val day by nullableInt

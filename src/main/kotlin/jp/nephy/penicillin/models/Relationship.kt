@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -31,12 +31,13 @@ import jp.nephy.jsonkt.delegation.boolean
 import jp.nephy.jsonkt.delegation.long
 import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class Relationship(override val json: JsonObject): PenicillinModel {
-    val source by model<Source>()
-    val target by model<Target>()
+data class Relationship(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val source by penicillinModel<Source>()
+    val target by penicillinModel<Target>()
 
-    data class Source(override val json: JsonObject): PenicillinModel {
+    data class Source(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val allReplies by boolean("all_replies")
         val blockedBy by boolean("blocked_by")
         val blocking by boolean
@@ -56,7 +57,7 @@ data class Relationship(override val json: JsonObject): PenicillinModel {
         val wantRetweets by boolean("want_retweets")
     }
 
-    data class Target(override val json: JsonObject): PenicillinModel {
+    data class Target(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val followedBy by boolean("followed_by")
         val following by boolean
         val followingReceived by boolean("following_received")

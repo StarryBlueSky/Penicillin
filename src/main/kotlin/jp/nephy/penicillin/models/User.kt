@@ -22,16 +22,17 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
-data class User(val parentJson: JsonObject): CommonUser(parentJson)
+data class User(val parentJson: JsonObject, override val client: PenicillinClient): CommonUser(parentJson, client)
 
-abstract class CommonUser(final override val json: JsonObject): PenicillinModel {
+abstract class CommonUser(final override val json: JsonObject, client: PenicillinClient): PenicillinModel {
     val advertiserAccountServiceLevels by stringList("advertiser_account_service_levels")
     val advertiserAccountType by nullableString("advertiser_account_type")
     val analyticsType by nullableString("analytics_type")
@@ -71,9 +72,9 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val profileBackgroundImageUrl by string("profile_background_image_url")
     val profileBackgroundImageUrlHttps by string("profile_background_image_url_https")
     val profileBackgroundTile by boolean("profile_background_tile")
-    val profileBannerExtension by nullableModel<ProfileImageExtension>(key = "profile_banner_extensions")
+    val profileBannerExtension by nullableModel<ProfileImageExtension>("profile_banner_extensions", client)
     val profileBannerUrl by nullableString("profile_banner_url")
-    val profileImageExtensions by nullableModel<ProfileImageExtension>(key = "profile_image_extensions")
+    val profileImageExtensions by nullableModel<ProfileImageExtension>("profile_image_extensions", client)
     val profileImageUrl by string("profile_image_url")
     val profileImageUrlHttps by string("profile_image_url_https")
     val profileInterstitialType by nullableString("profile_interstitial_type")
@@ -95,10 +96,10 @@ abstract class CommonUser(final override val json: JsonObject): PenicillinModel 
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
 
-    data class ProfileImageExtension(override val json: JsonObject): PenicillinModel {
-        val mediaColor by model<MediaColor>()
+    data class ProfileImageExtension(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        val mediaColor by penicillinModel<MediaColor>()
 
-        data class MediaColor(override val json: JsonObject): PenicillinModel {
+        data class MediaColor(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val r by jsonObject
             val ttl by int
         }

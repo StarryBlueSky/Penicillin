@@ -22,15 +22,16 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
 object Account {
-    data class Settings(override val json: JsonObject): PenicillinModel {
+    data class Settings(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val addressBookLiveSyncEnabled by boolean("address_book_live_sync_enabled")
         val allowAdsPersonalization by boolean("allow_ads_personalization")
         val allowAuthenticatedPeriscopeRequests by boolean("allow_authenticated_periscope_requests")
@@ -58,33 +59,33 @@ object Account {
         val rankedTimelineEligible by nullableString("ranked_timeline_eligible")
         val rankedTimelineSetting by nullableInt("ranked_timeline_setting")
         val screenName by string("screen_name")
-        val settingsMetadata by model<SettingMetadata>(key = "settings_metadata")
-        val sleepTime by model<SleepTime>(key = "sleep_time")
-        val timeZone by model<TimeZone>(key = "time_zone")
+        val settingsMetadata by penicillinModel<SettingMetadata>("settings_metadata")
+        val sleepTime by penicillinModel<SleepTime>("sleep_time")
+        val timeZone by penicillinModel<TimeZone>("time_zone")
         val translatorType by string("translator_type")
         val universalQualityFilteringEnabled by string("universal_quality_filtering_enabled")
         val useCookiePersonalization by boolean("use_cookie_personalization")
 
-        data class SettingMetadata(override val json: JsonObject): PenicillinModel
+        data class SettingMetadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
 
-        data class SleepTime(override val json: JsonObject): PenicillinModel {
+        data class SleepTime(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val enabled by boolean
             val startTime by nullableLong("start_time")
             val endTime by nullableLong("end_time")
         }
 
-        data class TimeZone(override val json: JsonObject): PenicillinModel {
+        data class TimeZone(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val name by string
             val utcOffset by int("utc_offset")
             val tzinfoName by string("tzinfo_name")
         }
     }
 
-    data class VerifyCredentials(val parentJson: JsonObject): CommonUser(parentJson) {
+    data class VerifyCredentials(val parentJson: JsonObject, override val client: PenicillinClient): CommonUser(parentJson, client) {
         val email by string
-        val phone by model<Phone>()
+        val phone by penicillinModel<Phone>()
 
-        data class Phone(override val json: JsonObject): PenicillinModel {
+        data class Phone(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
             val address by nullableString
             val addressForSms by nullableString("address_for_sms")
             val carrier by nullableString

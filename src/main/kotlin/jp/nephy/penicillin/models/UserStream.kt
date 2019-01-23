@@ -22,37 +22,38 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
 object UserStream {
     abstract class Event(final override val json: JsonObject): PenicillinModel {
         val event by string
-        val source by model<User>()
-        val target by model<User>()
+        val source by penicillinModel<User>()
+        val target by penicillinModel<User>()
         // val createdAt by string("created_at")
     }
 
-    data class UserEvent(val parentJson: JsonObject): Event(parentJson)
+    data class UserEvent(val parentJson: JsonObject, override val client: PenicillinClient): Event(parentJson)
 
-    data class StatusEvent(val parentJson: JsonObject): Event(parentJson) {
-        val targetObject by model<Status>(key = "target_object")
+    data class StatusEvent(val parentJson: JsonObject, override val client: PenicillinClient): Event(parentJson) {
+        val targetObject by penicillinModel<Status>("target_object")
     }
 
-    data class ListEvent(val parentJson: JsonObject): Event(parentJson) {
-        val targetObject by model<TwitterList>(key = "target_object")
+    data class ListEvent(val parentJson: JsonObject, override val client: PenicillinClient): Event(parentJson) {
+        val targetObject by penicillinModel<TwitterList>("target_object")
     }
 
-    data class Friends(override val json: JsonObject): PenicillinModel {
+    data class Friends(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val friends by nullableLongList()
         val friendsStr by nullableStringList
     }
 
-    data class ScrubGeo(override val json: JsonObject): PenicillinModel {
+    data class ScrubGeo(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         private val scrubGeo by jsonObject("scrub_geo")
         val userId by scrubGeo.byLong("user_id")
         val userIdStr by scrubGeo.byString("user_id_str")
@@ -61,7 +62,7 @@ object UserStream {
         val timestampMs by scrubGeo.byString("timestamp_ms")
     }
 
-    data class StatusWithheld(override val json: JsonObject): PenicillinModel {
+    data class StatusWithheld(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         private val statusWithheld by jsonObject("status_withheld")
         val userId by statusWithheld.byLong("user_id")
         val id by statusWithheld.byLong
@@ -69,26 +70,26 @@ object UserStream {
         val withheldInCountries by statusWithheld.byStringList("withheld_in_countries")
     }
 
-    data class UserWithheld(override val json: JsonObject): PenicillinModel {
+    data class UserWithheld(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         private val userWithheld by jsonObject("user_withheld")
         val id by userWithheld.byLong
         val withheldInCountries by userWithheld.byStringList("withheld_in_countries")
     }
 
-    data class Disconnect(override val json: JsonObject): PenicillinModel {
+    data class Disconnect(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         private val disconnect by jsonObject
         val code by disconnect.byInt
         val streamName by disconnect.byNullableString("stream_name")
         val reason by disconnect.byString
     }
 
-    data class Limit(override val json: JsonObject): PenicillinModel {
+    data class Limit(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         private val limit by jsonObject
         val track by limit.byInt
         val timestampMs by limit.byString("timestamp_ms")
     }
 
-    data class Warning(override val json: JsonObject): PenicillinModel {
+    data class Warning(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         private val warning by jsonObject
         val code by warning.byInt
         val message by warning.byString

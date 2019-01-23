@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -31,20 +31,21 @@ import jp.nephy.jsonkt.delegation.intList
 import jp.nephy.jsonkt.delegation.long
 import jp.nephy.jsonkt.delegation.modelList
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class StatusEntity(override val json: JsonObject): PenicillinModel {
-    val hashtags by modelList<HashtagEntity>()
-    val media by modelList<MediaEntity>()
-    val symbols by modelList<SymbolEntity>()
-    val userMentions by modelList<UserMentionEntity>(key = "user_mentions")
-    val urls by modelList<URLEntity>()
+data class StatusEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val hashtags by penicillinModelList<HashtagEntity>()
+    val media by penicillinModelList<MediaEntity>()
+    val symbols by penicillinModelList<SymbolEntity>()
+    val userMentions by penicillinModelList<UserMentionEntity>("user_mentions")
+    val urls by penicillinModelList<URLEntity>()
 
-    data class HashtagEntity(override val json: JsonObject): PenicillinModel {
+    data class HashtagEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val text by string
         val indices by intList
     }
 
-    data class UserMentionEntity(override val json: JsonObject): PenicillinModel {
+    data class UserMentionEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val screenName by string("screen_name")
         val name by string
         val id by long
@@ -52,7 +53,7 @@ data class StatusEntity(override val json: JsonObject): PenicillinModel {
         val indices by intList()
     }
 
-    data class SymbolEntity(override val json: JsonObject): PenicillinModel {
+    data class SymbolEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val text by string
         val indices by intList
     }

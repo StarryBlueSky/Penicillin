@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.extensions.endpoints
 
 import jp.nephy.jsonkt.JsonObject
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
@@ -36,6 +37,7 @@ import jp.nephy.penicillin.endpoints.parameters.StreamDelimitedBy
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.UserStream
+import jp.nephy.penicillin.models.parsePenicillinModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -62,21 +64,21 @@ interface TweetstormListener: StreamListener {
     suspend fun onDelete(delete: jp.nephy.penicillin.models.Stream.Delete) {}
 }
 
-class TweetstormHandler(override val listener: TweetstormListener): StreamHandler<TweetstormListener> {
+class TweetstormHandler(override val client: PenicillinClient, override val listener: TweetstormListener): StreamHandler<TweetstormListener> {
     override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
         scope.launch {
             when {
                 "text" in json -> {
-                    listener.onStatus(Status(json))
+                    listener.onStatus(client.parsePenicillinModel(json))
                 }
                 "direct_message" in json -> {
-                    listener.onDirectMessage(DirectMessage(json))
+                    listener.onDirectMessage(client.parsePenicillinModel(json))
                 }
                 "friends" in json -> {
-                    listener.onFriends(UserStream.Friends(json))
+                    listener.onFriends(client.parsePenicillinModel(json))
                 }
                 "delete" in json -> {
-                    listener.onDelete(jp.nephy.penicillin.models.Stream.Delete(json))
+                    listener.onDelete(client.parsePenicillinModel(json))
                 }
                 else -> {
                     listener.onUnhandledJson(json)

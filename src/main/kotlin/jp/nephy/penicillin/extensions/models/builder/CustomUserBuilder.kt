@@ -28,10 +28,12 @@ package jp.nephy.penicillin.extensions.models.builder
 
 import jp.nephy.jsonkt.jsonArrayOf
 import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.User
+import jp.nephy.penicillin.models.parsePenicillinModel
 import java.util.*
 
-class CustomUserBuilder: JsonBuilder<User> {
+class CustomUserBuilder(private val client: PenicillinClient): JsonBuilder<User> {
     companion object {
         private const val userId = 1L
     }
@@ -149,6 +151,6 @@ class CustomUserBuilder: JsonBuilder<User> {
             it["created_at"] = createdAt.toCreatedAt()
         }
 
-        return User(json)
+        return client.parsePenicillinModel(json)
     }
 }

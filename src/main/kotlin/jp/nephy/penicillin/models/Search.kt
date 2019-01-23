@@ -22,18 +22,19 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
+import jp.nephy.penicillin.PenicillinClient
 
-data class Search(override val json: JsonObject): PenicillinModel {
-    val searchMetadata by model<SearchMetadata>(key = "search_metadata")
-    val statuses by modelList<Status>()
+data class Search(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val searchMetadata by penicillinModel<SearchMetadata>("search_metadata")
+    val statuses by penicillinModelList<Status>()
 
-    data class SearchMetadata(override val json: JsonObject): PenicillinModel {
+    data class SearchMetadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val completedIn by float("completed_in")
         val count by int
         val maxId by long("max_id")

@@ -30,12 +30,15 @@ import jp.nephy.jsonkt.asJsonElement
 import jp.nephy.jsonkt.edit
 import jp.nephy.jsonkt.jsonArrayOf
 import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.Status
+import jp.nephy.penicillin.models.parsePenicillinModel
 import kotlinx.atomicfu.atomic
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.set
 
-class CustomStatusBuilder: JsonBuilder<Status> {
+class CustomStatusBuilder(private val client: PenicillinClient): JsonBuilder<Status> {
     override var json = jsonObjectOf(
             "created_at" to null,
             "id" to null,
@@ -94,7 +97,7 @@ class CustomStatusBuilder: JsonBuilder<Status> {
         createdAt = date
     }
 
-    private var user = CustomUserBuilder()
+    private var user = CustomUserBuilder(client)
     fun user(builder: CustomUserBuilder.() -> Unit) {
         user.apply(builder)
     }
@@ -136,7 +139,7 @@ class CustomStatusBuilder: JsonBuilder<Status> {
         val id = generateId()
         val user = user.build()
 
-        return Status(json.edit {
+        update {
             it["text"] = text
 
             it["id"] = id
@@ -172,7 +175,9 @@ class CustomStatusBuilder: JsonBuilder<Status> {
                     )
                 }
             }
-        })
+        }
+
+        return client.parsePenicillinModel(json)
     }
 }
 

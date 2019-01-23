@@ -41,11 +41,11 @@ fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(handler
 fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(listener: L): StreamProcessor<L, H> {
     @Suppress("UNCHECKED_CAST")
     val handler = when (listener) {
-        is UserStreamListener -> UserStreamHandler(listener)
-        is SampleStreamListener -> SampleStreamHandler(listener)
-        is FilterStreamListener -> FilterStreamHandler(listener)
-        is LivePipelineListener -> LivePipelineHandler(listener)
-        is TweetstormListener -> TweetstormHandler(listener)
+        is UserStreamListener -> UserStreamHandler(client, listener)
+        is SampleStreamListener -> SampleStreamHandler(client, listener)
+        is FilterStreamListener -> FilterStreamHandler(client, listener)
+        is LivePipelineListener -> LivePipelineHandler(client, listener)
+        is TweetstormListener -> TweetstormHandler(client, listener)
         else -> throw IllegalArgumentException("Unsupported StreamListener: ${listener::class.qualifiedName}")
     } as H
 

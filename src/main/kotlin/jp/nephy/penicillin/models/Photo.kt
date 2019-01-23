@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
@@ -30,14 +30,15 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.int
 import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class Photo(override val json: JsonObject): PenicillinModel {
-    val large by model<Size>()
-    val medium by model<Size>()
-    val small by model<Size>()
-    val thumb by model<Size>()
+data class Photo(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val large by penicillinModel<Size>()
+    val medium by penicillinModel<Size>()
+    val small by penicillinModel<Size>()
+    val thumb by penicillinModel<Size>()
 
-    data class Size(override val json: JsonObject): PenicillinModel {
+    data class Size(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
         val h by int
         val resize by string
         val w by int

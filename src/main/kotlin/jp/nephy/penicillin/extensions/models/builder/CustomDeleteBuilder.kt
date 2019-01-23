@@ -26,13 +26,14 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.edit
 import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.models.Stream
+import jp.nephy.penicillin.models.parsePenicillinModel
 import java.util.*
 import kotlin.properties.Delegates
 
-class CustomDeleteBuilder: JsonBuilder<Stream.Delete> {
+class CustomDeleteBuilder(private val client: PenicillinClient): JsonBuilder<Stream.Delete> {
     override var json = jsonObjectOf(
         "delete" to jsonObjectOf(
             "status" to jsonObjectOf(
@@ -61,16 +62,14 @@ class CustomDeleteBuilder: JsonBuilder<Stream.Delete> {
     }
 
     override fun build(): Stream.Delete {
-        return Stream.Delete(json.edit {
+        update {
             it["delete"] = jsonObjectOf(
                 "status" to jsonObjectOf(
-                    "id" to statusId,
-                    "id_str" to statusId.toString(),
-                    "user_id" to userId,
-                    "user_id_str" to userId.toString()
-                ),
-                "timestamp_ms" to (createdAt ?: Date()).time.toString()
+                    "id" to statusId, "id_str" to statusId.toString(), "user_id" to userId, "user_id_str" to userId.toString()
+                ), "timestamp_ms" to (createdAt ?: Date()).time.toString()
             )
-        })
+        }
+        
+        return client.parsePenicillinModel(json)
     }
 }

@@ -22,14 +22,15 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.delegation.int
+import jp.nephy.penicillin.PenicillinClient
 
-data class FaceCoordinate(override val json: JsonObject): PenicillinModel {
+data class FaceCoordinate(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     val x by int
     val y by int
     val h by int

@@ -22,19 +22,20 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.modelList
+import jp.nephy.penicillin.PenicillinClient
 
-data class UserEntity(override val json: JsonObject): PenicillinModel {
-    val url by model<UserProfileEntity>()
-    val description by model<UserProfileEntity>()
+data class UserEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    val url by penicillinModel<UserProfileEntity>()
+    val description by penicillinModel<UserProfileEntity>()
 
-    data class UserProfileEntity(override val json: JsonObject): PenicillinModel {
-        val urls by modelList<URLEntity>()
+    data class UserProfileEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        val urls by penicillinModelList<URLEntity>()
     }
 }

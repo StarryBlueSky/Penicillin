@@ -22,14 +22,16 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.delegation.nullableString
+import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.PenicillinClient
 
-data class OAuth2Token(override val json: JsonObject): PenicillinModel {
+data class OAuth2Token(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
     val tokenType by nullableString("token_type")
     val token by string("access_token")
 }
