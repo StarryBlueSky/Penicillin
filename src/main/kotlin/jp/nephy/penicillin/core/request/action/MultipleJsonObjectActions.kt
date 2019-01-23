@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
@@ -59,7 +60,7 @@ class MultipleJsonObjectActions<M: PenicillinModel>(
     class Results<M: PenicillinModel>(val first: JsonObjectResponse<M>, val responses: Map<KClass<out PenicillinModel>, List<JsonObjectResponse<*>>>)
 
     @Throws(PenicillinException::class, CancellationException::class)
-    override suspend fun await(): List<JsonObjectResponse<*>> {
+    override suspend operator fun invoke(): List<JsonObjectResponse<*>> {
         val first = first.await()
         val responses = mutableMapOf<KClass<out PenicillinModel>, MutableList<JsonObjectResponse<*>>>()
 
