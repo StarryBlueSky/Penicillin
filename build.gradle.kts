@@ -1,3 +1,4 @@
+@file:Suppress("KDocMissingDocumentation", "PublicApiImplicitType")
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import com.github.breadmoirai.ChangeLogSupplier
@@ -82,7 +83,7 @@ dependencies {
     testImplementation("io.ktor:ktor-client-jetty:$ktorVersion")
     testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
-    api("jp.nephy:jsonkt:4.4")
+    api("jp.nephy:jsonkt:4.5")
     testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
 
     api("io.github.microutils:kotlin-logging:1.6.22")
