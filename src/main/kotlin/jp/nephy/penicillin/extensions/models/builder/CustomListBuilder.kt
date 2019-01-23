@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
@@ -33,7 +34,7 @@ import jp.nephy.penicillin.models.TwitterList
 import java.util.*
 
 class CustomListBuilder: JsonBuilder<TwitterList> {
-    override var json = jsonObjectOf(
+    override var json: JsonObject = jsonObjectOf(
             "created_at" to null,
             "description" to "Tweetstorm",
             "following" to false,

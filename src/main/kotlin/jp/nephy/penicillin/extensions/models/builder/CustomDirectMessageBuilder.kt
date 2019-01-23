@@ -34,7 +34,7 @@ import jp.nephy.penicillin.models.DirectMessage
 import java.util.*
 
 class CustomDirectMessageBuilder: JsonBuilder<DirectMessage> {
-    override var json = jsonObjectOf(
+    override var json: JsonObject = jsonObjectOf(
         "created_at" to null,
         "entities" to jsonObjectOf(),
         "id" to null,
