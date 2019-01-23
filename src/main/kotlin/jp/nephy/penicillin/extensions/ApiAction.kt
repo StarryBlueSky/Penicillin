@@ -34,6 +34,11 @@ import mu.KotlinLogging
 import java.util.concurrent.TimeUnit
 
 @Throws(PenicillinException::class, CancellationException::class)
+suspend fun <R: Any> ApiAction<R>.await(): R {
+    return invoke()
+}
+
+@Throws(PenicillinException::class, CancellationException::class)
 suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeout: Long, unit: TimeUnit): R? {
     return withTimeoutOrNull(unit.toMillis(timeout)) {
         await()
@@ -68,7 +73,9 @@ internal typealias ApiCallback<R> = suspend (response: R) -> Unit
 internal typealias ApiFallback = suspend (e: Throwable) -> Unit
 
 private val defaultLogger = KotlinLogging.logger("Penicillin.Client")
-val ApiAction<*>.defaultApiFallback: ApiFallback
+
+@PublishedApi
+internal val ApiAction<*>.defaultApiFallback: ApiFallback
     get() = {
         defaultLogger.error(it) { LocalizedString.ExceptionInAsyncBlock.format() }
     }

@@ -30,6 +30,6 @@ import jp.nephy.penicillin.core.session.ApiClient
 interface ApiAction<R: Any> {
     val client: ApiClient
     val request: ApiRequest
-
-    suspend fun await(): R
+    
+    suspend operator fun invoke(): R
 }

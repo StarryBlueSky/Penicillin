@@ -25,7 +25,6 @@
 package jp.nephy.penicillin.core.request.action
 
 import jp.nephy.jsonkt.toJsonObjectOrNull
-import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
@@ -33,12 +32,10 @@ import jp.nephy.penicillin.core.response.JsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.parseModelOrNull
 import jp.nephy.penicillin.models.PenicillinModel
-import kotlinx.coroutines.CancellationException
 import kotlin.reflect.KClass
 
 class JsonObjectApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonObjectResponse<M>> {
-    @Throws(PenicillinException::class, CancellationException::class)
-    override suspend fun await(): JsonObjectResponse<M> {
+    override suspend operator fun invoke(): JsonObjectResponse<M> {
         val (request, response) = execute()
         val content = response.readTextOrNull()
         checkError(request, response, content)

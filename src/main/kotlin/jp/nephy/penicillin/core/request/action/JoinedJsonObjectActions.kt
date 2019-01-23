@@ -24,12 +24,11 @@
 
 package jp.nephy.penicillin.core.request.action
 
-import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.models.PenicillinModel
-import kotlinx.coroutines.CancellationException
 
 typealias JoinedJsonObjectActionCallback<M> = (results: List<List<JsonObjectResponse<*>>>) -> JsonObjectApiAction<M>
 
@@ -42,8 +41,7 @@ class JoinedJsonObjectActions<M: PenicillinModel, T: PenicillinModel>(
     override val request: ApiRequest
         get() = actions.last().first.request
 
-    @Throws(PenicillinException::class, CancellationException::class)
-    override suspend fun await(): JsonObjectResponse<T> {
+    override suspend operator fun invoke(): JsonObjectResponse<T> {
         return finalizer(actions.map { it.await() }).await()
     }
 }

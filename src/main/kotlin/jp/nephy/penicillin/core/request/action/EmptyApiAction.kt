@@ -28,7 +28,7 @@ import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.session.ApiClient
 
 class EmptyApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<Unit> {
-    override suspend fun await() {
+    override suspend operator fun invoke() {
         val (request, response) = execute()
         val content = response.readTextOrNull()
         checkError(request, response, content)
