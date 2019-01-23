@@ -28,9 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class Status(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val contributors by penicillinModelList<Contributor>()
     val conversationId by nullableLong("conversation_id")
     val coordinates by nullableModel<Coordinate>()
@@ -76,13 +78,13 @@ data class Status(override val json: JsonObject, override val client: Penicillin
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
 
-    data class Contributor(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Contributor(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val id by long
         val idStr by string("id_str")
         val screenName by string("screen_name")
     }
 
-    data class Coordinate(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Coordinate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         private val coordinates by floatList
         val type by string
         val longitude by nullableLambda {
@@ -101,18 +103,18 @@ data class Status(override val json: JsonObject, override val client: Penicillin
         }
     }
 
-    data class CurrentUserRetweet(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class CurrentUserRetweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val id by long
         val idStr by string("id_str")
     }
 
-    data class ExtendedEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class ExtendedEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val displayTextRange by intList("display_text_range")
         val media by penicillinModelList<MediaEntity>()
         val fullText by nullableString("full_text")
     }
 
-    data class ExtendedTweet(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class ExtendedTweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val displayTextRange by intList("display_text_range")
         val entities by penicillinModel<StatusEntity>()
         val fullText by nullableString("full_text")

@@ -27,16 +27,16 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.delete
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.DirectMessageEvent
 
-val PenicillinClient.directMessageEvent: DirectMessageEvents
+val ApiClient.directMessageEvent: DirectMessageEvents
     get() = DirectMessageEvents(this)
 
-class DirectMessageEvents(override val client: PenicillinClient): Endpoint {
+class DirectMessageEvents(override val client: ApiClient): Endpoint {
     fun create(userId: String, text: String, vararg options: Pair<String, String>) = client.session.post("/1.1/direct_messages/events/new.json") {
         body {
             json {
@@ -56,15 +56,15 @@ class DirectMessageEvents(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<DirectMessageEvent.Show>()
 
-    fun delete(id: String, vararg options: Pair<String, Any?>) = client.session.delete("/1.1/direct_messages/events/destroy.json") {
+    fun delete(id: String, vararg options: Option) = client.session.delete("/1.1/direct_messages/events/destroy.json") {
         parameter("id" to id, *options)
     }.text()
 
-    fun list(count: Int? = null, cursor: String? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages/events/list.json") {
+    fun list(count: Int? = null, cursor: String? = null, vararg options: Option) = client.session.get("/1.1/direct_messages/events/list.json") {
         parameter("count" to count, "cursor" to cursor, *options)
     }.jsonObject<DirectMessageEvent.List>()
 
-    fun show(id: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/direct_messages/events/show.json") {
+    fun show(id: String, vararg options: Option) = client.session.get("/1.1/direct_messages/events/show.json") {
         parameter("id" to id, *options)
     }.jsonObject<DirectMessageEvent.Show>()
 }

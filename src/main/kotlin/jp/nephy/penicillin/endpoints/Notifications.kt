@@ -26,17 +26,17 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.models.NotificationAll
 
-val PenicillinClient.notifications: Notifications
+val ApiClient.notifications: Notifications
     get() = Notifications(this)
 
-class Notifications(override val client: PenicillinClient): Endpoint {
+class Notifications(override val client: ApiClient): Endpoint {
     @PrivateEndpoint
-    fun all() = client.session.get("/2/notifications/all.json") {
+    fun all(vararg options: Option) = client.session.get("/2/notifications/all.json") {
         parameter(
             "cards_platform" to "iPhone-13",
             "contributor_details" to "1",
@@ -58,6 +58,7 @@ class Notifications(override val client: PenicillinClient): Endpoint {
             "last_seen_cursor" to null,
             "request_context" to "polling",
             "tweet_mode" to "extended",
+            *options,
             emulationMode = EmulationMode.TwitterForiPhone
         )
     }.jsonObject<NotificationAll>()

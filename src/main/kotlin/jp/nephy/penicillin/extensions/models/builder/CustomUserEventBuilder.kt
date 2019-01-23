@@ -27,13 +27,13 @@
 package jp.nephy.penicillin.extensions.models.builder
 
 import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
+import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.UserStream
-import jp.nephy.penicillin.models.parsePenicillinModel
 import java.util.*
 
-class CustomUserEventBuilder(private val client: PenicillinClient, type: UserStreamEvent): JsonBuilder<UserStream.UserEvent> {
+class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<UserStream.UserEvent> {
     override var json = jsonObjectOf(
             "event" to type.key,
             "source" to null,
@@ -41,12 +41,12 @@ class CustomUserEventBuilder(private val client: PenicillinClient, type: UserStr
             "created_at" to null
     )
 
-    private var source = CustomUserBuilder(client)
+    private var source = CustomUserBuilder()
     fun source(builder: CustomUserBuilder.() -> Unit) {
         source.apply(builder)
     }
 
-    private var target = CustomUserBuilder(client)
+    private var target = CustomUserBuilder()
     fun target(builder: CustomUserBuilder.() -> Unit) {
         target.apply(builder)
     }
@@ -56,6 +56,7 @@ class CustomUserEventBuilder(private val client: PenicillinClient, type: UserStr
         createdAt = date
     }
 
+    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): UserStream.UserEvent {
         val source = source.build()
         val target = target.build()
@@ -66,6 +67,6 @@ class CustomUserEventBuilder(private val client: PenicillinClient, type: UserStr
             it["created_at"] = createdAt.toCreatedAt()
         }
 
-        return client.parsePenicillinModel(json)
+        return json.parseModel()
     }
 }

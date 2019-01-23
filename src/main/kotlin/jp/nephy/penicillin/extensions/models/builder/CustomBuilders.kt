@@ -26,42 +26,41 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEventType
 import jp.nephy.penicillin.models.*
 
-fun PenicillinClient.newStatus(builder: CustomStatusBuilder.() -> Unit): Status {
-    return CustomStatusBuilder(this).apply(builder).build()
+fun newStatus(builder: CustomStatusBuilder.() -> Unit): Status {
+    return CustomStatusBuilder().apply(builder).build()
 }
 
-fun PenicillinClient.newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuilder.() -> Unit): UserStream.StatusEvent {
+fun newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuilder.() -> Unit): UserStream.StatusEvent {
     require(event.type == UserStreamEventType.Status)
-    return CustomStatusEventBuilder(this, event).apply(builder).build()
+    return CustomStatusEventBuilder(event).apply(builder).build()
 }
 
-fun PenicillinClient.newList(builder: CustomListBuilder.() -> Unit): TwitterList {
-    return CustomListBuilder(this).apply(builder).build()
+fun newList(builder: CustomListBuilder.() -> Unit): TwitterList {
+    return CustomListBuilder().apply(builder).build()
 }
 
-fun PenicillinClient.newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.() -> Unit): UserStream.ListEvent {
+fun newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.() -> Unit): UserStream.ListEvent {
     require(event.type == UserStreamEventType.List)
-    return CustomListEventBuilder(this, event).apply(builder).build()
+    return CustomListEventBuilder(event).apply(builder).build()
 }
 
-fun PenicillinClient.newUser(builder: CustomUserBuilder.() -> Unit): User {
-    return CustomUserBuilder(this).apply(builder).build()
+fun newUser(builder: CustomUserBuilder.() -> Unit): User {
+    return CustomUserBuilder().apply(builder).build()
 }
 
-fun PenicillinClient.newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.() -> Unit): UserStream.UserEvent {
+fun newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.() -> Unit): UserStream.UserEvent {
     require(event.type == UserStreamEventType.User)
-    return CustomUserEventBuilder(this, event).apply(builder).build()
+    return CustomUserEventBuilder(event).apply(builder).build()
 }
 
-fun PenicillinClient.newDirectMessage(builder: CustomDirectMessageBuilder.() -> Unit): DirectMessage {
-    return CustomDirectMessageBuilder(this).apply(builder).build()
+fun newDirectMessage(builder: CustomDirectMessageBuilder.() -> Unit): DirectMessage {
+    return CustomDirectMessageBuilder().apply(builder).build()
 }
 
-fun PenicillinClient.newDelete(builder: CustomDeleteBuilder.() -> Unit): Stream.Delete {
-    return CustomDeleteBuilder(this).apply(builder).build()
+fun newDelete(builder: CustomDeleteBuilder.() -> Unit): Stream.Delete {
+    return CustomDeleteBuilder().apply(builder).build()
 }

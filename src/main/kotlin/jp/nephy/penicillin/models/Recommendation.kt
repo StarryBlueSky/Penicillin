@@ -27,11 +27,11 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
-data class Recommendation(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class Recommendation(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val token by string
     val userId by string("user_id")
     val user by penicillinModel<User>()

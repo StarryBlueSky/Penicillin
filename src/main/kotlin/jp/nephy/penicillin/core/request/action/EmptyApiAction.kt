@@ -24,10 +24,10 @@
 
 package jp.nephy.penicillin.core.request.action
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.ApiRequest
+import jp.nephy.penicillin.core.session.ApiClient
 
-class EmptyApiAction(override val client: PenicillinClient, override val request: ApiRequest): ApiAction<Unit> {
+class EmptyApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<Unit> {
     override suspend fun await() {
         val (request, response) = execute()
         val content = response.readTextOrNull()

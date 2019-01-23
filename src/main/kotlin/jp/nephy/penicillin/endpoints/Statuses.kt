@@ -28,14 +28,15 @@ package jp.nephy.penicillin.endpoints
 
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.jsonkt.toJsonString
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JoinedJsonObjectActions
 import jp.nephy.penicillin.core.request.action.MultipleJsonObjectActions
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.cards.create
 import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
 import jp.nephy.penicillin.endpoints.parameters.EmbedWidgetType
 import jp.nephy.penicillin.endpoints.parameters.MediaDataComponent
@@ -46,26 +47,26 @@ import jp.nephy.penicillin.models.*
 import jp.nephy.penicillin.models.Media
 import java.util.concurrent.TimeUnit
 
-val PenicillinClient.statuses: Statuses
+val ApiClient.statuses: Statuses
     get() = Statuses(this)
 
-class Statuses(override val client: PenicillinClient): Endpoint {
-    fun show(id: Long, trimUser: Boolean? = null, includeMyRetweet: Boolean? = null, includeEntities: Boolean? = null, includeExtAltText: Boolean? = null, vararg options: Pair<String, Any?>) =
+class Statuses(override val client: ApiClient): Endpoint {
+    fun show(id: Long, trimUser: Boolean? = null, includeMyRetweet: Boolean? = null, includeEntities: Boolean? = null, includeExtAltText: Boolean? = null, vararg options: Option) =
         client.session.get("/1.1/statuses/show.json") {
             parameter("id" to id, "trim_user" to trimUser, "include_my_retweet" to includeMyRetweet, "include_entities" to includeEntities, "include_ext_alt_text" to includeExtAltText, *options)
         }.jsonObject<Status>()
 
     fun lookup(
-        id: kotlin.collections.List<Long>, trimUser: Boolean? = null, map: Boolean? = null, includeEntities: Boolean? = null, includeExtAltText: Boolean? = null, vararg options: Pair<String, Any?>
+        id: kotlin.collections.List<Long>, trimUser: Boolean? = null, map: Boolean? = null, includeEntities: Boolean? = null, includeExtAltText: Boolean? = null, vararg options: Option
     ) = client.session.get("/1.1/statuses/lookup.json") {
         parameter("id" to id.joinToString(","), "trim_user" to trimUser, "map" to map, "include_entities" to includeEntities, "include_ext_alt_text" to includeExtAltText, *options)
     }.jsonArray<Status>()
 
-    fun retweeterIds(id: Long, stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/statuses/retweeters/ids.json") {
+    fun retweeterIds(id: Long, stringifyIds: Boolean? = null, vararg options: Option) = client.session.get("/1.1/statuses/retweeters/ids.json") {
         parameter("id" to id, "stringify_ids" to stringifyIds, *options)
     }.cursorJsonObject<CursorIds>()
 
-    fun retweets(id: Long, count: Int? = null, trimUser: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/statuses/retweets/$id.json") {
+    fun retweets(id: Long, count: Int? = null, trimUser: Boolean? = null, vararg options: Option) = client.session.get("/1.1/statuses/retweets/$id.json") {
         parameter("count" to count, "trim_user" to trimUser, *options)
     }.jsonArray<Status>()
 
@@ -76,7 +77,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         trimUser: Boolean? = null,
         includeEntities: Boolean? = null,
         includeUserEntities: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/statuses/retweets_of_me.json") {
         parameter("count" to count, "since_id" to sinceId, "max_id" to maxId, "trim_user" to trimUser, "include_entities" to includeEntities, "include_user_entities" to includeUserEntities, *options)
     }.jsonArray<Status>()
@@ -94,7 +95,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         linkColor: String? = null,
         widgetType: EmbedWidgetType? = null,
         dnt: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/oembed", EndpointHost.Publish) {
         authType(AuthorizationType.None)
         parameter(
@@ -128,7 +129,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         enableDMCommands: Boolean? = null,
         failDMCommands: Boolean? = null,
         cardUri: String? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.post("/1.1/statuses/update.json") {
         body {
             form {
@@ -174,7 +175,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<Status>()
 
-    fun delete(id: Long, trimUser: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/statuses/destroy/$id.json") {
+    fun delete(id: Long, trimUser: Boolean? = null, vararg options: Option) = client.session.post("/1.1/statuses/destroy/$id.json") {
         body {
             form {
                 add("trim_user" to trimUser, *options)
@@ -182,7 +183,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<Status>()
 
-    fun retweet(id: Long, trimUser: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/statuses/retweet/$id.json") {
+    fun retweet(id: Long, trimUser: Boolean? = null, vararg options: Option) = client.session.post("/1.1/statuses/retweet/$id.json") {
         body {
             form {
                 add("trim_user" to trimUser, *options)
@@ -190,7 +191,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<Status>()
 
-    fun unretweet(id: Long, trimUser: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/statuses/unretweet/$id.json") {
+    fun unretweet(id: Long, trimUser: Boolean? = null, vararg options: Option) = client.session.post("/1.1/statuses/unretweet/$id.json") {
         body {
             form {
                 add("trim_user" to trimUser, *options)
@@ -198,7 +199,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<Status>()
 
-    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, waitSec: Long? = null, vararg options: Pair<String, Any?>): JoinedJsonObjectActions<Media, Status> {
+    fun updateWithMediaFile(status: String, media: List<MediaFileComponent>, waitSec: Long? = null, vararg options: Option): JoinedJsonObjectActions<Media, Status> {
         return media.map {
             client.media.uploadMedia(it.file, it.type, it.category)
         }.join { results ->
@@ -211,7 +212,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
         }
     }
 
-    fun updateWithMedia(status: String, media: List<MediaDataComponent>, waitSec: Long? = null, vararg options: Pair<String, Any?>): JoinedJsonObjectActions<Media, Status> {
+    fun updateWithMedia(status: String, media: List<MediaDataComponent>, waitSec: Long? = null, vararg options: Option): JoinedJsonObjectActions<Media, Status> {
         return media.map {
             client.media.uploadMedia(it.data, it.type, it.category)
         }.join { results ->
@@ -226,8 +227,8 @@ class Statuses(override val client: PenicillinClient): Endpoint {
     }
 
     @PrivateEndpoint(EmulationMode.TwitterForiPhone)
-    fun createPollTweet(status: String, choices: List<String>, minutes: Int = 1440, vararg options: Pair<String, Any?>): MultipleJsonObjectActions<Card> {
-        return MultipleJsonObjectActions.Builder {
+    fun createPollTweet(status: String, choices: List<String>, minutes: Int = 1440, vararg options: Option): MultipleJsonObjectActions<Card> {
+        return MultipleJsonObjectActions.Builder(client) {
             client.cards.create(
                 cardData = linkedMapOf<String, Any>().apply {
                     choices.forEachIndexed { i, choice ->
@@ -244,7 +245,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
     }
 
     @PrivateEndpoint
-    fun pin(id: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/pin_tweet.json") {
+    fun pin(id: Long, vararg options: Option) = client.session.post("/1.1/account/pin_tweet.json") {
         body {
             form {
                 add("id" to id, *options)
@@ -253,7 +254,7 @@ class Statuses(override val client: PenicillinClient): Endpoint {
     }.jsonObject<PinTweet>()
 
     @PrivateEndpoint
-    fun unpin(id: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/account/unpin_tweet.json") {
+    fun unpin(id: Long, vararg options: Option) = client.session.post("/1.1/account/unpin_tweet.json") {
         body {
             form {
                 add("id" to id, *options)

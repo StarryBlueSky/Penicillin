@@ -30,9 +30,9 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.int
 import jp.nephy.jsonkt.delegation.nullableModel
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class UserProfileBanner(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class UserProfileBanner(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val resolution1080x360 by nullableModel<Banner>("1080x360")
     val resolution1500x500 by nullableModel<Banner>("1500x500")
     val resolution300x100 by nullableModel<Banner>("300x100")
@@ -44,7 +44,7 @@ data class UserProfileBanner(override val json: JsonObject, override val client:
     val web by nullableModel<Banner>()
     val webRetina by nullableModel<Banner>("web_retina")
 
-    data class Banner(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Banner(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val h by int
         val w by int
         val url by string

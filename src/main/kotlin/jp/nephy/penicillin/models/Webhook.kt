@@ -28,22 +28,22 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.boolean
-import jp.nephy.jsonkt.delegation.modelList
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModelList
 
 object Webhook {
-    data class Model(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val id by string
         val url by string
         val valid by boolean
         val createdAt by string("created_at")
     }
 
-    data class List(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val environments by penicillinModelList<Environment>()
 
-        data class Environment(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class Environment(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val name by string("environment_name")
             val webhooks by penicillinModelList<Model>()
         }

@@ -26,16 +26,16 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.OAuth2Token
 
-val PenicillinClient.oauth2: OAuth2
+val ApiClient.oauth2: OAuth2
     get() = OAuth2(this)
 
-class OAuth2(override val client: PenicillinClient): Endpoint {
-    fun bearerToken(grantType: String = "client_credentials", vararg options: Pair<String, Any?>) = client.session.post("/oauth2/token") {
+class OAuth2(override val client: ApiClient): Endpoint {
+    fun bearerToken(grantType: String = "client_credentials", vararg options: Option) = client.session.post("/oauth2/token") {
         authType(AuthorizationType.OAuth2RequestToken)
         body {
             form {
@@ -44,7 +44,7 @@ class OAuth2(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<OAuth2Token>()
 
-    fun invalidateToken(bearerToken: String, vararg options: Pair<String, Any?>) = client.session.post("/oauth2/invalidate_token") {
+    fun invalidateToken(bearerToken: String, vararg options: Option) = client.session.post("/oauth2/invalidate_token") {
         authType(AuthorizationType.OAuth2RequestToken)
         body {
             form {

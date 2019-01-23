@@ -29,23 +29,23 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.intList
 import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.modelList
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class StatusEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class StatusEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val hashtags by penicillinModelList<HashtagEntity>()
     val media by penicillinModelList<MediaEntity>()
     val symbols by penicillinModelList<SymbolEntity>()
     val userMentions by penicillinModelList<UserMentionEntity>("user_mentions")
     val urls by penicillinModelList<URLEntity>()
 
-    data class HashtagEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class HashtagEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val text by string
         val indices by intList
     }
 
-    data class UserMentionEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class UserMentionEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val screenName by string("screen_name")
         val name by string
         val id by long
@@ -53,7 +53,7 @@ data class StatusEntity(override val json: JsonObject, override val client: Peni
         val indices by intList()
     }
 
-    data class SymbolEntity(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class SymbolEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val text by string
         val indices by intList
     }

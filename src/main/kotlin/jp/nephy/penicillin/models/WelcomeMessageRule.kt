@@ -27,6 +27,6 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class WelcomeMessageRule(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel
+data class WelcomeMessageRule(override val json: JsonObject, override val client: ApiClient): PenicillinModel

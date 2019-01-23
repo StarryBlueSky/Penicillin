@@ -28,11 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class CoverMedia(val parentJson: JsonObject, override val client: PenicillinClient): CommonCoverMedia(parentJson, client)
+data class CoverMedia(val parentJson: JsonObject, override val client: ApiClient): CommonCoverMedia(parentJson, client)
 
-abstract class CommonCoverMedia(final override val json: JsonObject, client: PenicillinClient): PenicillinModel {
+abstract class CommonCoverMedia(final override val json: JsonObject, client: ApiClient): PenicillinModel {
     val tweetId by string("tweet_id")
     val type by string
     private val media by jsonObject

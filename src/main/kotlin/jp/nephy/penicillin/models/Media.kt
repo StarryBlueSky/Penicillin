@@ -28,9 +28,10 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
-data class Media(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class Media(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val expiresAfterSecs by nullableInt("expires_after_secs")
     val mediaId by long("media_id")
     val mediaIdString by string("media_id_string")
@@ -40,26 +41,26 @@ data class Media(override val json: JsonObject, override val client: PenicillinC
     val image by nullableModel<Image>()
     val video by nullableModel<Video>()
 
-    data class ProcessingInfo(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class ProcessingInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val checkAfterSecs by nullableInt("check_after_secs")
         val error by nullableModel<Error>()
         val progressPercent by nullableInt("progress_percent")
         val state by string
 
-        data class Error(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+        data class Error(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val code by int
             val name by nullableString
             val message by string
         }
     }
 
-    data class Image(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Image(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val imageType by string("image_type")
         val w by int
         val h by int
     }
 
-    data class Video(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class Video(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val videoType by string("video_type")
     }
 }

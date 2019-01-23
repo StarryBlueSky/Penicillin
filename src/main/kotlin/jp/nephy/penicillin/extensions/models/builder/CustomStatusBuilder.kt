@@ -30,15 +30,15 @@ import jp.nephy.jsonkt.asJsonElement
 import jp.nephy.jsonkt.edit
 import jp.nephy.jsonkt.jsonArrayOf
 import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
+import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Status
-import jp.nephy.penicillin.models.parsePenicillinModel
 import kotlinx.atomicfu.atomic
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.set
 
-class CustomStatusBuilder(private val client: PenicillinClient): JsonBuilder<Status> {
+class CustomStatusBuilder: JsonBuilder<Status> {
     override var json = jsonObjectOf(
             "created_at" to null,
             "id" to null,
@@ -97,7 +97,7 @@ class CustomStatusBuilder(private val client: PenicillinClient): JsonBuilder<Sta
         createdAt = date
     }
 
-    private var user = CustomUserBuilder(client)
+    private var user = CustomUserBuilder()
     fun user(builder: CustomUserBuilder.() -> Unit) {
         user.apply(builder)
     }
@@ -135,6 +135,7 @@ class CustomStatusBuilder(private val client: PenicillinClient): JsonBuilder<Sta
         urls += UrlEntity(url, start, end)
     }
 
+    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): Status {
         val id = generateId()
         val user = user.build()
@@ -177,7 +178,7 @@ class CustomStatusBuilder(private val client: PenicillinClient): JsonBuilder<Sta
             }
         }
 
-        return client.parsePenicillinModel(json)
+        return json.parseModel()
     }
 }
 

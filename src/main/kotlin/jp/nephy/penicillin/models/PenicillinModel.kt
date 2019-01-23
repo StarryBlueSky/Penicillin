@@ -22,40 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("PublicApiImplicitType")
-
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonElement
 import jp.nephy.jsonkt.delegation.JsonModel
-import jp.nephy.jsonkt.delegation.model
-import jp.nephy.jsonkt.delegation.modelList
-import jp.nephy.jsonkt.parse
-import jp.nephy.jsonkt.parseListOrNull
-import jp.nephy.jsonkt.parseOrNull
-import jp.nephy.penicillin.PenicillinClient
-import kotlin.reflect.KClass
+import jp.nephy.penicillin.core.session.ApiClient
 
 interface PenicillinModel: JsonModel {
-    val client: PenicillinClient
+    val client: ApiClient
 }
-
-internal fun <M: PenicillinModel> PenicillinClient.parsePenicillinModelOrNull(model: KClass<M>, json: JsonElement): M? {
-    return json.parseOrNull(model, this)
-}
-
-internal fun <M: PenicillinModel> PenicillinClient.parsePenicillinModelListOrNull(model: KClass<M>, json: JsonElement): List<M>? {
-    return json.parseListOrNull(model, this)
-}
-
-internal inline fun <reified M: PenicillinModel> PenicillinClient.parsePenicillinModel(json: JsonElement): M {
-    return json.parse(this)
-}
-
-internal inline fun <reified M: PenicillinModel> PenicillinClient.parsePenicillinModelOrNull(json: JsonElement): M? {
-    return json.parseOrNull(this)
-}
-
-inline fun <reified M: PenicillinModel> PenicillinModel.penicillinModel(key: String? = null) = model<M>(key, client)
-
-inline fun <reified M: PenicillinModel> PenicillinModel.penicillinModelList(key: String? = null) = modelList<M>(key, client)

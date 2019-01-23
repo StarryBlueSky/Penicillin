@@ -26,40 +26,40 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.Friendships
 import jp.nephy.penicillin.models.Relationship
 import jp.nephy.penicillin.models.User
 
-val PenicillinClient.friendships: jp.nephy.penicillin.endpoints.Friendships
+val ApiClient.friendships: jp.nephy.penicillin.endpoints.Friendships
     get() = Friendships(this)
 
-class Friendships(override val client: PenicillinClient): Endpoint {
-    fun show(sourceId: Long? = null, sourceScreenName: String? = null, targetId: Long? = null, targetScreenName: String? = null, vararg options: Pair<String, Any?>) =
+class Friendships(override val client: ApiClient): Endpoint {
+    fun show(sourceId: Long? = null, sourceScreenName: String? = null, targetId: Long? = null, targetScreenName: String? = null, vararg options: Option) =
         client.session.get("/1.1/friendships/show.json") {
             parameter("source_id" to sourceId, "source_screen_name" to sourceScreenName, "target_id" to targetId, "target_screen_name" to targetScreenName, *options)
         }.jsonObject<Friendships.Show>()
 
-    fun lookup(vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
+    fun lookup(vararg options: Option) = client.session.get("/1.1/friendships/lookup.json") {
         parameter(*options)
     }.jsonArray<Friendships.Lookup>()
 
-    fun lookupByScreenNames(screenNames: List<String>, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
+    fun lookupByScreenNames(screenNames: List<String>, vararg options: Option) = client.session.get("/1.1/friendships/lookup.json") {
         parameter("screen_name" to screenNames.joinToString(","), *options)
     }.jsonArray<Friendships.Lookup>()
 
-    fun lookupByUserIds(userIds: List<Long>, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/lookup.json") {
+    fun lookupByUserIds(userIds: List<Long>, vararg options: Option) = client.session.get("/1.1/friendships/lookup.json") {
         parameter("user_id" to userIds.joinToString(","), *options)
     }.jsonArray<Friendships.Lookup>()
 
-    fun noRetweetsIds(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/no_retweets/ids.json") {
+    fun noRetweetsIds(stringifyIds: Boolean? = null, vararg options: Option) = client.session.get("/1.1/friendships/no_retweets/ids.json") {
         parameter("stringify_ids" to stringifyIds, *options)
     }.jsonObject<Friendships.NoRetweetsIds>()
 
-    fun create(userId: Long, follow: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/create.json") {
+    fun create(userId: Long, follow: Boolean? = null, vararg options: Option) = client.session.post("/1.1/friendships/create.json") {
         body {
             form {
                 add(
@@ -79,7 +79,7 @@ class Friendships(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<User>()
 
-    fun create(screenName: String, follow: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/create.json") {
+    fun create(screenName: String, follow: Boolean? = null, vararg options: Option) = client.session.post("/1.1/friendships/create.json") {
         body {
             form {
                 add(
@@ -99,7 +99,7 @@ class Friendships(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<User>()
 
-    fun destroy(userId: Long, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/destroy.json") {
+    fun destroy(userId: Long, vararg options: Option) = client.session.post("/1.1/friendships/destroy.json") {
         body {
             form {
                 add("user_id" to userId, *options)
@@ -107,7 +107,7 @@ class Friendships(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<User>()
 
-    fun destroy(screenName: String, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/destroy.json") {
+    fun destroy(screenName: String, vararg options: Option) = client.session.post("/1.1/friendships/destroy.json") {
         body {
             form {
                 add("screen_name" to screenName, *options)
@@ -115,7 +115,7 @@ class Friendships(override val client: PenicillinClient): Endpoint {
         }
     }.jsonObject<User>()
 
-    fun update(userId: Long, device: Boolean? = null, retweets: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun update(userId: Long, device: Boolean? = null, retweets: Boolean? = null, vararg options: Option) =
         client.session.post("/1.1/friendships/update.json") {
             body {
                 form {
@@ -124,7 +124,7 @@ class Friendships(override val client: PenicillinClient): Endpoint {
             }
         }.jsonObject<Relationship>()
 
-    fun update(screenName: String, device: Boolean? = null, retweets: Boolean? = null, vararg options: Pair<String, Any?>) =
+    fun update(screenName: String, device: Boolean? = null, retweets: Boolean? = null, vararg options: Option) =
             client.session.post("/1.1/friendships/update.json") {
                 body {
                     form {
@@ -134,7 +134,7 @@ class Friendships(override val client: PenicillinClient): Endpoint {
             }.jsonObject<Relationship>()
 
     @PrivateEndpoint
-    fun readAll(vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/read_all.json") {
+    fun readAll(vararg options: Option) = client.session.post("/1.1/friendships/read_all.json") {
         body {
             form {
                 add(

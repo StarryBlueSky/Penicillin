@@ -26,16 +26,16 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.models.MomentGuide
 
-val PenicillinClient.moments: Moments
+val ApiClient.moments: Moments
     get() = Moments(this)
 
-class Moments(override val client: PenicillinClient): Endpoint {
+class Moments(override val client: ApiClient): Endpoint {
     @PrivateEndpoint
-    fun guide(vararg options: Pair<String, Any?>) = client.session.get("/1.1/moments/guide.json") {
+    fun guide(vararg options: Option) = client.session.get("/1.1/moments/guide.json") {
         parameter(
             "cards_platform" to "iPhone-13",
             "contributor_details" to "1",

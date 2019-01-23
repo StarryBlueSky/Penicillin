@@ -26,26 +26,26 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.CursorIds
 import jp.nephy.penicillin.models.User
 
-val PenicillinClient.followRequests: FollowRequests
+val ApiClient.followRequests: FollowRequests
     get() = FollowRequests(this)
 
-class FollowRequests(override val client: PenicillinClient): Endpoint {
-    fun received(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/incoming.json") {
+class FollowRequests(override val client: ApiClient): Endpoint {
+    fun received(stringifyIds: Boolean? = null, vararg options: Option) = client.session.get("/1.1/friendships/incoming.json") {
         parameter("stringify_ids" to stringifyIds, *options)
     }.cursorJsonObject<CursorIds>()
 
-    fun sent(stringifyIds: Boolean? = null, vararg options: Pair<String, Any?>) = client.session.get("/1.1/friendships/outgoing.json") {
+    fun sent(stringifyIds: Boolean? = null, vararg options: Option) = client.session.get("/1.1/friendships/outgoing.json") {
         parameter("stringify_ids" to stringifyIds, *options)
     }.cursorJsonObject<CursorIds>()
 
     @PrivateEndpoint
-    fun accept(screenName: String? = null, userId: Long? = null, vararg options: Pair<String, Any?>) = client.session.post("/1.1/friendships/accept.json") {
+    fun accept(screenName: String? = null, userId: Long? = null, vararg options: Option) = client.session.post("/1.1/friendships/accept.json") {
         body {
             form {
                 add(

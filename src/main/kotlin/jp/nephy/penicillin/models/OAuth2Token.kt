@@ -29,9 +29,9 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.nullableString
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class OAuth2Token(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class OAuth2Token(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val tokenType by nullableString("token_type")
     val token by string("access_token")
 }

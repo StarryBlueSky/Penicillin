@@ -27,9 +27,9 @@
 package jp.nephy.penicillin.core.streaming
 
 import jp.nephy.jsonkt.toJsonObject
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.response.StreamResponse
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.extensions.session
@@ -41,7 +41,7 @@ import kotlinx.io.core.Closeable
 import mu.KotlinLogging
 import kotlin.coroutines.CoroutineContext
 
-class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: PenicillinClient, response: StreamResponse<L, H>, private val handler: H): Closeable, CoroutineScope {
+class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiClient, response: StreamResponse<L, H>, private val handler: H): Closeable, CoroutineScope {
     var result = response
         private set
     

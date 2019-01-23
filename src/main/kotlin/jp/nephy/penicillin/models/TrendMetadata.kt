@@ -30,9 +30,9 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.int
 import jp.nephy.jsonkt.delegation.long
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 
-data class TrendMetadata(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class TrendMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val contextMode by string("context_mode")
     val refreshIntervalMillis by int("refresh_interval_millis")
     val timestamp by long

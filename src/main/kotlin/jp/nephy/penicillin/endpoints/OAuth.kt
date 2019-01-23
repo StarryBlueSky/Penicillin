@@ -31,16 +31,17 @@ import io.ktor.http.URLBuilder
 import io.ktor.http.URLProtocol
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.auth.AuthorizationType
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.config.account
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.models.AccessTokenResponse
 import jp.nephy.penicillin.models.RequestTokenResponse
 
-val PenicillinClient.oauth: OAuth
+val ApiClient.oauth: OAuth
     get() = OAuth(this)
 
-class OAuth(override val client: PenicillinClient): Endpoint {
-    suspend fun requestToken(callbackUrl: String = "oob", vararg options: Pair<String, Any?>): RequestTokenResponse {
+class OAuth(override val client: ApiClient): Endpoint {
+    suspend fun requestToken(callbackUrl: String = "oob", vararg options: Option): RequestTokenResponse {
         val result = client.session.post("/oauth/request_token") {
             authType(AuthorizationType.OAuth1a, callbackUrl)
             body {
@@ -81,7 +82,7 @@ class OAuth(override val client: PenicillinClient): Endpoint {
         return URLBuilder(protocol = URLProtocol.HTTPS, host = "api.twitter.com", encodedPath = "/oauth/authenticate", parameters = parameters).buildString()
     }
 
-    suspend fun accessToken(requestToken: String, requestTokenSecret: String, verifier: String, vararg options: Pair<String, Any?>): AccessTokenResponse {
+    suspend fun accessToken(requestToken: String, requestTokenSecret: String, verifier: String, vararg options: Option): AccessTokenResponse {
         val result = PenicillinClient {
             account {
                 application(client.session.credentials.consumerKey!!, client.session.credentials.consumerSecret!!)

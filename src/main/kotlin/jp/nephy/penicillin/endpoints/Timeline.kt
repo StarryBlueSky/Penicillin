@@ -26,15 +26,15 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.models.Status
 
-val PenicillinClient.timeline: Timeline
+val ApiClient.timeline: Timeline
     get() = Timeline(this)
 
-class Timeline(override val client: PenicillinClient): Endpoint {
+class Timeline(override val client: ApiClient): Endpoint {
     fun home(
         count: Int? = null,
         sinceId: Long? = null,
@@ -45,7 +45,7 @@ class Timeline(override val client: PenicillinClient): Endpoint {
         includeRTs: Boolean? = null,
         includeMyRetweet: Boolean? = null,
         tweetMode: String? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/statuses/home_timeline.json") {
         parameter(
             "count" to count,
@@ -70,7 +70,7 @@ class Timeline(override val client: PenicillinClient): Endpoint {
         tweetMode: String? = null,
         includeRTs: Boolean? = null,
         includeMyRetweet: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/statuses/mentions_timeline.json") {
         parameter(
             "cards_platform" to "iPhone-13",
@@ -118,7 +118,7 @@ class Timeline(override val client: PenicillinClient): Endpoint {
         tweetMode: String? = null,
         includeEntities: Boolean? = null,
         includeMyRetweet: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/statuses/user_timeline.json") {
         parameter(
             "count" to count,
@@ -145,7 +145,7 @@ class Timeline(override val client: PenicillinClient): Endpoint {
         tweetMode: String? = null,
         includeEntities: Boolean? = null,
         includeMyRetweet: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/statuses/user_timeline.json") {
         parameter(
             "user_id" to userId,
@@ -173,7 +173,7 @@ class Timeline(override val client: PenicillinClient): Endpoint {
             tweetMode: String? = null,
             includeEntities: Boolean? = null,
             includeMyRetweet: Boolean? = null,
-            vararg options: Pair<String, Any?>
+            vararg options: Option
     ) = client.session.get("/1.1/statuses/user_timeline.json") {
         parameter(
                 "screen_name" to screenName,

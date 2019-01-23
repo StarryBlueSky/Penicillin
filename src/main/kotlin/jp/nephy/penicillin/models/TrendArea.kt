@@ -28,12 +28,12 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.model
 import jp.nephy.jsonkt.delegation.nullableString
 import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
 
-data class TrendArea(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class TrendArea(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val country by string
     val countryCode by nullableString // null
     val name by string
@@ -42,7 +42,7 @@ data class TrendArea(override val json: JsonObject, override val client: Penicil
     val url by string
     val woeid by int
 
-    data class PlaceType(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+    data class PlaceType(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val code by int
         val name by string
     }

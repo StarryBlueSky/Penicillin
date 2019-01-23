@@ -26,8 +26,8 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.request.EndpointHost
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.FilterStreamHandler
 import jp.nephy.penicillin.core.streaming.handler.SampleStreamHandler
@@ -40,10 +40,10 @@ import jp.nephy.penicillin.endpoints.parameters.UserStreamFilterLevel
 import jp.nephy.penicillin.endpoints.parameters.UserStreamReplies
 import jp.nephy.penicillin.endpoints.parameters.UserStreamWith
 
-val PenicillinClient.stream: Stream
+val ApiClient.stream: Stream
     get() = Stream(this)
 
-class Stream(override val client: PenicillinClient): Endpoint {
+class Stream(override val client: ApiClient): Endpoint {
     @Deprecated("UserStream API retired on August 23th, 2018.", replaceWith = ReplaceWith("Tweetstorm or Account Activity API (AAA)"))
     fun user(
         delimited: StreamDelimitedBy? = null,
@@ -58,7 +58,7 @@ class Stream(override val client: PenicillinClient): Endpoint {
         count: Int? = null,
         includeFollowingsActivity: Boolean? = null,
         stringifyFriendIds: Boolean? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/user.json", EndpointHost.UserStream) {
         parameter(
             "delimited" to delimited?.value,
@@ -79,7 +79,7 @@ class Stream(override val client: PenicillinClient): Endpoint {
 
     @Deprecated("SiteStream API retired on August 23th, 2018.", replaceWith = ReplaceWith("Tweetstorm or Account Activity API (AAA)"))
     fun site(
-        delimited: StreamDelimitedBy? = null, stallWarnings: Boolean? = null, with: UserStreamWith? = null, replies: UserStreamReplies? = null, follow: List<Long>? = null, vararg options: Pair<String, Any?>
+        delimited: StreamDelimitedBy? = null, stallWarnings: Boolean? = null, with: UserStreamWith? = null, replies: UserStreamReplies? = null, follow: List<Long>? = null, vararg options: Option
     ) = client.session.get("/1.1/site.json", EndpointHost.SiteStream) {
         parameter(
             "delimited" to delimited?.value,
@@ -91,7 +91,7 @@ class Stream(override val client: PenicillinClient): Endpoint {
         )
     }.stream<UserStreamListener, UserStreamHandler>()
 
-    fun sample(delimited: StreamDelimitedBy? = null, stallWarnings: Boolean? = null, language: String? = null, vararg options: Pair<String, Any?>) =
+    fun sample(delimited: StreamDelimitedBy? = null, stallWarnings: Boolean? = null, language: String? = null, vararg options: Option) =
         client.session.get("/1.1/statuses/sample.json", EndpointHost.Stream) {
             parameter(
                 "delimited" to delimited?.value,
@@ -108,7 +108,7 @@ class Stream(override val client: PenicillinClient): Endpoint {
         follow: List<Long>? = null,
         locations: Pair<Float, Float>? = null,
         language: String? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/statuses/filter.json", EndpointHost.Stream) {
         parameter(
             "delimited" to delimited?.value,

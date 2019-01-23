@@ -28,9 +28,11 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.parseModel
+import jp.nephy.penicillin.extensions.penicillinModel
 
-data class Moment(override val json: JsonObject, override val client: PenicillinClient): PenicillinModel {
+data class Moment(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     private val moment by jsonObject
     val id by moment.byString
     val title by moment.byString
@@ -45,18 +47,18 @@ data class Moment(override val json: JsonObject, override val client: Penicillin
     val canSubscribe by moment.byBoolean("can_subscribe")
     val capsuleContentsVersion by moment.byString("capsule_contents_version")
     val totalLikes by moment.byInt("total_likes")
-    val users by moment.byLambda { it.jsonObject.toMap().values.map { json -> client.parsePenicillinModel<User>(json) } }
+    val users by moment.byLambda { it.jsonObject.toMap().values.map { json -> json.parseModel<User>(client) } }
     val coverMedia by moment.byModel<CoverMedia>("cover_media", client)
     val displayStyle by string("display_style")
     private val context by jsonObject
     private val contextScribeInfo by context.byJsonObject
     val momentPosition by contextScribeInfo.byString("moment_position")
-    val tweets by lambda { it.jsonObject.toMap().values.map { json -> client.parsePenicillinModel<Status>(json) } }
+    val tweets by lambda { it.jsonObject.toMap().values.map { json -> json.parseModel<Status>(client) } }
     val coverFormat by penicillinModel<CoverFormat>("cover_format")
     val largeFormat by penicillinModel<CoverFormat>("large_format")
     val thumbnailFormat by penicillinModel<CoverFormat>("thumbnail_format")
 
-    data class CoverFormat(val parentJson: JsonObject, override val client: PenicillinClient): CommonCoverMedia(parentJson, client) {
+    data class CoverFormat(val parentJson: JsonObject, override val client: ApiClient): CommonCoverMedia(parentJson, client) {
         val pageId by string("page_id")
         val isPromoted by boolean("is_promoted")
         private val linkTitleCard by jsonObject("link_title_card")

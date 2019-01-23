@@ -26,20 +26,20 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.models.GeoResult
 import jp.nephy.penicillin.models.Place
 
-val PenicillinClient.geo: Geo
+val ApiClient.geo: Geo
     get() = Geo(this)
 
-class Geo(override val client: PenicillinClient): Endpoint {
-    fun place(placeId: String, vararg options: Pair<String, Any?>) = client.session.get("/1.1/geo/id/$placeId.json") {
+class Geo(override val client: ApiClient): Endpoint {
+    fun place(placeId: String, vararg options: Option) = client.session.get("/1.1/geo/id/$placeId.json") {
         parameter(*options)
     }.jsonObject<Place>()
 
-    fun reverseGeocode(lat: Float, long: Float, accuracy: String? = null, granularity: String? = null, maxResults: Int? = null, callback: String? = null, vararg options: Pair<String, Any?>) =
+    fun reverseGeocode(lat: Float, long: Float, accuracy: String? = null, granularity: String? = null, maxResults: Int? = null, callback: String? = null, vararg options: Option) =
         client.session.get("/1.1/geo/reverse_geocode.json") {
             parameter("lat" to lat, "long" to long, "accuracy" to accuracy, "granularity" to granularity, "max_results" to maxResults, "callback" to callback, *options)
         }.jsonObject<GeoResult>()
@@ -55,7 +55,7 @@ class Geo(override val client: PenicillinClient): Endpoint {
         containedWithin: String? = null,
         attributeStreetAddress: String? = null,
         callback: String? = null,
-        vararg options: Pair<String, Any?>
+        vararg options: Option
     ) = client.session.get("/1.1/geo/search.json") {
         parameter(
             "lat" to lat,
