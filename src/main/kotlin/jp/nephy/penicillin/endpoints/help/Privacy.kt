@@ -22,28 +22,34 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.help
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Help] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/overview)
- *
- * @return New [Help] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.help: Help
-    get() = Help(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Help
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.models.Help.Privacy
 
 /**
- * Collection of api endpoints related to developer utilities.
+ * Returns [Twitter's Privacy Policy](http://twitter.com/privacy).
  *
- * @constructor Creates new [Help] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.help
+ * [Twitter API reference](https://developer.twitter.com/en/docs/developer-utilities/privacy-policy/api-reference/get-help-privacy)
+ *
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Help] endpoint instance.
+ * @return [JsonObjectApiAction] for [Privacy] model.
  */
-class Help(override val client: ApiClient): Endpoint
+fun Help.privacy(
+    vararg options: Option
+) = client.session.get("/1.1/help/privacy.json") {
+    parameter(*options)
+}.jsonObject<Privacy>()
+
+/**
+ * Shorthand property to [Help.privacy].
+ * @see Help.privacy
+ */
+val Help.privacy
+    get() = privacy()
