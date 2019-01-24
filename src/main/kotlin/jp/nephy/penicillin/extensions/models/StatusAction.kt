@@ -27,6 +27,8 @@
 package jp.nephy.penicillin.extensions.models
 
 import jp.nephy.penicillin.endpoints.favorites
+import jp.nephy.penicillin.endpoints.favorites.create
+import jp.nephy.penicillin.endpoints.favorites.destroy
 import jp.nephy.penicillin.endpoints.statuses
 import jp.nephy.penicillin.models.Status
 
