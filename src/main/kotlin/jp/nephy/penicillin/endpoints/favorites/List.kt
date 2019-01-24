@@ -46,7 +46,7 @@ import jp.nephy.penicillin.models.Status
  * @receiver [Favorites] endpoint instance.
  * @return [JsonObjectApiAction] for [Status] model.
  */
-fun Favorites.listMine(
+fun Favorites.list(
     count: Int? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
@@ -123,8 +123,8 @@ private fun Favorites.list(
 }.jsonArray<Status>()
 
 /**
- * Shorthand property to [Favorites.listMine].
- * @see Favorites.listMine
+ * Shorthand property to [Favorites.list].
+ * @see Favorites.list
  */
 val Favorites.listMine
-    get() = listMine()
+    get() = list()
