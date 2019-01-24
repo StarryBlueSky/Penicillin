@@ -22,28 +22,29 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.accountactivity
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [AccountActivity] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/overview)
- *
- * @return New [AccountActivity] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.accountActivity: AccountActivity
-    get() = AccountActivity(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.AccountActivity
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.models.Subscription
 
 /**
- * Collection of api endpoints related to Account Activity API.
+ * Returns a list of the current All Activity type subscriptions. Note that the /list endpoint requires application-only OAuth, so requests should be made using a bearer token instead of user context.
  *
- * @constructor Creates new [AccountActivity] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.accountActivity
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#get-account-activity-all-webhooks)
+ *
+ * @param envName Environment name.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [AccountActivity] endpoint instance.
+ * @return [JsonObjectApiAction] for [Subscription.List] model.
  */
-class AccountActivity(override val client: ApiClient): Endpoint
+fun AccountActivity.listSubscriptions(
+    envName: String,
+    vararg options: Option
+) = client.session.get("/1.1/account_activity/all/$envName/subscriptions/list.json") {
+    parameter(*options)
+}.jsonObject<Subscription.List>()
