@@ -22,28 +22,41 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.help
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Help] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/overview)
- *
- * @return New [Help] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.help: Help
-    get() = Help(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Help
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.PrivateEndpoint
+import jp.nephy.penicillin.models.Help.Settings
 
 /**
- * Collection of api endpoints related to developer utilities.
+ * Unknown endpoint.
  *
- * @constructor Creates new [Help] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.help
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Help] endpoint instance.
+ * @return [JsonObjectApiAction] for [Settings] model.
  */
-class Help(override val client: ApiClient): Endpoint
+@PrivateEndpoint
+fun Help.settings(
+    includeZeroRate: Boolean? = null,
+    settingsVersion: String? = null,
+    vararg options: Option
+) = client.session.get("/1.1/help/settings.json") {
+    parameter(
+        "include_zero_rate" to includeZeroRate,
+        "settings_version" to settingsVersion,
+        *options
+    )
+}.jsonObject<Settings>()
+
+/**
+ * Shorthand property to [Help.settings].
+ * @see Help.settings
+ */
+@PrivateEndpoint
+val Help.settings
+    get() = settings()

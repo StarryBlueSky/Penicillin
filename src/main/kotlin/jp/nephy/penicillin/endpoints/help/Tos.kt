@@ -22,28 +22,34 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.help
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Help] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/overview)
- *
- * @return New [Help] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.help: Help
-    get() = Help(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Help
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.models.Help.Tos
 
 /**
- * Collection of api endpoints related to developer utilities.
+ * Returns the [Twitter Terms of Service](https://twitter.com/tos). Note: these are not the same as the [Developer Policy](https://developer.twitter.com/overview/terms/policy).
  *
- * @constructor Creates new [Help] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.help
+ * [Twitter API reference](https://developer.twitter.com/en/docs/developer-utilities/terms-of-service/api-reference/get-help-tos)
+ *
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Help] endpoint instance.
+ * @return [JsonObjectApiAction] for [Tos] model.
  */
-class Help(override val client: ApiClient): Endpoint
+fun Help.tos(
+    vararg options: Option
+) = client.session.get("/1.1/help/tos.json") {
+    parameter(*options)
+}.jsonObject<Tos>()
+
+/**
+ * Shorthand property to [Help.tos].
+ * @see Help.tos
+ */
+val Help.tos
+    get() = tos()

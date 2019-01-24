@@ -22,28 +22,35 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.help
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Help] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/overview)
- *
- * @return New [Help] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.help: Help
-    get() = Help(this)
+import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Help
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.models.Help.Language
 
 /**
- * Collection of api endpoints related to developer utilities.
+ * Returns the list of languages supported by Twitter along with the language code supported by Twitter.
+ * The language code may be formatted as ISO 639-1 alpha-2 (en), ISO 639-3 alpha-3 (msa), or ISO 639-1 alpha-2 combined with an ISO 3166-1 alpha-2 localization (zh-tw).
  *
- * @constructor Creates new [Help] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.help
+ * [Twitter API reference](https://developer.twitter.com/en/docs/developer-utilities/configuration/api-reference/get-help-configuration)
+ *
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Help] endpoint instance.
+ * @return [JsonArrayApiAction] for [Language] model.
  */
-class Help(override val client: ApiClient): Endpoint
+fun Help.languages(
+    vararg options: Option
+) = client.session.get("/1.1/help/languages.json") {
+    parameter(*options)
+}.jsonArray<Language>()
+
+/**
+ * Shorthand property to [Help.languages].
+ * @see Help.languages
+ */
+val Help.languages
+    get() = languages()
