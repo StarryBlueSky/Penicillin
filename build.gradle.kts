@@ -75,20 +75,22 @@ repositories {
 }
 
 dependencies {
-    api(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib-jdk8"))
 
     implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
     testImplementation("io.ktor:ktor-client-apache:$ktorVersion")
     testImplementation("io.ktor:ktor-client-cio:$ktorVersion")
     testImplementation("io.ktor:ktor-client-jetty:$ktorVersion")
     testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    testImplementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
 
     api("jp.nephy:jsonkt:4.5")
+    
     testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
 
-    api("io.github.microutils:kotlin-logging:1.6.22")
-    testApi("ch.qos.logback:logback-core:1.2.3")
-    testApi("ch.qos.logback:logback-classic:1.2.3")
+    implementation("io.github.microutils:kotlin-logging:1.6.22")
+    testImplementation("ch.qos.logback:logback-core:1.2.3")
+    testImplementation("ch.qos.logback:logback-classic:1.2.3")
     testImplementation("org.fusesource.jansi:jansi:1.17.1")
 }
 
@@ -309,7 +311,7 @@ if (hasProperty("github")) {
         body {
             buildString {
                 appendln("## Version\n")
-                appendln("**Latest** Penicillin version: [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22)\n")
+                appendln("**Latest** Penicillin version: [![Bintray](https://api.bintray.com/packages/nephyproject/penicillin/Penicillin/images/download.svg)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion)")
                 appendln("The latest release build: `${project.version}`\n")
 
                 appendln()
