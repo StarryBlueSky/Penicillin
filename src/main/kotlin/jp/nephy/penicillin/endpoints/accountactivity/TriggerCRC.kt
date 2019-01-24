@@ -22,28 +22,30 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.accountactivity
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [AccountActivity] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/overview)
- *
- * @return New [AccountActivity] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.accountActivity: AccountActivity
-    get() = AccountActivity(this)
+import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.session.put
+import jp.nephy.penicillin.endpoints.AccountActivity
+import jp.nephy.penicillin.endpoints.Option
 
 /**
- * Collection of api endpoints related to Account Activity API.
+ * Triggers the challenge response check (CRC) for the given environments webhook for all activities. If the check is successful, returns 204 and re-enables the webhook by setting its status to valid.
  *
- * @constructor Creates new [AccountActivity] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.accountActivity
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#put-account-activity-all-env-name-webhooks-webhook-id)
+ *
+* @param envName Environment name.
+ * @param webhookId Webhook id.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [AccountActivity] endpoint instance.
+ * @return [EmptyApiAction].
  */
-class AccountActivity(override val client: ApiClient): Endpoint
+fun AccountActivity.triggerCRC(
+    envName: String,
+    webhookId: String,
+    vararg options: Option
+) = client.session.put("/1.1/account_activity/all/$envName/webhooks/$webhookId.json") {
+    parameter(*options)
+}.empty()

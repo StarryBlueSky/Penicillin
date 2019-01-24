@@ -22,28 +22,28 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.accountactivity
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [AccountActivity] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/overview)
- *
- * @return New [AccountActivity] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.accountActivity: AccountActivity
-    get() = AccountActivity(this)
+import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.session.delete
+import jp.nephy.penicillin.endpoints.AccountActivity
+import jp.nephy.penicillin.endpoints.Option
 
 /**
- * Collection of api endpoints related to Account Activity API.
+ * Deactivates subscription(s) for the provided user context and application for all activities. After deactivation, all events for the requesting user will no longer be sent to the webhook URL.
  *
- * @constructor Creates new [AccountActivity] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.accountActivity
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#delete-account-activity-all-env-name-subscriptions)
+ *
+ * @param envName Environment name.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [AccountActivity] endpoint instance.
+ * @return [EmptyApiAction].
  */
-class AccountActivity(override val client: ApiClient): Endpoint
+fun AccountActivity.unsubscribe(
+    envName: String,
+    vararg options: Option
+) = client.session.delete("/1.1/account_activity/all/$envName/subscriptions.json") {
+    parameter(*options)
+}.empty()
