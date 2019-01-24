@@ -12,7 +12,7 @@
 * Endpoint's parameters are resolved as Kotlin "Type-safe Named Parameter".
 * Penicillin has model classes. So endpoint's response is easy to use.
 * API execution supports classic function `.complete()`, suspend function `.await()` and callback style `.queue {}`.
-* Cursor API such as `friends/list` has methods named `.next`, `.untilLast()`. It make paging easy.
+* Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.
 
 KDoc is available at [docs.nephy.jp](https://docs.nephy.jp/penicillin). Documentation is WIP :(
 
@@ -42,8 +42,8 @@ More examples of Penicillin can be found at [Wiki](https://github.com/NephyProje
 
 ## Setup
 
-Latest Penicillin version is [![Maven Central](https://img.shields.io/maven-central/v/jp.nephy/penicillin.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22jp.nephy%22).  
-EAP builds are available at [Bintray](https://bintray.com/nephyproject/penicillin/Penicillin). Every commit is published as EAP build.  
+Latest Penicillin version is [![Bintray](https://api.bintray.com/packages/nephyproject/penicillin/Penicillin/images/download.svg)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion).  
+Releases are available at [Bintray](https://bintray.com/nephyproject/penicillin/Penicillin). EAP builds are also available. Every commit is published as EAP build.  
 
 You may choose preferred Ktor HttpClient Engine. We recommend `CIO` or `Apache`.  
 Full engine list is available at https://ktor.io/clients/http-client/engines.html.
