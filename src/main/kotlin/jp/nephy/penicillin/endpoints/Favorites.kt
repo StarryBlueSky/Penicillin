@@ -27,42 +27,23 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.models.Status
 
+/**
+ * Returns [Favorites] endpoint instance.
+
+ * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/post-and-engage/overview)
+ *
+ * @return New [Favorites] endpoint instance.
+ * @receiver Current [ApiClient] instance.
+ */
 val ApiClient.favorites: Favorites
     get() = Favorites(this)
 
-class Favorites(override val client: ApiClient): Endpoint {
-    fun list(sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Option) =
-            client.session.get("/1.1/favorites/list.json") {
-                parameter("count" to count, "since_id" to sinceId, "max_id" to maxId, "include_entities" to includeEntities, *options)
-            }.jsonArray<Status>()
-
-    fun list(userId: Long, sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Option) =
-        client.session.get("/1.1/favorites/list.json") {
-            parameter("user_id" to userId, "count" to count, "since_id" to sinceId, "max_id" to maxId, "include_entities" to includeEntities, *options)
-        }.jsonArray<Status>()
-
-    fun list(screenName: String, sinceId: Long? = null, maxId: Long? = null, count: Int? = null, includeEntities: Boolean? = null, vararg options: Option) =
-            client.session.get("/1.1/favorites/list.json") {
-                parameter("screen_name" to screenName, "count" to count, "since_id" to sinceId, "max_id" to maxId, "include_entities" to includeEntities, *options)
-            }.jsonArray<Status>()
-
-    fun create(id: Long, includeEntities: Boolean? = null, vararg options: Option) = client.session.post("/1.1/favorites/create.json") {
-        body {
-            form {
-                add("id" to id, "include_entities" to includeEntities, *options)
-            }
-        }
-    }.jsonObject<Status>()
-
-    fun destroy(id: Long, includeEntities: Boolean? = null, vararg options: Option) = client.session.post("/1.1/favorites/destroy.json") {
-        body {
-            form {
-                add("id" to id, "include_entities" to includeEntities, *options)
-            }
-        }
-    }.jsonObject<Status>()
-}
+/**
+ * Collection of api endpoints related to favorites.
+ *
+ * @constructor Creates new [Favorites] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.favorites
+ */
+class Favorites(override val client: ApiClient): Endpoint
