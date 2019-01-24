@@ -22,8 +22,8 @@ val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 val ktorVersion = "1.1.1"
 
 plugins { 
-    kotlin("jvm") version "1.3.20-eap-100"
-    id("kotlinx-serialization") version "1.3.20-eap-100"
+    kotlin("jvm") version "1.3.20"
+    id("kotlinx-serialization") version "1.3.20"
 
     // For testing
     id("com.adarshr.test-logger") version "1.6.0"
