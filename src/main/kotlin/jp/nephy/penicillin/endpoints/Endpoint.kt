@@ -27,7 +27,13 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.session.ApiClient
 
+/**
+ * Collection of api endpoints.
+ */
 interface Endpoint {
+    /**
+     * Penicillin ApiClient.
+     */
     val client: ApiClient
 }
 
@@ -35,6 +41,7 @@ internal typealias Option = Pair<String, Any?>
 
 /**
  * Indicates that this endpoint is used with OfficialClient and EmulationMode.
+ * @param modes Array of EmulationMode which is allowed to access this private endpoints.
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
