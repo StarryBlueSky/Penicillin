@@ -22,28 +22,29 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.geo
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Geo] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/geo/place-information/overview)
- *
- * @return New [Geo] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.geo: Geo
-    get() = Geo(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.Geo
+import jp.nephy.penicillin.models.Place
 
 /**
- * Collection of api endpoints related to geo information.
+ * Returns all the information about a known [place](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/geo-objects).
  *
- * @constructor Creates new [Geo] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.geo
+ * [Twitter API reference](https://developer.twitter.com/en/docs/geo/place-information/api-reference/get-geo-id-place_id)
+ *
+ * @param placeId A place in the world. These IDs can be retrieved from geo/reverse_geocode.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Geo] endpoint instance.
+ * @return [JsonObjectApiAction] for [Geo] model.
  */
-class Geo(override val client: ApiClient): Endpoint
+fun Geo.place(
+    placeId: String,
+    vararg options: Option
+) = client.session.get("/1.1/geo/id/$placeId.json") {
+    parameter(*options)
+}.jsonObject<Place>()
