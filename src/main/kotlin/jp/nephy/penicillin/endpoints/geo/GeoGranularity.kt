@@ -22,28 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+package jp.nephy.penicillin.endpoints.geo
 
-package jp.nephy.penicillin.endpoints
-
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Geo] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/geo/place-information/overview)
- *
- * @return New [Geo] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.geo: Geo
-    get() = Geo(this)
-
-/**
- * Collection of api endpoints related to geo information.
- *
- * @constructor Creates new [Geo] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.geo
- */
-class Geo(override val client: ApiClient): Endpoint
+enum class GeoGranularity {
+    Neighborhood, City, Admin, Country;
+    
+    internal val value: String
+        get() = name.toLowerCase()
+}
