@@ -19,7 +19,7 @@ val packageName = "Penicillin"
 val packageVersion = Version(4, 0, 5)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
-val ktorVersion = "1.1.1"
+val ktorVersion = "1.1.2"
 
 plugins { 
     kotlin("jvm") version "1.3.20"
@@ -84,7 +84,7 @@ dependencies {
     testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     testImplementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
 
-    api("jp.nephy:jsonkt:4.5")
+    api("jp.nephy:jsonkt:4.6")
     
     testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
 
