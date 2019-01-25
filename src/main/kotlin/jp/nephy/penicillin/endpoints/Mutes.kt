@@ -27,53 +27,23 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.models.CursorIds
-import jp.nephy.penicillin.models.CursorUsers
-import jp.nephy.penicillin.models.User
 
+/**
+ * Returns [Mutes] endpoint instance.
+
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/mute-block-report-users/overview)
+ *
+ * @return New [Mutes] endpoint instance.
+ * @receiver Current [ApiClient] instance.
+ */
 val ApiClient.mutes: Mutes
     get() = Mutes(this)
 
-class Mutes(override val client: ApiClient): Endpoint {
-    fun listIds(stringifyIds: Boolean? = null, vararg options: Option) = client.session.get("/1.1/mutes/users/ids.json") {
-        parameter("stringify_ids" to stringifyIds, *options)
-    }.cursorJsonObject<CursorIds>()
-
-    fun list(includeEntities: Boolean? = null, skipStatus: Boolean? = null, vararg options: Option) = client.session.get("/1.1/mutes/users/list.json") {
-        parameter("include_entities" to includeEntities, "skip_status" to skipStatus, *options)
-    }.cursorJsonObject<CursorUsers>()
-
-    fun create(screenName: String, vararg options: Option) = client.session.post("/1.1/mutes/users/create.json") {
-        body {
-            form {
-                add("screen_name" to screenName, *options)
-            }
-        }
-    }.jsonObject<User>()
-
-    fun create(userId: Long, vararg options: Option) = client.session.post("/1.1/mutes/users/create.json") {
-        body {
-            form {
-                add("user_id" to userId, *options)
-            }
-        }
-    }.jsonObject<User>()
-
-    fun destroy(screenName: String, vararg options: Option) = client.session.post("/1.1/mutes/users/destroy.json") {
-        body {
-            form {
-                add("screen_name" to screenName, *options)
-            }
-        }
-    }.jsonObject<User>()
-
-    fun destroy(userId: Long, vararg options: Option) = client.session.post("/1.1/mutes/users/destroy.json") {
-        body {
-            form {
-                add("user_id" to userId, *options)
-            }
-        }
-    }.jsonObject<User>()
-}
+/**
+ * Collection of api endpoints related to mutes.
+ *
+ * @constructor Creates new [Mutes] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.mutes
+ */
+class Mutes(override val client: ApiClient): Endpoint
