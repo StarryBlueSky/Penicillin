@@ -38,7 +38,6 @@ data class EndpointHost(val domain: String, val domainForSigning: String? = null
 
         /* Stream Endpoints */
         val UserStream = EndpointHost("userstream.twitter.com")
-        val SiteStream = EndpointHost("sitestream.twitter.com")
         val Stream = EndpointHost("stream.twitter.com")
     }
 }
