@@ -22,26 +22,34 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.livepipeline
 
-import jp.nephy.penicillin.core.session.ApiClient
 
-/**
- * Returns [LivePipeline] endpoint instance.
- 
- * @return New [LivePipeline] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.livePipeline: LivePipeline
-    get() = LivePipeline(this)
+import jp.nephy.penicillin.core.request.action.StreamApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.core.streaming.handler.LivePipelineHandler
+import jp.nephy.penicillin.core.streaming.listener.LivePipelineListener
+import jp.nephy.penicillin.endpoints.LivePipeline
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.PrivateEndpoint
 
 /**
- * Collection of api endpoints related to Live Pipeline API.
- *
- * @constructor Creates new [LivePipeline] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.livePipeline
+ * Undocumented endpoint.
+ * 
+ * @param ids Array of status id to track.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [LivePipeline] endpoint instance.
+ * @return [StreamApiAction] for [LivePipelineHandler] handler with [LivePipelineListener] listener.
  */
-class LivePipeline(override val client: ApiClient): Endpoint
+@PrivateEndpoint
+fun LivePipeline.event(
+    ids: List<Long>,
+    vararg options: Option
+) = client.session.get("/1.1/live_pipeline/events") {
+    parameter(
+        "topic" to ids.joinToString(",") { "/tweet_engagement/$it" },
+        *options
+    )
+}.stream<LivePipelineListener, LivePipelineHandler>()
