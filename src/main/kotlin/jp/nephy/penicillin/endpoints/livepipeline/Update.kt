@@ -22,26 +22,37 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.livepipeline
 
-import jp.nephy.penicillin.core.session.ApiClient
 
-/**
- * Returns [LivePipeline] endpoint instance.
- 
- * @return New [LivePipeline] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.livePipeline: LivePipeline
-    get() = LivePipeline(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.LivePipeline
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.PrivateEndpoint
+import jp.nephy.penicillin.models.LivePipelineSubscription
 
 /**
- * Collection of api endpoints related to Live Pipeline API.
+ * Undocumented endpoint.
  *
- * @constructor Creates new [LivePipeline] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.livePipeline
+ * @param ids Array of status id to track.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [LivePipeline] endpoint instance.
+ * @return [JsonObjectApiAction] for [LivePipelineSubscription] model.
  */
-class LivePipeline(override val client: ApiClient): Endpoint
+@PrivateEndpoint
+fun LivePipeline.update(
+    ids: List<Long>,
+    vararg options: Option
+) = client.session.post("/1.1/live_pipeline/update_subscriptions") {
+    body {
+        form {
+            add(
+                "sub_topics" to ids.joinToString(",") { "/tweet_engagement/$it" },
+                *options
+            )
+        }
+    }
+}.jsonObject<LivePipelineSubscription>()
