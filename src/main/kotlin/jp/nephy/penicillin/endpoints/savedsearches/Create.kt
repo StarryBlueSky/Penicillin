@@ -22,28 +22,37 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.savedsearches
 
-import jp.nephy.penicillin.core.session.ApiClient
 
-/**
- * Returns [SavedSearches] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/overview)
- *
- * @return New [SavedSearches] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.savedSearches: SavedSearches
-    get() = SavedSearches(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.SavedSearches
+import jp.nephy.penicillin.models.SavedSearch
 
 /**
- * Collection of api endpoints related to saved searches.
- *
- * @constructor Creates new [SavedSearches] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.savedSearches
+ * Create a new saved search for the authenticated user. A user may only have 25 saved searches.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-create)
+ * 
+ * @param query The query of the search the user would like to save.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [SavedSearches] endpoint instance.
+ * @return [JsonObjectApiAction] for [SavedSearch] model.
  */
-class SavedSearches(override val client: ApiClient): Endpoint
+fun SavedSearches.create(
+    query: String,
+    vararg options: Option
+) = client.session.post("/1.1/saved_searches/create.json") {
+    body {
+        form {
+            add(
+                "query" to query,
+                *options
+            )
+        }
+    }
+}.jsonObject<SavedSearch>()
