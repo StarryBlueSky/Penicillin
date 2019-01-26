@@ -30,11 +30,13 @@ import jp.nephy.penicillin.endpoints.blocks
 import jp.nephy.penicillin.endpoints.blocks.createByUserId
 import jp.nephy.penicillin.endpoints.blocks.destroyByUserId
 import jp.nephy.penicillin.endpoints.friendships
+import jp.nephy.penicillin.endpoints.friendships.createByUserId
+import jp.nephy.penicillin.endpoints.friendships.destroyByUserId
 import jp.nephy.penicillin.models.CommonUser
 
-fun CommonUser.follow() = client.friendships.create(userId = id)
+fun CommonUser.follow() = client.friendships.createByUserId(userId = id)
 
-fun CommonUser.unfollow() = client.friendships.destroy(userId = id)
+fun CommonUser.unfollow() = client.friendships.destroyByUserId(userId = id)
 
 fun CommonUser.block() = client.blocks.createByUserId(userId = id)
 
