@@ -22,28 +22,30 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.savedsearches
 
-import jp.nephy.penicillin.core.session.ApiClient
 
-/**
- * Returns [SavedSearches] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/overview)
- *
- * @return New [SavedSearches] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.savedSearches: SavedSearches
-    get() = SavedSearches(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.SavedSearches
+import jp.nephy.penicillin.models.SavedSearch
 
 /**
- * Collection of api endpoints related to saved searches.
- *
- * @constructor Creates new [SavedSearches] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.savedSearches
+ * Retrieve the information for the saved search represented by the given id. The authenticating user must be the owner of saved search ID being requested.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-saved_searches-show-id)
+ * 
+ * @param id The ID of the saved search.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [SavedSearches] endpoint instance.
+ * @return [JsonObjectApiAction] for [SavedSearch] model.
  */
-class SavedSearches(override val client: ApiClient): Endpoint
+fun SavedSearches.show(
+    id: Long,
+    vararg options: Option
+) = client.session.get("/1.1/saved_searches/show/$id.json") {
+    parameter(*options)
+}.jsonObject<SavedSearch>()
