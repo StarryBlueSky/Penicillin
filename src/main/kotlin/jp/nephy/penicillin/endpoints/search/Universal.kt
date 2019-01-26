@@ -22,28 +22,37 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.search
 
-import jp.nephy.penicillin.core.session.ApiClient
 
-/**
- * Returns [Search] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/search/overview)
- *
- * @return New [Search] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.search: Search
-    get() = Search(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.PrivateEndpoint
+import jp.nephy.penicillin.endpoints.Search
+import jp.nephy.penicillin.endpoints.parameters.SearchResultType
+import jp.nephy.penicillin.models.SearchUniversal
 
 /**
- * Collection of api endpoints related to Search API.
+ * Undocumented endpoint.
  *
- * @constructor Creates new [Search] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.search
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Search] endpoint instance.
+ * @return [JsonObjectApiAction] for [SearchUniversal] model.
  */
-class Search(override val client: ApiClient): Endpoint
+@PrivateEndpoint
+fun Search.universal(
+    query: String,
+    modules: String? = null,
+    resultType: SearchResultType? = null,
+    vararg options: Option
+) = client.session.get("/1.1/search/universal.json") {
+    parameter(
+        "q" to query,
+        "modules" to modules,
+        "result_type" to resultType?.value,
+        *options
+    )
+}.jsonObject<SearchUniversal>()
