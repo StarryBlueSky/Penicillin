@@ -26,79 +26,24 @@
 
 package jp.nephy.penicillin.endpoints
 
-import io.ktor.http.ParametersBuilder
-import io.ktor.http.URLBuilder
-import io.ktor.http.URLProtocol
-import jp.nephy.penicillin.PenicillinClient
-import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.core.session.config.account
-import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.extensions.await
-import jp.nephy.penicillin.models.AccessTokenResponse
-import jp.nephy.penicillin.models.RequestTokenResponse
 
+/**
+ * Returns [OAuth] endpoint instance.
+
+ * [Twitter API reference](https://developer.twitter.com/en/docs/basics/authentication/overview)
+ *
+ * @return New [OAuth] endpoint instance.
+ * @receiver Current [ApiClient] instance.
+ */
 val ApiClient.oauth: OAuth
     get() = OAuth(this)
 
-class OAuth(override val client: ApiClient): Endpoint {
-    suspend fun requestToken(callbackUrl: String = "oob", vararg options: Option): RequestTokenResponse {
-        val result = client.session.post("/oauth/request_token") {
-            authType(AuthorizationType.OAuth1a, callbackUrl)
-            body {
-                form {
-                    add(*options)
-                }
-            }
-        }.text().await()
-        val pattern = "^oauth_token=(.+)&oauth_token_secret=(.+)&oauth_callback_confirmed=(.+)$".toRegex()
-        val (requestToken, requestTokenSecret, callbackConfirmed) = pattern.matchEntire(result.content)!!.destructured
-
-        return RequestTokenResponse(requestToken, requestTokenSecret, callbackConfirmed.toBoolean())
-    }
-
-    fun authorizeUrl(accessToken: String, forceLogin: Boolean? = null, screenName: String? = null): String {
-        val parameters = ParametersBuilder()
-        parameters["oauth_token"] = accessToken
-        if (forceLogin != null) {
-            parameters["force_login"] = forceLogin.toString()
-        }
-        if (screenName != null) {
-            parameters["screen_name"] = screenName
-        }
-
-        return URLBuilder(protocol = URLProtocol.HTTPS, host = "api.twitter.com", encodedPath = "/oauth/authorize", parameters = parameters).buildString()
-    }
-
-    fun authenticateUrl(accessToken: String, forceLogin: Boolean? = null, screenName: String? = null): String {
-        val parameters = ParametersBuilder()
-        parameters["oauth_token"] = accessToken
-        if (forceLogin != null) {
-            parameters["force_login"] = forceLogin.toString()
-        }
-        if (screenName != null) {
-            parameters["screen_name"] = screenName
-        }
-
-        return URLBuilder(protocol = URLProtocol.HTTPS, host = "api.twitter.com", encodedPath = "/oauth/authenticate", parameters = parameters).buildString()
-    }
-
-    suspend fun accessToken(requestToken: String, requestTokenSecret: String, verifier: String, vararg options: Option): AccessTokenResponse {
-        val result = PenicillinClient {
-            account {
-                application(client.session.credentials.consumerKey!!, client.session.credentials.consumerSecret!!)
-                token(requestToken, requestTokenSecret)
-            }
-        }.session.post("/oauth/access_token") {
-            body {
-                form {
-                    add("oauth_verifier" to verifier, *options)
-                }
-            }
-        }.text().await()
-        val pattern = "^oauth_token=(.+)&oauth_token_secret=(.+)&user_id=(\\d+)&screen_name=(.+)$".toRegex()
-        val (accessToken, accessTokenSecret, userId, screenName) = pattern.matchEntire(result.content)!!.destructured
-
-        return AccessTokenResponse(accessToken, accessTokenSecret, userId.toLong(), screenName)
-    }
-}
+/**
+ * Collection of api endpoints related to OAuth 1.0a Authentication.
+ *
+ * @constructor Creates new [OAuth] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.oauth
+ */
+class OAuth(override val client: ApiClient): Endpoint
