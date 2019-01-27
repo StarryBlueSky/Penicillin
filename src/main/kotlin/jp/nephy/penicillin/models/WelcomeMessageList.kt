@@ -22,28 +22,16 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.models
 
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.nullableString
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-/**
- * Returns [WelcomeMessages] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/overview)
- *
- * @return New [WelcomeMessages] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.welcomeMessages: WelcomeMessages
-    get() = WelcomeMessages(this)
-
-/**
- * Collection of api endpoints related to Welcome Messages.
- *
- * @constructor Creates new [WelcomeMessages] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.welcomeMessages
- */
-class WelcomeMessages(override val client: ApiClient): Endpoint
+data class WelcomeMessageList(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    val welcomeMessages by penicillinModelList<WelcomeMessage>("welcome_messages")
+    val nextCursor by nullableString
+}
