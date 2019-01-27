@@ -22,28 +22,21 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+package jp.nephy.penicillin.endpoints.parameters
 
-package jp.nephy.penicillin.endpoints
+enum class CollectionTimelineOrder(val value: String) {
+    /**
+     * order added (default)
+     */
+    OrderAdded("curation_reverse_chron"),
 
-import jp.nephy.penicillin.core.session.ApiClient
+    /**
+     * oldest first
+     */
+    OldestFirst("tweet_chron"),
 
-/**
- * Returns [Collections] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/curate-a-collection/overview)
- *
- * @return New [Collections] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.collections: Collections
-    get() = Collections(this)
-
-/**
- * Collection of api endpoints related to tweet collections.
- *
- * @constructor Creates new [Collections] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.collections
- */
-class Collections(override val client: ApiClient): Endpoint
+    /**
+     * most recent first
+     */
+    MostRecentFirst("tweet_reverse_chron")
+}

@@ -22,8 +22,36 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-enum class CollectionCreationTimelineOrder(val value: String) {
-    OrderAdded("tweet_chron"), OldestFirst("curation_reverse_chron"), MostRecentFirst("tweet_reverse_chron")
-}
+package jp.nephy.penicillin.endpoints.collections
+
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.Collections
+import jp.nephy.penicillin.models.Collection
+
+/**
+ * Permanently delete a Collection owned by the currently authenticated user.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/curate-a-collection/api-reference/post-collections-destroy)
+ * 
+ * @param id The identifier of the Collection to destroy.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Collections] endpoint instance.
+ * @return [JsonObjectApiAction] for [Collection.DestroyResult] model.
+ */
+fun Collections.destroy(
+    id: String,
+    vararg options: Option
+) = client.session.post("/1.1/collections/destroy.json") {
+    body {
+        form {
+            add(
+                "id" to id,
+                *options
+            )
+        }
+    }
+}.jsonObject<Collection.DestroyResult>()
