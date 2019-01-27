@@ -22,28 +22,32 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.collections
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Collections] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/curate-a-collection/overview)
- *
- * @return New [Collections] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.collections: Collections
-    get() = Collections(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.Collections
+import jp.nephy.penicillin.models.Collection
 
 /**
- * Collection of api endpoints related to tweet collections.
- *
- * @constructor Creates new [Collections] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.collections
+ * Retrieve information associated with a specific Collection.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/curate-a-collection/api-reference/get-collections-show)
+ * 
+ * @param id The identifier of the Collection for which to return results.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Collections] endpoint instance.
+ * @return [JsonObjectApiAction] for [Collection.Model] model.
  */
-class Collections(override val client: ApiClient): Endpoint
+fun Collections.show(
+    id: String,
+    vararg options: Option
+) = client.session.get("/1.1/collections/show.json") {
+    parameter(
+        "id" to id,
+        *options
+    )
+}.jsonObject<Collection.Model>()
