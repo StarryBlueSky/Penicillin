@@ -27,7 +27,9 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.delegation.long
+import jp.nephy.jsonkt.delegation.string
+import jp.nephy.jsonkt.delegation.stringList
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
 
@@ -42,9 +44,5 @@ object Friendships {
         val idStr by string("id_str")
         val name by string
         val screenName by string("screen_name")
-    }
-
-    data class NoRetweetsIds(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val ids by longList
     }
 }
