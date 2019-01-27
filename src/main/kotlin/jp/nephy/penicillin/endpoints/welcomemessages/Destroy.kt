@@ -22,28 +22,31 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.welcomemessages
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [WelcomeMessages] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/overview)
- *
- * @return New [WelcomeMessages] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.welcomeMessages: WelcomeMessages
-    get() = WelcomeMessages(this)
+import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.session.delete
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.WelcomeMessages
 
 /**
- * Collection of api endpoints related to Welcome Messages.
- *
- * @constructor Creates new [WelcomeMessages] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.welcomeMessages
+ * Deletes a Welcome Message by the given id.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/delete-welcome-message)
+ * 
+ * @param id The id of the Welcome Message that should be deleted.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [WelcomeMessages] endpoint instance.
+ * @return [EmptyApiAction].
  */
-class WelcomeMessages(override val client: ApiClient): Endpoint
+fun WelcomeMessages.delete(
+    id: Long,
+    vararg options: Option
+) = client.session.delete("/1.1/direct_messages/welcome_messages/destroy.json") {
+    parameter(
+        "id" to id,
+        *options
+    )
+}.empty()

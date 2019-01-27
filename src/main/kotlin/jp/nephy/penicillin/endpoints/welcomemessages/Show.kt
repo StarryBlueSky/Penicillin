@@ -22,28 +22,32 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.welcomemessages
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [WelcomeMessages] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/overview)
- *
- * @return New [WelcomeMessages] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.welcomeMessages: WelcomeMessages
-    get() = WelcomeMessages(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.WelcomeMessages
+import jp.nephy.penicillin.models.WelcomeMessageSingle
 
 /**
- * Collection of api endpoints related to Welcome Messages.
- *
- * @constructor Creates new [WelcomeMessages] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.welcomeMessages
+ * Returns a Welcome Message by the given id.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/get-welcome-message)
+ * 
+ * @param id The id of the Welcome Message that should be returned.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [WelcomeMessages] endpoint instance.
+ * @return [JsonObjectApiAction] for [WelcomeMessageSingle] model.
  */
-class WelcomeMessages(override val client: ApiClient): Endpoint
+fun WelcomeMessages.show(
+    id: Long,
+    vararg options: Option
+) = client.session.get("/1.1/direct_messages/welcome_messages/show.json") {
+    parameter(
+        "id" to id,
+        *options
+    )
+}.jsonObject<WelcomeMessageSingle>()
