@@ -31,7 +31,7 @@ import jp.nephy.jsonkt.delegation.nullableString
 import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
 
-data class OAuth2Token(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+data class OAuthToken(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val tokenType by nullableString("token_type")
     val token by string("access_token")
 }

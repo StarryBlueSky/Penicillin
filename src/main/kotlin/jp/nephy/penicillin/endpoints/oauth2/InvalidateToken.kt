@@ -31,7 +31,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.OAuth2
-import jp.nephy.penicillin.models.OAuth2Token
+import jp.nephy.penicillin.models.OAuthToken
 
 /**
  * Allows a registered application to revoke an issued OAuth 2 Bearer Token by presenting its client credentials. Once a Bearer Token has been invalidated, new creation attempts will yield a different Bearer Token and usage of the invalidated token will no longer be allowed.
@@ -42,7 +42,7 @@ import jp.nephy.penicillin.models.OAuth2Token
  * @param bearerToken The value of the bearer token to revoke.
  * @param options Optional. Custom parameters of this request.
  * @receiver [OAuth2] endpoint instance.
- * @return [JsonObjectApiAction] for [OAuth2Token] model.
+ * @return [JsonObjectApiAction] for [OAuthToken] model.
  */
 fun OAuth2.invalidateToken(
     bearerToken: String,
@@ -58,4 +58,4 @@ fun OAuth2.invalidateToken(
             )
         }
     }
-}.jsonObject<OAuth2Token>()
+}.jsonObject<OAuthToken>()
