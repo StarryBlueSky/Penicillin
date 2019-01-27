@@ -22,31 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
-package jp.nephy.penicillin.endpoints.welcomemessages
+package jp.nephy.penicillin.models
 
-import jp.nephy.penicillin.core.request.action.EmptyApiAction
-import jp.nephy.penicillin.core.session.delete
-import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.WelcomeMessages
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-/**
- * Deletes a Welcome Message by the given id.
- * 
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/delete-welcome-message)
- * 
- * @param id The id of the Welcome Message that should be deleted.
- * @param options Optional. Custom parameters of this request.
- * @receiver [WelcomeMessages] endpoint instance.
- * @return [EmptyApiAction].
- */
-fun WelcomeMessages.destroy(
-    id: Long,
-    vararg options: Option
-) = client.session.delete("/1.1/direct_messages/welcome_messages/destroy.json") {
-    parameter(
-        "id" to id,
-        *options
-    )
-}.empty()
+data class WelcomeMessageRuleList(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    val welcomeMessageRules by penicillinModelList<WelcomeMessageRule>("welcome_message_rules")
+}

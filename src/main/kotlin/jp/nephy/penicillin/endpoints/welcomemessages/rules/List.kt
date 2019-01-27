@@ -24,29 +24,40 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints.welcomemessages
+package jp.nephy.penicillin.endpoints.welcomemessages.rules
 
-import jp.nephy.penicillin.core.request.action.EmptyApiAction
-import jp.nephy.penicillin.core.session.delete
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.WelcomeMessages
+import jp.nephy.penicillin.endpoints.WelcomeMessageRules
+import jp.nephy.penicillin.models.WelcomeMessageRuleList
 
 /**
- * Deletes a Welcome Message by the given id.
+ * Returns a list of Welcome Message Rules.
  * 
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/delete-welcome-message)
+ * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/list-welcome-message-rules)
  * 
- * @param id The id of the Welcome Message that should be deleted.
+ * @param count Number of welcome message rules to be returned. Max of 50. Default is 20.
+ * @param cursor For paging through result sets greater than 1 page, use the “next_cursor” property from the previous request.
  * @param options Optional. Custom parameters of this request.
- * @receiver [WelcomeMessages] endpoint instance.
- * @return [EmptyApiAction].
+ * @receiver [WelcomeMessageRules] endpoint instance.
+ * @return [JsonObjectApiAction] for [WelcomeMessageRuleList] model.
  */
-fun WelcomeMessages.destroy(
-    id: Long,
+fun WelcomeMessageRules.list(
+    count: Int? = null,
+    cursor: String? = null,
     vararg options: Option
-) = client.session.delete("/1.1/direct_messages/welcome_messages/destroy.json") {
+) = client.session.get("/1.1/direct_messages/welcome_messages/rules/list.json") {
     parameter(
-        "id" to id,
+        "count" to count,
+        "cursor" to cursor,
         *options
     )
-}.empty()
+}.jsonObject<WelcomeMessageRuleList>()
+
+/**
+ * Shorthand property to [WelcomeMessageRules.list].
+ * @see WelcomeMessageRules.list
+ */ 
+val WelcomeMessageRules.list
+    get() = list()
