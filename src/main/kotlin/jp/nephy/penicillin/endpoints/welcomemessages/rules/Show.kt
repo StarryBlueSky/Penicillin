@@ -22,16 +22,32 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.endpoints.welcomemessages.rules
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.WelcomeMessageRules
+import jp.nephy.penicillin.models.WelcomeMessageRuleSingle
 
-data class BadgeCount(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val dmUnreadCount by int("dm_unread_count")
-    val ntabUnreadCount by int("ntab_unread_count")
-    val totalUnreadCount by int("total_unread_count")
-}
+/**
+ * Returns a Welcome Message Rule by the given id.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/get-welcome-message-rule)
+ * 
+ * @param id The id of the Welcome Message Rule that should be returned.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [WelcomeMessageRules] endpoint instance.
+ * @return [JsonObjectApiAction] for [WelcomeMessageRuleSingle] model.
+ */
+fun WelcomeMessageRules.show(
+    id: Long,
+    vararg options: Option
+) = client.session.get("/1.1/direct_messages/welcome_messages/rules/show.json") {
+    parameter(
+        "id" to id,
+        *options
+    )
+}.jsonObject<WelcomeMessageRuleSingle>()

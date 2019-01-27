@@ -24,27 +24,27 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints.welcomemessages
+package jp.nephy.penicillin.endpoints.welcomemessages.rules
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.session.delete
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.WelcomeMessages
+import jp.nephy.penicillin.endpoints.WelcomeMessageRules
 
 /**
- * Deletes a Welcome Message by the given id.
+ * Deletes a Welcome Message Rule by the given id.
  * 
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/delete-welcome-message)
+ * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/delete-welcome-message-rule)
  * 
- * @param id The id of the Welcome Message that should be deleted.
+ * @param id The id of the Welcome Message Rule that should be deleted.
  * @param options Optional. Custom parameters of this request.
- * @receiver [WelcomeMessages] endpoint instance.
+ * @receiver [WelcomeMessageRules] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun WelcomeMessages.destroy(
+fun WelcomeMessageRules.destroy(
     id: Long,
     vararg options: Option
-) = client.session.delete("/1.1/direct_messages/welcome_messages/destroy.json") {
+) = client.session.delete("/1.1/direct_messages/welcome_messages/rules/destroy.json") {
     parameter(
         "id" to id,
         *options
