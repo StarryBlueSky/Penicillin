@@ -31,7 +31,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.OAuth2
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.models.OAuth2Token
+import jp.nephy.penicillin.models.OAuthToken
 
 /**
  * Allows a registered application to obtain an OAuth 2 Bearer Token, which can be used to make API requests on an application's own behalf, without a user context. This is called [Application-only authentication](https://developer.twitter.com/en/docs/basics/authentication/overview/application-only).
@@ -45,7 +45,7 @@ import jp.nephy.penicillin.models.OAuth2Token
  * @param grantType Specifies the type of grant being requested by the application. At this time, only client_credentials is allowed. See [Application-Only Authentication](https://developer.twitter.com/oauth/application-only) for more information.
  * @param options Optional. Custom parameters of this request.
  * @receiver [OAuth2] endpoint instance.
- * @return [JsonObjectApiAction] for [OAuth2Token] model.
+ * @return [JsonObjectApiAction] for [OAuthToken] model.
  */
 fun OAuth2.bearerToken(
     grantType: String = "client_credentials",
@@ -60,7 +60,7 @@ fun OAuth2.bearerToken(
             )
         }
     }
-}.jsonObject<OAuth2Token>()
+}.jsonObject<OAuthToken>()
 
  /**
  * Shorthand property to [OAuth2.bearerToken].
