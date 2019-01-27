@@ -27,46 +27,23 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.core.session.post
 
+/**
+ * Returns [CollectionEntries] endpoint instance.
+
+ * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/curate-a-collection/overview)
+ *
+ * @return New [CollectionEntries] endpoint instance.
+ * @receiver Current [ApiClient] instance.
+ */
 val ApiClient.collectionEntries: CollectionEntries
     get() = CollectionEntries(this)
 
-class CollectionEntries(override val client: ApiClient): Endpoint {
-    fun entries(id: String, count: Int? = null, maxPosition: Int? = null, minPosition: Int? = null, vararg options: Option) = client.session.get("/1.1/collections/entries.json") {
-        parameter("id" to id, "count" to count, "max_position" to maxPosition, "min_position" to minPosition, *options)
-    }.empty()
-
-    fun add(id: String, tweetId: Long, relativeTo: Long? = null, above: Boolean? = null, vararg options: Option) = client.session.post("/1.1/collections/entries/add.json") {
-        body {
-            form {
-                add("id" to id, "tweet_id" to tweetId, "relative_to" to relativeTo, "above" to above, *options)
-            }
-        }
-    }.empty()
-
-    fun curate(vararg options: Pair<String, String>) = client.session.post("/1.1/collections/entries/curate.json") {
-        body {
-            json {
-                add(*options)
-            }
-        }
-    }.empty()
-
-    fun move(id: String, tweetId: Long, relativeTo: Long, above: Boolean? = null, vararg options: Option) = client.session.post("/1.1/collections/entries/move.json") {
-        body {
-            form {
-                add("id" to id, "tweet_id" to tweetId, "relative_to" to relativeTo, "above" to above, *options)
-            }
-        }
-    }.empty()
-
-    fun remove(id: String, tweetId: Long, vararg options: Option) = client.session.post("/1.1/collections/entries/remove.json") {
-        body {
-            form {
-                add("id" to id, "tweet_id" to tweetId, *options)
-            }
-        }
-    }.empty()
-}
+/**
+ * Collection of api endpoints related to tweet collection's entries.
+ *
+ * @constructor Creates new [CollectionEntries] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.collectionEntries
+ */
+class CollectionEntries(override val client: ApiClient): Endpoint
