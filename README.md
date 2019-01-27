@@ -9,7 +9,7 @@
 * Supports all the public Twitter API endpoints except Enterprise APIs.
 * Supports the following authenticating methods: OAuth 1.0a, OAuth 2.0
 * Supports some private Twitter API endpoints such as Poll Tweets.
-* Endpoint's parameters are resolved as Kotlin "Type-safe Named Parameter".
+* Endpoint's parameters are resolved as Kotlin "Typed-safe Named Parameter".
 * Penicillin has model classes. So endpoint's response is easy to use.
 * API execution supports classic function `.complete()`, suspend function `.await()` and callback style `.queue {}`.
 * Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.
@@ -56,7 +56,7 @@ We recommend using Gradle Kotlin DSL instead of old build.gradle.
 
 ```kotlin
 val penicillinVersion = "PUT desired Penicillin version here"
-val ktorVersion = "1.1.1"
+val ktorVersion = "1.1.2"
 
 plugins { 
     kotlin("jvm") version "1.3.20"
@@ -89,7 +89,7 @@ dependencies {
 buildscript {
     ext.penicillin_version = "PUT desired Penicillin version here"
     ext.kotlin_version = "1.3.20"
-    ext.ktor_version = "1.1.1"
+    ext.ktor_version = "1.1.2"
 
     repositories {
         mavenCentral()
