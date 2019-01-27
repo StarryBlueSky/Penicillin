@@ -26,30 +26,24 @@
 
 package jp.nephy.penicillin.endpoints
 
-import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.models.OAuth2Token
 
+/**
+ * Returns [OAuth2] endpoint instance.
+
+ * [Twitter API reference](https://developer.twitter.com/en/docs/basics/authentication/overview)
+ *
+ * @return New [OAuth2] endpoint instance.
+ * @receiver Current [ApiClient] instance.
+ */
 val ApiClient.oauth2: OAuth2
     get() = OAuth2(this)
 
-class OAuth2(override val client: ApiClient): Endpoint {
-    fun bearerToken(grantType: String = "client_credentials", vararg options: Option) = client.session.post("/oauth2/token") {
-        authType(AuthorizationType.OAuth2RequestToken)
-        body {
-            form {
-                add("grant_type" to grantType, *options)
-            }
-        }
-    }.jsonObject<OAuth2Token>()
-
-    fun invalidateToken(bearerToken: String, vararg options: Option) = client.session.post("/oauth2/invalidate_token") {
-        authType(AuthorizationType.OAuth2RequestToken)
-        body {
-            form {
-                add("access_token" to bearerToken, *options)
-            }
-        }
-    }.jsonObject<OAuth2Token>()
-}
+/**
+ * Collection of api endpoints related to OAuth 2 Authentication.
+ *
+ * @constructor Creates new [OAuth2] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.oauth2
+ */
+class OAuth2(override val client: ApiClient): Endpoint
