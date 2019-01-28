@@ -64,6 +64,7 @@ fun CommonUser.profileBannerUrlWithVariantSize(size: ProfileBannerSize): String?
     return profileBannerUrl?.let { "$profileBannerUrl/${size.suffix}" }
 }
 
+// Refer https://developer.twitter.com/en/docs/accounts-and-users/user-profile-images-and-banners
 enum class ProfileImageSize(val suffix: String) {
     Normal("normal"), Bigger("bigger"), Mini("mini"), Original("")
 }
