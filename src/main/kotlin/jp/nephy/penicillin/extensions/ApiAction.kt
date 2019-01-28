@@ -50,6 +50,27 @@ suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(): R? {
     return awaitWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
+@Throws(PenicillinException::class, CancellationException::class)
+suspend fun <R: Any> ApiAction<R>.defer(): Deferred<R> {
+    return session.async {
+        await()
+    }
+}
+
+@Throws(PenicillinException::class, CancellationException::class)
+suspend fun <R: Any> ApiAction<R>.deferWithTimeout(timeout: Long, unit: TimeUnit): Deferred<R?> {
+    return session.async { 
+        awaitWithTimeout(timeout, unit)
+    }
+}
+
+@Throws(PenicillinException::class, CancellationException::class)
+suspend fun <R: Any> ApiAction<R>.deferWithTimeout(): Deferred<R?> {
+    return session.async { 
+        awaitWithTimeout()
+    }
+}
+
 @Throws(PenicillinException::class)
 fun <R: Any> ApiAction<R>.complete(): R {
     return runBlocking(session.coroutineContext) {
