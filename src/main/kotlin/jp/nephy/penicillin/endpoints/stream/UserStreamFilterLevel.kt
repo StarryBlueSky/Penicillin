@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.stream
 
-enum class EmbedWidgetType(val value: String) {
-    Video("video")
+enum class UserStreamFilterLevel(val value: String) {
+    None("none"), Low("low"), Medium("medium")
 }

@@ -31,7 +31,7 @@ import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Users
-import jp.nephy.penicillin.endpoints.parameters.TweetMode
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.User
 
 /**

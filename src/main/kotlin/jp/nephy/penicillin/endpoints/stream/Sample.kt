@@ -34,7 +34,6 @@ import jp.nephy.penicillin.core.streaming.handler.SampleStreamHandler
 import jp.nephy.penicillin.core.streaming.listener.SampleStreamListener
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Stream
-import jp.nephy.penicillin.endpoints.parameters.StreamDelimitedBy
 
 /**
  * Returns a small random sample of all public statuses via a stream. The Tweets returned by the default access level are the same, so if two different clients connect to this endpoint, they will see the same Tweets.

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.lists
 
 enum class ListCreationMode(val value: String) {
     Public("public"), Private("private")

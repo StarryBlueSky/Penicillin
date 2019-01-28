@@ -30,8 +30,8 @@ import jp.nephy.penicillin.endpoints.Media
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.media.uploadAppend
 import jp.nephy.penicillin.endpoints.media.uploadMedia
-import jp.nephy.penicillin.endpoints.parameters.MediaCategory
-import jp.nephy.penicillin.endpoints.parameters.MediaType
+import jp.nephy.penicillin.endpoints.media.MediaCategory
+import jp.nephy.penicillin.endpoints.media.MediaType
 import java.io.File
 import java.nio.file.Path
 

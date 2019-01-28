@@ -24,8 +24,8 @@
 
 package jp.nephy.penicillin.extensions.endpoints
 
-import jp.nephy.penicillin.endpoints.parameters.MediaCategory
-import jp.nephy.penicillin.endpoints.parameters.MediaType
+import jp.nephy.penicillin.endpoints.media.MediaCategory
+import jp.nephy.penicillin.endpoints.media.MediaType
 import java.io.File
 
 class MediaFileComponent(val file: File, val type: MediaType, val category: MediaCategory)

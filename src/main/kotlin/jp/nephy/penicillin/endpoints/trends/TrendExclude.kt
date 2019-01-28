@@ -22,21 +22,8 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.trends
 
-enum class CollectionTimelineOrder(val value: String) {
-    /**
-     * order added (default)
-     */
-    OrderAdded("curation_reverse_chron"),
-
-    /**
-     * oldest first
-     */
-    OldestFirst("tweet_chron"),
-
-    /**
-     * most recent first
-     */
-    MostRecentFirst("tweet_reverse_chron")
+enum class TrendExclude(val value: String?) {
+    None(null), Hashtags("hashtags")
 }

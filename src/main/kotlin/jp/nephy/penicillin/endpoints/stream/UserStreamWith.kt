@@ -22,16 +22,8 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+package jp.nephy.penicillin.endpoints.stream
 
-package jp.nephy.penicillin.endpoints.parameters
-
-enum class StreamDelimitedBy(val value: String?) {
-    Default(null), Length("length");
-
-    companion object {
-        fun byName(name: String): StreamDelimitedBy {
-            return values().find { it.name.equals(name, true) } ?: StreamDelimitedBy.Default
-        }
-    }
+enum class UserStreamWith(val value: String) {
+    User("user"), Followings("followings")
 }

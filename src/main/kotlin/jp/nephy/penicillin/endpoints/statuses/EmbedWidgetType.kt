@@ -22,24 +22,8 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.statuses
 
-/**
- * Specifies what type of search results you would prefer to receive. The current default is "mixed." Valid values include.
- */
-enum class SearchResultType(val value: String) {
-    /**
-     * Include both popular and real time results in the response.
-     */
-    Mixed("mixed"),
-    
-    /**
-     * return only the most recent results in the response
-     */
-    Recent("recent"),
-
-    /**
-     * return only the most popular results in the response.
-     */
-    Popular("popular")
+enum class EmbedWidgetType(val value: String) {
+    Video("video")
 }

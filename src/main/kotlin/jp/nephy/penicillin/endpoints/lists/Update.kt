@@ -30,7 +30,6 @@ import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.parameters.ListCreationMode
 
 /**
  * Updates the specified list. The authenticated user must own the list to be able to update it.

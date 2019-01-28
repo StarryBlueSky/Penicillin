@@ -22,8 +22,18 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.common
 
-enum class UserStreamFilterLevel(val value: String) {
-    None("none"), Low("low"), Medium("medium")
+enum class TweetMode(val value: String?) {
+    Default(null),
+    
+    /**
+     * compatibility mode
+     */
+    Compat("compat"),
+
+    /**
+     * extended mode, respectively for Tweets that contain over 140 characters
+     */
+    Extended("extended")
 }

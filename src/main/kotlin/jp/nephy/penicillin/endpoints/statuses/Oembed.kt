@@ -32,9 +32,6 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
-import jp.nephy.penicillin.endpoints.parameters.EmbedAlign
-import jp.nephy.penicillin.endpoints.parameters.EmbedTheme
-import jp.nephy.penicillin.endpoints.parameters.EmbedWidgetType
 import jp.nephy.penicillin.models.Embed
 
 /**

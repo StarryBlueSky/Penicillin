@@ -34,10 +34,6 @@ import jp.nephy.penicillin.core.streaming.handler.UserStreamHandler
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Stream
-import jp.nephy.penicillin.endpoints.parameters.StreamDelimitedBy
-import jp.nephy.penicillin.endpoints.parameters.UserStreamFilterLevel
-import jp.nephy.penicillin.endpoints.parameters.UserStreamReplies
-import jp.nephy.penicillin.endpoints.parameters.UserStreamWith
 
 /**
  * Returns realtime timeline.

@@ -33,7 +33,7 @@ import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.endpoints.Stream
-import jp.nephy.penicillin.endpoints.parameters.StreamDelimitedBy
+import jp.nephy.penicillin.endpoints.stream.StreamDelimitedBy
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
