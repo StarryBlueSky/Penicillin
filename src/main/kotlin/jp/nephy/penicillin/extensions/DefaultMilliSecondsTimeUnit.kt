@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.config.ApiConfig
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import java.util.concurrent.TimeUnit
 
@@ -44,6 +45,11 @@ fun ApiConfig.Builder.defaultTimeout(timeoutInMillis: Long) {
 @Throws(PenicillinException::class, CancellationException::class)
 suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeoutInMillis: Long): R? {
     return awaitWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
+}
+
+@Throws(PenicillinException::class, CancellationException::class)
+suspend fun <R: Any> ApiAction<R>.deferWithTimeout(timeoutInMillis: Long): Deferred<R?> {
+    return deferWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
 }
 
 @Throws(PenicillinException::class)
