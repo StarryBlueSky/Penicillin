@@ -24,32 +24,29 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints.savedsearches
+package jp.nephy.penicillin.endpoints.welcomemessages.rules
 
-
-import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.session.delete
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.SavedSearches
-import jp.nephy.penicillin.models.SavedSearch
+import jp.nephy.penicillin.endpoints.WelcomeMessageRules
 
 /**
- * Destroys a saved search for the authenticating user. The authenticating user must be the owner of saved search id being destroyed.
+ * Deletes a Welcome Message Rule by the given id.
  * 
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-destroy-id)
+ * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/delete-welcome-message-rule)
  * 
- * @param id The ID of the saved search.
+ * @param id The id of the Welcome Message Rule that should be deleted.
  * @param options Optional. Custom parameters of this request.
- * @receiver [SavedSearches] endpoint instance.
- * @return [JsonObjectApiAction] for [SavedSearch] model.
+ * @receiver [WelcomeMessageRules] endpoint instance.
+ * @return [EmptyApiAction].
  */
-fun SavedSearches.destroy(
+fun WelcomeMessageRules.delete(
     id: Long,
     vararg options: Option
-) = client.session.post("/1.1/saved_searches/destroy/$id.json") {
-    body {
-        form {
-            add(*options)
-        }
-    }
-}.jsonObject<SavedSearch>()
+) = client.session.delete("/1.1/direct_messages/welcome_messages/rules/destroy.json") {
+    parameter(
+        "id" to id,
+        *options
+    )
+}.empty()

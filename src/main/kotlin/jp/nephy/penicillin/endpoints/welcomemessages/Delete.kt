@@ -41,7 +41,7 @@ import jp.nephy.penicillin.endpoints.WelcomeMessages
  * @receiver [WelcomeMessages] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun WelcomeMessages.destroy(
+fun WelcomeMessages.delete(
     id: Long,
     vararg options: Option
 ) = client.session.delete("/1.1/direct_messages/welcome_messages/destroy.json") {

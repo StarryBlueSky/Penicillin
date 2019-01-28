@@ -24,29 +24,34 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints.welcomemessages.rules
+package jp.nephy.penicillin.endpoints.collections
 
-import jp.nephy.penicillin.core.request.action.EmptyApiAction
-import jp.nephy.penicillin.core.session.delete
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.Collections
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.WelcomeMessageRules
+import jp.nephy.penicillin.models.Collection
 
 /**
- * Deletes a Welcome Message Rule by the given id.
+ * Permanently delete a Collection owned by the currently authenticated user.
  * 
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/welcome-messages/api-reference/delete-welcome-message-rule)
+ * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/curate-a-collection/api-reference/post-collections-destroy)
  * 
- * @param id The id of the Welcome Message Rule that should be deleted.
+ * @param id The identifier of the Collection to destroy.
  * @param options Optional. Custom parameters of this request.
- * @receiver [WelcomeMessageRules] endpoint instance.
- * @return [EmptyApiAction].
+ * @receiver [Collections] endpoint instance.
+ * @return [JsonObjectApiAction] for [Collection.DestroyResult] model.
  */
-fun WelcomeMessageRules.destroy(
-    id: Long,
+fun Collections.delete(
+    id: String,
     vararg options: Option
-) = client.session.delete("/1.1/direct_messages/welcome_messages/rules/destroy.json") {
-    parameter(
-        "id" to id,
-        *options
-    )
-}.empty()
+) = client.session.post("/1.1/collections/destroy.json") {
+    body {
+        form {
+            add(
+                "id" to id,
+                *options
+            )
+        }
+    }
+}.jsonObject<Collection.DestroyResult>()
