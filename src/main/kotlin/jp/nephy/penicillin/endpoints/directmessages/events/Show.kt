@@ -22,28 +22,32 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.directmessages.events
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [DirectMessageEvents] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/overview)
- *
- * @return New [DirectMessageEvents] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.directMessageEvent: DirectMessageEvents
-    get() = DirectMessageEvents(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.DirectMessageEvents
+import jp.nephy.penicillin.models.DirectMessageEvent
 
 /**
- * Collection of api endpoints related to Direct Message Events.
- *
- * @constructor Creates new [DirectMessageEvents] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.directMessageEvent
+ * Returns a single Direct Message event by the given id.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/get-event)
+ * 
+ * @param id The id of the Direct Message event that should be returned.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [DirectMessageEvents] endpoint instance.
+ * @return [JsonObjectApiAction] for [DirectMessageEvent.Show] model.
  */
-class DirectMessageEvents(override val client: ApiClient): Endpoint
+fun DirectMessageEvents.show(
+    id: String,
+    vararg options: Option
+) = client.session.get("/1.1/direct_messages/events/show.json") {
+    parameter(
+        "id" to id,
+        *options
+    )
+}.jsonObject<DirectMessageEvent.Show>()
