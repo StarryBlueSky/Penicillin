@@ -22,33 +22,37 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.directmessages
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-internal const val directMessageDeprecatedMessage = "Legacy Direct Message API retired on September 17th, 2018."
-
-/**
- * Returns [DirectMessages] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/overview)
- *
- * @return New [DirectMessages] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-@Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("directMessageEvents", "jp.nephy.endpoints.directMessageEvents"))
-@Suppress("Deprecation")
-val ApiClient.directMessages: DirectMessages
-    get() = DirectMessages(this)
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.DirectMessages
+import jp.nephy.penicillin.endpoints.directMessageDeprecatedMessage
+import jp.nephy.penicillin.models.DirectMessage
 
 /**
- * Collection of api endpoints related to legacy DirectMessage API.
+ * Abolished endpoint.
  *
- * @constructor Creates new [DirectMessages] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.directMessages
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [DirectMessages] endpoint instance.
+ * @return [JsonObjectApiAction] for [DirectMessage] model.
  */
-@Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("DirectMessageEvent", "jp.nephy.endpoints.DirectMessageEvent"))
-class DirectMessages(override val client: ApiClient): Endpoint
+@Deprecated(directMessageDeprecatedMessage)
+fun DirectMessages.delete(
+    id: Long,
+    includeEntities: Boolean? = null,
+    vararg options: Option
+) = client.session.post("/1.1/direct_messages/destroy.json") {
+    body {
+        form {
+            add(
+                "id" to id,
+                "include_entities" to includeEntities,
+                *options
+            )
+        }
+    }
+}.jsonObject<DirectMessage>()
