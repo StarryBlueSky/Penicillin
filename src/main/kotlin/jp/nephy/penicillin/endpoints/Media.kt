@@ -27,7 +27,6 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.models.Media
 
 /**
  * Returns [Media] endpoint instance.
