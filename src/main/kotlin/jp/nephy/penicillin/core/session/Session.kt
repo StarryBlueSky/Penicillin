@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.core.session
 
 import io.ktor.client.HttpClient
-import jp.nephy.penicillin.core.auth.Credentials
+import jp.nephy.penicillin.core.session.config.Credentials
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.session.config.ApiConfig

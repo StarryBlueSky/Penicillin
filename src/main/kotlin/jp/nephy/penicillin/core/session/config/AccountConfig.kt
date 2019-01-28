@@ -26,13 +26,57 @@
 
 package jp.nephy.penicillin.core.session.config
 
-import jp.nephy.penicillin.core.auth.Credentials
+import jp.nephy.penicillin.core.emulation.OfficialClient
+import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 
+@ApiClientDsl
 fun SessionBuilder.account(block: Credentials.Builder.() -> Unit) {
     getOrPutBuilder {
         Credentials.Builder()
     }.apply(block)
+}
+
+data class Credentials(
+    val consumerKey: String?, val consumerSecret: String?, val accessToken: String?, val accessTokenSecret: String?, val bearerToken: String?, val knownDeviceToken: String?
+): SessionConfig {
+    class Builder: SessionConfigBuilder<Credentials> {
+        internal var ck: String? = null
+        internal var cs: String? = null
+        internal var kdt: String? = null
+        internal var at: String? = null
+        internal var ats: String? = null
+        internal var bt: String? = null
+
+        override fun build(): Credentials {
+            return Credentials(ck, cs, at, ats, bt, kdt)
+        }
+    }
+}
+
+fun Credentials.Builder.application(consumerKey: String, consumerSecret: String, knownDeviceToken: String? = null) {
+    ck = consumerKey
+    cs = consumerSecret
+    kdt = knownDeviceToken
+}
+
+fun Credentials.Builder.application(client: OfficialClient.OAuth1a, knownDeviceToken: String? = null) {
+    ck = client.consumerKey
+    cs = client.consumerSecret
+    kdt = knownDeviceToken
+}
+
+fun Credentials.Builder.token(accessToken: String, accessTokenSecret: String) {
+    at = accessToken
+    ats = accessTokenSecret
+}
+
+fun Credentials.Builder.token(bearerToken: String) {
+    bt = bearerToken
+}
+
+fun Credentials.Builder.token(client: OfficialClient.OAuth2) {
+    bt = client.bearerToken
 }
 
 internal fun SessionBuilder.createCredentials(): Credentials {

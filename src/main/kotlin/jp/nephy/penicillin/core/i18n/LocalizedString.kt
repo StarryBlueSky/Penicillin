@@ -28,9 +28,6 @@ import java.util.*
 
 data class LocalizedString(private val ja: String, private val en: String) {
     companion object {
-        val CredentialsAreAllNull = LocalizedString(
-        "ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret, BearerToken のすべてが null です。", "ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret and BearerToken are all null."
-        )
         val PrivateEndpointRequiresOfficialClientEmulation = LocalizedString(
         "非公開 API へのアクセスには公式クライアントのエミュレーションが必要です。", "Access to private apis requires official client's emulation."
         )
