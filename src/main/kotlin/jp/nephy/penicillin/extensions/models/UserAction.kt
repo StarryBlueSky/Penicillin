@@ -26,18 +26,50 @@
 
 package jp.nephy.penicillin.extensions.models
 
-import jp.nephy.penicillin.endpoints.blocks
+import jp.nephy.penicillin.endpoints.*
 import jp.nephy.penicillin.endpoints.blocks.createByUserId
 import jp.nephy.penicillin.endpoints.blocks.destroyByUserId
-import jp.nephy.penicillin.endpoints.friendships
+import jp.nephy.penicillin.endpoints.followers.listIdsByUserId
+import jp.nephy.penicillin.endpoints.followers.listUsersByUserId
+import jp.nephy.penicillin.endpoints.friends.listIdsByUserId
+import jp.nephy.penicillin.endpoints.friends.listUsersByUserId
 import jp.nephy.penicillin.endpoints.friendships.createByUserId
 import jp.nephy.penicillin.endpoints.friendships.destroyByUserId
+import jp.nephy.penicillin.endpoints.lists.addMember
+import jp.nephy.penicillin.endpoints.lists.removeMember
+import jp.nephy.penicillin.endpoints.mutes.createByUserId
+import jp.nephy.penicillin.endpoints.mutes.destroyByUserId
+import jp.nephy.penicillin.endpoints.timeline.userTimelineByUserId
+import jp.nephy.penicillin.endpoints.users.reportSpamByUserId
+import jp.nephy.penicillin.endpoints.users.showByUserId
 import jp.nephy.penicillin.models.CommonUser
 
-fun CommonUser.follow() = client.friendships.createByUserId(userId = id)
+fun CommonUser.refresh() = client.users.showByUserId(userId = id)
 
+fun CommonUser.follow() = client.friendships.createByUserId(userId = id)
 fun CommonUser.unfollow() = client.friendships.destroyByUserId(userId = id)
 
-fun CommonUser.block() = client.blocks.createByUserId(userId = id)
+fun CommonUser.mute() = client.mutes.createByUserId(userId = id)
+fun CommonUser.unmute() = client.mutes.destroyByUserId(userId = id)
 
+fun CommonUser.block() = client.blocks.createByUserId(userId = id)
 fun CommonUser.unblock() = client.blocks.destroyByUserId(userId = id)
+
+fun CommonUser.reportAsSpam() = client.users.reportSpamByUserId(userId = id)
+
+fun CommonUser.timeline() = client.timeline.userTimelineByUserId(userId = id)
+
+fun CommonUser.friendIds() = client.friends.listIdsByUserId(userId = id)
+fun CommonUser.friendUsers() = client.friends.listUsersByUserId(userId = id)
+
+fun CommonUser.followerIds() = client.followers.listIdsByUserId(userId = id)
+fun CommonUser.followerUsers() = client.followers.listUsersByUserId(userId = id)
+
+fun CommonUser.addToList(listId: Long) = client.lists.addMember(listId, userId = id)
+fun CommonUser.addToList(slug: String, ownerScreenName: String) = client.lists.addMember(slug, ownerScreenName, userId = id)
+fun CommonUser.addToList(slug: String, ownerId: Long) = client.lists.addMember(slug, ownerId, userId = id)
+
+fun CommonUser.removeFromList(listId: Long) = client.lists.removeMember(listId, userId = id)
+fun CommonUser.removeFromList(slug: String, ownerScreenName: String) = client.lists.removeMember(slug, ownerScreenName, userId = id)
+fun CommonUser.removeFromList(slug: String, ownerId: Long) = client.lists.removeMember(slug, ownerId, userId = id)
+

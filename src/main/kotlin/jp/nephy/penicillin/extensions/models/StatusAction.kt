@@ -30,6 +30,7 @@ import jp.nephy.penicillin.endpoints.favorites
 import jp.nephy.penicillin.endpoints.favorites.create
 import jp.nephy.penicillin.endpoints.favorites.destroy
 import jp.nephy.penicillin.endpoints.statuses
+import jp.nephy.penicillin.endpoints.statuses.create
 import jp.nephy.penicillin.endpoints.statuses.delete
 import jp.nephy.penicillin.endpoints.statuses.show
 import jp.nephy.penicillin.models.Status
@@ -41,3 +42,5 @@ fun Status.favorite() = client.favorites.create(id = id)
 fun Status.unfavorite() = client.favorites.destroy(id = id)
 
 fun Status.delete() = client.statuses.delete(id = id)
+
+fun Status.mention(text: String) = client.statuses.create(text, inReplyToStatusId = id)
