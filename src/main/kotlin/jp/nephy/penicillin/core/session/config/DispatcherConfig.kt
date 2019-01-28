@@ -26,10 +26,12 @@
 
 package jp.nephy.penicillin.core.session.config
 
+import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
+@ApiClientDsl
 fun SessionBuilder.dispatcher(block: DispatcherConfig.Builder.() -> Unit) {
     getOrPutBuilder { 
         DispatcherConfig.Builder()

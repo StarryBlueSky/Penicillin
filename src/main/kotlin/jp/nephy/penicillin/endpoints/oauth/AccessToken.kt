@@ -28,6 +28,8 @@ package jp.nephy.penicillin.endpoints.oauth
 
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.config.application
+import jp.nephy.penicillin.core.session.config.token
 import jp.nephy.penicillin.core.session.config.account
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option

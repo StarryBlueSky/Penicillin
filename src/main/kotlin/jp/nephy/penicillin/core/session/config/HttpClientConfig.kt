@@ -30,8 +30,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
+import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 
+@ApiClientDsl
 @Suppress("UNCHECKED_CAST")
 fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
     getOrPutBuilder { 
@@ -42,6 +44,7 @@ fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpCli
     }
 }
 
+@ApiClientDsl
 fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
     getOrPutBuilder {
         KtorHttpClientConfig.Builder()
@@ -50,6 +53,7 @@ fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
     }
 }
 
+@ApiClientDsl
 fun SessionBuilder.httpClient(client: HttpClient) {
     getOrPutBuilder {
         KtorHttpClientConfig.Builder()

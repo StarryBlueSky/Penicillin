@@ -28,9 +28,11 @@ package jp.nephy.penicillin.core.session.config
 
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
+import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 import java.util.concurrent.TimeUnit
 
+@ApiClientDsl
 fun SessionBuilder.api(block: ApiConfig.Builder.() -> Unit) {
     getOrPutBuilder { 
         ApiConfig.Builder()

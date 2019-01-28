@@ -27,8 +27,10 @@
 package jp.nephy.penicillin.core.session.config
 
 import io.ktor.http.Cookie
+import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 
+@ApiClientDsl
 fun SessionBuilder.cookie(block: CookieConfig.Builder.() -> Unit) {
     getOrPutBuilder { 
         CookieConfig.Builder()
