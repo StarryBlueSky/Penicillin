@@ -171,7 +171,7 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
         val javaClass = javaClass.classLoader.loadClass(trace.className)
         val method = javaClass.methods.find { it.name == trace.methodName } ?: return
 
-        apiRequestBuilderLogger.trace { "Endpoint: ${javaClass.simpleName}#${method.name}" }
+        apiRequestBuilderLogger.trace { "Endpoint: ${javaClass.canonicalName}#${method.name}" }
         val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
         if (session.option.emulationMode == EmulationMode.None || (annotation.modes.isNotEmpty() && session.option.emulationMode !in annotation.modes)) {
             throw PenicillinLocalizedException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
