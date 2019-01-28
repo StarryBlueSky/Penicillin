@@ -24,20 +24,33 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.extensions.models
+package jp.nephy.penicillin.endpoints.statuses
 
-import jp.nephy.penicillin.endpoints.favorites
-import jp.nephy.penicillin.endpoints.favorites.create
-import jp.nephy.penicillin.endpoints.favorites.destroy
-import jp.nephy.penicillin.endpoints.statuses
-import jp.nephy.penicillin.endpoints.statuses.delete
-import jp.nephy.penicillin.endpoints.statuses.show
-import jp.nephy.penicillin.models.Status
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.PrivateEndpoint
+import jp.nephy.penicillin.endpoints.Statuses
+import jp.nephy.penicillin.models.PinTweet
 
-fun Status.refresh() = client.statuses.show(id = id)
-
-fun Status.favorite() = client.favorites.create(id = id)
-
-fun Status.unfavorite() = client.favorites.destroy(id = id)
-
-fun Status.delete() = client.statuses.delete(id = id)
+/**
+ * Pin the tweet.
+ *
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Statuses] endpoint instance.
+ * @return [JsonObjectApiAction] for [PinTweet] model.
+ */
+@PrivateEndpoint
+fun Statuses.pin(
+    id: Long,
+    vararg options: Option
+) = client.session.post("/1.1/account/pin_tweet.json") {
+    body {
+        form {
+            add(
+                "id" to id,
+                *options
+            )
+        }
+    }
+}.jsonObject<PinTweet>()

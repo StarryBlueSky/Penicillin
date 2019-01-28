@@ -22,22 +22,29 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.extensions.models
+package jp.nephy.penicillin.extensions.endpoints
 
-import jp.nephy.penicillin.endpoints.favorites
-import jp.nephy.penicillin.endpoints.favorites.create
-import jp.nephy.penicillin.endpoints.favorites.destroy
-import jp.nephy.penicillin.endpoints.statuses
-import jp.nephy.penicillin.endpoints.statuses.delete
-import jp.nephy.penicillin.endpoints.statuses.show
-import jp.nephy.penicillin.models.Status
+import jp.nephy.penicillin.core.request.action.DelegatedAction
+import jp.nephy.penicillin.endpoints.Account
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.account.updateProfileBackgroundImage
+import jp.nephy.penicillin.endpoints.media
+import jp.nephy.penicillin.endpoints.media.uploadMedia
+import jp.nephy.penicillin.endpoints.parameters.MediaType
+import jp.nephy.penicillin.extensions.await
+import kotlinx.io.InputStream
 
-fun Status.refresh() = client.statuses.show(id = id)
-
-fun Status.favorite() = client.favorites.create(id = id)
-
-fun Status.unfavorite() = client.favorites.destroy(id = id)
-
-fun Status.delete() = client.statuses.delete(id = id)
+@Suppress("Deprecation")
+fun Account.updateProfileBackgroundImage(
+    input: InputStream,
+    mediaType: MediaType,
+    tile: Boolean? = null,
+    includeEntities: Boolean? = null,
+    skipStatus: Boolean? = null,
+    vararg options: Option
+) = DelegatedAction(client) {
+    val result = client.media.uploadMedia(input, mediaType).await()
+    updateProfileBackgroundImage(result.mediaId, tile, includeEntities, skipStatus, *options)
+}

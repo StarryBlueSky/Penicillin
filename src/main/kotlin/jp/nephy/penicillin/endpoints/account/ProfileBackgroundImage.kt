@@ -30,8 +30,6 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Account
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.media
-import jp.nephy.penicillin.endpoints.parameters.MediaType
 import jp.nephy.penicillin.models.User
 
 /**
@@ -41,8 +39,6 @@ import jp.nephy.penicillin.models.User
  *
  * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-update_profile_background_image)
  *
- * @param data Required. The background image for the profile. Must be a valid GIF, JPG, or PNG image of less than 800 kilobytes in size. Images with width larger than 2048 pixels will be forcibly scaled down. The image must be provided as raw multipart data, not a URL.
- * @param mediaType Required. The type of file.
  * @param tile Optional. Whether or not to tile the background image. If set to true , t or 1 the background image will be displayed tiled. The image will not be tiled otherwise.
  * @param includeEntities Optional. The entities node will not be included when set to false.
  * @param skipStatus Optional. When set to either true, t or 1 statuses will not be included in the returned user object.
@@ -53,25 +49,21 @@ import jp.nephy.penicillin.models.User
  */
 @Deprecated("This endpoint is deprecated. See also https://twittercommunity.com/t/upcoming-changes-to-the-developer-platform/104603.")
 fun Account.updateProfileBackgroundImage(
-    data: ByteArray,
-    mediaType: MediaType,
+    mediaId: Long,
     tile: Boolean? = null,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
-    mediaId: Long? = null,
     vararg options: Option
-) = client.media.uploadMedia(data, mediaType) + { results ->
-    client.session.post("/1.1/account/update_profile_background_image.json") {
-        body {
-            form {
-                add(
-                    "tile" to tile,
-                    "include_entities" to includeEntities,
-                    "skip_status" to skipStatus,
-                    "media_id" to (mediaId ?: results.first.result.mediaId),
-                    *options
-                )
-            }
+) = client.session.post("/1.1/account/update_profile_background_image.json") {
+    body {
+        form {
+            add(
+                "tile" to tile,
+                "include_entities" to includeEntities,
+                "skip_status" to skipStatus,
+                "media_id" to mediaId,
+                *options
+            )
         }
-    }.jsonObject<User>()
-}
+    }
+}.jsonObject<User>()
