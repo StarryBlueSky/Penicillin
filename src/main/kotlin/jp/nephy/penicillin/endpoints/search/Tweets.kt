@@ -31,7 +31,6 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Search
-import jp.nephy.penicillin.endpoints.parameters.SearchResultType
 import java.text.SimpleDateFormat
 import java.util.*
 

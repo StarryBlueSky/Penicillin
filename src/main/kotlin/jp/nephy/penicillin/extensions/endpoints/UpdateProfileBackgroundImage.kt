@@ -32,7 +32,7 @@ import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.account.updateProfileBackgroundImage
 import jp.nephy.penicillin.endpoints.media
 import jp.nephy.penicillin.endpoints.media.uploadMedia
-import jp.nephy.penicillin.endpoints.parameters.MediaType
+import jp.nephy.penicillin.endpoints.media.MediaType
 import jp.nephy.penicillin.extensions.await
 import kotlinx.io.InputStream
 

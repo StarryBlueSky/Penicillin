@@ -31,7 +31,6 @@ import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Media
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.parameters.MediaType
 import kotlinx.io.InputStream
 
 /**

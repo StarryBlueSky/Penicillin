@@ -22,8 +22,16 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+@file:Suppress("UNUSED")
 
-enum class TrendExclude(val value: String?) {
-    None(null), Hashtags("hashtags")
+package jp.nephy.penicillin.endpoints.stream
+
+enum class StreamDelimitedBy(val value: String?) {
+    Default(null), Length("length");
+
+    companion object {
+        fun byName(name: String): StreamDelimitedBy {
+            return values().find { it.name.equals(name, true) } ?: Default
+        }
+    }
 }

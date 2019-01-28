@@ -22,18 +22,21 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.collections
 
-enum class TweetMode(val value: String?) {
-    Default(null),
-    
+enum class CollectionTimelineOrder(val value: String) {
     /**
-     * compatibility mode
+     * order added (default)
      */
-    Compat("compat"),
+    OrderAdded("curation_reverse_chron"),
 
     /**
-     * extended mode, respectively for Tweets that contain over 140 characters
+     * oldest first
      */
-    Extended("extended")
+    OldestFirst("tweet_chron"),
+
+    /**
+     * most recent first
+     */
+    MostRecentFirst("tweet_reverse_chron")
 }

@@ -28,8 +28,6 @@ package jp.nephy.penicillin.endpoints.media
 
 import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.endpoints.Media
-import jp.nephy.penicillin.endpoints.parameters.MediaCategory
-import jp.nephy.penicillin.endpoints.parameters.MediaType
 import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.extensions.endpoints.uploadAppend
 import kotlinx.io.InputStream

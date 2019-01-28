@@ -32,7 +32,6 @@ import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import jp.nephy.penicillin.endpoints.Search
-import jp.nephy.penicillin.endpoints.parameters.SearchResultType
 import jp.nephy.penicillin.models.SearchUniversal
 
 /**

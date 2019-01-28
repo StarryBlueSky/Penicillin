@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.media
 
-enum class EmbedAlign(val value: String) {
-    Left("left"), Right("right"), Center("center"), None("none")
+enum class MediaCategory(val value: String) {
+    TweetImage("tweet_image"), TweetGif("tweet_gif"), TweetVideo("tweet_video"), AmplifyVideo("amplify_video")
 }

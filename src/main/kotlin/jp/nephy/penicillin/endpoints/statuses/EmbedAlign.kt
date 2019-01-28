@@ -22,10 +22,8 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.statuses
 
-enum class EmbedTheme(val value: String?) {
-    Default(null),
-    
-    Light("light"), Dark("dark")
+enum class EmbedAlign(val value: String) {
+    Left("left"), Right("right"), Center("center"), None("none")
 }

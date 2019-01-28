@@ -31,8 +31,6 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Media
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.parameters.MediaCategory
-import jp.nephy.penicillin.endpoints.parameters.MediaType
 
 /**
  * The INIT command request is used to initiate a file upload session. It returns a media_id which should be used to execute all subsequent requests. The next step after a successful return from INIT command is the [APPEND command](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append).

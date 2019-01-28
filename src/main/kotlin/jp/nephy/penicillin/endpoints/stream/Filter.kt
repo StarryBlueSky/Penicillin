@@ -33,7 +33,6 @@ import jp.nephy.penicillin.core.streaming.handler.FilterStreamHandler
 import jp.nephy.penicillin.core.streaming.listener.FilterStreamListener
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Stream
-import jp.nephy.penicillin.endpoints.parameters.StreamDelimitedBy
 
 /**
  * Returns public statuses that match one or more filter predicates. Multiple parameters may be specified which allows most clients to use a single connection to the Streaming API. Both GET and POST requests are supported, but GET requests with too many parameters may cause the request to be rejected for excessive URL length. Use a POST request to avoid long URLs.

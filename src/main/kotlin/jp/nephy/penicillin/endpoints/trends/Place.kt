@@ -30,7 +30,6 @@ import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Trends
-import jp.nephy.penicillin.endpoints.parameters.TrendExclude
 import jp.nephy.penicillin.models.TrendPlace
 
 /**

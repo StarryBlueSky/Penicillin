@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.endpoints.parameters
+package jp.nephy.penicillin.endpoints.stream
 
-enum class UserStreamWith(val value: String) {
-    User("user"), Followings("followings")
+enum class UserStreamReplies(val value: String) {
+    All("all")
 }
