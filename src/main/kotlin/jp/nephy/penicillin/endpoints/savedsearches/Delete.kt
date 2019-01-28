@@ -24,34 +24,32 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints.collections
+package jp.nephy.penicillin.endpoints.savedsearches
+
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.Collections
-import jp.nephy.penicillin.models.Collection
+import jp.nephy.penicillin.endpoints.SavedSearches
+import jp.nephy.penicillin.models.SavedSearch
 
 /**
- * Permanently delete a Collection owned by the currently authenticated user.
+ * Destroys a saved search for the authenticating user. The authenticating user must be the owner of saved search id being destroyed.
  * 
- * [Twitter API reference](https://developer.twitter.com/en/docs/tweets/curate-a-collection/api-reference/post-collections-destroy)
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-destroy-id)
  * 
- * @param id The identifier of the Collection to destroy.
+ * @param id The ID of the saved search.
  * @param options Optional. Custom parameters of this request.
- * @receiver [Collections] endpoint instance.
- * @return [JsonObjectApiAction] for [Collection.DestroyResult] model.
+ * @receiver [SavedSearches] endpoint instance.
+ * @return [JsonObjectApiAction] for [SavedSearch] model.
  */
-fun Collections.destroy(
-    id: String,
+fun SavedSearches.delete(
+    id: Long,
     vararg options: Option
-) = client.session.post("/1.1/collections/destroy.json") {
+) = client.session.post("/1.1/saved_searches/destroy/$id.json") {
     body {
         form {
-            add(
-                "id" to id,
-                *options
-            )
+            add(*options)
         }
     }
-}.jsonObject<Collection.DestroyResult>()
+}.jsonObject<SavedSearch>()
