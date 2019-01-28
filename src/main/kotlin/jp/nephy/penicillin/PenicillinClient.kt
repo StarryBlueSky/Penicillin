@@ -25,7 +25,7 @@
 package jp.nephy.penicillin
 
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.core.session.PenicillinClientDsl
+import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.Session
 import jp.nephy.penicillin.core.session.SessionBuilder
 
@@ -34,7 +34,7 @@ import jp.nephy.penicillin.core.session.SessionBuilder
  *
  * @param block [Session] configuration builder.
  */
-@PenicillinClientDsl
+@ApiClientDsl
 @Suppress("FunctionName")
 fun PenicillinClient(block: SessionBuilder.() -> Unit): ApiClient = object: ApiClient {
     override val session = SessionBuilder(this).apply(block).build()

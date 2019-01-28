@@ -25,4 +25,4 @@
 package jp.nephy.penicillin.core.session
 
 @DslMarker
-internal annotation class PenicillinClientDsl
+internal annotation class ApiClientDsl
