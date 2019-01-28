@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
-
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.models.entities
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.long
+import jp.nephy.jsonkt.delegation.intList
 import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.models.PenicillinModel
 
-abstract class PenicillinCursorModel(final override val json: JsonObject): PenicillinModel {
-    val nextCursor by long("next_cursor")
-    val nextCursorStr by string("next_cursor_str")
-    val previousCursor by long("previous_cursor")
-    val previousCursorStr by string("previous_cursor_str")
+data class URLEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    val url by string
+    val expandedUrl by string("expanded_url")
+    val displayUrl by string("display_url")
+    val indices by intList
 }

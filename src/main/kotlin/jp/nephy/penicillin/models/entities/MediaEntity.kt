@@ -22,15 +22,16 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
-
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.models.entities
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
+import jp.nephy.penicillin.models.FaceCoordinate
+import jp.nephy.penicillin.models.PenicillinModel
+import jp.nephy.penicillin.models.Photo
 
 data class MediaEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val additionalMediaInfo by nullableModel<AdditionalMediaInfo>("additional_media_info")

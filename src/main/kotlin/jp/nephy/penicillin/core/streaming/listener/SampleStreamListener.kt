@@ -26,10 +26,9 @@ package jp.nephy.penicillin.core.streaming.listener
 
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.Stream
-import jp.nephy.penicillin.models.UserStream
 
 interface SampleStreamListener: StreamListener {
     suspend fun onStatus(status: Status) {}
     suspend fun onDelete(delete: Stream.Delete) {}
-    suspend fun onWarning(warning: UserStream.Warning) {}
+    suspend fun onWarning(warning: Stream.Warning) {}
 }

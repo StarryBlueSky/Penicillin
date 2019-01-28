@@ -22,14 +22,17 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.endpoints.media
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.longList
-import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.endpoints.media.MediaCategory.TweetImage
+import kotlinx.io.InputStream
+import java.io.File
+import java.nio.file.Path
 
-data class CursorIds(val parentJson: JsonObject, override val client: ApiClient): PenicillinCursorModel(parentJson) {
-    val ids by longList
+data class MediaComponent(val input: InputStream, val type: MediaType, val category: MediaCategory) {
+    constructor(data: ByteArray, type: MediaType, category: MediaCategory = TweetImage): this(data.inputStream(), type, category)
+    constructor(file: File, type: MediaType, category: MediaCategory = TweetImage): this(file.inputStream(), type, category)
+    constructor(path: Path, type: MediaType, category: MediaCategory = TweetImage): this(path.toFile(), type, category)
 }

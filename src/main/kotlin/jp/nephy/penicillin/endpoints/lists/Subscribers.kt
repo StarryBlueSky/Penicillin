@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.models.CursorUsers
+import jp.nephy.penicillin.models.cursor.CursorUsers
 
 /**
  * Returns the subscribers of the specified list. Private list subscribers will only be shown if the authenticated user owns the specified list.

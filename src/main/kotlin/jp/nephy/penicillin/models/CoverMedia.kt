@@ -29,6 +29,7 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.byPenicillinModel
 
 data class CoverMedia(val parentJson: JsonObject, override val client: ApiClient): CommonCoverMedia(parentJson, client)
 
@@ -43,8 +44,8 @@ abstract class CommonCoverMedia(final override val json: JsonObject, client: Api
     val mediaHeight by size.byInt("h")
     private val render by jsonObject
     private val crops by render.byJsonObject
-    val renderCropSquare by crops.byModel<FaceCoordinate>("square", client)
-    val renderCropPortrait9to16 by crops.byModel<FaceCoordinate>("portrait_9_16", client)
-    val renderCropPortrait3to4 by crops.byModel<FaceCoordinate>("portrait_3_4", client)
-    val renderCropPortrait16to9 by crops.byModel<FaceCoordinate>("portrait_16_9", client)
+    val renderCropSquare by crops.byPenicillinModel<FaceCoordinate>(client, "square")
+    val renderCropPortrait9to16 by crops.byPenicillinModel<FaceCoordinate>(client, "portrait_9_16")
+    val renderCropPortrait3to4 by crops.byPenicillinModel<FaceCoordinate>(client, "portrait_3_4")
+    val renderCropPortrait16to9 by crops.byPenicillinModel<FaceCoordinate>(client, "portrait_16_9")
 }

@@ -32,7 +32,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessages
-import jp.nephy.penicillin.models.WelcomeMessageSingle
+import jp.nephy.penicillin.models.WelcomeMessage
 
 /**
  * Creates a new Welcome Message that will be stored and sent in the future from the authenticating user in defined circumstances. Returns the message template if successful. Supports publishing with the same elements as Direct Messages (e.g. Quick Replies, media attachments).
@@ -45,7 +45,7 @@ import jp.nephy.penicillin.models.WelcomeMessageSingle
  * @param name A human readable name for the Welcome Message. This is not displayed to the user. Max length of 100 alpha numeric characters including hyphens, underscores, spaces, hashes and at signs.
  * @param options Optional. Custom parameters of this request.
  * @receiver [WelcomeMessages] endpoint instance.
- * @return [JsonObjectApiAction] for [WelcomeMessageSingle] model.
+ * @return [JsonObjectApiAction] for [WelcomeMessage.Single] model.
  */
 fun WelcomeMessages.create(
     messageData: JsonObject,
@@ -63,4 +63,4 @@ fun WelcomeMessages.create(
             )
         }
     }
-}.jsonObject<WelcomeMessageSingle>()
+}.jsonObject<WelcomeMessage.Single>()

@@ -32,6 +32,7 @@ import jp.nephy.jsonkt.delegation.long
 import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.models.entities.StatusEntity
 
 data class DirectMessage(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     // val createdAt by string("created_at")

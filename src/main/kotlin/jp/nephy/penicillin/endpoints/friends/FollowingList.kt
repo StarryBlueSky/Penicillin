@@ -31,7 +31,7 @@ import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Friends
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
-import jp.nephy.penicillin.models.CursorUsers
+import jp.nephy.penicillin.models.cursor.CursorUsers
 
 /**
  * Returns users who follows specific user.

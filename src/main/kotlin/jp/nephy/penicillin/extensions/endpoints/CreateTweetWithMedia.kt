@@ -30,6 +30,8 @@ import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
 import jp.nephy.penicillin.endpoints.media
+import jp.nephy.penicillin.endpoints.media.MediaComponent
+import jp.nephy.penicillin.endpoints.media.uploadMedia
 import jp.nephy.penicillin.endpoints.statuses.create
 import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.extensions.defer
@@ -38,12 +40,12 @@ import kotlinx.coroutines.delay
 
 fun Statuses.updateWithMediaFile(
     status: String,
-    media: List<MediaFileComponent>,
+    media: List<MediaComponent>,
     waitSecs: Long? = null,
     vararg options: Option
 ) = DelegatedAction(client) {
     val results = media.map {
-        client.media.uploadMedia(it.file, it.type, it.category).defer()
+        client.media.uploadMedia(it).defer()
     }.awaitAll()
 
     if (waitSecs != null) {
@@ -51,23 +53,5 @@ fun Statuses.updateWithMediaFile(
         delay(waitSecs * 1000)
     }
     
-    create(status, mediaIds = results.map { it.mediaId }, options = *options).await().result
-}
-
-fun Statuses.updateWithMedia(
-    status: String,
-    media: List<MediaDataComponent>,
-    waitSecs: Long? = null,
-    vararg options: Option
-) = DelegatedAction(client) {
-    val results = media.map {
-        client.media.uploadMedia(it.data, it.type, it.category).defer()
-    }.awaitAll()
-
-    if (waitSecs != null) {
-        // TODO: wait until media process completes
-        delay(waitSecs * 1000)
-    }
-
     create(status, mediaIds = results.map { it.mediaId }, options = *options).await().result
 }

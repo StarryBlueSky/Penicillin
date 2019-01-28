@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Friends
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.models.CursorIds
+import jp.nephy.penicillin.models.cursor.CursorIds
 
 /**
  * Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their "friends").

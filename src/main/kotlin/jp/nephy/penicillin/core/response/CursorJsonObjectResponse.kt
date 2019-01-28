@@ -29,7 +29,7 @@ import io.ktor.client.response.HttpResponse
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.models.PenicillinCursorModel
+import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 import kotlin.reflect.KClass
 
 data class CursorJsonObjectResponse<M: PenicillinCursorModel>(

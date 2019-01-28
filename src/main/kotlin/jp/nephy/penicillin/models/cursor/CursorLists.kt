@@ -24,12 +24,13 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.models.cursor
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModelList
+import jp.nephy.penicillin.models.TwitterList
 
-data class WelcomeMessageRuleList(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val welcomeMessageRules by penicillinModelList<WelcomeMessageRule>("welcome_message_rules")
+data class CursorLists(val parentJson: JsonObject, override val client: ApiClient): PenicillinCursorModel(parentJson) {
+    val lists by penicillinModelList<TwitterList>()
 }

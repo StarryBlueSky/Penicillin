@@ -24,12 +24,16 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.models.cursor
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.jsonkt.delegation.long
+import jp.nephy.jsonkt.delegation.string
+import jp.nephy.penicillin.models.PenicillinModel
 
-data class WelcomeMessageRuleSingle(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val welcomeMessageRule by penicillinModel<WelcomeMessageRule>("welcome_message_rule")
+abstract class PenicillinCursorModel(final override val json: JsonObject): PenicillinModel {
+    val nextCursor by long("next_cursor")
+    val nextCursorStr by string("next_cursor_str")
+    val previousCursor by long("previous_cursor")
+    val previousCursorStr by string("previous_cursor_str")
 }

@@ -31,10 +31,10 @@ import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
 import jp.nephy.penicillin.extensions.parseModel
-import jp.nephy.penicillin.models.UserStream
+import jp.nephy.penicillin.models.Stream
 import java.util.*
 
-class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<UserStream.StatusEvent> {
+class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.StatusEvent> {
     override var json: JsonObject = jsonObjectOf(
             "event" to type.key,
             "source" to null,
@@ -64,7 +64,7 @@ class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<UserStream.St
     }
 
     @UseExperimental(PenicillinExperimentalApi::class)
-    override fun build(): UserStream.StatusEvent {
+    override fun build(): Stream.StatusEvent {
         val source = source.build()
         val target = target.build()
         val targetObject = targetObject.build()

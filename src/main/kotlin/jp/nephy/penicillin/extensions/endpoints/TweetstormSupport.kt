@@ -37,7 +37,6 @@ import jp.nephy.penicillin.endpoints.stream.StreamDelimitedBy
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
-import jp.nephy.penicillin.models.UserStream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -59,7 +58,7 @@ interface TweetstormListener: StreamListener {
     suspend fun onStatus(status: Status) {}
     suspend fun onDirectMessage(message: DirectMessage) {}
     
-    suspend fun onFriends(friends: UserStream.Friends) {}
+    suspend fun onFriends(friends: jp.nephy.penicillin.models.Stream.Friends) {}
 
     suspend fun onDelete(delete: jp.nephy.penicillin.models.Stream.Delete) {}
 }

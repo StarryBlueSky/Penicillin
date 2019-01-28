@@ -24,37 +24,12 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.models.cursor
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.intList
-import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.string
+import jp.nephy.jsonkt.delegation.longList
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class StatusEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val hashtags by penicillinModelList<HashtagEntity>()
-    val media by penicillinModelList<MediaEntity>()
-    val symbols by penicillinModelList<SymbolEntity>()
-    val userMentions by penicillinModelList<UserMentionEntity>("user_mentions")
-    val urls by penicillinModelList<URLEntity>()
-
-    data class HashtagEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val text by string
-        val indices by intList
-    }
-
-    data class UserMentionEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val screenName by string("screen_name")
-        val name by string
-        val id by long
-        val idStr by string("id_str")
-        val indices by intList()
-    }
-
-    data class SymbolEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val text by string
-        val indices by intList
-    }
+data class CursorIds(val parentJson: JsonObject, override val client: ApiClient): PenicillinCursorModel(parentJson) {
+    val ids by longList
 }

@@ -31,7 +31,7 @@ import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.parseModelOrNull
-import jp.nephy.penicillin.models.PenicillinCursorModel
+import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 import kotlin.reflect.KClass
 
 class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M>> {

@@ -31,20 +31,18 @@ import jp.nephy.penicillin.endpoints.Account
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.account.updateProfileBackgroundImage
 import jp.nephy.penicillin.endpoints.media
+import jp.nephy.penicillin.endpoints.media.MediaComponent
 import jp.nephy.penicillin.endpoints.media.uploadMedia
-import jp.nephy.penicillin.endpoints.media.MediaType
 import jp.nephy.penicillin.extensions.await
-import kotlinx.io.InputStream
 
 @Suppress("Deprecation")
 fun Account.updateProfileBackgroundImage(
-    input: InputStream,
-    mediaType: MediaType,
+    media: MediaComponent,
     tile: Boolean? = null,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
 ) = DelegatedAction(client) {
-    val result = client.media.uploadMedia(input, mediaType).await()
+    val result = client.media.uploadMedia(media).await()
     updateProfileBackgroundImage(result.mediaId, tile, includeEntities, skipStatus, *options)
 }

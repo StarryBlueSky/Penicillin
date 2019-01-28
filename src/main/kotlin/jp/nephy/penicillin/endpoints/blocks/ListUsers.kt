@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Blocks
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.models.CursorUsers
+import jp.nephy.penicillin.models.cursor.CursorUsers
 
 /**
  * Returns a collection of [user objects](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object) that the authenticating user is blocking.

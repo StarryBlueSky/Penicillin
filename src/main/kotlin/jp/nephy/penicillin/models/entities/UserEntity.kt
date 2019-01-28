@@ -21,30 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 @file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.models.entities
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.penicillinModelList
+import jp.nephy.penicillin.models.PenicillinModel
 
-data class PushDevice(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val appVersion by int("app_version")
-    val availableLevels by int("available_levels")
-    val clientApplicationId by int("client_application_id")
-    val createdAt by string("created_at")
-    val description by string
-    val display by int
-    val enabledFor by int("enabled_for")
-    val environment by int
-    val id by long
-    val lang by string
-    val token by string
-    val udid by string
-    val updatedAt by string("updated_at")
-    val userId by long("user_id")
+data class UserEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    val url by penicillinModel<UserProfileEntity>()
+    val description by penicillinModel<UserProfileEntity>()
+
+    data class UserProfileEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        val urls by penicillinModelList<URLEntity>()
+    }
 }

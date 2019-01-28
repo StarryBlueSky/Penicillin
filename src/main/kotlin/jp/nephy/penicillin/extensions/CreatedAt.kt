@@ -73,7 +73,7 @@ val CommonUser.createdAt: CreatedAt
         return value.asCreatedAt()
     }
 
-val UserStream.Event.createdAt: CreatedAt
+val Stream.Event.createdAt: CreatedAt
     get() {
         val value by string("created_at")
         return value.asCreatedAt()

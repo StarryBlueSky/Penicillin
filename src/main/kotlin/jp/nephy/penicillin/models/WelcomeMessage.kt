@@ -27,6 +27,22 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.nullableString
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-data class WelcomeMessage(override val json: JsonObject, override val client: ApiClient): PenicillinModel
+object WelcomeMessage {
+    data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel
+
+    data class Single(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        val welcomeMessage by penicillinModel<WelcomeMessage.Model>()
+        val name by nullableString
+    }
+    
+    data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        val welcomeMessages by penicillinModelList<WelcomeMessage.Model>("welcome_messages")
+        val name by nullableString
+        val nextCursor by nullableString
+    }
+}

@@ -27,53 +27,52 @@ package jp.nephy.penicillin.core.streaming.listener
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.Stream
-import jp.nephy.penicillin.models.UserStream
 
 interface UserStreamListener: StreamListener {
     suspend fun onStatus(status: Status) {}
     suspend fun onDirectMessage(message: DirectMessage) {}
 
-    suspend fun onAnyEvent(event: UserStream.Event) {}
+    suspend fun onAnyEvent(event: Stream.Event) {}
 
     /* Status event */
-    suspend fun onAnyStatusEvent(event: UserStream.StatusEvent) {}
+    suspend fun onAnyStatusEvent(event: Stream.StatusEvent) {}
 
-    suspend fun onFavorite(event: UserStream.StatusEvent) {}
-    suspend fun onUnfavorite(event: UserStream.StatusEvent) {}
-    suspend fun onFavoritedRetweet(event: UserStream.StatusEvent) {}
-    suspend fun onRetweetedRetweet(event: UserStream.StatusEvent) {}
-    suspend fun onQuotedTweet(event: UserStream.StatusEvent) {}
+    suspend fun onFavorite(event: Stream.StatusEvent) {}
+    suspend fun onUnfavorite(event: Stream.StatusEvent) {}
+    suspend fun onFavoritedRetweet(event: Stream.StatusEvent) {}
+    suspend fun onRetweetedRetweet(event: Stream.StatusEvent) {}
+    suspend fun onQuotedTweet(event: Stream.StatusEvent) {}
 
     /* List event */
-    suspend fun onAnyListEvent(event: UserStream.ListEvent) {}
+    suspend fun onAnyListEvent(event: Stream.ListEvent) {}
 
-    suspend fun onListCreated(event: UserStream.ListEvent) {}
-    suspend fun onListDestroyed(event: UserStream.ListEvent) {}
-    suspend fun onListUpdated(event: UserStream.ListEvent) {}
-    suspend fun onListMemberAdded(event: UserStream.ListEvent) {}
-    suspend fun onListMemberRemoved(event: UserStream.ListEvent) {}
-    suspend fun onListUserSubscribed(event: UserStream.ListEvent) {}
-    suspend fun onListUserUnsubscribed(event: UserStream.ListEvent) {}
+    suspend fun onListCreated(event: Stream.ListEvent) {}
+    suspend fun onListDestroyed(event: Stream.ListEvent) {}
+    suspend fun onListUpdated(event: Stream.ListEvent) {}
+    suspend fun onListMemberAdded(event: Stream.ListEvent) {}
+    suspend fun onListMemberRemoved(event: Stream.ListEvent) {}
+    suspend fun onListUserSubscribed(event: Stream.ListEvent) {}
+    suspend fun onListUserUnsubscribed(event: Stream.ListEvent) {}
 
     /* User event */
-    suspend fun onAnyUserEvent(event: UserStream.UserEvent) {}
+    suspend fun onAnyUserEvent(event: Stream.UserEvent) {}
 
-    suspend fun onFollow(event: UserStream.UserEvent) {}
-    suspend fun onUnfollow(event: UserStream.UserEvent) {}
-    suspend fun onBlock(event: UserStream.UserEvent) {}
-    suspend fun onUnblock(event: UserStream.UserEvent) {}
-    suspend fun onMute(event: UserStream.UserEvent) {}
-    suspend fun onUnmute(event: UserStream.UserEvent) {}
-    suspend fun onUserUpdate(event: UserStream.UserEvent) {}
+    suspend fun onFollow(event: Stream.UserEvent) {}
+    suspend fun onUnfollow(event: Stream.UserEvent) {}
+    suspend fun onBlock(event: Stream.UserEvent) {}
+    suspend fun onUnblock(event: Stream.UserEvent) {}
+    suspend fun onMute(event: Stream.UserEvent) {}
+    suspend fun onUnmute(event: Stream.UserEvent) {}
+    suspend fun onUserUpdate(event: Stream.UserEvent) {}
 
     /* Misc */
-    suspend fun onFriends(friends: UserStream.Friends) {}
+    suspend fun onFriends(friends: Stream.Friends) {}
 
     suspend fun onDelete(delete: Stream.Delete) {}
-    suspend fun onScrubGeo(scrubGeo: UserStream.ScrubGeo) {}
-    suspend fun onStatusWithheld(withheld: UserStream.StatusWithheld) {}
-    suspend fun onUserWithheld(withheld: UserStream.UserWithheld) {}
-    suspend fun onDisconnectMessage(disconnect: UserStream.Disconnect) {}
-    suspend fun onWarning(warning: UserStream.Warning) {}
-    suspend fun onLimit(limit: UserStream.Limit) {}
+    suspend fun onScrubGeo(scrubGeo: Stream.ScrubGeo) {}
+    suspend fun onStatusWithheld(withheld: Stream.StatusWithheld) {}
+    suspend fun onUserWithheld(withheld: Stream.UserWithheld) {}
+    suspend fun onDisconnectMessage(disconnect: Stream.Disconnect) {}
+    suspend fun onWarning(warning: Stream.Warning) {}
+    suspend fun onLimit(limit: Stream.Limit) {}
 }

@@ -31,7 +31,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessageRules
-import jp.nephy.penicillin.models.WelcomeMessageRuleSingle
+import jp.nephy.penicillin.models.WelcomeMessageRule
 
 /**
  * Creates a new Welcome Message Rule that determines which Welcome Message will be shown in a given conversation. Returns the created rule if successful.
@@ -44,7 +44,7 @@ import jp.nephy.penicillin.models.WelcomeMessageRuleSingle
  * @param id The ID of the Welcome Message that will be sent when this Rule is triggered.
  * @param options Optional. Custom parameters of this request.
  * @receiver [WelcomeMessageRules] endpoint instance.
- * @return [JsonObjectApiAction] for [WelcomeMessageRuleSingle] model.
+ * @return [JsonObjectApiAction] for [WelcomeMessageRule.Single] model.
  */
 fun WelcomeMessageRules.create(
     id: String,
@@ -60,4 +60,4 @@ fun WelcomeMessageRules.create(
             )
         }
     }
-}.jsonObject<WelcomeMessageRuleSingle>()
+}.jsonObject<WelcomeMessageRule.Single>()
