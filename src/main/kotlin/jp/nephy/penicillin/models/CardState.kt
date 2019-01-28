@@ -31,14 +31,15 @@ import jp.nephy.jsonkt.delegation.*
 import jp.nephy.jsonkt.get
 import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.byPenicillinModel
 
 data class CardState(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     private val card by jsonObject
     val name by card.byString
     val url by card.byString
     val cardTypeUrl by card.byString("card_type_url")
-    val cardPlatform by card.byModel<Platform>(null, client)
-    val data by card.byModel<Data>("binding_values", client)
+    val cardPlatform by card.byPenicillinModel<Platform>(client)
+    val data by card.byPenicillinModel<Data>(client, "binding_values")
 
     data class Platform(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         private val platform by jsonObject

@@ -31,7 +31,6 @@ import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Media
 import jp.nephy.penicillin.endpoints.Option
-import kotlinx.io.InputStream
 
 /**
  * The APPEND command is used to upload a chunk (consecutive byte range) of the media file. For example, a 3 MB file could be split into 3 chunks of size 1 MB, and uploaded using 3 APPEND command requests. After the entire file is uploaded, the next step is to call the FINALIZE command.
@@ -50,16 +49,15 @@ import kotlinx.io.InputStream
  * @return [EmptyApiAction].
  */
 fun Media.uploadAppend(
-    input: InputStream,
-    mediaType: MediaType,
+    media: MediaComponent,
     mediaId: Long,
     segmentIndex: Int,
     vararg options: Option
 ) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
     body {
         multiPart {
-            input.use {
-                add("media", "blob", mediaType.contentType, it.readBytes())
+            media.input.use {
+                add("media", "blob", media.type.contentType, it.readBytes())
             }
             add(
                 "command" to "APPEND",

@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.extensions
 
-import jp.nephy.penicillin.models.MediaEntity
+import jp.nephy.penicillin.models.entities.MediaEntity
 import jp.nephy.penicillin.models.Status
 import java.util.*
 

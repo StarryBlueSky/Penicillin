@@ -28,15 +28,21 @@ package jp.nephy.penicillin.endpoints.oauth
 
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.session.config.account
 import jp.nephy.penicillin.core.session.config.application
 import jp.nephy.penicillin.core.session.config.token
-import jp.nephy.penicillin.core.session.config.account
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.OAuth
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.oauth
 import jp.nephy.penicillin.extensions.await
-import jp.nephy.penicillin.models.AccessTokenResponse
+
+data class AccessTokenResponse(
+    val accessToken: String,
+    val accessTokenSecret: String,
+    val userId: Long,
+    val screenName: String
+)
 
 /**
  * Allows a Consumer application to exchange the OAuth Request Token for an OAuth Access Token. This method fulfills [Section 6.3](http://oauth.net/core/1.0/#auth_step3) of the [OAuth 1.0 authentication](http://oauth.net/core/1.0/#anchor9) flow.

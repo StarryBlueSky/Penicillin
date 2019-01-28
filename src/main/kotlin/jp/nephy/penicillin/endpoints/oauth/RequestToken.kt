@@ -29,10 +29,15 @@ package jp.nephy.penicillin.endpoints.oauth
 
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.OAuth
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.extensions.await
-import jp.nephy.penicillin.models.RequestTokenResponse
+
+data class RequestTokenResponse(
+    val requestToken: String,
+    val requestTokenSecret: String,
+    val callbackConfirmed: Boolean
+)
 
 /**
  * Allows a Consumer application to obtain an OAuth Request Token to request user authorization. This method fulfills Section 6.1 of the OAuth 1.0 authentication flow.

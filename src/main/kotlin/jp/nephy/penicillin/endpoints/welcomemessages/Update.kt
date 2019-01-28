@@ -31,7 +31,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.put
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessages
-import jp.nephy.penicillin.models.WelcomeMessageSingle
+import jp.nephy.penicillin.models.WelcomeMessage
 
 /**
  * Updates a Welcome Message by the given ID. Updates to the welcome_message object are atomic. For example, if the Welcome Message currently has quick_reply defined and you only provide text, the quick_reply object will be removed from the Welcome Message.
@@ -42,7 +42,7 @@ import jp.nephy.penicillin.models.WelcomeMessageSingle
  * @param messageData The Message Data Object defining the content of the message template. See POST [direct_messages/events/new (message_create)](https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event) for Message Data object details.
  * @param options Optional. Custom parameters of this request.
  * @receiver [WelcomeMessages] endpoint instance.
- * @return [JsonObjectApiAction] for [WelcomeMessageSingle] model.
+ * @return [JsonObjectApiAction] for [WelcomeMessage.Single] model.
  */
 fun WelcomeMessages.update(
     id: String,
@@ -59,4 +59,4 @@ fun WelcomeMessages.update(
             add("message_data" to messageData)
         }
     }
-}.jsonObject<WelcomeMessageSingle>()
+}.jsonObject<WelcomeMessage.Single>()

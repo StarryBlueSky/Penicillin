@@ -32,7 +32,7 @@ import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
 import jp.nephy.penicillin.extensions.complete
-import jp.nephy.penicillin.models.PenicillinCursorModel
+import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 
 /*
     Next operations

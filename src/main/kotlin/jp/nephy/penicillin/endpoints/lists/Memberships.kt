@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.models.CursorLists
+import jp.nephy.penicillin.models.cursor.CursorLists
 
 /**
  * Returns the lists the specified user has been added to. If user_id or screen_name are not provided, the memberships for the authenticating user are returned.

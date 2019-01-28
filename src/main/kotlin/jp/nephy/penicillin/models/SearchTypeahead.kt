@@ -76,4 +76,8 @@ data class SearchTypeahead(override val json: JsonObject, override val client: A
             val followedBy by boolean("followed_by")
         }
     }
+
+    data class SearchToken(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        val token by string
+    }
 }

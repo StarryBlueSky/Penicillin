@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessageRules
-import jp.nephy.penicillin.models.WelcomeMessageRuleSingle
+import jp.nephy.penicillin.models.WelcomeMessageRule
 
 /**
  * Returns a Welcome Message Rule by the given id.
@@ -40,7 +40,7 @@ import jp.nephy.penicillin.models.WelcomeMessageRuleSingle
  * @param id The id of the Welcome Message Rule that should be returned.
  * @param options Optional. Custom parameters of this request.
  * @receiver [WelcomeMessageRules] endpoint instance.
- * @return [JsonObjectApiAction] for [WelcomeMessageRuleSingle] model.
+ * @return [JsonObjectApiAction] for [WelcomeMessageRule.Single] model.
  */
 fun WelcomeMessageRules.show(
     id: Long,
@@ -50,4 +50,4 @@ fun WelcomeMessageRules.show(
         "id" to id,
         *options
     )
-}.jsonObject<WelcomeMessageRuleSingle>()
+}.jsonObject<WelcomeMessageRule.Single>()

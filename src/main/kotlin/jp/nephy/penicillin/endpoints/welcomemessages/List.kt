@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessages
-import jp.nephy.penicillin.models.WelcomeMessageList
+import jp.nephy.penicillin.models.WelcomeMessage
 
 /**
  * Returns a list of Welcome Messages.
@@ -41,7 +41,7 @@ import jp.nephy.penicillin.models.WelcomeMessageList
  * @param cursor For paging through result sets greater than 1 page, use the “next_cursor” property from the previous request.
  * @param options Optional. Custom parameters of this request.
  * @receiver [WelcomeMessages] endpoint instance.
- * @return [JsonObjectApiAction] for [WelcomeMessageList] model.
+ * @return [JsonObjectApiAction] for [WelcomeMessage.List] model.
  */
 fun WelcomeMessages.list(
     count: Int? = null,
@@ -53,7 +53,7 @@ fun WelcomeMessages.list(
         "cursor" to cursor,
         *options
     )
-}.jsonObject<WelcomeMessageList>()
+}.jsonObject<WelcomeMessage.List>()
 
 /**
  * Shorthand property to [WelcomeMessages.list].

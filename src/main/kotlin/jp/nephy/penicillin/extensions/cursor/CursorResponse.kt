@@ -28,6 +28,9 @@ package jp.nephy.penicillin.extensions.cursor
 
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
 import jp.nephy.penicillin.models.*
+import jp.nephy.penicillin.models.cursor.CursorIds
+import jp.nephy.penicillin.models.cursor.CursorLists
+import jp.nephy.penicillin.models.cursor.CursorUsers
 
 val Sequence<CursorJsonObjectResponse<CursorIds>>.allIds: List<Long>
     get() = toList().flatMap { it.result.ids }

@@ -34,7 +34,7 @@ fun newStatus(builder: CustomStatusBuilder.() -> Unit): Status {
     return CustomStatusBuilder().apply(builder).build()
 }
 
-fun newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuilder.() -> Unit): UserStream.StatusEvent {
+fun newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuilder.() -> Unit): Stream.StatusEvent {
     require(event.type == UserStreamEventType.Status)
     return CustomStatusEventBuilder(event).apply(builder).build()
 }
@@ -43,7 +43,7 @@ fun newList(builder: CustomListBuilder.() -> Unit): TwitterList {
     return CustomListBuilder().apply(builder).build()
 }
 
-fun newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.() -> Unit): UserStream.ListEvent {
+fun newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.() -> Unit): Stream.ListEvent {
     require(event.type == UserStreamEventType.List)
     return CustomListEventBuilder(event).apply(builder).build()
 }
@@ -52,7 +52,7 @@ fun newUser(builder: CustomUserBuilder.() -> Unit): User {
     return CustomUserBuilder().apply(builder).build()
 }
 
-fun newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.() -> Unit): UserStream.UserEvent {
+fun newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.() -> Unit): Stream.UserEvent {
     require(event.type == UserStreamEventType.User)
     return CustomUserEventBuilder(event).apply(builder).build()
 }

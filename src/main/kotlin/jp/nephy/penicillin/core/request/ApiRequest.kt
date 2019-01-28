@@ -28,7 +28,7 @@ import jp.nephy.penicillin.core.request.action.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
-import jp.nephy.penicillin.models.PenicillinCursorModel
+import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 import jp.nephy.penicillin.models.PenicillinModel
 
 class ApiRequest(val client: ApiClient, val builder: ApiRequestBuilder) {

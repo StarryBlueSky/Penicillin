@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.models.CursorLists
+import jp.nephy.penicillin.models.cursor.CursorLists
 
 /**
  * Obtain a collection of the lists the specified user is subscribed to, 20 lists per page by default. Does not include the user's own lists.

@@ -29,7 +29,7 @@ import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
 import jp.nephy.penicillin.extensions.parseModel
-import jp.nephy.penicillin.models.UserStream
+import jp.nephy.penicillin.models.Stream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -47,7 +47,7 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                     val event = UserStreamEvent.byKey(json["event"].string)
                     when (event?.type) {
                         UserStreamEventType.Status -> {
-                            val statusEvent = json.parseModel<UserStream.StatusEvent>(client)
+                            val statusEvent = json.parseModel<Stream.StatusEvent>(client)
                             launch {
                                 when (event) {
                                     UserStreamEvent.Favorite -> listener.onFavorite(statusEvent)
@@ -64,7 +64,7 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                             listener.onAnyEvent(statusEvent)
                         }
                         UserStreamEventType.List -> {
-                            val listEvent = json.parseModel<UserStream.ListEvent>(client)
+                            val listEvent = json.parseModel<Stream.ListEvent>(client)
                             launch {
                                 when (event) {
                                     UserStreamEvent.ListCreated -> listener.onListCreated(listEvent)
@@ -83,7 +83,7 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                             listener.onAnyEvent(listEvent)
                         }
                         UserStreamEventType.User -> {
-                            val userEvent = json.parseModel<UserStream.UserEvent>(client)
+                            val userEvent = json.parseModel<Stream.UserEvent>(client)
                             launch {
                                 when (event) {
                                     UserStreamEvent.Follow -> listener.onFollow(userEvent)

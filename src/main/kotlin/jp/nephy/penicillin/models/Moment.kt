@@ -29,6 +29,7 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.byPenicillinModel
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.extensions.penicillinModel
 
@@ -48,7 +49,7 @@ data class Moment(override val json: JsonObject, override val client: ApiClient)
     val capsuleContentsVersion by moment.byString("capsule_contents_version")
     val totalLikes by moment.byInt("total_likes")
     val users by moment.byLambda { it.jsonObject.toMap().values.map { json -> json.parseModel<User>(client) } }
-    val coverMedia by moment.byModel<CoverMedia>("cover_media", client)
+    val coverMedia by moment.byPenicillinModel<CoverMedia>(client, "cover_media")
     val displayStyle by string("display_style")
     private val context by jsonObject
     private val contextScribeInfo by context.byJsonObject

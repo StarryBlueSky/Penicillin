@@ -30,6 +30,7 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.models.entities.UserEntity
 
 data class User(val parentJson: JsonObject, override val client: ApiClient): CommonUser(parentJson, client)
 

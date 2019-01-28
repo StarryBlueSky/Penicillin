@@ -31,6 +31,8 @@ import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
+import jp.nephy.penicillin.models.entities.MediaEntity
+import jp.nephy.penicillin.models.entities.StatusEntity
 
 data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val contributors by penicillinModelList<Contributor>()
