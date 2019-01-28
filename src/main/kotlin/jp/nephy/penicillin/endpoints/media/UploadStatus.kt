@@ -24,20 +24,31 @@
 
 @file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.extensions.models
+package jp.nephy.penicillin.endpoints.media
 
-import jp.nephy.penicillin.endpoints.favorites
-import jp.nephy.penicillin.endpoints.favorites.create
-import jp.nephy.penicillin.endpoints.favorites.destroy
-import jp.nephy.penicillin.endpoints.old.delete
-import jp.nephy.penicillin.endpoints.old.show
-import jp.nephy.penicillin.endpoints.old.statuses
-import jp.nephy.penicillin.models.Status
+import jp.nephy.penicillin.core.request.EndpointHost
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.Media
 
-fun Status.refresh() = client.statuses.show(id = id)
-
-fun Status.favorite() = client.favorites.create(id = id)
-
-fun Status.unfavorite() = client.favorites.destroy(id = id)
-
-fun Status.delete() = client.statuses.delete(id = id)
+/**
+ * The STATUS command is used to periodically poll for updates of media processing operation. After the STATUS command response returns succeeded, you can move on to the next step which is usually create Tweet with media_id.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status)
+ * 
+ * @param mediaId The media_id returned from the INIT command.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Media] endpoint instance.
+ * @return [JsonObjectApiAction] for [jp.nephy.penicillin.models.Media] model.
+ */
+fun Media.uploadStatus(
+    mediaId: Long,
+    vararg options: Option
+) = client.session.get("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+    parameter(
+        "command" to "STATUS",
+        "media_id" to mediaId,
+        *options
+    )
+}.jsonObject<jp.nephy.penicillin.models.Media>()
