@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Timeline
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.Status
 
 /**
@@ -57,7 +58,7 @@ fun Timeline.listTimeline(
     count: Int? = null,
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     includeMyRetweet: Boolean? = null,
     vararg options: Option
 ) = listTimeline(listId, null, null, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, *options)
@@ -89,7 +90,7 @@ fun Timeline.listTimelineByOwnerScreenName(
     count: Int? = null,
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     includeMyRetweet: Boolean? = null,
     vararg options: Option
 ) = listTimeline(null, slug, ownerScreenName, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, *options)
@@ -121,7 +122,7 @@ fun Timeline.listTimelineByOwnerId(
     count: Int? = null,
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     includeMyRetweet: Boolean? = null,
     vararg options: Option
 ) = listTimeline(null, slug, null, ownerId, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, *options)
@@ -136,7 +137,7 @@ private fun Timeline.listTimeline(
     count: Int? = null,
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     includeMyRetweet: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/lists/statuses.json") {
@@ -150,7 +151,7 @@ private fun Timeline.listTimeline(
         "count" to count,
         "include_entities" to includeEntities,
         "include_rts" to includeRTs,
-        "tweet_mode" to tweetMode,
+        "tweet_mode" to tweetMode?.value,
         "include_my_retweet" to includeMyRetweet,
         *options
     )

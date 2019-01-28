@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Timeline
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.Status
 
 /**
@@ -64,7 +65,7 @@ fun Timeline.userTimeline(
     includeRTs: Boolean? = null,
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = userTimelineInternal(null, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, *options)
 
@@ -102,7 +103,7 @@ fun Timeline.userTimelineByUserId(
     includeRTs: Boolean? = null,
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = userTimelineInternal(userId, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, *options)
 
@@ -140,7 +141,7 @@ fun Timeline.userTimelineByScreenName(
     includeRTs: Boolean? = null,
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = userTimelineInternal(null, screenName, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, *options)
 
@@ -155,7 +156,7 @@ private fun Timeline.userTimelineInternal(
     includeRTs: Boolean? = null,
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/user_timeline.json") {
     parameter(
@@ -169,7 +170,7 @@ private fun Timeline.userTimelineInternal(
         "include_rts" to includeRTs,
         "include_entities" to includeEntities,
         "include_my_retweet" to includeMyRetweet,
-        "tweet_mode" to tweetMode,
+        "tweet_mode" to tweetMode?.value,
         *options
     )
 }.jsonArray<Status>()

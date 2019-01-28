@@ -31,6 +31,7 @@ import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Timeline
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.Status
 
 /**
@@ -61,7 +62,7 @@ fun Timeline.mentionsTimeline(
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: String? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/mentions_timeline.json") {
     parameter(
@@ -95,7 +96,7 @@ fun Timeline.mentionsTimeline(
         "include_entities" to includeEntities,
         "include_rts" to includeRTs,
         "include_my_retweet" to includeMyRetweet,
-        "tweet_mode" to tweetMode,
+        "tweet_mode" to tweetMode?.value,
         *options
     )
 }.jsonArray<Status>()
