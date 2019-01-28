@@ -27,10 +27,13 @@
 package jp.nephy.penicillin.endpoints.friendships
 
 
-import jp.nephy.penicillin.core.request.action.TextApiAction
+import jp.nephy.jsonkt.longList
+import jp.nephy.jsonkt.toJsonArray
+import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Friendships
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.extensions.await
 
 /**
  * Returns a collection of user_ids that the currently authenticated user does not want to receive retweets from.
@@ -41,17 +44,20 @@ import jp.nephy.penicillin.endpoints.Friendships
  * @param stringifyIds Some programming environments will not consume Twitter IDs due to their size. Provide this option to have IDs returned as strings instead. Read more about [Twitter IDs](https://developer.twitter.com/en/docs/basics/twitter-ids). This parameter is important to use in Javascript environments.
  * @param options Optional. Custom parameters of this request.
  * @receiver [Friendships] endpoint instance.
- * @return [TextApiAction].
+ * @return [DelegatedAction] for [List] of [Long].
  */
 fun Friendships.noRetweetsIds(
     stringifyIds: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/friendships/no_retweets/ids.json") {
-    parameter(
-        "stringify_ids" to stringifyIds,
-        *options
-    )
-}.text()
+) = DelegatedAction(client) {
+    val result = client.session.get("/1.1/friendships/no_retweets/ids.json") {
+        parameter(
+            "stringify_ids" to stringifyIds, *options
+        )
+    }.text().await()
+    
+    result.content.toJsonArray().longList
+}
 
  /**
  * Shorthand property to [Friendships.noRetweetsIds].
