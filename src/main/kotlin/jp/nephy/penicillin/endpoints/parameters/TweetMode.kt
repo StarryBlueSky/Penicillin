@@ -22,28 +22,18 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+package jp.nephy.penicillin.endpoints.parameters
 
-package jp.nephy.penicillin.endpoints
+enum class TweetMode(val value: String?) {
+    Default(null),
+    
+    /**
+     * compatibility mode
+     */
+    Compat("compat"),
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Users] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users)
- *
- * @return New [Users] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.users: Users
-    get() = Users(this)
-
-/**
- * Collection of api endpoints related to other users.
- *
- * @constructor Creates new [Users] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.users
- */
-class Users(override val client: ApiClient): Endpoint
+    /**
+     * extended mode, respectively for Tweets that contain over 140 characters
+     */
+    Extended("extended")
+}
