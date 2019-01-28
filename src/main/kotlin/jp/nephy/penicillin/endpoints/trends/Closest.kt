@@ -46,8 +46,8 @@ import jp.nephy.penicillin.models.TrendArea
  * @return [JsonArrayApiAction] for [TrendArea] model.
  */
 fun Trends.closestAreas(
-    latitude: Float,
-    longitude: Float,
+    latitude: Double,
+    longitude: Double,
     vararg options: Option
 ) = client.session.get("/1.1/trends/closest.json") {
     parameter(
