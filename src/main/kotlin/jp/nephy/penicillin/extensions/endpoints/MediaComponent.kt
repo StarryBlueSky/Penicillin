@@ -22,22 +22,12 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+package jp.nephy.penicillin.extensions.endpoints
 
-package jp.nephy.penicillin.extensions.models
+import jp.nephy.penicillin.endpoints.parameters.MediaCategory
+import jp.nephy.penicillin.endpoints.parameters.MediaType
+import java.io.File
 
-import jp.nephy.penicillin.endpoints.favorites
-import jp.nephy.penicillin.endpoints.favorites.create
-import jp.nephy.penicillin.endpoints.favorites.destroy
-import jp.nephy.penicillin.endpoints.statuses
-import jp.nephy.penicillin.endpoints.statuses.delete
-import jp.nephy.penicillin.endpoints.statuses.show
-import jp.nephy.penicillin.models.Status
+class MediaFileComponent(val file: File, val type: MediaType, val category: MediaCategory)
 
-fun Status.refresh() = client.statuses.show(id = id)
-
-fun Status.favorite() = client.favorites.create(id = id)
-
-fun Status.unfavorite() = client.favorites.destroy(id = id)
-
-fun Status.delete() = client.statuses.delete(id = id)
+class MediaDataComponent(val data: ByteArray, val type: MediaType, val category: MediaCategory)
