@@ -63,9 +63,9 @@ fun Media.uploadMedia(
             val part = ByteArray(minOf(segmentMaxSize, it.available()))
             it.read(part)
             
-            uploadAppend(MediaComponent(part, media.type, media.category), init.result.mediaId, i).await()
+            uploadAppend(MediaComponent(part, media.type, media.category), init.result.mediaId, i, init.result.mediaKey).await()
         }
     }
 
-    uploadFinalize(init.result.mediaId).await().result
+    uploadFinalize(init.result.mediaId, init.result.mediaKey).await().result
 }
