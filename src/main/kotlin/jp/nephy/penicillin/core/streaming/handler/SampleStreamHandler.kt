@@ -41,6 +41,9 @@ class SampleStreamHandler(override val client: ApiClient, override val listener:
                 "delete" in json -> {
                     listener.onDelete(json.parseModel(client))
                 }
+                "warning" in json -> {
+                    listener.onWarning(json.parseModel(client))
+                }
                 else -> {
                     listener.onUnhandledJson(json)
                 }
