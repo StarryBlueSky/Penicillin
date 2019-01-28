@@ -52,6 +52,7 @@ fun Media.uploadAppend(
     media: MediaComponent,
     mediaId: Long,
     segmentIndex: Int,
+    mediaKey: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
     body {
@@ -62,6 +63,7 @@ fun Media.uploadAppend(
             add(
                 "command" to "APPEND",
                 "media_id" to mediaId,
+                "media_key" to mediaKey,
                 "segment_index" to segmentIndex,
                 *options
             )

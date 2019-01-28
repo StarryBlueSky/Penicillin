@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.media
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Media
+import jp.nephy.penicillin.endpoints.Option
 
 /**
  * The STATUS command is used to periodically poll for updates of media processing operation. After the STATUS command response returns succeeded, you can move on to the next step which is usually create Tweet with media_id.
@@ -44,11 +44,13 @@ import jp.nephy.penicillin.endpoints.Media
  */
 fun Media.uploadStatus(
     mediaId: Long,
+    mediaKey: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/media/upload.json", EndpointHost.MediaUpload) {
     parameter(
         "command" to "STATUS",
         "media_id" to mediaId,
+        "media_key" to mediaKey,
         *options
     )
 }.jsonObject<jp.nephy.penicillin.models.Media>()

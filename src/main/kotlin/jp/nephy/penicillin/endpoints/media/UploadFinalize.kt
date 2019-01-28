@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.media
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Media
+import jp.nephy.penicillin.endpoints.Option
 
 /**
  * The FINALIZE command should be called after the entire media file is uploaded using APPEND commands. If and (only if) the response of the FINALIZE command contains a processing_info field, it may also be necessary to use a [STATUS command](https://developer.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status) and wait for it to return success before proceeding to Tweet creation.
@@ -44,6 +44,7 @@ import jp.nephy.penicillin.endpoints.Media
  */
 fun Media.uploadFinalize(
     mediaId: Long,
+    mediaKey: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
     body {
@@ -51,6 +52,7 @@ fun Media.uploadFinalize(
             add(
                 "command" to "FINALIZE",
                 "media_id" to mediaId,
+                "media_key" to mediaKey,
                 *options
             )
         }

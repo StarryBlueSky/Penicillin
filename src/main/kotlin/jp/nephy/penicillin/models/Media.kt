@@ -29,14 +29,14 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.nullablePenicillinModel
 
 data class Media(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val expiresAfterSecs by nullableInt("expires_after_secs")
     val mediaId by long("media_id")
     val mediaIdString by string("media_id_string")
     val mediaKey by nullableString("media_key")
-    val processingInfo by penicillinModel<ProcessingInfo>("processing_info")
+    val processingInfo by nullablePenicillinModel<ProcessingInfo>("processing_info")
     val size by nullableInt
     val image by nullableModel<Image>()
     val video by nullableModel<Video>()
@@ -45,12 +45,16 @@ data class Media(override val json: JsonObject, override val client: ApiClient):
         val checkAfterSecs by nullableInt("check_after_secs")
         val error by nullableModel<Error>()
         val progressPercent by nullableInt("progress_percent")
-        val state by string
+        val state by enum<String, State>()
 
         data class Error(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val code by int
             val name by nullableString
             val message by string
+        }
+        
+        enum class State(override val value: String): StringJsonEnum {
+            Pending("pending"), InProgress("in_progress"), Failed("failed"), Succeeded("succeeded")
         }
     }
 
