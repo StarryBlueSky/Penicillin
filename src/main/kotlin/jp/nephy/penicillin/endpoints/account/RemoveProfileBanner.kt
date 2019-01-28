@@ -22,28 +22,37 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.account
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Users] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users)
- *
- * @return New [Users] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.users: Users
-    get() = Users(this)
+import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.Account
+import jp.nephy.penicillin.endpoints.Option
 
 /**
- * Collection of api endpoints related to other users.
+ * Removes the uploaded profile banner for the authenticating user. Returns HTTP 200 upon success.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-remove_profile_banner)
  *
- * @constructor Creates new [Users] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.users
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Account] endpoint instance.
+ * @return [EmptyApiAction].
  */
-class Users(override val client: ApiClient): Endpoint
+fun Account.removeProfileBanner(
+    vararg options: Option
+) = client.session.post("/1.1/account/remove_profile_banner.json") {
+    body {
+        form {
+            add(*options)
+        }
+    }
+}.empty()
+
+/**
+ * Shorthand property to [Account.removeProfileBanner].
+ * @see Account.removeProfileBanner
+ */
+val Account.removeProfileBanner
+    get() = removeProfileBanner()

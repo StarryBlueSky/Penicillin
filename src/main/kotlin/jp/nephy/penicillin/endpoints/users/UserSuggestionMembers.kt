@@ -22,28 +22,29 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
-package jp.nephy.penicillin.endpoints
+package jp.nephy.penicillin.endpoints.users
 
-import jp.nephy.penicillin.core.session.ApiClient
-
-/**
- * Returns [Users] endpoint instance.
-
- * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users)
- *
- * @return New [Users] endpoint instance.
- * @receiver Current [ApiClient] instance.
- */
-val ApiClient.users: Users
-    get() = Users(this)
+import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
+import jp.nephy.penicillin.core.session.get
+import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.Users
+import jp.nephy.penicillin.models.User
 
 /**
- * Collection of api endpoints related to other users.
- *
- * @constructor Creates new [Users] endpoint instance.
- * @param client Current [ApiClient] instance.
- * @see ApiClient.users
+ * Access the users in a given category of the Twitter suggested user list and return their most recent status if they are not a protected user.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-suggestions-slug-members)
+ * 
+ * @param slug The short name of list or a category
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Users] endpoint instance.
+ * @return [JsonArrayApiAction] for [User] model.
  */
-class Users(override val client: ApiClient): Endpoint
+fun Users.userSuggestionMembers(
+    slug: String,
+    vararg options: Option
+) = client.session.get("/1.1/users/suggestions/$slug/members.json") {
+    parameter(*options)
+}.jsonArray<User>()
