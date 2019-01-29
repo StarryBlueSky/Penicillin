@@ -33,7 +33,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 fun <L: StreamListener, H: StreamHandler<L>> StreamProcessor<L, H>.queue(autoReconnect: Boolean = true): Job {
-    return result.action.session.launch(result.action.session.coroutineContext + job) {
+    return launch {
         await(autoReconnect)
     }
 }
