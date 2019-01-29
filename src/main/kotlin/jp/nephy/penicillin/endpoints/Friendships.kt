@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.core.session.ApiClientDsl
 
 /**
  * Returns [Friendships] endpoint instance.
@@ -36,6 +37,7 @@ import jp.nephy.penicillin.core.session.ApiClient
  * @return New [Friendships] endpoint instance.
  * @receiver Current [ApiClient] instance.
  */
+@ApiClientDsl
 val ApiClient.friendships: Friendships
     get() = Friendships(this)
 

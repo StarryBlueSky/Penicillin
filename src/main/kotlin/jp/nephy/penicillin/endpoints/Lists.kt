@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.core.session.ApiClientDsl
 
 /**
  * Returns [Lists] endpoint instance.
@@ -36,6 +37,7 @@ import jp.nephy.penicillin.core.session.ApiClient
  * @return New [Lists] endpoint instance.
  * @receiver Current [ApiClient] instance.
  */
+@ApiClientDsl
 val ApiClient.lists: Lists
     get() = Lists(this)
 
