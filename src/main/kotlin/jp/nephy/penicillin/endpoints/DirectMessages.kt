@@ -38,8 +38,6 @@ internal const val directMessageDeprecatedMessage = "Legacy Direct Message API r
  * @return New [DirectMessages] endpoint instance.
  * @receiver Current [ApiClient] instance.
  */
-@Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("directMessageEvents", "jp.nephy.endpoints.directMessageEvents"))
-@Suppress("Deprecation")
 val ApiClient.directMessages: DirectMessages
     get() = DirectMessages(this)
 
@@ -50,5 +48,4 @@ val ApiClient.directMessages: DirectMessages
  * @param client Current [ApiClient] instance.
  * @see ApiClient.directMessages
  */
-@Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("DirectMessageEvent", "jp.nephy.endpoints.DirectMessageEvent"))
 class DirectMessages(override val client: ApiClient): Endpoint
