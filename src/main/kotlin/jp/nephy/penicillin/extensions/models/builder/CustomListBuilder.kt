@@ -26,29 +26,26 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.TwitterList
 import java.util.*
 
-class CustomListBuilder: JsonBuilder<TwitterList> {
-    override var json: JsonObject = jsonObjectOf(
-            "created_at" to null,
-            "description" to "Tweetstorm",
-            "following" to false,
-            "full_name" to "Tweetstorm",
-            "id" to null,
-            "id_str" to null,
-            "member_count" to 0,
-            "mode" to "public",
-            "name" to "Tweetstorm",
-            "slag" to "Tweetstorm",
-            "subscriber_count" to 0,
-            "uri" to "Tweetstorm/Tweetstorm"
-    )
-
+class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
+    "created_at" to null,
+    "description" to "Tweetstorm",
+    "following" to false,
+    "full_name" to "Tweetstorm",
+    "id" to null,
+    "id_str" to null,
+    "member_count" to 0,
+    "mode" to "public",
+    "name" to "Tweetstorm",
+    "slag" to "Tweetstorm",
+    "subscriber_count" to 0,
+    "uri" to "Tweetstorm/Tweetstorm"
+) {
     private var createdAt: Date? = null
     fun createdAt(date: Date? = null) {
         createdAt = date
@@ -86,24 +83,22 @@ class CustomListBuilder: JsonBuilder<TwitterList> {
     override fun build(): TwitterList {
         val id = generateId()
         
-        update {
-            it["name"] = listName
-            it["full_name"] = listFullName
-            it["slug"] = listSlug
-            it["uri"] = listUri
+        this["name"] = listName
+        this["full_name"] = listFullName
+        this["slug"] = listSlug
+        this["uri"] = listUri
 
-            it["description"] = description
-            it["following"] = following
+        this["description"] = description
+        this["following"] = following
 
-            it["created_at"] = createdAt.toCreatedAt()
+        this["created_at"] = createdAt.toCreatedAt()
 
-            it["member_count"] = memberCount
-            it["subscriber_count"] = subscriberCount
+        this["member_count"] = memberCount
+        this["subscriber_count"] = subscriberCount
 
-            it["id"] = id
-            it["id_str"] = id.toString()
-        }
+        this["id"] = id
+        this["id_str"] = id.toString()
 
-        return json.parseModel()
+        return toJsonObject().parseModel()
     }
 }

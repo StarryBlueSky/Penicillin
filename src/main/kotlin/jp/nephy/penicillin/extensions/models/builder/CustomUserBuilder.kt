@@ -26,120 +26,104 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonArrayOf
 import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.User
 import java.util.*
 
-class CustomUserBuilder: JsonBuilder<User> {
+class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
+    "id" to userId,
+    "id_str" to userId.toString(),
+    "name" to "Tweetstorm",
+    "screen_name" to "Tweetstorm",
+    "location" to null,
+    "description" to "This account is dummy and is used to deliver internal messages.",
+    "url" to "https://github.com/SlashNephy/Tweetstorm",
+    "entities" to jsonObjectOf(
+        "url" to jsonObjectOf(
+            "urls" to jsonArrayOf(
+                jsonObjectOf(
+                    "display_url" to "github.com/SlashNephy/Tweetstorm",
+                    "url" to "https://t.co/Cn0EQY6Yzd",
+                    "indices" to jsonArrayOf(0, 23),
+                    "expanded_url" to "https://github.com/SlashNephy/Tweetstorm"
+                )
+            )
+        ),
+        "description" to jsonObjectOf(
+            "urls" to jsonArrayOf()
+        )
+    ),
+    "protected" to false,
+    "followers_count" to 0,
+    "friends_count" to 0,
+    "listed_count" to 0,
+    "created_at" to null,
+    "favourites_count" to 0,
+    "utc_offset" to null,
+    "time_zone" to null,
+    "geo_enabled" to false,
+    "verified" to false,
+    "statuses_count" to 0,
+    "lang" to "ja",
+    "is_translator" to false,
+    "is_translation_enabled" to false,
+    "profile_background_color" to "000000",
+    "profile_background_image_url" to "http://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_background_image_url_https" to "https://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_background_tile" to false,
+    "profile_image_url" to "http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+    "profile_image_url_https" to "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+    "profile_banner_url" to null,
+    "profile_link_color" to "FFFFFF",
+    "profile_sidebar_border_color" to "000000",
+    "profile_sidebar_fill_color" to "000000",
+    "profile_text_color" to "000000",
+    "profile_use_background_image" to false,
+    "has_extended_profile" to false,
+    "default_profile" to false,
+    "default_profile_image" to false,
+    "following" to false,
+    "follow_request_sent" to false,
+    "notifications" to false,
+    "contributors_enabled" to false
+) {
     companion object {
         private const val userId = 1L
     }
-
-    override var json: JsonObject = jsonObjectOf(
-        "id" to userId,
-        "id_str" to userId.toString(),
-        "name" to "Tweetstorm",
-        "screen_name" to "Tweetstorm",
-        "location" to null,
-        "description" to "This account is dummy and is used to deliver internal messages.",
-        "url" to "https://github.com/SlashNephy/Tweetstorm",
-        "entities" to jsonObjectOf(
-            "url" to jsonObjectOf(
-                "urls" to jsonArrayOf(
-                    jsonObjectOf(
-                        "display_url" to "github.com/SlashNephy/Tweetstorm",
-                        "url" to "https://t.co/Cn0EQY6Yzd",
-                        "indices" to jsonArrayOf(0, 23),
-                        "expanded_url" to "https://github.com/SlashNephy/Tweetstorm"
-                    )
-                )
-            ),
-            "description" to jsonObjectOf(
-                "urls" to jsonArrayOf()
-            )
-        ),
-        "protected" to false,
-        "followers_count" to 0,
-        "friends_count" to 0,
-        "listed_count" to 0,
-        "created_at" to null,
-        "favourites_count" to 0,
-        "utc_offset" to null,
-        "time_zone" to null,
-        "geo_enabled" to false,
-        "verified" to false,
-        "statuses_count" to 0,
-        "lang" to "ja",
-        "is_translator" to false,
-        "is_translation_enabled" to false,
-        "profile_background_color" to "000000",
-        "profile_background_image_url" to "http://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_image_url_https" to "https://abs.twimg.com/images/themes/theme1/bg.png",
-        "profile_background_tile" to false,
-        "profile_image_url" to "http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
-        "profile_image_url_https" to "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
-        "profile_banner_url" to null,
-        "profile_link_color" to "FFFFFF",
-        "profile_sidebar_border_color" to "000000",
-        "profile_sidebar_fill_color" to "000000",
-        "profile_text_color" to "000000",
-        "profile_use_background_image" to false,
-        "has_extended_profile" to false,
-        "default_profile" to false,
-        "default_profile_image" to false,
-        "following" to false,
-        "follow_request_sent" to false,
-        "notifications" to false,
-        "contributors_enabled" to false
-    )
-
+    
     fun name(value: String) {
-        update { 
-            it["name"] = value 
-        }
+        this["name"] = value
     }
     fun screenName(value: String) {
-        update {
-            it["screen_name"] = value
-        }
+        this["screen_name"] = value
     }
 
     fun location(value: String) {
-        update {
-            it["location"] = value
-        }
+        this["location"] = value
     }
 
     fun isProtected() {
-        update {
-            it["protected"] = true
-        }
+        this["protected"] = true
     }
     fun isVerified() {
-        update {
-            it["verified"] = true
-        }
+        this["verified"] = true
     }
 
     fun count(friends: Int = 0, followers: Int = 0, statuses: Int = 0, favorites: Int = 0, listed: Int = 0) {
-        update {
-            it["friends_count"] = friends
-            it["followers_count"] = followers
-            it["statuses_count"] = statuses
-            it["favourites_count"] = favorites
-            it["listed_count"] = listed
-        }
+        this["friends_count"] = friends
+        this["followers_count"] = followers
+        this["statuses_count"] = statuses
+        this["favourites_count"] = favorites
+        this["listed_count"] = listed
     }
 
     fun icon(url: String) {
-        update {
-            it["profile_image_url"] = url.replace("https://", "http://")
-            it["profile_image_url_https"] = url.replace("http://", "https://")
-        }
+        this["profile_image_url"] = url.replace("https://", "http://")
+        this["profile_image_url_https"] = url.replace("http://", "https://")
     }
 
     private var createdAt: Date? = null
@@ -149,10 +133,8 @@ class CustomUserBuilder: JsonBuilder<User> {
 
     @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): User {
-        update {
-            it["created_at"] = createdAt.toCreatedAt()
-        }
+        this["created_at"] = createdAt.toCreatedAt()
 
-        return json.parseModel()
+        return toJsonObject().parseModel()
     }
 }

@@ -26,22 +26,19 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
 import java.util.*
 
-class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEvent> {
-    override var json: JsonObject = jsonObjectOf(
-            "event" to type.key,
-            "source" to null,
-            "target" to null,
-            "created_at" to null
-    )
-
+class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEvent>, JsonMap by jsonMapOf(
+    "event" to type.key,
+    "source" to null,
+    "target" to null,
+    "created_at" to null
+) {
     private var source = CustomUserBuilder()
     fun source(builder: CustomUserBuilder.() -> Unit) {
         source.apply(builder)
@@ -61,13 +58,11 @@ class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEven
     override fun build(): Stream.UserEvent {
         val source = source.build()
         val target = target.build()
+        
+        this["source"] = source
+        this["target"] = target
+        this["created_at"] = createdAt.toCreatedAt()
 
-        update {
-            it["source"] = source
-            it["target"] = target
-            it["created_at"] = createdAt.toCreatedAt()
-        }
-
-        return json.parseModel()
+        return toJsonObject().parseModel()
     }
 }

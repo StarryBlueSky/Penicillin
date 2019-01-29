@@ -26,27 +26,25 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
 import java.util.*
 import kotlin.properties.Delegates
 
-class CustomDeleteBuilder: JsonBuilder<Stream.Delete> {
-    override var json: JsonObject = jsonObjectOf(
-        "delete" to jsonObjectOf(
-            "status" to jsonObjectOf(
-                "id" to null,
-                "id_str" to null,
-                "user_id" to null,
-                "user_id_str" to null
-            ),
-            "timestamp_ms" to null
-        )
+class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
+    "delete" to jsonObjectOf(
+        "status" to jsonObjectOf(
+            "id" to null,
+            "id_str" to null,
+            "user_id" to null,
+            "user_id_str" to null
+        ),
+        "timestamp_ms" to null
     )
-
+) {
     private var statusId by Delegates.notNull<Long>()
     fun status(id: Long) {
         statusId = id
@@ -64,14 +62,12 @@ class CustomDeleteBuilder: JsonBuilder<Stream.Delete> {
 
     @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): Stream.Delete {
-        update {
-            it["delete"] = jsonObjectOf(
-                "status" to jsonObjectOf(
-                    "id" to statusId, "id_str" to statusId.toString(), "user_id" to userId, "user_id_str" to userId.toString()
-                ), "timestamp_ms" to (createdAt ?: Date()).time.toString()
-            )
-        }
+        this["delete"] = jsonObjectOf(
+            "status" to jsonObjectOf(
+                "id" to statusId, "id_str" to statusId.toString(), "user_id" to userId, "user_id_str" to userId.toString()
+            ), "timestamp_ms" to (createdAt ?: Date()).time.toString()
+        )
         
-        return json.parseModel()
+        return toJsonObject().parseModel()
     }
 }
