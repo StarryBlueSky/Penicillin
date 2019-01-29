@@ -38,12 +38,12 @@ data class Media(override val json: JsonObject, override val client: ApiClient):
     val mediaKey by nullableString("media_key")
     val processingInfo by nullablePenicillinModel<ProcessingInfo>("processing_info")
     val size by nullableInt
-    val image by nullableModel<Image>()
-    val video by nullableModel<Video>()
+    val image by nullablePenicillinModel<Image>()
+    val video by nullablePenicillinModel<Video>()
 
     data class ProcessingInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val checkAfterSecs by nullableInt("check_after_secs")
-        val error by nullableModel<Error>()
+        val error by nullablePenicillinModel<Error>()
         val progressPercent by nullableInt("progress_percent")
         val state by enum<String, State>()
 

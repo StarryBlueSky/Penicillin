@@ -29,19 +29,19 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.nullablePenicillinModel
 
 data class TrendType(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val trend by nullableModel<Trend>()
-    val promotedTrend by nullableModel<PromotedTrend>()
+    val trend by nullablePenicillinModel<Trend>()
+    val promotedTrend by nullablePenicillinModel<PromotedTrend>()
 
     data class Trend(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val name by string
         val description by nullableString("meta_description")
         val rank by int
         val token by string
-        val context by nullableModel<Context>()
-        val target by penicillinModel<Target>()
+        val context by nullablePenicillinModel<Context>()
+        val target by nullablePenicillinModel<Target>()
 
         data class Context(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val relatedQuery by stringList("query")

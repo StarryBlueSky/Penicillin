@@ -27,8 +27,12 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.delegation.jsonObject
+import jp.nephy.jsonkt.delegation.long
+import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.nullablePenicillinModel
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
 
@@ -40,7 +44,7 @@ data class MomentGuide(override val json: JsonObject, override val client: ApiCl
     val impressionId by long("impression_id")
     val cursor by string("scroll_cursor")
     val modules by penicillinModelList<Module>()
-    val trendModule by nullableModel<TrendModule>()
+    val trendModule by nullablePenicillinModel<TrendModule>()
 
     data class Module(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val moduleType by string("module_type")
