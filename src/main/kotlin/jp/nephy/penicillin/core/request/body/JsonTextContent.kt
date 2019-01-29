@@ -36,7 +36,7 @@ import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.json
 
 class JsonTextContent(private val json: JsonObject): OutgoingContent.WriteChannelContent() {
-    override val contentType = ContentType.Application.Json.withCharset(Charsets.UTF_8)
+    override val contentType: ContentType = ContentType.Application.Json.withCharset(Charsets.UTF_8)
 
     override suspend fun writeTo(channel: ByteWriteChannel) {
         channel.writeStringUtf8(json.toJsonString())
