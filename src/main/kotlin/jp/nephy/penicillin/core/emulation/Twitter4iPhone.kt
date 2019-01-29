@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.session.Session
 import java.security.SecureRandom
 
 class Twitter4iPhone(override val session: Session): Emulation {
-    override val headers = Headers.build {
+    override val headers: Headers = Headers.build {
         append("Accept-Language", "ja")
         append("Timezone", "Asia/Tokyo")
         append("User-Agent", "Twitter-iPhone/7.30 iOS/11.3.1 (Apple;iPhone10,1;;;;;1;2017)")

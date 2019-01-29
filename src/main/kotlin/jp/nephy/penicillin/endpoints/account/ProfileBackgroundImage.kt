@@ -47,7 +47,7 @@ import jp.nephy.penicillin.models.User
  * @receiver [Account] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-@Deprecated("This endpoint is deprecated. See also https://twittercommunity.com/t/upcoming-changes-to-the-developer-platform/104603.")
+@Deprecated("This endpoint is deprecated. See also https://twittercommunity.com/t/upcoming-changes-to-the-developer-platform/104603.", replaceWith = ReplaceWith("No substitute."))
 fun Account.updateProfileBackgroundImage(
     mediaId: Long,
     tile: Boolean? = null,

@@ -43,7 +43,7 @@ import mu.KotlinLogging
 import kotlin.coroutines.CoroutineContext
 
 class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiClient, response: StreamResponse<L, H>, private val handler: H): Closeable, CoroutineScope {
-    var result = response
+    var result: StreamResponse<L, H> = response
         private set
     
     internal val job = Job()
@@ -55,68 +55,70 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
     
     private val logger = KotlinLogging.logger("Penicillin.StreamProcessor")
     
-    suspend fun await(autoReconnect: Boolean = true) = apply {
-        mutex.withLock(Dummy) {
-            use {
-                while (job.isActive) {
-                    try {
-                        launch {
-                            handler.listener.onConnect()
-                        }
-                        
-                        result.response.content.toInputStream(job).bufferedReader().useLines { lines ->
-                            for (content in lines) {
-                                launch {
-                                    when {
-                                        content.startsWith("{") -> {
-                                            handler.handle(content.toJsonObject(), this)
-                                        }
-                                        content.isBlank() -> {
-                                            handler.listener.onHeartbeat()
-                                        }
-                                        else -> {
-                                            val length = content.toIntOrNull()
-                                            if (length != null) {
-                                                handler.listener.onLength(length)
-                                            } else {
-                                                handler.listener.onUnknownData(content)
+    suspend fun await(autoReconnect: Boolean = true): StreamProcessor<L, H> {
+        return apply {
+            mutex.withLock(Dummy) {
+                use {
+                    while (job.isActive) {
+                        try {
+                            launch {
+                                handler.listener.onConnect()
+                            }
+
+                            result.response.content.toInputStream(job).bufferedReader().useLines { lines ->
+                                for (content in lines) {
+                                    launch {
+                                        when {
+                                            content.startsWith("{") -> {
+                                                handler.handle(content.toJsonObject(), this)
+                                            }
+                                            content.isBlank() -> {
+                                                handler.listener.onHeartbeat()
+                                            }
+                                            else -> {
+                                                val length = content.toIntOrNull()
+                                                if (length != null) {
+                                                    handler.listener.onLength(length)
+                                                } else {
+                                                    handler.listener.onUnknownData(content)
+                                                }
                                             }
                                         }
                                     }
-                                }
 
-                                launch {
-                                    handler.listener.onRawData(content)
+                                    launch {
+                                        handler.listener.onRawData(content)
+                                    }
                                 }
                             }
-                        }
 
-                        launch {
-                            handler.listener.onDisconnect()
-                        }
+                            launch {
+                                handler.listener.onDisconnect()
+                            }
 
-                        if (!autoReconnect) {
+                            if (!autoReconnect) {
+                                break
+                            }
+
+                            while (job.isActive) {
+                                try {
+                                    result.close()
+                                    result = result.action.request.stream<L, H>().await()
+                                    break
+                                } catch (e: CancellationException) {
+                                    break
+                                } catch (e: Throwable) {
+                                    logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
+
+                                    delay(result.action.session.option.retryInMillis)
+                                    continue
+                                }
+                            }
+                        } catch (e: CancellationException) {
                             break
+                        } catch (e: Throwable) {
+                            logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
                         }
-
-                        while (job.isActive) {
-                            try {
-                                result.close()
-                                result = result.action.request.stream<L, H>().await()
-                                break
-                            } catch (e: CancellationException) {
-                                break
-                            } catch (e: Throwable) {
-                                logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
-
-                                delay(result.action.session.option.retryInMillis)
-                                continue
-                            }
-                        }
-                    } catch (e: CancellationException) {
-                        break
-                    } catch (e: Throwable) {
-                        logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
                     }
                 }
             }

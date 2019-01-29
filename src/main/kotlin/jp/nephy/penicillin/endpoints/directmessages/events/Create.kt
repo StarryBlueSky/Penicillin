@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.directmessages.events
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.DirectMessageEvents
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.DirectMessageEvent
 
 /**
@@ -40,7 +40,7 @@ import jp.nephy.penicillin.models.DirectMessageEvent
  * [Twitter API reference](https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event)
  * 
  * @param userId The ID of the user who should receive the direct message.
- * @param text The Message Data Object defining the content to deliver to the reciepient.
+ * @param text The Message Data Object defining the content to deliver to the recipient.
  * @param type The type of event you are posting. For Direct Messages, use message_create.
  * @param options Optional. Custom parameters of this request.
  * @receiver [DirectMessageEvents] endpoint instance.

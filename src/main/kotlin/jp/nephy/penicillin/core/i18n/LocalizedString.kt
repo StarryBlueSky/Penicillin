@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("PublicApiImplicitType")
+
 package jp.nephy.penicillin.core.i18n
 
 import java.util.*

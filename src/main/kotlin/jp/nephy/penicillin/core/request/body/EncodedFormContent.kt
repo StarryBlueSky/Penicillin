@@ -31,7 +31,7 @@ import kotlinx.coroutines.io.ByteWriteChannel
 import kotlinx.coroutines.io.writeStringUtf8
 
 class EncodedFormContent(val forms: Parameters): OutgoingContent.WriteChannelContent() {
-    override val contentType = ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8)
+    override val contentType: ContentType = ContentType.Application.FormUrlEncoded.withCharset(Charsets.UTF_8)
 
     override suspend fun writeTo(channel: ByteWriteChannel) {
         channel.writeStringUtf8(forms.formUrlEncode())

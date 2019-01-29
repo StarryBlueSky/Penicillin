@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+
 package jp.nephy.penicillin.models.entities
 
 import jp.nephy.jsonkt.JsonObject

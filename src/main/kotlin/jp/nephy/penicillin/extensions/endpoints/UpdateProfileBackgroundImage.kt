@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "Deprecation")
 
 package jp.nephy.penicillin.extensions.endpoints
 
@@ -35,7 +35,6 @@ import jp.nephy.penicillin.endpoints.media.MediaComponent
 import jp.nephy.penicillin.endpoints.media.uploadMedia
 import jp.nephy.penicillin.extensions.await
 
-@Suppress("Deprecation")
 fun Account.updateProfileBackgroundImage(
     media: MediaComponent,
     tile: Boolean? = null,

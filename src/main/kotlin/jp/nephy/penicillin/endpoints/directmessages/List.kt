@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "Deprecation")
 
 package jp.nephy.penicillin.endpoints.directmessages
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.DirectMessages
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.directMessageDeprecatedMessage
 import jp.nephy.penicillin.models.DirectMessage
 
@@ -40,7 +40,7 @@ import jp.nephy.penicillin.models.DirectMessage
  * @receiver [DirectMessages] endpoint instance.
  * @return [JsonObjectApiAction] for [DirectMessage] model.
  */
-@Deprecated(directMessageDeprecatedMessage)
+@Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("directMessageEvent.list", "jp.nephy.penicillin.endpoints.directMessageEvent", "jp.nephy.penicillin.endpoints.directmessages.events.list"))
 fun DirectMessages.list(
     sinceId: Long? = null,
     maxId: Long? = null,

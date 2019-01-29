@@ -27,7 +27,6 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.core.session.ApiClientDsl
 
 internal const val directMessageDeprecatedMessage = "Legacy Direct Message API retired on September 17th, 2018."
 
@@ -39,7 +38,6 @@ internal const val directMessageDeprecatedMessage = "Legacy Direct Message API r
  * @return New [DirectMessages] endpoint instance.
  * @receiver Current [ApiClient] instance.
  */
-@ApiClientDsl
 @Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("directMessageEvents", "jp.nephy.endpoints.directMessageEvents"))
 @Suppress("Deprecation")
 val ApiClient.directMessages: DirectMessages
