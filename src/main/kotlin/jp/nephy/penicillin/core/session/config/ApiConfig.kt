@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import java.util.concurrent.TimeUnit
 
 @ApiClientDsl
@@ -45,7 +46,14 @@ internal fun SessionBuilder.createApiConfig(): ApiConfig {
     }.build()
 }
 
-data class ApiConfig(val maxRetries: Int, val retryInMillis: Long, val defaultTimeoutInMillis: Long, val emulationMode: EmulationMode, val skipEmulationChecking: Boolean): SessionConfig {
+data class ApiConfig(
+    val maxRetries: Int,
+    val retryInMillis: Long,
+    val defaultTimeoutInMillis: Long,
+    val emulationMode: EmulationMode,
+    val skipEmulationChecking: Boolean,
+    val defaultTweetMode: TweetMode
+): SessionConfig {
     companion object {
         private const val defaultMaxRetries = 3
         private const val defaultRetryIntervalInMillis = 3000L
@@ -83,9 +91,14 @@ data class ApiConfig(val maxRetries: Int, val retryInMillis: Long, val defaultTi
             skipEmulationChecking = true
         }
         
+        private var defaultTweetMode = TweetMode.Default
+        fun defaultTweetMode(mode: TweetMode) {
+            defaultTweetMode = mode
+        }
+        
         @UseExperimental(PenicillinExperimentalApi::class)
         override fun build(): ApiConfig {
-            return ApiConfig(maxRetries, retryIntervalInMillis, timeoutInMillis, emulationMode, skipEmulationChecking)
+            return ApiConfig(maxRetries, retryIntervalInMillis, timeoutInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
         }
     }
 }
