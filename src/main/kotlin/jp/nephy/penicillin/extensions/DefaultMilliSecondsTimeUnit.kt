@@ -48,7 +48,7 @@ suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeoutInMillis: Long): R? {
 }
 
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R: Any> ApiAction<R>.deferWithTimeout(timeoutInMillis: Long): Deferred<R?> {
+fun <R: Any> ApiAction<R>.deferWithTimeout(timeoutInMillis: Long): Deferred<R?> {
     return deferWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
 }
 
