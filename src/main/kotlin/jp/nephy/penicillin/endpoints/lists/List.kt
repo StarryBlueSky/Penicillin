@@ -46,7 +46,7 @@ import jp.nephy.penicillin.models.TwitterList
 fun Lists.list(
     reverse: Boolean? = null,
     vararg options: Option
-) = list(null, null, reverse, *options)
+) = listInternal(null, null, reverse, *options)
 
 /**
  * Returns all lists the authenticating or specified user subscribes to, including their own. The user is specified using the user_id or screen_name parameters. If no user is given, the authenticating user is used.
@@ -64,7 +64,7 @@ fun Lists.list(
     userId: Long,
     reverse: Boolean? = null,
     vararg options: Option
-) = list(userId, null, reverse, *options)
+) = listInternal(userId, null, reverse, *options)
 
 /**
  * Returns all lists the authenticating or specified user subscribes to, including their own. The user is specified using the user_id or screen_name parameters. If no user is given, the authenticating user is used.
@@ -82,9 +82,9 @@ fun Lists.list(
     screenName: String,
     reverse: Boolean? = null,
     vararg options: Option
-) = list(null, screenName, reverse, *options)
+) = listInternal(null, screenName, reverse, *options)
 
-private fun Lists.list(
+private fun Lists.listInternal(
     userId: Long? = null,
     screenName: String? = null,
     reverse: Boolean? = null,
