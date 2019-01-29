@@ -127,4 +127,4 @@ private fun Favorites.listInternal(
  * @see Favorites.list
  */
 val Favorites.list
-    get() = listInternal()
+    get() = list()
