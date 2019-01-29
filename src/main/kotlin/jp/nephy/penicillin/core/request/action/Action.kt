@@ -128,6 +128,10 @@ internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpRespons
 
 internal suspend fun HttpResponse.readTextOrNull(): String? {
     return runCatching { 
-        readText()
+        readText().unescapeHTML()
     }.getOrNull()
+}
+
+internal fun String.unescapeHTML(): String {
+    return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
 }
