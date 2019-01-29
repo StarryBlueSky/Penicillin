@@ -30,12 +30,11 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class UserStreamHandler(override val client: ApiClient, override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
-    override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
-        scope.launch {
+    override fun handle(json: JsonObject) {
+        launch {
             when {
                 "text" in json -> {
                     listener.onStatus(json.parseModel(client))
@@ -58,9 +57,11 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                                     else -> listener.onUnhandledJson(json)
                                 }
                             }
+                            
                             launch {
                                 listener.onAnyStatusEvent(statusEvent)
                             }
+                            
                             listener.onAnyEvent(statusEvent)
                         }
                         UserStreamEventType.List -> {
@@ -77,9 +78,11 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                                     else -> listener.onUnhandledJson(json)
                                 }
                             }
+                            
                             launch {
                                 listener.onAnyListEvent(listEvent)
                             }
+                            
                             listener.onAnyEvent(listEvent)
                         }
                         UserStreamEventType.User -> {
@@ -96,9 +99,11 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                                     else -> listener.onUnhandledJson(json)
                                 }
                             }
+                            
                             launch {
                                 listener.onAnyUserEvent(userEvent)
                             }
+                            
                             listener.onAnyEvent(userEvent)
                         }
                         else -> {
@@ -136,6 +141,8 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
             }
         }
 
-        listener.onAnyJson(json)
+        launch {
+            listener.onAnyJson(json)
+        }
     }
 }

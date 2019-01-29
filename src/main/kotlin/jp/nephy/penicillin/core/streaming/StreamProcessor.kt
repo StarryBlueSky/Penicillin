@@ -103,7 +103,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
         launch {
             when {
                 content.startsWith("{") -> {
-                    handler.handle(content.toJsonObject(), this)
+                    handler.handle(content.toJsonObject())
                 }
                 content.isBlank() -> {
                     handler.listener.onHeartbeat()

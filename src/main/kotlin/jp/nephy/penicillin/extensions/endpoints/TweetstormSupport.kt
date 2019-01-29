@@ -37,7 +37,6 @@ import jp.nephy.penicillin.endpoints.stream.StreamDelimitedBy
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 fun Stream.tweetstorm(
@@ -64,8 +63,8 @@ interface TweetstormListener: StreamListener {
 }
 
 class TweetstormHandler(override val client: ApiClient, override val listener: TweetstormListener): StreamHandler<TweetstormListener> {
-    override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
-        scope.launch {
+    override fun handle(json: JsonObject) {
+        launch {
             when {
                 "text" in json -> {
                     listener.onStatus(json.parseModel(client))
@@ -85,6 +84,8 @@ class TweetstormHandler(override val client: ApiClient, override val listener: T
             }
         }
 
-        listener.onAnyJson(json)
+        launch {
+            listener.onAnyJson(json)
+        }
     }
 }

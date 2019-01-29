@@ -28,12 +28,11 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.listener.SampleStreamListener
 import jp.nephy.penicillin.extensions.parseModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class SampleStreamHandler(override val client: ApiClient, override val listener: SampleStreamListener): StreamHandler<SampleStreamListener> {
-    override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
-        scope.launch {
+    override fun handle(json: JsonObject) {
+        launch {
             when {
                 "text" in json -> {
                     listener.onStatus(json.parseModel(client))
@@ -50,6 +49,8 @@ class SampleStreamHandler(override val client: ApiClient, override val listener:
             }
         }
 
-        listener.onAnyJson(json)
+        launch {
+            listener.onAnyJson(json)
+        }
     }
 }

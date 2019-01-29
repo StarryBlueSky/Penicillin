@@ -29,12 +29,11 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.listener.LivePipelineListener
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class LivePipelineHandler(override val client: ApiClient, override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
-    override suspend fun handle(json: JsonObject, scope: CoroutineScope) {
-        scope.launch(scope.coroutineContext) {
+    override fun handle(json: JsonObject) {
+        launch {
             val pipeline = json.parseModel<Stream.LivePipeline>(client)
             val topic = pipeline.topic
             val id = topic.split("/").lastOrNull()?.toLongOrNull() ?: return@launch listener.onUnhandledJson(json)
@@ -59,6 +58,8 @@ class LivePipelineHandler(override val client: ApiClient, override val listener:
             }
         }
 
-        listener.onAnyJson(json)
+        launch {
+            listener.onAnyJson(json)
+        }
     }
 }
