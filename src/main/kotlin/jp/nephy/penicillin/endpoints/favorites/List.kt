@@ -52,7 +52,7 @@ fun Favorites.list(
     maxId: Long? = null,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = list(null, null, count, sinceId, maxId, includeEntities, *options)
+) = listInternal(null, null, count, sinceId, maxId, includeEntities, *options)
 
 /**
  * Note: favorites are now known as likes.
@@ -76,7 +76,7 @@ fun Favorites.listByUserId(
     maxId: Long? = null,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = list(userId, null, count, sinceId, maxId, includeEntities, *options)
+) = listInternal(userId, null, count, sinceId, maxId, includeEntities, *options)
 
 /**
  * Note: favorites are now known as likes.
@@ -100,9 +100,9 @@ fun Favorites.listByScreenName(
     maxId: Long? = null,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = list(null, screenName, count, sinceId, maxId, includeEntities, *options)
+) = listInternal(null, screenName, count, sinceId, maxId, includeEntities, *options)
 
-private fun Favorites.list(
+private fun Favorites.listInternal(
     userId: Long? = null,
     screenName: String? = null,
     count: Int? = null,
@@ -126,5 +126,5 @@ private fun Favorites.list(
  * Shorthand property to [Favorites.list].
  * @see Favorites.list
  */
-val Favorites.listMine
-    get() = list()
+val Favorites.list
+    get() = listInternal()

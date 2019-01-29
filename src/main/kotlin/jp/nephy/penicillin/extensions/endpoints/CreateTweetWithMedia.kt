@@ -39,7 +39,7 @@ import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Media.ProcessingInfo.State.Succeeded
 import kotlinx.coroutines.*
 
-fun Statuses.updateWithMedia(
+fun Statuses.createWithMedia(
     status: String,
     media: List<MediaComponent>,
     vararg options: Option
