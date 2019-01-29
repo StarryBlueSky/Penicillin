@@ -46,6 +46,7 @@ import jp.nephy.penicillin.models.CardState
 @PrivateEndpoint(EmulationMode.TwitterForiPhone)
 fun Cards.show(
     cardUri: String,
+    responseCardName: String = "poll4choice_text_only",
     vararg options: Option
 ) = client.session.get("/v2/capi/passthrough/1", EndpointHost.Card) {
     parameter(
@@ -53,7 +54,7 @@ fun Cards.show(
         "include_cards" to "1",
         "twitter:string:card_uri" to cardUri,
         "twitter:string:cards_platform" to "iPhone-13",
-        "twitter:string:response_card_name" to "poll4choice_text_only",
+        "twitter:string:response_card_name" to responseCardName,
         *options
     )
 }.jsonObject<CardState>()

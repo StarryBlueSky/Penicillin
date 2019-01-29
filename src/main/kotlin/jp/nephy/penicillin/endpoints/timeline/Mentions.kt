@@ -63,6 +63,7 @@ fun Timeline.mentionsTimeline(
     includeRTs: Boolean? = null,
     includeMyRetweet: Boolean? = null,
     tweetMode: TweetMode? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/mentions_timeline.json") {
     parameter(
@@ -97,6 +98,7 @@ fun Timeline.mentionsTimeline(
         "include_rts" to includeRTs,
         "include_my_retweet" to includeMyRetweet,
         "tweet_mode" to tweetMode?.value,
+        "include_card_uri" to includeCardUri,
         *options
     )
 }.jsonArray<Status>()

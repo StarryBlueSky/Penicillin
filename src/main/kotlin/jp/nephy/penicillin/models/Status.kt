@@ -36,6 +36,7 @@ import jp.nephy.penicillin.models.entities.MediaEntity
 import jp.nephy.penicillin.models.entities.StatusEntity
 
 data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    val cardUri by nullableString("card_uri")
     val contributors by penicillinModelList<Contributor>()
     val conversationId by nullableLong("conversation_id")
     val coordinates by nullablePenicillinModel<Coordinate>()

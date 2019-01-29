@@ -66,8 +66,9 @@ fun Timeline.userTimeline(
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
     tweetMode: TweetMode? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
-) = userTimelineInternal(null, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, *options)
+) = userTimelineInternal(null, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
 
 /**
  * Returns a collection of the most recent [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) posted by the [user](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object) indicated by the screen_name or user_id parameters.
@@ -104,8 +105,9 @@ fun Timeline.userTimelineByUserId(
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
     tweetMode: TweetMode? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
-) = userTimelineInternal(userId, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, *options)
+) = userTimelineInternal(userId, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
 
 /**
  * Returns a collection of the most recent [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) posted by the [user](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object) indicated by the screen_name or user_id parameters.
@@ -142,8 +144,9 @@ fun Timeline.userTimelineByScreenName(
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
     tweetMode: TweetMode? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
-) = userTimelineInternal(null, screenName, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, *options)
+) = userTimelineInternal(null, screenName, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
 
 private fun Timeline.userTimelineInternal(
     userId: Long? = null,
@@ -157,6 +160,7 @@ private fun Timeline.userTimelineInternal(
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
     tweetMode: TweetMode? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/user_timeline.json") {
     parameter(
@@ -171,6 +175,7 @@ private fun Timeline.userTimelineInternal(
         "include_entities" to includeEntities,
         "include_my_retweet" to includeMyRetweet,
         "tweet_mode" to tweetMode?.value,
+        "include_card_uri" to includeCardUri,
         *options
     )
 }.jsonArray<Status>()

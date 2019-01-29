@@ -63,6 +63,7 @@ fun Timeline.homeTimeline(
     includeRTs: Boolean? = null,
     includeMyRetweet: Boolean? = null,
     tweetMode: TweetMode? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/home_timeline.json") {
     parameter(
@@ -75,6 +76,7 @@ fun Timeline.homeTimeline(
         "tweet_mode" to tweetMode?.value,
         "include_rts" to includeRTs,
         "include_my_retweet" to includeMyRetweet,
+        "include_card_uri" to includeCardUri,
         *options
     )
 }.jsonArray<Status>()
