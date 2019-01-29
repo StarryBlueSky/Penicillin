@@ -27,42 +27,70 @@
 package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
-import jp.nephy.jsonkt.get
-import jp.nephy.jsonkt.string
+import jp.nephy.jsonkt.delegation.boolean
+import jp.nephy.jsonkt.delegation.nullableString
+import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.byPenicillinModel
+import jp.nephy.penicillin.extensions.nullablePenicillinModel
+import jp.nephy.penicillin.extensions.penicillinModel
 
 data class CardState(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    private val card by jsonObject
-    val name by card.byString
-    val url by card.byString
-    val cardTypeUrl by card.byString("card_type_url")
-    val cardPlatform by card.byPenicillinModel<Platform>(client)
-    val data by card.byPenicillinModel<Data>(client, "binding_values")
+    val card by penicillinModel<Card>()
 
-    data class Platform(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        private val platform by jsonObject
-        private val device by platform.byJsonObject
-        private val audience by platform.byJsonObject
-        val deviceName by device.byString("name")
-        val deviceVersion by device.byString("version")
-        val audienceName by audience.byString("name")
-        val audienceBucket by audience.byNullableString("bucket")
-    }
+    data class Card(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        val name by string
+        val url by string
+        val cardTypeUrl by string("card_type_url")
+        val bindingValues by penicillinModel<BindingValues>("binding_values")
+        val cardPlatform by penicillinModel<CardPlatform>("card_platform")
 
-    data class Data(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val choices: Map<String, Int>
-            get() = (1..5).filter { json.contains("choice${it}_label") }.map {
-                json["choice${it}_label"]["string_value"].string to if (json.contains("choice${it}_count")) {
-                    json["choice${it}_count"]["string_value"].string.toInt()
-                } else {
-                    0
+        data class BindingValues(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            val choice1Label by nullablePenicillinModel<StringValue>("choice1_label")
+            val choice2Label by nullablePenicillinModel<StringValue>("choice2_label")
+            val choice3Label by nullablePenicillinModel<StringValue>("choice3_label")
+            val choice4Label by nullablePenicillinModel<StringValue>("choice4_label")
+            
+            val choice1Count by nullablePenicillinModel<StringValue>("choice1_count")
+            val choice2Count by nullablePenicillinModel<StringValue>("choice2_count")
+            val choice3Count by nullablePenicillinModel<StringValue>("choice3_count")
+            val choice4Count by nullablePenicillinModel<StringValue>("choice4_count")
+            
+            val selectedChoice by nullablePenicillinModel<StringValue>("selected_choice")
+            val lastUpdatedDatetimeUtc by nullablePenicillinModel<StringValue>("last_updated_datetime_utc")
+            val endDatetimeUtc by nullablePenicillinModel<StringValue>("end_datetime_utc")
+            val countsAreFinal by nullablePenicillinModel<BooleanValue>("counts_are_final")
+            val durationMinutes by nullablePenicillinModel<StringValue>("duration_minutes")
+            val api by nullablePenicillinModel<StringValue>()
+            val cardUrl by nullablePenicillinModel<StringValue>("card_url")
+
+            data class StringValue(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                val type by string
+                val value by string("string_value")
+            }
+            
+            data class BooleanValue(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                val type by string
+                val value by boolean("boolean_value")
+            }
+        }
+        
+        data class CardPlatform(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            val platform by penicillinModel<Platform>()
+            
+            data class Platform(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                val device by penicillinModel<Device>()
+                val audience by penicillinModel<Audience>()
+                
+                data class Device(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                    val name by string
+                    val version by string
                 }
-            }.toMap()
-        val isFinal by json["counts_are_final"].jsonObject.byBoolean("boolean_value")
-        val endAt by json["end_datetime_utc"].jsonObject.byString("string_value")
-        val updateAt by json["last_updated_datetime_utc"].jsonObject.byString("string_value")
-        val minutes by json["duration_minutes"].jsonObject.byString("string_value")
+                
+                data class Audience(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                    val name by string
+                    val bucket by nullableString
+                }
+            }
+        }
     }
 }

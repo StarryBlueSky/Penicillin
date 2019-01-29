@@ -60,8 +60,9 @@ fun Timeline.listTimeline(
     includeRTs: Boolean? = null,
     tweetMode: TweetMode? = null,
     includeMyRetweet: Boolean? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
-) = listTimeline(listId, null, null, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, *options)
+) = listTimeline(listId, null, null, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
 
 /**
  * Returns a timeline of tweets authored by members of the specified list. Retweets are included by default. Use the include_rts=false parameter to omit retweets.
@@ -92,8 +93,9 @@ fun Timeline.listTimelineByOwnerScreenName(
     includeRTs: Boolean? = null,
     tweetMode: TweetMode? = null,
     includeMyRetweet: Boolean? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
-) = listTimeline(null, slug, ownerScreenName, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, *options)
+) = listTimeline(null, slug, ownerScreenName, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
 
 /**
  * Returns a timeline of tweets authored by members of the specified list. Retweets are included by default. Use the include_rts=false parameter to omit retweets.
@@ -124,8 +126,9 @@ fun Timeline.listTimelineByOwnerId(
     includeRTs: Boolean? = null,
     tweetMode: TweetMode? = null,
     includeMyRetweet: Boolean? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
-) = listTimeline(null, slug, null, ownerId, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, *options)
+) = listTimeline(null, slug, null, ownerId, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
 
 private fun Timeline.listTimeline(
     listId: Long? = null,
@@ -139,6 +142,7 @@ private fun Timeline.listTimeline(
     includeRTs: Boolean? = null,
     tweetMode: TweetMode? = null,
     includeMyRetweet: Boolean? = null,
+    includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/lists/statuses.json") {
     parameter(
@@ -153,6 +157,7 @@ private fun Timeline.listTimeline(
         "include_rts" to includeRTs,
         "tweet_mode" to tweetMode?.value,
         "include_my_retweet" to includeMyRetweet,
+        "include_card_uri" to includeCardUri,
         *options
     )
 }.jsonArray<Status>()
