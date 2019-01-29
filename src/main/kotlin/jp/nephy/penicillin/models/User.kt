@@ -29,12 +29,13 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.nullablePenicillinModel
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.models.entities.UserEntity
 
 data class User(val parentJson: JsonObject, override val client: ApiClient): CommonUser(parentJson, client)
 
-abstract class CommonUser(final override val json: JsonObject, client: ApiClient): PenicillinModel {
+abstract class CommonUser(final override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val advertiserAccountServiceLevels by stringList("advertiser_account_service_levels")
     val advertiserAccountType by nullableString("advertiser_account_type")
     val analyticsType by nullableString("analytics_type")
@@ -45,7 +46,7 @@ abstract class CommonUser(final override val json: JsonObject, client: ApiClient
     val defaultProfile by boolean("default_profile")
     val defaultProfileImage by boolean("default_profile_image")
     val description by nullableString
-    val entities by nullableModel<UserEntity>()
+    val entities by nullablePenicillinModel<UserEntity>()
     val fastFollowersCount by nullableInt("fast_followers_count")
     val favouritesCount by int("favourites_count")
     val followRequestSent by nullableBoolean("follow_request_sent")
@@ -74,9 +75,9 @@ abstract class CommonUser(final override val json: JsonObject, client: ApiClient
     val profileBackgroundImageUrl by string("profile_background_image_url")
     val profileBackgroundImageUrlHttps by string("profile_background_image_url_https")
     val profileBackgroundTile by boolean("profile_background_tile")
-    val profileBannerExtension by nullableModel<ProfileImageExtension>("profile_banner_extensions", client)
+    val profileBannerExtension by nullablePenicillinModel<ProfileImageExtension>("profile_banner_extensions")
     val profileBannerUrl by nullableString("profile_banner_url")
-    val profileImageExtensions by nullableModel<ProfileImageExtension>("profile_image_extensions", client)
+    val profileImageExtensions by nullablePenicillinModel<ProfileImageExtension>("profile_image_extensions")
     val profileImageUrl by string("profile_image_url")
     val profileImageUrlHttps by string("profile_image_url_https")
     val profileInterstitialType by nullableString("profile_interstitial_type")
@@ -87,7 +88,7 @@ abstract class CommonUser(final override val json: JsonObject, client: ApiClient
     val profileUseBackgroundImage by boolean("profile_use_background_image")
     val protected by boolean
     val screenName by string("screen_name")
-    val status by nullableModel<Status>()
+    val status by nullablePenicillinModel<Status>()
     val statusesCount by int("statuses_count")
     val suspended by nullableBoolean
     val timeZone by nullableString("time_zone")

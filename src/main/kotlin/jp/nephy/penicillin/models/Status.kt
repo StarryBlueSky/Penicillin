@@ -29,6 +29,7 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.nullablePenicillinModel
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
 import jp.nephy.penicillin.models.entities.MediaEntity
@@ -37,13 +38,13 @@ import jp.nephy.penicillin.models.entities.StatusEntity
 data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val contributors by penicillinModelList<Contributor>()
     val conversationId by nullableLong("conversation_id")
-    val coordinates by nullableModel<Coordinate>()
-    val currentUserRetweet by nullableModel<CurrentUserRetweet>("current_user_retweet")
+    val coordinates by nullablePenicillinModel<Coordinate>()
+    val currentUserRetweet by nullablePenicillinModel<CurrentUserRetweet>("current_user_retweet")
     // val createdAt by string("created_at")
     val displayTextRange by intList("display_text_range")
     val entities by penicillinModel<StatusEntity>()
-    val extendedEntities by nullableModel<ExtendedEntity>("extended_entities")
-    val extendedTweet by nullableModel<ExtendedTweet>("extended_tweet")
+    val extendedEntities by nullablePenicillinModel<ExtendedEntity>("extended_entities")
+    val extendedTweet by nullablePenicillinModel<ExtendedTweet>("extended_tweet")
     val favoriteCount by int("favorite_count")
     val favorited by boolean
     val filterLevel by nullableString("filter_level")
@@ -59,17 +60,17 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
     val inReplyToUserIdStr by nullableString("in_reply_to_user_id_str")
     val isQuoteStatus by boolean("is_quote_status")
     // val lang by string
-    val place by nullableModel<Place>()
+    val place by nullablePenicillinModel<Place>()
     val possiblySensitive by nullableBoolean("possibly_sensitive")
     val possiblySensitiveEditable by nullableBoolean("possibly_sensitive_editable")
-    val quotedStatus by nullableModel<Status>("quoted_status")
+    val quotedStatus by nullablePenicillinModel<Status>("quoted_status")
     val quotedStatusId by nullableLong("quoted_status_id")
     val quotedStatusIdStr by nullableString("quoted_status_id_str")
     val quoteCount by nullableInt("quote_count")
     val replyCount by nullableInt("reply_count")
     val retweetCount by int("retweet_count")
     val retweeted by boolean
-    val retweetedStatus by nullableModel<Status>("retweeted_status")
+    val retweetedStatus by nullablePenicillinModel<Status>("retweeted_status")
     val source by string
     val supplementalLanguage by nullableString("supplemental_language") // null
     val text by string

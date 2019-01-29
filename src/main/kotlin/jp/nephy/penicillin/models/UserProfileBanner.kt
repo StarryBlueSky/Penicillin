@@ -28,21 +28,21 @@ package jp.nephy.penicillin.models
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.nullableModel
 import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.nullablePenicillinModel
 
 data class UserProfileBanner(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val resolution1080x360 by nullableModel<Banner>("1080x360")
-    val resolution1500x500 by nullableModel<Banner>("1500x500")
-    val resolution300x100 by nullableModel<Banner>("300x100")
-    val resolution600x200 by nullableModel<Banner>("600x200")
-    val ipad by nullableModel<Banner>()
-    val ipadRetina by nullableModel<Banner>("ipad_retina")
-    val mobile by nullableModel<Banner>()
-    val mobileRetina by nullableModel<Banner>("mobile_retina")
-    val web by nullableModel<Banner>()
-    val webRetina by nullableModel<Banner>("web_retina")
+    val resolution1080x360 by nullablePenicillinModel<Banner>("1080x360")
+    val resolution1500x500 by nullablePenicillinModel<Banner>("1500x500")
+    val resolution300x100 by nullablePenicillinModel<Banner>("300x100")
+    val resolution600x200 by nullablePenicillinModel<Banner>("600x200")
+    val ipad by nullablePenicillinModel<Banner>()
+    val ipadRetina by nullablePenicillinModel<Banner>("ipad_retina")
+    val mobile by nullablePenicillinModel<Banner>()
+    val mobileRetina by nullablePenicillinModel<Banner>("mobile_retina")
+    val web by nullablePenicillinModel<Banner>()
+    val webRetina by nullablePenicillinModel<Banner>("web_retina")
 
     data class Banner(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val h by int
