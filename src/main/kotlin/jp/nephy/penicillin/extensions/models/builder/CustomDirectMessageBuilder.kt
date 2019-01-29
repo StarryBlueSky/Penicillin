@@ -28,28 +28,27 @@ package jp.nephy.penicillin.extensions.models.builder
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.DirectMessage
 import java.util.*
 
-class CustomDirectMessageBuilder: JsonBuilder<DirectMessage> {
-    override var json: JsonObject = jsonObjectOf(
-        "created_at" to null,
-        "entities" to jsonObjectOf(),
-        "id" to null,
-        "id_str" to null,
-        "read" to false,
-        "recipient" to null,
-        "recipient_id" to null,
-        "recipient_id_str" to null,
-        "sender" to null,
-        "sender_id" to null,
-        "sender_id_str" to null,
-        "sender_screen_name" to null,
-        "text" to null
-    )
-
+class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMapOf(
+    "created_at" to null,
+    "entities" to jsonObjectOf(),
+    "id" to null,
+    "id_str" to null,
+    "read" to false,
+    "recipient" to null,
+    "recipient_id" to null,
+    "recipient_id_str" to null,
+    "sender" to null,
+    "sender_id" to null,
+    "sender_id_str" to null,
+    "sender_screen_name" to null,
+    "text" to null
+) {
     private var createdAt: Date? = null
     fun createdAt(date: Date? = null) {
         createdAt = date
@@ -85,27 +84,25 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage> {
         val id = generateId()
         val recipient = recipientBuilder.build()
         val sender = senderBuilder.build()
-
-        update {
-            it["text"] = message
-            it["read"] = read
-            it["created_at"] = createdAt.toCreatedAt()
-
-            it["id"] = id
-            it["id_str"] = id.toString()
-
-            it["recipient"] = recipient.json
-            it["recipient_id"] = recipient.id
-            it["recipient_id_str"] = recipient.idStr
-
-            it["sender"] = sender.json
-            it["sender_id"] = sender.id
-            it["sender_id_str"] = sender.idStr
-            it["sender_screen_name"] = sender.screenName
-
-            it["entities"] = entities
-        }
         
-        return json.parseModel()
+        this["text"] = message
+        this["read"] = read
+        this["created_at"] = createdAt.toCreatedAt()
+
+        this["id"] = id
+        this["id_str"] = id.toString()
+
+        this["recipient"] = recipient.json
+        this["recipient_id"] = recipient.id
+        this["recipient_id_str"] = recipient.idStr
+
+        this["sender"] = sender.json
+        this["sender_id"] = sender.id
+        this["sender_id_str"] = sender.idStr
+        this["sender_screen_name"] = sender.screenName
+
+        this["entities"] = entities
+        
+        return toJsonObject().parseModel()
     }
 }

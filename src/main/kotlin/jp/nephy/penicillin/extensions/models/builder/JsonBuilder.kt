@@ -24,16 +24,14 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.JsonModel
-import jp.nephy.jsonkt.edit
 
-interface JsonBuilder<T: JsonModel> {
-    var json: JsonObject
-    
-    fun build(): T
+internal typealias JsonMap = MutableMap<String, Any?>
+
+internal fun jsonMapOf(vararg pairs: Pair<String, Any?>): JsonMap {
+    return mutableMapOf(*pairs)
 }
 
-fun JsonBuilder<*>.update(block: (MutableMap<String, Any?>) -> Unit) {
-    json = json.edit(block)
+interface JsonBuilder<T: JsonModel>: JsonMap {
+    fun build(): T
 }

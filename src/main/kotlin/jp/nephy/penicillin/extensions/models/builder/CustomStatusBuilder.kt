@@ -35,42 +35,37 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.set
 
-class CustomStatusBuilder: JsonBuilder<Status> {
-    override var json: JsonObject = jsonObjectOf(
-            "created_at" to null,
-            "id" to null,
-            "id_str" to null,
-            "text" to "",
-            "source" to null,
-            "truncated" to false,
-            "in_reply_to_status_id" to null,
-            "in_reply_to_status_id_str" to null,
-            "in_reply_to_user_id" to null,
-            "in_reply_to_user_id_str" to null,
-            "in_reply_to_screen_name" to null,
-            "user" to null,
-            "geo" to null,
-            "coordinates" to null,
-            "place" to null,
-            "contributors" to null,
-            "is_quote_status" to false,
-            "quote_count" to 0,
-            "reply_count" to 0,
-            "retweet_count" to 0,
-            "favorite_count" to 0,
-            "entities" to jsonObjectOf(
-                "hashtags" to jsonArrayOf(),
-                "symbols" to jsonArrayOf(),
-                "user_mentions" to jsonArrayOf(),
-                "urls" to jsonArrayOf()
-            ),
-            "favorited" to false,
-            "retweeted" to false,
-            "filter_level" to "low",
-            "lang" to "ja",
-            "timestamp_ms" to null
-    )
-
+class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
+    "created_at" to null,
+    "id" to null,
+    "id_str" to null,
+    "text" to "",
+    "source" to null,
+    "truncated" to false,
+    "in_reply_to_status_id" to null,
+    "in_reply_to_status_id_str" to null,
+    "in_reply_to_user_id" to null,
+    "in_reply_to_user_id_str" to null,
+    "in_reply_to_screen_name" to null,
+    "user" to null,
+    "geo" to null,
+    "coordinates" to null,
+    "place" to null,
+    "contributors" to null,
+    "is_quote_status" to false,
+    "quote_count" to 0,
+    "reply_count" to 0,
+    "retweet_count" to 0,
+    "favorite_count" to 0,
+    "entities" to jsonObjectOf(
+        "hashtags" to jsonArrayOf(), "symbols" to jsonArrayOf(), "user_mentions" to jsonArrayOf(), "urls" to jsonArrayOf()
+    ),
+    "favorited" to false,
+    "retweeted" to false,
+    "filter_level" to "low",
+    "lang" to "ja",
+    "timestamp_ms" to null
+) {
     private lateinit var text: String
     fun text(value: String) {
         text = value
@@ -136,46 +131,44 @@ class CustomStatusBuilder: JsonBuilder<Status> {
     override fun build(): Status {
         val id = generateId()
         val user = user.build()
+    
+        this["text"] = text
 
-        update {
-            it["text"] = text
+        this["id"] = id
+        this["id_str"] = id.toString()
 
-            it["id"] = id
-            it["id_str"] = id.toString()
+        this["source"] = "<a href=\"$sourceUrl\" rel=\"nofollow\">$sourceName</a>"
 
-            it["source"] = "<a href=\"$sourceUrl\" rel=\"nofollow\">$sourceName</a>"
+        this["user"] = user
 
-            it["user"] = user
+        this["created_at"] = createdAt.toCreatedAt()
+        this["timestamp_ms"] = (createdAt ?: Date()).time.toString()
 
-            it["created_at"] = createdAt.toCreatedAt()
-            it["timestamp_ms"] = (createdAt ?: Date()).time.toString()
+        this["retweeted"] = retweeted
+        this["favorited"] = favorited
+        this["retweet_count"] = retweetCount
+        this["favorite_count"] = favoriteCount
 
-            it["retweeted"] = retweeted
-            it["favorited"] = favorited
-            it["retweet_count"] = retweetCount
-            it["favorite_count"] = favoriteCount
+        this["in_reply_to_status_id"] = inReplyToStatusId
+        this["in_reply_to_status_id_str"] = inReplyToStatusId.toString()
+        this["in_reply_to_user_id"] = inReplyToUserId
+        this["in_reply_to_user_id_str"] = inReplyToUserId.toString()
+        this["in_reply_to_screen_name"] = inReplyToScreenName
 
-            it["in_reply_to_status_id"] = inReplyToStatusId
-            it["in_reply_to_status_id_str"] = inReplyToStatusId.toString()
-            it["in_reply_to_user_id"] = inReplyToUserId
-            it["in_reply_to_user_id_str"] = inReplyToUserId.toString()
-            it["in_reply_to_screen_name"] = inReplyToScreenName
+        val entities = this["entities"].asJsonElement().jsonObject
 
-            val entities = it["entities"].asJsonElement().jsonObject
-
-            it["entities"] = entities.edit { entity ->
-                entity["urls"] = urls.map { urlEntity ->
-                    jsonObjectOf(
-                        "display_url" to urlEntity.url.removePrefix("https://").removePrefix("http://"),
-                        "url" to urlEntity.url,
-                        "indices" to jsonArrayOf(urlEntity.start, urlEntity.end),
-                        "expanded_url" to urlEntity.url
-                    )
-                }
+        this["entities"] = entities.edit { entity ->
+            entity["urls"] = urls.map { urlEntity ->
+                jsonObjectOf(
+                    "display_url" to urlEntity.url.removePrefix("https://").removePrefix("http://"),
+                    "url" to urlEntity.url,
+                    "indices" to jsonArrayOf(urlEntity.start, urlEntity.end),
+                    "expanded_url" to urlEntity.url
+                )
             }
         }
 
-        return json.parseModel()
+        return toJsonObject().parseModel()
     }
 }
 
