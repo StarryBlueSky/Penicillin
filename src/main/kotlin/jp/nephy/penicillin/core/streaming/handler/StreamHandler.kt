@@ -28,10 +28,27 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
 
-interface StreamHandler<L: StreamListener> {
+/**
+ * An interface which handles streaming payload JSONs.
+ */
+interface StreamHandler<L: StreamListener>: CoroutineScope {
+    /**
+     * Current ApiClient.
+     */
     val client: ApiClient
+    
+    /**
+     * StreamListener.
+     */
     val listener: L
+    
+    override val coroutineContext: CoroutineContext
+        get() = client.session.coroutineContext
 
-    suspend fun handle(json: JsonObject, scope: CoroutineScope)
+    /**
+     * Handles streaming payload JSON.
+     */
+    fun handle(json: JsonObject)
 }
