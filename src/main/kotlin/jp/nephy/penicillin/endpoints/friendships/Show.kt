@@ -28,8 +28,8 @@ package jp.nephy.penicillin.endpoints.friendships
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Friendships
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.Friendships.Show
 
 /**
@@ -51,6 +51,21 @@ fun Friendships.showByUserId(
 
 /**
  * Returns detailed information about the relationship between two arbitrary users.
+ * 
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show)
+ *
+ * @param targetId The user_id of the target user.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Friendships] endpoint instance.
+ * @return [JsonObjectApiAction] for [Show] model.
+ */
+fun Friendships.showByUserId(
+    targetId: Long,
+    vararg options: Option
+) = show(null, null, targetId, null, *options)
+
+/**
+ * Returns detailed information about the relationship between two arbitrary users.
  *
  * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show)
  *
@@ -65,6 +80,21 @@ fun Friendships.showByScreenName(
     targetScreenName: String,
     vararg options: Option
 ) = show(null, sourceScreenName, null, targetScreenName, *options)
+
+/**
+ * Returns detailed information about the relationship between two arbitrary users.
+ *
+ * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show)
+ *
+ * @param targetScreenName The screen_name of the target user.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Friendships] endpoint instance.
+ * @return [JsonObjectApiAction] for [Show] model.
+ */
+fun Friendships.showByScreenName(
+    targetScreenName: String,
+    vararg options: Option
+) = show(null, null, null, targetScreenName, *options)
 
 private fun Friendships.show(
     sourceId: Long? = null,
