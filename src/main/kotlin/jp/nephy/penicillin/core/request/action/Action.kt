@@ -68,7 +68,7 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
             lastException = e
         }
 
-        if (it < session.option.maxRetries) {
+        if (it + 1 < session.option.maxRetries) {
             delay(session.option.retryInMillis)
         }
     }
