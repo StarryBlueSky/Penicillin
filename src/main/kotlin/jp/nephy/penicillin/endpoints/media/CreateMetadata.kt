@@ -30,8 +30,8 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Media
+import jp.nephy.penicillin.endpoints.Option
 
 /**
  * This endpoint can be used to provide additional information about the uploaded media_id. This feature is currently only supported for images and GIFs.
@@ -53,9 +53,7 @@ fun Media.createMetadata(
 ) = client.session.post("/1.1/media/metadata/create.json", EndpointHost.MediaUpload) {
     body {
         json {
-            payload.forEach { key, value -> 
-                add(key to value)
-            }
+            from(payload)
             add(
                 "media_id" to mediaId.toString(),
                 *options
