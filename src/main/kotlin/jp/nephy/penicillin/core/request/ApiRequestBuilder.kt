@@ -43,6 +43,7 @@ import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.body.RequestBodyBuilder
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.extensions.session
 import mu.KotlinLogging
 import kotlin.collections.set
@@ -87,7 +88,11 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
             return
         }
 
-        parameters[key] = value?.toString() ?: return
+        if (key == "tweet_mode" && value is TweetMode?) {
+            parameters[key] = (value ?: session.option.defaultTweetMode.value)?.toString() ?: return
+        } else {
+            parameters[key] = value?.toString() ?: return
+        }
     }
 
     fun parameter(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
