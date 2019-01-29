@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "Deprecation")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
 package jp.nephy.penicillin.endpoints.directmessages
 
