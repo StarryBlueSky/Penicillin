@@ -26,11 +26,11 @@
 
 package jp.nephy.penicillin.core.streaming.handler
 
-internal enum class UserStreamEventType {
+enum class UserStreamEventType {
     Status, List, User
 }
 
-enum class UserStreamEvent(internal val type: UserStreamEventType, val key: String) {
+enum class UserStreamEvent(val type: UserStreamEventType, val key: String) {
     Favorite(UserStreamEventType.Status, "favorite"),
     Unfavorite(UserStreamEventType.Status, "unfavorite"),
     FavoritedRetweet(UserStreamEventType.Status, "favorited_retweet"),
