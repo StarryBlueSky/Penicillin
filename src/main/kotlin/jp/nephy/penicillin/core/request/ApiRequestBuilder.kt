@@ -107,7 +107,7 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
     }
 
     val url: String
-        get() = URLBuilder(protocol = host.protocol, host = host.domain, port = host.protocol.defaultPort, encodedPath = path, parameters = parameters.copy()).buildString()
+        get() = URLBuilder(protocol = host.protocol, host = host.domain, port = host.port, encodedPath = path, parameters = parameters.copy()).buildString()
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
         when (session.option.emulationMode) {

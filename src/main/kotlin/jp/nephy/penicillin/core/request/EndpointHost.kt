@@ -28,7 +28,7 @@ package jp.nephy.penicillin.core.request
 
 import io.ktor.http.URLProtocol
 
-data class EndpointHost(val domain: String, val domainForSigning: String? = null, val protocol: URLProtocol = URLProtocol.HTTPS) {
+data class EndpointHost(val domain: String, val domainForSigning: String? = null, val protocol: URLProtocol = URLProtocol.HTTPS, val port: Int = protocol.defaultPort) {
     companion object {
         val Default = EndpointHost("api.twitter.com")
         
