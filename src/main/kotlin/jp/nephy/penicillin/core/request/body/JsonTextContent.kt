@@ -56,6 +56,12 @@ class JsonTextContent(private val json: JsonObject): OutgoingContent.WriteChanne
                 add(first, second)
             }
         }
+        
+        fun from(json: JsonObject) {
+            json.forEach { key, value -> 
+                add(key, value)
+            }
+        }
 
         internal fun build(): JsonTextContent {
             return JsonTextContent(json {
