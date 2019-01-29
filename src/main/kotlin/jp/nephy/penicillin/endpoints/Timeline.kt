@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.core.session.ApiClientDsl
 
 /**
  * Returns [Timeline] endpoint instance.
@@ -36,6 +37,7 @@ import jp.nephy.penicillin.core.session.ApiClient
  * @return New [Timeline] endpoint instance.
  * @receiver Current [ApiClient] instance.
  */
+@ApiClientDsl
 val ApiClient.timeline: Timeline
     get() = Timeline(this)
 

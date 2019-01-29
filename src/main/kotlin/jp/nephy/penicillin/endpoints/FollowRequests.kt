@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.core.session.ApiClientDsl
 
 /**
  * Returns [FollowRequests] endpoint instance.
@@ -34,6 +35,7 @@ import jp.nephy.penicillin.core.session.ApiClient
  * @return New [FollowRequests] endpoint instance.
  * @receiver Current [ApiClient] instance.
  */
+@ApiClientDsl
 val ApiClient.followRequests: FollowRequests
     get() = FollowRequests(this)
 
