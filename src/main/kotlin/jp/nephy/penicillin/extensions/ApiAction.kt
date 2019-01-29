@@ -51,21 +51,21 @@ suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(): R? {
 }
 
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R: Any> ApiAction<R>.defer(): Deferred<R> {
+fun <R: Any> ApiAction<R>.defer(): Deferred<R> {
     return session.async {
         await()
     }
 }
 
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R: Any> ApiAction<R>.deferWithTimeout(timeout: Long, unit: TimeUnit): Deferred<R?> {
+fun <R: Any> ApiAction<R>.deferWithTimeout(timeout: Long, unit: TimeUnit): Deferred<R?> {
     return session.async { 
         awaitWithTimeout(timeout, unit)
     }
 }
 
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R: Any> ApiAction<R>.deferWithTimeout(): Deferred<R?> {
+fun <R: Any> ApiAction<R>.deferWithTimeout(): Deferred<R?> {
     return session.async { 
         awaitWithTimeout()
     }
