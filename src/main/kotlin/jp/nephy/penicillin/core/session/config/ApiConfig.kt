@@ -33,6 +33,12 @@ import jp.nephy.penicillin.core.session.SessionBuilder
 import jp.nephy.penicillin.endpoints.common.TweetMode
 import java.util.concurrent.TimeUnit
 
+/**
+ * Creates [ApiConfig] configurations.
+ * Provides timeout, retries, emulations and so on.
+ * 
+ * @see ApiConfig
+ */
 @ApiClientDsl
 fun SessionBuilder.api(block: ApiConfig.Builder.() -> Unit) {
     getOrPutBuilder { 
@@ -46,22 +52,56 @@ internal fun SessionBuilder.createApiConfig(): ApiConfig {
     }.build()
 }
 
+/**
+ * Configurations related to api execution.
+ * @see SessionBuilder.api
+ */
 data class ApiConfig(
+    /**
+     * Max retry count of single request.
+     */
     val maxRetries: Int,
+
+    /**
+     * Retry interval in milli seconds
+     */
     val retryInMillis: Long,
+
+    /**
+     * Default read timeout in milli seconds
+     */
     val defaultTimeoutInMillis: Long,
+
+    /**
+     * EmulationMode which is used to access Twitter Private endpoints.
+     */
     val emulationMode: EmulationMode,
+
+    /**
+     * Skips emulationMode checking if true
+     */
     val skipEmulationChecking: Boolean,
+
+    /**
+     * Default value for tweetMode parameter.
+     */
     val defaultTweetMode: TweetMode
 ): SessionConfig {
-    companion object {
-        private const val defaultMaxRetries = 3
-        private const val defaultRetryIntervalInMillis = 3000L
-        private const val defaultTimeoutInMillis = 5000L
-    }
     
+    /**
+     * Provides ApiConfig builder.
+     */
     class Builder: SessionConfigBuilder<ApiConfig> {
-        @Suppress("MemberVisibilityCanBePrivate")
+        companion object {
+            private const val defaultMaxRetries = 3
+            private const val defaultRetryIntervalInMillis = 3000L
+            private const val defaultTimeoutInMillis = 5000L
+        }
+
+        /**
+         * Sets max retry count of single request.
+         */
+        @Suppress("MemberVisibilityPrivate")
         var maxRetries: Int = defaultMaxRetries
             set(value) {
                 require(value >= 0)
@@ -69,36 +109,74 @@ data class ApiConfig(
                 field = value
             }
         
-        private var retryIntervalInMillis = defaultRetryIntervalInMillis
-        fun retryInterval(interval: Long, unit: TimeUnit) {
-            require(interval >= 0)
-            
-            retryIntervalInMillis = unit.toMillis(interval)
-        }
+        /**
+         * Sets retry interval in milli seconds.
+         * If your request failed, reattempt after this value.
+         * @see ApiConfig.Builder.retryInterval
+         */
+        var retryIntervalInMillis: Long = defaultRetryIntervalInMillis
+            set(value) {
+                require(value >= 0)
 
-        private var timeoutInMillis = defaultTimeoutInMillis
-        fun defaultTimeout(timeout: Long, unit: TimeUnit) {
-            require(timeout > 0)
-            
-            timeoutInMillis = unit.toMillis(timeout)
-        }
+                field = value
+            }
+        
+        /**
+         * Sets default read timeout in milli seconds.
+         * It is not applied to Streaming Apis.
+         * @see ApiConfig.Builder.defaultTimeoutInMillis
+         */
+        var defaultTimeoutInMillis: Long = ApiConfig.Builder.defaultTimeoutInMillis
+            set(value) {
+                require(value >= 0)
 
+                field = value
+            }
+        
+        /**
+         * Sets emulationMode which is used to access Twitter Private endpoints.
+         * For example, to access Cards API, you must set this [EmulationMode.TwitterForiPhone].
+         */
         @PenicillinExperimentalApi
         var emulationMode: EmulationMode = EmulationMode.None
         
-        private var skipEmulationChecking = false
-        fun skipEmulationChecking() {
-            skipEmulationChecking = true
-        }
+        /**
+         * Skips emulationMode checking if true.
+         * It means that you may access Twitter Private endpoints despite using non-official application.
+         * @see ApiConfig.Builder.skipEmulationChecking
+         */
+        var skipEmulationChecking: Boolean = false
         
-        private var defaultTweetMode = TweetMode.Default
-        fun defaultTweetMode(mode: TweetMode) {
-            defaultTweetMode = mode
-        }
+        /**
+         * Sets default value for tweetMode parameter.
+         * Learn more at [Tweet updates](https://developer.twitter.com/en/docs/tweets/tweet-updates).
+         */
+        var defaultTweetMode: TweetMode = TweetMode.Default
         
         @UseExperimental(PenicillinExperimentalApi::class)
         override fun build(): ApiConfig {
-            return ApiConfig(maxRetries, retryIntervalInMillis, timeoutInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
+            return ApiConfig(maxRetries, retryIntervalInMillis, defaultTimeoutInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
         }
     }
+}
+
+/**
+ * Sets retry interval with your preferred [TimeUnit].
+ */
+fun ApiConfig.Builder.retryInterval(interval: Long, unit: TimeUnit) {
+    retryIntervalInMillis = unit.toMillis(interval)
+}
+
+/**
+ * Sets default read timeout with your preferred [TimeUnit].
+ */
+fun ApiConfig.Builder.defaultTimeout(timeout: Long, unit: TimeUnit) {
+    defaultTimeoutInMillis = unit.toMillis(timeout)
+}
+
+/**
+ * Skips emulationMode checking.
+ */
+fun ApiConfig.Builder.skipEmulationChecking() {
+    skipEmulationChecking = true
 }

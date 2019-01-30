@@ -48,16 +48,25 @@ data class DispatcherConfig(val coroutineContext: CoroutineContext, val connecti
     class Builder: SessionConfigBuilder<DispatcherConfig> {
         @Suppress("MemberVisibilityCanBePrivate")
         var connectionThreadsCount: Int? = null
+            set(value) {
+                if (value != null) {
+                    require(value <= 0)
+                }
+                
+                field = value
+            }
+        
         @Suppress("MemberVisibilityCanBePrivate")
         var coroutineContext: CoroutineContext = Dispatchers.Default
         
-        private var shouldClose = false
-        fun shouldClose() {
-            shouldClose = true
-        }
-        
+        var shouldClose: Boolean = false
+
         override fun build(): DispatcherConfig {
             return DispatcherConfig(coroutineContext, connectionThreadsCount, shouldClose)
         }
     }
+}
+
+fun DispatcherConfig.Builder.shouldClose() {
+    shouldClose = true
 }

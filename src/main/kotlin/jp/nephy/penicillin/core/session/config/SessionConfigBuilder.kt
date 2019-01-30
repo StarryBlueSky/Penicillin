@@ -26,9 +26,18 @@ package jp.nephy.penicillin.core.session.config
 
 import jp.nephy.penicillin.core.session.SessionBuilder
 
+/**
+ * Represents additional config from SessionConfigBuilder.
+ */
 interface SessionConfig
 
+/**
+ * Represents additional config builder which is used in ApiClient builder.
+ */
 interface SessionConfigBuilder<C: SessionConfig> {
+    /**
+     * Builds SessionConfig instance.
+     */
     fun build(): C
 }
 
