@@ -28,21 +28,10 @@ package jp.nephy.penicillin.extensions
 
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.request.action.ApiAction
-import jp.nephy.penicillin.core.session.config.ApiConfig
-import jp.nephy.penicillin.core.session.config.defaultTimeout
-import jp.nephy.penicillin.core.session.config.retryInterval
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import java.util.concurrent.TimeUnit
-
-fun ApiConfig.Builder.retryInterval(intervalInMillis: Long) {
-    retryInterval(intervalInMillis, TimeUnit.MILLISECONDS)
-}
-
-fun ApiConfig.Builder.defaultTimeout(timeoutInMillis: Long) {
-    defaultTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
-}
 
 @Throws(PenicillinException::class, CancellationException::class)
 suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeoutInMillis: Long): R? {
