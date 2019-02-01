@@ -32,19 +32,10 @@ plugins {
     // For publishing
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
-    id("com.github.breadmoirai.github-release") version "2.2.3"
+    id("com.github.breadmoirai.github-release") version "2.2.4"
     
     // For documentation
     id("org.jetbrains.dokka") version "0.9.17"
-}
-
-buildscript { 
-    dependencies {
-        // Issue: https://github.com/BreadMoirai/github-release-gradle-plugin/issues/11
-        classpath("com.squareup.okhttp3:okhttp:3.12.0")
-        classpath("com.j256.simplemagic:simplemagic:1.10")
-        classpath("org.zeroturnaround:zt-exec:1.10")
-    }
 }
 
 /*
