@@ -58,6 +58,10 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
+            if (e is PenicillinLocalizedException && e.localizedString == LocalizedString.SessionAlreadyClosed) {
+                throw e
+            }
+            
             // TEMP FIX: Set-CookieConfig header format may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
             if (e is IllegalStateException && e.message?.startsWith("Invalid date length.") == true) {
                 apiActionLogger.debug(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
