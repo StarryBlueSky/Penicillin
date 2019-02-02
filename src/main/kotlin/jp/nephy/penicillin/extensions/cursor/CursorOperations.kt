@@ -31,6 +31,7 @@ import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.extensions.complete
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 
@@ -60,25 +61,25 @@ val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.previous: CursorJsonO
     Paging
  */
 
-fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long): CursorJsonObjectApiAction<M> {
+fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long, vararg options: Option): CursorJsonObjectApiAction<M> {
     if (cursor == 0L) {
         throw PenicillinLocalizedException(LocalizedString.CursorIsZero, request, response)
     }
 
-    action.request.builder.parameter("cursor" to cursor)
+    action.request.builder.parameter("cursor" to cursor, *options)
 
     return CursorJsonObjectApiAction(client, action.request, model)
 }
 
 @Throws(PenicillinException::class)
-fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(): Sequence<CursorJsonObjectResponse<M>> {
+fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
     return sequence {
         val first = complete()
         yield(first)
 
         var cursor = first.nextCursor
         while (cursor != 0L) {
-            val result = first.byCursor(cursor).complete()
+            val result = first.byCursor(cursor, *options).complete()
 
             yield(result)
             cursor = result.nextCursor
@@ -87,12 +88,12 @@ fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(): Sequenc
 }
 
 @Throws(PenicillinException::class)
-fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.untilLast(): Sequence<CursorJsonObjectResponse<M>> {
+fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
     return sequence {
         yield(this@untilLast)
 
         if (hasNext) {
-            yieldAll(next.untilLast())
+            yieldAll(next.untilLast(*options))
         }
     }
 }
