@@ -27,7 +27,7 @@ package jp.nephy.penicillin.core.request.action
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.session.ApiClient
 
-interface ApiAction<R: Any> {
+interface ApiAction<R: Any?> {
     val client: ApiClient
     val request: ApiRequest
     
