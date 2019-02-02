@@ -24,6 +24,8 @@
 
 package jp.nephy.penicillin.endpoints.lists
 
-enum class ListCreationMode(val value: String) {
+import jp.nephy.jsonkt.delegation.StringJsonEnum
+
+enum class ListCreationMode(override val value: String): StringJsonEnum {
     Public("public"), Private("private")
 }
