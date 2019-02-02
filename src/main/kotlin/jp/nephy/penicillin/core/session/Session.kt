@@ -27,25 +27,60 @@
 package jp.nephy.penicillin.core.session
 
 import io.ktor.client.HttpClient
-import jp.nephy.penicillin.core.session.config.Credentials
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.session.config.ApiConfig
+import jp.nephy.penicillin.core.session.config.Credentials
+import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.isActive
 import kotlinx.io.core.Closeable
 import kotlin.coroutines.CoroutineContext
 
-data class Session(val client: ApiClient, private val underlyingHttpClient: HttpClient, override val coroutineContext: CoroutineContext, private val shouldClose: Boolean, val credentials: Credentials, val option: ApiConfig): Closeable, CoroutineScope {
+/**
+ * Penicillin Session instance.
+ * Provides HttpClient, credentials, options.
+ */
+data class Session(
+    /**
+     * ApiClient instance.
+     */
+    val client: ApiClient,
+    
+    private val underlyingHttpClient: HttpClient,
+    override val coroutineContext: CoroutineContext,
+    private val shouldClose: Boolean,
+
+    /**
+     * Account credentials.
+     */
+    val credentials: Credentials,
+
+    /**
+     * Api configurations.
+     */
+    val option: ApiConfig
+): Closeable, CoroutineScope {
+    private val isActive = atomic(true)
+    
+    /**
+     * Ktor HttpClient instance.
+     * Throws SessionAlreadyClosed when session is already closed.
+     */
     val httpClient: HttpClient
-        get() = if (underlyingHttpClient.coroutineContext.isActive) {
+        get() = if (isActive.value && underlyingHttpClient.coroutineContext.isActive) {
             underlyingHttpClient
         } else {
             throw PenicillinLocalizedException(LocalizedString.SessionAlreadyClosed)
         }
 
+    /**
+     * Closes HttpClient and coroutine dispatcher if shouldClose is true.
+     */
     override fun close() {
+        isActive.value = false
         underlyingHttpClient.close()
+        
         if (shouldClose && coroutineContext is Closeable) {
             coroutineContext.close()
         }
