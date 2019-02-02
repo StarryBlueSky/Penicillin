@@ -33,6 +33,7 @@ import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Friendships
 import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.extensions.DelegatedAction
 import jp.nephy.penicillin.extensions.await
 
 /**
@@ -49,7 +50,7 @@ import jp.nephy.penicillin.extensions.await
 fun Friendships.noRetweetsIds(
     stringifyIds: Boolean? = null,
     vararg options: Option
-) = DelegatedAction(client) {
+) = DelegatedAction {
     val result = client.session.get("/1.1/friendships/no_retweets/ids.json") {
         parameter(
             "stringify_ids" to stringifyIds, *options

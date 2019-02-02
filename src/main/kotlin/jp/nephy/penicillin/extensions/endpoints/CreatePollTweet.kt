@@ -29,13 +29,13 @@ package jp.nephy.penicillin.extensions.endpoints
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.core.emulation.EmulationMode
-import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import jp.nephy.penicillin.endpoints.Statuses
 import jp.nephy.penicillin.endpoints.cards
 import jp.nephy.penicillin.endpoints.cards.create
 import jp.nephy.penicillin.endpoints.statuses.create
+import jp.nephy.penicillin.extensions.DelegatedAction
 import jp.nephy.penicillin.extensions.await
 
 @PrivateEndpoint(EmulationMode.TwitterForiPhone)
@@ -44,7 +44,7 @@ fun Statuses.createPollTweet(
     choices: List<String>,
     minutes: Int = 1440,
     vararg options: Option
-) = DelegatedAction(client) {
+) = DelegatedAction {
     val card = client.cards.create(
         cardData = linkedMapOf<String, Any>().apply {
             choices.forEachIndexed { i, choice ->

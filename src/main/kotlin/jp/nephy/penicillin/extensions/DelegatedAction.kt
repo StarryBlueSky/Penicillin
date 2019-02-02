@@ -22,26 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "Deprecation")
+@file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.extensions.endpoints
+package jp.nephy.penicillin.extensions
 
-import jp.nephy.penicillin.endpoints.Account
-import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.endpoints.account.updateProfileBackgroundImage
-import jp.nephy.penicillin.endpoints.media
-import jp.nephy.penicillin.endpoints.media.MediaComponent
-import jp.nephy.penicillin.endpoints.media.uploadMedia
-import jp.nephy.penicillin.extensions.DelegatedAction
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.core.request.action.DelegatedAction
+import jp.nephy.penicillin.endpoints.Endpoint
 
-fun Account.updateProfileBackgroundImage(
-    media: MediaComponent,
-    tile: Boolean? = null,
-    includeEntities: Boolean? = null,
-    skipStatus: Boolean? = null,
-    vararg options: Option
-) = DelegatedAction {
-    val result = client.media.uploadMedia(media).await()
-    updateProfileBackgroundImage(result.mediaId, tile, includeEntities, skipStatus, *options)
+@Suppress("FunctionName")
+fun <R: Any?> Endpoint.DelegatedAction(block: suspend () -> R): DelegatedAction<R> {
+    return DelegatedAction(client, block)
 }

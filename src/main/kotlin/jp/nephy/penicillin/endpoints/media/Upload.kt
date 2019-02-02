@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.media
 
 import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.endpoints.Media
+import jp.nephy.penicillin.extensions.DelegatedAction
 import jp.nephy.penicillin.extensions.await
 import kotlin.math.ceil
 
@@ -52,7 +53,7 @@ private const val segmentMaxSize = 5 * 1024 * 1024
  */
 fun Media.uploadMedia(
     media: MediaComponent
-) = DelegatedAction(client) {
+) = DelegatedAction {
     @Suppress("BlockingMethodInNonBlockingContext")
     val init = uploadInit(media.input.available(), media.type, media.category).await()
 

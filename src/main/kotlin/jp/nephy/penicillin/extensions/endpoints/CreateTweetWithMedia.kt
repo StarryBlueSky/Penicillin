@@ -26,7 +26,6 @@
 
 package jp.nephy.penicillin.extensions.endpoints
 
-import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
 import jp.nephy.penicillin.endpoints.media
@@ -34,6 +33,7 @@ import jp.nephy.penicillin.endpoints.media.MediaComponent
 import jp.nephy.penicillin.endpoints.media.uploadMedia
 import jp.nephy.penicillin.endpoints.media.uploadStatus
 import jp.nephy.penicillin.endpoints.statuses.create
+import jp.nephy.penicillin.extensions.DelegatedAction
 import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Media.ProcessingInfo.State.Succeeded
@@ -43,7 +43,7 @@ fun Statuses.createWithMedia(
     status: String,
     media: List<MediaComponent>,
     vararg options: Option
-) = DelegatedAction(client) {
+) = DelegatedAction {
     val results = media.map {
         client.session.async {
             client.media.uploadMedia(it).await().awaitProcessing()
