@@ -29,7 +29,7 @@ import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.session.ApiClient
 import kotlinx.coroutines.CancellationException
 
-class DelegatedAction<R: Any>(override val client: ApiClient, private val block: suspend () -> R): ApiAction<R> {
+class DelegatedAction<R: Any?>(override val client: ApiClient, private val block: suspend () -> R): ApiAction<R> {
     override val request: ApiRequest
         get() = throw UnsupportedOperationException()
     
