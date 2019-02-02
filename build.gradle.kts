@@ -20,6 +20,7 @@ val packageVersion = Version(4, 1, 2)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 val ktorVersion = "1.1.2"
+val spekVersion = "2.0.0-rc.1"
 
 plugins { 
     kotlin("jvm") version "1.3.20"
@@ -28,7 +29,7 @@ plugins {
     // For testing
     id("com.adarshr.test-logger") version "1.6.0"
     id("build-time-tracker") version "0.11.0"
-    
+
     // For publishing
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
@@ -63,6 +64,7 @@ repositories {
     maven(url = "https://kotlin.bintray.com/ktor")
     maven(url = "https://kotlin.bintray.com/kotlinx")
     maven(url = "https://kotlin.bintray.com/kotlin-eap")
+    maven(url = "https://dl.bintray.com/spekframework/spek-dev")
 }
 
 dependencies {
@@ -75,10 +77,21 @@ dependencies {
     testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     testImplementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
 
-    api("jp.nephy:jsonkt:4.7")
-    
-    testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
+    implementation("jp.nephy:jsonkt:4.7")
 
+    testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
+    
+    // For testing
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion") {
+        exclude(group = "org.jetbrains.kotlin")
+    }
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion") {
+        exclude(group = "org.junit.platform")
+        exclude(group = "org.jetbrains.kotlin")
+    }
+    testRuntimeOnly(kotlin("reflect"))
+    
+    // For logging
     implementation("io.github.microutils:kotlin-logging:1.6.22")
     testImplementation("ch.qos.logback:logback-core:1.2.3")
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
@@ -150,6 +163,12 @@ buildtimetracker {
 
 testlogger {
     theme = ThemeType.MOCHA
+}
+
+task<Test>("test") {
+    useJUnitPlatform {
+        includeEngines("spek2")
+    }
 }
 
 /*
