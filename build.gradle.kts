@@ -20,15 +20,15 @@ val packageVersion = Version(4, 1, 2)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 val ktorVersion = "1.1.2"
-val spekVersion = "2.0.0-rc.1"
+val spekVersion = "2.0.0"
 
 plugins { 
-    kotlin("jvm") version "1.3.20"
-    id("kotlinx-serialization") version "1.3.20"
+    kotlin("jvm") version "1.3.21"
+    id("kotlinx-serialization") version "1.3.21"
 
     // For testing
     id("com.adarshr.test-logger") version "1.6.0"
-    id("build-time-tracker") version "0.11.0"
+    id("build-time-tracker") version "0.11.1"
 
     // For publishing
     id("maven-publish")
@@ -92,7 +92,7 @@ dependencies {
     testRuntimeOnly(kotlin("reflect"))
     
     // For logging
-    implementation("io.github.microutils:kotlin-logging:1.6.22")
+    implementation("io.github.microutils:kotlin-logging:1.6.23")
     testImplementation("ch.qos.logback:logback-core:1.2.3")
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
     testImplementation("org.fusesource.jansi:jansi:1.17.1")
