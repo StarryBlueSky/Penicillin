@@ -151,6 +151,7 @@ data class ApiConfig(
          * Sets default value for tweetMode parameter.
          * Learn more at [Tweet updates](https://developer.twitter.com/en/docs/tweets/tweet-updates).
          */
+        @Suppress("MemberVisibilityPrivate")
         var defaultTweetMode: TweetMode = TweetMode.Default
         
         @UseExperimental(PenicillinExperimentalApi::class)
