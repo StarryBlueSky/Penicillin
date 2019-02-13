@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.Status
 
 /**
@@ -55,6 +56,7 @@ fun Statuses.show(
     includeEntities: Boolean? = null,
     includeExtAltText: Boolean? = null,
     includeCardUri: Boolean? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/show.json") {
     parameter(
@@ -64,6 +66,7 @@ fun Statuses.show(
         "include_entities" to includeEntities,
         "include_ext_alt_text" to includeExtAltText,
         "include_card_uri" to includeCardUri,
+        "tweet_mode" to tweetMode,
         *options
     )
 }.jsonObject<Status>()

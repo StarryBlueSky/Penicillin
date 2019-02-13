@@ -32,6 +32,7 @@ import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import jp.nephy.penicillin.endpoints.Search
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.SearchTypeahead
 import jp.nephy.penicillin.models.SearchUniversal
 
@@ -45,6 +46,7 @@ import jp.nephy.penicillin.models.SearchUniversal
 @PrivateEndpoint
 fun Search.typeahead(
     query: String,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.get("/1.1/search/typeahead.json") {
     parameter(
@@ -69,9 +71,9 @@ fun Search.typeahead(
         "prefetch" to "true",
         "result_type" to "all",
         "src" to "search_box",
-        "tweet_mode" to "extended",
         "users_cache_age" to "146522",
         "q" to query,
+        "tweet_mode" to tweetMode,
         *options
     )
 }.jsonObject<SearchTypeahead>()
