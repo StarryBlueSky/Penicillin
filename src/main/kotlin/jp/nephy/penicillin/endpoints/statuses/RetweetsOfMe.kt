@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.Status
 
 /**
@@ -54,6 +55,7 @@ fun Statuses.retweetsOfMe(
     trimUser: Boolean? = null,
     includeEntities: Boolean? = null,
     includeUserEntities: Boolean? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/retweets_of_me.json") {
     parameter(
@@ -63,6 +65,7 @@ fun Statuses.retweetsOfMe(
         "trim_user" to trimUser,
         "include_entities" to includeEntities,
         "include_user_entities" to includeUserEntities,
+        "tweet_mode" to tweetMode,
         *options
     )
 }.jsonArray<Status>()

@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.Status
 
 /**
@@ -46,12 +47,14 @@ import jp.nephy.penicillin.models.Status
 fun Statuses.delete(
     id: Long,
     trimUser: Boolean? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.post("/1.1/statuses/destroy/$id.json") {
     body {
         form {
             add(
                 "trim_user" to trimUser,
+                "tweet_mode" to tweetMode,
                 *options
             )
         }

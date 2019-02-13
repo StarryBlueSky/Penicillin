@@ -31,6 +31,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Search
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -68,6 +69,7 @@ fun Search.search(
     sinceId: Long? = null,
     maxId: Long? = null,
     includeEntities: Boolean? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.get("/1.1/search/tweets.json") {
     parameter(
@@ -81,6 +83,7 @@ fun Search.search(
         "since_id" to sinceId,
         "max_id" to maxId,
         "include_entities" to includeEntities,
+        "tweet_mode" to tweetMode,
         *options
     )
 }.jsonObject<SearchModel>()

@@ -31,6 +31,7 @@ import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
+import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.models.Status
 
 /**
@@ -75,6 +76,7 @@ fun Statuses.create(
     enableDMCommands: Boolean? = null,
     failDMCommands: Boolean? = null,
     cardUri: String? = null,
+    tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.post("/1.1/statuses/update.json") {
     body {
@@ -118,6 +120,7 @@ fun Statuses.create(
                 "enable_dm_commands" to enableDMCommands,
                 "fail_dm_commands" to failDMCommands,
                 "card_uri" to cardUri,
+                "tweet_mode" to tweetMode,
                 *options
             )
         }
