@@ -53,6 +53,9 @@ fun Stream.tweetstorm(
     )
 }.stream<TweetstormListener, TweetstormHandler>()
 
+val Stream.tweetstorm
+    get() = tweetstorm()
+
 fun Stream.tweetstorm(
     customHost: String,
     delimited: StreamDelimitedBy? = null,
