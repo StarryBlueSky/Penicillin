@@ -26,8 +26,8 @@
 
 package jp.nephy.penicillin.extensions
 
-import jp.nephy.penicillin.models.entities.MediaEntity
 import jp.nephy.penicillin.models.Status
+import jp.nephy.penicillin.models.entities.MediaEntity
 import java.util.*
 
 val Status.idObj: StatusID
@@ -62,6 +62,6 @@ data class StatusID(val value: Long) {
     }
 }
 
-fun Long.asStatusID(): StatusID {
+private fun Long.asStatusID(): StatusID {
     return StatusID(this)
 }

@@ -55,6 +55,6 @@ data class Language(val value: String) {
         get() = Locale(value)
 }
 
-fun String.asLanguage(): Language {
+private fun String.asLanguage(): Language {
     return Language(this)
 }
