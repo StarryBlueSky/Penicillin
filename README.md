@@ -1,6 +1,6 @@
 # Penicillin: Full-featured Twitter API wrapper for Kotlin
 
-[![Kotlin 1.3.20](https://img.shields.io/badge/Kotlin-1.3.20-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.3.21](https://img.shields.io/badge/Kotlin-1.3.21-blue.svg)](http://kotlinlang.org)
 [![Bintray](https://api.bintray.com/packages/nephyproject/penicillin/Penicillin/images/download.svg)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion)
 [![MIT License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/issues)
