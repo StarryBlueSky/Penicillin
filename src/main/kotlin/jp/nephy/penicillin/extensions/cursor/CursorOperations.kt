@@ -33,6 +33,7 @@ import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.extensions.complete
+import jp.nephy.penicillin.extensions.editRequest
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 
 /*
@@ -66,7 +67,9 @@ fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long
         throw PenicillinLocalizedException(LocalizedString.CursorIsZero, request, response)
     }
 
-    action.request.builder.parameter("cursor" to cursor, *options)
+    action.editRequest {
+        parameter("cursor" to cursor, *options)
+    }
 
     return CursorJsonObjectApiAction(client, action.request, model)
 }

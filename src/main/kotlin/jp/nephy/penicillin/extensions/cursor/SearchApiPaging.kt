@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.response.JsonObjectResponse
+import jp.nephy.penicillin.extensions.editRequest
 import jp.nephy.penicillin.models.Search
 
 /*
@@ -50,7 +51,9 @@ val JsonObjectResponse<Search>.next: JsonObjectApiAction<Search>
         result.searchMetadata.nextResults!!.removePrefix("?").split("&").map {
             it.split("=", limit = 2)
         }.forEach { (k, v) ->
-            action.request.builder.parameter(k to v)
+            action.editRequest {
+                parameter(k to v)
+            }
         }
 
         return action.request.jsonObject()
@@ -74,7 +77,9 @@ val JsonObjectResponse<Search>.refresh: JsonObjectApiAction<Search>
         result.searchMetadata.refreshUrl!!.removePrefix("?").split("&").map {
             it.split("=", limit = 2)
         }.forEach { (k, v) ->
-            action.request.builder.parameter(k to v)
+            action.editRequest {
+                parameter(k to v)
+            }
         }
 
         return action.request.jsonObject()
