@@ -59,6 +59,7 @@ enum class TwitterErrorMessage(val code: Int, val title: String, val description
     OverCapacity(130, "Over capacity", "Corresponds with HTTP 503. Twitter is temporarily over capacity."),
     InternalError(131, "Internal error", "Corresponds with HTTP 500. An unknown internal error occurred."),
     TimestampOutOfBounds(135, "Could not authenticate you", "Corresponds with HTTP 401. Timestamp out of bounds (often caused by a clock drift when authenticating - check your system clock)"),
+    YouHaveAlreadyFavoritedThisStatus(139, "You have already favorited this status", "You have already favorited this status."),
     NoStatusFoundWithThatID(144, "No status found with that ID.", "Corresponds with HTTP 404. The requested Tweet ID is not found (if it existed, it was probably deleted)"),
     YouCannotSendMessagesToUsersWhoAreNotFollowingYou(150, "You cannot send messages to users who are not following you.", "Corresponds with HTTP 403. Sending a Direct Message failed."),
     ThereWasAnErrorSendingYourMessage(
