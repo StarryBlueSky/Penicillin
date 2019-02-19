@@ -123,4 +123,12 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
         val entities by penicillinModel<StatusEntity>()
         val fullText by nullableString("full_text")
     }
+
+    override fun equals(other: Any?): Boolean {
+        return id == (other as? Status)?.id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 }
