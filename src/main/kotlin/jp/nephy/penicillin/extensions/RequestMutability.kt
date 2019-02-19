@@ -26,11 +26,9 @@
 
 package jp.nephy.penicillin.extensions
 
-import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.request.ApiRequestBuilder
 import jp.nephy.penicillin.core.request.action.ApiAction
 
-@PenicillinExperimentalApi
 fun <R: Any> ApiAction<R>.editRequest(block: ApiRequestBuilder.() -> Unit): ApiAction<R> {
     return apply {
         request.builder.apply(block)
