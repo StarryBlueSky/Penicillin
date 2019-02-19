@@ -27,13 +27,13 @@ package jp.nephy.penicillin.models.entities
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
+import jp.nephy.penicillin.extensions.nullablePenicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
 import jp.nephy.penicillin.models.PenicillinModel
 
 data class UserEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val url by penicillinModel<UserProfileEntity>()
-    val description by penicillinModel<UserProfileEntity>()
+    val url by nullablePenicillinModel<UserProfileEntity>()
+    val description by nullablePenicillinModel<UserProfileEntity>()
 
     data class UserProfileEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val urls by penicillinModelList<URLEntity>()
