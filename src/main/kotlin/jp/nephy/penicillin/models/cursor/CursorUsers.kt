@@ -31,6 +31,6 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModelList
 import jp.nephy.penicillin.models.User
 
-data class CursorUsers(val parentJson: JsonObject, override val client: ApiClient): PenicillinCursorModel(parentJson) {
+data class CursorUsers(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
     val users by penicillinModelList<User>()
 }

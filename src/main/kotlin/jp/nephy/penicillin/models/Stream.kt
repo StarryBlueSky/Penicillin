@@ -32,20 +32,20 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
 
 object Stream {
-    abstract class Event(final override val json: JsonObject): PenicillinModel {
+    abstract class Event(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
         val event by string
         val source by penicillinModel<User>()
         val target by penicillinModel<User>()
         // val createdAt by string("created_at")
     }
 
-    data class UserEvent(val parentJson: JsonObject, override val client: ApiClient): Event(parentJson)
+    data class UserEvent(private val parentJson: JsonObject, private val parentClient: ApiClient): Event(parentJson, parentClient)
 
-    data class StatusEvent(val parentJson: JsonObject, override val client: ApiClient): Event(parentJson) {
+    data class StatusEvent(private val parentJson: JsonObject, private val parentClient: ApiClient): Event(parentJson, parentClient) {
         val targetObject by penicillinModel<Status>("target_object")
     }
 
-    data class ListEvent(val parentJson: JsonObject, override val client: ApiClient): Event(parentJson) {
+    data class ListEvent(private val parentJson: JsonObject, private val parentClient: ApiClient): Event(parentJson, parentClient) {
         val targetObject by penicillinModel<TwitterList>("target_object")
     }
 

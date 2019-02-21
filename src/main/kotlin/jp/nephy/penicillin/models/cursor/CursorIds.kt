@@ -30,6 +30,6 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.longList
 import jp.nephy.penicillin.core.session.ApiClient
 
-data class CursorIds(val parentJson: JsonObject, override val client: ApiClient): PenicillinCursorModel(parentJson) {
+data class CursorIds(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
     val ids by longList
 }

@@ -59,7 +59,7 @@ data class Moment(override val json: JsonObject, override val client: ApiClient)
     val largeFormat by penicillinModel<CoverFormat>("large_format")
     val thumbnailFormat by penicillinModel<CoverFormat>("thumbnail_format")
 
-    data class CoverFormat(val parentJson: JsonObject, override val client: ApiClient): CommonCoverMedia(parentJson, client) {
+    data class CoverFormat(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonCoverMedia(parentJson, parentClient) {
         val pageId by string("page_id")
         val isPromoted by boolean("is_promoted")
         private val linkTitleCard by jsonObject("link_title_card")
