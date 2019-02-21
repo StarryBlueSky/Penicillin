@@ -20,6 +20,7 @@ KDoc is available at [docs.nephy.jp](https://docs.nephy.jp/penicillin). Document
 
 ```kotlin
 suspend fun main() {
+    // Creates new ApiClient
     val client = PenicillinClient {
         account {
             application("ConsumerKey", "ConsumerSecret")
@@ -27,13 +28,13 @@ suspend fun main() {
         }
     }
 
-    // gets user timeline from @realdonaldtrump up to 100.
+    // Retrieves the user timeline from @realdonaldtrump up to 100.
     client.timeline.user(screenName = "realdonaldtrump", count = 100).await().forEach { status ->
         // prints status text.
         println(status.fullText())
     }
 
-    // disposes PenicillinClient
+    // Disposes ApiClient
     client.close()
 }
 ```
@@ -45,7 +46,7 @@ More examples of Penicillin can be found at [Wiki](https://github.com/NephyProje
 Latest Penicillin version is [![Bintray](https://api.bintray.com/packages/nephyproject/penicillin/Penicillin/images/download.svg)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion).  
 Releases are available at [Bintray](https://bintray.com/nephyproject/penicillin/Penicillin). EAP builds are also available. Every commit is published as EAP build.  
 
-You may choose preferred Ktor HttpClient Engine. We recommend `CIO` or `Apache`.  
+You may choose preferred Ktor HttpClient Engine. We recommend using `CIO` or `Apache` engine.  
 Full engine list is available at https://ktor.io/clients/http-client/engines.html.
 
 ### Gradle Kotlin DSL
@@ -59,7 +60,7 @@ val penicillinVersion = "PUT desired Penicillin version here"
 val ktorVersion = "1.1.2"
 
 plugins { 
-    kotlin("jvm") version "1.3.20"
+    kotlin("jvm") version "1.3.21"
 }
 
 repositories {
@@ -67,6 +68,7 @@ repositories {
     jcenter()
     maven(url = "https://kotlin.bintray.com/ktor")
     maven(url = "https://kotlin.bintray.com/kotlinx")
+    maven(url = "https://kotlin.bintray.com/kotlin-eap")
     maven(url = "https://dl.bintray.com/nephyproject/penicillin")
 }
 
@@ -88,7 +90,7 @@ dependencies {
 ```groovy
 buildscript {
     ext.penicillin_version = "PUT desired Penicillin version here"
-    ext.kotlin_version = "1.3.20"
+    ext.kotlin_version = "1.3.21"
     ext.ktor_version = "1.1.2"
 
     repositories {
@@ -105,6 +107,7 @@ repositories {
     jcenter()
     maven { url "https://kotlin.bintray.com/ktor" }
     maven { url "https://kotlin.bintray.com/kotlinx" }
+    maven { url "https://kotlin.bintray.com/kotlin-eap" }
     maven { url "https://dl.bintray.com/nephyproject/penicillin" } 
 }
 
