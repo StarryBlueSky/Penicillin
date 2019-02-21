@@ -33,9 +33,9 @@ import jp.nephy.penicillin.extensions.nullablePenicillinModel
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.models.entities.UserEntity
 
-data class User(val parentJson: JsonObject, override val client: ApiClient): CommonUser(parentJson, client)
+data class User(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonUser(parentJson, parentClient)
 
-abstract class CommonUser(final override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+abstract class CommonUser(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
     val advertiserAccountServiceLevels by stringList("advertiser_account_service_levels")
     val advertiserAccountType by nullableString("advertiser_account_type")
     val analyticsType by nullableString("analytics_type")

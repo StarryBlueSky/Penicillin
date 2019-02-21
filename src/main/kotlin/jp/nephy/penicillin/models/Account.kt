@@ -82,7 +82,7 @@ object Account {
         }
     }
 
-    data class VerifyCredentials(val parentJson: JsonObject, override val client: ApiClient): CommonUser(parentJson, client) {
+    data class VerifyCredentials(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonUser(parentJson, parentClient) {
         val email by string
         val phone by penicillinModel<Phone>()
 
