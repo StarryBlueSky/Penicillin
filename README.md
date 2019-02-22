@@ -57,7 +57,7 @@ We recommend using Gradle Kotlin DSL instead of old build.gradle.
 
 ```kotlin
 val penicillinVersion = "PUT desired Penicillin version here"
-val ktorVersion = "1.1.2"
+val ktorVersion = "1.1.3"
 
 plugins { 
     kotlin("jvm") version "1.3.21"
@@ -91,7 +91,7 @@ dependencies {
 buildscript {
     ext.penicillin_version = "PUT desired Penicillin version here"
     ext.kotlin_version = "1.3.21"
-    ext.ktor_version = "1.1.2"
+    ext.ktor_version = "1.1.3"
 
     repositories {
         mavenCentral()
