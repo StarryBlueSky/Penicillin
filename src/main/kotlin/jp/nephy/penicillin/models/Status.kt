@@ -121,6 +121,7 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
     data class ExtendedTweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val displayTextRange by intList("display_text_range")
         val entities by penicillinModel<StatusEntity>()
+        val extendedEntities by nullablePenicillinModel<ExtendedEntity>("extended_entities")
         val fullText by nullableString("full_text")
     }
 
