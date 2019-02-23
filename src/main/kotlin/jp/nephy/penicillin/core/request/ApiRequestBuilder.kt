@@ -89,7 +89,7 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
         }
 
         if (key == "tweet_mode" && value is TweetMode?) {
-            parameters[key] = (value ?: session.option.defaultTweetMode.value)?.toString() ?: return
+            parameters[key] = (value?.value ?: session.option.defaultTweetMode.value)?.toString() ?: return
         } else {
             parameters[key] = value?.toString() ?: return
         }
