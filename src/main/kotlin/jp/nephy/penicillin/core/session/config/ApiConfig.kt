@@ -152,7 +152,7 @@ data class ApiConfig(
          * Learn more at [Tweet updates](https://developer.twitter.com/en/docs/tweets/tweet-updates).
          */
         @Suppress("MemberVisibilityPrivate")
-        var defaultTweetMode: TweetMode = TweetMode.Default
+        var defaultTweetMode: TweetMode = TweetMode.Extended
         
         @UseExperimental(PenicillinExperimentalApi::class)
         override fun build(): ApiConfig {
