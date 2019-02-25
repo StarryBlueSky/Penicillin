@@ -27,9 +27,13 @@
 package jp.nephy.penicillin.extensions
 
 import jp.nephy.penicillin.models.Status
+import jp.nephy.penicillin.models.User
 
 val Status.likeCount: Int
     get() = favoriteCount
 
 val Status.liked: Boolean
     get() = favorited
+
+val User.likesCount: Int
+    get() = favouritesCount
