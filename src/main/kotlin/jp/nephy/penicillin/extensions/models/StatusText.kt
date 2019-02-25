@@ -28,14 +28,21 @@ package jp.nephy.penicillin.extensions.models
 
 import jp.nephy.penicillin.models.Status
 
-fun Status.fullText(): String {
-    return if (retweetedStatus != null) {
+/**
+ * Returns full-body status text.
+ * Supports both tweet modes (Extend and Compat).
+ */
+@Suppress("Deprecation")
+val Status.text: String
+    get () = if (retweetedStatus != null) {
         if (retweetedStatus?.extendedTweet != null) {
-            "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.extendedTweet!!.fullText}"
+            "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.text}"
         } else {
-            fullText ?: text
+            fullText ?: shortText ?: throw IllegalStateException("Unsupported status format: $json")
         }
     } else {
-        extendedTweet?.fullText ?: fullText ?: text
+        extendedTweet?.fullText ?: fullText ?: shortText ?: throw IllegalStateException("Unsupported status format: $json")
     }
-}
+
+@Deprecated("This extension is deprecated. Use text extension property instead.", replaceWith = ReplaceWith("text", "jp.nephy.penicillin.extensions.models.text"))
+fun Status.fullText(): String = text
