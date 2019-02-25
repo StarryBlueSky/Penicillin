@@ -32,52 +32,70 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.nullablePenicillinModel
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
-import jp.nephy.penicillin.models.entities.MediaEntity
 import jp.nephy.penicillin.models.entities.StatusEntity
 
 data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val cardUri by nullableString("card_uri")
-    val contributors by penicillinModelList<Contributor>()
-    val conversationId by nullableLong("conversation_id")
-    val coordinates by nullablePenicillinModel<Coordinate>()
-    val currentUserRetweet by nullablePenicillinModel<CurrentUserRetweet>("current_user_retweet")
     // val createdAt by string("created_at")
-    val displayTextRange by intList("display_text_range")
-    val entities by penicillinModel<StatusEntity>()
-    val extendedEntities by nullablePenicillinModel<ExtendedEntity>("extended_entities")
-    val extendedTweet by nullablePenicillinModel<ExtendedTweet>("extended_tweet")
-    val favoriteCount by int("favorite_count")
-    val favorited by boolean
-    val filterLevel by nullableString("filter_level")
-    val fullText by nullableString("full_text")
-    @Deprecated("geo field is deprecated. Use coordinates instead.")
-    val geo by nullableJsonObject
     val id by long
     val idStr by string("id_str")
+    
+    val text by nullableString
+    val fullText by nullableString("full_text")
+    val displayTextRange by intList("display_text_range")
+    
+    val entities by penicillinModel<StatusEntity>()
+    val extendedEntities by nullablePenicillinModel<StatusEntity>("extended_entities")
+    
+    val truncated by boolean
+    val source by string
+    
     val inReplyToScreenName by nullableString("in_reply_to_screen_name")
     val inReplyToStatusId by nullableLong("in_reply_to_status_id")
     val inReplyToStatusIdStr by nullableString("in_reply_to_status_id_str")
     val inReplyToUserId by nullableLong("in_reply_to_user_id")
     val inReplyToUserIdStr by nullableString("in_reply_to_user_id_str")
-    val isQuoteStatus by boolean("is_quote_status")
-    // val lang by string
+    
+    val user by penicillinModel<User>()
+    
+    @Deprecated("geo field is deprecated. Use coordinates instead.")
+    val geo by nullableJsonElement
+    val coordinates by nullablePenicillinModel<Coordinate>()
     val place by nullablePenicillinModel<Place>()
-    val possiblySensitive by nullableBoolean("possibly_sensitive")
-    val possiblySensitiveEditable by nullableBoolean("possibly_sensitive_editable")
-    val quotedStatus by nullablePenicillinModel<Status>("quoted_status")
+    
+    val contributors by penicillinModelList<Contributor>()
+    
     val quotedStatusId by nullableLong("quoted_status_id")
     val quotedStatusIdStr by nullableString("quoted_status_id_str")
-    val quoteCount by nullableInt("quote_count")
-    val replyCount by nullableInt("reply_count")
+    val quotedStatus by nullablePenicillinModel<Status>("quoted_status")
+    val isQuoteStatus by boolean("is_quote_status")
+    
     val retweetCount by int("retweet_count")
+    val favoriteCount by int("favorite_count")
+    // With includeQuoteCount=true; Maybe enterprise only
+    val quoteCount by nullableInt("quote_count")
+    // With includeReplyCount=true; Maybe enterprise only
+    val replyCount by nullableInt("reply_count")
+    
+    val favorited by boolean
     val retweeted by boolean
+    
+    val possiblySensitive by boolean("possibly_sensitive")
+    val possiblySensitiveAppealable by nullableBoolean("possibly_sensitive_appealable")
+    val possiblySensitiveEditable by nullableBoolean("possibly_sensitive_editable")
+    
+    // val lang by string
+    
+    // With includeCardUri=true
+    val cardUri by nullableString("card_uri")
+    
+    // Unknown
+    val conversationId by nullableLong("conversation_id")
+    val currentUserRetweet by nullablePenicillinModel<CurrentUserRetweet>("current_user_retweet")
+    val extendedTweet by nullablePenicillinModel<ExtendedTweet>("extended_tweet")
+    val filterLevel by nullableString("filter_level")
     val retweetedStatus by nullablePenicillinModel<Status>("retweeted_status")
-    val source by string
     val supplementalLanguage by nullableString("supplemental_language") // null
-    val text by string
     val timestampMs by nullableString("timestamp_ms")
-    val truncated by boolean
-    val user by penicillinModel<User>()
     val withheldCopyright by nullableBoolean("withheld_copyright")
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
@@ -112,16 +130,10 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
         val idStr by string("id_str")
     }
 
-    data class ExtendedEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val displayTextRange by intList("display_text_range")
-        val media by penicillinModelList<MediaEntity>()
-        val fullText by nullableString("full_text")
-    }
-
     data class ExtendedTweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val displayTextRange by intList("display_text_range")
         val entities by penicillinModel<StatusEntity>()
-        val extendedEntities by nullablePenicillinModel<ExtendedEntity>("extended_entities")
+        val extendedEntities by nullablePenicillinModel<StatusEntity>("extended_entities")
         val fullText by nullableString("full_text")
     }
 
