@@ -24,6 +24,10 @@
 
 package jp.nephy.penicillin.endpoints.common
 
+/**
+ * Tweet modes.
+ * Refer to https://developer.twitter.com/en/docs/tweets/tweet-updates.
+ */
 enum class TweetMode(val value: String?) {
     Default(null),
     
