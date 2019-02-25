@@ -16,7 +16,7 @@ val githubOrganizationName = "NephyProject"
 val githubRepositoryName = "Penicillin"
 val packageGroupId = "jp.nephy"
 val packageName = "Penicillin"
-val packageVersion = Version(4, 1, 2)
+val packageVersion = Version(4, 1, 3)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 val ktorVersion = "1.1.3"
