@@ -80,6 +80,7 @@ dependencies {
     implementation("jp.nephy:jsonkt:4.7")
 
     testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
+    testImplementation("com.google.guava:guava:27.0.1-jre")
     
     // For testing
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion") {
