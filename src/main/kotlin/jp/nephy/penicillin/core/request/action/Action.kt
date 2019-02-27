@@ -34,12 +34,12 @@ import io.ktor.http.isSuccess
 import io.ktor.util.flattenEntries
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.JsonPrimitive
-import jp.nephy.jsonkt.delegation.byInt
+import jp.nephy.jsonkt.delegation.byNullableInt
 import jp.nephy.jsonkt.delegation.byString
 import jp.nephy.jsonkt.jsonArrayOrNull
 import jp.nephy.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
-import jp.nephy.penicillin.core.exceptions.TwitterApiError
+import jp.nephy.penicillin.core.exceptions.throwApiError
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.extensions.session
 import kotlinx.coroutines.CancellationException
@@ -114,12 +114,13 @@ internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpRespons
     if (json != null) {
         when (val error = json.getOrNull("errors")?.jsonArrayOrNull?.firstOrNull() ?: json.getOrNull("error")) {
             is JsonObject -> {
-                val code by error.byInt { -1 }
+                val code by error.byNullableInt
                 val message by error.byString { "" }
-                throw TwitterApiError(code, message, content, request, response)
+                
+                throwApiError(code, message, content, request, response)
             }
             is JsonPrimitive -> {
-                throw TwitterApiError(-1, error.content, content, request, response)
+                throwApiError(null, error.content, content, request, response)
             }
             else -> {
                 throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, request, response, null, response.status.value, content)
