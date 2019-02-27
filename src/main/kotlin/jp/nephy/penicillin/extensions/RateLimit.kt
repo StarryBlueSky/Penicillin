@@ -26,31 +26,77 @@
 
 package jp.nephy.penicillin.extensions
 
+import io.ktor.client.response.HttpResponse
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.response.ApiResponse
+import kotlinx.coroutines.delay
 import java.util.*
 
-val ApiResponse<*>.rateLimit: RateLimit
-    get() {
-        val limit = response.headers["x-rate-limit-limit"]?.toIntOrNull()
-        val remaining = response.headers["x-rate-limit-remaining"]?.toIntOrNull()
-        val reset = response.headers["x-rate-limit-reset"]?.toLongOrNull()
+val ApiResponse<*>.rateLimit: RateLimit?
+    get() = response.rateLimit
 
-        val resetAt = reset?.let {
-            Calendar.getInstance().apply {
-                timeInMillis = it
-            }
+val PenicillinException.rateLimit: RateLimit?
+    get() = response?.rateLimit
+
+private val HttpResponse.rateLimit: RateLimit?
+    get() {
+        val limit = headers["x-rate-limit-limit"]?.toIntOrNull() ?: return null
+        val remaining = headers["x-rate-limit-remaining"]?.toIntOrNull() ?: return null
+        val reset = headers["x-rate-limit-reset"]?.toLongOrNull() ?: return null
+        val resetAt = Calendar.getInstance().also {
+            it.timeInMillis = reset * 1000
         }
 
         return RateLimit(limit, remaining, resetAt)
     }
 
-data class RateLimit(val limit: Int?, val remaining: Int?, val resetAt: Calendar?)
+/**
+ * Twitter API rate limit.
+ */
+data class RateLimit(
+    /**
+     * Endpoint max limit in 15 minutes.
+     */
+    val limit: Int,
 
-val RateLimit.hasLimit: Boolean
-    get() = limit != null && remaining != null
+    /**
+     * Current remaining for endpoint.
+     */
+    val remaining: Int,
 
+    /**
+     * Rate limit reset at.
+     */
+    val resetAt: Calendar
+)
+
+/**
+ * The flag indicates you may access the same endpoint more at this time. If true, rate limit exceeded.
+ */
 val RateLimit.isExceeded: Boolean
     get() = remaining == 0
-
+/**
+ * The count you consumed in last 15 minutes.
+ */
 val RateLimit.consumed: Int?
-    get() = remaining?.also { limit?.minus(it) }
+    get() = limit - remaining
+
+/**
+ * Awaits until rate limit is refreshed. (Suspending function)
+ */
+suspend fun RateLimit.awaitRefresh() {
+    val millis = resetAt.timeInMillis - Date().time
+    if (millis > 0) {
+        delay(millis.coerceAtLeast(500))
+    }
+}
+
+/**
+ * Blocks until rate limit is refreshed. (Classic blocking function)
+ */
+fun RateLimit.blockUntilRefresh() {
+    val millis = resetAt.timeInMillis - Date().time
+    if (millis > 0) {
+        Thread.sleep(millis.coerceAtLeast(500))
+    }
+}
