@@ -26,14 +26,12 @@
 
 package jp.nephy.penicillin.extensions.cursor
 
-import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.extensions.complete
-import jp.nephy.penicillin.extensions.editRequest
+import jp.nephy.penicillin.extensions.*
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 
 /*
@@ -74,7 +72,6 @@ fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long
     return CursorJsonObjectApiAction(client, action.request, model)
 }
 
-@Throws(PenicillinException::class)
 fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
     return sequence {
         val first = complete()
@@ -86,11 +83,15 @@ fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(vararg opt
 
             yield(result)
             cursor = result.nextCursor
+
+            val rateLimit = result.rateLimit ?: continue
+            if (rateLimit.isExceeded) {
+                rateLimit.blockUntilRefresh()
+            }
         }
     }
 }
 
-@Throws(PenicillinException::class)
 fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
     return sequence {
         yield(this@untilLast)
