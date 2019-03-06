@@ -102,7 +102,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
 
         launch {
             when {
-                content.startsWith("{") -> {
+                content.startsWith('{') -> {
                     handler.handle(content.toJsonObject())
                 }
                 content.isBlank() -> {
@@ -143,6 +143,6 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
 
     override fun close() {
         result.close()
-        job.cancelChildren()
+        job.cancel()
     }
 }
