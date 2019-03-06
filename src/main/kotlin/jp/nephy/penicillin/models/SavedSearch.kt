@@ -38,4 +38,12 @@ data class SavedSearch(override val json: JsonObject, override val client: ApiCl
     val name by string
     val position by string
     val query by string
+
+    override fun equals(other: Any?): Boolean {
+        return id == (other as? SavedSearch)?.id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 }

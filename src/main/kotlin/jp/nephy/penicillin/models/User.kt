@@ -122,4 +122,12 @@ abstract class CommonUser(final override val json: JsonObject, final override va
             val ttl by int
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        return id == (other as? User)?.id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 }
