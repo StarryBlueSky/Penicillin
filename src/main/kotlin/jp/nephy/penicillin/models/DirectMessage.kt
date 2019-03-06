@@ -49,4 +49,12 @@ data class DirectMessage(override val json: JsonObject, override val client: Api
     val senderIdStr by string("sender_id_str")
     val senderScreenName by string("sender_screen_name")
     val text by string
+
+    override fun equals(other: Any?): Boolean {
+        return id == (other as? DirectMessage)?.id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 }

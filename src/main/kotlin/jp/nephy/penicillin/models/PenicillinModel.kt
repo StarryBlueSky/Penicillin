@@ -24,9 +24,35 @@
 
 package jp.nephy.penicillin.models
 
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.JsonModel
 import jp.nephy.penicillin.core.session.ApiClient
 
+/**
+ * Penicillin json model.
+ */
 interface PenicillinModel: JsonModel {
+    /**
+     * The underlying [JsonObject].
+     */
+    override val json: JsonObject
+    /**
+     * The [ApiClient] instance.
+     */
     val client: ApiClient
+
+    /**
+     * Indicates whether some other model is "equal to" this one.
+     */
+    override fun equals(other: Any?): Boolean
+
+    /**
+     * Returns a hash code value for the model.
+     */
+    override fun hashCode(): Int
+
+    /**
+     * Returns a string representation of the model.
+     */
+    override fun toString(): String
 }

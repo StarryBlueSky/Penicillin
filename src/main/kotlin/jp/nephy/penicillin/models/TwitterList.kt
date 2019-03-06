@@ -46,4 +46,12 @@ data class TwitterList(override val json: JsonObject, override val client: ApiCl
     val subscriberCount by int("subscriber_count")
     val uri by string
     val user by penicillinModel<User>()
+
+    override fun equals(other: Any?): Boolean {
+        return id == (other as? TwitterList)?.id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 }

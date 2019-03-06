@@ -67,4 +67,12 @@ data class Media(override val json: JsonObject, override val client: ApiClient):
     data class Video(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val videoType by string("video_type")
     }
+
+    override fun equals(other: Any?): Boolean {
+        return mediaId == (other as? Media)?.mediaId
+    }
+
+    override fun hashCode(): Int {
+        return mediaId.hashCode()
+    }
 }
