@@ -35,11 +35,15 @@ import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.extensions.session
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.io.jvm.javaio.toInputStream
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.io.core.Closeable
+import kotlinx.io.core.use
 import mu.KotlinLogging
 import kotlin.coroutines.CoroutineContext
 
@@ -51,49 +55,53 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
 
     private val job = Job()
     override val coroutineContext: CoroutineContext
-        get() = result.action.session.coroutineContext + job
+        get() = result.session.coroutineContext + job
     
-    suspend fun await(autoReconnect: Boolean = true): StreamProcessor<L, H> {
+    suspend fun await(reconnect: Boolean = true): StreamProcessor<L, H> {
         return apply {
             mutex.withLock(Dummy) {
                 use {
-                    loop(autoReconnect)
+                    loop(reconnect)
                 }
             }
         }
     }
     
-    private suspend fun loop(autoReconnect: Boolean) {
+    private suspend fun loop(reconnect: Boolean) {
         while (job.isActive) {
             try {
                 handle()
-
-                if (!autoReconnect) {
-                    break
-                }
-
-                reconnect()
-            } catch (e: CancellationException) {
-                break
             } catch (e: Throwable) {
                 logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
+                
+                if (!reconnect) {
+                    break
+                }
+                
+                delay(result.session.option.retryInMillis)
+                
+                reconnect()
             }
         }
     }
     
     private fun handle() {
+        val loopJob = Job()
+        
         launch {
             handler.listener.onConnect()
         }
-
-        result.response.content.toInputStream(job).bufferedReader().useLines { lines ->
+        
+        result.response.content.toInputStream(loopJob).bufferedReader().useLines { lines -> 
             for (line in lines) {
                 handleLine(line)
             }
         }
-
-        launch {
-            handler.listener.onDisconnect()
+        
+        loopJob.invokeOnCompletion {
+            launch {
+                handler.listener.onDisconnect(it)
+            }
         }
     }
     
@@ -130,12 +138,10 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
                 result.close()
                 result = result.action.request.stream<L, H>().await()
                 break
-            } catch (e: CancellationException) {
-                break
             } catch (e: Throwable) {
                 logger.error(e) { LocalizedString.ExceptionInAsyncBlock }
 
-                delay(result.action.session.option.retryInMillis)
+                delay(result.session.option.retryInMillis)
                 continue
             }
         }

@@ -31,8 +31,8 @@ import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.session.config.ApiConfig
 import jp.nephy.penicillin.core.session.config.Credentials
-import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
 import kotlinx.io.core.Closeable
 import kotlin.coroutines.CoroutineContext
@@ -63,14 +63,14 @@ data class Session(
     
     private val shouldCloseHttpClient: Boolean
 ): Closeable, CoroutineScope {
-    private val isActive = atomic(true)
+    private val job = Job()
     
     /**
      * Ktor HttpClient instance.
      * Throws SessionAlreadyClosed when session is already closed.
      */
     val httpClient: HttpClient
-        get() = if (isActive.value && underlyingHttpClient.coroutineContext.isActive) {
+        get() = if (job.isActive && underlyingHttpClient.coroutineContext.isActive) {
             underlyingHttpClient
         } else {
             throw PenicillinLocalizedException(LocalizedString.SessionAlreadyClosed)
@@ -80,7 +80,7 @@ data class Session(
      * Closes HttpClient if shouldCloseHttpClient is true and coroutine dispatcher if shouldCloseCoroutineContext is true.
      */
     override fun close() {
-        isActive.value = false
+        job.cancel()
         
         if (shouldCloseHttpClient) {
             underlyingHttpClient.close()
