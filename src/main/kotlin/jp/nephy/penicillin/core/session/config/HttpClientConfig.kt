@@ -62,7 +62,12 @@ fun SessionBuilder.httpClient(client: HttpClient) {
     }
 }
 
-private data class KtorHttpClientConfig(val engineFactory: HttpClientEngineFactory<*>?, val clientConfigs: List<HttpClientConfig<*>.() -> Unit>, val client: HttpClient?): SessionConfig {
+internal data class KtorHttpClientConfig(
+    val engineFactory: HttpClientEngineFactory<*>?,
+    val clientConfigs: List<HttpClientConfig<*>.() -> Unit>,
+    val client: HttpClient?,
+    val shouldClose: Boolean
+): SessionConfig {
     fun httpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient {
         return (client ?: engineFactory?.let { HttpClient(it) } ?: HttpClient()).config { 
             block()
@@ -79,13 +84,13 @@ private data class KtorHttpClientConfig(val engineFactory: HttpClientEngineFacto
         var client: HttpClient? = null
         
         override fun build(): KtorHttpClientConfig {
-            return KtorHttpClientConfig(engineFactory, clientConfigs, client)
+            return KtorHttpClientConfig(engineFactory, clientConfigs, client, client != null)
         }
     }
 }
 
-internal fun SessionBuilder.createHttpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient {
+internal fun SessionBuilder.createHttpClientConfig(): KtorHttpClientConfig {
     return getOrPutBuilder {
         KtorHttpClientConfig.Builder()
-    }.build().httpClient(block)
+    }.build()
 }

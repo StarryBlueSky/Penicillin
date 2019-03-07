@@ -49,7 +49,7 @@ data class Session(
     
     private val underlyingHttpClient: HttpClient,
     override val coroutineContext: CoroutineContext,
-    private val shouldClose: Boolean,
+    private val shouldCloseCoroutineContext: Boolean,
 
     /**
      * Account credentials.
@@ -59,7 +59,9 @@ data class Session(
     /**
      * Api configurations.
      */
-    val option: ApiConfig
+    val option: ApiConfig,
+    
+    private val shouldCloseHttpClient: Boolean
 ): Closeable, CoroutineScope {
     private val isActive = atomic(true)
     
@@ -75,13 +77,16 @@ data class Session(
         }
 
     /**
-     * Closes HttpClient and coroutine dispatcher if shouldClose is true.
+     * Closes HttpClient if shouldCloseHttpClient is true and coroutine dispatcher if shouldCloseCoroutineContext is true.
      */
     override fun close() {
         isActive.value = false
-        underlyingHttpClient.close()
         
-        if (shouldClose && coroutineContext is Closeable) {
+        if (shouldCloseHttpClient) {
+            underlyingHttpClient.close()
+        }
+        
+        if (shouldCloseCoroutineContext && coroutineContext is Closeable) {
             coroutineContext.close()
         }
     }
