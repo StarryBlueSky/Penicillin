@@ -28,7 +28,7 @@ import jp.nephy.jsonkt.JsonObject
 
 interface StreamListener {
     suspend fun onConnect() {}
-    suspend fun onDisconnect() {}
+    suspend fun onDisconnect(cause: Throwable?) {}
 
     suspend fun onHeartbeat() {}
     suspend fun onLength(length: Int) {}

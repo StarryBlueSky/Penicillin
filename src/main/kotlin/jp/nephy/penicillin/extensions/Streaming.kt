@@ -32,8 +32,8 @@ import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-fun <L: StreamListener, H: StreamHandler<L>> StreamProcessor<L, H>.queue(autoReconnect: Boolean = true): Job {
+fun <L: StreamListener, H: StreamHandler<L>> StreamProcessor<L, H>.queue(reconnect: Boolean = true): Job {
     return launch {
-        await(autoReconnect)
+        await(reconnect)
     }
 }
