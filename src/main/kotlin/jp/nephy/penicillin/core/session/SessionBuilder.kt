@@ -37,15 +37,16 @@ class SessionBuilder(private val client: ApiClient) {
     internal val configBuilders = mutableSetOf<SessionConfigBuilder<*>>()
     
     internal fun build(): Session {
-        val cookie = createCookieConfig()
-        val dispatcher = createDispatcherConfig()
-        val httpClient = createHttpClient {
-            if (cookie.acceptCookie) {
+        val cookieConfig = createCookieConfig()
+        val dispatcherConfig = createDispatcherConfig()
+        val httpClientConfig = createHttpClientConfig()
+        val httpClient = httpClientConfig.httpClient {
+            if (cookieConfig.acceptCookie) {
                 install(HttpCookies) {
                     storage = AcceptAllCookiesStorage()
 
-                    if (cookie.cookies.isNotEmpty()) {
-                        for ((key, cookies) in cookie.cookies) {
+                    if (cookieConfig.cookies.isNotEmpty()) {
+                        for ((key, cookies) in cookieConfig.cookies) {
                             for (it in cookies) {
                                 runBlocking {
                                     storage.addCookie(key, it)
@@ -60,11 +61,11 @@ class SessionBuilder(private val client: ApiClient) {
             expectSuccess = false
         }
         
-        if (dispatcher.connectionThreadsCount != null) {
+        if (dispatcherConfig.connectionThreadsCount != null) {
             @UseExperimental(KtorExperimentalAPI::class)
-            httpClient.engineConfig.threadsCount = dispatcher.connectionThreadsCount
+            httpClient.engineConfig.threadsCount = dispatcherConfig.connectionThreadsCount
         }
 
-        return Session(client, httpClient, dispatcher.coroutineContext, dispatcher.shouldClose, createCredentials(), createApiConfig())
+        return Session(client, httpClient, dispatcherConfig.coroutineContext, dispatcherConfig.shouldClose, createCredentials(), createApiConfig(), httpClientConfig.shouldClose)
     }
 }
