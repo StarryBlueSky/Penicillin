@@ -1,7 +1,7 @@
 @file:Suppress("KDocMissingDocumentation", "PublicApiImplicitType")
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
-import com.github.breadmoirai.ChangeLogSupplier
+import com.github.breadmoirai.githubreleaseplugin.ChangeLogSupplier
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -24,7 +24,6 @@ val spekVersion = "2.0.1"
 
 plugins { 
     kotlin("jvm") version "1.3.21"
-    id("kotlinx-serialization") version "1.3.21"
 
     // For testing
     id("com.adarshr.test-logger") version "1.6.0"
@@ -33,18 +32,10 @@ plugins {
     // For publishing
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
-    id("com.github.breadmoirai.github-release") version "2.2.4"
+    id("com.github.breadmoirai.github-release") version "2.2.6"
     
     // For documentation
     id("org.jetbrains.dokka") version "0.9.17"
-}
-
-/*
- * Extensions
- */
-
-inline fun <reified T: Task> Project.task(name: String, crossinline block: T.() -> Unit): T {
-    return (tasks.findByName(name) as? T ?: task<T>(name)).apply(block)
 }
 
 fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, String?> {
@@ -103,14 +94,14 @@ dependencies {
  * Compilations
  */
 
-task<KotlinCompile>("compileKotlin") {
+tasks.named<KotlinCompile>("compileKotlin") {
     kotlinOptions { 
         jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
     }
 }
 
-task<KotlinCompile>("compileTestKotlin") {
+tasks.named<KotlinCompile>("compileTestKotlin") {
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
@@ -166,7 +157,7 @@ testlogger {
     theme = ThemeType.MOCHA
 }
 
-task<Test>("test") {
+tasks.named<Test>("test") {
     useJUnitPlatform {
         includeEngines("spek2")
     }
@@ -176,7 +167,7 @@ task<Test>("test") {
  * Documentation
  */
 
-val dokka = task<DokkaTask>("dokka") {
+val dokka = tasks.named<DokkaTask>("dokka") {
     outputFormat = "html"
     outputDirectory = "$buildDir/kdoc"
     
@@ -203,7 +194,7 @@ val dokkaJavadoc = task<DokkaTask>("dokkaJavadoc") {
  * Publishing
  */
 
-val jar = task<Jar>("jar") {}
+val jar = tasks.named<Jar>("jar").get()
 
 if (isEAPBuild) {
     jar.destinationDir.listFiles().forEach {
@@ -276,7 +267,7 @@ bintray {
     }
 }
 
-task<BintrayUploadTask>("bintrayUpload") {
+tasks.named<BintrayUploadTask>("bintrayUpload") {
     dependsOn("publishToMavenLocal")
 }
 
