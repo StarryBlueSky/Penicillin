@@ -1,3 +1,5 @@
+rootProject.name = "penicillin"
+
 pluginManagement {
     repositories {
         mavenCentral()
@@ -9,9 +11,6 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             when (requested.id.id) {
-                "kotlinx-serialization" -> {
-                    useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
-                }
                 "com.jfrog.bintray" -> {
                     useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
                 }
@@ -31,7 +30,3 @@ pluginManagement {
         }
     }
 }
-
-rootProject.name = "penicillin"
-
-// enableFeaturePreview("GRADLE_METADATA")
