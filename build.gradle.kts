@@ -68,7 +68,7 @@ dependencies {
     testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     testImplementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
 
-    implementation("jp.nephy:jsonkt:4.7")
+    implementation("jp.nephy:jsonkt:4.8")
 
     testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
     testImplementation("com.google.guava:guava:27.0.1-jre")
