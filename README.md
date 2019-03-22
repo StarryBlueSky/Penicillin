@@ -49,6 +49,8 @@ Releases are available at [Bintray](https://bintray.com/nephyproject/penicillin/
 You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or `CIO` engine.  
 Full engine list is available at https://ktor.io/clients/http-client/engines.html.
 
+Penicillin depends on `kotlinx.serialization`. So you need to add "kotlinx-serialization-runtime" dependency below.
+
 ### Gradle Kotlin DSL
 
 We recommend using Gradle Kotlin DSL instead of old build.gradle.  
@@ -74,6 +76,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.10.0")
     implementation("jp.nephy:penicillin:$penicillinVersion")
     
     implementation("io.ktor:ktor-client-apache:$ktorVersion")
@@ -113,6 +116,7 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.10.0"
     implementation "jp.nephy:penicillin:$penicillin_version"
     
     implementation "io.ktor:ktor-client-apache:$ktor_version"
