@@ -49,6 +49,8 @@ Releases are available at [Bintray](https://bintray.com/nephyproject/penicillin/
 You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or `CIO` engine.  
 Full engine list is available at https://ktor.io/clients/http-client/engines.html.
 
+Penicillin depends on `kotlinx.serialization`. So you need to add "https://kotlin.bintray.com/kotlinx" repository below.
+
 ### Gradle Kotlin DSL
 
 We recommend using Gradle Kotlin DSL instead of old build.gradle.  
