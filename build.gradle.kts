@@ -35,7 +35,7 @@ plugins {
     id("com.github.breadmoirai.github-release") version "2.2.6"
     
     // For documentation
-    id("org.jetbrains.dokka") version "0.9.17"
+    id("org.jetbrains.dokka") version "0.9.18"
 }
 
 fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, String?> {
