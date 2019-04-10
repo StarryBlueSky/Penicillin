@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.extensions.models
 
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.endpoints.cards
 import jp.nephy.penicillin.endpoints.cards.show
 import jp.nephy.penicillin.models.CardState
@@ -34,7 +35,7 @@ import jp.nephy.penicillin.models.Status
 val Status.hasCard: Boolean
     get() = cardUri != null
 
-fun Status.showCard(name: String) = client.cards.show(cardUri ?: throw IllegalStateException(), name)
+fun Status.showCard(name: String): JsonObjectApiAction<CardState> = client.cards.show(cardUri ?: throw IllegalStateException(), name)
 
 val CardState.Card.choices: LinkedHashMap<String, Int>
     get() = linkedMapOf<String, Int>().also { 
