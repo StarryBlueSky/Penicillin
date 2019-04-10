@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "Deprecation")
+@file:Suppress("UNUSED", "PublicApiImplicitType", "Deprecation", "KotlinDeprecation")
 
 package jp.nephy.penicillin.extensions.endpoints
 
