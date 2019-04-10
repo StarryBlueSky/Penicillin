@@ -26,11 +26,8 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.boolean
-import jp.nephy.jsonkt.delegation.jsonArray
-import jp.nephy.jsonkt.delegation.jsonObject
-import jp.nephy.jsonkt.delegation.string
+import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
@@ -54,7 +51,7 @@ object Collection {
         val response by penicillinModel<Response>()
         
         data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val results by penicillinModelList<Collection.Model.Response>()
+            val results by penicillinModelList<Model.Response>()
             val cursors by penicillinModel<Cursors>()
             
             data class Cursors(override val json: JsonObject, override val client: ApiClient): PenicillinModel {

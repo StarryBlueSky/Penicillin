@@ -38,7 +38,7 @@ import jp.nephy.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.media: jp.nephy.penicillin.endpoints.Media
+val ApiClient.media: Media
     get() = Media(this)
 
 /**

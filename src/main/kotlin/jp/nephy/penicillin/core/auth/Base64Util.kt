@@ -29,7 +29,7 @@ import io.ktor.util.encodeBase64
 
 @UseExperimental(InternalAPI::class)
 internal fun ByteArray.encodeBase64(): String {
-    return io.ktor.util.encodeBase64(this)
+    return encodeBase64(this)
 }
 
 @UseExperimental(InternalAPI::class)

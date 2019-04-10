@@ -126,7 +126,7 @@ data class ApiConfig(
          * It is not applied to Streaming Apis.
          * @see ApiConfig.Builder.defaultTimeoutInMillis
          */
-        var defaultTimeoutInMillis: Long = ApiConfig.Builder.defaultTimeoutInMillis
+        var defaultTimeoutInMillis: Long = Builder.defaultTimeoutInMillis
             set(value) {
                 require(value >= 0)
 
