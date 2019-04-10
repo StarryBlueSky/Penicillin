@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
@@ -89,6 +89,6 @@ object DirectMessageEvent {
     }
 
     data class Show(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val event by penicillinModel<DirectMessageEvent.List.Event>()
+        val event by penicillinModel<List.Event>()
     }
 }
