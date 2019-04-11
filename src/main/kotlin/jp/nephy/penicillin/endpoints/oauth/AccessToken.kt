@@ -37,10 +37,28 @@ import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.oauth
 import jp.nephy.penicillin.extensions.await
 
+/**
+ * Represents "/oauth/access_token" response.
+ */
 data class AccessTokenResponse(
+    /**
+     * Access token for this application.
+     */
     val accessToken: String,
+
+    /**
+     * Access token secret for this application.
+     */
     val accessTokenSecret: String,
+
+    /**
+     * User id of authenticated user.
+     */
     val userId: Long,
+
+    /**
+     * Screen name of authenticated user.
+     */
     val screenName: String
 )
 

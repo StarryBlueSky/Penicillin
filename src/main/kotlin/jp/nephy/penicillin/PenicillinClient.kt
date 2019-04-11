@@ -30,9 +30,11 @@ import jp.nephy.penicillin.core.session.Session
 import jp.nephy.penicillin.core.session.SessionBuilder
 
 /**
- * Creates Penicillin api client.
+ * Creates Penicillin [ApiClient].
  *
  * @param block [Session] configuration builder.
+ *
+ * @return New [ApiClient] instance with initialized [Session].
  */
 @ApiClientDsl
 @Suppress("FunctionName")
