@@ -28,15 +28,52 @@ package jp.nephy.penicillin.extensions
 
 import jp.nephy.penicillin.core.response.ApiResponse
 
-val ApiResponse<*>.accessLevel: AccessLevel?
-    get() = AccessLevel.from(response.headers["x-access-level"])
-
-enum class AccessLevel(private val identifier: String) {
-    Read("read"), ReadWrite("read-write"), ReadWriteDM("read-write-directmessages");
-
-    companion object {
-        fun from(levelName: String?): AccessLevel? {
-            return values().find { it.identifier.equals(levelName, true) }
-        }
+/**
+ * Set of "x-access-level" header.
+ * If this header is absent or unknown, returns empty set.
+ */
+val ApiResponse<*>.accessLevels: Set<AccessLevel>
+    get() = when (response.headers["x-access-level"]?.toLowerCase()) {
+        "read" -> setOf(AccessLevel.Read)
+        "read-write" -> setOf(AccessLevel.Read, AccessLevel.Write)
+        "read-write-directmessages" -> setOf(AccessLevel.Read, AccessLevel.Write, AccessLevel.DirectMessages)
+        else -> emptySet()
     }
+
+/**
+ * Checks if this application has "read" permission.
+ */
+val ApiResponse<*>.hasReadPermission: Boolean
+    get() = AccessLevel.Read in accessLevels
+
+/**
+ * Checks if this application has "write" permission.
+ */
+val ApiResponse<*>.hasWritePermission: Boolean
+    get() = AccessLevel.Write in accessLevels
+
+/**
+ * Checks if this application has "direct messages" permission.
+ */
+val ApiResponse<*>.hasDirectMessagesPermission: Boolean
+    get() = AccessLevel.DirectMessages in accessLevels
+
+/**
+ * Represents "x-access-level" header.
+ */
+enum class AccessLevel(private val identifier: String) {
+    /**
+     * Indicates this application has "read" permission.
+     */
+    Read("read"),
+
+    /**
+     * Indicates this application has "write" permission.
+     */
+    Write("read-write"),
+
+    /**
+     * Indicates this application has "direct messages" permission.
+     */
+    DirectMessages("read-write-directmessages")
 }
