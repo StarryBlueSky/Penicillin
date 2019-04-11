@@ -38,4 +38,8 @@ data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
     override val request: HttpRequest,
     override val response: HttpResponse,
     override val action: ApiAction<StreamResponse<L, H>>
-): ApiResponse<StreamResponse<L, H>>
+): ApiResponse<StreamResponse<L, H>> {
+    override fun close() {
+        response.close()
+    }
+}

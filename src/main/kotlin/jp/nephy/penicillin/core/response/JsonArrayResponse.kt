@@ -45,4 +45,8 @@ data class JsonArrayResponse<M: PenicillinModel>(
 
     override val json: JsonArray
         get() = map { it.json }.toJsonArray()
+
+    override fun close() {
+        response.close()
+    }
 }

@@ -36,7 +36,8 @@ interface ApiResponse<R: Any>: Closeable {
     val response: HttpResponse
     val action: ApiAction<R>
 
-    override fun close() {
-        response.close()
-    }
+    /**
+     * Disposes this response.
+     */
+    override fun close()
 }

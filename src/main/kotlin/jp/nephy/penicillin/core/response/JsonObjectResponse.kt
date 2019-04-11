@@ -44,4 +44,8 @@ data class JsonObjectResponse<M: PenicillinModel>(
 
     override val json: JsonObject
         get() = result.json
+
+    override fun close() {
+        response.close()
+    }
 }

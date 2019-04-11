@@ -44,4 +44,8 @@ data class CursorJsonObjectResponse<M: PenicillinCursorModel>(
 
     override val json: JsonObject
         get() = result.json
+
+    override fun close() {
+        response.close()
+    }
 }
