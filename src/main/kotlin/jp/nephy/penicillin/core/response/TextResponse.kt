@@ -35,4 +35,8 @@ data class TextResponse(
     override val response: HttpResponse,
     override val content: String,
     override val action: ApiAction<TextResponse>
-): ApiResponse<TextResponse>, CompletedResponse
+): ApiResponse<TextResponse>, CompletedResponse {
+    override fun close() {
+        response.close()
+    }
+}
