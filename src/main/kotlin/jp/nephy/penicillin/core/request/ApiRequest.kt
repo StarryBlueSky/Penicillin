@@ -31,27 +31,70 @@ import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 import jp.nephy.penicillin.models.PenicillinModel
 
-class ApiRequest(val client: ApiClient, val builder: ApiRequestBuilder) {
+/**
+ * Represents api request methods.
+ */
+class ApiRequest(
+    /**
+     * Current [ApiClient] instance.
+     */
+    val client: ApiClient,
+
+    /**
+     * Current request builder.
+     */
+    val builder: ApiRequestBuilder
+) {
+    /**
+     * Creates [JsonObjectApiAction] from this request.
+     *
+     * @return New [JsonObjectApiAction] for [M].
+     */
     inline fun <reified M: PenicillinModel> jsonObject(): JsonObjectApiAction<M> {
         return JsonObjectApiAction(client, this, M::class)
     }
 
+    /**
+     * Creates [JsonArrayApiAction] from this request.
+     *
+     * @return New [JsonArrayApiAction] for [M].
+     */
     inline fun <reified M: PenicillinModel> jsonArray(): JsonArrayApiAction<M> {
         return JsonArrayApiAction(client, this, M::class)
     }
 
+    /**
+     * Creates [CursorJsonObjectApiAction] from this request.
+     *
+     * @return New [CursorJsonObjectApiAction] for [M].
+     */
     inline fun <reified M: PenicillinCursorModel> cursorJsonObject(): CursorJsonObjectApiAction<M> {
         return CursorJsonObjectApiAction(client, this, M::class)
     }
 
+    /**
+     * Creates [TextApiAction] from this request.
+     *
+     * @return New [TextApiAction].
+     */
     fun text(): TextApiAction {
         return TextApiAction(client, this)
     }
 
+    /**
+     * Creates [EmptyApiAction] from this request.
+     *
+     * @return New [EmptyApiAction].
+     */
     fun empty(): EmptyApiAction {
         return EmptyApiAction(client, this)
     }
 
+    /**
+     * Creates [StreamApiAction] from this request.
+     *
+     * @return New [StreamApiAction] for [L] and [H].
+     */
     fun <L: StreamListener, H: StreamHandler<L>> stream(): StreamApiAction<L, H> {
         return StreamApiAction(client, this)
     }

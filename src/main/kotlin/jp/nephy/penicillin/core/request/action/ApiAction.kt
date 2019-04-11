@@ -27,9 +27,25 @@ package jp.nephy.penicillin.core.request.action
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.session.ApiClient
 
+/**
+ * Represents lazy [ApiRequest] invoker.
+ */
 interface ApiAction<R: Any?> {
+    /**
+     * Current [ApiClient] instance.
+     */
     val client: ApiClient
+
+    /**
+     * Current lazy [ApiRequest] instance.
+     */
     val request: ApiRequest
-    
+
+    /**
+     * Completes this request.
+     * This operation is suspendable.
+     *
+     * @return Api result as [R].
+     */
     suspend operator fun invoke(): R
 }
