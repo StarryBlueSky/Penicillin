@@ -1,10 +1,11 @@
 # Penicillin: Full-featured Twitter API wrapper for Kotlin
 
-[![Kotlin 1.3.21](https://img.shields.io/badge/Kotlin-1.3.21-blue.svg)](http://kotlinlang.org)
-[![Bintray](https://api.bintray.com/packages/nephyproject/penicillin/Penicillin/images/download.svg)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion)
-[![MIT License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/issues)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/pulls)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.30-blue.svg)](http://kotlinlang.org)
+[![Stable](https://img.shields.io/github/release/NephyProject/Penicillin.svg?label=Stable)](https://github.com/NephyProject/Penicillin/releases/latest)
+[![Dev](https://img.shields.io/bintray/v/nephyproject/penicillin/Penicillin.svg?label=EAP)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion)
+[![License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
+[![Issues](https://img.shields.io/github/issues/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/pulls)
 
 * Supports all the public Twitter API endpoints except Enterprise APIs.
 * Supports the following authenticating methods: OAuth 1.0a, OAuth 2.0
