@@ -26,57 +26,57 @@
 
 package jp.nephy.penicillin.extensions
 
-import jp.nephy.jsonkt.delegation.string
+import jp.nephy.jsonkt.delegation.stringValue
 import jp.nephy.penicillin.models.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 val ActivityEvent.createdAt: CreatedAt
     get() {
-        val value by string("created_at")
-        return value.asCreatedAt()
+        val value = stringValue("created_at")
+        return CreatedAt(value)
     }
 
 val DirectMessage.createdAt: CreatedAt
     get() {
-        val value by string("created_at")
-        return value.asCreatedAt()
+        val value = stringValue("created_at")
+        return CreatedAt(value)
     }
 
 val Moment.lastPublishTime: CreatedAt
     get() {
-        val value by string("lastPublishTime")
-        return value.asCreatedAt()
+        val value = stringValue("lastPublishTime")
+        return CreatedAt(value)
     }
 
 val SavedSearch.createdAt: CreatedAt
     get() {
-        val value by string("created_at")
-        return value.asCreatedAt()
+        val value = stringValue("created_at")
+        return CreatedAt(value)
     }
 
 val Status.createdAt: CreatedAt
     get() {
-        val value by string("created_at")
-        return value.asCreatedAt()
+        val value = stringValue("created_at")
+        return CreatedAt(value)
     }
 
 val TwitterList.createdAt: CreatedAt
     get() {
-        val value by string("created_at")
-        return value.asCreatedAt()
+        val value = stringValue("created_at")
+        return CreatedAt(value)
     }
 
 val CommonUser.createdAt: CreatedAt
     get() {
-        val value by string("created_at")
-        return value.asCreatedAt()
+        val value = stringValue("created_at")
+        return CreatedAt(value)
     }
 
 val Stream.Event.createdAt: CreatedAt
     get() {
-        val value by string("created_at")
-        return value.asCreatedAt()
+        val value = stringValue("created_at")
+        return CreatedAt(value)
     }
 
 data class CreatedAt(val value: String) {
@@ -86,12 +86,9 @@ data class CreatedAt(val value: String) {
 
     val date: Date
         get() = SimpleDateFormat(pattern, Locale.ENGLISH).parse(value)
+
     val calendar: Calendar
         get() = Calendar.getInstance().also {
             it.timeInMillis = date.time
         }
-}
-
-fun String.asCreatedAt(): CreatedAt {
-    return CreatedAt(this)
 }
