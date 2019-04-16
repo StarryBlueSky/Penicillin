@@ -29,7 +29,14 @@ package jp.nephy.penicillin.extensions
 import jp.nephy.penicillin.core.request.ApiRequestBuilder
 import jp.nephy.penicillin.core.request.action.ApiAction
 
-fun <R: Any> ApiAction<R>.editRequest(block: ApiRequestBuilder.() -> Unit): ApiAction<R> {
+/**
+ * Modifies current [ApiRequestBuilder] with the block.
+ *
+ * @param block The function applied to [ApiRequestBuilder].
+ *
+ * @return Modified [ApiAction] for [R].
+ */
+fun <R: Any> ApiAction<R>.edit(block: ApiRequestBuilder.() -> Unit): ApiAction<R> {
     return apply {
         request.builder.apply(block)
     }
