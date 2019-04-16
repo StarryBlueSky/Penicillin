@@ -29,7 +29,10 @@ import jp.nephy.penicillin.core.auth.OAuthUtil
 import jp.nephy.penicillin.core.session.Session
 import java.security.SecureRandom
 
-class Twitter4iPhone(override val session: Session): Emulation {
+/**
+ * Pre-defined profile for "Twitter for iPhone".
+ */
+internal class Twitter4iPhone: Emulation {
     override val headers: Headers = Headers.build {
         append("Accept-Language", "ja")
         append("Timezone", "Asia/Tokyo")
