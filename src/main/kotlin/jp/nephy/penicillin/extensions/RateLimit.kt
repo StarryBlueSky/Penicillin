@@ -32,9 +32,17 @@ import jp.nephy.penicillin.core.response.ApiResponse
 import kotlinx.coroutines.delay
 import java.util.*
 
+/**
+ * Twitter API rate limit.
+ * If response header does not provide such information, returns null.
+ */
 val ApiResponse<*>.rateLimit: RateLimit?
     get() = response.rateLimit
 
+/**
+ * Twitter API rate limit.
+ * If response header does not provide such information or response is null, returns null.
+ */
 val PenicillinException.rateLimit: RateLimit?
     get() = response?.rateLimit
 
@@ -51,7 +59,7 @@ private val HttpResponse.rateLimit: RateLimit?
     }
 
 /**
- * Twitter API rate limit.
+ * Represents Twitter API rate limit.
  */
 data class RateLimit(
     /**

@@ -33,9 +33,23 @@ import jp.nephy.penicillin.endpoints.OAuth
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.extensions.await
 
+/**
+ * Represents "/oauth/request_token" response.
+ */
 data class RequestTokenResponse(
+    /**
+     * Request token.
+     */
     val requestToken: String,
+
+    /**
+     * Request token secret.
+     */
     val requestTokenSecret: String,
+
+    /**
+     * Whether if the callback was confirmed.
+     */
     val callbackConfirmed: Boolean
 )
 

@@ -27,7 +27,7 @@ package jp.nephy.penicillin.endpoints.search
 /**
  * Specifies what type of search results you would prefer to receive. The current default is "mixed." Valid values include.
  */
-enum class SearchResultType(val value: String) {
+enum class SearchResultType(internal val value: String) {
     /**
      * Include both popular and real time results in the response.
      */

@@ -65,7 +65,7 @@ fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long
         throw PenicillinLocalizedException(LocalizedString.CursorIsZero, request, response)
     }
 
-    action.editRequest {
+    action.edit {
         parameter("cursor" to cursor, *options)
     }
 

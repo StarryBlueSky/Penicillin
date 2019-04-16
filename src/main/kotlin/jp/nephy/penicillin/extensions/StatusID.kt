@@ -30,38 +30,61 @@ import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.entities.MediaEntity
 import java.util.*
 
+/**
+ * Parsed status id object for "id".
+ */
 val Status.idObj: StatusID
-    get() = id.asStatusID()
+    get() = StatusID(id)
 
+/**
+ * Parsed status id object for "in_reply_to_status_id".
+ */
 val Status.inReplyToStatusIdObj: StatusID?
-    get() = inReplyToStatusId?.asStatusID()
+    get() = inReplyToStatusId?.let { StatusID(it) }
 
+/**
+ * Parsed status id object for "quoted_status_id.
+ */
 val Status.quotedStatusIdObj: StatusID?
-    get() = quotedStatusId?.asStatusID()
+    get() = quotedStatusId?.let { StatusID(it) }
 
+/**
+ * Parsed status id object for "source_status_id".
+ */
 val MediaEntity.sourceStatusIdObj: StatusID?
-    get() = sourceStatusId?.asStatusID()
+    get() = sourceStatusId?.let { StatusID(it) }
 
-data class StatusID(val value: Long) {
+/**
+ * Represents numerical status id.
+ */
+data class StatusID(
+    /**
+     * Original numerical status id.
+     */
+    val value: Long
+) {
     companion object {
-        private const val magicNumber = 1288834974657
+        private const val magicNumber = 1288834974657L
     }
 
+    /**
+     * Epoch time in milliseconds.
+     */
     @Suppress("MemberVisibilityCanBePrivate")
     val epochTimeMillis: Long
         get() = (value shr 22) + magicNumber
 
-    fun toDate(): Date {
-        return Date(epochTimeMillis)
-    }
+    /**
+     * New [Date] instance with epoch time.
+     */
+    val date: Date
+        get() = Date(epochTimeMillis)
 
-    fun toCalendar(): Calendar {
-        return Calendar.getInstance().also {
-            it.timeInMillis = epochTimeMillis
+    /**
+     * New [Calendar] instance with epoch time.
+     */
+    val calendar: Calendar
+        get() =  Calendar.getInstance().also {
+            it.time = date
         }
-    }
-}
-
-private fun Long.asStatusID(): StatusID {
-    return StatusID(this)
 }

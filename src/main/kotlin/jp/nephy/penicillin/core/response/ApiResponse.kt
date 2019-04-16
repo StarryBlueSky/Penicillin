@@ -30,10 +30,28 @@ import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.ApiClient
 import kotlinx.io.core.Closeable
 
+/**
+ * Represents Twitter API response.
+ */
 interface ApiResponse<R: Any>: Closeable {
+    /**
+     * Current [ApiClient] instance.
+     */
     val client: ApiClient
+
+    /**
+     * Http request object.
+     */
     val request: HttpRequest
+
+    /**
+     * Http response object.
+     */
     val response: HttpResponse
+
+    /**
+     * Executed [ApiAction] instance.
+     */
     val action: ApiAction<R>
 
     /**
