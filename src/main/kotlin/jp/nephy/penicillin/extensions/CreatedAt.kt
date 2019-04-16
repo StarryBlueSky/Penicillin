@@ -89,6 +89,6 @@ data class CreatedAt(val value: String) {
 
     val calendar: Calendar
         get() = Calendar.getInstance().also {
-            it.timeInMillis = date.time
+            it.time = date
         }
 }
