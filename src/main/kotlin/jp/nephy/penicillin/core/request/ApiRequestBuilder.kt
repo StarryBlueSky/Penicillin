@@ -113,15 +113,14 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
         when (session.option.emulationMode) {
             EmulationMode.TwitterForiPhone -> {
                 if (authorizationType == AuthorizationType.OAuth1a) {
-                    val emulation = Twitter4iPhone(session)
+                    val emulation = Twitter4iPhone()
                     header(emulation.headers)
                     header("kdt", session.credentials.knownDeviceToken)
                 }
             }
             EmulationMode.Tweetdeck -> {
                 authType(AuthorizationType.OAuth2)
-                val emulation = Tweetdeck(session)
-                header(emulation.headers)
+                header(Tweetdeck.headers)
             }
             else -> {
             }

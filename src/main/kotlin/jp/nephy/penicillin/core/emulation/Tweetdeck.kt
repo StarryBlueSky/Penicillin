@@ -27,7 +27,10 @@ package jp.nephy.penicillin.core.emulation
 import io.ktor.http.Headers
 import jp.nephy.penicillin.core.session.Session
 
-class Tweetdeck(override val session: Session): Emulation {
+/**
+ * Pre-defined profile for "Tweetdeck".
+ */
+internal object Tweetdeck: Emulation {
     override val headers: Headers = Headers.build {
         append("accept", "text/plain, */*; q=0.01")
         append("accept-encoding", "gzip, deflate, br")
