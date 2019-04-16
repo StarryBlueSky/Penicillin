@@ -34,16 +34,28 @@ import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
+/**
+ * OAuth cryptography utilities.
+ */
 object OAuthUtil {
     private const val macAlgorithm = "HmacSHA1"
-    
+
+    /**
+     * Generates random uuid string with upper case.
+     */
     val randomUUID: String
         get() = UUID.randomUUID().toString().toUpperCase()
-    
+
+    /**
+     * Current epoch time string in seconds.
+     */
     @Suppress("MemberVisibilityCanBePrivate")
     val currentEpochTime: String
         get() = "${GMTDate().timestamp / 1000}"
 
+    /**
+     * Creates initial authorization header components.
+     */
     fun initialAuthorizationHeaderComponents(callback: String? = null, nonce: String = randomUUID, timestamp: String = currentEpochTime, consumerKey: String? = null, accessToken: String? = null): MutableMap<String, String?> {
         requireNotNull(consumerKey)
         
@@ -58,7 +70,10 @@ object OAuthUtil {
             "oauth_signature_method" to "HMAC-SHA1"
         )
     }
-    
+
+    /**
+     * Creates signature param.
+     */
     fun signatureParam(authorizationHeaderComponent: Map<String, String?>, body: Any, parameters: ParametersBuilder): Map<String, String> {
         return sortedMapOf<String, String>().also { map ->
             authorizationHeaderComponent.filterValues { it != null }.forEach {
@@ -75,19 +90,31 @@ object OAuthUtil {
             }
         }
     }
-    
+
+    /**
+     * Creates signature param string.
+     */
     fun signatureParamString(param: Map<String, String>): String {
         return param.toList().joinToString("&") { "${it.first}=${it.second}" }.encodeOAuth()
     }
 
+    /**
+     * Creates signing base string.
+     */
     fun signingBaseString(httpMethod: HttpMethod, url: Url, signatureParamString: String): String {
         return "${httpMethod.value.toUpperCase()}&${url.toString().split("?").first().encodeOAuth()}&$signatureParamString"
     }
 
+    /**
+     * Creates signing key.
+     */
     fun signingKey(consumerSecret: String, accessTokenSecret: String? = null): SecretKeySpec {
         return SecretKeySpec("${consumerSecret.encodeOAuth()}&${accessTokenSecret?.encodeOAuth().orEmpty()}".toByteArray(), macAlgorithm)
     }
-    
+
+    /**
+     * Creates signature.
+     */
     fun signature(signingKey: SecretKeySpec, signatureBaseString: String): String {
         return Mac.getInstance(macAlgorithm).apply {
             init(signingKey)

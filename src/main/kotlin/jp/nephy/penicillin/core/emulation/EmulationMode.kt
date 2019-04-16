@@ -24,6 +24,22 @@
 
 package jp.nephy.penicillin.core.emulation
 
+/**
+ * Represents emulation mode.
+ */
 enum class EmulationMode {
-    None, TwitterForiPhone, Tweetdeck
+    /**
+     * No emulation needed.
+     */
+    None,
+
+    /**
+     * Emulated as "Twitter for iPhone".
+     */
+    TwitterForiPhone,
+
+    /**
+     * Emulated as "Tweetdeck".
+     */
+    Tweetdeck
 }

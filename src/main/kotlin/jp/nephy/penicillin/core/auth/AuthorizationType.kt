@@ -24,6 +24,27 @@
 
 package jp.nephy.penicillin.core.auth
 
+/**
+ * Represents OAuth authorization type.
+ */
 enum class AuthorizationType {
-    OAuth1a, OAuth2, OAuth2RequestToken, None
+    /**
+     * Corresponding to OAuth 1.0a.
+     */
+    OAuth1a,
+
+    /**
+     * Corresponding to OAuth 2.
+     */
+    OAuth2,
+
+    /**
+     * Corresponding to OAuth 2 with request token.
+     */
+    OAuth2RequestToken,
+
+    /**
+     * No authorization needed.
+     */
+    None
 }

@@ -34,10 +34,24 @@ import jp.nephy.penicillin.core.streaming.listener.*
 import jp.nephy.penicillin.extensions.endpoints.TweetstormHandler
 import jp.nephy.penicillin.extensions.endpoints.TweetstormListener
 
+/**
+ * Listens with handler.
+ *
+ * @param handler [StreamHandler] for [L].
+ *
+ * @return New [StreamProcessor] instance for [L] and [H].
+ */
 fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(handler: H): StreamProcessor<L, H> {
     return StreamProcessor(client, this, handler)
 }
 
+/**
+ * Listens with listener and default handler.
+ *
+ * @param listener [StreamListener].
+ *
+ * @return New [StreamProcessor] instance for [L] and [H].
+ */
 fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(listener: L): StreamProcessor<L, H> {
     @Suppress("UNCHECKED_CAST")
     val handler = when (listener) {
@@ -46,12 +60,19 @@ fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(listene
         is FilterStreamListener -> FilterStreamHandler(client, listener)
         is LivePipelineListener -> LivePipelineHandler(client, listener)
         is TweetstormListener -> TweetstormHandler(client, listener)
-        else -> throw IllegalArgumentException("Unsupported StreamListener: ${listener::class.qualifiedName}")
-    } as H
+        else -> null
+    } as? H ?: throw IllegalArgumentException("Unsupported StreamListener: ${listener::class.qualifiedName}")
 
     return listen(handler)
 }
 
+/**
+ * Shorthand extension to `await().listen(listener)`.
+ *
+ * @param listener [StreamListener].
+ *
+ * @return New [StreamProcessor] instance for [L] and [H].
+ */
 suspend fun <L: StreamListener, H: StreamHandler<L>> StreamApiAction<L, H>.listen(listener: L): StreamProcessor<L, H> {
     return await().listen(listener)
 }

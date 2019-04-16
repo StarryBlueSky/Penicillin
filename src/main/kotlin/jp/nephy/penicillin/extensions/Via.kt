@@ -31,6 +31,9 @@ import jp.nephy.penicillin.models.Status
 private val tagPattern = "^<a (.+?)>(.+?)</a>$".toRegex()
 private val attributePattern = "^(.+?)=\"(.+?)\"$".toRegex()
 
+/**
+ * Parsed status source.
+ */
 val Status.via: Via
     get() {
         val matches = tagPattern.matchEntire(source)
@@ -49,4 +52,22 @@ val Status.via: Via
         return Via(href, tagValue, tagAttributes)
     }
 
-data class Via(val url: String, val name: String, val attributes: Map<String, String>)
+/**
+ * Represents <a> tag in "source".
+ */
+data class Via(
+    /**
+     * Source application url.
+     */
+    val url: String,
+
+    /**
+     * Source application name.
+     */
+    val name: String,
+
+    /**
+     * Source <a> tag attributes.
+     */
+    val attributes: Map<String, String>
+)

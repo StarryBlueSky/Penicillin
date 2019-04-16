@@ -24,21 +24,61 @@
 
 package jp.nephy.penicillin.core.emulation
 
+/**
+ * Represents Twitter official clients.
+ */
 interface OfficialClient {
+    /**
+     * Application name.
+     */
     val appName: String
-    
-    enum class OAuth1a(val consumerKey: String, val consumerSecret: String): OfficialClient {
-        TwitterForiPhone("IQKbtAYlXLripLGPWd0HUA", "GgDYlkSvaPxGxC4X8liwpUoqKwwr3lCADbz8A7ADU"), TwitterForAndroid("3nVuSoBZnx6U4vzUxf5w", "Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys"),
-        TwitterForiPad("CjulERsDeqhhjSme66ECg", "IQWdVyqFxghAtURHGeGiWAsmCAGmdW3WmbEx6Hck");
 
-        override val appName: String
-            get() = name.replace("For", " for ")
+    /**
+     * Pre-defined official clients for OAuth 1.0a.
+     */
+    enum class OAuth1a(
+        override val appName: String,
+
+        /**
+         * Consumer key.
+         */
+        val consumerKey: String,
+
+        /**
+         * Consumer secret.
+         */
+        val consumerSecret: String
+    ): OfficialClient {
+        /**
+         * Corresponding to "Twitter for iPhone".
+         */
+        TwitterForiPhone("Twitter for iPhone", "IQKbtAYlXLripLGPWd0HUA", "GgDYlkSvaPxGxC4X8liwpUoqKwwr3lCADbz8A7ADU"),
+
+        /**
+         * Corresponding to "Twitter for Android".
+         */
+        TwitterForAndroid("Twitter for Android", "3nVuSoBZnx6U4vzUxf5w", "Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys"),
+
+        /**
+         * Corresponding to "Twitter for iPad".
+         */
+        TwitterForiPad("Twitter for iPad", "CjulERsDeqhhjSme66ECg", "IQWdVyqFxghAtURHGeGiWAsmCAGmdW3WmbEx6Hck")
     }
 
-    enum class OAuth2(val bearerToken: String): OfficialClient {
-        Tweetdeck("AAAAAAAAAAAAAAAAAAAAAF7aAAAAAAAASCiRjWvh7R5wxaKkFp7MM%2BhYBqM%3DbQ0JPmjU9F6ZoMhDfI4uTNAaQuTDm2uO9x3WFVr2xBZ2nhjdP0");
+    /**
+     * Pre-defined official clients for OAuth 2.
+     */
+    enum class OAuth2(
+        override val appName: String,
 
-        override val appName: String
-            get() = name
+        /**
+         * Bearer token.
+         */
+        val bearerToken: String
+    ): OfficialClient {
+        /**
+         * Corresponding to "Tweetdeck".
+         */
+        Tweetdeck("Tweetdeck", "AAAAAAAAAAAAAAAAAAAAAF7aAAAAAAAASCiRjWvh7R5wxaKkFp7MM%2BhYBqM%3DbQ0JPmjU9F6ZoMhDfI4uTNAaQuTDm2uO9x3WFVr2xBZ2nhjdP0")
     }
 }
