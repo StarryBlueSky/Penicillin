@@ -25,7 +25,6 @@
 package jp.nephy.penicillin.core.emulation
 
 import io.ktor.http.Headers
-import jp.nephy.penicillin.core.session.Session
 
 /**
  * Represents emulation pre-defined profile.

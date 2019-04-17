@@ -26,7 +26,6 @@ package jp.nephy.penicillin.core.emulation
 
 import io.ktor.http.Headers
 import jp.nephy.penicillin.core.auth.OAuthUtil
-import jp.nephy.penicillin.core.session.Session
 import java.security.SecureRandom
 
 /**
