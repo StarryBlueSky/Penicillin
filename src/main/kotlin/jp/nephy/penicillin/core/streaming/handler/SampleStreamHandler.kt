@@ -30,6 +30,10 @@ import jp.nephy.penicillin.core.streaming.listener.SampleStreamListener
 import jp.nephy.penicillin.extensions.parseModel
 import kotlinx.coroutines.launch
 
+/**
+ * Default SampleStream [StreamHandler].
+ * Accepts listener of [SampleStreamListener].
+ */
 class SampleStreamHandler(override val client: ApiClient, override val listener: SampleStreamListener): StreamHandler<SampleStreamListener> {
     override fun handle(json: JsonObject) {
         launch {

@@ -28,5 +28,8 @@ package jp.nephy.penicillin.extensions.models
 
 import jp.nephy.penicillin.models.CommonUser
 
+/**
+ * Whether if this account is locked.
+ */
 val CommonUser.isLockedAccount: Boolean
     get() = profileInterstitialType == "fake_account"

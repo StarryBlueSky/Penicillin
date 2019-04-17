@@ -32,6 +32,10 @@ import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
 import kotlinx.coroutines.launch
 
+/**
+ * Default UserStream [StreamHandler].
+ * Accepts listener of [UserStreamListener].
+ */
 class UserStreamHandler(override val client: ApiClient, override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
     override fun handle(json: JsonObject) {
         launch {

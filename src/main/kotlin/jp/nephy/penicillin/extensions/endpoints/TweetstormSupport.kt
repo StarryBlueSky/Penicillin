@@ -72,6 +72,10 @@ interface TweetstormListener: StreamListener {
     suspend fun onDelete(delete: jp.nephy.penicillin.models.Stream.Delete) {}
 }
 
+/**
+ * Default TweetStorm [StreamHandler].
+ * Accepts listener of [TweetstormListener].
+ */
 class TweetstormHandler(override val client: ApiClient, override val listener: TweetstormListener): StreamHandler<TweetstormListener> {
     override fun handle(json: JsonObject) {
         launch {

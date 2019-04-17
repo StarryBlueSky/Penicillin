@@ -31,62 +31,100 @@ import jp.nephy.penicillin.models.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Parsed "created_at" object.
+ */
 val ActivityEvent.createdAt: CreatedAt
     get() {
         val value = stringValue("created_at")
         return CreatedAt(value)
     }
 
+/**
+ * Parsed "created_at" object.
+ */
 val DirectMessage.createdAt: CreatedAt
     get() {
         val value = stringValue("created_at")
         return CreatedAt(value)
     }
 
+/**
+ * Parsed "lastPublishTime" object.
+ */
 val Moment.lastPublishTime: CreatedAt
     get() {
         val value = stringValue("lastPublishTime")
         return CreatedAt(value)
     }
 
+/**
+ * Parsed "created_at" object.
+ */
 val SavedSearch.createdAt: CreatedAt
     get() {
         val value = stringValue("created_at")
         return CreatedAt(value)
     }
 
+/**
+ * Parsed "created_at" object.
+ */
 val Status.createdAt: CreatedAt
     get() {
         val value = stringValue("created_at")
         return CreatedAt(value)
     }
 
+/**
+ * Parsed "created_at" object.
+ */
 val TwitterList.createdAt: CreatedAt
     get() {
         val value = stringValue("created_at")
         return CreatedAt(value)
     }
 
+/**
+ * Parsed "created_at" object.
+ */
 val CommonUser.createdAt: CreatedAt
     get() {
         val value = stringValue("created_at")
         return CreatedAt(value)
     }
 
+/**
+ * Parsed "created_at" object.
+ */
 val Stream.Event.createdAt: CreatedAt
     get() {
         val value = stringValue("created_at")
         return CreatedAt(value)
     }
 
-data class CreatedAt(val value: String) {
+/**
+ * Represents "created_at" date fotmat.
+ */
+data class CreatedAt(
+    /**
+     * Original "created_at" string.
+     */
+    val value: String
+) {
     companion object {
         private const val pattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy"
     }
 
+    /**
+     * New [Date] instance for this "created_at" string.
+     */
     val date: Date
         get() = SimpleDateFormat(pattern, Locale.ENGLISH).parse(value)
 
+    /**
+     * New [Calendar] instance for this "created_at" string.
+     */
     val calendar: Calendar
         get() = Calendar.getInstance().also {
             it.time = date
