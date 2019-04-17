@@ -25,16 +25,44 @@
 package jp.nephy.penicillin.core.streaming.listener
 
 import jp.nephy.jsonkt.JsonObject
+import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 
+/**
+ * A common event model interface for [StreamHandler].
+ */
 interface StreamListener {
+    /**
+     * Called when streaming is connected.
+     */
     suspend fun onConnect() {}
+    /**
+     * Called when streaming is disconnected.
+     */
     suspend fun onDisconnect(cause: Throwable?) {}
 
+    /**
+     * Called when streaming sends heartbeat.
+     */
     suspend fun onHeartbeat() {}
+    /**
+     * Called when streaming sends length.
+     */
     suspend fun onLength(length: Int) {}
 
+    /**
+     * Called when any payloads are received.
+     */
     suspend fun onAnyJson(json: JsonObject) {}
+    /**
+     * Called when any data are connected.
+     */
     suspend fun onRawData(data: String) {}
+    /**
+     * Called when unhandled payloads are detected.
+     */
     suspend fun onUnhandledJson(json: JsonObject) {}
+    /**
+     * Called when unhandled data are detected.
+     */
     suspend fun onUnknownData(data: String) {}
 }

@@ -24,6 +24,17 @@
 
 package jp.nephy.penicillin.endpoints.stream
 
-enum class UserStreamReplies(val value: String) {
-    All("all")
+/**
+ * UserStream "replies" flags.
+ */
+enum class UserStreamReplies(internal val value: String?) {
+    /**
+     * Indicates that all replies should be received.
+     */
+    All("all"),
+
+    /**
+     * Default value.
+     */
+    Default(null)
 }

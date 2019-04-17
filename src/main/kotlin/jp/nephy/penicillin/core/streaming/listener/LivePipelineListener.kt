@@ -24,6 +24,11 @@
 
 package jp.nephy.penicillin.core.streaming.listener
 
+import jp.nephy.penicillin.core.streaming.handler.LivePipelineHandler
+
+/**
+ * An event model interface for [LivePipelineHandler].
+ */
 interface LivePipelineListener: StreamListener {
     suspend fun onUpdateLikeCount(id: Long, count: Int) {}
     suspend fun onUpdateRetweetCount(id: Long, count: Int) {}

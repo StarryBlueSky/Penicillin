@@ -30,6 +30,10 @@ import jp.nephy.penicillin.core.streaming.listener.FilterStreamListener
 import jp.nephy.penicillin.extensions.parseModel
 import kotlinx.coroutines.launch
 
+/**
+ * Default FilterStream [StreamHandler].
+ * Accepts listener of [FilterStreamListener].
+ */
 class FilterStreamHandler(override val client: ApiClient, override val listener: FilterStreamListener): StreamHandler<FilterStreamListener> {
     override fun handle(json: JsonObject) {
         launch {

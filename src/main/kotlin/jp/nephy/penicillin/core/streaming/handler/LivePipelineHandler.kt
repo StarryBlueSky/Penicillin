@@ -31,6 +31,10 @@ import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
 import kotlinx.coroutines.launch
 
+/**
+ * Default LivePipeline [StreamHandler].
+ * Accepts listener of [LivePipelineListener].
+ */
 class LivePipelineHandler(override val client: ApiClient, override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
     override fun handle(json: JsonObject) {
         launch {
