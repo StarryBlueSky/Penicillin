@@ -104,7 +104,7 @@ val Stream.Event.createdAt: CreatedAt
     }
 
 /**
- * Represents "created_at" date fotmat.
+ * Represents "created_at" date format.
  */
 data class CreatedAt(
     /**

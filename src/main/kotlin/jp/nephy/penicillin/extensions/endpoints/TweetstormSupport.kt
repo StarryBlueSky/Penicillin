@@ -42,12 +42,12 @@ import kotlinx.coroutines.launch
 
 fun Stream.tweetstorm(
     customHost: EndpointHost = EndpointHost.UserStream,
-    delimited: StreamDelimitedBy? = null,
+    delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stringifyFriendIds: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/user.json", customHost) {
     parameter(
-        "delimited" to delimited?.value,
+        "delimited" to delimited.value,
         "stringify_friend_ids" to stringifyFriendIds,
         *options
     )
@@ -58,7 +58,7 @@ val Stream.tweetstorm
 
 fun Stream.tweetstorm(
     customHost: String,
-    delimited: StreamDelimitedBy? = null,
+    delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stringifyFriendIds: Boolean? = null,
     vararg options: Option
 ) = tweetstorm(EndpointHost(customHost, domainForSigning = EndpointHost.UserStream.domain), delimited, stringifyFriendIds, *options)

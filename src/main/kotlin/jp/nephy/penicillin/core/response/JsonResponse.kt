@@ -28,7 +28,17 @@ import jp.nephy.jsonkt.JsonElement
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlin.reflect.KClass
 
+/**
+ * Represents this request has json response and it's parsed with [PenicillinModel].
+ */
 interface JsonResponse<M: PenicillinModel, T: JsonElement> {
+    /**
+     * Json model class.
+     */
     val model: KClass<M>
+
+    /**
+     * Json element.
+     */
     val json: T
 }

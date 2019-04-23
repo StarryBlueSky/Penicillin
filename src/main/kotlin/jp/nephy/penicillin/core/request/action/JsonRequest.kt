@@ -27,6 +27,12 @@ package jp.nephy.penicillin.core.request.action
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlin.reflect.KClass
 
+/**
+ * Represents this request is expected to receive json response and it's parsed with [PenicillinModel].
+ */
 interface JsonRequest<M: PenicillinModel> {
+    /**
+     * Json model class.
+     */
     val model: KClass<M>
 }

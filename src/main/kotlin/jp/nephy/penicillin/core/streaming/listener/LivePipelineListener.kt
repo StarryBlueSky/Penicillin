@@ -30,7 +30,18 @@ import jp.nephy.penicillin.core.streaming.handler.LivePipelineHandler
  * An event model interface for [LivePipelineHandler].
  */
 interface LivePipelineListener: StreamListener {
+    /**
+     * Called when a status like count increments.
+     */
     suspend fun onUpdateLikeCount(id: Long, count: Int) {}
+
+    /**
+     * Called when a status retweet count increments.
+     */
     suspend fun onUpdateRetweetCount(id: Long, count: Int) {}
+
+    /**
+     * Called when a status reply count increments.
+     */
     suspend fun onUpdateReplyCount(id: Long, count: Int) {}
 }

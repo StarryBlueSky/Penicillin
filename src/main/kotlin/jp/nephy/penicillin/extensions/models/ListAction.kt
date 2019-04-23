@@ -29,16 +29,45 @@ package jp.nephy.penicillin.extensions.models
 import jp.nephy.penicillin.endpoints.lists
 import jp.nephy.penicillin.endpoints.lists.addMember
 import jp.nephy.penicillin.endpoints.lists.addMembersByUserIds
+import jp.nephy.penicillin.endpoints.lists.removeMember
+import jp.nephy.penicillin.endpoints.lists.removeMembersByUserIds
 import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.models.TwitterList
 import jp.nephy.penicillin.models.User
 
+/**
+ * Adds the user to this list.
+ * This function is suspend-function.
+ */
 suspend operator fun TwitterList.plusAssign(user: User) {
     client.lists.addMember(id, user.id).await()
 }
 
+/**
+ * Adds the users to this list.
+ * This function is suspend-function.
+ */
 suspend operator fun TwitterList.plusAssign(users: Iterable<User>) {
     users.map { it.id }.chunked(100).forEach {
         client.lists.addMembersByUserIds(id, it).await()
     }
 }
+
+/**
+ * Removes the user from this list.
+ * This function is suspend-function.
+ */
+suspend operator fun TwitterList.minusAssign(user: User) {
+    client.lists.removeMember(id, user.id).await()
+}
+
+/**
+ * Removes the users from this list.
+ * This function is suspend-function.
+ */
+suspend operator fun TwitterList.minusAssign(users: Iterable<User>) {
+    users.map { it.id }.chunked(100).forEach {
+        client.lists.removeMembersByUserIds(id, it).await()
+    }
+}
+

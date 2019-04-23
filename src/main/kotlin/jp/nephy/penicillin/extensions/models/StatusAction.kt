@@ -35,12 +35,29 @@ import jp.nephy.penicillin.endpoints.statuses.delete
 import jp.nephy.penicillin.endpoints.statuses.show
 import jp.nephy.penicillin.models.Status
 
+/**
+ * Creates an action to retrieve this status.
+ */
 fun Status.refresh() = client.statuses.show(id = id)
 
+/**
+ * Creates an action to favorite this status.
+ */
 fun Status.favorite() = client.favorites.create(id = id)
 
+/**
+ * Creates an action to unfavorite this status.
+ */
 fun Status.unfavorite() = client.favorites.destroy(id = id)
 
+/**
+ * Creates an action to delete this status.
+ */
 fun Status.delete() = client.statuses.delete(id = id)
 
+/**
+ * Creates an action to send a mention to this status.
+ *
+ * @param text Status body.
+ */
 fun Status.mention(text: String) = client.statuses.create(text, inReplyToStatusId = id)
