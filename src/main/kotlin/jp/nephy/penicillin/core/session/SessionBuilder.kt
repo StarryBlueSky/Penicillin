@@ -33,6 +33,9 @@ import io.ktor.util.KtorExperimentalAPI
 import jp.nephy.penicillin.core.session.config.*
 import kotlinx.coroutines.runBlocking
 
+/**
+ * The builder class that corresponds with [Session].
+ */
 class SessionBuilder(private val client: ApiClient) {
     internal val configBuilders = mutableSetOf<SessionConfigBuilder<*>>()
     

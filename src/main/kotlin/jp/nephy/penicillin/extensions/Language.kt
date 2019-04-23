@@ -32,25 +32,45 @@ import jp.nephy.penicillin.models.CommonUser
 import jp.nephy.penicillin.models.Status
 import java.util.*
 
+/**
+ * Parsed "language" object.
+ */
 val Account.Settings.language: Language
     get() {
         val value = stringValue("language")
         return Language(value)
     }
 
+/**
+ * Parsed "lang" object.
+ */
 val Status.lang: Language
     get() {
         val value = stringValue("lang")
         return Language(value)
     }
 
+/**
+ * Parsed "lang" object.
+ */
 val CommonUser.lang: Language
     get() {
         val value = stringValue("lang")
         return Language(value)
     }
 
-data class Language(val value: String) {
+/**
+ * Represents parsed "lang" object.
+ */
+data class Language(
+    /**
+     * Original "lang" string value.
+     */
+    val value: String
+) {
+    /**
+     * New [Locale] instance for this "lang" value.
+     */
     val locale: Locale
         get() = Locale(value)
 }

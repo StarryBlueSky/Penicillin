@@ -32,7 +32,18 @@ import jp.nephy.penicillin.models.Stream
  * An event model interface for [SampleStreamHandler].
  */
 interface SampleStreamListener: StreamListener {
+    /**
+     * Called when a status is received.
+     */
     suspend fun onStatus(status: Status) {}
+
+    /**
+     * Called when a delete event is received.
+     */
     suspend fun onDelete(delete: Stream.Delete) {}
+
+    /**
+     * Called when a warning event is received.
+     */
     suspend fun onWarning(warning: Stream.Warning) {}
 }
