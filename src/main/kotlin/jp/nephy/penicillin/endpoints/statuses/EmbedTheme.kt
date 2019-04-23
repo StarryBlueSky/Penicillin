@@ -24,8 +24,10 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
-enum class EmbedTheme(val value: String?) {
+enum class EmbedTheme(internal val value: String?) {
     Default(null),
     
-    Light("light"), Dark("dark")
+    Light("light"),
+
+    Dark("dark")
 }

@@ -48,12 +48,12 @@ import jp.nephy.penicillin.models.TrendPlace
  */
 fun Trends.place(
     id: Long,
-    exclude: TrendExclude? = null,
+    exclude: TrendExclude = TrendExclude.Default,
     vararg options: Option
 ) = client.session.get("/1.1/trends/place.json") {
     parameter(
         "id" to id,
-        "exclude" to exclude?.value,
+        "exclude" to exclude.value,
         *options
     )
 }.jsonArray<TrendPlace>()

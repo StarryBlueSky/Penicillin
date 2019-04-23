@@ -65,7 +65,7 @@ fun Timeline.userTimeline(
     includeRTs: Boolean? = null,
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
 ) = userTimelineInternal(null, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
@@ -104,7 +104,7 @@ fun Timeline.userTimelineByUserId(
     includeRTs: Boolean? = null,
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
 ) = userTimelineInternal(userId, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
@@ -143,7 +143,7 @@ fun Timeline.userTimelineByScreenName(
     includeRTs: Boolean? = null,
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
 ) = userTimelineInternal(null, screenName, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
@@ -159,7 +159,7 @@ private fun Timeline.userTimelineInternal(
     includeRTs: Boolean? = null,
     includeEntities: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/user_timeline.json") {
@@ -174,7 +174,7 @@ private fun Timeline.userTimelineInternal(
         "include_rts" to includeRTs,
         "include_entities" to includeEntities,
         "include_my_retweet" to includeMyRetweet,
-        "tweet_mode" to tweetMode?.value,
+        "tweet_mode" to tweetMode.value,
         "include_card_uri" to includeCardUri,
         *options
     )

@@ -29,6 +29,11 @@ package jp.nephy.penicillin.endpoints.stream
  */
 enum class UserStreamWith(internal val value: String?) {
     /**
+     * Default value.
+     */
+    Default(null),
+
+    /**
      * Indicates that UserStream events only from authenticated user should be received.
      */
     User("user"),
@@ -36,10 +41,5 @@ enum class UserStreamWith(internal val value: String?) {
     /**
      * Indicates that UserStream events from following users and authenticated user should be received.
      */
-    Followings("followings"),
-
-    /**
-     * Default value.
-     */
-    Default(null)
+    Followings("followings")
 }

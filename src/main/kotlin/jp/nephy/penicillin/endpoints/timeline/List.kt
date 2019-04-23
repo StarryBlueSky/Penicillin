@@ -58,7 +58,7 @@ fun Timeline.listTimeline(
     count: Int? = null,
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeMyRetweet: Boolean? = null,
     includeCardUri: Boolean? = null,
     vararg options: Option
@@ -91,7 +91,7 @@ fun Timeline.listTimelineByOwnerScreenName(
     count: Int? = null,
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeMyRetweet: Boolean? = null,
     includeCardUri: Boolean? = null,
     vararg options: Option
@@ -124,7 +124,7 @@ fun Timeline.listTimelineByOwnerId(
     count: Int? = null,
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeMyRetweet: Boolean? = null,
     includeCardUri: Boolean? = null,
     vararg options: Option
@@ -140,7 +140,7 @@ private fun Timeline.listTimeline(
     count: Int? = null,
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeMyRetweet: Boolean? = null,
     includeCardUri: Boolean? = null,
     vararg options: Option
@@ -155,7 +155,7 @@ private fun Timeline.listTimeline(
         "count" to count,
         "include_entities" to includeEntities,
         "include_rts" to includeRTs,
-        "tweet_mode" to tweetMode?.value,
+        "tweet_mode" to tweetMode.value,
         "include_my_retweet" to includeMyRetweet,
         "include_card_uri" to includeCardUri,
         *options

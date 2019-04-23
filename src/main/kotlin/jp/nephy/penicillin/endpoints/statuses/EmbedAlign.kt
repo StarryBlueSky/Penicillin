@@ -24,6 +24,17 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
-enum class EmbedAlign(val value: String) {
-    Left("left"), Right("right"), Center("center"), None("none")
+enum class EmbedAlign(internal val value: String?) {
+    /**
+     * Default value.
+     */
+    Default(null),
+
+    Left("left"),
+
+    Right("right"),
+
+    Center("center"),
+
+    None("none")
 }

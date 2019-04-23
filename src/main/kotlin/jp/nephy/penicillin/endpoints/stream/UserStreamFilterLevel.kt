@@ -29,6 +29,11 @@ package jp.nephy.penicillin.endpoints.stream
  */
 enum class UserStreamFilterLevel(internal val value: String?) {
     /**
+     * Default value.
+     */
+    Default(null),
+
+    /**
      * Indicates that all filters should be disabled.
      */
     None("none"),
@@ -41,10 +46,5 @@ enum class UserStreamFilterLevel(internal val value: String?) {
     /**
      * Indicated that medium filter should be enabled.
      */
-    Medium("medium"),
-
-    /**
-     * Default value.
-     */
-    Default(null)
+    Medium("medium")
 }

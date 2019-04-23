@@ -24,6 +24,11 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
-enum class EmbedWidgetType(val value: String) {
+enum class EmbedWidgetType(internal val value: String?) {
+    /**
+     * Default value.
+     */
+    Default(null),
+
     Video("video")
 }

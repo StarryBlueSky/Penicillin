@@ -63,12 +63,12 @@ fun Statuses.embedFormat(
     hideMedia: Boolean? = null,
     hideThread: Boolean? = null,
     omitScript: Boolean? = null,
-    align: EmbedAlign? = null,
+    align: EmbedAlign = EmbedAlign.Default,
     related: List<String>? = null,
     lang: String? = null,
-    theme: EmbedTheme? = null,
+    theme: EmbedTheme = EmbedTheme.Default,
     linkColor: String? = null,
-    widgetType: EmbedWidgetType? = null,
+    widgetType: EmbedWidgetType = EmbedWidgetType.Default,
     dnt: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/oembed", EndpointHost.Publish) {
@@ -79,12 +79,12 @@ fun Statuses.embedFormat(
         "hide_media" to hideMedia,
         "hide_thread" to hideThread,
         "omit_script" to omitScript,
-        "align" to align?.value,
+        "align" to align.value,
         "related" to related?.joinToString(","),
         "lang" to lang,
-        "theme" to theme?.value,
+        "theme" to theme.value,
         "link_color" to linkColor,
-        "widget_type" to widgetType?.value,
+        "widget_type" to widgetType.value,
         "dnt" to dnt,
         *options
     )

@@ -28,8 +28,8 @@ package jp.nephy.penicillin.endpoints.collections
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Collections
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.Collection
 
 /**
@@ -50,7 +50,7 @@ fun Collections.create(
     name: String,
     description: String? = null,
     url: String? = null,
-    timelineOrder: CollectionTimelineOrder? = null,
+    timelineOrder: CollectionTimelineOrder = CollectionTimelineOrder.Default,
     vararg options: Option
 ) = client.session.post("/1.1/collections/create.json") {
     body {
@@ -59,7 +59,7 @@ fun Collections.create(
                 "name" to name,
                 "description" to description,
                 "url" to url,
-                "timeline_order" to timelineOrder?.value,
+                "timeline_order" to timelineOrder.value,
                 *options
             )
         }

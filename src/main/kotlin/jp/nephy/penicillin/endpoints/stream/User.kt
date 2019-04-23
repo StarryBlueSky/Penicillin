@@ -44,12 +44,12 @@ import jp.nephy.penicillin.endpoints.Stream
  */
 @Deprecated("UserStream API retired on August 23th, 2018.", replaceWith = ReplaceWith("Tweetstorm or Account Activity API (AAA)"))
 fun Stream.user(
-    delimited: StreamDelimitedBy? = null,
+    delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stallWarnings: Boolean? = null,
-    with: UserStreamWith? = null,
-    replies: UserStreamReplies? = null,
+    with: UserStreamWith = UserStreamWith.Default,
+    replies: UserStreamReplies = UserStreamReplies.Default,
     track: List<String>? = null,
-    filterLevel: UserStreamFilterLevel? = null,
+    filterLevel: UserStreamFilterLevel = UserStreamFilterLevel.Default,
     language: String? = null,
     follow: List<Long>? = null,
     locations: List<Pair<Double, Double>>? = null,
@@ -59,12 +59,12 @@ fun Stream.user(
     vararg options: Option
 ) = client.session.get("/1.1/user.json", EndpointHost.UserStream) {
     parameter(
-        "delimited" to delimited?.value,
+        "delimited" to delimited.value,
         "stall_warning" to stallWarnings,
-        "with" to with?.value,
-        "replies" to replies?.value,
+        "with" to with.value,
+        "replies" to replies.value,
         "track" to track?.joinToString(","),
-        "filter_level" to filterLevel?.value,
+        "filter_level" to filterLevel.value,
         "language" to language,
         "follow" to follow?.joinToString(","),
         "locations" to locations?.joinToString(",") { "${it.first},${it.second}" },
