@@ -26,10 +26,18 @@
 
 package jp.nephy.penicillin.extensions
 
+import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.endpoints.Endpoint
 
+/**
+ * Creates an [ApiAction] that is resolved with passed lambda block.
+ *
+ * @param block Executed action block.
+ *
+ * @return New [ApiAction] with passed block.
+ */
 @Suppress("FunctionName")
-fun <R: Any?> Endpoint.DelegatedAction(block: suspend () -> R): DelegatedAction<R> {
+fun <R: Any?> Endpoint.DelegatedAction(block: suspend () -> R): ApiAction<R> {
     return DelegatedAction(client, block)
 }
