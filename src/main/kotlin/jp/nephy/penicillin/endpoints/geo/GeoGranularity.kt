@@ -24,9 +24,17 @@
 
 package jp.nephy.penicillin.endpoints.geo
 
-enum class GeoGranularity {
-    Neighborhood, City, Admin, Country;
-    
-    internal val value: String
-        get() = name.toLowerCase()
+enum class GeoGranularity(internal val value: String?) {
+    /**
+     * Default value.
+     */
+    Default(null),
+
+    Neighborhood("neighborhood"),
+
+    City("city"),
+
+    Admin("admin"),
+
+    Country("country")
 }

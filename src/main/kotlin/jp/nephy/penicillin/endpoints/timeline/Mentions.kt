@@ -62,7 +62,7 @@ fun Timeline.mentionsTimeline(
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/mentions_timeline.json") {
@@ -97,7 +97,7 @@ fun Timeline.mentionsTimeline(
         "include_entities" to includeEntities,
         "include_rts" to includeRTs,
         "include_my_retweet" to includeMyRetweet,
-        "tweet_mode" to tweetMode?.value,
+        "tweet_mode" to tweetMode.value,
         "include_card_uri" to includeCardUri,
         *options
     )

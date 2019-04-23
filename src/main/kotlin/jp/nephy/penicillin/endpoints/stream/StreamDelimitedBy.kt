@@ -26,12 +26,11 @@
 
 package jp.nephy.penicillin.endpoints.stream
 
-enum class StreamDelimitedBy(val value: String?) {
-    Default(null), Length("length");
+enum class StreamDelimitedBy(internal val value: String?) {
+    /**
+     * Default value.
+     */
+    Default(null),
 
-    companion object {
-        fun byName(name: String): StreamDelimitedBy {
-            return values().find { it.name.equals(name, true) } ?: Default
-        }
-    }
+    Length("length")
 }

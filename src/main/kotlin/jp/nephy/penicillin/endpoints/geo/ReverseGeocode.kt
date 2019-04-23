@@ -28,8 +28,8 @@ package jp.nephy.penicillin.endpoints.geo
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Geo
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.GeoResult
 
 /**
@@ -51,7 +51,7 @@ fun Geo.reverseGeocode(
     latitude: Double,
     longitude: Double,
     accuracy: String? = null,
-    granularity: GeoGranularity? = null,
+    granularity: GeoGranularity = GeoGranularity.Default,
     maxResults: Int? = null,
     vararg options: Option
 ) = client.session.get("/1.1/geo/reverse_geocode.json") {
@@ -59,7 +59,7 @@ fun Geo.reverseGeocode(
         "lat" to latitude,
         "long" to longitude,
         "accuracy" to accuracy,
-        "granularity" to granularity?.value,
+        "granularity" to granularity.value,
         "max_results" to maxResults,
         *options
     )

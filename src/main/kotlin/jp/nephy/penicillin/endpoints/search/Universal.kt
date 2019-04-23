@@ -46,14 +46,14 @@ import jp.nephy.penicillin.models.SearchUniversal
 fun Search.universal(
     query: String,
     modules: String? = null,
-    resultType: SearchResultType? = null,
+    resultType: SearchResultType = SearchResultType.Default,
     tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.get("/1.1/search/universal.json") {
     parameter(
         "q" to query,
         "modules" to modules,
-        "result_type" to resultType?.value,
+        "result_type" to resultType.value,
         "tweet_mode" to tweetMode,
         *options
     )

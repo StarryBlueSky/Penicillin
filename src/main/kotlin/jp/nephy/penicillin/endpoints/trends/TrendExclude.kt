@@ -24,6 +24,11 @@
 
 package jp.nephy.penicillin.endpoints.trends
 
-enum class TrendExclude(val value: String?) {
-    None(null), Hashtags("hashtags")
+enum class TrendExclude(internal val value: String?) {
+    /**
+     * Default value.
+     */
+    Default(null),
+
+    Hashtags("hashtags")
 }

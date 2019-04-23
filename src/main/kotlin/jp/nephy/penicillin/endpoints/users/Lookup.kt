@@ -56,7 +56,7 @@ import jp.nephy.penicillin.models.User
 fun Users.lookupByScreenNames(
     screenNames: List<String>,
     includeEntities: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = lookup(screenNames, null, includeEntities, tweetMode, *options)
 
@@ -82,7 +82,7 @@ fun Users.lookupByScreenNames(
 fun Users.lookupByIds(
     userIds: List<Long>,
     includeEntities: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = lookup(null, userIds, includeEntities, tweetMode, *options)
 
@@ -90,7 +90,7 @@ private fun Users.lookup(
     screenNames: List<String>? = null,
     userIds: List<Long>? = null,
     includeEntities: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/users/lookup.json") {
     parameter(
@@ -108,7 +108,7 @@ private fun Users.lookup(
         "screen_name" to screenNames?.joinToString(","),
         "user_id" to userIds?.joinToString(","),
         "include_entities" to includeEntities,
-        "tweet_mode" to tweetMode?.value,
+        "tweet_mode" to tweetMode.value,
         *options
     )
 }.jsonArray<User>()

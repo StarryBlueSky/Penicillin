@@ -62,7 +62,7 @@ fun Timeline.homeTimeline(
     includeEntities: Boolean? = null,
     includeRTs: Boolean? = null,
     includeMyRetweet: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/home_timeline.json") {
@@ -73,7 +73,7 @@ fun Timeline.homeTimeline(
         "trim_user" to trimUser,
         "exclude_replies" to excludeReplies,
         "include_entities" to includeEntities,
-        "tweet_mode" to tweetMode?.value,
+        "tweet_mode" to tweetMode.value,
         "include_rts" to includeRTs,
         "include_my_retweet" to includeMyRetweet,
         "include_card_uri" to includeCardUri,

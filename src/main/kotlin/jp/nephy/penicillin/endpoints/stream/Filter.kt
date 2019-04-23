@@ -55,13 +55,13 @@ fun Stream.filter(
     follow: List<Long>? = null,
     track: List<String>? = null,
     locations: List<Pair<Double, Double>>? = null,
-    delimited: StreamDelimitedBy? = null,
+    delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stallWarnings: Boolean? = null,
     language: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/filter.json", EndpointHost.Stream) {
     parameter(
-        "delimited" to delimited?.value,
+        "delimited" to delimited.value,
         "stall_warning" to stallWarnings,
         "track" to track?.joinToString(","),
         "follow" to follow?.joinToString(","),

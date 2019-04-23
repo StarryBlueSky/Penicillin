@@ -29,12 +29,12 @@ package jp.nephy.penicillin.endpoints.stream
  */
 enum class UserStreamReplies(internal val value: String?) {
     /**
-     * Indicates that all replies should be received.
-     */
-    All("all"),
-
-    /**
      * Default value.
      */
-    Default(null)
+    Default(null),
+
+    /**
+     * Indicates that all replies should be received.
+     */
+    All("all")
 }

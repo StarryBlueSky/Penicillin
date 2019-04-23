@@ -48,13 +48,13 @@ import jp.nephy.penicillin.endpoints.Stream
  * @return [StreamApiAction] for [SampleStreamHandler] handler with [SampleStreamListener] listener.
  */
 fun Stream.sample(
-    delimited: StreamDelimitedBy? = null,
+    delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stallWarnings: Boolean? = null,
     language: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/sample.json", EndpointHost.Stream) {
     parameter(
-        "delimited" to delimited?.value,
+        "delimited" to delimited.value,
         "stall_warning" to stallWarnings,
         "language" to language,
         *options

@@ -24,7 +24,15 @@
 
 package jp.nephy.penicillin.endpoints.collections
 
-enum class CollectionTimelineOrder(val value: String) {
+/**
+ * Order Tweets chronologically or in the order they are added to a Collection.
+ */
+enum class CollectionTimelineOrder(internal val value: String?) {
+    /**
+     * Default value.
+     */
+    Default(null),
+
     /**
      * order added (default)
      */

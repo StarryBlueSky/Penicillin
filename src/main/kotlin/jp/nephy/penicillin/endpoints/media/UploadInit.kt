@@ -49,7 +49,7 @@ import jp.nephy.penicillin.endpoints.Option
 fun Media.uploadInit(
     totalBytes: Int,
     mediaType: MediaType,
-    mediaCategory: MediaCategory? = null,
+    mediaCategory: MediaCategory = MediaCategory.Default,
     additionalOwners: List<Long>? = null,
     vararg options: Option
 ) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
@@ -59,7 +59,7 @@ fun Media.uploadInit(
                 "command" to "INIT",
                 "total_bytes" to totalBytes,
                 "media_type" to mediaType.contentType,
-                "media_category" to mediaCategory?.value,
+                "media_category" to mediaCategory.value,
                 "additional_owners" to additionalOwners?.joinToString(","),
                 *options
             )
