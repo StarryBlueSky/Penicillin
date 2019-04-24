@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
@@ -41,8 +41,9 @@ object DirectMessageEvent {
         data class App(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val id: String
                 get() = json.keys.first()
-            val name by json[id].jsonObject.byString
-            val url by json[id].jsonObject.byString
+            private val obj by json.byJsonObject(id)
+            val name by obj.byString
+            val url by obj.byString
         }
 
         data class Event(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
