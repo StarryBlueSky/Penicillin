@@ -38,10 +38,10 @@ import jp.nephy.penicillin.extensions.penicillinModelList
 data class SearchUniversal(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val metadata by penicillinModel<Metadata>("metadata")
     val statuses by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> json["status"].parseModel<Status>(client) }
+        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> json.getObject("status").parseModel<Status>(client) }
     }
     val userGalleries by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> json["user_gallery"].parseModel<UserGallery>(client) }
+        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> json.getObject("user_gallery").parseModel<UserGallery>(client) }
     }
 
     data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {

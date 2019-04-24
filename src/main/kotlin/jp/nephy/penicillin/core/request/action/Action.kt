@@ -112,7 +112,7 @@ internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpRespons
     
     val json = content?.toJsonObjectOrNull()
     if (json != null) {
-        when (val error = json.getOrNull("errors")?.jsonArrayOrNull?.firstOrNull() ?: json.getOrNull("error")) {
+        when (val error = json["errors"]?.jsonArrayOrNull?.firstOrNull() ?: json["error"]) {
             is JsonObject -> {
                 val code by error.byNullableInt
                 val message by error.byString { "" }
