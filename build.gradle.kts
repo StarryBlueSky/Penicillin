@@ -19,11 +19,11 @@ val packageName = "Penicillin"
 val packageVersion = Version(4, 1, 3)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
-val ktorVersion = "1.2.0-alpha-2"
+val ktorVersion = "1.1.5"
 val spekVersion = "2.0.2"
 
 plugins { 
-    kotlin("jvm") version "1.3.30"
+    kotlin("jvm") version "1.3.31"
 
     // For testing
     id("com.adarshr.test-logger") version "1.6.0"
