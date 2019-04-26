@@ -33,6 +33,9 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 
+/**
+ * The [ApiResponse] that provides stream-able response.
+ */
 data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
     override val client: ApiClient,
     override val request: HttpRequest,

@@ -24,6 +24,12 @@
 
 package jp.nephy.penicillin.core.response
 
+/**
+ * Represents this response is completed and its response is [String].
+ */
 interface CompletedResponse {
+    /**
+     * Text response.
+     */
     val content: String
 }

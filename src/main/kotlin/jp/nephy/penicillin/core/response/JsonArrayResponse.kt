@@ -33,10 +33,18 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlin.reflect.KClass
 
+/**
+ * The [ApiResponse] that provides parsed json array with json model.
+ */
 data class JsonArrayResponse<M: PenicillinModel>(
     override val client: ApiClient,
     override val model: KClass<M>,
+
+    /**
+     * Results of response.
+     */
     val results: List<M>,
+
     override val request: HttpRequest,
     override val response: HttpResponse,
     override val content: String,

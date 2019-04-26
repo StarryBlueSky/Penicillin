@@ -24,17 +24,32 @@
 
 package jp.nephy.penicillin.endpoints.geo
 
+/**
+ * This is the minimal granularity of place types to return.
+ */
 enum class GeoGranularity(internal val value: String?) {
     /**
      * Default value.
      */
     Default(null),
 
+    /**
+     * "neighborhood".
+     */
     Neighborhood("neighborhood"),
 
+    /**
+     * "city".
+     */
     City("city"),
 
+    /**
+     * "admin".
+     */
     Admin("admin"),
 
+    /**
+     * "country".
+     */
     Country("country")
 }
