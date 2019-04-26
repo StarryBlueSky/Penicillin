@@ -1,6 +1,6 @@
-# Penicillin: Full-featured Twitter API wrapper for Kotlin
+# Penicillin: Modern Powerful Twitter API wrapper for Kotlin
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.30-blue.svg)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.31-blue.svg)](https://kotlinlang.org)
 [![Stable](https://img.shields.io/github/release/NephyProject/Penicillin.svg?label=stable)](https://github.com/NephyProject/Penicillin/releases/latest)
 [![Dev](https://img.shields.io/bintray/v/nephyproject/penicillin/Penicillin.svg?label=dev)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion)
 [![License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
@@ -12,7 +12,7 @@
 * Supports some private Twitter API endpoints such as Poll Tweets.
 * Endpoint's parameters are resolved as Kotlin "Typed-safe Named Parameter".
 * Penicillin has model classes. So endpoint's response is easy to use.
-* API execution supports classic function `.complete()`, suspend function `.await()`, deferred operation `.async()` and callback style `.queue {}`.
+* API execution supports classical blocking function `.complete()`, suspend function `.await()`, deferred operation `.async()` and callback style `.queue {}`.
 * Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.
 
 KDoc is available at [docs.nephy.jp](https://docs.nephy.jp/penicillin). Documentation is currently WIP :(
@@ -50,20 +50,18 @@ Releases are available at [Bintray](https://bintray.com/nephyproject/penicillin/
 You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or `CIO` engine.  
 Full engine list is available at https://ktor.io/clients/http-client/engines.html.
 
-Penicillin depends on `kotlinx.serialization`. So you need to add "https://kotlin.bintray.com/kotlinx" repository below.
-
 ### Gradle Kotlin DSL
 
-We recommend using Gradle Kotlin DSL instead of old build.gradle.  
+We recommend using Gradle Kotlin DSL instead of classic build.gradle.  
 
 #### build.gradle.kts
 
 ```kotlin
-val penicillinVersion = "PUT desired Penicillin version here"
-val ktorVersion = "1.1.3"
+val penicillinVersion = "4.1.2"
+val ktorVersion = "1.1.5"
 
 plugins { 
-    kotlin("jvm") version "1.3.21"
+    kotlin("jvm") version "1.3.31"
 }
 
 repositories {
@@ -92,9 +90,9 @@ dependencies {
 
 ```groovy
 buildscript {
-    ext.penicillin_version = "PUT desired Penicillin version here"
-    ext.kotlin_version = "1.3.21"
-    ext.ktor_version = "1.1.3"
+    ext.penicillin_version = "4.1.2"
+    ext.kotlin_version = "1.3.31"
+    ext.ktor_version = "1.1.5"
 
     repositories {
         mavenCentral()
@@ -125,11 +123,14 @@ dependencies {
 }
 ```
 
-## Multiplatform Support
+## Compatibility
 
-Currently Penicillin does **NOT** support non-JVM environment.  
+Currently Penicillin works on JVM (Java 8) or Android (API level 24 or greater).  
 
-In the future, Penicillin is plan to support Kotlin/Multiplatform.
+In the future, Penicillin is plan to support Kotlin/Multiplatform. It brings the benefits of reuse for Kotlin code and saves you from wasting time.  
+For example, if you only write Kotlin code once, it can be compiled for JVM, JavaScript, iOS, Android, Windows, macOS and so on.  
+
+In Android development, we confirmed that Penicillin works only on API level 24 or greater. It's caused by Ktor-side restriction. Detail information is [here](https://ktor.io/quickstart/faq.html#android-support).
 
 ## Contributing
 
