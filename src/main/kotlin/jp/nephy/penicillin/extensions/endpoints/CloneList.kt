@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.extensions.endpoints
 
+import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.lists.create
 import jp.nephy.penicillin.endpoints.lists.members
@@ -36,6 +37,13 @@ import jp.nephy.penicillin.extensions.cursor.allUsers
 import jp.nephy.penicillin.extensions.cursor.untilLast
 import jp.nephy.penicillin.extensions.models.plusAssign
 
+/**
+ * Clones this list. The name, description and mode are copied to new list.
+ *
+ * @param sourceId Source list id.
+ *
+ * @return New [ApiAction] for new list response.
+ */
 fun Lists.clone(sourceId: Long) = DelegatedAction {
     val sourceList = show(sourceId).await()
     val sourceMembers = members(sourceId).untilLast("count" to 5000).allUsers

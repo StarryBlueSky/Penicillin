@@ -29,6 +29,7 @@ package jp.nephy.penicillin.extensions.endpoints
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.jsonkt.toJsonString
 import jp.nephy.penicillin.core.emulation.EmulationMode
+import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
 import jp.nephy.penicillin.endpoints.Statuses
@@ -37,7 +38,20 @@ import jp.nephy.penicillin.endpoints.cards.create
 import jp.nephy.penicillin.endpoints.statuses.create
 import jp.nephy.penicillin.extensions.DelegatedAction
 import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.models.Status
 
+/**
+ * Creates new poll tweet.
+ *
+ * **Warning: This endpoint is private endpoint. So if you use this endpoint, your account can be banned.**
+ *
+ * @param status Status body.
+ * @param choices A list of choices. Max size is 4.
+ * @param minutes Duration minutes. Default 1440 mins (1 day).
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Statuses] endpoint instance.
+ * @return [ApiAction] for [Status] model.
+ */
 @PrivateEndpoint(EmulationMode.TwitterForiPhone)
 fun Statuses.createPollTweet(
     status: String,

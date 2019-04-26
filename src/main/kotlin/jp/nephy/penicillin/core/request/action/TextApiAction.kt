@@ -28,6 +28,9 @@ import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.TextResponse
 import jp.nephy.penicillin.core.session.ApiClient
 
+/**
+ * The [ApiAction] that provides text response only.
+ */
 class TextApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<TextResponse> {
     override suspend operator fun invoke(): TextResponse {
         val (request, response) = execute()

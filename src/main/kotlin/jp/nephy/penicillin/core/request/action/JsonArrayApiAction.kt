@@ -34,6 +34,9 @@ import jp.nephy.penicillin.extensions.parseModelListOrNull
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlin.reflect.KClass
 
+/**
+ * The [ApiAction] that provides parsed json array with json model.
+ */
 class JsonArrayApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
     override suspend operator fun invoke(): JsonArrayResponse<M> {
         val (request, response) = execute()

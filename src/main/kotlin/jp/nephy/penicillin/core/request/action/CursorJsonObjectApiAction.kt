@@ -34,6 +34,9 @@ import jp.nephy.penicillin.extensions.parseModelOrNull
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 import kotlin.reflect.KClass
 
+/**
+ * The [ApiAction] that provides parsed json object with json model. This class supports cursor api operation.
+ */
 class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M>> {
     override suspend operator fun invoke(): CursorJsonObjectResponse<M> {
         val (request, response) = execute()

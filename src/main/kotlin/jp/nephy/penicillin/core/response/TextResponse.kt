@@ -29,6 +29,9 @@ import io.ktor.client.response.HttpResponse
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.ApiClient
 
+/**
+ * The [ApiResponse] that provides text response only.
+ */
 data class TextResponse(
     override val client: ApiClient,
     override val request: HttpRequest,

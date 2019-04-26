@@ -32,10 +32,18 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 import kotlin.reflect.KClass
 
+/**
+ * The [ApiResponse] that provides parsed json object with json model. This class supports cursor api operation.
+ */
 data class CursorJsonObjectResponse<M: PenicillinCursorModel>(
     override val client: ApiClient,
     override val model: KClass<M>,
+
+    /**
+     * Result of response.
+     */
     val result: M,
+
     override val request: HttpRequest,
     override val response: HttpResponse,
     override val content: String,
