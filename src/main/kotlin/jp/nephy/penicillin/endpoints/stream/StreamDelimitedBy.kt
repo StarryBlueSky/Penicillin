@@ -32,5 +32,8 @@ enum class StreamDelimitedBy(internal val value: String?) {
      */
     Default(null),
 
+    /**
+     * Delimited by length.
+     */
     Length("length")
 }
