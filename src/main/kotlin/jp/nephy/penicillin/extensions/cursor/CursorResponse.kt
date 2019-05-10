@@ -27,16 +27,26 @@
 package jp.nephy.penicillin.extensions.cursor
 
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
-import jp.nephy.penicillin.models.*
+import jp.nephy.penicillin.models.TwitterList
+import jp.nephy.penicillin.models.User
 import jp.nephy.penicillin.models.cursor.CursorIds
 import jp.nephy.penicillin.models.cursor.CursorLists
 import jp.nephy.penicillin.models.cursor.CursorUsers
 
+/**
+ * Returns flatten all the user ids.
+ */
 val Sequence<CursorJsonObjectResponse<CursorIds>>.allIds: List<Long>
     get() = toList().flatMap { it.result.ids }
 
+/**
+ * Returns flatten all the lists.
+ */
 val Sequence<CursorJsonObjectResponse<CursorLists>>.allLists: List<TwitterList>
     get() = toList().flatMap { it.result.lists }
 
+/**
+ * Returns flatten all the users.
+ */
 val Sequence<CursorJsonObjectResponse<CursorUsers>>.allUsers: List<User>
     get() = toList().flatMap { it.result.users }
