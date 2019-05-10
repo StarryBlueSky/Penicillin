@@ -30,37 +30,61 @@ import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEventType
 import jp.nephy.penicillin.models.*
 
-fun newStatus(builder: CustomStatusBuilder.() -> Unit): Status {
+/**
+ * Creates new custom [Status] object.
+ */
+inline fun newStatus(builder: CustomStatusBuilder.() -> Unit): Status {
     return CustomStatusBuilder().apply(builder).build()
 }
 
-fun newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuilder.() -> Unit): Stream.StatusEvent {
+/**
+ * Creates new custom [Stream.StatusEvent] object.
+ */
+inline fun newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuilder.() -> Unit): Stream.StatusEvent {
     require(event.type == UserStreamEventType.Status)
     return CustomStatusEventBuilder(event).apply(builder).build()
 }
 
-fun newList(builder: CustomListBuilder.() -> Unit): TwitterList {
+/**
+ * Creates new custom [TwitterList] object.
+ */
+inline fun newList(builder: CustomListBuilder.() -> Unit): TwitterList {
     return CustomListBuilder().apply(builder).build()
 }
 
-fun newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.() -> Unit): Stream.ListEvent {
+/**
+ * Creates new custom [Stream.ListEvent] object.
+ */
+inline fun newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.() -> Unit): Stream.ListEvent {
     require(event.type == UserStreamEventType.List)
     return CustomListEventBuilder(event).apply(builder).build()
 }
 
-fun newUser(builder: CustomUserBuilder.() -> Unit): User {
+/**
+ * Creates new custom [User] object.
+ */
+inline fun newUser(builder: CustomUserBuilder.() -> Unit): User {
     return CustomUserBuilder().apply(builder).build()
 }
 
-fun newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.() -> Unit): Stream.UserEvent {
+/**
+ * Creates new custom [Stream.UserEvent] object.
+ */
+inline fun newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.() -> Unit): Stream.UserEvent {
     require(event.type == UserStreamEventType.User)
     return CustomUserEventBuilder(event).apply(builder).build()
 }
 
-fun newDirectMessage(builder: CustomDirectMessageBuilder.() -> Unit): DirectMessage {
+/**
+ * Creates new custom [DirectMessage] object.
+ */
+inline fun newDirectMessage(builder: CustomDirectMessageBuilder.() -> Unit): DirectMessage {
     return CustomDirectMessageBuilder().apply(builder).build()
 }
 
-fun newDelete(builder: CustomDeleteBuilder.() -> Unit): Stream.Delete {
+/**
+ * Creates new custom [Stream.Delete] object.
+ */
+inline fun newDelete(builder: CustomDeleteBuilder.() -> Unit): Stream.Delete {
     return CustomDeleteBuilder().apply(builder).build()
 }
