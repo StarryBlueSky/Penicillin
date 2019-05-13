@@ -38,7 +38,8 @@ import kotlinx.coroutines.runBlocking
  */
 class SessionBuilder(private val client: ApiClient) {
     internal val configBuilders = mutableSetOf<SessionConfigBuilder<*>>()
-    
+
+    @PublishedApi
     internal fun build(): Session {
         val cookieConfig = createCookieConfig()
         val dispatcherConfig = createDispatcherConfig()
