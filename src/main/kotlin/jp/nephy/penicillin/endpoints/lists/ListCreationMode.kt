@@ -26,6 +26,22 @@ package jp.nephy.penicillin.endpoints.lists
 
 import jp.nephy.jsonkt.delegation.StringJsonEnum
 
-enum class ListCreationMode(override val value: String): StringJsonEnum {
-    Public("public"), Private("private")
+/**
+ * Represents list mode. For example, "Private" means protected list, and is invisible to unfollowed users.
+ */
+enum class ListCreationMode(
+    /**
+     * String key.
+     */
+    override val value: String
+): StringJsonEnum {
+    /**
+     * Public list.
+     */
+    Public("public"),
+
+    /**
+     * Private list.
+     */
+    Private("private")
 }

@@ -33,6 +33,9 @@ import io.ktor.client.engine.HttpClientEngineFactory
 import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 
+/**
+ * Creates [HttpClient] with engine factory and config block.
+ */
 @ApiClientDsl
 @Suppress("UNCHECKED_CAST")
 fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
@@ -44,6 +47,9 @@ fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpCli
     }
 }
 
+/**
+ * Creates [HttpClient] with default engine factory and engine config block
+ */
 @ApiClientDsl
 fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
     getOrPutBuilder {
@@ -53,6 +59,9 @@ fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
     }
 }
 
+/**
+ * Creates [HttpClient] with existing client.
+ */
 @ApiClientDsl
 fun SessionBuilder.httpClient(client: HttpClient) {
     getOrPutBuilder {

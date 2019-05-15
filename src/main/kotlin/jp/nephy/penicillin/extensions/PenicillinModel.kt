@@ -48,19 +48,31 @@ internal object NoopApiClient: ApiClient {
     parseModel
  */
 
+/**
+ * Parses this [JsonElement] with [model] bind to [client].
+ */
 fun <M: PenicillinModel> JsonElement.parseModel(model: KClass<M>, client: ApiClient): M {
     return parse(model, client)
 }
 
+/**
+ * Parses this [JsonElement] with [model].
+ */
 @PenicillinExperimentalApi
 fun <M: PenicillinModel> JsonElement.parseModel(model: KClass<M>): M {
     return parseModel(model, NoopApiClient)
 }
 
+/**
+ * Parses this [JsonElement] with [M] bind to [client].
+ */
 inline fun <reified M: PenicillinModel> JsonElement.parseModel(client: ApiClient): M {
     return parse(client)
 }
 
+/**
+ * Parses this [JsonElement] with [M].
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonElement.parseModel(): M {
     return parseModel(NoopApiClient)
@@ -70,19 +82,31 @@ inline fun <reified M: PenicillinModel> JsonElement.parseModel(): M {
     parseModelOrNull
  */
 
+/**
+ * Parses this [JsonElement] with [model] bind to [client], or null.
+ */
 fun <M: PenicillinModel> JsonElement.parseModelOrNull(model: KClass<M>, client: ApiClient): M? {
     return parseOrNull(model, client)
 }
 
+/**
+ * Parses this [JsonElement] with [model], or null.
+ */
 @PenicillinExperimentalApi
 fun <M: PenicillinModel> JsonElement.parseModelOrNull(model: KClass<M>): M? {
     return parseModelOrNull(model, NoopApiClient)
 }
 
+/**
+ * Parses this [JsonElement] with [M] bind to [client], or null.
+ */
 inline fun <reified M: PenicillinModel> JsonElement.parseModelOrNull(client: ApiClient): M? {
     return parseOrNull(client)
 }
 
+/**
+ * Parses this [JsonElement] with [M], or null.
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonElement.parseModelOrNull(): M? {
     return parseModelOrNull(NoopApiClient)
@@ -92,19 +116,31 @@ inline fun <reified M: PenicillinModel> JsonElement.parseModelOrNull(): M? {
     parseModelList
  */
 
+/**
+ * Parses this [JsonElement] with [model] bind to [client].
+ */
 fun <M: PenicillinModel> JsonElement.parseModelList(model: KClass<M>, client: ApiClient): List<M> {
     return parseList(model, client)
 }
 
+/**
+ * Parses this [JsonElement] with [model].
+ */
 @PenicillinExperimentalApi
 fun <M: PenicillinModel> JsonElement.parseModelList(model: KClass<M>): List<M> {
     return parseModelList(model, NoopApiClient)
 }
 
+/**
+ * Parses this [JsonElement] with [M] bind to [client].
+ */
 inline fun <reified M: PenicillinModel> JsonElement.parseModelList(client: ApiClient): List<M> {
     return parseList(client)
 }
 
+/**
+ * Parses this [JsonElement] with [M].
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonElement.parseModelList(): List<M> {
     return parseModelList(NoopApiClient)
@@ -114,19 +150,31 @@ inline fun <reified M: PenicillinModel> JsonElement.parseModelList(): List<M> {
     parseModelListOrNull
  */
 
+/**
+ * Parses this [JsonElement] with [model] bind to [client], or null.
+ */
 fun <M: PenicillinModel> JsonElement.parseModelListOrNull(model: KClass<M>, client: ApiClient): List<M>? {
     return parseListOrNull(model, client)
 }
 
+/**
+ * Parses this [JsonElement] with [model], or null.
+ */
 @PenicillinExperimentalApi
 fun <M: PenicillinModel> JsonElement.parseModelListOrNull(model: KClass<M>): List<M>? {
     return parseModelListOrNull(model, NoopApiClient)
 }
 
+/**
+ * Parses this [JsonElement] with [M] bind to [client].
+ */
 inline fun <reified M: PenicillinModel> JsonElement.parseModelListOrNull(client: ApiClient): List<M>? {
     return parseListOrNull(client)
 }
 
+/**
+ * Parses this [JsonElement] with [M].
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonElement.parseModelListOrNull(): List<M>? {
     return parseModelListOrNull(NoopApiClient)
@@ -136,31 +184,67 @@ inline fun <reified M: PenicillinModel> JsonElement.parseModelListOrNull(): List
     Model delegations
  */
 
+/**
+ * Delegates model parsing by [key].
+ */
 inline fun <reified M: PenicillinModel> PenicillinModel.penicillinModel(key: String? = null) = model<M>(key, client)
 
+/**
+ * Delegates nullable model parsing by [key].
+ */
 inline fun <reified M: PenicillinModel> PenicillinModel.nullablePenicillinModel(key: String? = null) = nullableModel<M>(key, client)
 
+/**
+ * Delegates model list parsing by [key].
+ */
 inline fun <reified M: PenicillinModel> PenicillinModel.penicillinModelList(key: String? = null) = modelList<M>(key, client)
 
+/**
+ * Delegates nullable model list parsing by [key].
+ */
 inline fun <reified M: PenicillinModel> PenicillinModel.nullablePenicillinModelList(key: String? = null) = nullableModelList<M>(key, client)
 
+/**
+ * Delegates model parsing by [key] bind to [client].
+ */
 inline fun <reified M: PenicillinModel> JsonObject.byPenicillinModel(client: ApiClient, key: String? = null) = byModel<M>(key, client)
 
+/**
+ * Delegates model parsing by [key].
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonObject.byPenicillinModel(key: String? = null) = byPenicillinModel<M>(NoopApiClient, key)
 
+/**
+ * Delegates nullable model parsing by [key] bind to [client].
+ */
 inline fun <reified M: PenicillinModel> JsonObject.byNullablePenicillinModel(client: ApiClient, key: String? = null) = byNullableModel<M>(key, client)
 
+/**
+ * Delegates nullable model parsing by [key].
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonObject.byNullablePenicillinModel(key: String? = null) = byNullablePenicillinModel<M>(NoopApiClient, key)
 
+/**
+ * Delegates model list parsing by [key] bind to [client].
+ */
 inline fun <reified M: PenicillinModel> JsonObject.byPenicillinModelList(client: ApiClient, key: String? = null) = byModelList<M>(key, client)
 
+/**
+ * Delegates model list parsing by [key].
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonObject.byPenicillinModelList(key: String? = null) = byPenicillinModelList<M>(NoopApiClient, key)
 
+/**
+ * Delegates nullable model list parsing by [key] bind to [client].
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonObject.byNullablePenicillinModelList(client: ApiClient, key: String? = null) = byNullableModelList<M>(key, client)
 
+/**
+ * Delegates nullable model list parsing by [key].
+ */
 @PenicillinExperimentalApi
 inline fun <reified M: PenicillinModel> JsonObject.byNullablePenicillinModelList(key: String? = null) = byNullablePenicillinModelList<M>(NoopApiClient, key)

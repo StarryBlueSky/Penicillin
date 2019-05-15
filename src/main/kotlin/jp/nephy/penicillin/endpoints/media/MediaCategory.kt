@@ -24,14 +24,32 @@
 
 package jp.nephy.penicillin.endpoints.media
 
+/**
+ * Represents media category.
+ */
 enum class MediaCategory(internal val value: String?) {
+    /**
+     * Default value.
+     */
     Default(null),
 
+    /**
+     * For tweet image.
+     */
     TweetImage("tweet_image"),
 
+    /**
+     * For tweet gif.
+     */
     TweetGif("tweet_gif"),
 
+    /**
+     * For tweet video.
+     */
     TweetVideo("tweet_video"),
 
+    /**
+     * For other video.
+     */
     AmplifyVideo("amplify_video")
 }

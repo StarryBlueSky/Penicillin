@@ -33,6 +33,9 @@ import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
 import java.util.*
 
+/**
+ * Custom payload builder for [Stream.UserEvent].
+ */
 class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEvent>, JsonMap by jsonMapOf(
     "event" to type.key,
     "source" to null,
@@ -40,16 +43,25 @@ class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEven
     "created_at" to null
 ) {
     private var source = CustomUserBuilder()
+    /**
+     * Sets source.
+     */
     fun source(builder: CustomUserBuilder.() -> Unit) {
         source.apply(builder)
     }
 
     private var target = CustomUserBuilder()
+    /**
+     * Sets target.
+     */
     fun target(builder: CustomUserBuilder.() -> Unit) {
         target.apply(builder)
     }
 
     private var createdAt: Date? = null
+    /**
+     * Sets created_at.
+     */
     fun createdAt(date: Date? = null) {
         createdAt = date
     }

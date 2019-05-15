@@ -34,6 +34,9 @@ import jp.nephy.penicillin.models.Stream
 import java.util.*
 import kotlin.properties.Delegates
 
+/**
+ * Custom payload builder for [Stream.Delete].
+ */
 class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
     "delete" to jsonObjectOf(
         "status" to jsonObjectOf(
@@ -46,16 +49,25 @@ class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
     )
 ) {
     private var statusId by Delegates.notNull<Long>()
+    /**
+     * Sets status id.
+     */
     fun status(id: Long) {
         statusId = id
     }
 
     private var userId by Delegates.notNull<Long>()
+    /**
+     * Sets author user id.
+     */
     fun author(id: Long) {
         userId = id
     }
 
     private var createdAt: Date? = null
+    /**
+     * Sets timestamp.
+     */
     fun timestamp(date: Date? = null) {
         createdAt = date
     }
@@ -64,8 +76,12 @@ class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
     override fun build(): Stream.Delete {
         this["delete"] = jsonObjectOf(
             "status" to jsonObjectOf(
-                "id" to statusId, "id_str" to statusId.toString(), "user_id" to userId, "user_id_str" to userId.toString()
-            ), "timestamp_ms" to (createdAt ?: Date()).time.toString()
+                "id" to statusId,
+                "id_str" to statusId.toString(),
+                "user_id" to userId,
+                "user_id_str" to userId.toString()
+            ),
+            "timestamp_ms" to (createdAt ?: Date()).time.toString()
         )
         
         return toJsonObject().parseModel()

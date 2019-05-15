@@ -47,7 +47,18 @@ import kotlinx.io.core.use
 import mu.KotlinLogging
 import kotlin.coroutines.CoroutineContext
 
-class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiClient, private var result: StreamResponse<L, H>, private val handler: H): Closeable, CoroutineScope {
+/**
+ * The processor which works on Streaming Api parsing.
+ */
+class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(
+    /**
+     * Current [ApiClient].
+     */
+    val client: ApiClient,
+
+    private var result: StreamResponse<L, H>,
+    private val handler: H
+): Closeable, CoroutineScope {
     private val logger = KotlinLogging.logger("Penicillin.StreamProcessor")
     
     private val mutex = Mutex()
@@ -56,7 +67,11 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
     private val job = Job()
     override val coroutineContext: CoroutineContext
         get() = result.session.coroutineContext + job
-    
+
+    /**
+     * Awaits until streaming ends, or client disconnects.
+     * This operation is suspendable.
+     */
     suspend fun await(reconnect: Boolean = true): StreamProcessor<L, H> {
         return apply {
             mutex.withLock(Dummy) {
@@ -147,6 +162,9 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
         }
     }
 
+    /**
+     * Disposes this processor and closes active streaming connection.
+     */
     override fun close() {
         result.close()
         job.cancel()

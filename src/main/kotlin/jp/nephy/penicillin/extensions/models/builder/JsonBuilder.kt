@@ -32,6 +32,12 @@ internal fun jsonMapOf(vararg pairs: Pair<String, Any?>): JsonMap {
     return mutableMapOf(*pairs)
 }
 
+/**
+ * Json builder for [T].
+ */
 interface JsonBuilder<T: JsonModel>: JsonMap {
+    /**
+     * Builds this json, and creates [T] of [JsonModel].
+     */
     fun build(): T
 }

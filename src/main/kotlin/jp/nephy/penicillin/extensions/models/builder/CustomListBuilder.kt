@@ -32,6 +32,9 @@ import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.TwitterList
 import java.util.*
 
+/**
+ * Custom payload builder for [TwitterList].
+ */
 class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     "created_at" to null,
     "description" to "Tweetstorm",
@@ -47,16 +50,25 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     "uri" to "Tweetstorm/Tweetstorm"
 ) {
     private var createdAt: Date? = null
+    /**
+     * Sets created_at.
+     */
     fun createdAt(date: Date? = null) {
         createdAt = date
     }
 
     private var description: String? = null
+    /**
+     * Sets description.
+     */
     fun description(text: () -> Any?) {
         description = text()?.toString().orEmpty()
     }
 
     private var following = false
+    /**
+     * Sets following.
+     */
     fun following() {
         following = true
     }
@@ -65,6 +77,9 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     private lateinit var listFullName: String
     private lateinit var listSlug: String
     private lateinit var listUri: String
+    /**
+     * Sets name.
+     */
     fun name(shortName: String, fullName: String, slug: String, uri: String) {
         listName= shortName
         listFullName = fullName
@@ -74,6 +89,9 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
 
     private var memberCount = 0
     private var subscriberCount = 0
+    /**
+     * Sets count.
+     */
     fun count(member: Int = 0, subscriber: Int = 0) {
         memberCount = member
         subscriberCount = subscriber

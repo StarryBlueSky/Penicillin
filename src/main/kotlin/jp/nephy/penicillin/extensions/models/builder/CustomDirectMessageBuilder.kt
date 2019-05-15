@@ -34,6 +34,9 @@ import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.DirectMessage
 import java.util.*
 
+/**
+ * Custom payload builder for [DirectMessage].
+ */
 class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMapOf(
     "created_at" to null,
     "entities" to jsonObjectOf(),
@@ -50,31 +53,49 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
     "text" to null
 ) {
     private var createdAt: Date? = null
+    /**
+     * Sets created_at.
+     */
     fun createdAt(date: Date? = null) {
         createdAt = date
     }
 
     private var read = false
+    /**
+     * Sets read.
+     */
     fun read() {
         read = true
     }
 
     private val recipientBuilder = CustomUserBuilder()
+    /**
+     * Sets recipient.
+     */
     fun recipient(builder: CustomUserBuilder.() -> Unit) {
         recipientBuilder.apply(builder)
     }
 
     private val senderBuilder = CustomUserBuilder()
+    /**
+     * Sets sender.
+     */
     fun sender(builder: CustomUserBuilder.() -> Unit) {
         senderBuilder.apply(builder)
     }
 
     private lateinit var message: String
+    /**
+     * Sets text.
+     */
     fun text(text: () -> Any?) {
         message = text()?.toString().orEmpty()
     }
 
     private var entities = jsonObjectOf()
+    /**
+     * Sets entities.
+     */
     fun entities(json: JsonObject) {
         entities = json
     }

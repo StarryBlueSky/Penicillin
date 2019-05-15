@@ -39,6 +39,13 @@ import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Media.ProcessingInfo.State.Succeeded
 import kotlinx.coroutines.*
 
+/**
+ * Creates new tweet with media.
+ *
+ * @param status Tweet text.
+ * @param media A list of media.
+ * @param options Optional. Custom parameters of this request.
+ */
 fun Statuses.createWithMedia(
     status: String,
     media: List<MediaComponent>,
@@ -55,6 +62,12 @@ fun Statuses.createWithMedia(
 
 private const val mediaProcessTimeoutMillis = 60 * 1000L
 
+/**
+ * Awaits until media processing is done, and returns [Media] response.
+ * This operation is suspendable.
+ *
+ * @param timeoutMillis Timeout value in milliseconds.
+ */
 @Throws(CancellationException::class)
 suspend fun Media.awaitProcessing(timeoutMillis: Long? = null): Media {
     if (processingInfo == null) {

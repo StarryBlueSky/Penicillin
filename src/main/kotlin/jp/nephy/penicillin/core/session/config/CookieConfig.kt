@@ -30,6 +30,9 @@ import io.ktor.http.Cookie
 import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 
+/**
+ * Configures [CookieConfig].
+ */
 @ApiClientDsl
 fun SessionBuilder.cookie(block: CookieConfig.Builder.() -> Unit) {
     getOrPutBuilder { 
@@ -43,14 +46,36 @@ internal fun SessionBuilder.createCookieConfig(): CookieConfig {
     }.build()
 }
 
-data class CookieConfig(val acceptCookie: Boolean, val cookies: Map<String, List<Cookie>>): SessionConfig {
+/**
+ * Represents Cookie config.
+ */
+data class CookieConfig(
+    /**
+     * If true, accepts cookies.
+     */
+    val acceptCookie: Boolean,
+
+    /**
+     * Custom cookies.
+     */
+    val cookies: Map<String, List<Cookie>>
+): SessionConfig {
+    /**
+     * Cookie config builder.
+     */
     class Builder: SessionConfigBuilder<CookieConfig> {
         private var acceptCookie = false
+        /**
+         * Accepts cookies.
+         */
         fun acceptCookie() {
             acceptCookie = true
         }
 
         private val cookies = mutableMapOf<String, MutableList<Cookie>>()
+        /**
+         * Adds custom cookie.
+         */
         fun addCookie(host: String, cookie: Cookie) {
             cookies.getOrPut(host) { mutableListOf() } += cookie
         }
