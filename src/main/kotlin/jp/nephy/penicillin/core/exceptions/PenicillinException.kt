@@ -26,7 +26,38 @@ package jp.nephy.penicillin.core.exceptions
 
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.response.HttpResponse
+import jp.nephy.penicillin.core.i18n.LocalizedString
 
-@Suppress("UNUSED")
-open class PenicillinException(override val message: String, val error: TwitterErrorMessage? = null, val request: HttpRequest? = null, val response: HttpResponse? = null,
-    override val cause: Throwable? = null): Exception()
+/**
+ * Base Penicillin exception class. All the exceptions are thrown from Penicillin inherits this class.
+ */
+open class PenicillinException(
+    /**
+     * Original Localized string.
+     */
+    val localizedString: LocalizedString,
+
+    /**
+     * The cause [Throwable], or null.
+     */
+    override val cause: Throwable?,
+
+    /**
+     * Executed [HttpRequest], or null.
+     */
+    open val request: HttpRequest?,
+
+    /**
+     * Executed [HttpResponse], or null.
+     */
+    open val response: HttpResponse?,
+
+    /**
+     * Optional vararg arguments for [localizedString].
+     */
+    vararg args: Any?
+): RuntimeException() {
+    constructor(localizedString: LocalizedString): this(localizedString, null, null, null)
+
+    override val message: String? = localizedString(*args)
+}
