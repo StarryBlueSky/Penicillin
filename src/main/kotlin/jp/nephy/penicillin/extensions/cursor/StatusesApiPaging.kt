@@ -33,6 +33,13 @@ import jp.nephy.penicillin.extensions.complete
 import jp.nephy.penicillin.extensions.edit
 import jp.nephy.penicillin.models.Status
 
+/**
+ * Retrieves all the statuses until last from current action.
+ * This operation is sequence.
+ *
+ * @param count max statuses count.
+ * @param options Optional. Custom parameters of this request.
+ */
 @PenicillinExperimentalApi
 fun JsonArrayApiAction<Status>.untilLast(count: Int = 200, vararg options: Option): Sequence<Status> = sequence {
     var maxId: Long? = null

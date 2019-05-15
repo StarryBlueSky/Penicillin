@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.core.session
 
 import io.ktor.client.HttpClient
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.session.config.ApiConfig
 import jp.nephy.penicillin.core.session.config.Credentials
@@ -73,11 +73,11 @@ data class Session(
         get() = if (job.isActive && underlyingHttpClient.coroutineContext.isActive) {
             underlyingHttpClient
         } else {
-            throw PenicillinLocalizedException(LocalizedString.SessionAlreadyClosed)
+            throw PenicillinException(LocalizedString.SessionAlreadyClosed)
         }
 
     /**
-     * Closes HttpClient if shouldCloseHttpClient is true and coroutine dispatcher if shouldCloseCoroutineContext is true.
+     * Closes HttpClient if shouldCloseHttpClient is true and coroutine dispatcher if shouldCloseCoroutineContext == true.
      */
     override fun close() {
         job.cancel()

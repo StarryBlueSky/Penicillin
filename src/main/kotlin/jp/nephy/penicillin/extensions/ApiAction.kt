@@ -213,7 +213,7 @@ internal val <R: Any> ApiAction<R>.defaultApiCallback: ApiCallback<R>
 @PublishedApi
 internal val ApiAction<*>.defaultApiFallback: ApiFallback
     get() = {
-        defaultLogger.error(it) { LocalizedString.ExceptionInAsyncBlock.format() }
+        defaultLogger.error(it) { LocalizedString.ExceptionInAsyncBlock }
     }
 
 /**

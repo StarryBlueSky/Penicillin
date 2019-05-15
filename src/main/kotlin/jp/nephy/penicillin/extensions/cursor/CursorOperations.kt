@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.extensions.cursor
 
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
@@ -62,7 +62,7 @@ val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.previous: CursorJsonO
 
 fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long, vararg options: Option): CursorJsonObjectApiAction<M> {
     if (cursor == 0L) {
-        throw PenicillinLocalizedException(LocalizedString.CursorIsZero, request, response)
+        throw PenicillinException(LocalizedString.CursorIsZero, null, request, response)
     }
 
     action.edit {

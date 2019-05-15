@@ -22,59 +22,97 @@
  * SOFTWARE.
  */
 
-@file:Suppress("PublicApiImplicitType")
-
 package jp.nephy.penicillin.core.i18n
 
 import java.util.*
 
-data class LocalizedString(private val ja: String, private val en: String) {
+/**
+ * Represents localization strings. Supports Japanese and English.
+ */
+class LocalizedString(
+    /**
+     * English string template.
+     */
+    val en: String,
+
+    /**
+     * Japanese string template, or null.
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    val ja: String? = null
+) {
+    @Suppress("KDocMissingDocumentation", "PublicApiImplicitType")
     companion object {
         val PrivateEndpointRequiresOfficialClientEmulation = LocalizedString(
-        "非公開 API へのアクセスには公式クライアントのエミュレーションが必要です。", "Access to private apis requires official client's emulation."
+            "Accessing private Twitter API requires official client's emulation.",
+            "非公開 API へのアクセスには公式クライアントのエミュレーションが必要です。"
         )
+
         val CursorIsZero = LocalizedString(
-        "cursor は 0 です。", "cursor value is 0."
+            "cursor value is 0.",
+            "cursor は 0 です。"
         )
+
         val ApiRequestFailedLog = LocalizedString(
-        "API のリクエストに失敗しました。 (%s, %d/%d)", "Failed to request API. (%s, %d/%d)"
+            "Failed to request API. (%s, %d/%d)",
+            "API のリクエストに失敗しました。 (%s, %d/%d)"
         )
+
         val ApiRequestFailed = LocalizedString(
-        "API のリクエストに失敗しました: %s", "Failed to request API: %s"
+            "Failed to request API: %s",
+            "API のリクエストに失敗しました: %s"
         )
+
         val ApiReturnedNon200StatusCode = LocalizedString(
-        "API が 2xx ではないステータスコードを返却しました: %s %s", "API returned non-200 status code: %s %s"
+            "API returned non-200 status code: %s %s",
+            "API が 2xx ではないステータスコードを返却しました: %s %s"
         )
+
         val JsonParsingFailed = LocalizedString(
-        "JSON をパースする際に例外が発生しました: %s", "Failed to parse JSON: %s"
+            "Failed to parse JSON: %s",
+            "JSON をパースする際に例外が発生しました: %s"
         )
+
         val JsonModelCastFailed = LocalizedString(
-        "JSON をモデルクラスにキャストする際に例外が発生しました: %s\n%s", "Failed to cast JSON to model class: %s\n%s"
+            "Failed to cast JSON to model class: %s\n%s",
+            "JSON をモデルクラスにキャストする際に例外が発生しました: %s\n%s"
         )
+
         val UnknownApiError = LocalizedString(
-        "不明な API エラーが発生しました。 (%d: %s)\n%s", "Unknown API error occurred. (%d: %s)\n%s"
+            "Unknown API error occurred. (%d: %s)\n%s",
+            "不明な API エラーが発生しました。 (%d: %s)\n%s"
         )
+
         val UnknownApiErrorWithStatusCode = LocalizedString(
-        "不明な API エラーが発生しました。 (HTTP %d)\n%s", "Unknown API error occurred. (HTTP %d)\n%s"
+            "Unknown API error occurred. (HTTP %d)\n%s",
+            "不明な API エラーが発生しました。 (HTTP %d)\n%s"
         )
+
         val ExceptionInAsyncBlock = LocalizedString(
-        "非同期実行中にエラーが発生しました。", "Exception in async block."
+            "Exception in async block.",
+            "非同期実行中にエラーが発生しました。"
         )
+
         val SessionAlreadyClosed = LocalizedString(
-        "Session は既に閉じられています。", "Session is already closed."
+            "The session is already closed.",
+            "Session は既に閉じられています。"
         )
     }
 
-    fun format(vararg args: Any?): String {
+    /**
+     * Returns formatted string with passed arguments.
+     */
+    operator fun invoke(vararg args: Any?): String {
         val locale = Locale.getDefault()
         val text = when (locale) {
             Locale.JAPANESE, Locale.JAPAN -> ja
             else -> en
-        }
+        } ?: en
+
         return text.format(locale, *args)
     }
 
     override fun toString(): String {
-        return format()
+        return invoke()
     }
 }

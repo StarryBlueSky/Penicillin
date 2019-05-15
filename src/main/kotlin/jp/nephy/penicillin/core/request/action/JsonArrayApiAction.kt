@@ -25,7 +25,7 @@
 package jp.nephy.penicillin.core.request.action
 
 import jp.nephy.jsonkt.toJsonArrayOrNull
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonArrayResponse
@@ -43,11 +43,11 @@ class JsonArrayApiAction<M: PenicillinModel>(override val client: ApiClient, ove
         val content = response.readTextOrNull()
         checkError(request, response, content)
 
-        val json = content?.toJsonArrayOrNull() ?: throw PenicillinLocalizedException(
-            LocalizedString.JsonParsingFailed, request, response, null, content
+        val json = content?.toJsonArrayOrNull() ?: throw PenicillinException(
+            LocalizedString.JsonParsingFailed, null, request, response, content
         )
-        val results = json.parseModelListOrNull(model, client) ?: throw PenicillinLocalizedException(
-            LocalizedString.JsonModelCastFailed, request, response, null, model.simpleName, content
+        val results = json.parseModelListOrNull(model, client) ?: throw PenicillinException(
+            LocalizedString.JsonModelCastFailed, null, request, response, model.simpleName, content
         )
 
         return JsonArrayResponse(client, model, results, request, response, content, this)
