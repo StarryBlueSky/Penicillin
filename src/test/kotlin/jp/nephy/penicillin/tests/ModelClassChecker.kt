@@ -75,8 +75,14 @@ import kotlin.reflect.jvm.jvmErasure
 class ModelClassChecker(private val skipWarningsToDetailedType: Boolean = true, private val excludingPropertyNames: List<String> = emptyList()) {
     private val logger = KotlinLogging.logger("Penicillin.ModelClassChecker")
     
-    private val notDeclaredInModelClass = LocalizedString("\"%s\" (%s) はモデルクラス: %s で宣言されていません。\n%s", "\"%s\" (%s) is not declared in model class: %s.\n%s")
-    private val differentTypeDeclaredInModelClass = LocalizedString("\"%s\" (%s) は推定される返り値の型: %s と一致していません。\n%s", "\"%s\" (%s) has return type  which is different from suggested type: %s.\n%s")
+    private val notDeclaredInModelClass = LocalizedString(
+        "\"%s\" (%s) is not declared in model class: %s.\n%s",
+        "\"%s\" (%s) はモデルクラス: %s で宣言されていません。\n%s"
+    )
+    private val differentTypeDeclaredInModelClass = LocalizedString(
+        "\"%s\" (%s) has return type  which is different from suggested type: %s.\n%s",
+        "\"%s\" (%s) は推定される返り値の型: %s と一致していません。\n%s"
+    )
 
     fun <M: PenicillinModel> validate(models: Collection<M>) {
         if (models.isEmpty()) {
@@ -106,12 +112,12 @@ class ModelClassChecker(private val skipWarningsToDetailedType: Boolean = true, 
             }
             
             if (property == null) {
-                logger.warn { notDeclaredInModelClass.format(name, type.simpleSyntax, modelClass.simpleName, type.delegateSyntax(lowerCamelKey, key)) }
+                logger.warn { notDeclaredInModelClass(name, type.simpleSyntax, modelClass.simpleName, type.delegateSyntax(lowerCamelKey, key)) }
             } else if (property.returnType != type) {
                 if (skipWarningsToDetailedType && property.returnType.isDetailThan(type)) {
                     // Skip
                 } else {
-                    logger.warn { differentTypeDeclaredInModelClass.format(name, property.returnType.simpleSyntax, type.simpleSyntax, type.delegateSyntax(lowerCamelKey, key)) }
+                    logger.warn { differentTypeDeclaredInModelClass(name, property.returnType.simpleSyntax, type.simpleSyntax, type.delegateSyntax(lowerCamelKey, key)) }
                 }
             }
         }
