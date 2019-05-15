@@ -38,7 +38,7 @@ import jp.nephy.jsonkt.delegation.byNullableInt
 import jp.nephy.jsonkt.delegation.byString
 import jp.nephy.jsonkt.jsonArrayOrNull
 import jp.nephy.jsonkt.toJsonObjectOrNull
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.throwApiError
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.extensions.session
@@ -58,15 +58,15 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
-            if (e is PenicillinLocalizedException && e.localizedString == LocalizedString.SessionAlreadyClosed) {
+            if (e is PenicillinException && e.localizedString == LocalizedString.SessionAlreadyClosed) {
                 throw e
             }
             
             // TEMP FIX: Set-CookieConfig header format may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
             if (e is IllegalStateException && e.message?.startsWith("Invalid date length.") == true) {
-                apiActionLogger.debug(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
+                apiActionLogger.debug(e) { LocalizedString.ApiRequestFailedLog(request.builder.url, it + 1, session.option.maxRetries) }
             } else {
-                apiActionLogger.error(e) { LocalizedString.ApiRequestFailedLog.format(request.builder.url, it + 1, session.option.maxRetries) }
+                apiActionLogger.error(e) { LocalizedString.ApiRequestFailedLog(request.builder.url, it + 1, session.option.maxRetries) }
             }
 
             lastException = e
@@ -77,7 +77,7 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
         }
     }
 
-    throw PenicillinLocalizedException(LocalizedString.ApiRequestFailed, cause = lastException, args = *arrayOf(request.builder.url))
+    throw PenicillinException(LocalizedString.ApiRequestFailed, lastException, null, null, request.builder.url)
 }
 
 internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpResponse, content: String? = null) {
@@ -123,12 +123,12 @@ internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpRespons
                 throwApiError(null, error.content, content, request, response)
             }
             else -> {
-                throw PenicillinLocalizedException(LocalizedString.UnknownApiErrorWithStatusCode, request, response, null, response.status.value, content)
+                throw PenicillinException(LocalizedString.UnknownApiErrorWithStatusCode, null, request, response, response.status.value, content)
             }
         }
     }
 
-    throw PenicillinLocalizedException(LocalizedString.ApiReturnedNon200StatusCode, request, response, null, response.status.value, response.status.description)
+    throw PenicillinException(LocalizedString.ApiReturnedNon200StatusCode, null, request, response, response.status.value, response.status.description)
 }
 
 internal suspend fun HttpResponse.readTextOrNull(): String? {

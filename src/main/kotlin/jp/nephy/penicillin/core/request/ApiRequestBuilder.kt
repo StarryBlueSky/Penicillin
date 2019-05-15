@@ -38,7 +38,7 @@ import jp.nephy.penicillin.core.auth.encodeBase64
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.emulation.Tweetdeck
 import jp.nephy.penicillin.core.emulation.Twitter4iPhone
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.body.RequestBodyBuilder
 import jp.nephy.penicillin.core.session.ApiClient
@@ -178,7 +178,7 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
         apiRequestBuilderLogger.trace { "Endpoint: ${javaClass.canonicalName}#${method.name}" }
         val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
         if (session.option.emulationMode == EmulationMode.None || (annotation.modes.isNotEmpty() && session.option.emulationMode !in annotation.modes)) {
-            throw PenicillinLocalizedException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
+            throw PenicillinException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
         }
     }
 

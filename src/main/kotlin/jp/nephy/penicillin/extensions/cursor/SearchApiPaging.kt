@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.extensions.cursor
 
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.response.JsonObjectResponse
@@ -43,7 +43,7 @@ import jp.nephy.penicillin.models.Search
 val JsonObjectResponse<Search>.hasNext: Boolean
     get() = !result.searchMetadata.nextResults.isNullOrBlank()
 
-private val NextQueryNotFound = LocalizedString("次の検索結果はありません。", "It is the last result of search.")
+private val NextQueryNotFound = LocalizedString("It is the last result of search.", "次の検索結果はありません。")
 
 /**
  * Creates next page api action.
@@ -51,7 +51,7 @@ private val NextQueryNotFound = LocalizedString("次の検索結果はありま�
 val JsonObjectResponse<Search>.next: JsonObjectApiAction<Search>
     get() {
         if (!hasNext) {
-            throw PenicillinLocalizedException(NextQueryNotFound)
+            throw PenicillinException(NextQueryNotFound)
         }
 
         result.searchMetadata.nextResults!!.removePrefix("?").split("&").map {
@@ -75,7 +75,7 @@ val JsonObjectResponse<Search>.next: JsonObjectApiAction<Search>
 val JsonObjectResponse<Search>.refreshable: Boolean
     get() = !result.searchMetadata.refreshUrl.isNullOrBlank()
 
-private val RefreshUrlNotFound = LocalizedString("更新できる検索結果はありません。", "It is not refreshable search endpoint.")
+private val RefreshUrlNotFound = LocalizedString("It is not refreshable search endpoint.", "更新できる検索結果はありません。")
 
 /**
  * Creates refreshed page api action.
@@ -83,7 +83,7 @@ private val RefreshUrlNotFound = LocalizedString("更新できる検索結果は
 val JsonObjectResponse<Search>.refresh: JsonObjectApiAction<Search>
     get() {
         if (!refreshable) {
-            throw PenicillinLocalizedException(RefreshUrlNotFound)
+            throw PenicillinException(RefreshUrlNotFound)
         }
 
         result.searchMetadata.refreshUrl!!.removePrefix("?").split("&").map {

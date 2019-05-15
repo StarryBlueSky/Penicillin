@@ -25,7 +25,7 @@
 package jp.nephy.penicillin.core.request.action
 
 import jp.nephy.jsonkt.toJsonObjectOrNull
-import jp.nephy.penicillin.core.exceptions.PenicillinLocalizedException
+import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
@@ -43,11 +43,11 @@ class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val client: A
         val content = response.readTextOrNull()
         checkError(request, response, content)
 
-        val json = content?.toJsonObjectOrNull() ?: throw PenicillinLocalizedException(
-            LocalizedString.JsonParsingFailed, request, response, null, content
+        val json = content?.toJsonObjectOrNull() ?: throw PenicillinException(
+            LocalizedString.JsonParsingFailed, null, request, response, content
         )
-        val result = json.parseModelOrNull(model, client) ?: throw PenicillinLocalizedException(
-            LocalizedString.JsonModelCastFailed, request, response, null, model.simpleName, content
+        val result = json.parseModelOrNull(model, client) ?: throw PenicillinException(
+            LocalizedString.JsonModelCastFailed, null, request, response, model.simpleName, content
         )
 
         return CursorJsonObjectResponse(client, model, result, request, response, content, this)
