@@ -29,11 +29,20 @@ package jp.nephy.penicillin.extensions
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.User
 
+/**
+ * Compatibility extension to [Status.favoriteCount].
+ */
 val Status.likeCount: Int
     get() = favoriteCount
 
+/**
+ * Compatibility extension to [Status.favorited].
+ */
 val Status.liked: Boolean
     get() = favorited
 
+/**
+ * Compatibility extension to [User.favouritesCount].
+ */
 val User.likesCount: Int
     get() = favouritesCount

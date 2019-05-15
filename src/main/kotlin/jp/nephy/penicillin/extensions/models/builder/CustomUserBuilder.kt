@@ -34,6 +34,9 @@ import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.User
 import java.util.*
 
+/**
+ * Custom payload builder for [User].
+ */
 class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
     "id" to userId,
     "id_str" to userId.toString(),
@@ -94,25 +97,45 @@ class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
     companion object {
         private const val userId = 1L
     }
-    
+
+    /**
+     * Sets name.
+     */
     fun name(value: String) {
         this["name"] = value
     }
+
+    /**
+     * Sets screen_name
+     */
     fun screenName(value: String) {
         this["screen_name"] = value
     }
 
+    /**
+     * Sets location.
+     */
     fun location(value: String) {
         this["location"] = value
     }
 
+    /**
+     * Sets protected.
+     */
     fun isProtected() {
         this["protected"] = true
     }
+
+    /**
+     * Sets verified.
+     */
     fun isVerified() {
         this["verified"] = true
     }
 
+    /**
+     * Sets count.
+     */
     fun count(friends: Int = 0, followers: Int = 0, statuses: Int = 0, favorites: Int = 0, listed: Int = 0) {
         this["friends_count"] = friends
         this["followers_count"] = followers
@@ -121,12 +144,18 @@ class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
         this["listed_count"] = listed
     }
 
+    /**
+     * Sets icon.
+     */
     fun icon(url: String) {
         this["profile_image_url"] = url.replace("https://", "http://")
         this["profile_image_url_https"] = url.replace("http://", "https://")
     }
 
     private var createdAt: Date? = null
+    /**
+     * Sets created_at.
+     */
     fun createdAt(date: Date? = null) {
         createdAt = date
     }

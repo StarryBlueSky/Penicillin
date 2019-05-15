@@ -26,34 +26,125 @@
 
 package jp.nephy.penicillin.core.streaming.handler
 
+import jp.nephy.penicillin.models.Stream
+
+/**
+ * Represents UserStream event payload JSON type.
+ */
 enum class UserStreamEventType {
-    Status, List, User
+    /**
+     * [Stream.StatusEvent].
+     */
+    Status,
+
+    /**
+     * [Stream.ListEvent].
+     */
+    List,
+
+    /**
+     * [Stream.UserEvent].
+     */
+    User
 }
 
-enum class UserStreamEvent(val type: UserStreamEventType, val key: String) {
+/**
+ * Represents UserStream event type.
+ */
+enum class UserStreamEvent(
+    /**
+     * Event payload JSON type.
+     */
+    val type: UserStreamEventType,
+
+    /**
+     * Event key.
+     */
+    val key: String
+) {
+    /**
+     * The event fired when a status is favorited.
+     */
     Favorite(UserStreamEventType.Status, "favorite"),
+    /**
+     * The event fired when a status is unfavorited.
+     */
     Unfavorite(UserStreamEventType.Status, "unfavorite"),
+    /**
+     * The event fired when a favorited status is retweeted.
+     */
     FavoritedRetweet(UserStreamEventType.Status, "favorited_retweet"),
+    /**
+     * The event fired when a retweeted status is retweeted.
+     */
     RetweetedRetweet(UserStreamEventType.Status, "retweeted_retweet"),
+    /**
+     * The event fired when a status is quoted.
+     */
     QuotedTweet(UserStreamEventType.Status, "quoted_tweet"),
 
+    /**
+     * The event fired when a list is created.
+     */
     ListCreated(UserStreamEventType.List, "list_created"),
+    /**
+     * The event fired when a list is destroyed.
+     */
     ListDestroyed(UserStreamEventType.List, "list_destroyed"),
+    /**
+     * The event fired when a list is updated.
+     */
     ListUpdated(UserStreamEventType.List, "list_updated"),
+    /**
+     * The event fired when a list member is added.
+     */
     ListMemberAdded(UserStreamEventType.List, "list_member_added"),
+    /**
+     * The event fired when a list member is removed.
+     */
     ListMemberRemoved(UserStreamEventType.List, "list_member_removed"),
+    /**
+     * The event fired when a list is subscribed.
+     */
     ListUserSubscribed(UserStreamEventType.List, "list_user_subscribed"),
+    /**
+     * The event fired when a list is unsubscribed.
+     */
     ListUserUnsubscribed(UserStreamEventType.List, "list_user_unsubscribed"),
-    
+
+    /**
+     * The event fired when a user is followed.
+     */
     Follow(UserStreamEventType.User, "follow"),
+    /**
+     * The event fired when a user is unfollowed.
+     */
     Unfollow(UserStreamEventType.User, "unfollow"),
+    /**
+     * The event fired when a user is blocked.
+     */
     Block(UserStreamEventType.User, "block"),
+    /**
+     * The event fired when a user is unblocked.
+     */
     Unblock(UserStreamEventType.User, "unblock"),
+    /**
+     * The event fired when a user is muted.
+     */
     Mute(UserStreamEventType.User, "mute"),
+    /**
+     * The event fired when a user is unmuted.
+     */
     Unmute(UserStreamEventType.User, "unmute"),
+    /**
+     * The event fired when a user is updated.
+     */
     UserUpdate(UserStreamEventType.User, "user_update");
     
     companion object {
+        /**
+         * Finds event type by key, or null.
+         */
         fun byKey(key: String): UserStreamEvent? {
             return values().find { it.key == key }
         }

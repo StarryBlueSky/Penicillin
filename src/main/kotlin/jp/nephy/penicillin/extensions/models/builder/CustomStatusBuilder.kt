@@ -35,6 +35,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.set
 
+/**
+ * Custom payload builder for [Status].
+ */
 class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     "created_at" to null,
     "id" to null,
@@ -67,29 +70,49 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     "timestamp_ms" to null
 ) {
     private lateinit var text: String
+    /**
+     * Sets text.
+     */
     fun text(value: String) {
         text = value
     }
+
+    /**
+     * Sets text.
+     */
     fun text(operation: () -> Any?) {
         text = operation.invoke().toString()
     }
+
+    /**
+     * Sets text with builder.
+     */
     fun textBuilder(builder: StringBuilder.() -> Unit) {
         text = buildString(builder)
     }
 
     private var sourceName = "Tweetstorm"
     private var sourceUrl = "https://github.com/SlashNephy/Tweetstorm"
+    /**
+     * Sets source.
+     */
     fun source(name: String, url: String) {
         sourceName = name
         sourceUrl = url
     }
 
     private var createdAt: Date? = null
+    /**
+     * Sets created_at.
+     */
     fun createdAt(date: Date? = null) {
         createdAt = date
     }
 
     private var user = CustomUserBuilder()
+    /**
+     * Sets user.
+     */
     fun user(builder: CustomUserBuilder.() -> Unit) {
         user.apply(builder)
     }
@@ -97,6 +120,9 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     private var inReplyToStatusId: Long? = null
     private var inReplyToUserId: Long? = null
     private var inReplyToScreenName: String? = null
+    /**
+     * Sets in_reply_to.
+     */
     fun inReplyTo(statusId: Long, userId: Long, screenName: String) {
         inReplyToStatusId = statusId
         inReplyToUserId = userId
@@ -104,25 +130,37 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     }
 
     private var retweeted = false
+    /**
+     * Sets retweeted.
+     */
     fun alreadyRetweeted() {
         retweeted = true
     }
 
     private var favorited = false
+    /**
+     * Sets favorited.
+     */
     fun alreadyFavorited() {
         favorited = true
     }
 
     private var retweetCount = 0
     private var favoriteCount = 0
+    /**
+     * Sets count.
+     */
     fun count(retweet: Int = 0, favorite: Int = 0) {
         retweetCount = retweet
         favoriteCount = favorite
     }
 
-    data class UrlEntity(val url: String, val start: Int, val end: Int)
+    private data class UrlEntity(val url: String, val start: Int, val end: Int)
 
     private val urls = mutableListOf<UrlEntity>()
+    /**
+     * Sets url.
+     */
     fun url(url: String, start: Int, end: Int) {
         urls += UrlEntity(url, start, end)
     }

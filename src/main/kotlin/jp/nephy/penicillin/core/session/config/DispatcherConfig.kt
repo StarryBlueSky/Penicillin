@@ -31,6 +31,9 @@ import jp.nephy.penicillin.core.session.SessionBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * Configures [DispatcherConfig].
+ */
 @ApiClientDsl
 fun SessionBuilder.dispatcher(block: DispatcherConfig.Builder.() -> Unit) {
     getOrPutBuilder { 
@@ -44,8 +47,32 @@ internal fun SessionBuilder.createDispatcherConfig(): DispatcherConfig {
     }.build()
 }
 
-data class DispatcherConfig(val coroutineContext: CoroutineContext, val connectionThreadsCount: Int?, val shouldClose: Boolean): SessionConfig {
+/**
+ * Represents dispatcher config.
+ */
+data class DispatcherConfig(
+    /**
+     * The coroutine content.
+     */
+    val coroutineContext: CoroutineContext,
+
+    /**
+     * Connection threads counts, or null.
+     */
+    val connectionThreadsCount: Int?,
+
+    /**
+     * If true, coroutineContent should close when session disposes.
+     */
+    val shouldClose: Boolean
+): SessionConfig {
+    /**
+     * Dispatcher config builder.
+     */
     class Builder: SessionConfigBuilder<DispatcherConfig> {
+        /**
+         * Connection threads count, or null.
+         */
         @Suppress("MemberVisibilityCanBePrivate")
         var connectionThreadsCount: Int? = null
             set(value) {
@@ -55,10 +82,16 @@ data class DispatcherConfig(val coroutineContext: CoroutineContext, val connecti
                 
                 field = value
             }
-        
+
+        /**
+         * The coroutine context.
+         */
         @Suppress("MemberVisibilityCanBePrivate")
         var coroutineContext: CoroutineContext = Dispatchers.Default
-        
+
+        /**
+         * If true, coroutineContent should close when session disposes.
+         */
         var shouldClose: Boolean = false
 
         override fun build(): DispatcherConfig {
@@ -67,6 +100,10 @@ data class DispatcherConfig(val coroutineContext: CoroutineContext, val connecti
     }
 }
 
+/**
+ * Sets shouldClose to true.
+ * CoroutineContent should close when session disposes.
+ */
 fun DispatcherConfig.Builder.shouldClose() {
     shouldClose = true
 }

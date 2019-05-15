@@ -28,16 +28,61 @@ package jp.nephy.penicillin.core.request
 
 import io.ktor.http.URLProtocol
 
-data class EndpointHost(val domain: String, val domainForSigning: String? = null, val protocol: URLProtocol = URLProtocol.HTTPS, val port: Int = protocol.defaultPort) {
+/**
+ * Represents endpoint host.
+ */
+data class EndpointHost(
+    /**
+     * The domain.
+     */
+    val domain: String,
+
+    /**
+     * The domain used in signing.
+     */
+    val domainForSigning: String? = null,
+
+    /**
+     * The url protocol.
+     */
+    val protocol: URLProtocol = URLProtocol.HTTPS,
+
+    /**
+     * The port.
+     */
+    val port: Int = protocol.defaultPort
+) {
     companion object {
+        /**
+         * Default endpoint host.
+         */
         val Default = EndpointHost("api.twitter.com")
-        
+
+        /**
+         * Card endpoint host.
+         */
         val Card = EndpointHost("caps.twitter.com")
+
+        /**
+         * Media upload endpoint.
+         */
         val MediaUpload = EndpointHost("upload.twitter.com")
+
+        /**
+         * Publish endpoint.
+         */
         val Publish = EndpointHost("publish.twitter.com")
 
         /* Stream Endpoints */
+
+        /**
+         * UserStream endpoint.
+         */
         val UserStream = EndpointHost("userstream.twitter.com")
+
+        /**
+         * Stream endpoint.
+         */
         val Stream = EndpointHost("stream.twitter.com")
     }
 }

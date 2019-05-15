@@ -40,6 +40,12 @@ import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
 import kotlinx.coroutines.launch
 
+/**
+ * Connects to Tweetstorm with custom [EndpointHost].
+ *
+ * @param customHost Custom host to Tweetstorm.
+ * @param options Optional. Custom parameters of this request.
+ */
 fun Stream.tweetstorm(
     customHost: EndpointHost = EndpointHost.UserStream,
     delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
@@ -53,9 +59,12 @@ fun Stream.tweetstorm(
     )
 }.stream<TweetstormListener, TweetstormHandler>()
 
-val Stream.tweetstorm
-    get() = tweetstorm()
-
+/**
+ * Connects to Tweetstorm with custom host.
+ *
+ * @param customHost Custom host to Tweetstorm.
+ * @param options Optional. Custom parameters of this request.
+ */
 fun Stream.tweetstorm(
     customHost: String,
     delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
@@ -63,12 +72,34 @@ fun Stream.tweetstorm(
     vararg options: Option
 ) = tweetstorm(EndpointHost(customHost, domainForSigning = EndpointHost.UserStream.domain), delimited, stringifyFriendIds, *options)
 
+/**
+ * Shorthand property to [Stream.tweetstorm].
+ * @see Stream.tweetstorm
+ */
+val Stream.tweetstorm
+    get() = tweetstorm()
+
+/**
+ * An event model interface for [TweetstormHandler].
+ */
 interface TweetstormListener: StreamListener {
+    /**
+     * Called when a status is received.
+     */
     suspend fun onStatus(status: Status) {}
+    /**
+     * Called when a direct message is received.
+     */
     suspend fun onDirectMessage(message: DirectMessage) {}
-    
+
+    /**
+     * Called when a friends event is received.
+     */
     suspend fun onFriends(friends: jp.nephy.penicillin.models.Stream.Friends) {}
 
+    /**
+     * Called when a delete event is received.
+     */
     suspend fun onDelete(delete: jp.nephy.penicillin.models.Stream.Delete) {}
 }
 

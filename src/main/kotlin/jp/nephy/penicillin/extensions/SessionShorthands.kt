@@ -28,16 +28,29 @@ import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.request.ApiRequestBuilder
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.response.ApiResponse
+import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.Session
 
+/**
+ * Shorthand extension to [ApiClient].
+ */
 val ApiRequestBuilder.session: Session
     get() = client.session
 
+/**
+ * Shorthand extension to [ApiClient].
+ */
 val ApiRequest.session: Session
     get() = client.session
 
+/**
+ * Shorthand extension to [ApiClient].
+ */
 val ApiAction<*>.session: Session
     get() = client.session
 
+/**
+ * Shorthand extension to [ApiClient].
+ */
 val ApiResponse<*>.session: Session
     get() = client.session

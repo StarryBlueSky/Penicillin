@@ -31,7 +31,25 @@ import kotlinx.io.InputStream
 import java.io.File
 import java.nio.file.Path
 
-data class MediaComponent(val input: InputStream, val type: MediaType, val category: MediaCategory) {
+/**
+ * Represents media data.
+ */
+data class MediaComponent(
+    /**
+     * InputStream for media data.
+     */
+    val input: InputStream,
+
+    /**
+     * Media type.
+     */
+    val type: MediaType,
+
+    /**
+     * Media category.
+     */
+    val category: MediaCategory
+) {
     constructor(data: ByteArray, type: MediaType, category: MediaCategory = TweetImage): this(data.inputStream(), type, category)
     constructor(file: File, type: MediaType, category: MediaCategory = TweetImage): this(file.inputStream(), type, category)
     constructor(path: Path, type: MediaType, category: MediaCategory = TweetImage): this(path.toFile(), type, category)

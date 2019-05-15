@@ -32,6 +32,13 @@ import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+/**
+ * Creates [Job] for streaming processing.
+ *
+ * @param reconnect if true, once disconnects from streaming, try to reconnect again later.
+ *
+ * @return [Job] for streaming processing.
+ */
 fun <L: StreamListener, H: StreamHandler<L>> StreamProcessor<L, H>.queue(reconnect: Boolean = true): Job {
     return launch {
         await(reconnect)

@@ -26,6 +26,9 @@
 
 package jp.nephy.penicillin.endpoints.stream
 
+/**
+ * Represents stream delimiter type.
+ */
 enum class StreamDelimitedBy(internal val value: String?) {
     /**
      * Default value.

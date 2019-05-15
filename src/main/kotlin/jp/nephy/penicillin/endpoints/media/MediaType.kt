@@ -26,11 +26,37 @@ package jp.nephy.penicillin.endpoints.media
 
 import io.ktor.http.ContentType
 
-enum class MediaType(val contentType: ContentType) {
+/**
+ * Represents media type.
+ */
+enum class MediaType(
+    /**
+     * Content-type.
+     */
+    val contentType: ContentType
+) {
+    /**
+     * Jpeg image.
+     */
     JPEG(ContentType.Image.JPEG),
+
+    /**
+     * Png image.
+     */
     PNG(ContentType.Image.PNG),
+
+    /**
+     * Gif image or animation.
+     */
     GIF(ContentType.Image.GIF),
+
+    /**
+     * WebP image.
+     */
     WebP(ContentType("image", "webp")),
 
+    /**
+     * Mp4 video.
+     */
     MP4(ContentType.Video.MP4)
 }
