@@ -29,6 +29,7 @@ package jp.nephy.penicillin.extensions.cursor
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.response.JsonObjectResponse
 import jp.nephy.penicillin.extensions.edit
 import jp.nephy.penicillin.models.Search

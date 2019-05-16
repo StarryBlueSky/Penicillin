@@ -29,6 +29,7 @@ package jp.nephy.penicillin.endpoints.cards
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Cards
 import jp.nephy.penicillin.endpoints.Option
@@ -48,12 +49,9 @@ fun Cards.create(
     cardData: String,
     vararg options: Option
 ) = client.session.post("/v2/cards/create.json", EndpointHost.Card) {
-    body {
-        form {
-            add(
-                "card_data" to cardData,
-                *options
-            )
-        }
-    }
+    formBody(
+        "card_data" to cardData,
+        *options
+    )
+
 }.jsonObject<Card>()

@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.accountactivity
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.AccountActivity
 import jp.nephy.penicillin.endpoints.Option
@@ -48,12 +49,9 @@ fun AccountActivity.registerWebhook(
     url: String,
     vararg options: Option
 ) = client.session.post("/1.1/account_activity/all/$envName/webhooks.json") {
-    body {
-        form {
-            add(
-                "url" to url,
-                *options
-            )
-        }
-    }
+    formBody(
+        "url" to url,
+        *options
+    )
+
 }.jsonObject<Webhook.Model>()

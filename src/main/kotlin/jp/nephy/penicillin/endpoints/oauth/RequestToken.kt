@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.oauth
 
 
 import jp.nephy.penicillin.core.auth.AuthorizationType
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.OAuth
 import jp.nephy.penicillin.endpoints.Option
@@ -89,12 +90,11 @@ private fun OAuth.requestTokenInternal(
     xAuthAccessType: String? = null,
     vararg options: Option
 ) = client.session.post("/oauth/request_token") {
-    authType(AuthorizationType.OAuth1a, callbackUrl)
-    body {
-        form {
-            add(
-                "x_auth_access_type" to xAuthAccessType, *options
-            )
-        }
-    }
+    authorizationType = AuthorizationType.OAuth1a
+    oauthCallbackUrl = callbackUrl
+
+    formBody(
+        "x_auth_access_type" to xAuthAccessType,
+        *options
+    )
 }.text()

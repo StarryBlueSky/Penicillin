@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.account
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Account
 import jp.nephy.penicillin.endpoints.Option
@@ -55,15 +56,12 @@ fun Account.updateProfileBackgroundImage(
     skipStatus: Boolean? = null,
     vararg options: Option
 ) = client.session.post("/1.1/account/update_profile_background_image.json") {
-    body {
-        form {
-            add(
-                "tile" to tile,
-                "include_entities" to includeEntities,
-                "skip_status" to skipStatus,
-                "media_id" to mediaId,
-                *options
-            )
-        }
-    }
+    formBody(
+        "tile" to tile,
+        "include_entities" to includeEntities,
+        "skip_status" to skipStatus,
+        "media_id" to mediaId,
+        *options
+    )
+
 }.jsonObject<User>()

@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.lists
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
@@ -156,17 +157,13 @@ private fun Lists.addMembers(
     screenNames: List<String>? = null,
     vararg options: Option
 ) = client.session.post("/1.1/lists/members/create_all.json") {
-    body {
-        form {
-            add(
-                "list_id" to listId,
-                "slug" to slug,
-                "owner_screen_name" to ownerScreenName,
-                "owner_id" to ownerId,
-                "user_id" to userIds?.joinToString(","),
-                "screen_name" to screenNames?.joinToString(","),
-                *options
-            )
-        }
-    }
+    formBody(
+        "list_id" to listId,
+        "slug" to slug,
+        "owner_screen_name" to ownerScreenName,
+        "owner_id" to ownerId,
+        "user_id" to userIds?.joinToString(","),
+        "screen_name" to screenNames?.joinToString(","),
+        *options
+    )
 }.empty()

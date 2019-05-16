@@ -31,7 +31,6 @@ import io.ktor.client.request.url
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.util.appendAll
-import io.ktor.util.flattenForEach
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.auth.OAuthUtil
 import jp.nephy.penicillin.core.auth.encodeBase64
@@ -40,74 +39,67 @@ import jp.nephy.penicillin.core.emulation.Tweetdeck
 import jp.nephy.penicillin.core.emulation.Twitter4iPhone
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
-import jp.nephy.penicillin.core.request.body.RequestBodyBuilder
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
-import jp.nephy.penicillin.endpoints.common.TweetMode
 import jp.nephy.penicillin.extensions.session
 import mu.KotlinLogging
 import kotlin.collections.set
 
 private val apiRequestBuilderLogger = KotlinLogging.logger("Penicillin.RequestBuilder")
 
-class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMethod, private val host: EndpointHost, private val path: String) {
-    private var headers = HeadersBuilder()
-    
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun header(key: String, value: Any?, emulationMode: EmulationMode? = null) {
-        if (emulationMode != null && session.option.emulationMode != emulationMode) {
-            return
-        }
+/**
+ * The builder class to construct api request.
+ */
+data class ApiRequestBuilder(
+    /**
+     * Current [ApiClient].
+     */
+    val client: ApiClient,
 
-        headers[key] = value?.toString() ?: return
-    }
+    /**
+     * Request HTTP method.
+     */
+    val httpMethod: HttpMethod,
 
-    fun header(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
-        for ((first, second) in pairs) {
-            header(first, second, emulationMode)
-        }
-    }
+    /**
+     * Request host.
+     */
+    val host: EndpointHost,
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun header(headers: Headers, emulationMode: EmulationMode? = null) {
-        headers.flattenForEach { key, value ->
-            header(key, value, emulationMode)
-        }
-    }
+    /**
+     * Request path.
+     */
+    val path: String
+) {
+    /**
+     * Request headers.
+     */
+    val headers: HeadersBuilder = HeadersBuilder()
 
-    private var authorizationType = AuthorizationType.OAuth1a
-    private var oauthCallbackUrl: String? = null
-    fun authType(type: AuthorizationType, callbackUrl: String? = null) {
-        authorizationType = type
-        oauthCallbackUrl = callbackUrl
-    }
+    /**
+     * Request url parameters.
+     */
+    val parameters: ParametersBuilder = ParametersBuilder()
 
-    private val parameters = ParametersBuilder()
-    fun parameter(key: String, value: Any?, emulationMode: EmulationMode? = null) {
-        if (emulationMode != null && session.option.emulationMode != emulationMode) {
-            return
-        }
+    /**
+     * Request form parameters.
+     */
+    val forms: ParametersBuilder = ParametersBuilder()
 
-        if (key == "tweet_mode" && value is TweetMode) {
-            parameters[key] = (value.value ?: session.option.defaultTweetMode.value)?.toString() ?: return
-        } else {
-            parameters[key] = value?.toString() ?: return
-        }
-    }
+    /**
+     * Request body.
+     */
+    var body: () -> Any = { EmptyContent }
 
-    fun parameter(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
-        for ((first, second) in pairs) {
-            parameter(first, second, emulationMode)
-        }
-    }
+    /**
+     * Authorization type.
+     */
+    var authorizationType: AuthorizationType = AuthorizationType.OAuth1a
 
-    private var body: Any = EmptyContent
-    fun body(builder: RequestBodyBuilder.() -> Unit) {
-        body = RequestBodyBuilder(session.option.emulationMode).apply(builder).build()
-    }
-
-    val url: String
-        get() = URLBuilder(protocol = host.protocol, host = host.domain, port = host.port, encodedPath = path, parameters = parameters.copy()).buildString()
+    /**
+     * OAuth callback url ("oauth_callback").
+     */
+    var oauthCallbackUrl: String? = null
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
         when (session.option.emulationMode) {
@@ -119,7 +111,7 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
                 }
             }
             EmulationMode.Tweetdeck -> {
-                authType(AuthorizationType.OAuth2)
+                authorizationType = AuthorizationType.OAuth2
                 header(Tweetdeck.headers)
             }
             else -> {
@@ -132,17 +124,17 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
             it.method = httpMethod
             it.url(url)
             it.headers.appendAll(headers)
-            it.body = body
+            it.body = body()
         }
     }
-    
+
     private fun signRequest() {
         val signature = when (authorizationType) {
             AuthorizationType.OAuth1a -> {
                 val authorizationHeaderComponent = OAuthUtil.initialAuthorizationHeaderComponents(
                     oauthCallbackUrl, consumerKey = session.credentials.consumerKey, accessToken = session.credentials.accessToken
                 )
-                val signatureParam = OAuthUtil.signatureParam(authorizationHeaderComponent, body, parameters)
+                val signatureParam = OAuthUtil.signatureParam(authorizationHeaderComponent, body, parameters, forms)
                 val signatureParamString = OAuthUtil.signatureParamString(signatureParam)
                 val signingKey = OAuthUtil.signingKey(session.credentials.consumerSecret!!, session.credentials.accessTokenSecret)
                 val signatureBaseString = OAuthUtil.signingBaseString(
@@ -163,7 +155,7 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
 
         headers[HttpHeaders.Authorization] = signature
     }
-    
+
     private fun checkEmulation() {
         if (session.option.skipEmulationChecking) {
             return
@@ -176,6 +168,7 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
         val method = javaClass.methods.find { it.name == trace.methodName } ?: return
 
         apiRequestBuilderLogger.trace { "Endpoint: ${javaClass.canonicalName}#${method.name}" }
+
         val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
         if (session.option.emulationMode == EmulationMode.None || (annotation.modes.isNotEmpty() && session.option.emulationMode !in annotation.modes)) {
             throw PenicillinException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
@@ -187,8 +180,4 @@ class ApiRequestBuilder(val client: ApiClient, private val httpMethod: HttpMetho
 
         return ApiRequest(client, this)
     }
-}
-
-internal fun ParametersBuilder.copy(): ParametersBuilder {
-    return ParametersBuilder().apply { appendAll(this@copy) }
 }

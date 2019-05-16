@@ -28,9 +28,10 @@ package jp.nephy.penicillin.endpoints.friendships
 
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Friendships
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.User
 
 /**
@@ -74,13 +75,9 @@ private fun Friendships.destroy(
     screenName: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/friendships/destroy.json") {
-    body {
-        form {
-            add(
-                "user_id" to userId,
-                "screen_name" to screenName,
-                *options
-            )
-        }
-    }
+    formBody(
+        "user_id" to userId,
+        "screen_name" to screenName,
+        *options
+    )
 }.jsonObject<User>()

@@ -28,6 +28,7 @@ package jp.nephy.penicillin.extensions.endpoints
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.EndpointHost
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler

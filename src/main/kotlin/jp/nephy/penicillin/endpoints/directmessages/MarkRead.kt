@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.directmessages
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.DirectMessages
 import jp.nephy.penicillin.endpoints.Option
@@ -47,13 +48,9 @@ fun DirectMessages.markRead(
     recipientId: Long,
     vararg options: Option
 ) = client.session.post("/1.1/direct_messages/mark_read.json") {
-    body { 
-        form { 
-            add(
-                "last_read_event_id" to lastReadEventId,
-                "recipient_id" to recipientId,
-                *options
-            )
-        }
-    }
+    formBody(
+        "last_read_event_id" to lastReadEventId,
+        "recipient_id" to recipientId,
+        *options
+    )
 }

@@ -28,6 +28,7 @@ package jp.nephy.penicillin.extensions.cursor
 
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.extensions.complete
 import jp.nephy.penicillin.extensions.edit

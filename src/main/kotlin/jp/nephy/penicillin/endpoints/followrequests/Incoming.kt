@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.followrequests
 
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.FollowRequests

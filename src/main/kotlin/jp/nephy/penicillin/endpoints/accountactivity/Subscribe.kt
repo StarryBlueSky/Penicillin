@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.accountactivity
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.AccountActivity
 import jp.nephy.penicillin.endpoints.Option
@@ -46,9 +47,6 @@ fun AccountActivity.subscribe(
     envName: String,
     vararg options: Option
 ) = client.session.post("/1.1/account_activity/all/$envName/subscriptions.json") {
-    body {
-        form {
-            add(*options)
-        }
-    }
+    formBody(*options)
+
 }.empty()

@@ -27,10 +27,11 @@
 package jp.nephy.penicillin.endpoints.followrequests
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
+import jp.nephy.penicillin.endpoints.FollowRequests
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
-import jp.nephy.penicillin.endpoints.FollowRequests
 import jp.nephy.penicillin.models.User
 
 /**
@@ -66,21 +67,17 @@ private fun FollowRequests.accept(
     userId: Long? = null,
     vararg options: Option
 ) = client.session.post("/1.1/friendships/accept.json") {
-    body {
-        form {
-            add(
-                "ext" to "mediaColor",
-                "include_entities" to "1",
-                "include_profile_interstitial_type" to "true",
-                "include_profile_location" to "true",
-                "include_user_entities" to "true",
-                "include_user_hashtag_entities" to "true",
-                "include_user_mention_entities" to "true",
-                "include_user_symbol_entities" to "true",
-                "screen_name" to screenName,
-                "user_id" to userId,
-                *options
-            )
-        }
-    }
+    formBody(
+        "ext" to "mediaColor",
+        "include_entities" to "1",
+        "include_profile_interstitial_type" to "true",
+        "include_profile_location" to "true",
+        "include_user_entities" to "true",
+        "include_user_hashtag_entities" to "true",
+        "include_user_mention_entities" to "true",
+        "include_user_symbol_entities" to "true",
+        "screen_name" to screenName,
+        "user_id" to userId,
+        *options
+    )
 }.jsonObject<User>()

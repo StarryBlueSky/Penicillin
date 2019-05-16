@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.statuses
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
@@ -55,13 +56,9 @@ fun Statuses.retweet(
     tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.post("/1.1/statuses/retweet/$id.json") {
-    body {
-        form {
-            add(
-                "trim_user" to trimUser,
-                "tweet_mode" to tweetMode,
-                *options
-            )
-        }
-    }
+    formBody(
+        "trim_user" to trimUser,
+        "tweet_mode" to tweetMode,
+        *options
+    )
 }.jsonObject<Status>()

@@ -28,6 +28,8 @@ package jp.nephy.penicillin.endpoints.welcomemessages.rules
 
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.jsonBody
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessageRules
@@ -50,14 +52,11 @@ fun WelcomeMessageRules.create(
     id: String,
     vararg options: Option
 ) = client.session.post("/1.1/direct_messages/welcome_messages/rules/new.json") {
-    body {
-        json {
-            add(
-                "welcome_message_rule" to jsonObjectOf(
-                    "welcome_message_id" to id
-                ),
-                *options
-            )
-        }
-    }
+    parameter(*options)
+
+    jsonBody(
+        "welcome_message_rule" to jsonObjectOf(
+            "welcome_message_id" to id
+        )
+    )
 }.jsonObject<WelcomeMessageRule.Single>()

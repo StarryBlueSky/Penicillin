@@ -30,6 +30,7 @@ package jp.nephy.penicillin.endpoints.friendships
 import jp.nephy.jsonkt.longList
 import jp.nephy.jsonkt.toJsonArray
 import jp.nephy.penicillin.core.request.action.DelegatedAction
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Friendships
 import jp.nephy.penicillin.endpoints.Option

@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.welcomemessages
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.delete
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessages

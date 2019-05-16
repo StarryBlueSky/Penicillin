@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.lists
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
@@ -50,14 +51,10 @@ fun Lists.create(
     description: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/lists/create.json") {
-    body {
-        form {
-            add(
-                "name" to name,
-                "mode" to mode?.value,
-                "description" to description,
-                *options
-            )
-        }
-    }
+    formBody(
+        "name" to name,
+        "mode" to mode?.value,
+        "description" to description,
+        *options
+    )
 }.jsonObject<TwitterList>()

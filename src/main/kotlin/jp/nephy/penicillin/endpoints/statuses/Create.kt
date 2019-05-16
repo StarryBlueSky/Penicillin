@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.statuses
 
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
@@ -79,50 +80,47 @@ fun Statuses.create(
     tweetMode: TweetMode? = null,
     vararg options: Option
 ) = client.session.post("/1.1/statuses/update.json") {
-    body {
-        form {
-            add(
-                "auto_populate_reply_metadata" to "true",
-                "batch_mode" to "off",
-                "cards_platform" to "iPhone-13",
-                "contributor_details" to "1",
-                "enable_dm_commands" to "false",
-                "ext" to "altText,highlightedLabel,info360,mediaColor,mediaRestrictions,mediaStats,stickerInfo",
-                "include_cards" to "1",
-                "include_carousels" to "1",
-                "include_entities" to "1",
-                "include_ext_media_color" to "true",
-                "include_media_features" to "true",
-                "include_my_retweet" to "1",
-                "include_profile_interstitial_type" to "true",
-                "include_profile_location" to "true",
-                "include_reply_count" to "1",
-                "include_user_entities" to "true",
-                "include_user_hashtag_entities" to "true",
-                "include_user_mention_entities" to "true",
-                "include_user_symbol_entities" to "true",
-                "tweet_mode" to "extended",
-                emulationMode = EmulationMode.TwitterForiPhone
-            )
-            add(
-                "status" to status,
-                "in_reply_to_status_id" to inReplyToStatusId,
-                "auto_populate_reply_metadata" to autoPopulateReplyMetadata,
-                "exclude_reply_user_ids" to excludeReplyUserIds,
-                "attachment_url" to attachmentUrl,
-                "media_ids" to mediaIds?.joinToString(","),
-                "possibly_sensitive" to possiblySensitive,
-                "lat" to latitude,
-                "long" to longitude,
-                "place_id" to placeId,
-                "display_coordinates" to displayCoordinates,
-                "trim_user" to trimUser,
-                "enable_dm_commands" to enableDMCommands,
-                "fail_dm_commands" to failDMCommands,
-                "card_uri" to cardUri,
-                "tweet_mode" to tweetMode,
-                *options
-            )
-        }
-    }
+    formBody(
+        "auto_populate_reply_metadata" to "true",
+        "batch_mode" to "off",
+        "cards_platform" to "iPhone-13",
+        "contributor_details" to "1",
+        "enable_dm_commands" to "false",
+        "ext" to "altText,highlightedLabel,info360,mediaColor,mediaRestrictions,mediaStats,stickerInfo",
+        "include_cards" to "1",
+        "include_carousels" to "1",
+        "include_entities" to "1",
+        "include_ext_media_color" to "true",
+        "include_media_features" to "true",
+        "include_my_retweet" to "1",
+        "include_profile_interstitial_type" to "true",
+        "include_profile_location" to "true",
+        "include_reply_count" to "1",
+        "include_user_entities" to "true",
+        "include_user_hashtag_entities" to "true",
+        "include_user_mention_entities" to "true",
+        "include_user_symbol_entities" to "true",
+        "tweet_mode" to "extended",
+        mode = EmulationMode.TwitterForiPhone
+    )
+    formBody(
+        "status" to status,
+        "in_reply_to_status_id" to inReplyToStatusId,
+        "auto_populate_reply_metadata" to autoPopulateReplyMetadata,
+        "exclude_reply_user_ids" to excludeReplyUserIds,
+        "attachment_url" to attachmentUrl,
+        "media_ids" to mediaIds?.joinToString(","),
+        "possibly_sensitive" to possiblySensitive,
+        "lat" to latitude,
+        "long" to longitude,
+        "place_id" to placeId,
+        "display_coordinates" to displayCoordinates,
+        "trim_user" to trimUser,
+        "enable_dm_commands" to enableDMCommands,
+        "fail_dm_commands" to failDMCommands,
+        "card_uri" to cardUri,
+        "tweet_mode" to tweetMode,
+        *options
+    )
+
 }.jsonObject<Status>()

@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.media
 
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Media
 import jp.nephy.penicillin.endpoints.Option
@@ -53,16 +54,12 @@ fun Media.uploadInit(
     additionalOwners: List<Long>? = null,
     vararg options: Option
 ) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
-    body {
-        form {
-            add(
-                "command" to "INIT",
-                "total_bytes" to totalBytes,
-                "media_type" to mediaType.contentType,
-                "media_category" to mediaCategory.value,
-                "additional_owners" to additionalOwners?.joinToString(","),
-                *options
-            )
-        }
-    }
+    formBody(
+        "command" to "INIT",
+        "total_bytes" to totalBytes,
+        "media_type" to mediaType.contentType,
+        "media_category" to mediaCategory.value,
+        "additional_owners" to additionalOwners?.joinToString(","),
+        *options
+    )
 }.jsonObject<jp.nephy.penicillin.models.Media>()

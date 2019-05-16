@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.savedsearches
 
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.SavedSearches
@@ -47,12 +48,8 @@ fun SavedSearches.create(
     query: String,
     vararg options: Option
 ) = client.session.post("/1.1/saved_searches/create.json") {
-    body {
-        form {
-            add(
-                "query" to query,
-                *options
-            )
-        }
-    }
+    formBody(
+        "query" to query,
+        *options
+    )
 }.jsonObject<SavedSearch>()

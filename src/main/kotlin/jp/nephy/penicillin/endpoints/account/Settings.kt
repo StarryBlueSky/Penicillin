@@ -27,6 +27,8 @@
 package jp.nephy.penicillin.endpoints.account
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Account
@@ -85,19 +87,16 @@ fun Account.updateSettings(
     lang: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/account/settings.json") {
-    body {
-        form {
-            add(
-                "sleep_time_enabled" to sleepTimeEnabled,
-                "start_sleep_time" to startSleepTime,
-                "end_sleep_time" to endSleepTime,
-                "time_zone" to timeZone,
-                "trend_location_woeid" to trendLocationWoeid,
-                "lang" to lang,
-                *options
-            )
-        }
-    }
+    formBody(
+        "sleep_time_enabled" to sleepTimeEnabled,
+        "start_sleep_time" to startSleepTime,
+        "end_sleep_time" to endSleepTime,
+        "time_zone" to timeZone,
+        "trend_location_woeid" to trendLocationWoeid,
+        "lang" to lang,
+        *options
+    )
+
 }.jsonObject<Settings>()
 
 /**

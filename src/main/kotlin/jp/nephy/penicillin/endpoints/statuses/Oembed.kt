@@ -29,6 +29,7 @@ package jp.nephy.penicillin.endpoints.statuses
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
@@ -72,7 +73,8 @@ fun Statuses.embedFormat(
     dnt: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/oembed", EndpointHost.Publish) {
-    authType(AuthorizationType.None)
+    authorizationType = AuthorizationType.None
+
     parameter(
         "url" to url,
         "maxwidth" to maxWidth,

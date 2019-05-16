@@ -24,11 +24,10 @@
 
 package jp.nephy.penicillin.core.auth
 
+import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.http.*
 import io.ktor.util.date.GMTDate
 import io.ktor.util.flattenForEach
-import jp.nephy.penicillin.core.request.body.EncodedFormContent
-import jp.nephy.penicillin.core.request.body.MultiPartContent
 import jp.nephy.penicillin.core.request.copy
 import java.util.*
 import javax.crypto.Mac
@@ -74,15 +73,14 @@ object OAuthUtil {
     /**
      * Creates signature param.
      */
-    fun signatureParam(authorizationHeaderComponent: Map<String, String?>, body: Any, parameters: ParametersBuilder): Map<String, String> {
+    fun signatureParam(authorizationHeaderComponent: Map<String, String?>, body: Any, parameters: ParametersBuilder, forms: ParametersBuilder): Map<String, String> {
         return sortedMapOf<String, String>().also { map ->
             authorizationHeaderComponent.filterValues { it != null }.forEach {
                 map[it.key.encodeURLParameter()] = it.value?.encodeURLParameter()
             }
             
-            if (body !is MultiPartContent) {
-                val forms = (body as? EncodedFormContent)?.forms ?: parametersOf()
-                val params = parameters.copy().build() + forms
+            if (body !is MultiPartFormDataContent) {
+                val params = parameters.copy().build() + forms.copy().build()
                 
                 params.flattenForEach { key, value ->
                     map[key.encodeURLParameter()] = value.encodeURLParameter()
