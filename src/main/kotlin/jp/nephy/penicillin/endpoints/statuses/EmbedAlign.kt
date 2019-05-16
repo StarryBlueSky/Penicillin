@@ -24,17 +24,32 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
+/**
+ * Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element.
+ */
 enum class EmbedAlign(internal val value: String?) {
     /**
      * Default value.
      */
     Default(null),
 
+    /**
+     * Left align.
+     */
     Left("left"),
 
+    /**
+     * Right align.
+     */
     Right("right"),
 
+    /**
+     * Center align.
+     */
     Center("center"),
 
+    /**
+     * No align.
+     */
     None("none")
 }

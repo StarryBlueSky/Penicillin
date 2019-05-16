@@ -24,11 +24,17 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
+/**
+ * Set to video to return a Twitter Video embed for the given Tweet.
+ */
 enum class EmbedWidgetType(internal val value: String?) {
     /**
      * Default value.
      */
     Default(null),
 
+    /**
+     * Video widget.
+     */
     Video("video")
 }
