@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.account
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Account
 import jp.nephy.penicillin.endpoints.Option
@@ -61,23 +62,20 @@ fun Account.updateProfile(
     birthdateDay: Int? = null,
     vararg options: Option
 ) = client.session.post("/1.1/account/update_profile.json") {
-    body {
-        form {
-            add(
-                "name" to name,
-                "url" to url,
-                "location" to location,
-                "description" to description,
-                "profile_link_color" to profileLinkColor,
-                "include_entities" to includeEntities,
-                "skip_status" to skipStatus,
-                "birthdate_year" to birthdateYear,
-                "birthdate_month" to birthdateMonth,
-                "birthdate_day" to birthdateDay,
-                *options
-            )
-        }
-    }
+    formBody(
+        "name" to name,
+        "url" to url,
+        "location" to location,
+        "description" to description,
+        "profile_link_color" to profileLinkColor,
+        "include_entities" to includeEntities,
+        "skip_status" to skipStatus,
+        "birthdate_year" to birthdateYear,
+        "birthdate_month" to birthdateMonth,
+        "birthdate_day" to birthdateDay,
+        *options
+    )
+
 }.jsonObject<User>()
 
 /**

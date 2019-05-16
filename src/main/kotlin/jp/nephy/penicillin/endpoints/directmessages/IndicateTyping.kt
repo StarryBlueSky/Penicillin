@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.directmessages
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.DirectMessages
 import jp.nephy.penicillin.endpoints.Option
@@ -45,12 +46,8 @@ fun DirectMessages.indicateTyping(
     recipientId: Long,
     vararg options: Option
 ) = client.session.post("/1.1/direct_messages/indicate_typing.json") {
-    body { 
-        form { 
-            add(
-                "recipient_id" to recipientId,
-                *options
-            )
-        }
-    }
+    formBody(
+        "recipient_id" to recipientId,
+        *options
+    )
 }.empty()

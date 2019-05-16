@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.savedsearches
 
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.SavedSearches
@@ -47,9 +48,5 @@ fun SavedSearches.delete(
     id: Long,
     vararg options: Option
 ) = client.session.post("/1.1/saved_searches/destroy/$id.json") {
-    body {
-        form {
-            add(*options)
-        }
-    }
+    formBody(*options)
 }.jsonObject<SavedSearch>()

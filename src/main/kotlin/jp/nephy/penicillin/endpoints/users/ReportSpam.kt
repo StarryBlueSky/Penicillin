@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.users
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Users
@@ -72,14 +73,10 @@ private fun Users.reportSpam(
     performBlock: Boolean? = null,
     vararg options: Option
 ) = client.session.post("/1.1/users/report_spam.json") {
-    body {
-        form {
-            add(
-                "screen_name" to screenName,
-                "user_id" to userId,
-                "perform_block" to performBlock,
-                *options
-            )
-        }
-    }
+    formBody(
+        "screen_name" to screenName,
+        "user_id" to userId,
+        "perform_block" to performBlock,
+        *options
+    )
 }.jsonObject<User>()

@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.oauth
 
 
 import jp.nephy.penicillin.PenicillinClient
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.config.account
 import jp.nephy.penicillin.core.session.config.application
 import jp.nephy.penicillin.core.session.config.token
@@ -122,12 +123,8 @@ private fun OAuth.accessTokenInternal(
     verifier: String,
     vararg options: Option
 ) = client.session.post("/oauth/access_token") {
-    body {
-        form {
-            add(
-                "oauth_verifier" to verifier,
-                *options
-            )
-        }
-    }
+    formBody(
+        "oauth_verifier" to verifier,
+        *options
+    )
 }.text()

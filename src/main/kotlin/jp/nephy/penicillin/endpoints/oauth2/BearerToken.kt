@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.oauth2
 
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.OAuth2
 import jp.nephy.penicillin.endpoints.Option
@@ -51,15 +52,12 @@ fun OAuth2.bearerToken(
     grantType: String = "client_credentials",
     vararg options: Option
 ) = client.session.post("/oauth2/token") {
-    authType(AuthorizationType.OAuth2RequestToken)
+    authorizationType = AuthorizationType.OAuth2RequestToken
 
-    body {
-        form {
-            add(
-                "grant_type" to grantType, *options
-            )
-        }
-    }
+    formBody(
+        "grant_type" to grantType,
+        *options
+    )
 }.jsonObject<OAuthToken>()
 
  /**

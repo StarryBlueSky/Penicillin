@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.directmessages
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.DirectMessages
 import jp.nephy.penicillin.endpoints.Option
@@ -46,13 +47,9 @@ fun DirectMessages.delete(
     includeEntities: Boolean? = null,
     vararg options: Option
 ) = client.session.post("/1.1/direct_messages/destroy.json") {
-    body {
-        form {
-            add(
-                "id" to id,
-                "include_entities" to includeEntities,
-                *options
-            )
-        }
-    }
+    formBody(
+        "id" to id,
+        "include_entities" to includeEntities,
+        *options
+    )
 }.jsonObject<DirectMessage>()

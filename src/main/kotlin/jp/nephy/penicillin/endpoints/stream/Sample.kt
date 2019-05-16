@@ -29,6 +29,7 @@ package jp.nephy.penicillin.endpoints.stream
 
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.StreamApiAction
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.SampleStreamHandler
 import jp.nephy.penicillin.core.streaming.listener.SampleStreamListener

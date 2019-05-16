@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.lists
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
@@ -108,18 +109,14 @@ private fun Lists.update(
     description: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/lists/update.json") {
-    body {
-        form {
-            add(
-                "list_id" to listId,
-                "slug" to slug,
-                "owner_screen_name" to ownerScreenName,
-                "owner_id" to ownerId,
-                "name" to name,
-                "mode" to mode?.value,
-                "description" to description,
-                *options
-            )
-        }
-    }
+    formBody(
+        "list_id" to listId,
+        "slug" to slug,
+        "owner_screen_name" to ownerScreenName,
+        "owner_id" to ownerId,
+        "name" to name,
+        "mode" to mode?.value,
+        "description" to description,
+        *options
+    )
 }.empty()

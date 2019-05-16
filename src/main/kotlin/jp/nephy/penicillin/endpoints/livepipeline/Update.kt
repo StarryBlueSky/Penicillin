@@ -28,6 +28,7 @@ package jp.nephy.penicillin.endpoints.livepipeline
 
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.LivePipeline
 import jp.nephy.penicillin.endpoints.Option
@@ -47,12 +48,8 @@ fun LivePipeline.update(
     ids: List<Long>,
     vararg options: Option
 ) = client.session.post("/1.1/live_pipeline/update_subscriptions") {
-    body {
-        form {
-            add(
-                "sub_topics" to ids.joinToString(",") { "/tweet_engagement/$it" },
-                *options
-            )
-        }
-    }
+    formBody(
+        "sub_topics" to ids.joinToString(",") { "/tweet_engagement/$it" },
+        *options
+    )
 }.jsonObject<LivePipelineSubscription>()

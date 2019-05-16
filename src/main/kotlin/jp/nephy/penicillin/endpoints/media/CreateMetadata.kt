@@ -27,8 +27,12 @@
 package jp.nephy.penicillin.endpoints.media
 
 import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.jsonObjectOf
+import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.request.jsonBody
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Media
 import jp.nephy.penicillin.endpoints.Option
@@ -51,13 +55,6 @@ fun Media.createMetadata(
     payload: JsonObject,
     vararg options: Option
 ) = client.session.post("/1.1/media/metadata/create.json", EndpointHost.MediaUpload) {
-    body {
-        json {
-            from(payload)
-            add(
-                "media_id" to mediaId.toString(),
-                *options
-            )
-        }
-    }
+    parameter(*options)
+    jsonBody((payload + jsonObjectOf("media_id" to mediaId.toString())).toJsonObject())
 }.empty()

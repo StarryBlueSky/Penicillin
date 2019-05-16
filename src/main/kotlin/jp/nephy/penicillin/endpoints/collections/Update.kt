@@ -27,9 +27,10 @@
 package jp.nephy.penicillin.endpoints.collections
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Collections
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.Collection
 
 /**
@@ -53,15 +54,12 @@ fun Collections.update(
     url: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/collections/update.json") {
-    body {
-        form {
-            add(
-                "id" to id,
-                "name" to name,
-                "description" to description,
-                "url" to url,
-                *options
-            )
-        }
-    }
+    formBody(
+        "id" to id,
+        "name" to name,
+        "description" to description,
+        "url" to url,
+        *options
+    )
+
 }.jsonObject<Collection.Model>()

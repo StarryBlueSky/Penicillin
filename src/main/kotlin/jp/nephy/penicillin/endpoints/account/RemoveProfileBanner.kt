@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.account
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Account
 import jp.nephy.penicillin.endpoints.Option
@@ -43,11 +44,8 @@ import jp.nephy.penicillin.endpoints.Option
 fun Account.removeProfileBanner(
     vararg options: Option
 ) = client.session.post("/1.1/account/remove_profile_banner.json") {
-    body {
-        form {
-            add(*options)
-        }
-    }
+    formBody(*options)
+
 }.empty()
 
 /**

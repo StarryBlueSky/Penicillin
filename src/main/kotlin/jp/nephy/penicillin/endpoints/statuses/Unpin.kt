@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.statuses
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
@@ -45,12 +46,8 @@ fun Statuses.unpin(
     id: Long,
     vararg options: Option
 ) = client.session.post("/1.1/account/unpin_tweet.json") {
-    body {
-        form {
-            add(
-                "id" to id,
-                *options
-            )
-        }
-    }
+    formBody(
+        "id" to id,
+        *options
+    )
 }.jsonObject<PinTweet>()

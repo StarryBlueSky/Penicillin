@@ -28,9 +28,10 @@ package jp.nephy.penicillin.endpoints.friendships
 
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Friendships
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.Relationship
 
 /**
@@ -78,15 +79,12 @@ private fun Friendships.update(
     retweets: Boolean? = null,
     vararg options: Option
 ) = client.session.post("/1.1/friendships/update.json") {
-    body {
-        form {
-            add(
-                "user_id" to userId,
-                "screen_name" to screenName,
-                "device" to device,
-                "retweets" to retweets,
-                *options
-            )
-        }
-    }
+    formBody(
+        "user_id" to userId,
+        "screen_name" to screenName,
+        "device" to device,
+        "retweets" to retweets,
+        *options
+    )
+
 }.jsonObject<Relationship>()

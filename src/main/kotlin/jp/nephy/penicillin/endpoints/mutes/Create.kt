@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.mutes
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Mutes
 import jp.nephy.penicillin.endpoints.Option
@@ -71,13 +72,9 @@ private fun Mutes.create(
     userId: Long? = null,
     vararg options: Option
 ) = client.session.post("/1.1/mutes/users/create.json") {
-    body {
-        form {
-            add(
-                "screen_name" to screenName,
-                "user_id" to userId,
-                *options
-            )
-        }
-    }
+    formBody(
+        "screen_name" to screenName,
+        "user_id" to userId,
+        *options
+    )
 }.jsonObject<User>()

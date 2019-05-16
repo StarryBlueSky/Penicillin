@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.collections
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Collections
 import jp.nephy.penicillin.endpoints.Option
@@ -46,12 +47,9 @@ fun Collections.delete(
     id: String,
     vararg options: Option
 ) = client.session.post("/1.1/collections/destroy.json") {
-    body {
-        form {
-            add(
-                "id" to id,
-                *options
-            )
-        }
-    }
+    formBody(
+        "id" to id,
+        *options
+    )
+
 }.jsonObject<Collection.DestroyResult>()

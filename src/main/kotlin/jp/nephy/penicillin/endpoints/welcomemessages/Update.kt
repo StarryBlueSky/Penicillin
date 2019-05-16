@@ -28,6 +28,8 @@ package jp.nephy.penicillin.endpoints.welcomemessages
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.jsonBody
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.put
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessages
@@ -54,9 +56,5 @@ fun WelcomeMessages.update(
         *options
     )
     
-    body {
-        json {
-            add("message_data" to messageData)
-        }
-    }
+    jsonBody("message_data" to messageData)
 }.jsonObject<WelcomeMessage.Single>()

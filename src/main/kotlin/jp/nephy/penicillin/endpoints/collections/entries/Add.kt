@@ -27,9 +27,10 @@
 package jp.nephy.penicillin.endpoints.collections.entries
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.CollectionEntries
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.Collection
 
 /**
@@ -54,15 +55,12 @@ fun CollectionEntries.add(
     above: Boolean? = null,
     vararg options: Option
 ) = client.session.post("/1.1/collections/entries/add.json") {
-    body {
-        form {
-            add(
-                "id" to id,
-                "tweet_id" to tweetId,
-                "relative_to" to relativeTo,
-                "above" to above,
-                *options
-            )
-        }
-    }
+    formBody(
+        "id" to id,
+        "tweet_id" to tweetId,
+        "relative_to" to relativeTo,
+        "above" to above,
+        *options
+    )
+
 }.jsonObject<Collection.Entry.Result>()

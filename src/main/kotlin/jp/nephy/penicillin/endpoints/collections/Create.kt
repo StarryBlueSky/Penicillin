@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.collections
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Collections
 import jp.nephy.penicillin.endpoints.Option
@@ -53,15 +54,12 @@ fun Collections.create(
     timelineOrder: CollectionTimelineOrder = CollectionTimelineOrder.Default,
     vararg options: Option
 ) = client.session.post("/1.1/collections/create.json") {
-    body {
-        form {
-            add(
-                "name" to name,
-                "description" to description,
-                "url" to url,
-                "timeline_order" to timelineOrder.value,
-                *options
-            )
-        }
-    }
+    formBody(
+        "name" to name,
+        "description" to description,
+        "url" to url,
+        "timeline_order" to timelineOrder.value,
+        *options
+    )
+
 }.jsonObject<Collection.Model>()

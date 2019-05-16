@@ -28,9 +28,10 @@ package jp.nephy.penicillin.endpoints.oauth2
 
 import jp.nephy.penicillin.core.auth.AuthorizationType
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.OAuth2
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.OAuthToken
 
 /**
@@ -48,14 +49,10 @@ fun OAuth2.invalidateToken(
     bearerToken: String,
     vararg options: Option
 ) = client.session.post("/oauth2/invalidate_token") {
-    authType(AuthorizationType.OAuth2RequestToken)
+    authorizationType = AuthorizationType.OAuth2RequestToken
     
-    body {
-        form {
-            add(
-                "access_token" to bearerToken,
-                *options
-            )
-        }
-    }
+    formBody(
+        "access_token" to bearerToken,
+        *options
+    )
 }.jsonObject<OAuthToken>()

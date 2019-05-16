@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.timeline
 
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
+import jp.nephy.penicillin.core.request.parameter
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Timeline

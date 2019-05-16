@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.blocks
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
+import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Blocks
 import jp.nephy.penicillin.endpoints.EndpointOverloads
@@ -86,15 +87,12 @@ private fun Blocks.create(
     skipStatus: Boolean? = null,
     vararg options: Option
 ) = client.session.post("/1.1/blocks/create.json") {
-    body {
-        form {
-            add(
-                "screen_name" to screenName,
-                "user_id" to userId,
-                "include_entities" to includeEntities,
-                "skip_status" to skipStatus,
-                *options
-            )
-        }
-    }
+    formBody(
+        "screen_name" to screenName,
+        "user_id" to userId,
+        "include_entities" to includeEntities,
+        "skip_status" to skipStatus,
+        *options
+    )
+
 }.jsonObject<User>()
