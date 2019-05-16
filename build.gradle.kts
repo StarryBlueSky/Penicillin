@@ -19,8 +19,8 @@ val packageName = "Penicillin"
 val packageVersion = Version(4, 1, 3)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
-val ktorVersion = "1.1.5"
-val spekVersion = "2.0.2"
+val ktorVersion = "1.2.0"
+val spekVersion = "2.0.4"
 
 plugins { 
     kotlin("jvm") version "1.3.31"
