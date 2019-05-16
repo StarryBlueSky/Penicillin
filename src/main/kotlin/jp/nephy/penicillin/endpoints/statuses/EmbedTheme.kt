@@ -24,10 +24,22 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
+/**
+ * When set to dark, the Tweet is displayed with light text over a dark background.
+ */
 enum class EmbedTheme(internal val value: String?) {
+    /**
+     * Default value.
+     */
     Default(null),
-    
+
+    /**
+     * Light theme.
+     */
     Light("light"),
 
+    /**
+     * Dark theme.
+     */
     Dark("dark")
 }

@@ -24,11 +24,17 @@
 
 package jp.nephy.penicillin.endpoints.trends
 
+/**
+ * Setting this equal to hashtags will remove all hashtags from the trends list.
+ */
 enum class TrendExclude(internal val value: String?) {
     /**
      * Default value.
      */
     Default(null),
 
+    /**
+     * Exclude hashtags from result.
+     */
     Hashtags("hashtags")
 }

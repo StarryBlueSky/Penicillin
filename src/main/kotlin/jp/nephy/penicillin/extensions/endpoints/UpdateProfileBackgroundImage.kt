@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.extensions.endpoints
 
+import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.endpoints.Account
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.account.updateProfileBackgroundImage
@@ -34,7 +35,19 @@ import jp.nephy.penicillin.endpoints.media.MediaComponent
 import jp.nephy.penicillin.endpoints.media.uploadMedia
 import jp.nephy.penicillin.extensions.DelegatedAction
 import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.models.User
 
+/**
+ * Update profile background image.
+ *
+ * @param media Uploading media.
+ * @param tile Optional. Whether or not to tile the background image. If set to true , t or 1 the background image will be displayed tiled. The image will not be tiled otherwise.
+ * @param includeEntities Optional. The entities node will not be included when set to false.
+ * @param skipStatus Optional. When set to either true, t or 1 statuses will not be included in the returned user object.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [Account] endpoint instance.
+ * @return [JsonObjectApiAction] for [User] model.
+ */
 fun Account.updateProfileBackgroundImage(
     media: MediaComponent,
     tile: Boolean? = null,
