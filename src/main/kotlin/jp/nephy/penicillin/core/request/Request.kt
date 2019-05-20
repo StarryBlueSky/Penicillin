@@ -99,9 +99,7 @@ fun ApiRequestBuilder.jsonBody(json: JsonObject, mode: EmulationMode? = null) {
  * Sets parameter key with value, or update existing one with value.
  */
 fun ApiRequestBuilder.parameter(key: String, value: Any?, emulationMode: EmulationMode? = null) {
-    if (emulationMode != null && session.option.emulationMode != emulationMode) {
-        return
-    }
+    if (emulationMode != null && session.option.emulationMode != emulationMode) return
 
     if (key == "tweet_mode" && value is TweetMode) {
         parameters[key] = (value.value ?: session.option.defaultTweetMode.value)?.toString() ?: return
@@ -114,6 +112,8 @@ fun ApiRequestBuilder.parameter(key: String, value: Any?, emulationMode: Emulati
  * Sets parameter key with value, or update existing one with value.
  */
 fun ApiRequestBuilder.parameter(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
+    if (emulationMode != null && session.option.emulationMode != emulationMode) return
+
     for ((first, second) in pairs) {
         parameter(first, second, emulationMode)
     }
@@ -123,9 +123,7 @@ fun ApiRequestBuilder.parameter(vararg pairs: Pair<String, Any?>, emulationMode:
  * Sets header key with value, or update existing one with value.
  */
 fun ApiRequestBuilder.header(key: String, value: Any?, emulationMode: EmulationMode? = null) {
-    if (emulationMode != null && session.option.emulationMode != emulationMode) {
-        return
-    }
+    if (emulationMode != null && session.option.emulationMode != emulationMode) return
 
     headers[key] = value?.toString() ?: return
 }
@@ -134,6 +132,8 @@ fun ApiRequestBuilder.header(key: String, value: Any?, emulationMode: EmulationM
  * Sets header key with value, or update existing one with value.
  */
 fun ApiRequestBuilder.header(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
+    if (emulationMode != null && session.option.emulationMode != emulationMode) return
+
     for ((first, second) in pairs) {
         header(first, second, emulationMode)
     }
@@ -143,6 +143,8 @@ fun ApiRequestBuilder.header(vararg pairs: Pair<String, Any?>, emulationMode: Em
  * Adds existing [Headers] instance to headers.
  */
 fun ApiRequestBuilder.header(headers: Headers, emulationMode: EmulationMode? = null) {
+    if (emulationMode != null && session.option.emulationMode != emulationMode) return
+
     headers.flattenForEach { key, value ->
         header(key, value, emulationMode)
     }
