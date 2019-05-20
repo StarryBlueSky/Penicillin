@@ -65,7 +65,7 @@ fun Statuses.lookup(
     map: Boolean? = null,
     includeExtAltText: Boolean? = null,
     includeCardUri: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/lookup.json") {
     parameter(

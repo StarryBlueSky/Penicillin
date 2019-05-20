@@ -47,7 +47,7 @@ import jp.nephy.penicillin.models.SearchUniversal
 @PrivateEndpoint
 fun Search.typeahead(
     query: String,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/search/typeahead.json") {
     parameter(

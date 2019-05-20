@@ -77,7 +77,7 @@ fun Statuses.create(
     enableDMCommands: Boolean? = null,
     failDMCommands: Boolean? = null,
     cardUri: String? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.post("/1.1/statuses/update.json") {
     formBody(

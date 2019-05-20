@@ -56,7 +56,7 @@ fun Statuses.retweetsOfMe(
     trimUser: Boolean? = null,
     includeEntities: Boolean? = null,
     includeUserEntities: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/retweets_of_me.json") {
     parameter(

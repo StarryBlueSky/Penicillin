@@ -48,7 +48,7 @@ fun Search.universal(
     query: String,
     modules: String? = null,
     resultType: SearchResultType = SearchResultType.Default,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/search/universal.json") {
     parameter(
