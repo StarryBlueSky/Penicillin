@@ -70,7 +70,7 @@ fun Search.search(
     sinceId: Long? = null,
     maxId: Long? = null,
     includeEntities: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/search/tweets.json") {
     parameter(

@@ -50,7 +50,7 @@ fun Statuses.retweets(
     id: Long,
     count: Int? = null,
     trimUser: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/retweets/$id.json") {
     parameter(
