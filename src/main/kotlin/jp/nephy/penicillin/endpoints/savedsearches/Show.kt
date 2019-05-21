@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.savedsearches
 
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.SavedSearches
@@ -48,5 +48,5 @@ fun SavedSearches.show(
     id: Long,
     vararg options: Option
 ) = client.session.get("/1.1/saved_searches/show/$id.json") {
-    parameter(*options)
+    parameters(*options)
 }.jsonObject<SavedSearch>()

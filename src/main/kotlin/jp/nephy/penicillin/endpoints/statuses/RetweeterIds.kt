@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.statuses
 
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
@@ -54,7 +54,7 @@ fun Statuses.retweeterIds(
     stringifyIds: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/retweeters/ids.json") {
-    parameter(
+    parameters(
         "id" to id,
         "count" to count,
         "cursor" to cursor,

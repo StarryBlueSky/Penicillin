@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.timeline
 
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Timeline
@@ -67,7 +67,7 @@ fun Timeline.mentionsTimeline(
     includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/mentions_timeline.json") {
-    parameter(
+    parameters(
         "cards_platform" to "iPhone-13",
         "contributor_details" to "1",
         "count" to "20",
@@ -90,7 +90,7 @@ fun Timeline.mentionsTimeline(
         "tweet_mode" to "extended",
         emulationMode = EmulationMode.TwitterForiPhone
     )
-    parameter(
+    parameters(
         "count" to count,
         "since_id" to sinceId,
         "max_id" to maxId,

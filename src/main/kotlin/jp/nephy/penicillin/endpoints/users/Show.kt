@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.users
 
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Users
@@ -78,7 +78,7 @@ private fun Users.show(
     includeEntities: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/users/show.json") {
-    parameter(
+    parameters(
         "ext" to "mediaColor",
         "include_entities" to 1,
         "include_user_entities" to true,
@@ -88,7 +88,7 @@ private fun Users.show(
         "include_user_mention_entities" to true,
         emulationMode = EmulationMode.TwitterForiPhone
     )
-    parameter(
+    parameters(
         "screen_name" to screenName,
         "user_id" to userId,
         "include_entities" to includeEntities,

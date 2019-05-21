@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.oauth
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.OAuth
 import jp.nephy.penicillin.endpoints.Option
@@ -75,7 +75,7 @@ private fun OAuth.invalidateTokenInternal(
     accessTokenSecret: String? = null,
     vararg options: Option
 ) = client.session.get("/oauth/invalidate_token") {
-    parameter(
+    parameters(
         "access_token" to accessToken,
         "access_token_secret" to accessTokenSecret,
         *options

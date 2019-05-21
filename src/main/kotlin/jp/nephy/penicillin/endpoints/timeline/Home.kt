@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.timeline
 
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Timeline
@@ -67,7 +67,7 @@ fun Timeline.homeTimeline(
     includeCardUri: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/home_timeline.json") {
-    parameter(
+    parameters(
         "count" to count,
         "since_id" to sinceId,
         "max_id" to maxId,

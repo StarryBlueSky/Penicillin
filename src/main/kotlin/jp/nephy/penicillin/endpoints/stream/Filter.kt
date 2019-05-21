@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.stream
 
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.StreamApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.FilterStreamHandler
 import jp.nephy.penicillin.core.streaming.listener.FilterStreamListener
@@ -61,7 +61,7 @@ fun Stream.filter(
     language: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/filter.json", EndpointHost.Stream) {
-    parameter(
+    parameters(
         "delimited" to delimited.value,
         "stall_warning" to stallWarnings,
         "track" to track?.joinToString(","),

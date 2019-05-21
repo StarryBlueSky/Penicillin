@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.lists
 
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
@@ -91,7 +91,7 @@ private fun Lists.listInternal(
     reverse: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/lists/list.json") {
-    parameter(
+    parameters(
         "user_id" to userId,
         "screen_name" to screenName,
         "reverse" to reverse,

@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.search
 
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
@@ -51,7 +51,7 @@ fun Search.universal(
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/search/universal.json") {
-    parameter(
+    parameters(
         "q" to query,
         "modules" to modules,
         "result_type" to resultType.value,

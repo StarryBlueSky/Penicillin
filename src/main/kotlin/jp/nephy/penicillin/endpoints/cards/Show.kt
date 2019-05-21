@@ -29,7 +29,7 @@ package jp.nephy.penicillin.endpoints.cards
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Cards
 import jp.nephy.penicillin.endpoints.Option
@@ -50,7 +50,7 @@ fun Cards.show(
     responseCardName: String = "poll4choice_text_only",
     vararg options: Option
 ) = client.session.get("/v2/capi/passthrough/1", EndpointHost.Card) {
-    parameter(
+    parameters(
         "cards_platform" to "iPhone-13",
         "include_cards" to "1",
         "twitter:string:card_uri" to cardUri,

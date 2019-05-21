@@ -96,7 +96,7 @@ fun ApiRequestBuilder.jsonBody(json: JsonObject, mode: EmulationMode? = null) {
 }
 
 /**
- * Sets parameter key with value, or update existing one with value.
+ * Sets a parameter key with value, or update existing one with value.
  */
 fun ApiRequestBuilder.parameter(key: String, value: Any?, emulationMode: EmulationMode? = null) {
     if (emulationMode != null && session.option.emulationMode != emulationMode) return
@@ -109,9 +109,9 @@ fun ApiRequestBuilder.parameter(key: String, value: Any?, emulationMode: Emulati
 }
 
 /**
- * Sets parameter key with value, or update existing one with value.
+ * Sets parameter keys with value, or update existing one with value.
  */
-fun ApiRequestBuilder.parameter(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
+fun ApiRequestBuilder.parameters(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
     if (emulationMode != null && session.option.emulationMode != emulationMode) return
 
     for ((first, second) in pairs) {
@@ -120,7 +120,7 @@ fun ApiRequestBuilder.parameter(vararg pairs: Pair<String, Any?>, emulationMode:
 }
 
 /**
- * Sets header key with value, or update existing one with value.
+ * Sets a header key with value, or update existing one with value.
  */
 fun ApiRequestBuilder.header(key: String, value: Any?, emulationMode: EmulationMode? = null) {
     if (emulationMode != null && session.option.emulationMode != emulationMode) return
@@ -129,9 +129,9 @@ fun ApiRequestBuilder.header(key: String, value: Any?, emulationMode: EmulationM
 }
 
 /**
- * Sets header key with value, or update existing one with value.
+ * Sets header keys with value, or update existing one with value.
  */
-fun ApiRequestBuilder.header(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
+fun ApiRequestBuilder.headers(vararg pairs: Pair<String, Any?>, emulationMode: EmulationMode? = null) {
     if (emulationMode != null && session.option.emulationMode != emulationMode) return
 
     for ((first, second) in pairs) {
