@@ -30,7 +30,7 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.jsonBody
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessages
@@ -54,7 +54,7 @@ fun WelcomeMessages.create(
     name: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/direct_messages/welcome_messages/new.json") {
-    parameter(*options)
+    parameters(*options)
     jsonBody(
         "welcome_message" to jsonObjectOf(
             "message_data" to messageData,

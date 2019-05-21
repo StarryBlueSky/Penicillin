@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.users
 
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Users
@@ -94,7 +94,7 @@ private fun Users.lookup(
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/users/lookup.json") {
-    parameter(
+    parameters(
         "ext" to "mediaColor",
         "include_entities" to 1,
         "include_user_entities" to true,
@@ -105,7 +105,7 @@ private fun Users.lookup(
         "include_user_mention_entities" to true,
         emulationMode = EmulationMode.TwitterForiPhone
     )
-    parameter(
+    parameters(
         "screen_name" to screenNames?.joinToString(","),
         "user_id" to userIds?.joinToString(","),
         "include_entities" to includeEntities,

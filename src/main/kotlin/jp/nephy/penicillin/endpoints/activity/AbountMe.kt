@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.activity
 
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Activity
 import jp.nephy.penicillin.endpoints.Option
@@ -47,7 +47,7 @@ fun Activity.aboutMe(
     count: Int? = null,
     vararg options: Option
 ) = client.session.get("/1.1/activity/about_me.json") {
-    parameter(
+    parameters(
         "cards_platform" to "iPhone-13",
         "contributor_details" to "1",
         "count" to (count ?: "21"),

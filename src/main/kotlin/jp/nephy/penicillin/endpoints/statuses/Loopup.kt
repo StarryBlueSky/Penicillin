@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.statuses
 
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
@@ -68,7 +68,7 @@ fun Statuses.lookup(
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/lookup.json") {
-    parameter(
+    parameters(
         "id" to ids.joinToString(","),
         "include_entities" to includeEntities,
         "trim_user" to trimUser,

@@ -28,7 +28,7 @@ package jp.nephy.penicillin.extensions.cursor
 
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.extensions.complete
 import jp.nephy.penicillin.extensions.edit
@@ -47,7 +47,7 @@ fun JsonArrayApiAction<Status>.untilLast(count: Int = 200, vararg options: Optio
 
     while (true) {
         edit {
-            parameter("count" to count, "max_id" to maxId, *options)
+            parameters("count" to count, "max_id" to maxId, *options)
         }
         val response = complete()
         

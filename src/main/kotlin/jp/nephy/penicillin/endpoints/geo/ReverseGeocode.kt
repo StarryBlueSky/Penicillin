@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.geo
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Geo
 import jp.nephy.penicillin.endpoints.Option
@@ -56,7 +56,7 @@ fun Geo.reverseGeocode(
     maxResults: Int? = null,
     vararg options: Option
 ) = client.session.get("/1.1/geo/reverse_geocode.json") {
-    parameter(
+    parameters(
         "lat" to latitude,
         "long" to longitude,
         "accuracy" to accuracy,

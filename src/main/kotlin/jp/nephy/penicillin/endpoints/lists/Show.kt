@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.lists
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
@@ -89,7 +89,7 @@ private fun Lists.show(
     ownerId: Long? = null,
     vararg options: Option
 ) = client.session.get("/1.1/lists/show.json") {
-    parameter(
+    parameters(
         "list_id" to listId,
         "slug" to slug,
         "owner_screen_name" to ownerScreenName,

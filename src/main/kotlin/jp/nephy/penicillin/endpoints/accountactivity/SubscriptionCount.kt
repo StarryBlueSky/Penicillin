@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.accountactivity
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.AccountActivity
 import jp.nephy.penicillin.endpoints.Option
@@ -45,7 +45,7 @@ import jp.nephy.penicillin.models.Subscription
 fun AccountActivity.subscriptionCount(
     vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/subscriptions/count.json") {
-    parameter(*options)
+    parameters(*options)
 }.jsonObject<Subscription.Count>()
 
 /**

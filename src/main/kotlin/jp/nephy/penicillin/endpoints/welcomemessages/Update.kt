@@ -29,7 +29,7 @@ package jp.nephy.penicillin.endpoints.welcomemessages
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.jsonBody
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.put
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.WelcomeMessages
@@ -51,7 +51,7 @@ fun WelcomeMessages.update(
     messageData: JsonObject,
     vararg options: Option
 ) = client.session.put("/1.1/direct_messages/welcome_messages/update.json") {
-    parameter(
+    parameters(
         "id" to id,
         *options
     )

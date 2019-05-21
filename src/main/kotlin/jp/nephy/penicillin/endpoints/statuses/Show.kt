@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.statuses
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
@@ -60,7 +60,7 @@ fun Statuses.show(
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/show.json") {
-    parameter(
+    parameters(
         "id" to id,
         "trim_user" to trimUser,
         "include_my_retweet" to includeMyRetweet,

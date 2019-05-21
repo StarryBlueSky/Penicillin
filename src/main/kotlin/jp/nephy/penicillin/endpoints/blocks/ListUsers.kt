@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.blocks
 
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Blocks
 import jp.nephy.penicillin.endpoints.Option
@@ -53,7 +53,7 @@ fun Blocks.listUsers(
     cursor: Long? = null,
     vararg options: Option
 ) = client.session.get("/1.1/blocks/list.json") {
-    parameter(
+    parameters(
         "include_entities" to includeEntities,
         "skip_status" to skipStatus,
         "cursor" to cursor,

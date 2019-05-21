@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.friends
 
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Friends
 import jp.nephy.penicillin.endpoints.Option
@@ -112,7 +112,7 @@ private fun Friends.listIdsInternal(
     count: Int? = null,
     vararg options: Option
 ) = client.session.get("/1.1/friends/ids.json") {
-    parameter(
+    parameters(
         "user_id" to userId,
         "screen_name" to screenName,
         "cursor" to cursor,

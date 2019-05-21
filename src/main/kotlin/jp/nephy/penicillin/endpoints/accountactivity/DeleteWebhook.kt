@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.accountactivity
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.delete
 import jp.nephy.penicillin.endpoints.AccountActivity
 import jp.nephy.penicillin.endpoints.Option
@@ -48,5 +48,5 @@ fun AccountActivity.deleteWebhook(
     webhookId: String,
     vararg options: Option
 ) = client.session.delete("/1.1/account_activity/all/$envName/webhooks/$webhookId.json") {
-    parameter(*options)
+    parameters(*options)
 }.empty()

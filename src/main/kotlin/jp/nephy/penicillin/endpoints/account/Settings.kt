@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.account
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.formBody
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Account
@@ -47,7 +47,7 @@ import jp.nephy.penicillin.models.Account.Settings
 fun Account.settings(
     vararg options: Option
 ) = client.session.get("/1.1/account/settings.json") {
-    parameter(
+    parameters(
         "include_alt_text_compose" to "true",
         "include_mention_filter" to "true",
         "include_ranked_timeline" to "true",
