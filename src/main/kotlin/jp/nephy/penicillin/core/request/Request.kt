@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.core.request
 
 import io.ktor.client.request.forms.FormBuilder
