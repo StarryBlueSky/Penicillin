@@ -24,10 +24,12 @@
 
 package jp.nephy.penicillin.endpoints.media
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * Represents media category.
  */
-enum class MediaCategory(internal val value: String?) {
+enum class MediaCategory(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

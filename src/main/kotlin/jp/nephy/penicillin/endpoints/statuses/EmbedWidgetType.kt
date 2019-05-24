@@ -24,10 +24,12 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * Set to video to return a Twitter Video embed for the given Tweet.
  */
-enum class EmbedWidgetType(internal val value: String?) {
+enum class EmbedWidgetType(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

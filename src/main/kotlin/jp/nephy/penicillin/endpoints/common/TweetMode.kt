@@ -24,11 +24,13 @@
 
 package jp.nephy.penicillin.endpoints.common
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * Tweet modes.
  * Refer to https://developer.twitter.com/en/docs/tweets/tweet-updates.
  */
-enum class TweetMode(internal val value: String?) {
+enum class TweetMode(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

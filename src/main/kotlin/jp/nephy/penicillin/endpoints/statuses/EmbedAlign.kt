@@ -24,10 +24,12 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element.
  */
-enum class EmbedAlign(internal val value: String?) {
+enum class EmbedAlign(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

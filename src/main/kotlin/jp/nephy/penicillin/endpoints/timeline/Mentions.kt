@@ -98,7 +98,7 @@ fun Timeline.mentionsTimeline(
         "include_entities" to includeEntities,
         "include_rts" to includeRTs,
         "include_my_retweet" to includeMyRetweet,
-        "tweet_mode" to tweetMode.value,
+        "tweet_mode" to tweetMode,
         "include_card_uri" to includeCardUri,
         *options
     )

@@ -24,10 +24,12 @@
 
 package jp.nephy.penicillin.endpoints.stream
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * UserStream "replies" flags.
  */
-enum class UserStreamReplies(internal val value: String?) {
+enum class UserStreamReplies(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

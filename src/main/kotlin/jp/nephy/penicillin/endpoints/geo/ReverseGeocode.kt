@@ -60,7 +60,7 @@ fun Geo.reverseGeocode(
         "lat" to latitude,
         "long" to longitude,
         "accuracy" to accuracy,
-        "granularity" to granularity.value,
+        "granularity" to granularity,
         "max_results" to maxResults,
         *options
     )

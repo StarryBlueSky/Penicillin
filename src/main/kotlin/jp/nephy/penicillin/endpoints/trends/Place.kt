@@ -54,7 +54,7 @@ fun Trends.place(
 ) = client.session.get("/1.1/trends/place.json") {
     parameters(
         "id" to id,
-        "exclude" to exclude.value,
+        "exclude" to exclude,
         *options
     )
 }.jsonArray<TrendPlace>()

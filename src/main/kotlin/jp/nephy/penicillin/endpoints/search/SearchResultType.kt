@@ -24,10 +24,12 @@
 
 package jp.nephy.penicillin.endpoints.search
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * Specifies what type of search results you would prefer to receive. The current default is "mixed." Valid values include.
  */
-enum class SearchResultType(internal val value: String?) {
+enum class SearchResultType(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

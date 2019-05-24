@@ -115,7 +115,7 @@ private fun Lists.update(
         "owner_screen_name" to ownerScreenName,
         "owner_id" to ownerId,
         "name" to name,
-        "mode" to mode?.value,
+        "mode" to mode,
         "description" to description,
         *options
     )

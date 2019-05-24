@@ -26,10 +26,12 @@
 
 package jp.nephy.penicillin.endpoints.stream
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * Represents stream delimiter type.
  */
-enum class StreamDelimitedBy(internal val value: String?) {
+enum class StreamDelimitedBy(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

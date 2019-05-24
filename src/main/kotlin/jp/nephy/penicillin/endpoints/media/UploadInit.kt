@@ -58,7 +58,7 @@ fun Media.uploadInit(
         "command" to "INIT",
         "total_bytes" to totalBytes,
         "media_type" to mediaType.contentType,
-        "media_category" to mediaCategory.value,
+        "media_category" to mediaCategory,
         "additional_owners" to additionalOwners?.joinToString(","),
         *options
     )

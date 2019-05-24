@@ -24,10 +24,12 @@
 
 package jp.nephy.penicillin.endpoints.statuses
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * When set to dark, the Tweet is displayed with light text over a dark background.
  */
-enum class EmbedTheme(internal val value: String?) {
+enum class EmbedTheme(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */
