@@ -48,7 +48,7 @@ import jp.nephy.penicillin.endpoints.Option
 private fun Lists.update(
     listId: Long,
     name: String? = null,
-    mode: ListCreationMode = ListCreationMode.Default,
+    mode: ListVisibilityMode = ListVisibilityMode.Default,
     description: String? = null,
     vararg options: Option
 ) = update(listId, null, null, null, name, mode, description, *options)
@@ -71,7 +71,7 @@ fun Lists.updateByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     name: String? = null,
-    mode: ListCreationMode = ListCreationMode.Default,
+    mode: ListVisibilityMode = ListVisibilityMode.Default,
     description: String? = null,
     vararg options: Option
 ) = update(null, slug, ownerScreenName, null, name, mode, description, *options)
@@ -94,7 +94,7 @@ fun Lists.updateByOwnerId(
     slug: String,
     ownerId: Long,
     name: String? = null,
-    mode: ListCreationMode = ListCreationMode.Default,
+    mode: ListVisibilityMode = ListVisibilityMode.Default,
     description: String? = null,
     vararg options: Option
 ) = update(null, slug, null, ownerId, name, mode, description, *options)
@@ -105,7 +105,7 @@ private fun Lists.update(
     ownerScreenName: String? = null,
     ownerId: Long? = null,
     name: String? = null,
-    mode: ListCreationMode = ListCreationMode.Default,
+    mode: ListVisibilityMode = ListVisibilityMode.Default,
     description: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/lists/update.json") {

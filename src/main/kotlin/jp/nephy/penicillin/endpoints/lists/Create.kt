@@ -47,7 +47,7 @@ import jp.nephy.penicillin.models.TwitterList
  */
 fun Lists.create(
     name: String,
-    mode: ListCreationMode = ListCreationMode.Default,
+    mode: ListVisibilityMode = ListVisibilityMode.Default,
     description: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/lists/create.json") {
