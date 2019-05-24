@@ -39,10 +39,8 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
     val id by long
     val idStr by string("id_str")
     
-    @Deprecated("Accessing to shortText property directly is deprecated. Use text extension property instead.", replaceWith = ReplaceWith("text", "jp.nephy.penicillin.extensions.models.text"))
-    val shortText by nullableString("text")
-    @Deprecated("Accessing to fullText property directly is deprecated. Use text extension property instead.", replaceWith = ReplaceWith("text", "jp.nephy.penicillin.extensions.models.text"))
-    val fullText by nullableString("full_text")
+    val textRaw by nullableString("text")
+    val fullTextRaw by nullableString("full_text")
     val displayTextRange by intList("display_text_range")
     
     val entities by penicillinModel<StatusEntity>()
