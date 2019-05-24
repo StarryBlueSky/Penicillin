@@ -29,7 +29,7 @@ package jp.nephy.penicillin.models
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.endpoints.lists.ListCreationMode
+import jp.nephy.penicillin.endpoints.lists.ListVisibilityMode
 import jp.nephy.penicillin.extensions.penicillinModel
 
 data class TwitterList(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
@@ -40,7 +40,7 @@ data class TwitterList(override val json: JsonObject, override val client: ApiCl
     val id by long
     val idStr by string("id_str")
     val memberCount by int("member_count")
-    val mode by enum<String, ListCreationMode>()
+    val mode by enum<String, ListVisibilityMode>()
     val name by string
     val slug by string
     val subscriberCount by int("subscriber_count")

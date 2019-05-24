@@ -54,7 +54,7 @@ fun Search.universal(
     parameters(
         "q" to query,
         "modules" to modules,
-        "result_type" to resultType.value,
+        "result_type" to resultType,
         "tweet_mode" to tweetMode,
         *options
     )

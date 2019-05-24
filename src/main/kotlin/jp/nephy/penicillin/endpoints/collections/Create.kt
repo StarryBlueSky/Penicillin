@@ -58,7 +58,7 @@ fun Collections.create(
         "name" to name,
         "description" to description,
         "url" to url,
-        "timeline_order" to timelineOrder.value,
+        "timeline_order" to timelineOrder,
         *options
     )
 

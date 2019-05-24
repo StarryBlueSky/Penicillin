@@ -81,12 +81,12 @@ fun Statuses.embedFormat(
         "hide_media" to hideMedia,
         "hide_thread" to hideThread,
         "omit_script" to omitScript,
-        "align" to align.value,
+        "align" to align,
         "related" to related?.joinToString(","),
         "lang" to lang,
-        "theme" to theme.value,
+        "theme" to theme,
         "link_color" to linkColor,
-        "widget_type" to widgetType.value,
+        "widget_type" to widgetType,
         "dnt" to dnt,
         *options
     )

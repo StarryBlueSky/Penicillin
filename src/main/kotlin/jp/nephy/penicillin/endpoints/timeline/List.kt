@@ -156,7 +156,7 @@ private fun Timeline.listTimeline(
         "count" to count,
         "include_entities" to includeEntities,
         "include_rts" to includeRTs,
-        "tweet_mode" to tweetMode.value,
+        "tweet_mode" to tweetMode,
         "include_my_retweet" to includeMyRetweet,
         "include_card_uri" to includeCardUri,
         *options

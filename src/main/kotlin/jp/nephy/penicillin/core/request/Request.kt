@@ -105,10 +105,16 @@ fun ApiRequestBuilder.parameter(key: String, value: Any?, mode: EmulationMode? =
         return
     }
 
-    if (key == "tweet_mode" && value is TweetMode?) {
-        parameters[key] = (value?.value ?: session.option.defaultTweetMode.value)?.toString() ?: return
-    } else {
-        parameters[key] = value?.toString() ?: return
+    when {
+        key == "tweet_mode" && value is TweetMode? -> {
+            parameters[key] = value?.value ?: session.option.defaultTweetMode.value ?: return
+        }
+        value is EnumRequestParameter -> {
+            parameters[key] = value.value ?: return
+        }
+        else -> {
+            parameters[key] = value?.toString() ?: return
+        }
     }
 }
 

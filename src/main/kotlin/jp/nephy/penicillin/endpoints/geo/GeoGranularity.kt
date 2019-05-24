@@ -24,10 +24,12 @@
 
 package jp.nephy.penicillin.endpoints.geo
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * This is the minimal granularity of place types to return.
  */
-enum class GeoGranularity(internal val value: String?) {
+enum class GeoGranularity(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

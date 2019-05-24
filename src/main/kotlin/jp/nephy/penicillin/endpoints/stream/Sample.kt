@@ -55,7 +55,7 @@ fun Stream.sample(
     vararg options: Option
 ) = client.session.get("/1.1/statuses/sample.json", EndpointHost.Stream) {
     parameters(
-        "delimited" to delimited.value,
+        "delimited" to delimited,
         "stall_warning" to stallWarnings,
         "language" to language,
         *options

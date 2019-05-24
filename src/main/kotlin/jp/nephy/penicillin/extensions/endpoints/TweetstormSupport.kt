@@ -54,7 +54,7 @@ fun Stream.tweetstorm(
     vararg options: Option
 ) = client.session.get("/1.1/user.json", customHost) {
     parameters(
-        "delimited" to delimited.value,
+        "delimited" to delimited,
         "stringify_friend_ids" to stringifyFriendIds,
         *options
     )

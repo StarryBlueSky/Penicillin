@@ -53,7 +53,7 @@ fun Lists.create(
 ) = client.session.post("/1.1/lists/create.json") {
     formBody(
         "name" to name,
-        "mode" to mode.value,
+        "mode" to mode,
         "description" to description,
         *options
     )

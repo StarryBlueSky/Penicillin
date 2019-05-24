@@ -78,7 +78,7 @@ fun Search.search(
         "geocode" to geocode,
         "lang" to lang,
         "locale" to locale,
-        "result_type" to resultType.value,
+        "result_type" to resultType,
         "count" to count,
         "until" to if (until != null) SimpleDateFormat("yyyy-MM-dd").format(until) else null,
         "since_id" to sinceId,

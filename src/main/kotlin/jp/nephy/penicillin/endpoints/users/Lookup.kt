@@ -109,7 +109,7 @@ private fun Users.lookup(
         "screen_name" to screenNames?.joinToString(","),
         "user_id" to userIds?.joinToString(","),
         "include_entities" to includeEntities,
-        "tweet_mode" to tweetMode.value,
+        "tweet_mode" to tweetMode,
         *options
     )
 }.jsonArray<User>()

@@ -62,7 +62,7 @@ fun Stream.filter(
     vararg options: Option
 ) = client.session.get("/1.1/statuses/filter.json", EndpointHost.Stream) {
     parameters(
-        "delimited" to delimited.value,
+        "delimited" to delimited,
         "stall_warning" to stallWarnings,
         "track" to track?.joinToString(","),
         "follow" to follow?.joinToString(","),

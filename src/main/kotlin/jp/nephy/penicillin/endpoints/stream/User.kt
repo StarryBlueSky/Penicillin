@@ -60,12 +60,12 @@ fun Stream.user(
     vararg options: Option
 ) = client.session.get("/1.1/user.json", EndpointHost.UserStream) {
     parameters(
-        "delimited" to delimited.value,
+        "delimited" to delimited,
         "stall_warning" to stallWarnings,
-        "with" to with.value,
-        "replies" to replies.value,
+        "with" to with,
+        "replies" to replies,
         "track" to track?.joinToString(","),
-        "filter_level" to filterLevel.value,
+        "filter_level" to filterLevel,
         "language" to language,
         "follow" to follow?.joinToString(","),
         "locations" to locations?.joinToString(",") { "${it.first},${it.second}" },

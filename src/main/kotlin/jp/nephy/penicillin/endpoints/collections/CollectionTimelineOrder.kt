@@ -24,10 +24,12 @@
 
 package jp.nephy.penicillin.endpoints.collections
 
+import jp.nephy.penicillin.core.request.EnumRequestParameter
+
 /**
  * Order Tweets chronologically or in the order they are added to a Collection.
  */
-enum class CollectionTimelineOrder(internal val value: String?) {
+enum class CollectionTimelineOrder(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */
