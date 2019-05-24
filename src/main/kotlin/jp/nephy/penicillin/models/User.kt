@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.nullablePenicillinModel
@@ -51,14 +51,14 @@ abstract class CommonUser(final override val json: JsonObject, final override va
     val followersCount by int("followers_count")
     val friendsCount by int("friends_count")
     val listedCount by int("listed_count")
-    // val createdAt by string("created_at")
+    val createdAtRaw by string("created_at")
     val favouritesCount by int("favourites_count")
     val utcOffset by int("utc_offset")
     val timeZone by string("time_zone")
     val geoEnabled by boolean("geo_enabled")
     val verified by boolean
     val statusesCount by int("statuses_count")
-    // val lang by string
+    val langRaw by nullableString("lang")
     val contributorsEnabled by boolean("contributors_enabled")
     val isTranslator by boolean("is_translator")
     val isTranslationEnabled by boolean("is_translation_enabled")

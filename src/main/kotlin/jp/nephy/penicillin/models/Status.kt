@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.nullablePenicillinModel
@@ -35,7 +35,7 @@ import jp.nephy.penicillin.extensions.penicillinModelList
 import jp.nephy.penicillin.models.entities.StatusEntity
 
 data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    // val createdAt by string("created_at")
+    val createdAtRaw by string("created_at")
     val id by long
     val idStr by string("id_str")
     
@@ -85,7 +85,7 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
     val possiblySensitiveAppealable by nullableBoolean("possibly_sensitive_appealable")
     val possiblySensitiveEditable by nullableBoolean("possibly_sensitive_editable")
     
-    // val lang by string
+    val langRaw by string("lang")
     
     // With includeCardUri=true
     val cardUri by nullableString("card_uri")

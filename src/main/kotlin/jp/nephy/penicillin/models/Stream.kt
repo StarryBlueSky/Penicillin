@@ -36,7 +36,7 @@ object Stream {
         val event by string
         val source by penicillinModel<User>()
         val target by penicillinModel<User>()
-        // val createdAt by string("created_at")
+        val createdAtRaw by string("created_at")
     }
 
     data class UserEvent(private val parentJson: JsonObject, private val parentClient: ApiClient): Event(parentJson, parentClient)

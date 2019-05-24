@@ -26,8 +26,6 @@
 
 package jp.nephy.penicillin.extensions
 
-import jp.nephy.jsonkt.delegation.stringValue
-import jp.nephy.jsonkt.delegation.stringValueOrNull
 import jp.nephy.penicillin.models.Account
 import jp.nephy.penicillin.models.CommonUser
 import jp.nephy.penicillin.models.Status
@@ -37,29 +35,20 @@ import java.util.*
  * Parsed "language" object.
  */
 val Account.Settings.language: Language
-    get() {
-        val value = stringValue("language")
-        return Language(value)
-    }
+    get() = Language(languageRaw)
 
 /**
  * Parsed "lang" object.
  */
 val Status.lang: Language
-    get() {
-        val value = stringValue("lang")
-        return Language(value)
-    }
+    get() = Language(langRaw)
 
 /**
  * Parsed "lang" object.
  */
 @Deprecated("User.lang may be deleted from response.")
 val CommonUser.lang: Language?
-    get() {
-        val value = stringValueOrNull("lang") ?: return null
-        return Language(value)
-    }
+    get() = langRaw?.let { Language(it) }
 
 /**
  * Represents parsed "lang" object.

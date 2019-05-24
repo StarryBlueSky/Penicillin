@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModel
@@ -51,7 +51,7 @@ object Account {
         val displaySensitiveMedia by boolean("display_sensitive_media")
         val dmReceiptSetting by string("dm_receipt_setting")
         val geoEnabled by boolean("geo_enabled")
-        // val language by string
+        val languageRaw by string("language")
         val mentionFilter by nullableString("mention_filter")
         val notificationsAbuseFilterQuality by string("notifications_abuse_filter_quality")
         val notificationsFilterQuality by string("notifications_filter_quality")

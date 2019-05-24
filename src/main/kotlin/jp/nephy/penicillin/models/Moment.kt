@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.byPenicillinModel
@@ -41,7 +41,7 @@ data class Moment(override val json: JsonObject, override val client: ApiClient)
     val url by moment.byString
     val isLive by moment.byBoolean("is_live")
     val time by moment.byString("time_string")
-    // val lastPublishTime by moment.byString("last_publish_time")
+    val lastPublishTimeRaw by moment.byString("last_publish_time")
     val subcategory by moment.byString("subcategory_string")
     val sensitive by moment.byBoolean
     val duration by moment.byString("duration_string")
