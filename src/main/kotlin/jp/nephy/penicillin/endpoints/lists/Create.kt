@@ -47,13 +47,13 @@ import jp.nephy.penicillin.models.TwitterList
  */
 fun Lists.create(
     name: String,
-    mode: ListCreationMode? = null,
+    mode: ListCreationMode = ListCreationMode.Default,
     description: String? = null,
     vararg options: Option
 ) = client.session.post("/1.1/lists/create.json") {
     formBody(
         "name" to name,
-        "mode" to mode?.value,
+        "mode" to mode.value,
         "description" to description,
         *options
     )
