@@ -30,7 +30,7 @@ package jp.nephy.penicillin.endpoints.friendships
 import jp.nephy.jsonkt.longList
 import jp.nephy.jsonkt.toJsonArray
 import jp.nephy.penicillin.core.request.action.DelegatedAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Friendships
 import jp.nephy.penicillin.endpoints.Option
@@ -53,7 +53,7 @@ fun Friendships.noRetweetsIds(
     vararg options: Option
 ) = DelegatedAction {
     val result = client.session.get("/1.1/friendships/no_retweets/ids.json") {
-        parameter(
+        parameters(
             "stringify_ids" to stringifyIds, *options
         )
     }.text().await()

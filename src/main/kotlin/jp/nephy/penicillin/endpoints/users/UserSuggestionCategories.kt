@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.users
 
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Users
@@ -47,7 +47,7 @@ fun Users.userSuggestionCategories(
     lang: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/users/suggestions.json") {
-    parameter(
+    parameters(
         "lang" to lang,
         *options
     )

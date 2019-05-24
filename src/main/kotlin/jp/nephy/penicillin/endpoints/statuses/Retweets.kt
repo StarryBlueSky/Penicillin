@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.statuses
 
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
@@ -50,10 +50,10 @@ fun Statuses.retweets(
     id: Long,
     count: Int? = null,
     trimUser: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/statuses/retweets/$id.json") {
-    parameter(
+    parameters(
         "count" to count,
         "trim_user" to trimUser,
         "tweet_mode" to tweetMode,

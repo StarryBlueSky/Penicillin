@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.users
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Users
@@ -68,7 +68,7 @@ private fun Users.profileBanner(
     screenName: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/users/profile_banner.json") {
-    parameter(
+    parameters(
         "user_id" to userId,
         "screen_name" to screenName,
         *options

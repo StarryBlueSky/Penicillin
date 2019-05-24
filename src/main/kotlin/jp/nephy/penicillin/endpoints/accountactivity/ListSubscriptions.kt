@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.accountactivity
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.AccountActivity
 import jp.nephy.penicillin.endpoints.Option
@@ -47,5 +47,5 @@ fun AccountActivity.listSubscriptions(
     envName: String,
     vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/$envName/subscriptions/list.json") {
-    parameter(*options)
+    parameters(*options)
 }.jsonObject<Subscription.List>()

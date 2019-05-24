@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.accountactivity
 
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.AccountActivity
 import jp.nephy.penicillin.endpoints.Option
@@ -46,5 +46,5 @@ fun AccountActivity.checkSubscription(
     envName: String,
     vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/$envName/subscriptions.json") {
-    parameter(*options)
+    parameters(*options)
 }.empty()

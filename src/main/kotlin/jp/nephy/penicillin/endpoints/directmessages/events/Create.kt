@@ -29,7 +29,7 @@ package jp.nephy.penicillin.endpoints.directmessages.events
 import jp.nephy.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.jsonBody
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.DirectMessageEvents
 import jp.nephy.penicillin.endpoints.Option
@@ -54,7 +54,7 @@ fun DirectMessageEvents.create(
     type: String = "message_create",
     vararg options: Option
 ) = client.session.post("/1.1/direct_messages/events/new.json") {
-    parameter(*options)
+    parameters(*options)
     jsonBody(
         "event" to jsonObjectOf(
             "type" to type,

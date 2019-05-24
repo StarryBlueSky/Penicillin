@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.geo
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Geo
@@ -67,7 +67,7 @@ fun Geo.search(
     callback: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/geo/search.json") {
-    parameter(
+    parameters(
         "lat" to latitude,
         "long" to longitude,
         "query" to query,

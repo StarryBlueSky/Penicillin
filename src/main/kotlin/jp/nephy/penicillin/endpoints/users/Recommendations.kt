@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.users
 
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
@@ -65,7 +65,7 @@ private fun Users.recommendations(
     userId: Long? = null,
     vararg options: Option
 ) = client.session.get("/1.1/users/recommendations.json") {
-    parameter(
+    parameters(
         "connections" to "true",
         "display_location" to "st-component",
         "ext" to "mediaColor",

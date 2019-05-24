@@ -29,7 +29,7 @@ package jp.nephy.penicillin.endpoints.stream
 
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.StreamApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.UserStreamHandler
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
@@ -59,7 +59,7 @@ fun Stream.user(
     stringifyFriendIds: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/user.json", EndpointHost.UserStream) {
-    parameter(
+    parameters(
         "delimited" to delimited.value,
         "stall_warning" to stallWarnings,
         "with" to with.value,

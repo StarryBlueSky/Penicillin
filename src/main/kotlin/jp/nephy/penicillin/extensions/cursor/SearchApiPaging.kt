@@ -29,7 +29,7 @@ package jp.nephy.penicillin.extensions.cursor
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.response.JsonObjectResponse
 import jp.nephy.penicillin.extensions.edit
 import jp.nephy.penicillin.models.Search
@@ -59,7 +59,7 @@ val JsonObjectResponse<Search>.next: JsonObjectApiAction<Search>
             it.split("=", limit = 2)
         }.forEach { (k, v) ->
             action.edit {
-                parameter(k to v)
+                parameters(k to v)
             }
         }
 
@@ -91,7 +91,7 @@ val JsonObjectResponse<Search>.refresh: JsonObjectApiAction<Search>
             it.split("=", limit = 2)
         }.forEach { (k, v) ->
             action.edit {
-                parameter(k to v)
+                parameters(k to v)
             }
         }
 

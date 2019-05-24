@@ -53,7 +53,7 @@ import jp.nephy.penicillin.models.Status
 fun Statuses.retweet(
     id: Long,
     trimUser: Boolean? = null,
-    tweetMode: TweetMode? = null,
+    tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.post("/1.1/statuses/retweet/$id.json") {
     formBody(

@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.lists
 
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Lists
 import jp.nephy.penicillin.endpoints.Option
@@ -95,7 +95,7 @@ private fun Lists.ownershipsInternal(
     cursor: Long? = null,
     vararg options: Option
 ) = client.session.get("/1.1/lists/ownerships.json") {
-    parameter(
+    parameters(
         "user_id" to userId,
         "screen_name" to screenName,
         "count" to count,
