@@ -43,7 +43,3 @@ val Status.text: String
     } else {
         extendedTweet?.fullText ?: fullText ?: shortText ?: throw IllegalStateException("Unsupported status format: $json")
     }
-
-@Suppress("KDocMissingDocumentation")
-@Deprecated("This extension is deprecated. Use text extension property instead.", replaceWith = ReplaceWith("text", "jp.nephy.penicillin.extensions.models.text"))
-fun Status.fullText(): String = text
