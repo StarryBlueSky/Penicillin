@@ -32,14 +32,13 @@ import jp.nephy.penicillin.models.Status
  * Returns full-body status text.
  * Supports both tweet modes (Extend and Compat).
  */
-@Suppress("Deprecation")
 val Status.text: String
     get () = if (retweetedStatus != null) {
         if (retweetedStatus?.extendedTweet != null) {
             "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.text}"
         } else {
-            fullText ?: shortText ?: throw IllegalStateException("Unsupported status format: $json")
+            fullTextRaw ?: textRaw ?: throw IllegalStateException("Unsupported status format: $json")
         }
     } else {
-        extendedTweet?.fullText ?: fullText ?: shortText ?: throw IllegalStateException("Unsupported status format: $json")
+        extendedTweet?.fullText ?: fullTextRaw ?: textRaw ?: throw IllegalStateException("Unsupported status format: $json")
     }
