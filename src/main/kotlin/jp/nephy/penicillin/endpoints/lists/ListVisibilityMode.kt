@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.endpoints.lists
 
 import jp.nephy.jsonkt.delegation.StringJsonEnum
