@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.help
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Help
 import jp.nephy.penicillin.endpoints.Option
@@ -47,7 +47,7 @@ fun Help.settings(
     settingsVersion: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/help/settings.json") {
-    parameter(
+    parameters(
         "include_zero_rate" to includeZeroRate,
         "settings_version" to settingsVersion,
         *options

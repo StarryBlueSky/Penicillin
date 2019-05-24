@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.activity
 
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Activity
 import jp.nephy.penicillin.endpoints.Option
@@ -47,7 +47,7 @@ fun Activity.byFriends(
     count: Int? = null,
     vararg options: Option
 ) = client.session.get("/1.1/activity/by_friends.json") {
-    parameter(
+    parameters(
         "count" to (count ?: 40),
         "skip_aggregation" to true,
         "cards_platform" to "Web-13",

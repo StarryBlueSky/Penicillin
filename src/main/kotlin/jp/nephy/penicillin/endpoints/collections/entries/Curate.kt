@@ -29,7 +29,7 @@ package jp.nephy.penicillin.endpoints.collections.entries
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.jsonBody
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.CollectionEntries
 import jp.nephy.penicillin.endpoints.Option
@@ -49,6 +49,6 @@ fun CollectionEntries.curate(
     payload: JsonObject,
     vararg options: Option
 ) = client.session.post("/1.1/collections/entries/curate.json") {
-    parameter(*options)
+    parameters(*options)
     jsonBody(payload)
 }.jsonObject<Collection.Entry.Result>()

@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.accountactivity
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.AccountActivity
 import jp.nephy.penicillin.endpoints.Option
@@ -47,7 +47,7 @@ import jp.nephy.penicillin.models.Webhook
 fun AccountActivity.listWebhooks(
     vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/webhooks.json") {
-    parameter(*options)
+    parameters(*options)
 }.jsonObject<Webhook.List>()
 
 
@@ -73,5 +73,5 @@ val AccountActivity.listWebhooks
 fun AccountActivity.listWebhooksByEnvName(
     envName: String, vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/$envName/webhooks.json") {
-    parameter(*options)
+    parameters(*options)
 }.jsonArray<Webhook.Model>()

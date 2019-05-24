@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.directmessages
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.DirectMessages
 import jp.nephy.penicillin.endpoints.Option
@@ -50,7 +50,7 @@ fun DirectMessages.list(
     skipStatus: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/direct_messages.json") {
-    parameter(
+    parameters(
         "since_id" to sinceId,
         "max_id" to maxId,
         "count" to count,

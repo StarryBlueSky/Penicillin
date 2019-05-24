@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.collections.entries
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.CollectionEntries
@@ -55,7 +55,7 @@ fun CollectionEntries.entries(
     minPosition: Int? = null,
     vararg options: Option
 ) = client.session.get("/1.1/collections/entries.json") {
-    parameter(
+    parameters(
         "id" to id,
         "count" to count,
         "max_position" to maxPosition,

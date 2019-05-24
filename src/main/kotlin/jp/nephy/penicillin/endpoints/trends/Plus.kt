@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.trends
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.PrivateEndpoint
@@ -45,7 +45,7 @@ import jp.nephy.penicillin.models.TrendPlus
 fun Trends.plus(
     vararg options: Option
 ) = client.session.get("/1.1/trends/plus.json") {
-    parameter(
+    parameters(
         "cards_platform" to "iPhone-13",
         "contributor_details" to "1",
         "ext" to "altText,info360,mediaColor,mediaRestrictions,mediaStats,stickerInfo",

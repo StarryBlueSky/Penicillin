@@ -28,7 +28,7 @@ package jp.nephy.penicillin.extensions.endpoints
 
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.EndpointHost
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
@@ -53,7 +53,7 @@ fun Stream.tweetstorm(
     stringifyFriendIds: Boolean? = null,
     vararg options: Option
 ) = client.session.get("/1.1/user.json", customHost) {
-    parameter(
+    parameters(
         "delimited" to delimited.value,
         "stringify_friend_ids" to stringifyFriendIds,
         *options

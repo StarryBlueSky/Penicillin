@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.application
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Application
 import jp.nephy.penicillin.endpoints.Option
@@ -57,7 +57,7 @@ fun Application.rateLimitStatus(
     resources: List<String>? = null,
     vararg options: Option
 ) = client.session.get("/1.1/application/rate_limit_status.json") {
-    parameter(
+    parameters(
         "resources" to resources?.joinToString(","),
         *options
     )

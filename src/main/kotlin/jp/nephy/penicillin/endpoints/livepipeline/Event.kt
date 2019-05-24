@@ -28,7 +28,7 @@ package jp.nephy.penicillin.endpoints.livepipeline
 
 
 import jp.nephy.penicillin.core.request.action.StreamApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.core.streaming.handler.LivePipelineHandler
 import jp.nephy.penicillin.core.streaming.listener.LivePipelineListener
@@ -49,7 +49,7 @@ fun LivePipeline.event(
     ids: List<Long>,
     vararg options: Option
 ) = client.session.get("/1.1/live_pipeline/events") {
-    parameter(
+    parameters(
         "topic" to ids.joinToString(",") { "/tweet_engagement/$it" },
         *options
     )

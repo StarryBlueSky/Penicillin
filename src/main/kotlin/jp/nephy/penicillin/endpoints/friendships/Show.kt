@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.friendships
 
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Friendships
 import jp.nephy.penicillin.endpoints.Option
@@ -104,7 +104,7 @@ private fun Friendships.show(
     targetScreenName: String? = null,
     vararg options: Option
 ) = client.session.get("/1.1/friendships/show.json") {
-    parameter(
+    parameters(
         "source_id" to sourceId,
         "source_screen_name" to sourceScreenName,
         "target_id" to targetId,

@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.trends
 
 import jp.nephy.penicillin.core.request.action.JsonArrayApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Trends
@@ -52,7 +52,7 @@ fun Trends.place(
     exclude: TrendExclude = TrendExclude.Default,
     vararg options: Option
 ) = client.session.get("/1.1/trends/place.json") {
-    parameter(
+    parameters(
         "id" to id,
         "exclude" to exclude.value,
         *options

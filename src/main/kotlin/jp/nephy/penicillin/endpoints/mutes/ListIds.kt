@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.endpoints.mutes
 
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
-import jp.nephy.penicillin.core.request.parameter
+import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Mutes
 import jp.nephy.penicillin.endpoints.Option
@@ -49,7 +49,7 @@ fun Mutes.listIds(
     cursor: Long? = null,
     vararg options: Option
 ) = client.session.get("/1.1/mutes/users/ids.json") {
-    parameter(
+    parameters(
         "stringify_ids" to stringifyIds,
         "cursor" to cursor,
         *options
