@@ -15,7 +15,7 @@
 * API execution supports classical blocking function `.complete()`, suspend function `.await()`, deferred operation `.async()` and callback style `.queue {}`.
 * Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.
 
-KDoc is available at [docs.nephy.jp](https://docs.nephy.jp/penicillin). Documentation is currently WIP :(
+KDoc is available at [docs.nephy.jp](https://docs.nephy.jp/penicillin).
 
 ## Quick example
 
@@ -57,7 +57,7 @@ We recommend using Gradle Kotlin DSL instead of classic build.gradle.
 #### build.gradle.kts
 
 ```kotlin
-val penicillinVersion = "4.1.2"
+val penicillinVersion = "4.2.1"
 val ktorVersion = "1.2.0"
 
 plugins { 
@@ -90,7 +90,7 @@ dependencies {
 
 ```groovy
 buildscript {
-    ext.penicillin_version = "4.1.2"
+    ext.penicillin_version = "4.2.1"
     ext.kotlin_version = "1.3.31"
     ext.ktor_version = "1.2.0"
 
