@@ -103,7 +103,7 @@ private fun Users.lookup(
         "include_user_symbol_entities" to true,
         "include_user_hashtag_entities" to true,
         "include_user_mention_entities" to true,
-        emulationMode = EmulationMode.TwitterForiPhone
+        mode = EmulationMode.TwitterForiPhone
     )
     parameters(
         "screen_name" to screenNames?.joinToString(","),

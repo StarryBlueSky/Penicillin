@@ -70,7 +70,7 @@ fun Activity.aboutMe(
         "model_version" to "8",
         "tweet_mode" to "extended",
         *options,
-        emulationMode = EmulationMode.TwitterForiPhone
+        mode = EmulationMode.TwitterForiPhone
     )
 }.jsonArray<ActivityEvent>()
 

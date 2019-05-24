@@ -59,7 +59,7 @@ fun Activity.byFriends(
         "include_ext_alt_text" to true,
         "include_reply_count" to true,
         *options,
-        emulationMode = EmulationMode.Tweetdeck
+        mode = EmulationMode.Tweetdeck
     )
 }.jsonArray<ActivityEvent>()
 

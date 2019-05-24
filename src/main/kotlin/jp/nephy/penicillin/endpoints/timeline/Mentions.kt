@@ -88,7 +88,7 @@ fun Timeline.mentionsTimeline(
         "include_user_mention_entities" to "true",
         "include_user_symbol_entities" to "true",
         "tweet_mode" to "extended",
-        emulationMode = EmulationMode.TwitterForiPhone
+        mode = EmulationMode.TwitterForiPhone
     )
     parameters(
         "count" to count,
