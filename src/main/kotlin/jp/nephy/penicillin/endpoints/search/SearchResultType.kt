@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED")
+
 package jp.nephy.penicillin.endpoints.search
 
 import jp.nephy.penicillin.core.request.EnumRequestParameter
