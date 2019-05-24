@@ -26,14 +26,14 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.endpoints.lists.ListVisibilityMode
 import jp.nephy.penicillin.extensions.penicillinModel
 
 data class TwitterList(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    // val createdAt by string("created_at")
+    val createdAtRaw by string("created_at")
     val description by string
     val following by boolean
     val fullName by string("full_name")

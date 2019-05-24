@@ -26,9 +26,8 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.string
+import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModelList
 
@@ -36,7 +35,7 @@ data class ActivityEvent(override val json: JsonObject, override val client: Api
     val action by string
     val maxPosition by string("max_position")
     val minPosition by string("min_position")
-    // val createdAt by string("created_at")
+    val createdAtRaw by string("created_at")
     val targetObjects by penicillinModelList<Status>("target_objects")
     val targetObjectsSize by int("target_objects_size")
     val targets by penicillinModelList<User>()

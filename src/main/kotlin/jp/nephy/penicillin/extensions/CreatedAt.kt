@@ -26,7 +26,6 @@
 
 package jp.nephy.penicillin.extensions
 
-import jp.nephy.jsonkt.delegation.stringValue
 import jp.nephy.penicillin.models.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,73 +34,49 @@ import java.util.*
  * Parsed "created_at" object.
  */
 val ActivityEvent.createdAt: CreatedAt
-    get() {
-        val value = stringValue("created_at")
-        return CreatedAt(value)
-    }
+    get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
 val DirectMessage.createdAt: CreatedAt
-    get() {
-        val value = stringValue("created_at")
-        return CreatedAt(value)
-    }
+    get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "lastPublishTime" object.
  */
 val Moment.lastPublishTime: CreatedAt
-    get() {
-        val value = stringValue("lastPublishTime")
-        return CreatedAt(value)
-    }
+    get() = CreatedAt(lastPublishTimeRaw)
 
 /**
  * Parsed "created_at" object.
  */
 val SavedSearch.createdAt: CreatedAt
-    get() {
-        val value = stringValue("created_at")
-        return CreatedAt(value)
-    }
+    get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
 val Status.createdAt: CreatedAt
-    get() {
-        val value = stringValue("created_at")
-        return CreatedAt(value)
-    }
+    get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
 val TwitterList.createdAt: CreatedAt
-    get() {
-        val value = stringValue("created_at")
-        return CreatedAt(value)
-    }
+    get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
 val CommonUser.createdAt: CreatedAt
-    get() {
-        val value = stringValue("created_at")
-        return CreatedAt(value)
-    }
+    get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
 val Stream.Event.createdAt: CreatedAt
-    get() {
-        val value = stringValue("created_at")
-        return CreatedAt(value)
-    }
+    get() = CreatedAt(createdAtRaw)
 
 /**
  * Represents "created_at" date format.
