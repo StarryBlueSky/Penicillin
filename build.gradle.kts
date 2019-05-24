@@ -197,7 +197,7 @@ val dokkaJavadoc = task<DokkaTask>("dokkaJavadoc") {
 val jar = tasks.named<Jar>("jar").get()
 
 if (isEAPBuild) {
-    jar.destinationDir.listFiles().forEach {
+    jar.destinationDir.listFiles()?.forEach {
         it.delete()
     }
 }
