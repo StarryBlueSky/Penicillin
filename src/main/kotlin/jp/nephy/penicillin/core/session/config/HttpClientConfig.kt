@@ -93,7 +93,7 @@ internal data class KtorHttpClientConfig(
         var client: HttpClient? = null
         
         override fun build(): KtorHttpClientConfig {
-            return KtorHttpClientConfig(engineFactory, clientConfigs, client, client != null)
+            return KtorHttpClientConfig(engineFactory, clientConfigs, client, client == null)
         }
     }
 }
