@@ -30,6 +30,8 @@ import io.ktor.client.response.HttpResponse
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.response.ApiResponse
 import kotlinx.coroutines.delay
+import java.time.Duration
+import java.time.Instant
 import java.util.*
 
 /**
@@ -88,6 +90,12 @@ val RateLimit.isExceeded: Boolean
  */
 val RateLimit.consumed: Int?
     get() = limit - remaining
+
+/**
+ * The [Duration] between now and [RateLimit.resetAt].
+ */
+val RateLimit.duration: Duration
+    get() = Duration.between(Instant.now(), resetAt.toInstant())
 
 /**
  * Awaits until rate limit is refreshed. (Suspending function)
