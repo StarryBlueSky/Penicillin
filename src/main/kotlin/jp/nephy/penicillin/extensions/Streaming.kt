@@ -29,6 +29,7 @@ package jp.nephy.penicillin.extensions
 import jp.nephy.penicillin.core.streaming.StreamProcessor
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
+import kotlinx.coroutines.CompletableJob
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -39,8 +40,8 @@ import kotlinx.coroutines.launch
  *
  * @return [Job] for streaming processing.
  */
-fun <L: StreamListener, H: StreamHandler<L>> StreamProcessor<L, H>.queue(reconnect: Boolean = true): Job {
+fun <L: StreamListener, H: StreamHandler<L>> StreamProcessor<L, H>.queue(reconnect: Boolean = true, job: CompletableJob? = null): Job {
     return launch {
-        await(reconnect)
+        await(reconnect, job)
     }
 }

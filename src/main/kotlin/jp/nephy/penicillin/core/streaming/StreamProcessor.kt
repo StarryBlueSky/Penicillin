@@ -35,11 +35,8 @@ import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.extensions.session
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.io.jvm.javaio.toInputStream
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.io.core.Closeable
@@ -64,7 +61,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(
     private val mutex = Mutex()
     private object Dummy
 
-    private val job = Job()
+    private var job = Job()
     override val coroutineContext: CoroutineContext
         get() = result.session.coroutineContext + job
 
@@ -72,7 +69,11 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(
      * Awaits until streaming ends, or client disconnects.
      * This operation is suspendable.
      */
-    suspend fun await(reconnect: Boolean = true): StreamProcessor<L, H> {
+    suspend fun await(reconnect: Boolean = true, job: CompletableJob? = null): StreamProcessor<L, H> {
+        job?.also {
+            this.job = it
+        }
+
         return apply {
             mutex.withLock(Dummy) {
                 use {
@@ -102,12 +103,12 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(
     
     private fun handle() {
         val loopJob = Job()
-        
+
         launch {
             handler.listener.onConnect()
         }
         
-        result.response.content.toInputStream(loopJob).bufferedReader().useLines { lines -> 
+        result.response.content.toInputStream(loopJob).bufferedReader().useLines { lines ->
             for (line in lines) {
                 handleLine(line)
             }
