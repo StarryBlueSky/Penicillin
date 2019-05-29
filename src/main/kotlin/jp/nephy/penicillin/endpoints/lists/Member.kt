@@ -167,7 +167,7 @@ fun Lists.member(
     vararg options: Option
 ) = member(null, slug, null, ownerId, null, screenName, includeEntities, skipStatus, *options)
 
-private fun Lists.member(
+internal fun Lists.member(
     listId: Long? = null,
     slug: String? = null,
     ownerScreenName: String? = null,
