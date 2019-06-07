@@ -244,7 +244,7 @@ bintray {
     override = true
     
     pkg.apply { 
-        repo = githubRepositoryName.toLowerCase()
+        repo = if (isEAPBuild) "dev" else "stable"
         userOrg = githubOrganizationName.toLowerCase()
         
         name = packageName
