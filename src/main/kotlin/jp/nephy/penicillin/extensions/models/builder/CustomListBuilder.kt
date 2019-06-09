@@ -26,11 +26,12 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.toJsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.TwitterList
-import java.util.*
+import java.time.temporal.TemporalAccessor
+import kotlin.collections.set
 
 /**
  * Custom payload builder for [TwitterList].
@@ -49,13 +50,10 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     "subscriber_count" to 0,
     "uri" to "Tweetstorm/Tweetstorm"
 ) {
-    private var createdAt: Date? = null
     /**
-     * Sets created_at.
+     * "created_at".
      */
-    fun createdAt(date: Date? = null) {
-        createdAt = date
-    }
+    var createdAt: TemporalAccessor? = null
 
     private var description: String? = null
     /**

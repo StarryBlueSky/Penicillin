@@ -26,12 +26,13 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.jsonkt.toJsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
-import java.util.*
+import java.time.Instant
+import java.time.temporal.TemporalAccessor
+import kotlin.collections.set
 import kotlin.properties.Delegates
 
 /**
@@ -64,13 +65,10 @@ class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
         userId = id
     }
 
-    private var createdAt: Date? = null
     /**
-     * Sets timestamp.
+     * timestamp.
      */
-    fun timestamp(date: Date? = null) {
-        createdAt = date
-    }
+    var timestamp: TemporalAccessor? = null
 
     @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): Stream.Delete {
@@ -81,7 +79,7 @@ class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
                 "user_id" to userId,
                 "user_id_str" to userId.toString()
             ),
-            "timestamp_ms" to (createdAt ?: Date()).time.toString()
+            "timestamp_ms" to (Instant.from(timestamp) ?: Instant.now()).toEpochMilli().toString()
         )
         
         return toJsonObject().parseModel()

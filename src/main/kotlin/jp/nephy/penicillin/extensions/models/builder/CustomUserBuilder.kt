@@ -26,13 +26,12 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.jsonArrayOf
-import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.jsonkt.toJsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.User
-import java.util.*
+import java.time.temporal.TemporalAccessor
+import kotlin.collections.set
 
 /**
  * Custom payload builder for [User].
@@ -152,12 +151,12 @@ class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
         this["profile_image_url_https"] = url.replace("http://", "https://")
     }
 
-    private var createdAt: Date? = null
+    private var createdAt: TemporalAccessor? = null
     /**
      * Sets created_at.
      */
-    fun createdAt(date: Date? = null) {
-        createdAt = date
+    fun createdAt(time: TemporalAccessor? = null) {
+        createdAt = time
     }
 
     @UseExperimental(PenicillinExperimentalApi::class)

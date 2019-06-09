@@ -28,6 +28,8 @@ package jp.nephy.penicillin.extensions
 
 import jp.nephy.penicillin.models.*
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -94,14 +96,23 @@ data class CreatedAt(
     /**
      * New [Date] instance for this "created_at" string.
      */
+    @Deprecated("This property will be abolished.", replaceWith = ReplaceWith("instance"))
     val date: Date
         get() = SimpleDateFormat(pattern, Locale.ENGLISH).parse(value)
 
     /**
      * New [Calendar] instance for this "created_at" string.
      */
+    @Suppress("Deprecation")
+    @Deprecated("This property will be abolished.", replaceWith = ReplaceWith("instance"))
     val calendar: Calendar
         get() = Calendar.getInstance().also {
             it.time = date
         }
+    
+    /**
+     * New [Instant] instance for this "created_at" string.
+     */
+    val instant: Instant
+        get() = Instant.from(DateTimeFormatter.ofPattern(pattern).parse(value))
 }
