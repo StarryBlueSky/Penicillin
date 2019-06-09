@@ -26,13 +26,12 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.jsonObjectOf
-import jp.nephy.jsonkt.toJsonObject
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.DirectMessage
-import java.util.*
+import java.time.temporal.TemporalAccessor
+import kotlin.collections.set
 
 /**
  * Custom payload builder for [DirectMessage].
@@ -52,13 +51,10 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
     "sender_screen_name" to null,
     "text" to null
 ) {
-    private var createdAt: Date? = null
     /**
-     * Sets created_at.
+     * "created_at".
      */
-    fun createdAt(date: Date? = null) {
-        createdAt = date
-    }
+    var createdAt: TemporalAccessor? = null
 
     private var read = false
     /**

@@ -32,7 +32,6 @@ import jp.nephy.penicillin.core.response.ApiResponse
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.Instant
-import java.util.*
 
 /**
  * Twitter API rate limit.
@@ -53,9 +52,7 @@ private val HttpResponse.rateLimit: RateLimit?
         val limit = headers["x-rate-limit-limit"]?.toIntOrNull() ?: return null
         val remaining = headers["x-rate-limit-remaining"]?.toIntOrNull() ?: return null
         val reset = headers["x-rate-limit-reset"]?.toLongOrNull() ?: return null
-        val resetAt = Calendar.getInstance().also {
-            it.timeInMillis = reset * 1000
-        }
+        val resetAt = Instant.ofEpochSecond(reset)
 
         return RateLimit(limit, remaining, resetAt)
     }
@@ -77,7 +74,7 @@ data class RateLimit(
     /**
      * Rate limit reset at.
      */
-    val resetAt: Calendar
+    val resetAt: Instant
 )
 
 /**
@@ -95,13 +92,13 @@ val RateLimit.consumed: Int?
  * The [Duration] between now and [RateLimit.resetAt].
  */
 val RateLimit.duration: Duration
-    get() = Duration.between(Instant.now(), resetAt.toInstant())
+    get() = Duration.between(Instant.now(), resetAt)
 
 /**
  * Awaits until rate limit is refreshed. (Suspending function)
  */
 suspend fun RateLimit.awaitRefresh() {
-    val millis = resetAt.timeInMillis - Date().time
+    val millis = resetAt.toEpochMilli() - Instant.now().toEpochMilli()
     if (millis > 0) {
         delay(millis.coerceAtLeast(500))
     }
@@ -111,7 +108,7 @@ suspend fun RateLimit.awaitRefresh() {
  * Blocks until rate limit is refreshed. (Classic blocking function)
  */
 fun RateLimit.blockUntilRefresh() {
-    val millis = resetAt.timeInMillis - Date().time
+    val millis = resetAt.toEpochMilli() - Instant.now().toEpochMilli()
     if (millis > 0) {
         Thread.sleep(millis.coerceAtLeast(500))
     }

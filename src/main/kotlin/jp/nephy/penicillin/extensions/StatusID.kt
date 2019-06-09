@@ -28,6 +28,7 @@ package jp.nephy.penicillin.extensions
 
 import jp.nephy.penicillin.models.Status
 import jp.nephy.penicillin.models.entities.MediaEntity
+import java.time.Instant
 import java.util.*
 
 /**
@@ -77,14 +78,22 @@ data class StatusID(
     /**
      * New [Date] instance with epoch time.
      */
+    @Deprecated("This property will be abolished.", replaceWith = ReplaceWith("instance"))
     val date: Date
         get() = Date(epochTimeMillis)
 
     /**
      * New [Calendar] instance with epoch time.
      */
+    @Deprecated("This property will be abolished.", replaceWith = ReplaceWith("instance"))
     val calendar: Calendar
         get() =  Calendar.getInstance().also {
-            it.time = date
+            it.timeInMillis = epochTimeMillis
         }
+    
+    /**
+     * New [Instant] instance with epoch time.
+     */
+    val instant: Instant
+        get() = Instant.ofEpochMilli(epochTimeMillis)
 }

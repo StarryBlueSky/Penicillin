@@ -33,8 +33,8 @@ import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Search
 import jp.nephy.penicillin.endpoints.common.TweetMode
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAccessor
 
 private typealias SearchModel = jp.nephy.penicillin.models.Search
 
@@ -66,7 +66,7 @@ fun Search.search(
     locale: String? = null,
     resultType: SearchResultType = SearchResultType.Default,
     count: Int? = null,
-    until: Date? = null,
+    until: TemporalAccessor? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
     includeEntities: Boolean? = null,
@@ -80,7 +80,7 @@ fun Search.search(
         "locale" to locale,
         "result_type" to resultType,
         "count" to count,
-        "until" to if (until != null) SimpleDateFormat("yyyy-MM-dd").format(until) else null,
+        "until" to until?.let { DateTimeFormatter.ofPattern("yyyy-MM-dd").format(it) },
         "since_id" to sinceId,
         "max_id" to maxId,
         "include_entities" to includeEntities,

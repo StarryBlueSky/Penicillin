@@ -31,7 +31,10 @@ import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Status
 import kotlinx.atomicfu.atomic
-import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAccessor
 import java.util.*
 import kotlin.collections.set
 
@@ -101,12 +104,12 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
         sourceUrl = url
     }
 
-    private var createdAt: Date? = null
+    private var createdAt: TemporalAccessor? = null
     /**
      * Sets created_at.
      */
-    fun createdAt(date: Date? = null) {
-        createdAt = date
+    fun createdAt(time: TemporalAccessor? = null) {
+        createdAt = time
     }
 
     private var user = CustomUserBuilder()
@@ -180,7 +183,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
         this["user"] = user
 
         this["created_at"] = createdAt.toCreatedAt()
-        this["timestamp_ms"] = (createdAt ?: Date()).time.toString()
+        this["timestamp_ms"] = (Instant.from(createdAt) ?: Instant.now()).toEpochMilli().toString()
 
         this["retweeted"] = retweeted
         this["favorited"] = favorited
@@ -210,11 +213,9 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     }
 }
 
-internal fun Date?.toCreatedAt(): String {
-    val dateFormatter = SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH).also {
-        it.timeZone = TimeZone.getTimeZone("UTC")
-    }
-    return dateFormatter.format(this ?: Date())
+internal fun TemporalAccessor?.toCreatedAt(): String {
+    val dateFormatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH).withZone(ZoneId.of("UTC"))
+    return dateFormatter.format(this ?: Instant.now())
 }
 
 private var id = atomic(100000001L)
