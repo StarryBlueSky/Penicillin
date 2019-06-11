@@ -22,20 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.models.entities
+package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.intList
-import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.models.IndexedEntityModel
+/**
+ * Created on 2019/06/11.
+ */
 
-data class URLEntity(override val json: JsonObject, override val client: ApiClient):
-    IndexedEntityModel {
-    val url by string
-    val expandedUrl by string("expanded_url")
-    val displayUrl by string("display_url")
-    override val indices by intList
+interface IndexedEntityModel: PenicillinModel {
+    val indices: List<Int>
 }
