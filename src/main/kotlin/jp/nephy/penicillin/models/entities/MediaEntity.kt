@@ -37,8 +37,7 @@ import jp.nephy.penicillin.models.IndexedEntityModel
 import jp.nephy.penicillin.models.PenicillinModel
 import jp.nephy.penicillin.models.Photo
 
-data class MediaEntity(override val json: JsonObject, override val client: ApiClient):
-    IndexedEntityModel {
+data class MediaEntity(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
     val additionalMediaInfo by nullablePenicillinModel<AdditionalMediaInfo>("additional_media_info")
     val displayUrl by string("display_url")
     val expandedUrl by string("expanded_url")
