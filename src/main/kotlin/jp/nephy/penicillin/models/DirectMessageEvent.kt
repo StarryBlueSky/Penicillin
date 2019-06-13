@@ -73,11 +73,11 @@ object DirectMessageEvent {
                             val text by string
                         }
 
-                        data class Url(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
-                            val displayUrl by string("display_url")
-                            val expandedUrl by string("expanded_url")
+                        data class Url(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
+                            override val displayUrl by string("display_url")
+                            override val expandedUrl by string("expanded_url")
                             override val indices by intList
-                            val url by string
+                            override val url by string
                         }
                     }
                 }
