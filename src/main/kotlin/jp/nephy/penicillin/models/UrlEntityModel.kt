@@ -24,33 +24,10 @@
 
 @file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.extensions.models
+package jp.nephy.penicillin.models
 
-import jp.nephy.penicillin.models.Status
-
-/**
- * Returns full-body status text.
- * Supports both tweet modes (Extend and Compat).
- */
-val Status.text: String
-    get () = if (retweetedStatus != null) {
-        if (retweetedStatus?.extendedTweet != null) {
-            "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.text}"
-        } else {
-            fullTextRaw ?: textRaw ?: throw IllegalStateException("Unsupported status format: $json")
-        }
-    } else {
-        extendedTweet?.fullText ?: fullTextRaw ?: textRaw ?: throw IllegalStateException("Unsupported status format: $json")
-    }
-
-val Status.expandedText: String
-    get() {
-        var gap = 0
-        return entities.let { it.media + it.urls }
-            .sortedBy { it.firstIndex }
-            .fold(text) { str, entity ->
-                str.replaceRange(entity.firstIndex + gap, entity.lastIndex + gap, entity.expandedUrl).apply {
-                    gap += entity.expandedUrl.length - entity.url.length
-                }
-            }
-    }
+interface UrlEntityModel: IndexedEntityModel {
+    val url: String
+    val displayUrl: String
+    val expandedUrl: String
+}
