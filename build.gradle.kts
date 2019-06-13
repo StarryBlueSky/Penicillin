@@ -97,14 +97,14 @@ dependencies {
 tasks.named<KotlinCompile>("compileKotlin") {
     kotlinOptions { 
         jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
+        freeCompilerArgs += listOf("-Xuse-experimental=kotlin.Experimental", "-XXLanguage:+InlineClasses")
     }
 }
 
 tasks.named<KotlinCompile>("compileTestKotlin") {
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
+        freeCompilerArgs += listOf("-Xuse-experimental=kotlin.Experimental", "-XXLanguage:+InlineClasses")
     }
 }
 
