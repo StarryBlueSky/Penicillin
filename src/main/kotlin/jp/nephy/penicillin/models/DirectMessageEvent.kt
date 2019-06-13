@@ -68,15 +68,15 @@ object DirectMessageEvent {
                         val urls by penicillinModelList<Url>()
                         val userMentions by jsonArray("user_mentions")
 
-                        data class Hashtag(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                            val indices by intList
+                        data class Hashtag(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
+                            override val indices by intList
                             val text by string
                         }
 
-                        data class Url(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                        data class Url(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
                             val displayUrl by string("display_url")
                             val expandedUrl by string("expanded_url")
-                            val indices by intList
+                            override val indices by intList
                             val url by string
                         }
                     }
