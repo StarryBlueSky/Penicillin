@@ -32,8 +32,7 @@ import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.IndexedEntityModel
 
-data class URLEntity(override val json: JsonObject, override val client: ApiClient):
-    IndexedEntityModel {
+data class URLEntity(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
     val url by string
     val expandedUrl by string("expanded_url")
     val displayUrl by string("display_url")

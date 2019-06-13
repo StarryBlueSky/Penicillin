@@ -42,23 +42,20 @@ data class StatusEntity(override val json: JsonObject, override val client: ApiC
     val userMentions by penicillinModelList<UserMentionEntity>("user_mentions")
     val urls by penicillinModelList<URLEntity>()
 
-    data class HashtagEntity(override val json: JsonObject, override val client: ApiClient):
-        IndexedEntityModel {
+    data class HashtagEntity(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
         val text by string
         override val indices by intList
     }
 
-    data class UserMentionEntity(override val json: JsonObject, override val client: ApiClient):
-        IndexedEntityModel {
+    data class UserMentionEntity(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
         val screenName by string("screen_name")
         val name by string
         val id by long
         val idStr by string("id_str")
-        override val indices by intList()
+        override val indices by intList
     }
 
-    data class SymbolEntity(override val json: JsonObject, override val client: ApiClient):
-        IndexedEntityModel {
+    data class SymbolEntity(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
         val text by string
         override val indices by intList
     }
