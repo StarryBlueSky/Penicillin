@@ -48,4 +48,4 @@ val ApiClient.accountActivity: AccountActivity
  * @param client Current [ApiClient] instance.
  * @see ApiClient.accountActivity
  */
-class AccountActivity(override val client: ApiClient): Endpoint
+inline class AccountActivity(override val client: ApiClient): Endpoint

@@ -46,4 +46,4 @@ val ApiClient.followRequests: FollowRequests
  * @param client Current [ApiClient] instance.
  * @see ApiClient.followRequests
  */
-class FollowRequests(override val client: ApiClient): Endpoint
+inline class FollowRequests(override val client: ApiClient): Endpoint

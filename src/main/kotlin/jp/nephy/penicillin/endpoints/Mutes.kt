@@ -48,4 +48,4 @@ val ApiClient.mutes: Mutes
  * @param client Current [ApiClient] instance.
  * @see ApiClient.mutes
  */
-class Mutes(override val client: ApiClient): Endpoint
+inline class Mutes(override val client: ApiClient): Endpoint

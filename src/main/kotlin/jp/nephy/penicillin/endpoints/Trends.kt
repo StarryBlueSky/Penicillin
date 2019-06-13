@@ -48,4 +48,4 @@ val ApiClient.trends: Trends
  * @param client Current [ApiClient] instance.
  * @see ApiClient.trends
  */
-class Trends(override val client: ApiClient): Endpoint
+inline class Trends(override val client: ApiClient): Endpoint

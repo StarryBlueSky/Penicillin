@@ -48,4 +48,4 @@ val ApiClient.blocks: Blocks
  * @param client Current [ApiClient] instance.
  * @see ApiClient.blocks
  */
-class Blocks(override val client: ApiClient): Endpoint
+inline class Blocks(override val client: ApiClient): Endpoint

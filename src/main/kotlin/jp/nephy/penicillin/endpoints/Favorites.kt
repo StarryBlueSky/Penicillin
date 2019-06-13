@@ -48,4 +48,4 @@ val ApiClient.favorites: Favorites
  * @param client Current [ApiClient] instance.
  * @see ApiClient.favorites
  */
-class Favorites(override val client: ApiClient): Endpoint
+inline class Favorites(override val client: ApiClient): Endpoint

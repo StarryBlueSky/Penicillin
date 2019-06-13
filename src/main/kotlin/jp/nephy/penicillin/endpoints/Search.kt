@@ -48,4 +48,4 @@ val ApiClient.search: Search
  * @param client Current [ApiClient] instance.
  * @see ApiClient.search
  */
-class Search(override val client: ApiClient): Endpoint
+inline class Search(override val client: ApiClient): Endpoint

@@ -46,4 +46,4 @@ val ApiClient.livePipeline: LivePipeline
  * @param client Current [ApiClient] instance.
  * @see ApiClient.livePipeline
  */
-class LivePipeline(override val client: ApiClient): Endpoint
+inline class LivePipeline(override val client: ApiClient): Endpoint

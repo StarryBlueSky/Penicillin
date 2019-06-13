@@ -46,4 +46,4 @@ val ApiClient.cards: Cards
  * @param client Current [ApiClient] instance.
  * @see ApiClient.cards
  */
-class Cards(override val client: ApiClient): Endpoint
+inline class Cards(override val client: ApiClient): Endpoint
