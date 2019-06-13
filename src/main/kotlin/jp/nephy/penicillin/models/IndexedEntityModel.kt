@@ -27,9 +27,11 @@
 package jp.nephy.penicillin.models
 
 /**
- * Created on 2019/06/11.
+ * A entity model that has "indices" property.
  */
-
 interface IndexedEntityModel: PenicillinModel {
+    /**
+     * The entity indices. Its size must be 2.
+     */
     val indices: List<Int>
 }

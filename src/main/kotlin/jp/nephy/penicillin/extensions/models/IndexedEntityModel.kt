@@ -28,14 +28,26 @@ package jp.nephy.penicillin.extensions.models
 
 import jp.nephy.penicillin.models.IndexedEntityModel
 
+/**
+ * Returns the first index of the indices.
+ */
 val IndexedEntityModel.firstIndex: Int
-    get() = indices[0]
+    get() = indices.first()
 
+/**
+ * Returns the last index of this indices.
+ */
 val IndexedEntityModel.lastIndex: Int
-    get() = indices[1]
+    get() = indices.last()
 
+/**
+ * Returns a range from [firstIndex] value up to but excluding [lastIndex] value.
+ */
 val IndexedEntityModel.range: IntRange
-    get() = indices[0] until indices[1]
+    get() = firstIndex until lastIndex
 
+/**
+ * Returns the size of the indices.
+ */
 val IndexedEntityModel.size: Int
-    get() = indices[1] - indices[0] - 1
+    get() = lastIndex - firstIndex - 1
