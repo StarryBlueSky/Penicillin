@@ -22,19 +22,32 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.models.entities
+package jp.nephy.penicillin.extensions.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.intList
-import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.IndexedEntityModel
 
-data class URLEntity(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
-    val url by string
-    val expandedUrl by string("expanded_url")
-    val displayUrl by string("display_url")
-    override val indices by intList
-}
+/**
+ * Returns the first index of the indices.
+ */
+val IndexedEntityModel.firstIndex: Int
+    get() = indices.first()
+
+/**
+ * Returns the last index of this indices.
+ */
+val IndexedEntityModel.lastIndex: Int
+    get() = indices.last()
+
+/**
+ * Returns a range from [firstIndex] value up to but excluding [lastIndex] value.
+ */
+val IndexedEntityModel.range: IntRange
+    get() = firstIndex until lastIndex
+
+/**
+ * Returns the size of the indices.
+ */
+val IndexedEntityModel.size: Int
+    get() = lastIndex - firstIndex - 1

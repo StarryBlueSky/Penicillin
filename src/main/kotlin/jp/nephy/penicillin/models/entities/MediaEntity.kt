@@ -33,10 +33,11 @@ import jp.nephy.penicillin.extensions.nullablePenicillinModel
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
 import jp.nephy.penicillin.models.FaceCoordinate
+import jp.nephy.penicillin.models.IndexedEntityModel
 import jp.nephy.penicillin.models.PenicillinModel
 import jp.nephy.penicillin.models.Photo
 
-data class MediaEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+data class MediaEntity(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
     val additionalMediaInfo by nullablePenicillinModel<AdditionalMediaInfo>("additional_media_info")
     val displayUrl by string("display_url")
     val expandedUrl by string("expanded_url")
@@ -44,7 +45,7 @@ data class MediaEntity(override val json: JsonObject, override val client: ApiCl
     val features by nullablePenicillinModel<Feature>()
     val id by long
     val idStr by string("id_str")
-    val indices by intList
+    override val indices by intList
     val mediaUrl by string("media_url")
     val mediaUrlHttps by string("media_url_https")
     val sizes by nullablePenicillinModel<Photo>()

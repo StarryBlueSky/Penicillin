@@ -50,7 +50,7 @@ object Stream {
     }
 
     data class Friends(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val friends by nullableLongList()
+        val friends by nullableLongList
         val friendsStr by nullableStringList
     }
 
