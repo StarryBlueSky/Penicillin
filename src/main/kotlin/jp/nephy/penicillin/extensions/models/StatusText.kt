@@ -43,6 +43,10 @@ val Status.text: String
         extendedTweet?.fullText ?: fullTextRaw ?: textRaw ?: throw IllegalStateException("Unsupported status format: $json")
     }
 
+/**
+ * Returns full-body status text whose shortened urls are each expanded.
+ */
+
 val Status.expandedText: String
     get() {
         var gap = 0
