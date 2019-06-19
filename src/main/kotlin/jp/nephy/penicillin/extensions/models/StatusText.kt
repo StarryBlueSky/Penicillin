@@ -42,3 +42,18 @@ val Status.text: String
     } else {
         extendedTweet?.fullText ?: fullTextRaw ?: textRaw ?: throw IllegalStateException("Unsupported status format: $json")
     }
+
+/**
+ * Returns full-body status text whose shortened urls are each expanded.
+ */
+val Status.expandedText: String
+    get() {
+        var gap = 0
+        return entities.let { it.media + it.urls }
+            .sortedBy { it.firstIndex }
+            .fold(text) { str, entity ->
+                str.replaceRange(entity.firstIndex + gap, entity.lastIndex + gap, entity.expandedUrl).apply {
+                    gap += entity.expandedUrl.length - entity.url.length
+                }
+            }
+    }
