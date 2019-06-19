@@ -46,7 +46,6 @@ val Status.text: String
 /**
  * Returns full-body status text whose shortened urls are each expanded.
  */
-
 val Status.expandedText: String
     get() {
         var gap = 0

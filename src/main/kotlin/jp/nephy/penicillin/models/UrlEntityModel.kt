@@ -26,8 +26,22 @@
 
 package jp.nephy.penicillin.models
 
+/**
+ * A entity model that has "url", "displayUrl" and "expandedUlr" properties.
+ */
 interface UrlEntityModel: IndexedEntityModel {
+    /**
+     * The entry url.
+     */
     val url: String
+
+    /**
+     * The entry displayUrl.
+     */
     val displayUrl: String
+
+    /**
+     * The entry expandedUrl.
+     */
     val expandedUrl: String
 }

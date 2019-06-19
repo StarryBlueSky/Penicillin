@@ -28,6 +28,9 @@ package jp.nephy.penicillin.extensions.models
 
 import jp.nephy.penicillin.models.DirectMessageEvent
 
+/**
+ * Returns the direct message text whose shortened urls are each expanded.
+ */
 val DirectMessageEvent.List.Event.MessageCreate.MessageData.expandedText: String
     get() {
         var gap = 0
