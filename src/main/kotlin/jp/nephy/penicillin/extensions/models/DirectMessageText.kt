@@ -22,20 +22,23 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.models.entities
+package jp.nephy.penicillin.extensions.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.intList
-import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.models.IndexedEntityModel
-import jp.nephy.penicillin.models.UrlEntityModel
+import jp.nephy.penicillin.models.DirectMessageEvent
 
-data class URLEntity(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
-    override val url by string
-    override val expandedUrl by string("expanded_url")
-    override val displayUrl by string("display_url")
-    override val indices by intList
-}
+/**
+ * Returns the direct message text whose shortened urls are each expanded.
+ */
+val DirectMessageEvent.List.Event.MessageCreate.MessageData.expandedText: String
+    get() {
+        var gap = 0
+        return entities.urls
+            .sortedBy { it.firstIndex }
+            .fold(text) { str, entity ->
+                str.replaceRange(entity.firstIndex + gap, entity.lastIndex + gap, entity.expandedUrl).apply {
+                    gap += entity.expandedUrl.length - entity.url.length
+                }
+            }
+    }
