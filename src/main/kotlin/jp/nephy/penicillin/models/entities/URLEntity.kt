@@ -30,7 +30,6 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.intList
 import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.models.IndexedEntityModel
 import jp.nephy.penicillin.models.UrlEntityModel
 
 data class URLEntity(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
