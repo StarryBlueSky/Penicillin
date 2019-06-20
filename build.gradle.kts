@@ -23,7 +23,7 @@ val ktorVersion = "1.2.1"
 val spekVersion = "2.0.5"
 
 plugins { 
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.40"
 
     // For testing
     id("com.adarshr.test-logger") version "1.7.0"
@@ -97,14 +97,14 @@ dependencies {
 tasks.named<KotlinCompile>("compileKotlin") {
     kotlinOptions { 
         jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
+        freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
     }
 }
 
 tasks.named<KotlinCompile>("compileTestKotlin") {
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
+        freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
     }
 }
 
