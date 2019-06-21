@@ -1,6 +1,6 @@
 # Penicillin: Modern Powerful Twitter API wrapper for Kotlin
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.31-blue.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.40-blue.svg)](https://kotlinlang.org)
 [![Stable](https://img.shields.io/bintray/v/nephyproject/stable/Penicillin.svg?label=stable)](https://github.com/NephyProject/Penicillin/releases/latest)
 [![Dev](https://img.shields.io/bintray/v/nephyproject/dev/Penicillin.svg?label=dev)](https://bintray.com/nephyproject/dev/Penicillin/_latestVersion)
 [![License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
@@ -58,11 +58,11 @@ We recommend using Gradle Kotlin DSL instead of classic build.gradle.
 #### build.gradle.kts
 
 ```kotlin
-val penicillinVersion = "4.2.2"
-val ktorVersion = "1.2.1"
+val penicillinVersion = "4.2.3"
+val ktorVersion = "1.2.2"
 
 plugins { 
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.40"
 }
 
 repositories {
@@ -93,9 +93,9 @@ dependencies {
 
 ```groovy
 buildscript {
-    ext.penicillin_version = "4.2.2"
-    ext.kotlin_version = "1.3.31"
-    ext.ktor_version = "1.2.1"
+    ext.penicillin_version = "4.2.3"
+    ext.kotlin_version = "1.3.40"
+    ext.ktor_version = "1.2.2"
 
     repositories {
         mavenCentral()
