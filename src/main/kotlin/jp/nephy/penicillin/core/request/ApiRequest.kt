@@ -28,8 +28,9 @@ import jp.nephy.penicillin.core.request.action.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
-import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
+import jp.nephy.penicillin.endpoints.PremiumSearchEnvironment
 import jp.nephy.penicillin.models.PenicillinModel
+import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 
 /**
  * Represents api request methods.
@@ -70,6 +71,10 @@ class ApiRequest(
      */
     inline fun <reified M: PenicillinCursorModel> cursorJsonObject(): CursorJsonObjectApiAction<M> {
         return CursorJsonObjectApiAction(client, this, M::class)
+    }
+
+    inline fun <reified M: PenicillinModel> environmentalJsonObject(environment: PremiumSearchEnvironment): EnvironmentalJsonObjectApiAction<M> {
+        return EnvironmentalJsonObjectApiAction(client, this, M::class, environment)
     }
 
     /**
