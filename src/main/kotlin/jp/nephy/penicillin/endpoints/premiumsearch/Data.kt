@@ -27,10 +27,14 @@
 
 package jp.nephy.penicillin.endpoints.premiumsearch
 
+import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.request.jsonBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.PremiumSearch
 import jp.nephy.penicillin.endpoints.PremiumSearchEnvironment
+import jp.nephy.penicillin.endpoints.environment
+import jp.nephy.penicillin.endpoints.search.SearchProduct
 import jp.nephy.penicillin.models.PremiumSearchData
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -38,6 +42,34 @@ import java.time.format.DateTimeFormatter
 
 internal val formatter: DateTimeFormatter by lazy { DateTimeFormatter.ofPattern("yyyyMMddHHmmss") }
 
+
+@PenicillinExperimentalApi
+fun PremiumSearch.dataWithLocalDateTime(
+    product: SearchProduct,
+    label: String,
+    query: String,
+    tag: String? = null,
+    fromDate: LocalDateTime? = null,
+    toDate: LocalDateTime? = null,
+    maxResults: Int? = null,
+    next: String? = null,
+    vararg options: Option
+) = environment(product, label).dataWithLocalDateTime(query, tag, fromDate, toDate, maxResults, next, *options)
+
+@PenicillinExperimentalApi
+fun PremiumSearch.data(
+    product: SearchProduct,
+    label: String,
+    query: String,
+    tag: String? = null,
+    fromDate: String? = null,
+    toDate: String? = null,
+    maxResults: Int? = null,
+    next: String? = null,
+    vararg options: Option
+) = environment(product, label).data(query, tag, fromDate, toDate, maxResults, next, *options)
+
+@PenicillinExperimentalApi
 fun PremiumSearchEnvironment.dataWithLocalDateTime(
     query: String,
     tag: String? = null,
@@ -48,6 +80,7 @@ fun PremiumSearchEnvironment.dataWithLocalDateTime(
     vararg options: Option
 ) = data(query, tag, fromDate?.format(formatter), toDate?.format(formatter), maxResults, next, *options)
 
+@PenicillinExperimentalApi
 fun PremiumSearchEnvironment.data(
     query: String,
     tag: String? = null,
@@ -67,5 +100,3 @@ fun PremiumSearchEnvironment.data(
         *options
     )
 }.environmentalJsonObject<PremiumSearchData>(this)
-
-

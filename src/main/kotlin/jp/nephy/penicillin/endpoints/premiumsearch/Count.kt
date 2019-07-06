@@ -26,15 +26,43 @@
 
 package jp.nephy.penicillin.endpoints.premiumsearch
 
+import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.request.jsonBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
+import jp.nephy.penicillin.endpoints.PremiumSearch
 import jp.nephy.penicillin.endpoints.PremiumSearchEnvironment
+import jp.nephy.penicillin.endpoints.environment
 import jp.nephy.penicillin.endpoints.search.SearchBucket
+import jp.nephy.penicillin.endpoints.search.SearchProduct
 import jp.nephy.penicillin.models.PremiumSearchCount
 import java.time.LocalDateTime
 
+@PenicillinExperimentalApi
+fun PremiumSearch.countWithLocalDateTime(
+    product: SearchProduct,
+    label: String,
+    query: String,
+    fromDate: LocalDateTime? = null,
+    toDate: LocalDateTime? = null,
+    bucket: SearchBucket? = null,
+    next: String? = null,
+    vararg options: Option
+) = environment(product, label).countWithLocalDateTime(query, fromDate, toDate, bucket, next, *options)
 
+@PenicillinExperimentalApi
+fun PremiumSearch.count(
+    product: SearchProduct,
+    label: String,
+    query: String,
+    fromDate: String? = null,
+    toDate: String? = null,
+    bucket: SearchBucket? = null,
+    next: String? = null,
+    vararg options: Option
+) = environment(product, label).count(query, fromDate, toDate, bucket, next, *options)
+
+@PenicillinExperimentalApi
 fun PremiumSearchEnvironment.countWithLocalDateTime(
     query: String,
     fromDate: LocalDateTime? = null,
@@ -44,7 +72,7 @@ fun PremiumSearchEnvironment.countWithLocalDateTime(
     vararg options: Option
 ) = count(query, fromDate?.format(formatter), toDate?.format(formatter), bucket, next, *options)
 
-
+@PenicillinExperimentalApi
 fun PremiumSearchEnvironment.count(
     query: String,
     fromDate: String? = null,
