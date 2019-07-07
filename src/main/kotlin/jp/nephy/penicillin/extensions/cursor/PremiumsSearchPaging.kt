@@ -29,5 +29,8 @@ package jp.nephy.penicillin.extensions.cursor
 import jp.nephy.penicillin.core.response.PremiumSearchJsonObjectResponse
 import jp.nephy.penicillin.models.PremiumSearchModel
 
+/**
+ * Whether current search result has next.
+ */
 val PremiumSearchJsonObjectResponse<PremiumSearchModel>.hasNext: Boolean
     get() = result.next != null
