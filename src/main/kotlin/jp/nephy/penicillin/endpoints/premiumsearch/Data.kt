@@ -94,7 +94,7 @@ fun PremiumSearchEnvironment.data(
     maxResults: Int? = null,
     next: String? = null,
     vararg options: Option
-) = client.session.post("/1.1/tweets/search/${product.value}/$label.json") {
+) = client.session.post("$endpoint.json") {
     jsonBody(
         "query" to query,
         "tag" to tag,

@@ -80,7 +80,7 @@ fun PremiumSearchEnvironment.count(
     bucket: SearchBucket? = null,
     next: String? = null,
     vararg options: Option
-) = client.session.post("/1.1/tweets/search/${product.value}/$label/counts.json") {
+) = client.session.post("$endpoint/counts.json") {
     jsonBody(
         "query" to query,
         "fromDate" to fromDate,

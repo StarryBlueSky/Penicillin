@@ -40,4 +40,6 @@ data class PremiumSearchEnvironment(
     override val client: ApiClient,
     val product: SearchProduct,
     val label: String
-): Endpoint
+): Endpoint {
+    val endpoint = "/1.1/tweets/search/${product.value}/$label"
+}
