@@ -26,10 +26,11 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.*
+import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.nullablePenicillinModel
+import jp.nephy.penicillin.extensions.nullablePenicillinModelList
 import jp.nephy.penicillin.extensions.penicillinModel
 import jp.nephy.penicillin.extensions.penicillinModelList
 import jp.nephy.penicillin.models.entities.StatusEntity
@@ -99,6 +100,7 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
     val withheldCopyright by nullableBoolean("withheld_copyright")
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
+    val matchingRules  by nullablePenicillinModelList<MatchingRule>("matching_rules")
 
     data class Contributor(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val id by long
@@ -135,6 +137,10 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
         val entities by penicillinModel<StatusEntity>()
         val extendedEntities by nullablePenicillinModel<StatusEntity>("extended_entities")
         val fullText by nullableString("full_text")
+    }
+
+    data class MatchingRule(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        val tag by string
     }
 
     override fun equals(other: Any?): Boolean {
