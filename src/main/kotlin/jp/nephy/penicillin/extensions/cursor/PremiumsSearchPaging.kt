@@ -24,22 +24,10 @@
 
 @file:Suppress("UNUSED")
 
-package jp.nephy.penicillin.models
+package jp.nephy.penicillin.extensions.cursor
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.string
-import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+import jp.nephy.penicillin.core.response.PremiumSearchJsonObjectResponse
+import jp.nephy.penicillin.models.PremiumSearchModel
 
-data class PremiumSearchData(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
-    val results by penicillinModelList<Status>()
-    override val next by string
-    val requestParameters by penicillinModelList<Status>()
-
-    data class RequestParameters(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val maxResults by int
-        val fromDateRaw by string
-        val toDateRaw by string
-    }
-}
+val PremiumSearchJsonObjectResponse<PremiumSearchModel>.hasNext: Boolean
+    get() = result.next != null

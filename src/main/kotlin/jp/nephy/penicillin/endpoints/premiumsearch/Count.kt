@@ -89,4 +89,4 @@ fun PremiumSearchEnvironment.count(
         "next" to next,
         *options
     )
-}.environmentalJsonObject<PremiumSearchCount>(this)
+}.premiumSearchJsonObject<PremiumSearchCount>(this)

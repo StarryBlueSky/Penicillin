@@ -28,15 +28,15 @@ import jp.nephy.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.response.EnvironmentalJsonObjectResponse
+import jp.nephy.penicillin.core.response.PremiumSearchJsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.endpoints.PremiumSearchEnvironment
 import jp.nephy.penicillin.extensions.parseModelOrNull
-import jp.nephy.penicillin.models.PenicillinModel
+import jp.nephy.penicillin.models.PremiumSearchModel
 import kotlin.reflect.KClass
 
-class EnvironmentalJsonObjectApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>, val environment: PremiumSearchEnvironment): JsonRequest<M>, ApiAction<EnvironmentalJsonObjectResponse<M>> {
-    override suspend operator fun invoke(): EnvironmentalJsonObjectResponse<M> {
+class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>, val environment: PremiumSearchEnvironment): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>> {
+    override suspend operator fun invoke(): PremiumSearchJsonObjectResponse<M> {
         val (request, response) = execute()
         val content = response.readTextOrNull()
         checkError(request, response, content)
@@ -48,6 +48,6 @@ class EnvironmentalJsonObjectApiAction<M: PenicillinModel>(override val client: 
             LocalizedString.JsonModelCastFailed, null, request, response, model.simpleName, content
         )
 
-        return EnvironmentalJsonObjectResponse(client, model, result, request, response, content, this, environment)
+        return PremiumSearchJsonObjectResponse(client, model, result, request, response, content, this, environment)
     }
 }
