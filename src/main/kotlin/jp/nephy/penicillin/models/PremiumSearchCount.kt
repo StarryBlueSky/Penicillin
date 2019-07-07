@@ -34,10 +34,10 @@ import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.extensions.penicillinModelList
 
 
-data class PremiumSearchCount(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+data class PremiumSearchCount(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
     val results by penicillinModelList<Count>()
     val totalCount by int
-    val next by nullableString
+    override val next by nullableString
     val requestParameters by penicillinModelList<RequestParameters>()
 
     data class Count(override val json: JsonObject, override val client: ApiClient): PenicillinModel {

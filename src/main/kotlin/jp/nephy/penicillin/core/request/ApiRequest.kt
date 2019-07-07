@@ -30,6 +30,7 @@ import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.endpoints.PremiumSearchEnvironment
 import jp.nephy.penicillin.models.PenicillinModel
+import jp.nephy.penicillin.models.PremiumSearchModel
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
 
 /**
@@ -73,8 +74,8 @@ class ApiRequest(
         return CursorJsonObjectApiAction(client, this, M::class)
     }
 
-    inline fun <reified M: PenicillinModel> environmentalJsonObject(environment: PremiumSearchEnvironment): EnvironmentalJsonObjectApiAction<M> {
-        return EnvironmentalJsonObjectApiAction(client, this, M::class, environment)
+    inline fun <reified M: PremiumSearchModel> premiumSearchJsonObject(environment: PremiumSearchEnvironment): PremiumSearchJsonObjectApiAction<M> {
+        return PremiumSearchJsonObjectApiAction(client, this, M::class, environment)
     }
 
     /**
