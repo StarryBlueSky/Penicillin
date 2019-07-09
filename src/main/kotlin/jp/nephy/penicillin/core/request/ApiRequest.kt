@@ -74,6 +74,11 @@ class ApiRequest(
         return CursorJsonObjectApiAction(client, this, M::class)
     }
 
+    /**
+     * Creates [PremiumSearchJsonObjectApiAction] from this request.
+     *
+     * @return New [PremiumSearchJsonObjectApiAction] for [M].
+     */
     inline fun <reified M: PremiumSearchModel> premiumSearchJsonObject(environment: PremiumSearchEnvironment): PremiumSearchJsonObjectApiAction<M> {
         return PremiumSearchJsonObjectApiAction(client, this, M::class, environment)
     }

@@ -27,19 +27,41 @@
 package jp.nephy.penicillin.endpoints
 
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.endpoints.search.SearchProduct
 
-
+/**
+ * Returns [PremiumSearchEnvironment] endpoint instance.
+ * @param product Select either 30days or fullarchive.
+ * @param label The label associated with your search developer environment.
+ * @return New [PremiumSearchEnvironment] endpoint instance.
+ * @receiver Current [ApiClient] instance.
+ */
+@ApiClientDsl
 fun PremiumSearch.environment(
     product: SearchProduct,
     label: String
-) = PremiumSearchEnvironment(client, product, label)
+): PremiumSearchEnvironment = PremiumSearchEnvironment(client, product, label)
 
-
+/**
+ * Collection of api endpoints related to Premium Search API with product and a label.
+ *
+ * @constructor Creates new [PremiumSearch] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.premiumSearch
+ */
 data class PremiumSearchEnvironment(
     override val client: ApiClient,
+    
+    /**
+     * Select either 30days or fullarchive.
+     */
     val product: SearchProduct,
+
+    /**
+     * The label associated with your search developer environment.
+     */
     val label: String
 ): Endpoint {
-    val endpoint = "/1.1/tweets/search/${product.value}/$label"
+    internal val endpoint = "/1.1/tweets/search/${product.value}/$label"
 }

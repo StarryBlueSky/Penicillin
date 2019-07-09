@@ -28,8 +28,16 @@ package jp.nephy.penicillin.endpoints.search
 
 import jp.nephy.penicillin.core.request.EnumRequestParameter
 
-
+/**
+ * Indicates the search endpoint you are making requests.
+ */
 enum class SearchProduct(override val value: String): EnumRequestParameter {
+    /**
+     * Returns tweets from the previous 30 days.
+     */
     ThirtyDay("30day"),
+    /**
+     * Returns complete and instant access to tweets dating all the way back to the first tweet in March 2006.
+     */
     Fullarchive("fullarchive")
 }

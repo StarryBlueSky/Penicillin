@@ -26,6 +26,12 @@
 
 package jp.nephy.penicillin.models
 
+/**
+ * A entity model that has "next" property. This model was implemented by one for premium search api mainly.
+ */
 interface PremiumSearchModel: PenicillinModel {
+    /**
+     * The
+     */
     val next: String?
 }

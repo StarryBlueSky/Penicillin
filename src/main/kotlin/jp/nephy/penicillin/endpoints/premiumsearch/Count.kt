@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "PublicApiImplicitType")
 
 package jp.nephy.penicillin.endpoints.premiumsearch
 
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
+import jp.nephy.penicillin.core.request.action.PremiumSearchJsonObjectApiAction
 import jp.nephy.penicillin.core.request.jsonBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Option
@@ -36,55 +37,59 @@ import jp.nephy.penicillin.endpoints.environment
 import jp.nephy.penicillin.endpoints.search.SearchBucket
 import jp.nephy.penicillin.endpoints.search.SearchProduct
 import jp.nephy.penicillin.models.PremiumSearchCount
-import java.time.LocalDateTime
+import java.time.temporal.TemporalAccessor
 
-@PenicillinExperimentalApi
-fun PremiumSearch.countWithLocalDateTime(
-    product: SearchProduct,
-    label: String,
-    query: String,
-    fromDate: LocalDateTime? = null,
-    toDate: LocalDateTime? = null,
-    bucket: SearchBucket? = null,
-    next: String? = null,
-    vararg options: Option
-) = environment(product, label).countWithLocalDateTime(query, fromDate, toDate, bucket, next, *options)
-
+/**
+ * Returns counts data [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) for the specified query.
+ * To learn how to use [Twitter Search](https://twitter.com/search) effectively, please see the [Premium search operators](https://developer.twitter.com/en/docs/tweets/search/guides/premium-operators) page for a list of available filter operators.
+ * @param product Select either 30days or fullarchive.
+ * @param label The label associated with your search developer environment.
+ * @param query A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity.
+ * @param fromDate Returns tweets created after the given datetime.
+ * @param toDate Returns tweets created before the given datetime.
+ * @param bucket Returns count data for every day. hour or minute in the set timeframe.
+ * @param next Returns the next page of results.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [PremiumSearch] endpoint instance.
+ * @return [PremiumSearchJsonObjectApiAction] for [PremiumSearchCount] model.
+ */
 @PenicillinExperimentalApi
 fun PremiumSearch.count(
     product: SearchProduct,
     label: String,
     query: String,
-    fromDate: String? = null,
-    toDate: String? = null,
+    fromDate: TemporalAccessor? = null,
+    toDate: TemporalAccessor? = null,
     bucket: SearchBucket? = null,
     next: String? = null,
     vararg options: Option
 ) = environment(product, label).count(query, fromDate, toDate, bucket, next, *options)
 
-@PenicillinExperimentalApi
-fun PremiumSearchEnvironment.countWithLocalDateTime(
-    query: String,
-    fromDate: LocalDateTime? = null,
-    toDate: LocalDateTime? = null,
-    bucket: SearchBucket? = null,
-    next: String? = null,
-    vararg options: Option
-) = count(query, fromDate?.format(formatter), toDate?.format(formatter), bucket, next, *options)
-
+/**
+ * Returns counts data [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) for the specified query.
+ * To learn how to use [Twitter Search](https://twitter.com/search) effectively, please see the [Premium search operators](https://developer.twitter.com/en/docs/tweets/search/guides/premium-operators) page for a list of available filter operators.
+ * @param query A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity.
+ * @param fromDate Returns tweets created after the given datetime.
+ * @param toDate Returns tweets created before the given datetime.
+ * @param bucket Returns count data for every day. hour or minute in the set timeframe.
+ * @param next Returns the next page of results.
+ * @param options Optional. Custom parameters of this request.
+ * @receiver [PremiumSearchEnvironment] endpoint instance.
+ * @return [PremiumSearchJsonObjectApiAction] for [PremiumSearchCount] model.
+ */
 @PenicillinExperimentalApi
 fun PremiumSearchEnvironment.count(
     query: String,
-    fromDate: String? = null,
-    toDate: String? = null,
+    fromDate: TemporalAccessor? = null,
+    toDate: TemporalAccessor? = null,
     bucket: SearchBucket? = null,
     next: String? = null,
     vararg options: Option
 ) = client.session.post("$endpoint/counts.json") {
     jsonBody(
         "query" to query,
-        "fromDate" to fromDate,
-        "toDate" to toDate,
+        "fromDate" to fromDate?.let { formatter.format(it) },
+        "toDate" to toDate?.let { formatter.format(it) },
         "bucket" to bucket?.value,
         "next" to next,
         *options

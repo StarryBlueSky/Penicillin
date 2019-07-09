@@ -29,8 +29,21 @@ package jp.nephy.penicillin.endpoints
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.session.ApiClientDsl
 
+/**
+ * Returns [PremiumSearch] endpoint instance.
+
+ * @return New [PremiumSearch] endpoint instance.
+ * @receiver Current [ApiClient] instance.
+ */
 @ApiClientDsl
 val ApiClient.premiumSearch: PremiumSearch
     get() = PremiumSearch(this)
 
+/**
+ * Collection of api endpoints related to Premium Search API.
+ *
+ * @constructor Creates new [PremiumSearch] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.premiumSearch
+ */
 class PremiumSearch(override val client: ApiClient): Endpoint

@@ -35,7 +35,19 @@ import jp.nephy.penicillin.extensions.parseModelOrNull
 import jp.nephy.penicillin.models.PremiumSearchModel
 import kotlin.reflect.KClass
 
-class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>, val environment: PremiumSearchEnvironment): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>> {
+/**
+ * The [ApiAction] that provides parsed json array with json model. This class supports premium search api operations.
+ */
+class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
+    override val client: ApiClient,
+    override val request: ApiRequest,
+    override val model: KClass<M>,
+
+    /**
+     * [PremiumSearchEnvironment] which will be used to acquire this response.
+     */
+    val environment: PremiumSearchEnvironment
+): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>> {
     override suspend operator fun invoke(): PremiumSearchJsonObjectResponse<M> {
         val (request, response) = execute()
         val content = response.readTextOrNull()
