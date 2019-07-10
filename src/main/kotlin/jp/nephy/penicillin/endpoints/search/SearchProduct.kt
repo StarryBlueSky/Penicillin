@@ -39,5 +39,5 @@ enum class SearchProduct(override val value: String): EnumRequestParameter {
     /**
      * Returns complete and instant access to tweets dating all the way back to the first tweet in March 2006.
      */
-    Fullarchive("fullarchive")
+    FullArchive("fullarchive")
 }
