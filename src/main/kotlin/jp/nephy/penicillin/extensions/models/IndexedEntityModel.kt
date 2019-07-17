@@ -50,4 +50,4 @@ val IndexedEntityModel.range: IntRange
  * Returns the size of the indices.
  */
 val IndexedEntityModel.size: Int
-    get() = lastIndex - firstIndex - 1
+    get() = lastIndex - firstIndex
