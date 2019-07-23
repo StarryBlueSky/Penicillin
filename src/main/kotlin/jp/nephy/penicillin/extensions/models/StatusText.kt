@@ -44,16 +44,39 @@ val Status.text: String
     }
 
 /**
- * Returns full-body status text whose shortened urls are each expanded.
+ * Returns full-body status text which shortened urls in are each expanded.
  */
 val Status.expandedText: String
     get() {
-        var gap = 0
-        return entities.let { it.media + it.urls }
+        val entities = entities.let { it.media + it.urls }
             .sortedBy { it.firstIndex }
-            .fold(text) { str, entity ->
-                str.replaceRange(entity.firstIndex + gap, entity.lastIndex + gap, entity.expandedUrl).apply {
-                    gap += entity.expandedUrl.length - entity.url.length
-                }
+        return buildString {
+            entities.fold(0) { acc, entity ->
+                val startAt = text.indexOf(entity.url, acc, true).takeUnless { it < 0 } ?: return@fold acc
+                append(text.substring(acc, startAt))
+                append(entity.expandedUrl)
+                startAt + entity.url.length
+            }.let {
+                append(text.substring(it))
             }
+        }
+    }
+
+/**
+ * Returns full-body status text which shortened urls in are each expanded.
+ */
+@Deprecated("This function often throws IndexOutOfBoundsException because of incorrect indices of tweet entities.")
+val Status.expandedTextWithIndices: String
+    get() {
+        val entities = entities.let { it.media + it.urls }
+            .sortedBy { it.firstIndex }
+        return buildString(text.length + entities.sumBy { it.expandedUrl.length - it.url.length }) {
+            entities.fold(0) { acc, entity ->
+                append(text.substring(acc, entity.firstIndex))
+                append(entity.expandedUrl)
+                entity.lastIndex
+            }.let {
+                append(text.substring(it))
+            }
+        }
     }
