@@ -44,7 +44,7 @@ import jp.nephy.penicillin.models.Search
 val JsonObjectResponse<Search>.hasNext: Boolean
     get() = !result.searchMetadata.nextResults.isNullOrBlank()
 
-private val NextQueryNotFound = LocalizedString("It is the last result of search.", "次の検索結果はありません。")
+internal val NextQueryNotFound = LocalizedString("It is the last result of search.", "次の検索結果はありません。")
 
 /**
  * Creates next page api action.
