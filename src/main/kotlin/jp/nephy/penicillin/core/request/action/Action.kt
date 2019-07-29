@@ -32,12 +32,7 @@ import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 import io.ktor.http.isSuccess
 import io.ktor.util.flattenEntries
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.JsonPrimitive
-import jp.nephy.jsonkt.delegation.byNullableInt
-import jp.nephy.jsonkt.delegation.byString
-import jp.nephy.jsonkt.jsonArrayOrNull
-import jp.nephy.jsonkt.toJsonObjectOrNull
+import jp.nephy.jsonkt.*
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.throwApiError
 import jp.nephy.penicillin.core.i18n.LocalizedString
@@ -45,6 +40,7 @@ import jp.nephy.penicillin.core.request.url
 import jp.nephy.penicillin.extensions.session
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
+import kotlinx.serialization.json.intOrNull
 import mu.KotlinLogging
 
 private val apiActionLogger = KotlinLogging.logger("Penicillin.ApiAction")
@@ -115,8 +111,8 @@ internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpRespons
     if (json != null) {
         when (val error = json["errors"]?.jsonArrayOrNull?.firstOrNull() ?: json["error"]) {
             is JsonObject -> {
-                val code by error.byNullableInt
-                val message by error.byString { "" }
+                val code = error["code"]?.intOrNull
+                val message = error["message"]?.stringOrNull.orEmpty()
                 
                 throwApiError(code, message, content, request, response)
             }

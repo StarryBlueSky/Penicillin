@@ -45,8 +45,8 @@ val Status.via: Via
         val tagValue = matches?.groupValues?.getOrNull(2)
         val href = tagAttributes?.get("href")
 
-        if (tagAttributes == null || tagValue == null || href == null) {
-            throw IllegalArgumentException("Invalid source html passed.")
+        require(tagAttributes != null && tagValue != null && href != null) {
+            "Invalid source html passed."
         }
 
         return Via(href, tagValue, tagAttributes)
