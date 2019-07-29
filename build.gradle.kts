@@ -19,11 +19,11 @@ val packageName = "Penicillin"
 val packageVersion = Version(4, 2, 3)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
-val ktorVersion = "1.2.2"
-val spekVersion = "2.0.5"
+val ktorVersion = "1.2.3-rc"
+val spekVersion = "2.0.6"
 
 plugins { 
-    kotlin("jvm") version "1.3.40"
+    kotlin("jvm") version "1.3.41"
 
     // For testing
     id("com.adarshr.test-logger") version "1.7.0"
@@ -68,10 +68,10 @@ dependencies {
     testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     testImplementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
 
-    implementation("jp.nephy:jsonkt:4.10")
+    implementation("jp.nephy:jsonkt:4.11")
 
     testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
-    testImplementation("com.google.guava:guava:27.1-jre")
+    testImplementation("com.google.guava:guava:28.0-jre")
     
     // For testing
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion") {
@@ -84,10 +84,10 @@ dependencies {
     testRuntimeOnly(kotlin("reflect"))
     
     // For logging
-    implementation("io.github.microutils:kotlin-logging:1.6.26")
+    implementation("io.github.microutils:kotlin-logging:1.7.2")
     testImplementation("ch.qos.logback:logback-core:1.2.3")
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
-    testImplementation("org.fusesource.jansi:jansi:1.17.1")
+    testImplementation("org.fusesource.jansi:jansi:1.18")
 }
 
 /*
