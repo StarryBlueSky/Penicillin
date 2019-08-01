@@ -115,7 +115,7 @@ object OAuthUtil {
      */
     fun signature(signingKey: SecretKeySpec, signatureBaseString: String): String {
         return Mac.getInstance(macAlgorithm).apply {
-        init(signingKey)
-    }.doFinal(signatureBaseString.toByteArray()).encodeBase64().encodeOAuth()
+            init(signingKey)
+        }.doFinal(signatureBaseString.toByteArray()).encodeBase64().encodeOAuth()
     }
 }
