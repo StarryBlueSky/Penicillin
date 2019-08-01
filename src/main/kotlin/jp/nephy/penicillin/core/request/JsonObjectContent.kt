@@ -28,9 +28,10 @@ import io.ktor.http.ContentType
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.withCharset
 import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.toJsonString
+import jp.nephy.jsonkt.stringify
 import kotlinx.coroutines.io.ByteWriteChannel
 import kotlinx.coroutines.io.writeStringUtf8
+import kotlinx.serialization.json.JsonConfiguration
 
 /**
  * The [OutgoingContent.WriteChannelContent] which provides "application/json".
@@ -39,6 +40,6 @@ data class JsonObjectContent(private val json: JsonObject): OutgoingContent.Writ
     override val contentType: ContentType = ContentType.Application.Json.withCharset(Charsets.UTF_8)
 
     override suspend fun writeTo(channel: ByteWriteChannel) {
-        channel.writeStringUtf8(json.toJsonString())
+        channel.writeStringUtf8(json.stringify(JsonConfiguration.Stable))
     }
 }
