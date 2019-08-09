@@ -30,7 +30,7 @@ import jp.nephy.penicillin.core.session.ApiClient
 /**
  * Represents lazy [ApiRequest] invoker.
  */
-interface ApiAction<R: Any?> {
+interface ApiAction<R> {
     /**
      * Current [ApiClient] instance.
      */
