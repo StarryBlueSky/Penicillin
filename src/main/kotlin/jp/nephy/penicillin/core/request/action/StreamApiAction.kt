@@ -36,6 +36,7 @@ import jp.nephy.penicillin.core.streaming.listener.StreamListener
 class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(override val client: ApiClient, override val request: ApiRequest): ApiAction<StreamResponse<L, H>> {
     override suspend operator fun invoke(): StreamResponse<L, H> {
         val (request, response) = execute()
+
         checkError(request, response)
 
         return StreamResponse(client, request, response, this)

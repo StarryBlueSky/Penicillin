@@ -34,6 +34,7 @@ class EmptyApiAction(override val client: ApiClient, override val request: ApiRe
     override suspend operator fun invoke() {
         val (request, response) = execute()
         val content = response.readTextOrNull()
+
         checkError(request, response, content)
     }
 }

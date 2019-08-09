@@ -25,6 +25,7 @@
 package jp.nephy.penicillin.core.request.action
 
 import jp.nephy.jsonkt.toJsonArrayOrNull
+import jp.nephy.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
@@ -40,8 +41,10 @@ import kotlin.reflect.KClass
 class JsonArrayApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
     override suspend operator fun invoke(): JsonArrayResponse<M> {
         val (request, response) = execute()
+
         val content = response.readTextOrNull()
-        checkError(request, response, content)
+
+        checkError(request, response, content, content.toJsonObjectOrNull())
 
         val json = content?.toJsonArrayOrNull() ?: throw PenicillinException(
             LocalizedString.JsonParsingFailed, null, request, response, content

@@ -40,12 +40,14 @@ import kotlin.reflect.KClass
 class JsonObjectApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonObjectResponse<M>> {
     override suspend operator fun invoke(): JsonObjectResponse<M> {
         val (request, response) = execute()
-        val content = response.readTextOrNull()
-        checkError(request, response, content)
 
+        val content = response.readTextOrNull()
         val json = content?.toJsonObjectOrNull() ?: throw PenicillinException(
             LocalizedString.JsonParsingFailed, null, request, response, content
         )
+
+        checkError(request, response, content, json)
+
         val result = json.parseModelOrNull(model, client) ?: throw PenicillinException(
             LocalizedString.JsonModelCastFailed, null, request, response, model.simpleName, content
         )

@@ -50,12 +50,14 @@ class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
 ): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>> {
     override suspend operator fun invoke(): PremiumSearchJsonObjectResponse<M> {
         val (request, response) = execute()
-        val content = response.readTextOrNull()
-        checkError(request, response, content)
 
+        val content = response.readTextOrNull()
         val json = content?.toJsonObjectOrNull() ?: throw PenicillinException(
             LocalizedString.JsonParsingFailed, null, request, response, content
         )
+
+        checkError(request, response, content, json)
+
         val result = json.parseModelOrNull(model, client) ?: throw PenicillinException(
             LocalizedString.JsonModelCastFailed, null, request, response, model.simpleName, content
         )
