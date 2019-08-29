@@ -7,8 +7,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -19,11 +19,23 @@ val packageName = "Penicillin"
 val packageVersion = Version(4, 2, 3)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
-val ktorVersion = "1.2.1"
-val spekVersion = "2.0.5"
+object ThirdpartyVersion {
+    const val Ktor = "1.2.3"
+    const val JsonKt = "5.0.0-eap-3"
+
+    // For testing
+    const val Spek = "2.0.6"
+    const val TwitterText = "3.0.1"
+    const val Guava = "28.0-jre"
+
+    // For logging
+    const val KotlinLogging = "1.7.4"
+    const val Logback = "1.2.3"
+    const val jansi = "1.18"
+}
 
 plugins { 
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.41"
 
     // For testing
     id("com.adarshr.test-logger") version "1.7.0"
@@ -52,6 +64,8 @@ fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, St
 repositories {
     mavenCentral()
     jcenter()
+    maven(url = "https://dl.bintray.com/nephyproject/stable")
+    maven(url = "https://dl.bintray.com/nephyproject/dev")
     maven(url = "https://kotlin.bintray.com/ktor")
     maven(url = "https://kotlin.bintray.com/kotlinx")
     maven(url = "https://kotlin.bintray.com/kotlin-eap")
@@ -61,33 +75,33 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
-    testImplementation("io.ktor:ktor-client-apache:$ktorVersion")
-    testImplementation("io.ktor:ktor-client-cio:$ktorVersion")
-    testImplementation("io.ktor:ktor-client-jetty:$ktorVersion")
-    testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-    testImplementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-client-core-jvm:${ThirdpartyVersion.Ktor}")
+    testImplementation("io.ktor:ktor-client-apache:${ThirdpartyVersion.Ktor}")
+    testImplementation("io.ktor:ktor-client-cio:${ThirdpartyVersion.Ktor}")
+    testImplementation("io.ktor:ktor-client-jetty:${ThirdpartyVersion.Ktor}")
+    testImplementation("io.ktor:ktor-client-okhttp:${ThirdpartyVersion.Ktor}")
+    testImplementation("io.ktor:ktor-client-mock-jvm:${ThirdpartyVersion.Ktor}")
 
-    implementation("jp.nephy:jsonkt:4.10")
-
-    testImplementation("com.twitter.twittertext:twitter-text:3.0.1")
-    testImplementation("com.google.guava:guava:27.1-jre")
+    implementation("jp.nephy:jsonkt:${ThirdpartyVersion.JsonKt}")
     
     // For testing
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion") {
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:${ThirdpartyVersion.Spek}") {
         exclude(group = "org.jetbrains.kotlin")
     }
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion") {
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${ThirdpartyVersion.Spek}") {
         exclude(group = "org.junit.platform")
         exclude(group = "org.jetbrains.kotlin")
     }
     testRuntimeOnly(kotlin("reflect"))
-    
+
+    testImplementation("com.twitter.twittertext:twitter-text:${ThirdpartyVersion.TwitterText}")
+    testImplementation("com.google.guava:guava:${ThirdpartyVersion.Guava}")
+
     // For logging
-    implementation("io.github.microutils:kotlin-logging:1.6.26")
-    testImplementation("ch.qos.logback:logback-core:1.2.3")
-    testImplementation("ch.qos.logback:logback-classic:1.2.3")
-    testImplementation("org.fusesource.jansi:jansi:1.17.1")
+    implementation("io.github.microutils:kotlin-logging:${ThirdpartyVersion.KotlinLogging}")
+    testImplementation("ch.qos.logback:logback-core:${ThirdpartyVersion.Logback}")
+    testImplementation("ch.qos.logback:logback-classic:${ThirdpartyVersion.Logback}")
+    testImplementation("org.fusesource.jansi:jansi:${ThirdpartyVersion.jansi}")
 }
 
 /*
@@ -97,14 +111,14 @@ dependencies {
 tasks.named<KotlinCompile>("compileKotlin") {
     kotlinOptions { 
         jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
+        freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
     }
 }
 
 tasks.named<KotlinCompile>("compileTestKotlin") {
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + "-Xuse-experimental=kotlin.Experimental"
+        freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
     }
 }
 
@@ -261,7 +275,7 @@ bintray {
         version.apply { 
             name = project.version.toString()
             desc = "$packageName ${project.version}"
-            released = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(Date())
+            released = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(ZonedDateTime.now())
             vcsTag = project.version.toString()
         }
     }

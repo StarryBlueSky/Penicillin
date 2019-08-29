@@ -22,30 +22,26 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.models
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * A entity model that has "url", "displayUrl" and "expandedUlr" properties.
  */
-interface ApiAction<R> {
+interface UrlEntityModel: IndexedEntityModel {
     /**
-     * Current [ApiClient] instance.
+     * The entry url.
      */
-    val client: ApiClient
+    val url: String
 
     /**
-     * Current lazy [ApiRequest] instance.
+     * The entry displayUrl.
      */
-    val request: ApiRequest
+    val displayUrl: String
 
     /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
+     * The entry expandedUrl.
      */
-    suspend operator fun invoke(): R
+    val expandedUrl: String
 }

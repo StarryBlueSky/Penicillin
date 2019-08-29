@@ -22,30 +22,16 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.models
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * A entity model that has "next" property. This model was implemented by one for premium search api mainly.
  */
-interface ApiAction<R> {
+interface PremiumSearchModel: PenicillinModel {
     /**
-     * Current [ApiClient] instance.
+     * The
      */
-    val client: ApiClient
-
-    /**
-     * Current lazy [ApiRequest] instance.
-     */
-    val request: ApiRequest
-
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
+    val next: String?
 }

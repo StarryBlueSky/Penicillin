@@ -22,30 +22,23 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.extensions.models
+
+import jp.nephy.penicillin.models.DirectMessageEvent
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * Returns the direct message text whose shortened urls are each expanded.
  */
-interface ApiAction<R> {
-    /**
-     * Current [ApiClient] instance.
-     */
-    val client: ApiClient
-
-    /**
-     * Current lazy [ApiRequest] instance.
-     */
-    val request: ApiRequest
-
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
-}
+val DirectMessageEvent.List.Event.MessageCreate.MessageData.expandedText: String
+    get() {
+        var gap = 0
+        return entities.urls
+            .sortedBy { it.firstIndex }
+            .fold(text) { str, entity ->
+                str.replaceRange(entity.firstIndex + gap, entity.lastIndex + gap, entity.expandedUrl).apply {
+                    gap += entity.expandedUrl.length - entity.url.length
+                }
+            }
+    }

@@ -22,30 +22,28 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
+package jp.nephy.penicillin.endpoints
+
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.core.session.ApiClientDsl
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * Returns [PremiumSearch] endpoint instance.
+
+ * @return New [PremiumSearch] endpoint instance.
+ * @receiver Current [ApiClient] instance.
  */
-interface ApiAction<R> {
-    /**
-     * Current [ApiClient] instance.
-     */
-    val client: ApiClient
+@ApiClientDsl
+val ApiClient.premiumSearch: PremiumSearch
+    get() = PremiumSearch(this)
 
-    /**
-     * Current lazy [ApiRequest] instance.
-     */
-    val request: ApiRequest
-
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
-}
+/**
+ * Collection of api endpoints related to Premium Search API.
+ *
+ * @constructor Creates new [PremiumSearch] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.premiumSearch
+ */
+class PremiumSearch(override val client: ApiClient): Endpoint

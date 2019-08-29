@@ -22,30 +22,47 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.core
 
-/**
- * Represents lazy [ApiRequest] invoker.
- */
-interface ApiAction<R> {
-    /**
-     * Current [ApiClient] instance.
-     */
-    val client: ApiClient
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import mu.KotlinLogging
+import kotlin.system.measureTimeMillis
 
-    /**
-     * Current lazy [ApiRequest] instance.
-     */
-    val request: ApiRequest
+private val logger = KotlinLogging.logger("Penicillin.Performance")
 
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
+@PublishedApi
+internal object UninitializedValue
+
+@Suppress("UNCHECKED_CAST")
+internal inline fun <T> measurePerformance(label: String, block: () -> T): T {
+    if (!logger.isTraceEnabled) {
+        return block()
+    }
+
+    var result: Any? = UninitializedValue
+    val timeMs = measureTimeMillis {
+        result = block()
+    }
+
+    logger.trace { "$label = $timeMs ms" }
+
+    return result as T
+}
+
+internal inline fun measurePerformanceAsync(label: String, crossinline block: () -> Unit) {
+    if (!logger.isTraceEnabled) {
+        block()
+        return
+    }
+
+    GlobalScope.launch {
+        val timeMs = measureTimeMillis {
+            block()
+        }
+
+        logger.trace { "$label = $timeMs ms" }
+    }
 }

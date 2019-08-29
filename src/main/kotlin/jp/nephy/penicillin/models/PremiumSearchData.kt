@@ -22,30 +22,24 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
 
-import jp.nephy.penicillin.core.request.ApiRequest
+package jp.nephy.penicillin.models
+
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.jsonkt.delegation.int
+import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.extensions.penicillinModelList
 
-/**
- * Represents lazy [ApiRequest] invoker.
- */
-interface ApiAction<R> {
-    /**
-     * Current [ApiClient] instance.
-     */
-    val client: ApiClient
+data class PremiumSearchData(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
+    val results by penicillinModelList<Status>()
+    override val next by string
+    val requestParameters by penicillinModelList<Status>()
 
-    /**
-     * Current lazy [ApiRequest] instance.
-     */
-    val request: ApiRequest
-
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
+    data class RequestParameters(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        val maxResults by int
+        val fromDateRaw by string
+        val toDateRaw by string
+    }
 }

@@ -30,11 +30,11 @@ import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.delegation.intList
 import jp.nephy.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.models.PenicillinModel
+import jp.nephy.penicillin.models.UrlEntityModel
 
-data class URLEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val url by string
-    val expandedUrl by string("expanded_url")
-    val displayUrl by string("display_url")
-    val indices by intList
+data class URLEntity(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
+    override val url by string
+    override val expandedUrl by string("expanded_url")
+    override val displayUrl by string("display_url")
+    override val indices by intList
 }

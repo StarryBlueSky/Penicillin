@@ -22,30 +22,46 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
+package jp.nephy.penicillin.endpoints
+
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.core.session.ApiClientDsl
+import jp.nephy.penicillin.endpoints.search.SearchProduct
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * Returns [PremiumSearchEnvironment] endpoint instance.
+ * @param product Select either 30days or fullarchive.
+ * @param label The label associated with your search developer environment.
+ * @return New [PremiumSearchEnvironment] endpoint instance.
+ * @receiver Current [ApiClient] instance.
  */
-interface ApiAction<R> {
+@ApiClientDsl
+fun PremiumSearch.environment(
+    product: SearchProduct,
+    label: String
+): PremiumSearchEnvironment = PremiumSearchEnvironment(client, product, label)
+
+/**
+ * Collection of api endpoints related to Premium Search API with product and a label.
+ *
+ * @constructor Creates new [PremiumSearch] endpoint instance.
+ * @param client Current [ApiClient] instance.
+ * @see ApiClient.premiumSearch
+ */
+data class PremiumSearchEnvironment(
+    override val client: ApiClient,
+    
     /**
-     * Current [ApiClient] instance.
+     * Select either 30days or fullarchive.
      */
-    val client: ApiClient
+    val product: SearchProduct,
 
     /**
-     * Current lazy [ApiRequest] instance.
+     * The label associated with your search developer environment.
      */
-    val request: ApiRequest
-
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
+    val label: String
+): Endpoint {
+    internal val endpoint = "/1.1/tweets/search/${product.value}/$label"
 }

@@ -22,30 +22,16 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.models
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * A entity model that has "indices" property.
  */
-interface ApiAction<R> {
+interface IndexedEntityModel: PenicillinModel {
     /**
-     * Current [ApiClient] instance.
+     * The entity indices. Its size must be 2.
      */
-    val client: ApiClient
-
-    /**
-     * Current lazy [ApiRequest] instance.
-     */
-    val request: ApiRequest
-
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
+    val indices: List<Int>
 }

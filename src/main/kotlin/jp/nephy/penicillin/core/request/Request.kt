@@ -99,7 +99,9 @@ fun ApiRequestBuilder.jsonBody(vararg pairs: Pair<String, Any?>, mode: Emulation
 
     val json = json {
         for ((key, value) in pairs) {
-            key to value.asJsonElement()
+            if (value != null) {
+                key to value.asJsonElement()
+            }
         }
     }
 

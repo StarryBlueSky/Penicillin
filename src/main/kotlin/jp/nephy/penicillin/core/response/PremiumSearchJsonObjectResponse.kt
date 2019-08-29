@@ -22,30 +22,44 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+package jp.nephy.penicillin.core.response
 
-import jp.nephy.penicillin.core.request.ApiRequest
+import io.ktor.client.request.HttpRequest
+import io.ktor.client.response.HttpResponse
+import jp.nephy.jsonkt.JsonObject
+import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.endpoints.PremiumSearchEnvironment
+import jp.nephy.penicillin.models.PremiumSearchModel
+import kotlin.reflect.KClass
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * The [ApiResponse] that provides parsed json object with json model. This class supports premium search api operations.
  */
-interface ApiAction<R> {
-    /**
-     * Current [ApiClient] instance.
-     */
-    val client: ApiClient
+data class PremiumSearchJsonObjectResponse<M: PremiumSearchModel>(
+    override val client: ApiClient,
+    override val model: KClass<M>,
 
     /**
-     * Current lazy [ApiRequest] instance.
+     * Result of response.
      */
-    val request: ApiRequest
+    val result: M,
+
+    override val request: HttpRequest,
+    override val response: HttpResponse,
+    override val content: String,
+    override val action: ApiAction<PremiumSearchJsonObjectResponse<M>>,
 
     /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
+     * [PremiumSearchEnvironment] which was used to acquire this response.
      */
-    suspend operator fun invoke(): R
+    val environment: PremiumSearchEnvironment
+): ApiResponse<PremiumSearchJsonObjectResponse<M>>, JsonResponse<M, JsonObject>, CompletedResponse {
+
+    override val json: JsonObject
+        get() = result.json
+
+    override fun close() {
+        response.close()
+    }
 }

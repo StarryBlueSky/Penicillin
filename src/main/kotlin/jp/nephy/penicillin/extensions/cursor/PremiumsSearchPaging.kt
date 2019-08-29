@@ -22,30 +22,15 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.extensions.cursor
+
+import jp.nephy.penicillin.core.response.PremiumSearchJsonObjectResponse
+import jp.nephy.penicillin.models.PremiumSearchModel
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * Whether current search result has next.
  */
-interface ApiAction<R> {
-    /**
-     * Current [ApiClient] instance.
-     */
-    val client: ApiClient
-
-    /**
-     * Current lazy [ApiRequest] instance.
-     */
-    val request: ApiRequest
-
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
-}
+val PremiumSearchJsonObjectResponse<PremiumSearchModel>.hasNext: Boolean
+    get() = result.next != null

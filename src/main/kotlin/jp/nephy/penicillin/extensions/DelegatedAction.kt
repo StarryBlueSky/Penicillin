@@ -38,6 +38,6 @@ import jp.nephy.penicillin.endpoints.Endpoint
  * @return New [ApiAction] with passed block.
  */
 @Suppress("FunctionName")
-fun <R: Any?> Endpoint.DelegatedAction(block: suspend () -> R): ApiAction<R> {
+fun <R> Endpoint.DelegatedAction(block: suspend () -> R): ApiAction<R> {
     return DelegatedAction(client, block)
 }

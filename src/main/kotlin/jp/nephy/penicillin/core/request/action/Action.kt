@@ -35,9 +35,9 @@ import io.ktor.util.flattenEntries
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.JsonPrimitive
 import jp.nephy.jsonkt.delegation.byNullableInt
-import jp.nephy.jsonkt.delegation.byString
+import jp.nephy.jsonkt.delegation.byNullableString
 import jp.nephy.jsonkt.jsonArrayOrNull
-import jp.nephy.jsonkt.toJsonObjectOrNull
+import jp.nephy.jsonkt.string
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.exceptions.throwApiError
 import jp.nephy.penicillin.core.i18n.LocalizedString
@@ -81,7 +81,7 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
     throw PenicillinException(LocalizedString.ApiRequestFailed, lastException, null, null, request.builder.url)
 }
 
-internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpResponse, content: String? = null) {
+internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpResponse, content: String? = null, json: JsonObject? = null) {
     apiActionLogger.trace {
         buildString {
             appendln("${response.version} ${response.status.value} ${request.method.value} ${request.url}")
@@ -110,18 +110,17 @@ internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpRespons
     if (response.status.isSuccess()) {
         return
     }
-    
-    val json = content?.toJsonObjectOrNull()
+
     if (json != null) {
         when (val error = json["errors"]?.jsonArrayOrNull?.firstOrNull() ?: json["error"]) {
             is JsonObject -> {
                 val code by error.byNullableInt
-                val message by error.byString { "" }
+                val message by error.byNullableString
                 
-                throwApiError(code, message, content, request, response)
+                throwApiError(code, message.orEmpty(), content!!, request, response)
             }
             is JsonPrimitive -> {
-                throwApiError(null, error.content, content, request, response)
+                throwApiError(null, error.string, content!!, request, response)
             }
             else -> {
                 throw PenicillinException(LocalizedString.UnknownApiErrorWithStatusCode, null, request, response, response.status.value, content)
@@ -132,7 +131,7 @@ internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpRespons
     throw PenicillinException(LocalizedString.ApiReturnedNon200StatusCode, null, request, response, response.status.value, response.status.description)
 }
 
-internal suspend fun HttpResponse.readTextOrNull(): String? {
+internal suspend inline fun HttpResponse.readTextOrNull(): String? {
     return runCatching { 
         readText().unescapeHTML()
     }.getOrNull()

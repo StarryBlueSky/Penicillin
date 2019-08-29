@@ -34,7 +34,9 @@ import jp.nephy.penicillin.core.session.ApiClient
 class TextApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<TextResponse> {
     override suspend operator fun invoke(): TextResponse {
         val (request, response) = execute()
+
         val content = response.readTextOrNull()
+
         checkError(request, response, content)
 
         return TextResponse(client, request, response, content.orEmpty(), this)

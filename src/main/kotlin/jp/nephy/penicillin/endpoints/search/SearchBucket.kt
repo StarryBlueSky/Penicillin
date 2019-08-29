@@ -22,30 +22,28 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.endpoints.search
+
+import jp.nephy.penicillin.core.request.EnumRequestParameter
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * Specifies timeframe to acquire count data.
  */
-interface ApiAction<R> {
+enum class SearchBucket(override val value: String): EnumRequestParameter {
     /**
-     * Current [ApiClient] instance.
+     * Returns count data for every day.
      */
-    val client: ApiClient
+    Day("day"),
 
     /**
-     * Current lazy [ApiRequest] instance.
+     * Returns count data for every hour.
      */
-    val request: ApiRequest
+    Hour("hour"),
 
     /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
+     * Returns count data for every minute.
      */
-    suspend operator fun invoke(): R
+    Minute("minute")
 }

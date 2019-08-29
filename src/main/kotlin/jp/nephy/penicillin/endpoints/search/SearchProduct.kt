@@ -22,30 +22,22 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.endpoints.search
+
+import jp.nephy.penicillin.core.request.EnumRequestParameter
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * Indicates the search endpoint you are making requests.
  */
-interface ApiAction<R> {
+enum class SearchProduct(override val value: String): EnumRequestParameter {
     /**
-     * Current [ApiClient] instance.
+     * Returns tweets from the previous 30 days.
      */
-    val client: ApiClient
-
+    ThirtyDay("30day"),
     /**
-     * Current lazy [ApiRequest] instance.
+     * Returns complete and instant access to tweets dating all the way back to the first tweet in March 2006.
      */
-    val request: ApiRequest
-
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
+    FullArchive("fullarchive")
 }

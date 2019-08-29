@@ -28,17 +28,27 @@ import jp.nephy.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.response.JsonObjectResponse
+import jp.nephy.penicillin.core.response.PremiumSearchJsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
+import jp.nephy.penicillin.endpoints.PremiumSearchEnvironment
 import jp.nephy.penicillin.extensions.parseModelOrNull
-import jp.nephy.penicillin.models.PenicillinModel
+import jp.nephy.penicillin.models.PremiumSearchModel
 import kotlin.reflect.KClass
 
 /**
- * The [ApiAction] that provides parsed json object with json model.
+ * The [ApiAction] that provides parsed json array with json model. This class supports premium search api operations.
  */
-class JsonObjectApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonObjectResponse<M>> {
-    override suspend operator fun invoke(): JsonObjectResponse<M> {
+class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
+    override val client: ApiClient,
+    override val request: ApiRequest,
+    override val model: KClass<M>,
+
+    /**
+     * [PremiumSearchEnvironment] which will be used to acquire this response.
+     */
+    val environment: PremiumSearchEnvironment
+): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>> {
+    override suspend operator fun invoke(): PremiumSearchJsonObjectResponse<M> {
         val (request, response) = execute()
 
         val content = response.readTextOrNull()
@@ -52,6 +62,6 @@ class JsonObjectApiAction<M: PenicillinModel>(override val client: ApiClient, ov
             LocalizedString.JsonModelCastFailed, null, request, response, model.simpleName, content
         )
 
-        return JsonObjectResponse(client, model, result, request, response, content.orEmpty(), this)
+        return PremiumSearchJsonObjectResponse(client, model, result, request, response, content, this, environment)
     }
 }

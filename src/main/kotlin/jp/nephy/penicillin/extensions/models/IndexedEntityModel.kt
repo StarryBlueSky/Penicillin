@@ -22,30 +22,32 @@
  * SOFTWARE.
  */
 
-package jp.nephy.penicillin.core.request.action
+@file:Suppress("UNUSED")
 
-import jp.nephy.penicillin.core.request.ApiRequest
-import jp.nephy.penicillin.core.session.ApiClient
+package jp.nephy.penicillin.extensions.models
+
+import jp.nephy.penicillin.models.IndexedEntityModel
 
 /**
- * Represents lazy [ApiRequest] invoker.
+ * Returns the first index of the indices.
  */
-interface ApiAction<R> {
-    /**
-     * Current [ApiClient] instance.
-     */
-    val client: ApiClient
+val IndexedEntityModel.firstIndex: Int
+    get() = indices.first()
 
-    /**
-     * Current lazy [ApiRequest] instance.
-     */
-    val request: ApiRequest
+/**
+ * Returns the last index of this indices.
+ */
+val IndexedEntityModel.lastIndex: Int
+    get() = indices.last()
 
-    /**
-     * Completes this request.
-     * This operation is suspendable.
-     *
-     * @return Api result as [R].
-     */
-    suspend operator fun invoke(): R
-}
+/**
+ * Returns a range from [firstIndex] value up to but excluding [lastIndex] value.
+ */
+val IndexedEntityModel.range: IntRange
+    get() = firstIndex until lastIndex
+
+/**
+ * Returns the size of the indices.
+ */
+val IndexedEntityModel.size: Int
+    get() = lastIndex - firstIndex
