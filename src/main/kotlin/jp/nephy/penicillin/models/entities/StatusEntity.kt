@@ -51,7 +51,7 @@ data class StatusEntity(override val json: JsonObject, override val client: ApiC
         val name by string
         val id by long
         val idStr by string("id_str")
-        val indices by intList()
+        val indices by intList
     }
 
     data class SymbolEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
