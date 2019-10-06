@@ -26,6 +26,7 @@
 
 package jp.nephy.penicillin.extensions.endpoints
 
+import jp.nephy.penicillin.core.exceptions.PenicillinTwitterMediaProcessingFailedError
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Statuses
 import jp.nephy.penicillin.endpoints.media
@@ -79,9 +80,14 @@ suspend fun Media.awaitProcessing(timeoutMillis: Long? = null): Media {
     withTimeout(timeoutMillis ?: mediaProcessTimeoutMillis) {
         while (true) {
             delay(result.processingInfo?.checkAfterSecs?.times(1000)?.toLong() ?: client.session.option.retryInMillis)
-            
-            result = client.media.uploadStatus(mediaId, mediaKey).await().result
-            
+
+            val response = client.media.uploadStatus(mediaId, mediaKey).await()
+            result = response.result
+
+            if (result.processingInfo?.error != null && result.processingInfo?.state == Media.ProcessingInfo.State.Failed) {
+                throw PenicillinTwitterMediaProcessingFailedError(result.processingInfo?.error!!, response.request, response.response)
+            }
+
             if (result.processingInfo == null || result.processingInfo?.state == Succeeded) {
                 break
             }
