@@ -1,6 +1,6 @@
 # Penicillin: Modern Powerful Twitter API wrapper for Kotlin
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.50-blue.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.61-blue.svg)](https://kotlinlang.org)
 [![Stable](https://img.shields.io/bintray/v/nephyproject/stable/Penicillin.svg?label=stable)](https://github.com/NephyProject/Penicillin/releases/latest)
 [![Dev](https://img.shields.io/bintray/v/nephyproject/dev/Penicillin.svg?label=dev)](https://bintray.com/nephyproject/dev/Penicillin/_latestVersion)
 [![License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
@@ -49,9 +49,9 @@ Latest Penicillin version is [![Stable](https://img.shields.io/bintray/v/nephypr
 Stable releases are available at [Bintray](https://bintray.com/nephyproject/stable/Penicillin). EAP builds are also available ([Dev Repository](https://bintray.com/nephyproject/dev/Penicillin)). Every commit is published as EAP build.  
 
 You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or `CIO` engine.  
-Full engine list is available at https://ktor.io/clients/http-client/engines.html.
+Full engine list is available at <https://ktor.io/clients/http-client/engines.html>.
 
-### Gradle Kotlin DSL
+### Gradle
 
 We recommend using Gradle Kotlin DSL instead of classic build.gradle.  
 
@@ -59,10 +59,10 @@ We recommend using Gradle Kotlin DSL instead of classic build.gradle.
 
 ```kotlin
 val penicillinVersion = "4.2.3"
-val ktorVersion = "1.2.3"
+val ktorVersion = "1.3.0-rc"
 
 plugins { 
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm") version "1.3.61"
 }
 
 repositories {
@@ -84,47 +84,6 @@ dependencies {
     // implementation("io.ktor:ktor-client-cio:$ktorVersion")
     // implementation("io.ktor:ktor-client-jetty:$ktorVersion")
     // implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-}
-```
-
-### Gradle
-
-#### build.gradle
-
-```groovy
-buildscript {
-    ext.penicillin_version = "4.2.3"
-    ext.kotlin_version = "1.3.50"
-    ext.ktor_version = "1.2.3"
-
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-repositories {
-    mavenCentral()
-    jcenter()
-    maven { url "https://kotlin.bintray.com/ktor" }
-    maven { url "https://kotlin.bintray.com/kotlinx" }
-    maven { url "https://kotlin.bintray.com/kotlin-eap" }
-    maven { url "https://dl.bintray.com/nephyproject/stable" } 
-    // Or dev repository
-    // maven { url "https://dl.bintray.com/nephyproject/dev" }
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "jp.nephy:penicillin:$penicillin_version"
-    
-    implementation "io.ktor:ktor-client-apache:$ktor_version"
-    // implementation "io.ktor:ktor-client-cio:$ktor_version"
-    // implementation "io.ktor:ktor-client-jetty:$ktor_version"
-    // implementation "io.ktor:ktor-client-okhttp:$ktor_version"
 }
 ```
 

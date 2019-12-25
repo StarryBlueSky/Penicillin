@@ -16,26 +16,26 @@ val githubOrganizationName = "NephyProject"
 val githubRepositoryName = "Penicillin"
 val packageGroupId = "jp.nephy"
 val packageName = "Penicillin"
-val packageVersion = Version(4, 2, 3)
+val packageVersion = Version(4, 2, 4)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 object ThirdpartyVersion {
-    const val Ktor = "1.2.3"
-    const val JsonKt = "5.0.0-eap-4"
+    const val Ktor = "1.3.0-rc"
+    const val JsonKt = "5.0.0-eap-23"
 
     // For testing
-    const val Spek = "2.0.6"
+    const val Spek = "2.0.9"
     const val TwitterText = "3.0.1"
     const val Guava = "28.0-jre"
 
     // For logging
-    const val KotlinLogging = "1.7.6"
+    const val KotlinLogging = "1.7.8"
     const val Logback = "1.2.3"
     const val jansi = "1.18"
 }
 
 plugins { 
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm") version "1.3.61"
 
     // For testing
     id("com.adarshr.test-logger") version "1.7.0"
@@ -47,7 +47,7 @@ plugins {
     id("com.github.breadmoirai.github-release") version "2.2.9"
     
     // For documentation
-    id("org.jetbrains.dokka") version "0.9.18"
+    id("org.jetbrains.dokka") version "0.10.0"
 }
 
 fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, String?> {
@@ -185,11 +185,11 @@ val dokka = tasks.named<DokkaTask>("dokka") {
     outputFormat = "html"
     outputDirectory = "$buildDir/kdoc"
     
-    jdkVersion = 8
-    includeNonPublic = false
-    reportUndocumented = true
-    skipEmptyPackages = true
-    skipDeprecated = false
+//    jdkVersion = 8
+//    includeNonPublic = false
+//    reportUndocumented = true
+//    skipEmptyPackages = true
+//    skipDeprecated = false
 }
 
 val dokkaJavadoc = task<DokkaTask>("dokkaJavadoc") {
@@ -197,11 +197,11 @@ val dokkaJavadoc = task<DokkaTask>("dokkaJavadoc") {
     outputFormat = "html"
     outputDirectory = "$buildDir/javadoc"
 
-    jdkVersion = 8
-    includeNonPublic = false
-    reportUndocumented = false
-    skipEmptyPackages = true
-    skipDeprecated = false
+//    jdkVersion = 8
+//    includeNonPublic = false
+//    reportUndocumented = false
+//    skipEmptyPackages = true
+//    skipDeprecated = false
 }
 
 /*
