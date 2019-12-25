@@ -59,7 +59,7 @@ class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
         checkError(request, response, content, json)
 
         val result = json.parseModelOrNull(model, client) ?: throw PenicillinException(
-            LocalizedString.JsonModelCastFailed, null, request, response, model.simpleName, content
+            LocalizedString.JsonModelCastFailed, null, request, response, model.toString(), content
         )
 
         return PremiumSearchJsonObjectResponse(client, model, result, request, response, content, this, environment)

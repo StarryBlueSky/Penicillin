@@ -50,7 +50,7 @@ class JsonArrayApiAction<M: PenicillinModel>(override val client: ApiClient, ove
             LocalizedString.JsonParsingFailed, null, request, response, content
         )
         val results = json.parseModelListOrNull(model, client) ?: throw PenicillinException(
-            LocalizedString.JsonModelCastFailed, null, request, response, model.simpleName, content
+            LocalizedString.JsonModelCastFailed, null, request, response, model.toString(), content
         )
 
         return JsonArrayResponse(client, model, results, request, response, content, this)

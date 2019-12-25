@@ -24,7 +24,7 @@
 
 package jp.nephy.penicillin.core.session
 
-import kotlinx.io.core.Closeable
+import io.ktor.utils.io.core.Closeable
 
 /**
  * Penicillin Api Endpoints controller.

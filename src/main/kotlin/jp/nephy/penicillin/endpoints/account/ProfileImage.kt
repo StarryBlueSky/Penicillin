@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.account
 
 import io.ktor.client.request.forms.append
+import io.ktor.utils.io.core.writeFully
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.append
 import jp.nephy.penicillin.core.request.multiPartBody
@@ -36,7 +37,6 @@ import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.media.MediaType
 import jp.nephy.penicillin.models.Account.VerifyCredentials
 import jp.nephy.penicillin.models.User
-import kotlinx.io.core.writeFully
 
 /**
  * Updates the authenticating user's profile image. Note that this method expects raw multipart data, not a URL to an image.

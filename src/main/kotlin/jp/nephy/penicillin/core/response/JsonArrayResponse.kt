@@ -25,7 +25,7 @@
 package jp.nephy.penicillin.core.response
 
 import io.ktor.client.request.HttpRequest
-import io.ktor.client.response.HttpResponse
+import io.ktor.client.statement.HttpResponse
 import jp.nephy.jsonkt.JsonArray
 import jp.nephy.jsonkt.toJsonArray
 import jp.nephy.penicillin.core.request.action.ApiAction
@@ -50,11 +50,6 @@ data class JsonArrayResponse<M: PenicillinModel>(
     override val content: String,
     override val action: ApiAction<JsonArrayResponse<M>>
 ): ApiResponse<JsonArrayResponse<M>>, JsonResponse<M, JsonArray>, CompletedResponse, List<M> by results {
-
     override val json: JsonArray
         get() = map { it.json }.toJsonArray()
-
-    override fun close() {
-        response.close()
-    }
 }

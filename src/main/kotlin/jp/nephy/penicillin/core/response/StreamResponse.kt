@@ -27,7 +27,7 @@
 package jp.nephy.penicillin.core.response
 
 import io.ktor.client.request.HttpRequest
-import io.ktor.client.response.HttpResponse
+import io.ktor.client.statement.HttpResponse
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
@@ -41,8 +41,4 @@ data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
     override val request: HttpRequest,
     override val response: HttpResponse,
     override val action: ApiAction<StreamResponse<L, H>>
-): ApiResponse<StreamResponse<L, H>> {
-    override fun close() {
-        response.close()
-    }
-}
+): ApiResponse<StreamResponse<L, H>>

@@ -52,7 +52,7 @@ internal object NoopApiClient: ApiClient {
  * Parses this [JsonElement] with [model] bind to [client].
  */
 fun <M: PenicillinModel> JsonElement.parseModel(model: KClass<M>, client: ApiClient): M {
-    return parse(model, client)
+    return parseAs(model, client)
 }
 
 /**
@@ -86,7 +86,7 @@ inline fun <reified M: PenicillinModel> JsonElement.parseModel(): M {
  * Parses this [JsonElement] with [model] bind to [client], or null.
  */
 fun <M: PenicillinModel> JsonElement.parseModelOrNull(model: KClass<M>, client: ApiClient): M? {
-    return parseOrNull(model, client)
+    return parseAsOrNull(model, client)
 }
 
 /**
@@ -120,7 +120,7 @@ inline fun <reified M: PenicillinModel> JsonElement.parseModelOrNull(): M? {
  * Parses this [JsonElement] with [model] bind to [client].
  */
 fun <M: PenicillinModel> JsonElement.parseModelList(model: KClass<M>, client: ApiClient): List<M> {
-    return parseList(model, client)
+    return parseListAs(model, client)
 }
 
 /**
@@ -154,7 +154,7 @@ inline fun <reified M: PenicillinModel> JsonElement.parseModelList(): List<M> {
  * Parses this [JsonElement] with [model] bind to [client], or null.
  */
 fun <M: PenicillinModel> JsonElement.parseModelListOrNull(model: KClass<M>, client: ApiClient): List<M>? {
-    return parseListOrNull(model, client)
+    return parseListAsOrNull(model, client)
 }
 
 /**

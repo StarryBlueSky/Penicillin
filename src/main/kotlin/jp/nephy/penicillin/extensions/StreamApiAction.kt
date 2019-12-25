@@ -61,7 +61,7 @@ fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(listene
         is LivePipelineListener -> LivePipelineHandler(client, listener)
         is TweetstormListener -> TweetstormHandler(client, listener)
         else -> null
-    } as? H ?: throw IllegalArgumentException("Unsupported StreamListener: ${listener::class.qualifiedName}")
+    } as? H ?: throw IllegalArgumentException("Unsupported StreamListener: ${listener::class}")
 
     return listen(handler)
 }

@@ -27,10 +27,10 @@ package jp.nephy.penicillin.core.request
 import io.ktor.http.ContentType
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.withCharset
+import io.ktor.utils.io.ByteWriteChannel
+import io.ktor.utils.io.writeStringUtf8
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.jsonkt.stringify
-import kotlinx.coroutines.io.ByteWriteChannel
-import kotlinx.coroutines.io.writeStringUtf8
 import kotlinx.serialization.json.JsonConfiguration
 
 /**

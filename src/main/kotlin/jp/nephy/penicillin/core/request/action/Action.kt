@@ -28,8 +28,10 @@ package jp.nephy.penicillin.core.request.action
 
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.request.request
-import io.ktor.client.response.HttpResponse
-import io.ktor.client.response.readText
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.HttpStatement
+import io.ktor.client.statement.readText
+import io.ktor.client.statement.request
 import io.ktor.http.isSuccess
 import io.ktor.util.flattenEntries
 import jp.nephy.jsonkt.JsonObject
@@ -54,8 +56,8 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
 
     repeat(session.option.maxRetries) {
         try {
-            val response = session.httpClient.request<HttpResponse>(request.builder.finalize())
-            return response.call.request to response
+            val response = session.httpClient.request<HttpStatement>(request.builder.finalize()).execute()
+            return response.request to response
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
@@ -63,7 +65,7 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
                 throw e
             }
             
-            // TEMP FIX: Set-CookieConfig header format may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
+            // TEMP FIX: Set-Cookie header may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
             if (e is IllegalStateException && e.message?.startsWith("Invalid date length.") == true) {
                 apiActionLogger.debug(e) { LocalizedString.ApiRequestFailedLog(request.builder.url, it + 1, session.option.maxRetries) }
             } else {

@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.core.session
 
 import io.ktor.client.HttpClient
+import io.ktor.utils.io.core.Closeable
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.session.config.ApiConfig
@@ -34,7 +35,6 @@ import jp.nephy.penicillin.core.session.config.Credentials
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
-import kotlinx.io.core.Closeable
 import kotlin.coroutines.CoroutineContext
 
 /**

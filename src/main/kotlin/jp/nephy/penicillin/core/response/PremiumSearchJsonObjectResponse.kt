@@ -25,7 +25,7 @@
 package jp.nephy.penicillin.core.response
 
 import io.ktor.client.request.HttpRequest
-import io.ktor.client.response.HttpResponse
+import io.ktor.client.statement.HttpResponse
 import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.ApiClient
@@ -55,11 +55,6 @@ data class PremiumSearchJsonObjectResponse<M: PremiumSearchModel>(
      */
     val environment: PremiumSearchEnvironment
 ): ApiResponse<PremiumSearchJsonObjectResponse<M>>, JsonResponse<M, JsonObject>, CompletedResponse {
-
     override val json: JsonObject
         get() = result.json
-
-    override fun close() {
-        response.close()
-    }
 }

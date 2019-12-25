@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.account
 
 import io.ktor.client.request.forms.append
+import io.ktor.utils.io.core.writeFully
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.request.append
 import jp.nephy.penicillin.core.request.multiPartBody
@@ -34,7 +35,6 @@ import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Account
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.media.MediaType
-import kotlinx.io.core.writeFully
 
 /**
  * Uploads a profile banner on behalf of the authenticating user. More information about sizing variations can be found in [User Profile Images and Banners](https://developer.twitter.com/en/docs/accounts-and-users/user-profile-images-and-banners) and [GET users/profile_banner](https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-users-profile_banner).

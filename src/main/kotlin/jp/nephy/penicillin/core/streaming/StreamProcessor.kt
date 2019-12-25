@@ -26,6 +26,8 @@
 
 package jp.nephy.penicillin.core.streaming
 
+import io.ktor.utils.io.core.Closeable
+import io.ktor.utils.io.jvm.javaio.toInputStream
 import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.unescapeHTML
@@ -36,11 +38,8 @@ import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.extensions.await
 import jp.nephy.penicillin.extensions.session
 import kotlinx.coroutines.*
-import kotlinx.coroutines.io.jvm.javaio.toInputStream
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.io.core.Closeable
-import kotlinx.io.core.use
 import mu.KotlinLogging
 import kotlin.coroutines.CoroutineContext
 
@@ -107,7 +106,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(
         launch {
             handler.listener.onConnect()
         }
-        
+
         result.response.content.toInputStream(loopJob).bufferedReader().useLines { lines ->
             for (line in lines) {
                 handleLine(line)
@@ -151,7 +150,6 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(
     private suspend fun reconnect() {
         while (job.isActive) {
             try {
-                result.close()
                 result = result.action.request.stream<L, H>().await()
                 break
             } catch (e: Throwable) {
@@ -164,10 +162,9 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(
     }
 
     /**
-     * Disposes this processor and closes active streaming connection.
+     * Aborts active streaming connection.
      */
     override fun close() {
-        result.close()
         job.cancel()
     }
 }

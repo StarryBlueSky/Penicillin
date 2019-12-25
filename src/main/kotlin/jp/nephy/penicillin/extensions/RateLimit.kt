@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.extensions
 
-import io.ktor.client.response.HttpResponse
+import io.ktor.client.statement.HttpResponse
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.response.ApiResponse
 import kotlinx.coroutines.delay

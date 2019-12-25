@@ -25,7 +25,7 @@
 package jp.nephy.penicillin.core.exceptions
 
 import io.ktor.client.request.HttpRequest
-import io.ktor.client.response.HttpResponse
+import io.ktor.client.statement.HttpResponse
 import jp.nephy.penicillin.core.i18n.LocalizedString
 
 private val apiErrorString = LocalizedString(

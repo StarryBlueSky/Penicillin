@@ -27,6 +27,7 @@
 package jp.nephy.penicillin.endpoints.media
 
 import io.ktor.client.request.forms.append
+import io.ktor.utils.io.core.writeFully
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.request.append
@@ -34,7 +35,6 @@ import jp.nephy.penicillin.core.request.multiPartBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.Media
 import jp.nephy.penicillin.endpoints.Option
-import kotlinx.io.core.writeFully
 
 /**
  * The APPEND command is used to upload a chunk (consecutive byte range) of the media file. For example, a 3 MB file could be split into 3 chunks of size 1 MB, and uploaded using 3 APPEND command requests. After the entire file is uploaded, the next step is to call the FINALIZE command.
