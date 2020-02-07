@@ -20,7 +20,7 @@ val packageVersion = Version(4, 2, 4)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 object ThirdpartyVersion {
-    const val Ktor = "1.3.0-rc"
+    const val Ktor = "1.3.1"
     const val JsonKt = "5.0.0-eap-23"
 
     // For testing
@@ -38,7 +38,7 @@ plugins {
     kotlin("jvm") version "1.3.61"
 
     // For testing
-    id("com.adarshr.test-logger") version "1.7.0"
+    id("com.adarshr.test-logger") version "2.0.0"
     id("build-time-tracker") version "0.11.1"
 
     // For publishing
@@ -47,7 +47,7 @@ plugins {
     id("com.github.breadmoirai.github-release") version "2.2.9"
     
     // For documentation
-    id("org.jetbrains.dokka") version "0.10.0"
+    id("org.jetbrains.dokka") version "0.10.1"
 }
 
 fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, String?> {
