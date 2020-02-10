@@ -34,7 +34,7 @@ import jp.nephy.penicillin.endpoints.media
 import jp.nephy.penicillin.endpoints.media.MediaComponent
 import jp.nephy.penicillin.endpoints.media.uploadMedia
 import jp.nephy.penicillin.extensions.DelegatedAction
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 import jp.nephy.penicillin.models.User
 
 /**
@@ -55,6 +55,6 @@ fun Account.updateProfileBackgroundImage(
     skipStatus: Boolean? = null,
     vararg options: Option
 ) = DelegatedAction {
-    val result = client.media.uploadMedia(media).await()
+    val result = client.media.uploadMedia(media).execute()
     updateProfileBackgroundImage(result.mediaId, tile, includeEntities, skipStatus, *options)
 }

@@ -74,5 +74,5 @@ fun <L: StreamListener, H: StreamHandler<L>> StreamResponse<L, H>.listen(listene
  * @return New [StreamProcessor] instance for [L] and [H].
  */
 suspend fun <L: StreamListener, H: StreamHandler<L>> StreamApiAction<L, H>.listen(listener: L): StreamProcessor<L, H> {
-    return await().listen(listener)
+    return execute().listen(listener)
 }

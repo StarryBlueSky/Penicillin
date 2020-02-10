@@ -37,7 +37,7 @@ import jp.nephy.penicillin.endpoints.cards
 import jp.nephy.penicillin.endpoints.cards.create
 import jp.nephy.penicillin.endpoints.statuses.create
 import jp.nephy.penicillin.extensions.DelegatedAction
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 import jp.nephy.penicillin.models.Status
 import kotlinx.serialization.json.JsonConfiguration
 
@@ -69,7 +69,7 @@ fun Statuses.createPollTweet(
             put("twitter:card", "poll${choices.size}choice_text_only")
             put("twitter:long:duration_minutes", minutes)
         }.toJsonObject().stringify(JsonConfiguration.Stable)
-    ).await()
+    ).execute()
     
-    create(status, cardUri = card.result.cardUri, options = *options).await().result
+    create(status, cardUri = card.result.cardUri, options = *options).execute().result
 }

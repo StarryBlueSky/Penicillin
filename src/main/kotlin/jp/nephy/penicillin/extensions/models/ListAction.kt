@@ -31,7 +31,7 @@ import jp.nephy.penicillin.endpoints.lists.addMember
 import jp.nephy.penicillin.endpoints.lists.addMembersByUserIds
 import jp.nephy.penicillin.endpoints.lists.removeMember
 import jp.nephy.penicillin.endpoints.lists.removeMembersByUserIds
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 import jp.nephy.penicillin.models.TwitterList
 import jp.nephy.penicillin.models.User
 
@@ -40,7 +40,7 @@ import jp.nephy.penicillin.models.User
  * This function is suspend-function.
  */
 suspend operator fun TwitterList.plusAssign(user: User) {
-    client.lists.addMember(id, user.id).await()
+    client.lists.addMember(id, user.id).execute()
 }
 
 /**
@@ -49,7 +49,7 @@ suspend operator fun TwitterList.plusAssign(user: User) {
  */
 suspend operator fun TwitterList.plusAssign(users: Iterable<User>) {
     users.map { it.id }.chunked(100).forEach {
-        client.lists.addMembersByUserIds(id, it).await()
+        client.lists.addMembersByUserIds(id, it).execute()
     }
 }
 
@@ -58,7 +58,7 @@ suspend operator fun TwitterList.plusAssign(users: Iterable<User>) {
  * This function is suspend-function.
  */
 suspend operator fun TwitterList.minusAssign(user: User) {
-    client.lists.removeMember(id, user.id).await()
+    client.lists.removeMember(id, user.id).execute()
 }
 
 /**
@@ -67,7 +67,7 @@ suspend operator fun TwitterList.minusAssign(user: User) {
  */
 suspend operator fun TwitterList.minusAssign(users: Iterable<User>) {
     users.map { it.id }.chunked(100).forEach {
-        client.lists.removeMembersByUserIds(id, it).await()
+        client.lists.removeMembersByUserIds(id, it).execute()
     }
 }
 

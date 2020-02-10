@@ -35,7 +35,7 @@ import jp.nephy.penicillin.endpoints.media.uploadMedia
 import jp.nephy.penicillin.endpoints.media.uploadStatus
 import jp.nephy.penicillin.endpoints.statuses.create
 import jp.nephy.penicillin.extensions.DelegatedAction
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 import jp.nephy.penicillin.models.Media
 import jp.nephy.penicillin.models.Media.ProcessingInfo.State.Succeeded
 import kotlinx.coroutines.*
@@ -54,11 +54,11 @@ fun Statuses.createWithMedia(
 ) = DelegatedAction {
     val results = media.map {
         client.session.async {
-            client.media.uploadMedia(it).await().awaitProcessing()
+            client.media.uploadMedia(it).execute().awaitProcessing()
         }
     }.awaitAll()
     
-    create(status, mediaIds = results.map { it.mediaId }, options = *options).await()
+    create(status, mediaIds = results.map { it.mediaId }, options = *options).execute()
 }
 
 private const val mediaProcessTimeoutMillis = 60 * 1000L
@@ -81,7 +81,7 @@ suspend fun Media.awaitProcessing(timeoutMillis: Long? = null): Media {
         while (true) {
             delay(result.processingInfo?.checkAfterSecs?.times(1000)?.toLong() ?: client.session.option.retryInMillis)
 
-            val response = client.media.uploadStatus(mediaId, mediaKey).await()
+            val response = client.media.uploadStatus(mediaId, mediaKey).execute()
             result = response.result
 
             if (result.processingInfo?.error != null && result.processingInfo?.state == Media.ProcessingInfo.State.Failed) {

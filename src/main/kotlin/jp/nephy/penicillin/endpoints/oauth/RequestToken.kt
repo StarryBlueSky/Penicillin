@@ -32,7 +32,7 @@ import jp.nephy.penicillin.core.request.formBody
 import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.OAuth
 import jp.nephy.penicillin.endpoints.Option
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 
 /**
  * Represents "/oauth/request_token" response.
@@ -72,7 +72,7 @@ suspend fun OAuth.requestToken(
     xAuthAccessType: String? = null,
     vararg options: Option
 ): RequestTokenResponse {
-    val response = requestTokenInternal(callbackUrl, xAuthAccessType, *options).await()
+    val response = requestTokenInternal(callbackUrl, xAuthAccessType, *options).execute()
     
     val result = response.content.split("&").map { parameter -> 
         parameter.split("=", limit = 2).let { it.first() to it.last() }

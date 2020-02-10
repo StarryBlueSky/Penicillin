@@ -10,7 +10,7 @@ import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.lists
 import jp.nephy.penicillin.endpoints.lists.member
 import jp.nephy.penicillin.extensions.DelegatedAction
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 import jp.nephy.penicillin.extensions.complete
 import jp.nephy.penicillin.models.TwitterList
 import jp.nephy.penicillin.models.User
@@ -131,7 +131,7 @@ private fun Lists.hasMember(
     vararg options: Option
 ): ApiAction<Boolean> = DelegatedAction {
     runCatching {
-        member(listId, slug, ownerScreenName, ownerId, userId, screenName, includeEntities = false, skipStatus = true, options = *options).await()
+        member(listId, slug, ownerScreenName, ownerId, userId, screenName, includeEntities = false, skipStatus = true, options = *options).execute()
         true
     }.recover {
         if (it is PenicillinTwitterApiException && it.error == TwitterApiError.UserNotInThisList) {

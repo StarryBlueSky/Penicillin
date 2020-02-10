@@ -35,7 +35,7 @@ import jp.nephy.penicillin.core.response.StreamResponse
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 import jp.nephy.penicillin.core.streaming.listener.StreamListener
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 import jp.nephy.penicillin.extensions.session
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
@@ -150,7 +150,7 @@ class StreamProcessor<L: StreamListener, H: StreamHandler<L>>(
     private suspend fun reconnect() {
         while (job.isActive) {
             try {
-                result = result.action.request.stream<L, H>().await()
+                result = result.action.request.stream<L, H>().execute()
                 break
             } catch (e: Throwable) {
                 logger.error(e) { LocalizedString.ExceptionInAsyncBlock }

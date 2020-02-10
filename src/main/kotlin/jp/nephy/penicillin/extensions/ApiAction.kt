@@ -31,7 +31,6 @@ import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.ApiAction
 import kotlinx.coroutines.*
 import mu.KotlinLogging
-import java.util.concurrent.TimeUnit
 
 /**
  * Awaits api execution and returns its result.
@@ -43,27 +42,8 @@ import java.util.concurrent.TimeUnit
  * @throws CancellationException Thrown when coroutine scope is cancelled.
  */
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R: Any> ApiAction<R>.await(): R {
+suspend fun <R: Any> ApiAction<R>.execute(): R {
     return invoke()
-}
-
-/**
- * Awaits api execution and returns its result with timeout.
- * This function is suspend-function.
- *
- * @param timeout Timeout value.
- * @param unit Timeout [TimeUnit].
- * 
- * @return Api result as [R]. If the timeout exceeds, returns null.
- * 
- * @throws PenicillinException General Penicillin exceptions.
- * @throws CancellationException Thrown when coroutine scope is cancelled.
- */
-@Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeout: Long, unit: TimeUnit): R? {
-    return withTimeoutOrNull(unit.toMillis(timeout)) {
-        await()
-    }
 }
 
 /**
@@ -78,8 +58,10 @@ suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeout: Long, unit: TimeUnit
  * @throws CancellationException Thrown when coroutine scope is cancelled.
  */
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeoutInMillis: Long): R? {
-    return awaitWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
+suspend fun <R: Any> ApiAction<R>.executeWithTimeout(timeoutInMillis: Long): R? {
+    return withTimeoutOrNull(timeoutInMillis) {
+        execute()
+    }
 }
 
 /**
@@ -92,8 +74,8 @@ suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(timeoutInMillis: Long): R? {
  * @throws CancellationException Thrown when coroutine scope is cancelled.
  */
 @Throws(PenicillinException::class, CancellationException::class)
-suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(): R? {
-    return awaitWithTimeout(session.option.defaultTimeoutInMillis)
+suspend fun <R: Any> ApiAction<R>.executeWithTimeout(): R? {
+    return executeWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
 /**
@@ -101,42 +83,9 @@ suspend fun <R: Any> ApiAction<R>.awaitWithTimeout(): R? {
  * 
  * @return [Deferred] object for api execution.
  */
-fun <R: Any> ApiAction<R>.defer(): Deferred<R> {
+fun <R: Any> ApiAction<R>.executeAsync(): Deferred<R> {
     return session.async {
-        await()
-    }
-}
-
-/**
- * Creates [Deferred] object for api execution with timeout.
- * 
- * @return [Deferred] object for api execution.
- */
-fun <R: Any> ApiAction<R>.deferWithTimeout(timeout: Long, unit: TimeUnit): Deferred<R?> {
-    return session.async { 
-        awaitWithTimeout(timeout, unit)
-    }
-}
-
-/**
- * Creates [Deferred] object for api execution with timeout.
- *
- * @param timeoutInMillis Timeout value in millis.
- *
- * @return [Deferred] object for api execution.
- */
-fun <R: Any> ApiAction<R>.deferWithTimeout(timeoutInMillis: Long): Deferred<R?> {
-    return deferWithTimeout(timeoutInMillis)
-}
-
-/**
- * Creates [Deferred] object for api execution with user-defined or default timeout.
- * 
- * @return [Deferred] object for api execution.
- */
-fun <R: Any> ApiAction<R>.deferWithTimeout(): Deferred<R?> {
-    return session.async { 
-        awaitWithTimeout()
+        execute()
     }
 }
 
@@ -151,25 +100,7 @@ fun <R: Any> ApiAction<R>.deferWithTimeout(): Deferred<R?> {
 @Throws(PenicillinException::class)
 fun <R: Any> ApiAction<R>.complete(): R {
     return runBlocking(session.coroutineContext) {
-        await()
-    }
-}
-
-/**
- * Completes api execution and returns its result with timeout.
- * This operation is blocking.
- *
- * @param timeout Timeout value.
- * @param unit Timeout [TimeUnit].
- * 
- * @return Api result as [R]. If the timeout exceeds, returns null.
- * 
- * @throws PenicillinException General Penicillin exceptions.
- */
-@Throws(PenicillinException::class)
-fun <R: Any> ApiAction<R>.completeWithTimeout(timeout: Long, unit: TimeUnit): R? {
-    return runBlocking(session.coroutineContext) {
-        awaitWithTimeout(timeout, unit)
+        execute()
     }
 }
 
@@ -185,7 +116,7 @@ fun <R: Any> ApiAction<R>.completeWithTimeout(timeout: Long, unit: TimeUnit): R?
  */
 @Throws(PenicillinException::class)
 fun <R: Any> ApiAction<R>.completeWithTimeout(timeoutInMillis: Long): R? {
-    return completeWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS)
+    return completeWithTimeout(timeoutInMillis)
 }
 
 /**
@@ -203,8 +134,8 @@ fun <R: Any> ApiAction<R>.completeWithTimeout(): R? {
 
 private val defaultLogger = KotlinLogging.logger("Penicillin.Client")
 
-internal typealias ApiCallback<R> = suspend (response: R) -> Unit
-internal typealias ApiFallback = suspend (e: Throwable) -> Unit
+internal typealias ApiCallback<R> = (response: R) -> Unit
+internal typealias ApiFallback = (e: Throwable) -> Unit
 
 @PublishedApi
 internal val <R: Any> ApiAction<R>.defaultApiCallback: ApiCallback<R>
@@ -227,7 +158,7 @@ internal val ApiAction<*>.defaultApiFallback: ApiFallback
 inline fun <R: Any> ApiAction<R>.queue(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
-            await()
+            execute()
         }.onSuccess {
             onSuccess.invoke(it)
         }.onFailure {
@@ -259,18 +190,17 @@ fun <R: Any> ApiAction<R>.queue(): Job {
 /**
  * Creates [Job] for api execution with timeout.
  *
- * @param timeout Timeout value.
- * @param unit Timeout [TimeUnit].
+ * @param timeoutInMillis Timeout value in millis.
  * @param onFailure Api fallback.
  * @param onSuccess Api callback.
  *
  * @return [Job] for api execution.
  */
-inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
-            withTimeout(unit.toMillis(timeout)) {
-                await()
+            withTimeout(timeoutInMillis) {
+                execute()
             }
         }.onSuccess {
             onSuccess.invoke(it)
@@ -281,53 +211,15 @@ inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit,
 }
 
 /**
- * Creates [Job] for api execution with timeout.
- *
- * @param timeoutInMillis Timeout value in millis.
- * @param onFailure Api fallback.
- * @param onSuccess Api callback.
- *
- * @return [Job] for api execution.
- */
-inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
-    return queueWithTimeout(timeoutInMillis, TimeUnit.MILLISECONDS, onFailure, onSuccess)
-}
-
-/**
  * Creates [Job] for api execution with timeout and default api fallback.
  *
- * @param timeout Timeout value.
- * @param unit Timeout [TimeUnit].
- * @param onSuccess Api callback.
- *
- * @return [Job] for api execution.
- */
-inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit, crossinline onSuccess: ApiCallback<R>): Job {
-    return queueWithTimeout(timeout, unit, defaultApiFallback, onSuccess)
-}
-
-/**
- * Creates [Job] for api execution with timeout and default api fallback.
- *
- * @param timeoutInMillis Timeout value in millis.
+ * @param timeoutInMillis Timeout value.
  * @param onSuccess Api callback.
  *
  * @return [Job] for api execution.
  */
 inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(timeoutInMillis, defaultApiFallback, onSuccess)
-}
-
-/**
- * Creates [Job] for api execution with timeout and default api fallback, default api callback.
- *
- * @param timeout Timeout value.
- * @param unit Timeout [TimeUnit].
- *
- * @return [Job] for api execution.
- */
-fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Long, unit: TimeUnit): Job {
-    return queueWithTimeout(timeout, unit, defaultApiFallback, defaultApiCallback)
 }
 
 /**

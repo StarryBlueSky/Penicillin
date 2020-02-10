@@ -32,7 +32,7 @@ import jp.nephy.penicillin.endpoints.lists.create
 import jp.nephy.penicillin.endpoints.lists.members
 import jp.nephy.penicillin.endpoints.lists.show
 import jp.nephy.penicillin.extensions.DelegatedAction
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 import jp.nephy.penicillin.extensions.cursor.allUsers
 import jp.nephy.penicillin.extensions.cursor.untilLast
 import jp.nephy.penicillin.extensions.models.plusAssign
@@ -45,10 +45,10 @@ import jp.nephy.penicillin.extensions.models.plusAssign
  * @return New [ApiAction] for new list response.
  */
 fun Lists.clone(sourceId: Long) = DelegatedAction {
-    val sourceList = show(sourceId).await()
+    val sourceList = show(sourceId).execute()
     val sourceMembers = members(sourceId).untilLast("count" to 5000).allUsers
-    val newList = create(sourceList.result.name, mode = sourceList.result.mode, description = sourceList.result.description).await().result
+    val newList = create(sourceList.result.name, mode = sourceList.result.mode, description = sourceList.result.description).execute().result
     newList += sourceMembers
 
-    show(newList.id).await()
+    show(newList.id).execute()
 }

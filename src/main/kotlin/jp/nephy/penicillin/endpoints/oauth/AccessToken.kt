@@ -36,7 +36,7 @@ import jp.nephy.penicillin.core.session.post
 import jp.nephy.penicillin.endpoints.OAuth
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.oauth
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 
 /**
  * Represents "/oauth/access_token" response.
@@ -87,7 +87,7 @@ suspend fun OAuth.accessToken(
             token(requestToken, requestTokenSecret)
         }
     }.use { 
-        it.oauth.accessTokenInternal(verifier, *options).await()
+        it.oauth.accessTokenInternal(verifier, *options).execute()
     }
     
     val result = response.content.split("&").map { parameter ->

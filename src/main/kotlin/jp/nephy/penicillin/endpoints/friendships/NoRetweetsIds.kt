@@ -35,7 +35,7 @@ import jp.nephy.penicillin.core.session.get
 import jp.nephy.penicillin.endpoints.Friendships
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.extensions.DelegatedAction
-import jp.nephy.penicillin.extensions.await
+import jp.nephy.penicillin.extensions.execute
 
 /**
  * Returns a collection of user_ids that the currently authenticated user does not want to receive retweets from.
@@ -56,7 +56,7 @@ fun Friendships.noRetweetsIds(
         parameters(
             "stringify_ids" to stringifyIds, *options
         )
-    }.text().await()
+    }.text().execute()
     
     result.content.toJsonArray().longList
 }
