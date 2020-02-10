@@ -134,8 +134,8 @@ fun <R: Any> ApiAction<R>.completeWithTimeout(): R? {
 
 private val defaultLogger = KotlinLogging.logger("Penicillin.Client")
 
-internal typealias ApiCallback<R> = (response: R) -> Unit
-internal typealias ApiFallback = (e: Throwable) -> Unit
+internal typealias ApiCallback<R> = suspend (response: R) -> Unit
+internal typealias ApiFallback = suspend (e: Throwable) -> Unit
 
 @PublishedApi
 internal val <R: Any> ApiAction<R>.defaultApiCallback: ApiCallback<R>
