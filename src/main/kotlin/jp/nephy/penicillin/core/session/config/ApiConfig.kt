@@ -31,7 +31,6 @@ import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
 import jp.nephy.penicillin.core.session.ApiClientDsl
 import jp.nephy.penicillin.core.session.SessionBuilder
 import jp.nephy.penicillin.endpoints.common.TweetMode
-import java.util.concurrent.TimeUnit
 
 /**
  * Creates [ApiConfig] configurations.
@@ -162,17 +161,17 @@ data class ApiConfig(
 }
 
 /**
- * Sets retry interval with your preferred [TimeUnit].
+ * Sets retry interval in millis.
  */
-fun ApiConfig.Builder.retryInterval(interval: Long, unit: TimeUnit) {
-    retryIntervalInMillis = unit.toMillis(interval)
+fun ApiConfig.Builder.retryInterval(intervalInMillis: Long) {
+    retryIntervalInMillis = intervalInMillis
 }
 
 /**
- * Sets default read timeout with your preferred [TimeUnit].
+ * Sets default read timeout in millis.
  */
-fun ApiConfig.Builder.defaultTimeout(timeout: Long, unit: TimeUnit) {
-    defaultTimeoutInMillis = unit.toMillis(timeout)
+fun ApiConfig.Builder.defaultTimeout(timeoutInMillis: Long) {
+    defaultTimeoutInMillis = timeoutInMillis
 }
 
 /**
