@@ -26,9 +26,8 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
-import jp.nephy.penicillin.extensions.parseModel
+import blue.starry.jsonkt.*
+import jp.nephy.penicillin.core.session.NoopApiClient
 import jp.nephy.penicillin.models.Status
 import kotlinx.atomicfu.atomic
 import java.time.Instant
@@ -168,7 +167,6 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
         urls += UrlEntity(url, start, end)
     }
 
-    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): Status {
         val id = generateId()
         val user = user.build()
@@ -198,7 +196,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
 
         val entities = this["entities"].asJsonElement().jsonObject
 
-        this["entities"] = entities.edit { entity ->
+        this["entities"] = entities.copy { entity ->
             entity["urls"] = urls.map { urlEntity ->
                 jsonObjectOf(
                     "display_url" to urlEntity.url.removePrefix("https://").removePrefix("http://"),
@@ -209,7 +207,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
             }
         }
 
-        return toJsonObject().parseModel()
+        return toJsonObject().parseObject { Status(it, NoopApiClient) }
     }
 }
 

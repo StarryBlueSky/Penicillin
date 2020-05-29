@@ -26,9 +26,11 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
-import jp.nephy.penicillin.extensions.parseModel
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.jsonObjectOf
+import blue.starry.jsonkt.parseObject
+import blue.starry.jsonkt.toJsonObject
+import jp.nephy.penicillin.core.session.NoopApiClient
 import jp.nephy.penicillin.models.DirectMessage
 import java.time.temporal.TemporalAccessor
 import kotlin.collections.set
@@ -96,7 +98,6 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
         entities = json
     }
 
-    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): DirectMessage {
         val id = generateId()
         val recipient = recipientBuilder.build()
@@ -120,6 +121,6 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
 
         this["entities"] = entities
         
-        return toJsonObject().parseModel()
+        return toJsonObject().parseObject { DirectMessage(it, NoopApiClient) }
     }
 }

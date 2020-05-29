@@ -26,27 +26,25 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-
 object Stream {
     abstract class Event(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
         val event by string
-        val source by penicillinModel<User>()
-        val target by penicillinModel<User>()
+        val source by model { User(it, client) }
+        val target by model { User(it, client) }
         val createdAtRaw by string("created_at")
     }
 
     data class UserEvent(private val parentJson: JsonObject, private val parentClient: ApiClient): Event(parentJson, parentClient)
 
     data class StatusEvent(private val parentJson: JsonObject, private val parentClient: ApiClient): Event(parentJson, parentClient) {
-        val targetObject by penicillinModel<Status>("target_object")
+        val targetObject by model("target_object") { Status(it, client) }
     }
 
     data class ListEvent(private val parentJson: JsonObject, private val parentClient: ApiClient): Event(parentJson, parentClient) {
-        val targetObject by penicillinModel<TwitterList>("target_object")
+        val targetObject by model("target_object") { TwitterList(it, client) }
     }
 
     data class Friends(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
@@ -110,10 +108,10 @@ object Stream {
     
     data class LivePipeline(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val topic by string
-        val payload by penicillinModel<Payload>()
+        val payload by model { Payload(it, client) }
         
         data class Payload(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val tweetEngagement by penicillinModel<TweetEngagement>("tweet_engagement")
+            val tweetEngagement by model("tweet_engagement") { TweetEngagement(it, client) }
             
             data class TweetEngagement(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
                 val likeCount by nullableInt("like_count")

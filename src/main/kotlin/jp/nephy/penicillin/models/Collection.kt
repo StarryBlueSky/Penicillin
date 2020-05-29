@@ -26,15 +26,14 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.*
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 object Collection {
     data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val response by penicillinModel<Response>()
+        val response by model { Response(it, client) }
         val objects by jsonObject
         
         data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
@@ -48,11 +47,11 @@ object Collection {
     
     data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val objects by jsonObject
-        val response by penicillinModel<Response>()
+        val response by model { Response(it, client) }
         
         data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val results by penicillinModelList<Model.Response>()
-            val cursors by penicillinModel<Cursors>()
+            val results by modelList { Model.Response(it, client) }
+            val cursors by model { Cursors(it, client) }
             
             data class Cursors(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
                 val nextCursor by string("next_cursor")
@@ -63,7 +62,7 @@ object Collection {
     object Entry {
         data class Result(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val objects by jsonObject
-            val response by penicillinModel<Response>()
+            val response by model { Response(it, client) }
             
             data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
                 val errors by jsonArray

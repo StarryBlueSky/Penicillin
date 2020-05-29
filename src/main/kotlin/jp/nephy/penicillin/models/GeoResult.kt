@@ -26,17 +26,17 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.jsonObject
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.byModelList
+import blue.starry.jsonkt.delegation.jsonObject
+import blue.starry.jsonkt.delegation.model
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.byPenicillinModelList
-import jp.nephy.penicillin.extensions.penicillinModel
 
 data class GeoResult(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val query by penicillinModel<Query>()
+    val query by model { Query(it, client) }
     private val result by jsonObject
-    val places by result.byPenicillinModelList<Place>(client)
+    val places by result.byModelList { Place(it, client) }
 
     data class Query(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val params by jsonObject

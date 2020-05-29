@@ -54,7 +54,7 @@ fun WelcomeMessageRules.list(
         "cursor" to cursor,
         *options
     )
-}.jsonObject<WelcomeMessageRule.List>()
+}.jsonObject { WelcomeMessageRule.List(it, client) }
 
 /**
  * Shorthand property to [WelcomeMessageRules.list].

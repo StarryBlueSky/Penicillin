@@ -91,4 +91,4 @@ private fun Blocks.destroy(
         *options
     )
 
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

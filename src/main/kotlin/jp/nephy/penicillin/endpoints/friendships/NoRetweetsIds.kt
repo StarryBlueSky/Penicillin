@@ -27,8 +27,8 @@
 package jp.nephy.penicillin.endpoints.friendships
 
 
-import jp.nephy.jsonkt.longList
-import jp.nephy.jsonkt.toJsonArray
+import blue.starry.jsonkt.longList
+import blue.starry.jsonkt.toJsonArray
 import jp.nephy.penicillin.core.request.action.DelegatedAction
 import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get

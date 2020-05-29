@@ -24,20 +24,25 @@
 
 package jp.nephy.penicillin.core.request.action
 
-import jp.nephy.jsonkt.toJsonObjectOrNull
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.parseObjectOrNull
+import blue.starry.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.CursorJsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.parseModelOrNull
+
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
-import kotlin.reflect.KClass
 
 /**
  * The [ApiAction] that provides parsed json object with json model. This class supports cursor api operation.
  */
-class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M>> {
+class CursorJsonObjectApiAction<M: PenicillinCursorModel>(
+    override val client: ApiClient,
+    override val request: ApiRequest,
+    override val converter: (JsonObject) -> M
+): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M>> {
     override suspend operator fun invoke(): CursorJsonObjectResponse<M> {
         val (request, response) = execute()
 
@@ -48,10 +53,10 @@ class CursorJsonObjectApiAction<M: PenicillinCursorModel>(override val client: A
 
         checkError(request, response, content, json)
 
-        val result = json.parseModelOrNull(model, client) ?: throw PenicillinException(
-            LocalizedString.JsonModelCastFailed, null, request, response, model.toString(), content
+        val result = json.parseObjectOrNull(converter) ?: throw PenicillinException(
+            LocalizedString.JsonModelCastFailed, null, request, response, content
         )
 
-        return CursorJsonObjectResponse(client, model, result, request, response, content, this)
+        return CursorJsonObjectResponse(client, result, request, response, content, this)
     }
 }

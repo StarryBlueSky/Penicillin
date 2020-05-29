@@ -48,4 +48,4 @@ fun Users.userSuggestionMembers(
     vararg options: Option
 ) = client.session.get("/1.1/users/suggestions/$slug/members.json") {
     parameters(*options)
-}.jsonArray<User>()
+}.jsonArray { User(it, client) }

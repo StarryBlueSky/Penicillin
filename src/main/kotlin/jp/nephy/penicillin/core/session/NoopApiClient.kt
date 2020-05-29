@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- *     Copyright (c) 2017-2019 Nephy Project Team
+ *     Copyright (c) 2017-2020 Nephy Project Team
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+package jp.nephy.penicillin.core.session
 
-package jp.nephy.penicillin.models
+@PublishedApi
+internal object NoopApiClient: ApiClient {
+    override val session: Session
+        get() = throw NotImplementedError()
 
-import blue.starry.jsonkt.JsonObject
-import blue.starry.jsonkt.delegation.nullableString
-import blue.starry.jsonkt.delegation.string
-import jp.nephy.penicillin.core.session.ApiClient
-
-data class OAuthToken(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val tokenType by nullableString("token_type")
-    val token by string("access_token")
+    override fun close() {
+        throw UnsupportedOperationException()
+    }
 }

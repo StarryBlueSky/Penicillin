@@ -26,7 +26,8 @@
 
 package jp.nephy.penicillin.extensions.endpoints
 
-import jp.nephy.jsonkt.JsonObject
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.parseObject
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.ApiClient
@@ -36,7 +37,7 @@ import jp.nephy.penicillin.core.streaming.listener.StreamListener
 import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Stream
 import jp.nephy.penicillin.endpoints.stream.StreamDelimitedBy
-import jp.nephy.penicillin.extensions.parseModel
+
 import jp.nephy.penicillin.models.DirectMessage
 import jp.nephy.penicillin.models.Status
 import kotlinx.coroutines.launch
@@ -113,16 +114,16 @@ class TweetstormHandler(override val client: ApiClient, override val listener: T
         launch {
             when {
                 "text" in json -> {
-                    listener.onStatus(json.parseModel(client))
+                    listener.onStatus(json.parseObject { Status(it, client) })
                 }
                 "direct_message" in json -> {
-                    listener.onDirectMessage(json.parseModel(client))
+                    listener.onDirectMessage(json.parseObject { DirectMessage(it, client) })
                 }
                 "friends" in json -> {
-                    listener.onFriends(json.parseModel(client))
+                    listener.onFriends(json.parseObject { jp.nephy.penicillin.models.Stream.Friends(it, client) })
                 }
                 "delete" in json -> {
-                    listener.onDelete(json.parseModel(client))
+                    listener.onDelete(json.parseObject { jp.nephy.penicillin.models.Stream.Delete(it, client) })
                 }
                 else -> {
                     listener.onUnhandledJson(json)

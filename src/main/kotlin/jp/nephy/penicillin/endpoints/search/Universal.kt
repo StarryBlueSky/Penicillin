@@ -58,4 +58,4 @@ fun Search.universal(
         "tweet_mode" to tweetMode,
         *options
     )
-}.jsonObject<SearchUniversal>()
+}.jsonObject { SearchUniversal(it, client) }

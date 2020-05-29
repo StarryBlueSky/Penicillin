@@ -90,4 +90,4 @@ fun Statuses.embedFormat(
         "dnt" to dnt,
         *options
     )
-}.jsonObject<Embed>()
+}.jsonObject { Embed(it, client) }

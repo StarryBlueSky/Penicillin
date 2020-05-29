@@ -45,7 +45,7 @@ import jp.nephy.penicillin.models.SavedSearch
  */
 fun SavedSearches.list(vararg options: Option) = client.session.get("/1.1/saved_searches/list.json") {
     parameters(*options)
-}.jsonArray<SavedSearch>()
+}.jsonArray { SavedSearch(it, client) }
 
 /**
  * Shorthand property to [SavedSearches.list].

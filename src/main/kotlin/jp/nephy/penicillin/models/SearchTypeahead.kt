@@ -26,11 +26,10 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 data class SearchTypeahead(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val completedIn by float("completed_in")
@@ -38,13 +37,13 @@ data class SearchTypeahead(override val json: JsonObject, override val client: A
     val numResults by int("num_results")
     val oneclick by stringList
     val query by string
-    val topics by penicillinModelList<Topic>()
-    val users by penicillinModelList<UserTypeahead>()
+    val topics by modelList { Topic(it, client) }
+    val users by modelList { UserTypeahead(it, client) }
 
     data class Topic(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val inline by boolean
         val roundedScore by int("rounded_score")
-        val tokens by penicillinModelList<SearchToken>()
+        val tokens by modelList { SearchToken(it, client) }
         val topic by string
     }
 
@@ -65,10 +64,10 @@ data class SearchTypeahead(override val json: JsonObject, override val client: A
         val roundedGraphWeight by int("rounded_graph_weight")
         val roundedScore by int("rounded_score")
         val screenName by string("screen_name")
-        val socialContext by penicillinModel<SocialContext>("social_context")
+        val socialContext by model("social_context") { SocialContext(it, client) }
         val socialProof by int("social_proof")
         val socialProofsOrdered by intList("social_proofs_ordered")
-        val tokens by penicillinModelList<SearchToken>()
+        val tokens by modelList { SearchToken(it, client) }
         val verified by boolean
 
         data class SocialContext(override val json: JsonObject, override val client: ApiClient): PenicillinModel {

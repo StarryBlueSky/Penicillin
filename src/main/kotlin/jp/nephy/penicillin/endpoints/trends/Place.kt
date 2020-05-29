@@ -57,4 +57,4 @@ fun Trends.place(
         "exclude" to exclude,
         *options
     )
-}.jsonArray<TrendPlace>()
+}.jsonArray { TrendPlace(it, client) }

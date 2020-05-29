@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.directmessages.events
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.DirectMessageEvents
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.DirectMessageEvent
 
 /**
@@ -51,4 +51,4 @@ fun DirectMessageEvents.show(
         "id" to id,
         *options
     )
-}.jsonObject<DirectMessageEvent.Show>()
+}.jsonObject { DirectMessageEvent.Show(it, client) }

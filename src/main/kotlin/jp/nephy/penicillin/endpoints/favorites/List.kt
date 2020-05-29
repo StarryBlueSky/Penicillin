@@ -121,7 +121,7 @@ private fun Favorites.listInternal(
         "include_entities" to includeEntities,
         *options
     )
-}.jsonArray<Status>()
+}.jsonArray { Status(it, client) }
 
 /**
  * Shorthand property to [Favorites.list].

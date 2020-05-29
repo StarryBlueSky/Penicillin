@@ -91,11 +91,13 @@ fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long
         throw PenicillinException(LocalizedString.CursorIsZero, null, request, response)
     }
 
+    action as CursorJsonObjectApiAction<M>
+
     action.edit {
         parameters("cursor" to cursor, *options)
     }
 
-    return CursorJsonObjectApiAction(client, action.request, model)
+    return CursorJsonObjectApiAction(client, action.request, action.converter)
 }
 
 /**

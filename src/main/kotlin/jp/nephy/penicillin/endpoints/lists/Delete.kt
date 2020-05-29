@@ -96,4 +96,4 @@ private fun Lists.delete(
         "owner_id" to ownerId,
         *options
     )
-}.jsonObject<TwitterList>()
+}.jsonObject { TwitterList(it, client) }

@@ -26,42 +26,38 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.boolean
-import jp.nephy.jsonkt.delegation.nullableString
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.nullablePenicillinModel
-import jp.nephy.penicillin.extensions.penicillinModel
 
 data class CardState(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val card by penicillinModel<Card>()
+    val card by model { Card(it, client) }
 
     data class Card(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val name by string
         val url by string
         val cardTypeUrl by string("card_type_url")
-        val bindingValues by penicillinModel<BindingValues>("binding_values")
-        val cardPlatform by penicillinModel<CardPlatform>("card_platform")
+        val bindingValues by model("binding_values") { BindingValues(it, client) }
+        val cardPlatform by model("card_platform") { CardPlatform(it, client) }
 
         data class BindingValues(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val choice1Label by nullablePenicillinModel<StringValue>("choice1_label")
-            val choice2Label by nullablePenicillinModel<StringValue>("choice2_label")
-            val choice3Label by nullablePenicillinModel<StringValue>("choice3_label")
-            val choice4Label by nullablePenicillinModel<StringValue>("choice4_label")
+            val choice1Label by nullableModel("choice1_label") { StringValue(it, client) }
+            val choice2Label by nullableModel("choice2_label") { StringValue(it, client) }
+            val choice3Label by nullableModel("choice3_label") { StringValue(it, client) }
+            val choice4Label by nullableModel("choice4_label") { StringValue(it, client) }
             
-            val choice1Count by nullablePenicillinModel<StringValue>("choice1_count")
-            val choice2Count by nullablePenicillinModel<StringValue>("choice2_count")
-            val choice3Count by nullablePenicillinModel<StringValue>("choice3_count")
-            val choice4Count by nullablePenicillinModel<StringValue>("choice4_count")
+            val choice1Count by nullableModel("choice1_count") { StringValue(it, client) }
+            val choice2Count by nullableModel("choice2_count") { StringValue(it, client) }
+            val choice3Count by nullableModel("choice3_count") { StringValue(it, client) }
+            val choice4Count by nullableModel("choice4_count") { StringValue(it, client) }
             
-            val selectedChoice by nullablePenicillinModel<StringValue>("selected_choice")
-            val lastUpdatedDatetimeUtc by nullablePenicillinModel<StringValue>("last_updated_datetime_utc")
-            val endDatetimeUtc by nullablePenicillinModel<StringValue>("end_datetime_utc")
-            val countsAreFinal by nullablePenicillinModel<BooleanValue>("counts_are_final")
-            val durationMinutes by nullablePenicillinModel<StringValue>("duration_minutes")
-            val api by nullablePenicillinModel<StringValue>()
-            val cardUrl by nullablePenicillinModel<StringValue>("card_url")
+            val selectedChoice by nullableModel("selected_choice") { StringValue(it, client) }
+            val lastUpdatedDatetimeUtc by nullableModel("last_updated_datetime_utc") { StringValue(it, client) }
+            val endDatetimeUtc by nullableModel("end_datetime_utc") { StringValue(it, client) }
+            val countsAreFinal by nullableModel("counts_are_final") { BooleanValue(it, client) }
+            val durationMinutes by nullableModel("duration_minutes") { StringValue(it, client) }
+            val api by nullableModel { StringValue(it, client) }
+            val cardUrl by nullableModel("card_url") { StringValue(it, client) }
 
             data class StringValue(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
                 val type by string
@@ -75,11 +71,11 @@ data class CardState(override val json: JsonObject, override val client: ApiClie
         }
         
         data class CardPlatform(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val platform by penicillinModel<Platform>()
+            val platform by model { Platform(it, client) }
             
             data class Platform(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                val device by penicillinModel<Device>()
-                val audience by penicillinModel<Audience>()
+                val device by model { Device(it, client) }
+                val audience by model { Audience(it, client) }
                 
                 data class Device(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
                     val name by string

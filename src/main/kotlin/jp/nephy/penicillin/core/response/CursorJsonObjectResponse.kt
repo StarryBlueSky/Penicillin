@@ -24,20 +24,18 @@
 
 package jp.nephy.penicillin.core.response
 
+import blue.starry.jsonkt.JsonObject
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.statement.HttpResponse
-import jp.nephy.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.cursor.PenicillinCursorModel
-import kotlin.reflect.KClass
 
 /**
  * The [ApiResponse] that provides parsed json object with json model. This class supports cursor api operation.
  */
 data class CursorJsonObjectResponse<M: PenicillinCursorModel>(
     override val client: ApiClient,
-    override val model: KClass<M>,
 
     /**
      * Result of response.

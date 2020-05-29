@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.directmessages.events
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.delete
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.DirectMessageEvents
+import jp.nephy.penicillin.endpoints.Option
 
 /**
  * Deletes the direct message specified in the required ID parameter. The authenticating user must be the recipient of the specified direct message. Direct Messages are only removed from the interface of the user context provided. Other members of the conversation can still access the Direct Messages. A successful delete will return a 204 http response code with no body content.

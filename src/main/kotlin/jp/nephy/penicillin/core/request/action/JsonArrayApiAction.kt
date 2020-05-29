@@ -24,21 +24,26 @@
 
 package jp.nephy.penicillin.core.request.action
 
-import jp.nephy.jsonkt.toJsonArrayOrNull
-import jp.nephy.jsonkt.toJsonObjectOrNull
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.parseArrayOrNull
+import blue.starry.jsonkt.toJsonArrayOrNull
+import blue.starry.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonArrayResponse
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.parseModelListOrNull
+
 import jp.nephy.penicillin.models.PenicillinModel
-import kotlin.reflect.KClass
 
 /**
  * The [ApiAction] that provides parsed json array with json model.
  */
-class JsonArrayApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
+class JsonArrayApiAction<M: PenicillinModel>(
+    override val client: ApiClient,
+    override val request: ApiRequest,
+    override val converter: (JsonObject) -> M
+): JsonRequest<M>, ApiAction<JsonArrayResponse<M>> {
     override suspend operator fun invoke(): JsonArrayResponse<M> {
         val (request, response) = execute()
 
@@ -49,10 +54,10 @@ class JsonArrayApiAction<M: PenicillinModel>(override val client: ApiClient, ove
         val json = content?.toJsonArrayOrNull() ?: throw PenicillinException(
             LocalizedString.JsonParsingFailed, null, request, response, content
         )
-        val results = json.parseModelListOrNull(model, client) ?: throw PenicillinException(
-            LocalizedString.JsonModelCastFailed, null, request, response, model.toString(), content
+        val results = json.parseArrayOrNull(converter) ?: throw PenicillinException(
+            LocalizedString.JsonModelCastFailed, null, request, response, content
         )
 
-        return JsonArrayResponse(client, model, results, request, response, content, this)
+        return JsonArrayResponse(client, results, request, response, content, this)
     }
 }

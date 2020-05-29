@@ -64,4 +64,4 @@ fun Geo.reverseGeocode(
         "max_results" to maxResults,
         *options
     )
-}.jsonObject<GeoResult>()
+}.jsonObject { GeoResult(it, client) }

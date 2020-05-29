@@ -26,16 +26,17 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.int
+import blue.starry.jsonkt.delegation.modelList
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 data class PremiumSearchData(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
-    val results by penicillinModelList<Status>()
+    val results by modelList { Status(it, client) }
     override val next by string
-    val requestParameters by penicillinModelList<Status>()
+    val requestParameters by modelList { Status(it, client) }
 
     data class RequestParameters(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val maxResults by int

@@ -102,7 +102,7 @@ private fun Lists.subscriptionsInternal(
         "cursor" to cursor,
         *options
     )
-}.cursorJsonObject<CursorLists>()
+}.cursorJsonObject { CursorLists(it, client) }
 
  /**
  * Shorthand property to [Lists.subscriptions].

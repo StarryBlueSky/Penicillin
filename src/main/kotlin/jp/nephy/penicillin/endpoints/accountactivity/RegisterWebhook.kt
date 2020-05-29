@@ -54,4 +54,4 @@ fun AccountActivity.registerWebhook(
         *options
     )
 
-}.jsonObject<Webhook.Model>()
+}.jsonObject { Webhook.Model(it, client) }

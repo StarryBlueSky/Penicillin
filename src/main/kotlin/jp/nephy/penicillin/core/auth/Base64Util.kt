@@ -27,12 +27,12 @@ package jp.nephy.penicillin.core.auth
 import io.ktor.util.InternalAPI
 import io.ktor.util.encodeBase64
 
-@UseExperimental(InternalAPI::class)
+@OptIn(InternalAPI::class)
 internal fun ByteArray.encodeBase64(): String {
     return encodeBase64()
 }
 
-@UseExperimental(InternalAPI::class)
+@OptIn(InternalAPI::class)
 internal fun String.encodeBase64(): String {
     return encodeBase64()
 }

@@ -26,10 +26,9 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.*
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
 
 object Account {
     data class Settings(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
@@ -60,9 +59,9 @@ object Account {
         val rankedTimelineEligible by nullableString("ranked_timeline_eligible")
         val rankedTimelineSetting by nullableInt("ranked_timeline_setting")
         val screenName by string("screen_name")
-        val settingsMetadata by penicillinModel<SettingMetadata>("settings_metadata")
-        val sleepTime by penicillinModel<SleepTime>("sleep_time")
-        val timeZone by penicillinModel<TimeZone>("time_zone")
+        val settingsMetadata by model("settings_metadata") { SettingMetadata(it, client) }
+        val sleepTime by model("sleep_time") { SleepTime(it, client) }
+        val timeZone by model("time_zone") { TimeZone(it, client) }
         val translatorType by string("translator_type")
         val universalQualityFilteringEnabled by string("universal_quality_filtering_enabled")
         val useCookiePersonalization by boolean("use_cookie_personalization")
@@ -84,7 +83,7 @@ object Account {
 
     data class VerifyCredentials(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonUser(parentJson, parentClient) {
         val email by string
-        val phone by penicillinModel<Phone>()
+        val phone by model { Phone(it, client) }
 
         data class Phone(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val address by nullableString

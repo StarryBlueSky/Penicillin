@@ -48,7 +48,7 @@ fun Trends.availableAreas(
     vararg options: Option
 ) = client.session.get("/1.1/trends/available.json") {
     parameters(*options)
-}.jsonArray<TrendArea>()
+}.jsonArray { TrendArea(it, client) }
 
  /**
  * Shorthand property to [Trends.availableAreas].

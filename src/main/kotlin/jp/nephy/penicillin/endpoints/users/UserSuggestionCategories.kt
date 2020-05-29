@@ -51,7 +51,7 @@ fun Users.userSuggestionCategories(
         "lang" to lang,
         *options
     )
-}.jsonArray<UserSuggestionCategory>()
+}.jsonArray { UserSuggestionCategory(it, client) }
 
  /**
  * Shorthand property to [Users.userSuggestionCategories].

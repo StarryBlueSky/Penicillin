@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.followrequests
 import jp.nephy.penicillin.core.request.action.CursorJsonObjectApiAction
 import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.FollowRequests
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.cursor.CursorIds
 
 /**
@@ -54,7 +54,7 @@ fun FollowRequests.incoming(
         "stringify_ids" to stringifyIds,
         *options
     )
-}.cursorJsonObject<CursorIds>()
+}.cursorJsonObject { CursorIds(it, client) }
 
  /**
  * Shorthand property to [FollowRequests.incoming].

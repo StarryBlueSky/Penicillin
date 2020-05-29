@@ -56,7 +56,7 @@ fun Blocks.listIds(
         "cursor" to cursor,
         *options
     )
-}.cursorJsonObject<CursorIds>()
+}.cursorJsonObject { CursorIds(it, client) }
 
 /**
  * Shorthand extension property to [Blocks.listIds].

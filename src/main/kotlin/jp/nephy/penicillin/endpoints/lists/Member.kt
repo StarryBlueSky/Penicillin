@@ -189,4 +189,4 @@ internal fun Lists.member(
         "skip_status" to skipStatus,
         *options
     )
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

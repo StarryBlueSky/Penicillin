@@ -26,17 +26,16 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.int
+import blue.starry.jsonkt.delegation.model
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-
 data class Photo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val large by penicillinModel<Size>()
-    val medium by penicillinModel<Size>()
-    val small by penicillinModel<Size>()
-    val thumb by penicillinModel<Size>()
+    val large by model { Size(it, client) }
+    val medium by model { Size(it, client) }
+    val small by model { Size(it, client) }
+    val thumb by model { Size(it, client) }
 
     data class Size(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val h by int

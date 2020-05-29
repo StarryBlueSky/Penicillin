@@ -54,7 +54,7 @@ fun Account.settings(
         "include_universal_quality_filtering" to "true",
         *options
     )
-}.jsonObject<Settings>()
+}.jsonObject { Settings(it, client) }
 
 /**
  * Shorthand extension property to [Account.settings].
@@ -97,7 +97,7 @@ fun Account.updateSettings(
         *options
     )
 
-}.jsonObject<Settings>()
+}.jsonObject { Settings(it, client) }
 
 /**
  * Shorthand extension property to [Account.updateSettings].

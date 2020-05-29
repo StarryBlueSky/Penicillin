@@ -26,8 +26,8 @@
 
 package jp.nephy.penicillin.endpoints.welcomemessages
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.jsonObjectOf
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.jsonBody
 import jp.nephy.penicillin.core.request.parameters
@@ -62,4 +62,4 @@ fun WelcomeMessages.create(
         ),
         *options
     )
-}.jsonObject<WelcomeMessage.Single>()
+}.jsonObject { WelcomeMessage.Single(it, client) }

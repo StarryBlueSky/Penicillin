@@ -97,7 +97,7 @@ private fun Lists.listInternal(
         "reverse" to reverse,
         *options
     )
-}.jsonArray<TwitterList>()
+}.jsonArray { TwitterList(it, client) }
 
  /**
  * Shorthand property to [Lists.list].

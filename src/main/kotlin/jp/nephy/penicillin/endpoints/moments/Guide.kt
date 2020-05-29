@@ -73,7 +73,7 @@ fun Moments.guide(
         "v" to "1473704494",
         *options
     )
-}.jsonObject<MomentGuide>()
+}.jsonObject { MomentGuide(it, client) }
 
 /**
  * Shorthand property to [Moments.guide].

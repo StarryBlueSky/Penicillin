@@ -26,17 +26,16 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 data class Place(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val attributes by penicillinModel<Attribute>()
-    val boundingBox by penicillinModel<BoundingBox>("bounding_box")
+    val attributes by model { Attribute(it, client) }
+    val boundingBox by model("bounding_box") { BoundingBox(it, client) }
     val centroid by floatList
-    val containedWithin by penicillinModelList<Place>("contained_within")
+    val containedWithin by modelList("contained_within") { Place(it, client) }
     val country by string
     val countryCode by string("country_code")
     val fullName by string("full_name")

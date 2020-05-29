@@ -73,4 +73,4 @@ private fun Users.profileBanner(
         "screen_name" to screenName,
         *options
     )
-}.jsonObject<UserProfileBanner>()
+}.jsonObject { UserProfileBanner(it, client) }

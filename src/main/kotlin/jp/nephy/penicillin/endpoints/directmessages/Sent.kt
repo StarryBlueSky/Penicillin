@@ -58,4 +58,4 @@ fun DirectMessages.sentMessages(
         "page" to page,
         *options
     )
-}.jsonArray<DirectMessage>()
+}.jsonArray { DirectMessage(it, client) }

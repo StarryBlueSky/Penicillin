@@ -47,7 +47,7 @@ fun Help.configuration(
     vararg options: Option
 ) = client.session.get("/1.1/help/configuration.json") {
     parameters(*options)
-}.jsonObject<Configuration>()
+}.jsonObject { Configuration(it, client) }
 
 /**
  * Shorthand property to [Help.configuration].

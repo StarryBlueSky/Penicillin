@@ -50,4 +50,4 @@ fun Statuses.pin(
         "id" to id,
         *options
     )
-}.jsonObject<PinTweet>()
+}.jsonObject { PinTweet(it, client) }

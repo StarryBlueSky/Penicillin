@@ -26,16 +26,15 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.boolean
-import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.boolean
+import blue.starry.jsonkt.delegation.long
+import blue.starry.jsonkt.delegation.model
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-
 data class Relationship(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val source by penicillinModel<Source>()
-    val target by penicillinModel<Target>()
+    val source by model { Source(it, client) }
+    val target by model { Target(it, client) }
 
     data class Source(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val allReplies by boolean("all_replies")

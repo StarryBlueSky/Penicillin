@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.friendships
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Friendships
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.Friendships.Lookup
 
 /**
@@ -73,4 +73,4 @@ private fun Friendships.lookup(
         "user_id" to userIds?.joinToString(","),
         *options
     )
-}.jsonArray<Lookup>()
+}.jsonArray { Lookup(it, client) }

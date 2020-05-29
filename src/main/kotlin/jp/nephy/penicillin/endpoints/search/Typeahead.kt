@@ -77,4 +77,4 @@ fun Search.typeahead(
         "tweet_mode" to tweetMode,
         *options
     )
-}.jsonObject<SearchTypeahead>()
+}.jsonObject { SearchTypeahead(it, client) }

@@ -58,4 +58,4 @@ fun DirectMessages.list(
         "skip_status" to skipStatus,
         *options
     )
-}.jsonArray<DirectMessage>()
+}.jsonArray { DirectMessage(it, client) }

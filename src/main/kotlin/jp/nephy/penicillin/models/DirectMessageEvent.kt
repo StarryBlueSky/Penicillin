@@ -26,16 +26,15 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 object DirectMessageEvent {
     data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val apps by penicillinModel<App>()
-        val events by penicillinModelList<Event>()
+        val apps by model { App(it, client) }
+        val events by modelList { Event(it, client) }
         val nextCursor by nullableString("next_cursor")
 
         data class App(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
@@ -49,23 +48,23 @@ object DirectMessageEvent {
         data class Event(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val createdTimestamp by string("created_timestamp")
             val id by string
-            val messageCreate by penicillinModel<MessageCreate>("message_create")
+            val messageCreate by model("message_create") { MessageCreate(it, client) }
             val type by string
 
             data class MessageCreate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                val messageData by penicillinModel<MessageData>("message_data")
+                val messageData by model("message_data") { MessageData(it, client) }
                 val senderId by string("sender_id")
                 val sourceAppId by nullableString("source_app_id")
-                val target by penicillinModel<Target>()
+                val target by model { Target(it, client) }
 
                 data class MessageData(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                    val entities by penicillinModel<Entities>()
+                    val entities by model { Entities(it, client) }
                     val text by string
 
                     data class Entities(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                        val hashtags by penicillinModelList<Hashtag>()
+                        val hashtags by modelList { Hashtag(it, client) }
                         val symbols by jsonArray
-                        val urls by penicillinModelList<Url>()
+                        val urls by modelList { Url(it, client) }
                         val userMentions by jsonArray("user_mentions")
 
                         data class Hashtag(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
@@ -90,6 +89,6 @@ object DirectMessageEvent {
     }
 
     data class Show(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val event by penicillinModel<List.Event>()
+        val event by model { List.Event(it, client) }
     }
 }

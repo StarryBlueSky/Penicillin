@@ -62,4 +62,4 @@ fun Collections.create(
         *options
     )
 
-}.jsonObject<Collection.Model>()
+}.jsonObject { Collection.Model(it, client) }

@@ -123,4 +123,4 @@ fun Statuses.create(
         *options
     )
 
-}.jsonObject<Status>()
+}.jsonObject { Status(it, client) }

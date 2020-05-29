@@ -61,4 +61,4 @@ fun Statuses.retweeterIds(
         "stringify_ids" to stringifyIds,
         *options
     )
-}.cursorJsonObject<CursorIds>()
+}.cursorJsonObject { CursorIds(it, client) }

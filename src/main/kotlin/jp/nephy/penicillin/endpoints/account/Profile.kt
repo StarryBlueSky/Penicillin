@@ -76,7 +76,7 @@ fun Account.updateProfile(
         *options
     )
 
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }
 
 /**
  * Shorthand extension property to [Account.updateProfile].

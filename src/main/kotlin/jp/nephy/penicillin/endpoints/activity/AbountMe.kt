@@ -72,7 +72,7 @@ fun Activity.aboutMe(
         *options,
         mode = EmulationMode.TwitterForiPhone
     )
-}.jsonArray<ActivityEvent>()
+}.jsonArray { ActivityEvent(it, client) }
 
 /**
  * Shorthand property to [Activity.aboutMe].

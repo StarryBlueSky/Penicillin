@@ -86,4 +86,4 @@ private fun Friendships.create(
         "follow" to follow,
         *options
     )
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

@@ -31,6 +31,6 @@ package jp.nephy.penicillin.core.experimental
     AnnotationTarget.CLASS, AnnotationTarget.TYPEALIAS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY, AnnotationTarget.FIELD
 )
 @Retention(AnnotationRetention.SOURCE)
-@Experimental(level = Experimental.Level.WARNING)
+@RequiresOptIn(level = RequiresOptIn.Level.WARNING)
 @MustBeDocumented
 annotation class PenicillinExperimentalApi

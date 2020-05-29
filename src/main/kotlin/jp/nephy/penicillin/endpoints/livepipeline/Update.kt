@@ -52,4 +52,4 @@ fun LivePipeline.update(
         "sub_topics" to ids.joinToString(",") { "/tweet_engagement/$it" },
         *options
     )
-}.jsonObject<LivePipelineSubscription>()
+}.jsonObject { LivePipelineSubscription(it, client) }

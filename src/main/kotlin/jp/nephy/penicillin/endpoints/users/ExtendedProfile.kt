@@ -52,4 +52,4 @@ fun Users.extendedProfile(
         "include_birthdate" to includeBirthdate,
         *options
     )
-}.jsonObject<ExtendedProfile>()
+}.jsonObject { ExtendedProfile(it, client) }

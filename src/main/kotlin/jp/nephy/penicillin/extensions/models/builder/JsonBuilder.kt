@@ -24,7 +24,7 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.delegation.JsonModel
+import blue.starry.jsonkt.delegation.JsonModel
 
 internal typealias JsonMap = MutableMap<String, Any?>
 

@@ -26,9 +26,9 @@
 
 package jp.nephy.penicillin.models.entities
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.intList
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.intList
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.UrlEntityModel
 

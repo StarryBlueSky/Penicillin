@@ -48,4 +48,4 @@ fun AccountActivity.listSubscriptions(
     vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/$envName/subscriptions/list.json") {
     parameters(*options)
-}.jsonObject<Subscription.List>()
+}.jsonObject { Subscription.List(it, client) }

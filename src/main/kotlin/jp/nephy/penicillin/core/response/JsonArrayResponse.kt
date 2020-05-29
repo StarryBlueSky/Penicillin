@@ -24,21 +24,19 @@
 
 package jp.nephy.penicillin.core.response
 
+import blue.starry.jsonkt.JsonArray
+import blue.starry.jsonkt.toJsonArray
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.statement.HttpResponse
-import jp.nephy.jsonkt.JsonArray
-import jp.nephy.jsonkt.toJsonArray
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.PenicillinModel
-import kotlin.reflect.KClass
 
 /**
  * The [ApiResponse] that provides parsed json array with json model.
  */
 data class JsonArrayResponse<M: PenicillinModel>(
     override val client: ApiClient,
-    override val model: KClass<M>,
 
     /**
      * Results of response.

@@ -46,7 +46,7 @@ fun Help.tos(
     vararg options: Option
 ) = client.session.get("/1.1/help/tos.json") {
     parameters(*options)
-}.jsonObject<Tos>()
+}.jsonObject { Tos(it, client) }
 
 /**
  * Shorthand property to [Help.tos].

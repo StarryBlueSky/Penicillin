@@ -66,7 +66,7 @@ fun Trends.plus(
         "tweet_mode" to "extended",
         *options
     )
-}.jsonObject<TrendPlus>()
+}.jsonObject { TrendPlus(it, client) }
 
 /**
  * Shorthand property to [Trends.plus].

@@ -61,7 +61,7 @@ fun Application.rateLimitStatus(
         "resources" to resources?.joinToString(","),
         *options
     )
-}.jsonObject<ApplicationRateLimitStatus>()
+}.jsonObject { ApplicationRateLimitStatus(it, client) }
 
 /**
  * Shorthand extension property to [Application.rateLimitStatus].

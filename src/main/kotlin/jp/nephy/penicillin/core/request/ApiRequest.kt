@@ -24,6 +24,7 @@
 
 package jp.nephy.penicillin.core.request
 
+import blue.starry.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.action.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
@@ -52,8 +53,8 @@ class ApiRequest(
      *
      * @return New [JsonObjectApiAction] for [M].
      */
-    inline fun <reified M: PenicillinModel> jsonObject(): JsonObjectApiAction<M> {
-        return JsonObjectApiAction(client, this, M::class)
+    fun <M: PenicillinModel> jsonObject(converter: (JsonObject) -> M): JsonObjectApiAction<M> {
+        return JsonObjectApiAction(client, this, converter)
     }
 
     /**
@@ -61,8 +62,8 @@ class ApiRequest(
      *
      * @return New [JsonArrayApiAction] for [M].
      */
-    inline fun <reified M: PenicillinModel> jsonArray(): JsonArrayApiAction<M> {
-        return JsonArrayApiAction(client, this, M::class)
+    fun <M: PenicillinModel> jsonArray(converter: (JsonObject) -> M): JsonArrayApiAction<M> {
+        return JsonArrayApiAction(client, this, converter)
     }
 
     /**
@@ -70,8 +71,8 @@ class ApiRequest(
      *
      * @return New [CursorJsonObjectApiAction] for [M].
      */
-    inline fun <reified M: PenicillinCursorModel> cursorJsonObject(): CursorJsonObjectApiAction<M> {
-        return CursorJsonObjectApiAction(client, this, M::class)
+    fun <M: PenicillinCursorModel> cursorJsonObject(converter: (JsonObject) -> M): CursorJsonObjectApiAction<M> {
+        return CursorJsonObjectApiAction(client, this, converter)
     }
 
     /**
@@ -79,8 +80,8 @@ class ApiRequest(
      *
      * @return New [PremiumSearchJsonObjectApiAction] for [M].
      */
-    inline fun <reified M: PremiumSearchModel> premiumSearchJsonObject(environment: PremiumSearchEnvironment): PremiumSearchJsonObjectApiAction<M> {
-        return PremiumSearchJsonObjectApiAction(client, this, M::class, environment)
+    fun <M: PremiumSearchModel> premiumSearchJsonObject(environment: PremiumSearchEnvironment, converter: (JsonObject) -> M): PremiumSearchJsonObjectApiAction<M> {
+        return PremiumSearchJsonObjectApiAction(client, this, converter, environment)
     }
 
     /**

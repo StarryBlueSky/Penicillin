@@ -51,4 +51,4 @@ fun WelcomeMessages.show(
         "id" to id,
         *options
     )
-}.jsonObject<WelcomeMessage.Single>()
+}.jsonObject { WelcomeMessage.Single(it, client) }

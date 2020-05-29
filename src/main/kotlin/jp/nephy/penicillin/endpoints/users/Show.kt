@@ -94,4 +94,4 @@ private fun Users.show(
         "include_entities" to includeEntities,
         *options
     )
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

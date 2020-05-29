@@ -46,7 +46,7 @@ fun Help.privacy(
     vararg options: Option
 ) = client.session.get("/1.1/help/privacy.json") {
     parameters(*options)
-}.jsonObject<Privacy>()
+}.jsonObject { Privacy(it, client) }
 
 /**
  * Shorthand property to [Help.privacy].

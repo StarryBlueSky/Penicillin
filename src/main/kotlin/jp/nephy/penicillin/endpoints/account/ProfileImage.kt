@@ -70,4 +70,4 @@ fun Account.updateProfileImage(
             *options
         )
     }
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

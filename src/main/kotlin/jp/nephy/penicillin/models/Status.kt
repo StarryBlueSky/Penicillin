@@ -26,13 +26,12 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.nullablePenicillinModel
-import jp.nephy.penicillin.extensions.nullablePenicillinModelList
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
+
+
 import jp.nephy.penicillin.models.entities.StatusEntity
 
 data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
@@ -44,8 +43,8 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
     val fullTextRaw by nullableString("full_text")
     val displayTextRange by intList("display_text_range")
     
-    val entities by penicillinModel<StatusEntity>()
-    val extendedEntities by nullablePenicillinModel<StatusEntity>("extended_entities")
+    val entities by model { StatusEntity(it, client) }
+    val extendedEntities by nullableModel("extended_entities") { StatusEntity(it, client) }
     
     val truncated by boolean
     val source by string
@@ -56,18 +55,18 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
     val inReplyToUserId by nullableLong("in_reply_to_user_id")
     val inReplyToUserIdStr by nullableString("in_reply_to_user_id_str")
     
-    val user by penicillinModel<User>()
+    val user by model { User(it, client) }
     
     @Deprecated("geo field is deprecated. Use coordinates instead.", replaceWith = ReplaceWith("coordinates"))
     val geo by nullableJsonElement
-    val coordinates by nullablePenicillinModel<Coordinate>()
-    val place by nullablePenicillinModel<Place>()
+    val coordinates by nullableModel { Coordinate(it, client) }
+    val place by nullableModel { Place(it, client) }
     
-    val contributors by penicillinModelList<Contributor>()
+    val contributors by modelList { Contributor(it, client) }
     
     val quotedStatusId by nullableLong("quoted_status_id")
     val quotedStatusIdStr by nullableString("quoted_status_id_str")
-    val quotedStatus by nullablePenicillinModel<Status>("quoted_status")
+    val quotedStatus by nullableModel("quoted_status") { Status(it, client) }
     val isQuoteStatus by boolean("is_quote_status")
     
     val retweetCount by int("retweet_count")
@@ -91,16 +90,16 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
     
     // Unknown
     val conversationId by nullableLong("conversation_id")
-    val currentUserRetweet by nullablePenicillinModel<CurrentUserRetweet>("current_user_retweet")
-    val extendedTweet by nullablePenicillinModel<ExtendedTweet>("extended_tweet")
+    val currentUserRetweet by nullableModel("current_user_retweet") { CurrentUserRetweet(it, client) }
+    val extendedTweet by nullableModel("extended_tweet") { ExtendedTweet(it, client) }
     val filterLevel by nullableString("filter_level")
-    val retweetedStatus by nullablePenicillinModel<Status>("retweeted_status")
+    val retweetedStatus by nullableModel("retweeted_status") { Status(it, client) }
     val supplementalLanguage by nullableString("supplemental_language") // null
     val timestampMs by nullableString("timestamp_ms")
     val withheldCopyright by nullableBoolean("withheld_copyright")
     val withheldInCountries by stringList("withheld_in_countries")
     val withheldScope by nullableString("withheld_scope")
-    val matchingRules  by nullablePenicillinModelList<MatchingRule>("matching_rules")
+    val matchingRules  by nullableModelList("matching_rules") { MatchingRule(it, client) }
 
     data class Contributor(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val id by long
@@ -134,8 +133,8 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
 
     data class ExtendedTweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val displayTextRange by intList("display_text_range")
-        val entities by penicillinModel<StatusEntity>()
-        val extendedEntities by nullablePenicillinModel<StatusEntity>("extended_entities")
+        val entities by model { StatusEntity(it, client) }
+        val extendedEntities by nullableModel("extended_entities") { StatusEntity(it, client) }
         val fullText by nullableString("full_text")
     }
 

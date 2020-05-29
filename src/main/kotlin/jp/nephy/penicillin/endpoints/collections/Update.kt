@@ -62,4 +62,4 @@ fun Collections.update(
         *options
     )
 
-}.jsonObject<Collection.Model>()
+}.jsonObject { Collection.Model(it, client) }

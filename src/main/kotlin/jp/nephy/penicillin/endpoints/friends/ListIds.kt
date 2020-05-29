@@ -120,7 +120,7 @@ private fun Friends.listIdsInternal(
         "count" to count,
         *options
     )
-}.cursorJsonObject<CursorIds>()
+}.cursorJsonObject { CursorIds(it, client) }
 
 /**
  * Shorthand property to [Friends.listIds].

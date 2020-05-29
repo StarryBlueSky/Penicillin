@@ -110,7 +110,7 @@ private fun Lists.membershipsInternal(
         "filter_to_owned_lists" to filterToOwnedLists,
         *options
     )
-}.cursorJsonObject<CursorLists>()
+}.cursorJsonObject { CursorLists(it, client) }
 
 /**
  * Shorthand property to [Lists.memberships].

@@ -26,16 +26,15 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.string
-import jp.nephy.jsonkt.delegation.stringList
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.long
+import blue.starry.jsonkt.delegation.model
+import blue.starry.jsonkt.delegation.string
+import blue.starry.jsonkt.delegation.stringList
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-
 object Friendships {
     data class Show(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val relationship by penicillinModel<Relationship>()
+        val relationship by model { Relationship(it, client) }
     }
 
     data class Lookup(override val json: JsonObject, override val client: ApiClient): PenicillinModel {

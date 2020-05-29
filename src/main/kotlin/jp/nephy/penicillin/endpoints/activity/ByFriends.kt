@@ -61,7 +61,7 @@ fun Activity.byFriends(
         *options,
         mode = EmulationMode.Tweetdeck
     )
-}.jsonArray<ActivityEvent>()
+}.jsonArray { ActivityEvent(it, client) }
 
 /**
  * Shorthand property to [Activity.byFriends].

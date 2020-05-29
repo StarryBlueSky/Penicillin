@@ -26,19 +26,20 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.model
+import blue.starry.jsonkt.delegation.modelList
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 object WelcomeMessageRule {
     data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 
     data class Single(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val welcomeMessageRule by penicillinModel<Model>("welcome_message_rule")
+        val welcomeMessageRule by model("welcome_message_rule") { Model(it, client) }
     }
     
     data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val welcomeMessageRules by penicillinModelList<Model>("welcome_message_rules")
+        val welcomeMessageRules by modelList("welcome_message_rules") { Model(it, client) }
     }
 }

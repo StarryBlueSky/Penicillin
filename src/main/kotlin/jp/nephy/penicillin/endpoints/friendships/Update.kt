@@ -87,4 +87,4 @@ private fun Friendships.update(
         *options
     )
 
-}.jsonObject<Relationship>()
+}.jsonObject { Relationship(it, client) }

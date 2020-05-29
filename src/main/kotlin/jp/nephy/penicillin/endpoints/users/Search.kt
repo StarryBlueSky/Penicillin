@@ -61,4 +61,4 @@ fun Users.search(
         "include_entities" to includeEntities,
         *options
     )
-}.jsonArray<User>()
+}.jsonArray { User(it, client) }

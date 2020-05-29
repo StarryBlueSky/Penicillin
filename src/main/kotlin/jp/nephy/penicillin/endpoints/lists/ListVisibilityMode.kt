@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.endpoints.lists
 
-import jp.nephy.jsonkt.delegation.StringJsonEnum
+import blue.starry.jsonkt.delegation.StringJsonEnum
 import jp.nephy.penicillin.core.request.EnumRequestParameter
 
 /**

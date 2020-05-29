@@ -52,4 +52,4 @@ fun SavedSearches.create(
         "query" to query,
         *options
     )
-}.jsonObject<SavedSearch>()
+}.jsonObject { SavedSearch(it, client) }

@@ -112,4 +112,4 @@ private fun Users.lookup(
         "tweet_mode" to tweetMode,
         *options
     )
-}.jsonArray<User>()
+}.jsonArray { User(it, client) }

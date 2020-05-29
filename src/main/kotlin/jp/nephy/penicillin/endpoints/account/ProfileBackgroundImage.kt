@@ -64,4 +64,4 @@ fun Account.updateProfileBackgroundImage(
         *options
     )
 
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

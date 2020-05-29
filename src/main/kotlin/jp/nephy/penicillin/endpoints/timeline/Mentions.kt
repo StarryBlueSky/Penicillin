@@ -102,7 +102,7 @@ fun Timeline.mentionsTimeline(
         "include_card_uri" to includeCardUri,
         *options
     )
-}.jsonArray<Status>()
+}.jsonArray { Status(it, client) }
 
 /**
  * Shorthand property to [Timeline.mentionsTimeline].

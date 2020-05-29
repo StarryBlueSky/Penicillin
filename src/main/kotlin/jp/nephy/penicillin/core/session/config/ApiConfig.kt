@@ -153,7 +153,7 @@ data class ApiConfig(
         @Suppress("MemberVisibilityPrivate")
         var defaultTweetMode: TweetMode = TweetMode.Extended
         
-        @UseExperimental(PenicillinExperimentalApi::class)
+        @OptIn(PenicillinExperimentalApi::class)
         override fun build(): ApiConfig {
             return ApiConfig(maxRetries, retryIntervalInMillis, defaultTimeoutInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
         }

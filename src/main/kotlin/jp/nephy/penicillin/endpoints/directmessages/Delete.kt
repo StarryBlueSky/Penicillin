@@ -52,4 +52,4 @@ fun DirectMessages.delete(
         "include_entities" to includeEntities,
         *options
     )
-}.jsonObject<DirectMessage>()
+}.jsonObject { DirectMessage(it, client) }

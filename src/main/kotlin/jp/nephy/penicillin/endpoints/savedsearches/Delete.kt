@@ -49,4 +49,4 @@ fun SavedSearches.delete(
     vararg options: Option
 ) = client.session.post("/1.1/saved_searches/destroy/$id.json") {
     formBody(*options)
-}.jsonObject<SavedSearch>()
+}.jsonObject { SavedSearch(it, client) }

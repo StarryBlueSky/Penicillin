@@ -57,7 +57,7 @@ fun Account.verifyCredentials(
         "include_email" to includeEmail,
         *options
     )
-}.jsonObject<VerifyCredentials>()
+}.jsonObject { VerifyCredentials(it, client) }
 
 /**
  * Shorthand property to [Account.verifyCredentials].

@@ -26,9 +26,9 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
-import jp.nephy.penicillin.extensions.parseModel
+import blue.starry.jsonkt.parseObject
+import blue.starry.jsonkt.toJsonObject
+import jp.nephy.penicillin.core.session.NoopApiClient
 import jp.nephy.penicillin.models.TwitterList
 import java.time.temporal.TemporalAccessor
 import kotlin.collections.set
@@ -95,7 +95,6 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
         subscriberCount = subscriber
     }
 
-    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): TwitterList {
         val id = generateId()
         
@@ -115,6 +114,6 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
         this["id"] = id
         this["id_str"] = id.toString()
 
-        return toJsonObject().parseModel()
+        return toJsonObject().parseObject { TwitterList(it, NoopApiClient) }
     }
 }

@@ -63,7 +63,7 @@ val JsonObjectResponse<Search>.next: JsonObjectApiAction<Search>
             }
         }
 
-        return action.request.jsonObject()
+        return action.request.jsonObject { Search(it, client) }
     }
 
 /*
@@ -95,5 +95,5 @@ val JsonObjectResponse<Search>.refresh: JsonObjectApiAction<Search>
             }
         }
 
-        return action.request.jsonObject()
+        return action.request.jsonObject { Search(it, client) }
     }

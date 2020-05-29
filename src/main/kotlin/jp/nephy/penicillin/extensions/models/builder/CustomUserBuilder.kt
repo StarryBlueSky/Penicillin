@@ -26,9 +26,11 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
-import jp.nephy.penicillin.extensions.parseModel
+import blue.starry.jsonkt.jsonArrayOf
+import blue.starry.jsonkt.jsonObjectOf
+import blue.starry.jsonkt.parseObject
+import blue.starry.jsonkt.toJsonObject
+import jp.nephy.penicillin.core.session.NoopApiClient
 import jp.nephy.penicillin.models.User
 import java.time.temporal.TemporalAccessor
 import kotlin.collections.set
@@ -159,10 +161,9 @@ class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
         createdAt = time
     }
 
-    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): User {
         this["created_at"] = createdAt.toCreatedAt()
 
-        return toJsonObject().parseModel()
+        return toJsonObject().parseObject { User(it, NoopApiClient) }
     }
 }

@@ -58,7 +58,7 @@ fun OAuth2.bearerToken(
         "grant_type" to grantType,
         *options
     )
-}.jsonObject<OAuthToken>()
+}.jsonObject { OAuthToken(it, client) }
 
  /**
  * Shorthand property to [OAuth2.bearerToken].

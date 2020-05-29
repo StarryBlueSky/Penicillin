@@ -26,15 +26,11 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.byString
-import jp.nephy.jsonkt.delegation.jsonObject
-import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.nullablePenicillinModel
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
+
 
 data class MomentGuide(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     private val category by jsonObject
@@ -43,16 +39,16 @@ data class MomentGuide(override val json: JsonObject, override val client: ApiCl
     val categoryUri by category.byString("uri")
     val impressionId by long("impression_id")
     val cursor by string("scroll_cursor")
-    val modules by penicillinModelList<Module>()
-    val trendModule by nullablePenicillinModel<TrendModule>()
+    val modules by modelList { Module(it, client) }
+    val trendModule by nullableModel { TrendModule(it, client) }
 
     data class Module(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val moduleType by string("module_type")
-        val moments by penicillinModelList<Moment>()
+        val moments by modelList { Moment(it, client) }
     }
 
     data class TrendModule(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val metadata by penicillinModel<TrendMetadata>()
-        val trends by penicillinModelList<TrendType>()
+        val metadata by model { TrendMetadata(it, client) }
+        val trends by modelList { TrendType(it, client) }
     }
 }

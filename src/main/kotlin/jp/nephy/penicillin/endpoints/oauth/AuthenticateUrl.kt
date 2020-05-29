@@ -31,8 +31,8 @@ import io.ktor.http.ParametersBuilder
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
 import jp.nephy.penicillin.core.request.EndpointHost
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.OAuth
+import jp.nephy.penicillin.endpoints.Option
 
 /**
  * Allows a Consumer application to use an OAuth request_token to request user authorization.

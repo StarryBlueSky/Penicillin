@@ -26,11 +26,12 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.boolean
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.boolean
+import blue.starry.jsonkt.delegation.modelList
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 object Webhook {
     data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
@@ -41,11 +42,11 @@ object Webhook {
     }
 
     data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val environments by penicillinModelList<Environment>()
+        val environments by modelList { Environment(it, client) }
 
         data class Environment(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val name by string("environment_name")
-            val webhooks by penicillinModelList<Model>()
+            val webhooks by modelList { Model(it, client) }
         }
     }
 }

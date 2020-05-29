@@ -26,10 +26,12 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.*
+import blue.starry.jsonkt.parseObject
+import blue.starry.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
+import jp.nephy.penicillin.core.session.NoopApiClient
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
-import jp.nephy.penicillin.extensions.parseModel
+
 import jp.nephy.penicillin.models.Stream
 import java.time.temporal.TemporalAccessor
 import kotlin.collections.set
@@ -73,7 +75,7 @@ class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.Status
      */
     var createdAt: TemporalAccessor? = null
 
-    @UseExperimental(PenicillinExperimentalApi::class)
+    @OptIn(PenicillinExperimentalApi::class)
     override fun build(): Stream.StatusEvent {
         val source = source.build()
         val target = target.build()
@@ -84,6 +86,6 @@ class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.Status
         this["target_object"] = targetObject
         this["created_at"] = createdAt.toCreatedAt()
 
-        return toJsonObject().parseModel()
+        return toJsonObject().parseObject { Stream.StatusEvent(it, NoopApiClient) }
     }
 }

@@ -26,10 +26,11 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.modelList
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 object Subscription {
     data class Count(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
@@ -41,7 +42,7 @@ object Subscription {
     data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val environment by string
         val applicationId by string("application_id")
-        val subscriptions by penicillinModelList<Subscription>()
+        val subscriptions by modelList { Subscription(it, client) }
 
         data class Subscription(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val userId by string("user_id")

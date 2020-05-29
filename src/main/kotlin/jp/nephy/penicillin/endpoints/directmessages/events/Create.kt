@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.endpoints.directmessages.events
 
-import jp.nephy.jsonkt.jsonObjectOf
+import blue.starry.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.jsonBody
 import jp.nephy.penicillin.core.request.parameters
@@ -69,4 +69,4 @@ fun DirectMessageEvents.create(
         ),
         *options
     )
-}.jsonObject<DirectMessageEvent.Show>()
+}.jsonObject { DirectMessageEvent.Show(it, client) }

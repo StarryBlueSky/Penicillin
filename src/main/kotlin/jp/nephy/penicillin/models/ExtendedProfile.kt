@@ -26,17 +26,18 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.nullableInt
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.long
+import blue.starry.jsonkt.delegation.nullableInt
+import blue.starry.jsonkt.delegation.nullableModel
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.nullablePenicillinModel
+
 
 data class ExtendedProfile(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val id by long
     val idStr by string
-    val birthdate by nullablePenicillinModel<BirthDate>()
+    val birthdate by nullableModel { BirthDate(it, client) }
 
     data class BirthDate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val year by nullableInt

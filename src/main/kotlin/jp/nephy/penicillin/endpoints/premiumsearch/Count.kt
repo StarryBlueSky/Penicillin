@@ -94,4 +94,4 @@ fun PremiumSearchEnvironment.count(
         "next" to next,
         *options
     )
-}.premiumSearchJsonObject<PremiumSearchCount>(this)
+}.premiumSearchJsonObject(this) { PremiumSearchCount(it, client) }

@@ -54,7 +54,7 @@ fun Mutes.listIds(
         "cursor" to cursor,
         *options
     )
-}.cursorJsonObject<CursorIds>()
+}.cursorJsonObject { CursorIds(it, client) }
 
 /**
  * Shorthand property to [Mutes.listIds].

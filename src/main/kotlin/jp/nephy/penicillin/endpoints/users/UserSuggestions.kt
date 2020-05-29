@@ -54,4 +54,4 @@ fun Users.userSuggestions(
         "lang" to lang,
         *options
     )
-}.jsonObject<UserSuggestion>()
+}.jsonObject { UserSuggestion(it, client) }

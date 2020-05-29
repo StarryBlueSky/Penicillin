@@ -26,9 +26,9 @@
 
 package jp.nephy.penicillin.core.streaming
 
+import blue.starry.jsonkt.toJsonObject
 import io.ktor.utils.io.core.Closeable
 import io.ktor.utils.io.jvm.javaio.toInputStream
-import jp.nephy.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.action.unescapeHTML
 import jp.nephy.penicillin.core.response.StreamResponse

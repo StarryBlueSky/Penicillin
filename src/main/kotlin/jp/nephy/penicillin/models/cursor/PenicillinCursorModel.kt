@@ -26,10 +26,10 @@
 
 package jp.nephy.penicillin.models.cursor
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.nullableInt
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.long
+import blue.starry.jsonkt.delegation.nullableInt
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.models.PenicillinModel
 

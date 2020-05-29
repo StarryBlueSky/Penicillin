@@ -59,7 +59,7 @@ fun Blocks.listUsers(
         "cursor" to cursor,
         *options
     )
-}.cursorJsonObject<CursorUsers>()
+}.cursorJsonObject { CursorUsers(it, client) }
 
 /**
  * Shorthand extension property to [Blocks.listUsers].

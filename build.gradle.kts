@@ -1,8 +1,6 @@
 @file:Suppress("KDocMissingDocumentation", "PublicApiImplicitType")
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
-import com.github.breadmoirai.githubreleaseplugin.ChangeLogSupplier
-import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.nio.file.Files
@@ -12,39 +10,38 @@ import java.time.format.DateTimeFormatter
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-val githubOrganizationName = "NephyProject"
+val githubOrganizationName = "StarryBlueSky"
 val githubRepositoryName = "Penicillin"
-val packageGroupId = "jp.nephy"
+val packageGroupId = "blue.starry"
 val packageName = "Penicillin"
-val packageVersion = Version(4, 2, 4)
+val packageVersion = Version(5, 0, 0)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 object ThirdpartyVersion {
-    const val Ktor = "1.3.1"
-    const val JsonKt = "5.0.0-eap-23"
+    const val Ktor = "1.3.2"
+    const val JsonKt = "5.0.0-eap-27"
 
     // For testing
-    const val Spek = "2.0.9"
+    const val Spek = "2.0.10"
     const val TwitterText = "3.0.1"
-    const val Guava = "28.0-jre"
+    const val Guava = "29.0-jre"
 
     // For logging
-    const val KotlinLogging = "1.7.8"
+    const val KotlinLogging = "1.7.9"
     const val Logback = "1.2.3"
     const val jansi = "1.18"
 }
 
 plugins { 
-    kotlin("jvm") version "1.3.61"
+    kotlin("jvm") version "1.3.72"
 
     // For testing
     id("com.adarshr.test-logger") version "2.0.0"
     id("build-time-tracker") version "0.11.1"
 
     // For publishing
-    id("maven-publish")
-    id("com.jfrog.bintray") version "1.8.4"
-    id("com.github.breadmoirai.github-release") version "2.2.9"
+    `maven-publish`
+    id("com.jfrog.bintray") version "1.8.5"
     
     // For documentation
     id("org.jetbrains.dokka") version "0.10.1"
@@ -57,6 +54,29 @@ fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, St
     }
 }
 
+data class Version(val major: Int, val minor: Int, val patch: Int) {
+    val label: String
+        get() = "$major.$minor.$patch"
+}
+
+// cannot be companion object
+val isEAPBuild: Boolean
+    get() = hasProperty("snapshot")
+
+val buildNumber: Int
+    get() {
+        val path = Paths.get(buildDir.absolutePath, "build-number-${packageVersion.label}.txt")
+        val number = if (Files.exists(path)) {
+            path.toFile().readText().toIntOrNull()
+        } else {
+            null
+        }?.coerceAtLeast(0)?.plus(1) ?: 1
+
+        path.toFile().writeText(number.toString())
+
+        return number
+    }
+
 /*
  * Dependencies
  */
@@ -66,14 +86,10 @@ repositories {
     jcenter()
     maven(url = "https://dl.bintray.com/nephyproject/stable")
     maven(url = "https://dl.bintray.com/nephyproject/dev")
-    maven(url = "https://kotlin.bintray.com/ktor")
-    maven(url = "https://kotlin.bintray.com/kotlinx")
-    maven(url = "https://kotlin.bintray.com/kotlin-eap")
-    maven(url = "https://dl.bintray.com/spekframework/spek-dev")
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
 
     implementation("io.ktor:ktor-client-core-jvm:${ThirdpartyVersion.Ktor}")
     testImplementation("io.ktor:ktor-client-apache:${ThirdpartyVersion.Ktor}")
@@ -82,20 +98,15 @@ dependencies {
     testImplementation("io.ktor:ktor-client-okhttp:${ThirdpartyVersion.Ktor}")
     testImplementation("io.ktor:ktor-client-mock-jvm:${ThirdpartyVersion.Ktor}")
 
-    implementation("jp.nephy:jsonkt:${ThirdpartyVersion.JsonKt}")
-    
-    // For testing
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:${ThirdpartyVersion.Spek}") {
-        exclude(group = "org.jetbrains.kotlin")
-    }
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${ThirdpartyVersion.Spek}") {
-        exclude(group = "org.junit.platform")
-        exclude(group = "org.jetbrains.kotlin")
-    }
-    testRuntimeOnly(kotlin("reflect"))
+    implementation("blue.starry:jsonkt:${ThirdpartyVersion.JsonKt}")
 
     testImplementation("com.twitter.twittertext:twitter-text:${ThirdpartyVersion.TwitterText}")
     testImplementation("com.google.guava:guava:${ThirdpartyVersion.Guava}")
+
+    // For testing
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:${ThirdpartyVersion.Spek}")
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${ThirdpartyVersion.Spek}")
+    testImplementation(kotlin("reflect"))
 
     // For logging
     implementation("io.github.microutils:kotlin-logging:${ThirdpartyVersion.KotlinLogging}")
@@ -122,34 +133,9 @@ tasks.named<KotlinCompile>("compileTestKotlin") {
     }
 }
 
-/*
- * Versioning
- */
-
-data class Version(val major: Int, val minor: Int, val patch: Int) {
-    val label: String
-        get() = "$major.$minor.$patch"
-}
-
-val isEAPBuild: Boolean
-    get() = hasProperty("snapshot")
-
-fun incrementBuildNumber(): Int {
-    val buildNumberPath = Paths.get(buildDir.absolutePath, "build-number-${packageVersion.label}.txt")
-    val buildNumber = if (Files.exists(buildNumberPath)) {
-        buildNumberPath.toFile().readText().toIntOrNull()
-    } else {
-        null
-    }?.coerceAtLeast(0)?.plus(1) ?: 1
-
-    buildNumberPath.toFile().writeText(buildNumber.toString())
-    
-    return buildNumber
-}
-
 project.group = packageGroupId
 project.version = if (isEAPBuild) {
-    "${packageVersion.label}-eap-${incrementBuildNumber()}"
+    "${packageVersion.label}-eap-${buildNumber}"
 } else {
     packageVersion.label
 }
@@ -277,66 +263,6 @@ bintray {
             desc = "$packageName ${project.version}"
             released = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(ZonedDateTime.now())
             vcsTag = project.version.toString()
-        }
-    }
-}
-
-tasks.named<BintrayUploadTask>("bintrayUpload") {
-    dependsOn("publishToMavenLocal")
-}
-
-val githubToken by property()
-
-if (hasProperty("github")) {
-    githubRelease {
-        token(githubToken)
-        val assets = jar.destinationDir.listFiles { _, filename ->
-            project.version.toString() in filename && filename.endsWith(".jar")
-        }
-        releaseAssets(*assets)
-
-        owner(githubOrganizationName)
-        repo(githubRepositoryName)
-
-        tagName("v${project.version}")
-        releaseName("v${project.version}")
-        targetCommitish("master")
-        draft(false)
-        prerelease(false)
-        overwrite(false)
-
-        changelog(closureOf<ChangeLogSupplier> {
-            currentCommit("HEAD")
-            lastCommit("HEAD~10")
-            options(listOf("--format=oneline", "--abbrev-commit", "--max-count=50", "graph"))
-        })
-
-        fun buildChangelog(): String {
-            return try {
-                changelog().call().lines().takeWhile {
-                    "Version bump" !in it
-                }.joinToString("\n") {
-                    val (tag, message) = it.split(" ", limit = 2)
-                    "| $tag | $message |"
-                }
-            } catch (e: Exception) {
-                ""
-            }
-        }
-
-        body {
-            buildString {
-                appendln("## Version\n")
-                appendln("**Latest** Penicillin version: [![Bintray](https://api.bintray.com/packages/nephyproject/penicillin/Penicillin/images/download.svg)](https://bintray.com/nephyproject/penicillin/Penicillin/_latestVersion)")
-                appendln("The latest release build: `${project.version}`\n")
-
-                appendln()
-
-                appendln("## Changelogs\n")
-                appendln("| Commits | Message |")
-                appendln("|:------------:|:-----------|")
-                append(buildChangelog())
-            }
         }
     }
 }

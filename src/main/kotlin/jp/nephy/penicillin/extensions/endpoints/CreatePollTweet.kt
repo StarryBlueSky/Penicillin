@@ -26,8 +26,8 @@
 
 package jp.nephy.penicillin.extensions.endpoints
 
-import jp.nephy.jsonkt.stringify
-import jp.nephy.jsonkt.toJsonObject
+import blue.starry.jsonkt.stringify
+import blue.starry.jsonkt.toJsonObject
 import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.core.request.action.ApiAction
 import jp.nephy.penicillin.endpoints.Option

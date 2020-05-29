@@ -66,7 +66,7 @@ class SessionBuilder(private val client: ApiClient) {
         }
         
         if (dispatcherConfig.connectionThreadsCount != null) {
-            @UseExperimental(KtorExperimentalAPI::class)
+            @OptIn(KtorExperimentalAPI::class)
             httpClient.engineConfig.threadsCount = dispatcherConfig.connectionThreadsCount
         }
 

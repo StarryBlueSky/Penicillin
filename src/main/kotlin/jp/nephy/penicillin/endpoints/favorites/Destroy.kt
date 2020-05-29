@@ -56,4 +56,4 @@ fun Favorites.destroy(
         "include_entities" to includeEntities,
         *options
     )
-}.jsonObject<Status>()
+}.jsonObject { Status(it, client) }

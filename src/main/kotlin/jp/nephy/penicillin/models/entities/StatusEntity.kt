@@ -26,20 +26,21 @@
 
 package jp.nephy.penicillin.models.entities
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.intList
-import jp.nephy.jsonkt.delegation.long
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.intList
+import blue.starry.jsonkt.delegation.long
+import blue.starry.jsonkt.delegation.modelList
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 import jp.nephy.penicillin.models.PenicillinModel
 
 data class StatusEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val hashtags by penicillinModelList<HashtagEntity>()
-    val media by penicillinModelList<MediaEntity>()
-    val symbols by penicillinModelList<SymbolEntity>()
-    val userMentions by penicillinModelList<UserMentionEntity>("user_mentions")
-    val urls by penicillinModelList<URLEntity>()
+    val hashtags by modelList { HashtagEntity(it, client) }
+    val media by modelList { MediaEntity(it, client) }
+    val symbols by modelList { SymbolEntity(it, client) }
+    val userMentions by modelList("user_mentions") { UserMentionEntity(it, client) }
+    val urls by modelList { URLEntity(it, client) }
 
     data class HashtagEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val text by string

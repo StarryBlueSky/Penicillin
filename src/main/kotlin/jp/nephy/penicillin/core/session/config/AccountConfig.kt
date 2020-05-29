@@ -111,7 +111,7 @@ data class Credentials(
         @PenicillinExperimentalApi
         var knownDeviceToken: String? = null
 
-        @UseExperimental(PenicillinExperimentalApi::class)
+        @OptIn(PenicillinExperimentalApi::class)
         override fun build(): Credentials {
             return Credentials(consumerKey, consumerSecret, accessToken, accessTokenSecret, bearerToken, knownDeviceToken)
         }

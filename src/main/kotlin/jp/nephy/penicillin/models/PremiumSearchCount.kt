@@ -26,19 +26,20 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.nullableString
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.int
+import blue.starry.jsonkt.delegation.modelList
+import blue.starry.jsonkt.delegation.nullableString
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 
 data class PremiumSearchCount(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
-    val results by penicillinModelList<Count>()
+    val results by modelList { Count(it, client) }
     val totalCount by int
     override val next by nullableString
-    val requestParameters by penicillinModelList<RequestParameters>()
+    val requestParameters by modelList { RequestParameters(it, client) }
 
     data class Count(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val timePeriod by string

@@ -26,10 +26,10 @@
 
 package jp.nephy.penicillin.extensions.models.builder
 
-import jp.nephy.jsonkt.*
-import jp.nephy.penicillin.core.experimental.PenicillinExperimentalApi
+import blue.starry.jsonkt.parseObject
+import blue.starry.jsonkt.toJsonObject
+import jp.nephy.penicillin.core.session.NoopApiClient
 import jp.nephy.penicillin.core.streaming.handler.UserStreamEvent
-import jp.nephy.penicillin.extensions.parseModel
 import jp.nephy.penicillin.models.Stream
 import java.time.temporal.TemporalAccessor
 import kotlin.collections.set
@@ -64,7 +64,6 @@ class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEven
      */
     var createdAt: TemporalAccessor? = null
 
-    @UseExperimental(PenicillinExperimentalApi::class)
     override fun build(): Stream.UserEvent {
         val source = source.build()
         val target = target.build()
@@ -73,6 +72,6 @@ class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEven
         this["target"] = target
         this["created_at"] = createdAt.toCreatedAt()
 
-        return toJsonObject().parseModel()
+        return toJsonObject().parseObject { Stream.UserEvent(it, NoopApiClient) }
     }
 }

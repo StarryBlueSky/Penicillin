@@ -49,4 +49,4 @@ fun SavedSearches.show(
     vararg options: Option
 ) = client.session.get("/1.1/saved_searches/show/$id.json") {
     parameters(*options)
-}.jsonObject<SavedSearch>()
+}.jsonObject { SavedSearch(it, client) }

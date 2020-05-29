@@ -55,4 +55,4 @@ fun OAuth2.invalidateToken(
         "access_token" to bearerToken,
         *options
     )
-}.jsonObject<OAuthToken>()
+}.jsonObject { OAuthToken(it, client) }

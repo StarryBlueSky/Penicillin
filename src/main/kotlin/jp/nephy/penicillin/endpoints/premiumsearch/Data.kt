@@ -104,4 +104,4 @@ fun PremiumSearchEnvironment.data(
         "next" to next,
         *options
     )
-}.premiumSearchJsonObject<PremiumSearchData>(this)
+}.premiumSearchJsonObject(this) { PremiumSearchData(it, client) }

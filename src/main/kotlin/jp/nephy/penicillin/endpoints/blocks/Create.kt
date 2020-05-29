@@ -95,4 +95,4 @@ private fun Blocks.create(
         *options
     )
 
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

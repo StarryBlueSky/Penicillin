@@ -47,7 +47,7 @@ fun Help.languages(
     vararg options: Option
 ) = client.session.get("/1.1/help/languages.json") {
     parameters(*options)
-}.jsonArray<Language>()
+}.jsonArray { Language(it, client) }
 
 /**
  * Shorthand property to [Help.languages].

@@ -51,4 +51,4 @@ fun WelcomeMessageRules.show(
         "id" to id,
         *options
     )
-}.jsonObject<WelcomeMessageRule.Single>()
+}.jsonObject { WelcomeMessageRule.Single(it, client) }

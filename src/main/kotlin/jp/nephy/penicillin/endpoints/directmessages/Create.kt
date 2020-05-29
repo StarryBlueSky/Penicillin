@@ -54,4 +54,4 @@ fun DirectMessages.create(
         "screen_name" to screenName,
         *options
     )
-}.jsonObject<DirectMessage>()
+}.jsonObject { DirectMessage(it, client) }

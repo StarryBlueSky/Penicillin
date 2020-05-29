@@ -161,4 +161,4 @@ private fun Timeline.listTimeline(
         "include_card_uri" to includeCardUri,
         *options
     )
-}.jsonArray<Status>()
+}.jsonArray { Status(it, client) }

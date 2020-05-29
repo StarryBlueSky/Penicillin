@@ -57,4 +57,4 @@ fun Lists.create(
         "description" to description,
         *options
     )
-}.jsonObject<TwitterList>()
+}.jsonObject { TwitterList(it, client) }

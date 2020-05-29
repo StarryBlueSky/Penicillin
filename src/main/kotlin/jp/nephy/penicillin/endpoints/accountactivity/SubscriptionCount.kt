@@ -46,7 +46,7 @@ fun AccountActivity.subscriptionCount(
     vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/subscriptions/count.json") {
     parameters(*options)
-}.jsonObject<Subscription.Count>()
+}.jsonObject { Subscription.Count(it, client) }
 
 /**
  * Shorthand property to [AccountActivity.subscriptionCount].

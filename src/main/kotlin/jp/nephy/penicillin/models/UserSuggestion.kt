@@ -26,15 +26,16 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.int
+import blue.starry.jsonkt.delegation.modelList
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 data class UserSuggestion(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val name by string
     val size by int
     val slug by string
-    val users by penicillinModelList<User>()
+    val users by modelList { User(it, client) }
 }

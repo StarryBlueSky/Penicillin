@@ -56,4 +56,4 @@ fun Statuses.delete(
         "tweet_mode" to tweetMode,
         *options
     )
-}.jsonObject<Status>()
+}.jsonObject { Status(it, client) }

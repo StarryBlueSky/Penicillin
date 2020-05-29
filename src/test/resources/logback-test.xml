@@ -8,6 +8,7 @@
     </appender>
 
     <logger name="Penicillin" level="ALL" />
+    <logger name="JsonKt" level="ALL" />
 
     <logger name="root" level="INFO">
         <appender-ref ref="STDOUT" />

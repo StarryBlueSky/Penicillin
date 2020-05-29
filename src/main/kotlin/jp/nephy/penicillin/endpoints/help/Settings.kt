@@ -52,7 +52,7 @@ fun Help.settings(
         "settings_version" to settingsVersion,
         *options
     )
-}.jsonObject<Settings>()
+}.jsonObject { Settings(it, client) }
 
 /**
  * Shorthand property to [Help.settings].

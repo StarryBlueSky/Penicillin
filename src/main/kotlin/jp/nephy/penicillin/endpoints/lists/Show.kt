@@ -96,4 +96,4 @@ private fun Lists.show(
         "owner_id" to ownerId,
         *options
     )
-}.jsonObject<TwitterList>()
+}.jsonObject { TwitterList(it, client) }

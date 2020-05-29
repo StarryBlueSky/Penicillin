@@ -24,11 +24,14 @@
 
 package jp.nephy.penicillin.core.streaming.handler
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.parseObject
+import blue.starry.jsonkt.string
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.listener.UserStreamListener
-import jp.nephy.penicillin.extensions.parseModel
+import jp.nephy.penicillin.models.DirectMessage
+import jp.nephy.penicillin.models.Status
+
 import jp.nephy.penicillin.models.Stream
 import kotlinx.coroutines.launch
 
@@ -41,16 +44,16 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
         launch {
             when {
                 "text" in json -> {
-                    listener.onStatus(json.parseModel(client))
+                    listener.onStatus(json.parseObject { Status(it, client) })
                 }
                 "direct_message" in json -> {
-                    listener.onDirectMessage(json.parseModel(client))
+                    listener.onDirectMessage(json.parseObject { DirectMessage(it, client) })
                 }
                 "event" in json -> {
                     val event = UserStreamEvent.byKey(json.getPrimitive("event").string)
                     when (event?.type) {
                         UserStreamEventType.Status -> {
-                            val statusEvent = json.parseModel<Stream.StatusEvent>(client)
+                            val statusEvent = json.parseObject { Stream.StatusEvent(it, client) }
                             launch {
                                 when (event) {
                                     UserStreamEvent.Favorite -> listener.onFavorite(statusEvent)
@@ -69,7 +72,7 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                             listener.onAnyEvent(statusEvent)
                         }
                         UserStreamEventType.List -> {
-                            val listEvent = json.parseModel<Stream.ListEvent>(client)
+                            val listEvent = json.parseObject { Stream.ListEvent(it, client) }
                             launch {
                                 when (event) {
                                     UserStreamEvent.ListCreated -> listener.onListCreated(listEvent)
@@ -90,7 +93,7 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                             listener.onAnyEvent(listEvent)
                         }
                         UserStreamEventType.User -> {
-                            val userEvent = json.parseModel<Stream.UserEvent>(client)
+                            val userEvent = json.parseObject { Stream.UserEvent(it, client) }
                             launch {
                                 when (event) {
                                     UserStreamEvent.Follow -> listener.onFollow(userEvent)
@@ -116,28 +119,28 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                     }
                 }
                 "friends" in json -> {
-                    listener.onFriends(json.parseModel(client))
+                    listener.onFriends(json.parseObject { Stream.Friends(it, client) })
                 }
                 "delete" in json -> {
-                    listener.onDelete(json.parseModel(client))
+                    listener.onDelete(json.parseObject { Stream.Delete(it, client) })
                 }
                 "scrub_geo" in json -> {
-                    listener.onScrubGeo(json.parseModel(client))
+                    listener.onScrubGeo(json.parseObject { Stream.ScrubGeo(it, client) })
                 }
                 "status_withheld" in json -> {
-                    listener.onStatusWithheld(json.parseModel(client))
+                    listener.onStatusWithheld(json.parseObject { Stream.StatusWithheld(it, client) })
                 }
                 "user_withheld" in json -> {
-                    listener.onUserWithheld(json.parseModel(client))
+                    listener.onUserWithheld(json.parseObject { Stream.UserWithheld(it, client) })
                 }
                 "disconnect" in json -> {
-                    listener.onDisconnectMessage(json.parseModel(client))
+                    listener.onDisconnectMessage(json.parseObject { Stream.Disconnect(it, client) })
                 }
                 "warning" in json -> {
-                    listener.onWarning(json.parseModel(client))
+                    listener.onWarning(json.parseObject { Stream.Warning(it, client) })
                 }
                 "limit" in json -> {
-                    listener.onLimit(json.parseModel(client))
+                    listener.onLimit(json.parseObject { Stream.Limit(it, client) })
                 }
                 else -> {
                     listener.onUnhandledJson(json)

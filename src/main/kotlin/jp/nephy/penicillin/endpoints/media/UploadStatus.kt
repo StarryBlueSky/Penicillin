@@ -54,4 +54,4 @@ fun Media.uploadStatus(
         "media_key" to mediaKey,
         *options
     )
-}.jsonObject<jp.nephy.penicillin.models.Media>()
+}.jsonObject { jp.nephy.penicillin.models.Media(it, client) }

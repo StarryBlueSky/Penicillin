@@ -80,4 +80,4 @@ private fun FollowRequests.accept(
         "user_id" to userId,
         *options
     )
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

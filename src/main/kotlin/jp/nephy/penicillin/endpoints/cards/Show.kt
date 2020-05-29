@@ -58,4 +58,4 @@ fun Cards.show(
         "twitter:string:response_card_name" to responseCardName,
         *options
     )
-}.jsonObject<CardState>()
+}.jsonObject { CardState(it, client) }

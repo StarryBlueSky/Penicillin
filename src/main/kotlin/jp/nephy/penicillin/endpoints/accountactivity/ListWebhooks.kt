@@ -48,7 +48,7 @@ fun AccountActivity.listWebhooks(
     vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/webhooks.json") {
     parameters(*options)
-}.jsonObject<Webhook.List>()
+}.jsonObject { Webhook.List(it, client) }
 
 
 /**
@@ -74,4 +74,4 @@ fun AccountActivity.listWebhooksByEnvName(
     envName: String, vararg options: Option
 ) = client.session.get("/1.1/account_activity/all/$envName/webhooks.json") {
     parameters(*options)
-}.jsonArray<Webhook.Model>()
+}.jsonArray { Webhook.Model(it, client) }

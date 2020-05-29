@@ -28,13 +28,14 @@ package jp.nephy.penicillin.endpoints.media
 
 import jp.nephy.penicillin.endpoints.media.MediaCategory.TweetImage
 import kotlinx.io.InputStream
+import kotlinx.serialization.InternalSerializationApi
 import java.io.File
 import java.nio.file.Path
 
 /**
  * Represents media data.
  */
-data class MediaComponent(
+data class MediaComponent @OptIn(InternalSerializationApi::class) constructor(
     /**
      * InputStream for media data.
      */

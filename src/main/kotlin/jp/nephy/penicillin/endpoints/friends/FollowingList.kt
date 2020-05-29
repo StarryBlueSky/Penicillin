@@ -80,4 +80,4 @@ private fun Friends.followingList(
         "count" to count,
         *options
     )
-}.cursorJsonObject<CursorUsers>()
+}.cursorJsonObject { CursorUsers(it, client) }

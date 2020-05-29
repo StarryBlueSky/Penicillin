@@ -50,4 +50,4 @@ fun DirectMessages.show(
         "id" to id,
         *options
     )
-}.jsonObject<DirectMessage>()
+}.jsonObject { DirectMessage(it, client) }

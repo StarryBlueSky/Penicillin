@@ -80,4 +80,4 @@ private fun OAuth.invalidateTokenInternal(
         "access_token_secret" to accessTokenSecret,
         *options
     )
-}.jsonObject<OAuthToken>()
+}.jsonObject { OAuthToken(it, client) }

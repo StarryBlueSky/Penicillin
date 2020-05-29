@@ -26,16 +26,16 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 data class TrendPlace(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val asOf by string("as_of")
     val createdAt by string("created_at")
-    val locations by penicillinModelList<Location>()
-    val trends by penicillinModelList<Trend>()
+    val locations by modelList { Location(it, client) }
+    val trends by modelList { Trend(it, client) }
 
     data class Location(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val name by string

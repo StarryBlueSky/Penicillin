@@ -26,8 +26,8 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.int
 import jp.nephy.penicillin.core.session.ApiClient
 
 data class FaceCoordinate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {

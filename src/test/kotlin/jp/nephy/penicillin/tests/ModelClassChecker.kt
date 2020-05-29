@@ -27,10 +27,10 @@
 package jp.nephy.penicillin.tests
 
 import com.google.common.base.CaseFormat
-import jp.nephy.jsonkt.JsonArray
-import jp.nephy.jsonkt.JsonElement
-import jp.nephy.jsonkt.JsonNull
-import jp.nephy.jsonkt.JsonObject
+import blue.starry.jsonkt.JsonArray
+import blue.starry.jsonkt.JsonElement
+import blue.starry.jsonkt.JsonNull
+import blue.starry.jsonkt.JsonObject
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.models.PenicillinModel
 import kotlinx.serialization.json.JsonLiteral

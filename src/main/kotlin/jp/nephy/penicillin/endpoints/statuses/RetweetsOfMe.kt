@@ -69,7 +69,7 @@ fun Statuses.retweetsOfMe(
         "tweet_mode" to tweetMode,
         *options
     )
-}.jsonArray<Status>()
+}.jsonArray { Status(it, client) }
 
  /**
  * Shorthand property to [Statuses.retweetsOfMe].

@@ -82,4 +82,4 @@ private fun Users.recommendations(
         "user_id" to userId,
         *options
     )
-}.jsonArray<Recommendation>()
+}.jsonArray { Recommendation(it, client) }

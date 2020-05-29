@@ -26,27 +26,28 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.lambda
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
+import blue.starry.jsonkt.parseObject
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.parseModel
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
+
 
 data class SearchUniversal(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val metadata by penicillinModel<Metadata>("metadata")
+    val metadata by model("metadata") { Metadata(it, client) }
     val statuses by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> json.getObject("status").parseModel<Status>(client) }
+        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> json.getObject("status").parseObject { obj -> Status(obj, client) } }
     }
     val userGalleries by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> json.getObject("user_gallery").parseModel<UserGallery>(client) }
+        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> json.getObject("user_gallery").parseObject { obj ->
+                UserGallery(obj, client)
+            }
+        }
     }
 
     data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val metadata by penicillinModel<StatusMetadata>()
-        val data by penicillinModel<jp.nephy.penicillin.models.Status>()
+        val metadata by model { StatusMetadata(it, client) }
+        val data by model { jp.nephy.penicillin.models.Status(it, client) }
 
         data class StatusMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val resultType by string("result_type")
@@ -59,16 +60,16 @@ data class SearchUniversal(override val json: JsonObject, override val client: A
     }
 
     data class UserGallery(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val metadata by penicillinModel<Metadata>()
-        val data by penicillinModelList<Data>()
+        val metadata by model { Metadata(it, client) }
+        val data by modelList { Data(it, client) }
 
         data class Metadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
             val resultType by string("result_type")
         }
 
         data class Data(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val metadata by penicillinModel<Metadata>()
-            val data by penicillinModel<User>()
+            val metadata by model { Metadata(it, client) }
+            val data by model { User(it, client) }
 
             data class Metadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
                 val resultType by string("result_type")

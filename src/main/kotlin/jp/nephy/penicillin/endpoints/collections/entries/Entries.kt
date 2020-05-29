@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.collections.entries
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.CollectionEntries
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.Collection
 
 /**
@@ -62,4 +62,4 @@ fun CollectionEntries.entries(
         "min_position" to minPosition,
         *options
     )
-}.jsonObject<Collection.Entry.Result>()
+}.jsonObject { Collection.Entry.Result(it, client) }

@@ -26,11 +26,9 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-
 object Help {
     data class Configuration(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         val charactersReservedPerMedia by int("characters_reserved_per_media")
@@ -39,7 +37,7 @@ object Help {
         val maxMediaPerUpload by int("max_media_per_upload")
         val nonUsernamePaths by stringList("non_username_paths")
         val photoSizeLimit by int("photo_size_limit")
-        val photoSizes by penicillinModel<Photo>("photo_sizes")
+        val photoSizes by model("photo_sizes") { Photo(it, client) }
         val shortUrlLength by int("short_url_length")
         val shortUrlLengthHttps by int("short_url_length_https")
     }

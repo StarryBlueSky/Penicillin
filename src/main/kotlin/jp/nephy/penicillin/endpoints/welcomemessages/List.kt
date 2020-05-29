@@ -54,7 +54,7 @@ fun WelcomeMessages.list(
         "cursor" to cursor,
         *options
     )
-}.jsonObject<WelcomeMessage.List>()
+}.jsonObject { WelcomeMessage.List(it, client) }
 
 /**
  * Shorthand property to [WelcomeMessages.list].

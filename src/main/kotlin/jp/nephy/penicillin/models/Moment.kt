@@ -26,12 +26,10 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.*
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
+import blue.starry.jsonkt.parseObject
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.byPenicillinModel
-import jp.nephy.penicillin.extensions.parseModel
-import jp.nephy.penicillin.extensions.penicillinModel
 
 data class Moment(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     private val moment by jsonObject
@@ -48,16 +46,28 @@ data class Moment(override val json: JsonObject, override val client: ApiClient)
     val canSubscribe by moment.byBoolean("can_subscribe")
     val capsuleContentsVersion by moment.byString("capsule_contents_version")
     val totalLikes by moment.byInt("total_likes")
-    val users by moment.byLambda { it.jsonObject.toMap().values.map { json -> json.parseModel<User>(client) } }
-    val coverMedia by moment.byPenicillinModel<CoverMedia>(client, "cover_media")
+    val users by moment.byLambda {
+        it.jsonObject.toMap().values.map { json ->
+            json.parseObject { obj ->
+                User(obj, client)
+            }
+        }
+    }
+    val coverMedia by moment.byModel("cover_media") { CoverMedia(it, client) }
     val displayStyle by string("display_style")
     private val context by jsonObject
     private val contextScribeInfo by context.byJsonObject
     val momentPosition by contextScribeInfo.byString("moment_position")
-    val tweets by lambda { it.jsonObject.toMap().values.map { json -> json.parseModel<Status>(client) } }
-    val coverFormat by penicillinModel<CoverFormat>("cover_format")
-    val largeFormat by penicillinModel<CoverFormat>("large_format")
-    val thumbnailFormat by penicillinModel<CoverFormat>("thumbnail_format")
+    val tweets by lambda {
+        it.jsonObject.toMap().values.map { json ->
+            json.parseObject { obj ->
+                Status(obj, client)
+            }
+        }
+    }
+    val coverFormat by model("cover_format") { CoverFormat(it, client) }
+    val largeFormat by model("large_format") { CoverFormat(it, client) }
+    val thumbnailFormat by model("thumbnail_format") { CoverFormat(it, client) }
 
     data class CoverFormat(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonCoverMedia(parentJson, parentClient) {
         val pageId by string("page_id")

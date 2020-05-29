@@ -79,4 +79,4 @@ private fun Users.reportSpam(
         "perform_block" to performBlock,
         *options
     )
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }

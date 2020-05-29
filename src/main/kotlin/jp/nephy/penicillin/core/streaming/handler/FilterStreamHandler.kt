@@ -24,10 +24,13 @@
 
 package jp.nephy.penicillin.core.streaming.handler
 
-import jp.nephy.jsonkt.JsonObject
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.parseObject
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.core.streaming.listener.FilterStreamListener
-import jp.nephy.penicillin.extensions.parseModel
+import jp.nephy.penicillin.models.Status
+import jp.nephy.penicillin.models.Stream
+
 import kotlinx.coroutines.launch
 
 /**
@@ -39,13 +42,13 @@ class FilterStreamHandler(override val client: ApiClient, override val listener:
         launch {
             when {
                 "text" in json -> {
-                    listener.onStatus(json.parseModel(client))
+                    listener.onStatus(json.parseObject { Status(it, client) })
                 }
                 "delete" in json -> {
-                    listener.onDelete(json.parseModel(client))
+                    listener.onDelete(json.parseObject { Stream.Delete(it, client) })
                 }
                 "warning" in json -> {
-                    listener.onWarning(json.parseModel(client))
+                    listener.onWarning(json.parseObject { Stream.Warning(it, client) })
                 }
                 else -> {
                     listener.onUnhandledJson(json)

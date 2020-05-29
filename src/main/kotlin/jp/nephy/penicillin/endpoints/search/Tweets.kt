@@ -87,4 +87,4 @@ fun Search.search(
         "tweet_mode" to tweetMode,
         *options
     )
-}.jsonObject<SearchModel>()
+}.jsonObject { SearchModel(it, client) }

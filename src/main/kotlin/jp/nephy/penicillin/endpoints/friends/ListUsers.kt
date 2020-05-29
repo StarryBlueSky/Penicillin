@@ -125,7 +125,7 @@ private fun Friends.listUsersInternal(
         "include_user_entities" to includeUserEntities,
         *options
     )
-}.cursorJsonObject<CursorUsers>()
+}.cursorJsonObject { CursorUsers(it, client) }
 
 /**
  * Shorthand property to [Friends.listUsers].

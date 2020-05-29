@@ -26,11 +26,12 @@
 
 package jp.nephy.penicillin.models.cursor
 
-import jp.nephy.jsonkt.JsonObject
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.modelList
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 import jp.nephy.penicillin.models.User
 
 data class CursorUsers(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
-    val users by penicillinModelList<User>()
+    val users by modelList { User(it, client) }
 }

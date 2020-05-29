@@ -26,11 +26,10 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.*
-import jp.nephy.jsonkt.delegation.*
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.*
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.endpoints.lists.ListVisibilityMode
-import jp.nephy.penicillin.extensions.penicillinModel
 
 data class TwitterList(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val createdAtRaw by string("created_at")
@@ -45,7 +44,7 @@ data class TwitterList(override val json: JsonObject, override val client: ApiCl
     val slug by string
     val subscriberCount by int("subscriber_count")
     val uri by string
-    val user by penicillinModel<User>()
+    val user by model { User(it, client) }
 
     override fun equals(other: Any?): Boolean {
         return id == (other as? TwitterList)?.id

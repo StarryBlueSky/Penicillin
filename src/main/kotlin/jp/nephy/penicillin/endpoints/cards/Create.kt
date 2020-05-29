@@ -54,4 +54,4 @@ fun Cards.create(
         *options
     )
 
-}.jsonObject<Card>()
+}.jsonObject { Card(it, client) }

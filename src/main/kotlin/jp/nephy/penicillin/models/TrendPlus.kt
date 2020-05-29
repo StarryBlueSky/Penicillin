@@ -26,14 +26,15 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.long
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.long
+import blue.starry.jsonkt.delegation.model
+import blue.starry.jsonkt.delegation.modelList
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-import jp.nephy.penicillin.extensions.penicillinModelList
+
 
 data class TrendPlus(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val id by long
-    val metadata by penicillinModel<TrendMetadata>()
-    val trends by penicillinModelList<TrendType>("modules")
+    val metadata by model { TrendMetadata(it, client) }
+    val trends by modelList("modules") { TrendType(it, client) }
 }

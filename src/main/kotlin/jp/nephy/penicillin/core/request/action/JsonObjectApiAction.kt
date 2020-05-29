@@ -24,20 +24,25 @@
 
 package jp.nephy.penicillin.core.request.action
 
-import jp.nephy.jsonkt.toJsonObjectOrNull
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.parseObjectOrNull
+import blue.starry.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.JsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.parseModelOrNull
+
 import jp.nephy.penicillin.models.PenicillinModel
-import kotlin.reflect.KClass
 
 /**
  * The [ApiAction] that provides parsed json object with json model.
  */
-class JsonObjectApiAction<M: PenicillinModel>(override val client: ApiClient, override val request: ApiRequest, override val model: KClass<M>): JsonRequest<M>, ApiAction<JsonObjectResponse<M>> {
+class JsonObjectApiAction<M: PenicillinModel>(
+    override val client: ApiClient,
+    override val request: ApiRequest,
+    override val converter: (JsonObject) -> M
+): JsonRequest<M>, ApiAction<JsonObjectResponse<M>> {
     override suspend operator fun invoke(): JsonObjectResponse<M> {
         val (request, response) = execute()
 
@@ -48,10 +53,10 @@ class JsonObjectApiAction<M: PenicillinModel>(override val client: ApiClient, ov
 
         checkError(request, response, content, json)
 
-        val result = json.parseModelOrNull(model, client) ?: throw PenicillinException(
-            LocalizedString.JsonModelCastFailed, null, request, response, model.toString(), content
+        val result = json.parseObjectOrNull(converter) ?: throw PenicillinException(
+            LocalizedString.JsonModelCastFailed, null, request, response, content
         )
 
-        return JsonObjectResponse(client, model, result, request, response, content.orEmpty(), this)
+        return JsonObjectResponse(client, result, request, response, content.orEmpty(), this)
     }
 }

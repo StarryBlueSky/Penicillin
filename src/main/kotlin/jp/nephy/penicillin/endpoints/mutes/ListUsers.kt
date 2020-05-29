@@ -57,7 +57,7 @@ fun Mutes.listUsers(
         "skip_status" to skipStatus,
         *options
     )
-}.cursorJsonObject<CursorUsers>()
+}.cursorJsonObject { CursorUsers(it, client) }
 
 /**
  * Shorthand property to [Mutes.listUsers].

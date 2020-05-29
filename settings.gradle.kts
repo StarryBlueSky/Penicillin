@@ -5,7 +5,6 @@ pluginManagement {
         mavenCentral()
         jcenter()
         gradlePluginPortal()
-        maven(url = "https://kotlin.bintray.com/kotlin-eap")
     }
 
     resolutionStrategy {
@@ -13,9 +12,6 @@ pluginManagement {
             when (requested.id.id) {
                 "com.jfrog.bintray" -> {
                     useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "com.github.breadmoirai.github-release" -> {
-                    useModule("gradle.plugin.com.github.breadmoirai:github-release:${requested.version}")
                 }
                 "org.jetbrains.dokka" -> {
                     useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")

@@ -26,19 +26,18 @@
 
 package jp.nephy.penicillin.models
 
-import jp.nephy.jsonkt.JsonObject
-import jp.nephy.jsonkt.delegation.int
-import jp.nephy.jsonkt.delegation.nullableString
-import jp.nephy.jsonkt.delegation.string
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.delegation.int
+import blue.starry.jsonkt.delegation.model
+import blue.starry.jsonkt.delegation.nullableString
+import blue.starry.jsonkt.delegation.string
 import jp.nephy.penicillin.core.session.ApiClient
-import jp.nephy.penicillin.extensions.penicillinModel
-
 data class TrendArea(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val country by string
     val countryCode by nullableString // null
     val name by string
     val parentid by int
-    val placeType by penicillinModel<PlaceType>()
+    val placeType by model { PlaceType(it, client) }
     val url by string
     val woeid by int
 

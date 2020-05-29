@@ -62,4 +62,4 @@ fun Media.uploadInit(
         "additional_owners" to additionalOwners?.joinToString(","),
         *options
     )
-}.jsonObject<jp.nephy.penicillin.models.Media>()
+}.jsonObject { jp.nephy.penicillin.models.Media(it, client) }

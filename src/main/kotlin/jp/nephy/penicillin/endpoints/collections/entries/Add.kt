@@ -63,4 +63,4 @@ fun CollectionEntries.add(
         *options
     )
 
-}.jsonObject<Collection.Entry.Result>()
+}.jsonObject { Collection.Entry.Result(it, client) }

@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.endpoints.media
 
-import jp.nephy.jsonkt.JsonObject
+import blue.starry.jsonkt.JsonObject
 import jp.nephy.penicillin.core.request.EndpointHost
 import jp.nephy.penicillin.core.request.action.EmptyApiAction
 import jp.nephy.penicillin.core.request.jsonBody

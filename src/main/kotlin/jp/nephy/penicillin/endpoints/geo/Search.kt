@@ -29,8 +29,8 @@ package jp.nephy.penicillin.endpoints.geo
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.parameters
 import jp.nephy.penicillin.core.session.get
-import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.endpoints.Geo
+import jp.nephy.penicillin.endpoints.Option
 import jp.nephy.penicillin.models.GeoResult
 
 /**
@@ -80,4 +80,4 @@ fun Geo.search(
         "callback" to callback,
         *options
     )
-}.jsonObject<GeoResult>()
+}.jsonObject { GeoResult(it, client) }

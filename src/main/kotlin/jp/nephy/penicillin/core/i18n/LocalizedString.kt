@@ -74,8 +74,8 @@ class LocalizedString(
         )
 
         val JsonModelCastFailed = LocalizedString(
-            "Failed to cast JSON to model class: %s\n%s",
-            "JSON をモデルクラスにキャストする際に例外が発生しました: %s\n%s"
+            "Failed to cast JSON to model class: %s",
+            "JSON をモデルクラスにキャストする際に例外が発生しました: %s"
         )
 
         val UnknownApiError = LocalizedString(

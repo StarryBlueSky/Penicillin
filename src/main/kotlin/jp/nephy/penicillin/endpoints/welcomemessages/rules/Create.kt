@@ -26,7 +26,7 @@
 
 package jp.nephy.penicillin.endpoints.welcomemessages.rules
 
-import jp.nephy.jsonkt.jsonObjectOf
+import blue.starry.jsonkt.jsonObjectOf
 import jp.nephy.penicillin.core.request.action.JsonObjectApiAction
 import jp.nephy.penicillin.core.request.jsonBody
 import jp.nephy.penicillin.core.request.parameters
@@ -59,4 +59,4 @@ fun WelcomeMessageRules.create(
             "welcome_message_id" to id
         )
     )
-}.jsonObject<WelcomeMessageRule.Single>()
+}.jsonObject { WelcomeMessageRule.Single(it, client) }

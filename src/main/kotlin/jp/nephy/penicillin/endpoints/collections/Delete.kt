@@ -52,4 +52,4 @@ fun Collections.delete(
         *options
     )
 
-}.jsonObject<Collection.DestroyResult>()
+}.jsonObject { Collection.DestroyResult(it, client) }

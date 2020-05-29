@@ -128,4 +128,4 @@ private fun Lists.members(
         "skip_status" to skipStatus,
         *options
     )
-}.cursorJsonObject<CursorUsers>()
+}.cursorJsonObject { CursorUsers(it, client) }

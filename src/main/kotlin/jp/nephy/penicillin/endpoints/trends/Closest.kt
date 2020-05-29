@@ -56,4 +56,4 @@ fun Trends.closestAreas(
         "long" to longitude,
         *options
     )
-}.jsonArray<TrendArea>()
+}.jsonArray { TrendArea(it, client) }

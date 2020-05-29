@@ -24,7 +24,7 @@
 
 package jp.nephy.penicillin.core.streaming.listener
 
-import jp.nephy.jsonkt.JsonObject
+import blue.starry.jsonkt.JsonObject
 import jp.nephy.penicillin.core.streaming.handler.StreamHandler
 
 /**

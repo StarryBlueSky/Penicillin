@@ -24,16 +24,17 @@
 
 package jp.nephy.penicillin.core.request.action
 
-import jp.nephy.jsonkt.toJsonObjectOrNull
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.parseObjectOrNull
+import blue.starry.jsonkt.toJsonObjectOrNull
 import jp.nephy.penicillin.core.exceptions.PenicillinException
 import jp.nephy.penicillin.core.i18n.LocalizedString
 import jp.nephy.penicillin.core.request.ApiRequest
 import jp.nephy.penicillin.core.response.PremiumSearchJsonObjectResponse
 import jp.nephy.penicillin.core.session.ApiClient
 import jp.nephy.penicillin.endpoints.PremiumSearchEnvironment
-import jp.nephy.penicillin.extensions.parseModelOrNull
+
 import jp.nephy.penicillin.models.PremiumSearchModel
-import kotlin.reflect.KClass
 
 /**
  * The [ApiAction] that provides parsed json array with json model. This class supports premium search api operations.
@@ -41,7 +42,7 @@ import kotlin.reflect.KClass
 class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
     override val client: ApiClient,
     override val request: ApiRequest,
-    override val model: KClass<M>,
+    override val converter: (JsonObject) -> M,
 
     /**
      * [PremiumSearchEnvironment] which will be used to acquire this response.
@@ -58,10 +59,10 @@ class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
 
         checkError(request, response, content, json)
 
-        val result = json.parseModelOrNull(model, client) ?: throw PenicillinException(
-            LocalizedString.JsonModelCastFailed, null, request, response, model.toString(), content
+        val result = json.parseObjectOrNull(converter) ?: throw PenicillinException(
+            LocalizedString.JsonModelCastFailed, null, request, response, content
         )
 
-        return PremiumSearchJsonObjectResponse(client, model, result, request, response, content, this, environment)
+        return PremiumSearchJsonObjectResponse(client, result, request, response, content, this, environment)
     }
 }

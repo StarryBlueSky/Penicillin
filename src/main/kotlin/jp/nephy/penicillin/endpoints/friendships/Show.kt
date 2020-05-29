@@ -111,4 +111,4 @@ private fun Friendships.show(
         "target_screen_name" to targetScreenName,
         *options
     )
-}.jsonObject<Show>()
+}.jsonObject { Show(it, client) }

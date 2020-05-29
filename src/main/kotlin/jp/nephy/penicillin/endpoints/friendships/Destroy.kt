@@ -80,4 +80,4 @@ private fun Friendships.destroy(
         "screen_name" to screenName,
         *options
     )
-}.jsonObject<User>()
+}.jsonObject { User(it, client) }
