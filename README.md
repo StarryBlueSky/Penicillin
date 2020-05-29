@@ -78,7 +78,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("jp.nephy:penicillin:$penicillinVersion")
+    implementation("blue.starry:penicillin:$penicillinVersion")
     
     implementation("io.ktor:ktor-client-apache:$ktorVersion")
     // implementation("io.ktor:ktor-client-cio:$ktorVersion")
