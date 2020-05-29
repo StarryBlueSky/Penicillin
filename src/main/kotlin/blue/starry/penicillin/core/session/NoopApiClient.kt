@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- *     Copyright (c) 2017-2020 Nephy Project Team
+ *     Copyright (c) 2017-2020 StarryBlueSky
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
