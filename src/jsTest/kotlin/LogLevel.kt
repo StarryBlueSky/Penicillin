@@ -1,3 +1,9 @@
+import mu.KotlinLoggingConfiguration
+import mu.KotlinLoggingLevel
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertNotEquals
+
 /*
  * The MIT License (MIT)
  *
@@ -22,33 +28,12 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
-
-enableFeaturePreview("GRADLE_METADATA")
-
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
+class LogLevel {
+    @BeforeTest
+    fun setLogLevel() {
+        KotlinLoggingConfiguration.LOG_LEVEL = KotlinLoggingLevel.TRACE
     }
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
-    }
+    @Test
+    fun dummy() {}
 }

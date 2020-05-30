@@ -22,33 +22,21 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+package blue.starry.penicillin.core.auth
 
-enableFeaturePreview("GRADLE_METADATA")
+import io.ktor.http.encodeOAuth
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
+private const val hmacAlgorithm = "HmacSHA1"
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
-    }
+internal actual fun createHmacSha1Signature(
+    signingKey: String,
+    signatureBaseString: String
+): String {
+    val key = SecretKeySpec(signingKey.toByteArray(), hmacAlgorithm)
+
+    return Mac.getInstance(hmacAlgorithm).apply {
+        init(key)
+    }.doFinal(signatureBaseString.toByteArray()).encodeBase64()
 }

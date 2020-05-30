@@ -22,33 +22,15 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+package blue.starry.penicillin.extensions
 
-enableFeaturePreview("GRADLE_METADATA")
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
-
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
-    }
-}
+/**
+ * Alternative runBlocking actual implementation.
+ */
+internal expect fun <T> runBlockingAlt(
+    context: CoroutineContext = EmptyCoroutineContext,
+    block: suspend () -> T
+): T

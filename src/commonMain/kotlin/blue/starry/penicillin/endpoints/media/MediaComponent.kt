@@ -22,33 +22,44 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+@file:Suppress("UNUSED")
 
-enableFeaturePreview("GRADLE_METADATA")
+package blue.starry.penicillin.endpoints.media
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
+import blue.starry.penicillin.endpoints.media.MediaCategory.TweetImage
+import kotlinx.io.ByteArrayInputStream
+import kotlinx.io.InputStream
+import kotlinx.serialization.InternalSerializationApi
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
-    }
+/**
+ * Represents media data.
+ */
+data class MediaComponent @OptIn(InternalSerializationApi::class) constructor(
+    /**
+     * InputStream for media data.
+     */
+    val input: InputStream,
+
+    /**
+     * Media type.
+     */
+    val type: MediaType,
+
+    /**
+     * Media category.
+     */
+    val category: MediaCategory
+) {
+    @OptIn(InternalSerializationApi::class)
+    constructor(data: ByteArray, type: MediaType, category: MediaCategory = TweetImage): this(ByteArrayInputStream(data), type, category)
+}
+
+/**
+ * Returns [ByteArray] which was fully read from [InputStream].
+ */
+@InternalSerializationApi
+fun MediaComponent.readBytes(): ByteArray {
+    val buffer = ByteArray(Int.MAX_VALUE)
+    input.read(buffer)
+    return buffer
 }

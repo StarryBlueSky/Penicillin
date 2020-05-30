@@ -22,33 +22,25 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+package blue.starry.penicillin.core.request
 
-enableFeaturePreview("GRADLE_METADATA")
+import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.stringify
+import io.ktor.http.ContentType
+import io.ktor.http.content.OutgoingContent
+import io.ktor.http.withCharset
+import io.ktor.utils.io.ByteWriteChannel
+import io.ktor.utils.io.charsets.Charsets
+import io.ktor.utils.io.writeStringUtf8
+import kotlinx.serialization.json.JsonConfiguration
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
+/**
+ * The [OutgoingContent.WriteChannelContent] which provides "application/json".
+ */
+data class JsonObjectContent(private val json: JsonObject): OutgoingContent.WriteChannelContent() {
+    override val contentType: ContentType = ContentType.Application.Json.withCharset(Charsets.UTF_8)
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
+    override suspend fun writeTo(channel: ByteWriteChannel) {
+        channel.writeStringUtf8(json.stringify(JsonConfiguration.Stable))
     }
 }

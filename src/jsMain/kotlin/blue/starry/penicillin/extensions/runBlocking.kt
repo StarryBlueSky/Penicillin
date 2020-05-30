@@ -22,33 +22,25 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+package blue.starry.penicillin.extensions
 
-enableFeaturePreview("GRADLE_METADATA")
+import blue.starry.penicillin.core.experimental.PenicillinExperimentalApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.promise
+import mu.KotlinLogging
+import kotlin.coroutines.CoroutineContext
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
+@PublishedApi
+internal val promiseLogger = KotlinLogging.logger("Penicillin.PromiseLogger")
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
+@PenicillinExperimentalApi
+internal actual fun <T> runBlockingAlt(
+    context: CoroutineContext,
+    block: suspend () -> T
+): dynamic = GlobalScope.promise (context) {
+    runCatching {
+        block()
+    }.onFailure {
+        promiseLogger.error(it) { "Unhandled promise rejection." }
     }
 }

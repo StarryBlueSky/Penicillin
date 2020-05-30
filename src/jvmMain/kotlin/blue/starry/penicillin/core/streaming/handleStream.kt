@@ -22,33 +22,16 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+package blue.starry.penicillin.core.streaming
 
-enableFeaturePreview("GRADLE_METADATA")
+import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.jvm.javaio.toInputStream
+import kotlinx.coroutines.Job
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
-
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
+internal actual fun StreamProcessor<*, *>.handleStream(channel: ByteReadChannel, job: Job) {
+    channel.toInputStream(job).bufferedReader().useLines { lines ->
+        for (line in lines) {
+            handleLine(line)
         }
     }
 }

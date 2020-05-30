@@ -22,33 +22,14 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+@file:Suppress("Unused")
 
-enableFeaturePreview("GRADLE_METADATA")
+package blue.starry.penicillin.extensions
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
+import kotlinx.coroutines.runBlocking
+import kotlin.coroutines.CoroutineContext
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
-    }
-}
+internal actual fun <T> runBlockingAlt(
+    context: CoroutineContext,
+    block: suspend () -> T
+): T = runBlocking(context) { block() }

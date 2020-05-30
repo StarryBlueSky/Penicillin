@@ -22,33 +22,18 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+package blue.starry.penicillin.core.request.action
 
-enableFeaturePreview("GRADLE_METADATA")
+import blue.starry.penicillin.core.exceptions.PenicillinException
+import blue.starry.penicillin.core.request.ApiRequest
+import blue.starry.penicillin.core.session.ApiClient
+import kotlinx.coroutines.CancellationException
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
+internal class DelegatedAction<R>(override val client: ApiClient, private val block: suspend () -> R): ApiAction<R> {
+    override val request: ApiRequest
+        get() = throw UnsupportedOperationException()
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
+    override suspend operator fun invoke(): R {
+        return block()
     }
 }

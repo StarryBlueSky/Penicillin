@@ -22,33 +22,54 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+@file:Suppress("UNUSED")
 
-enableFeaturePreview("GRADLE_METADATA")
+package blue.starry.penicillin.extensions
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
+import blue.starry.penicillin.models.Status
+import blue.starry.penicillin.models.entities.MediaEntity
+
+/**
+ * Parsed status id object for "id".
+ */
+val Status.idObj: StatusID
+    get() = StatusID(id)
+
+/**
+ * Parsed status id object for "in_reply_to_status_id".
+ */
+val Status.inReplyToStatusIdObj: StatusID?
+    get() = inReplyToStatusId?.let { StatusID(it) }
+
+/**
+ * Parsed status id object for "quoted_status_id.
+ */
+val Status.quotedStatusIdObj: StatusID?
+    get() = quotedStatusId?.let { StatusID(it) }
+
+/**
+ * Parsed status id object for "source_status_id".
+ */
+val MediaEntity.sourceStatusIdObj: StatusID?
+    get() = sourceStatusId?.let { StatusID(it) }
+
+/**
+ * Represents numerical status id.
+ */
+data class StatusID(
+    /**
+     * Original numerical status id.
+     */
+    val value: Long
+) {
+    companion object {
+        private const val magicNumber = 1288834974657L
     }
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
-    }
+    /**
+     * Epoch time in milliseconds.
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    val epochTimeMillis: Long
+        get() = (value shr 22) + magicNumber
 }

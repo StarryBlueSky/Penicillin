@@ -22,33 +22,47 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+@file:Suppress("UNUSED")
 
-enableFeaturePreview("GRADLE_METADATA")
+package tests
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import mu.KotlinLogging
+import kotlin.system.measureTimeMillis
+
+private val logger = KotlinLogging.logger("Penicillin.Performance")
+
+@PublishedApi
+internal object UninitializedValue
+
+@Suppress("UNCHECKED_CAST")
+internal inline fun <T> measurePerformance(label: String, block: () -> T): T {
+    if (!logger.isTraceEnabled) {
+        return block()
     }
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
+    var result: Any? = UninitializedValue
+    val timeMs = measureTimeMillis {
+        result = block()
+    }
+
+    logger.trace { "$label = $timeMs ms" }
+
+    return result as T
+}
+
+internal inline fun measurePerformanceAsync(label: String, crossinline block: () -> Unit) {
+    if (!logger.isTraceEnabled) {
+        block()
+        return
+    }
+
+    GlobalScope.launch {
+        val timeMs = measureTimeMillis {
+            block()
         }
+
+        logger.trace { "$label = $timeMs ms" }
     }
 }

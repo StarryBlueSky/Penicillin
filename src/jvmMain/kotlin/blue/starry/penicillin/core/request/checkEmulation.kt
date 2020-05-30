@@ -22,33 +22,29 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+package blue.starry.penicillin.core.request
 
-enableFeaturePreview("GRADLE_METADATA")
+import blue.starry.penicillin.core.emulation.EmulationMode
+import blue.starry.penicillin.core.exceptions.PenicillinException
+import blue.starry.penicillin.core.i18n.LocalizedString
+import blue.starry.penicillin.endpoints.PrivateEndpoint
+import blue.starry.penicillin.extensions.session
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
+actual fun ApiRequestBuilder.checkEmulation() {
+    if (session.option.skipEmulationChecking) {
+        return
     }
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
+    val trace = Thread.currentThread().stackTrace.find {
+        it.className.startsWith("blue.starry.penicillin.endpoints")
+    } ?: return
+    val javaClass = javaClass.classLoader.loadClass(trace.className)
+    val method = javaClass.methods.find { it.name == trace.methodName } ?: return
+
+    apiRequestBuilderLogger.trace { "Endpoint: ${javaClass.canonicalName}#${method.name}" }
+
+    val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
+    if (session.option.emulationMode == EmulationMode.None || (annotation.modes.isNotEmpty() && session.option.emulationMode !in annotation.modes)) {
+        throw PenicillinException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
     }
 }

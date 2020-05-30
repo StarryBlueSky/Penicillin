@@ -22,33 +22,39 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+@file:Suppress("UNUSED")
 
-enableFeaturePreview("GRADLE_METADATA")
+package blue.starry.penicillin.extensions
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
+import blue.starry.penicillin.models.Account
+import blue.starry.penicillin.models.CommonUser
+import blue.starry.penicillin.models.Status
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
-        }
-    }
-}
+/**
+ * Parsed "language" object.
+ */
+val Account.Settings.language: Language
+    get() = Language(languageRaw)
+
+/**
+ * Parsed "lang" object.
+ */
+val Status.lang: Language
+    get() = Language(langRaw)
+
+/**
+ * Parsed "lang" object.
+ */
+@Deprecated("User.lang may be deleted from response.")
+val CommonUser.lang: Language?
+    get() = langRaw?.let { Language(it) }
+
+/**
+ * Represents parsed "lang" object.
+ */
+data class Language(
+    /**
+     * Original "lang" string value.
+     */
+    val value: String
+)

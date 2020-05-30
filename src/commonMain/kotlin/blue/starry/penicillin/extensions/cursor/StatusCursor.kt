@@ -22,33 +22,41 @@
  * SOFTWARE.
  */
 
-rootProject.name = "penicillin"
+@file:Suppress("Unused")
 
-enableFeaturePreview("GRADLE_METADATA")
+package blue.starry.penicillin.extensions.cursor
 
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
+import blue.starry.penicillin.core.experimental.PenicillinExperimentalApi
+import blue.starry.penicillin.core.request.action.JsonArrayApiAction
+import blue.starry.penicillin.core.request.parameters
+import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.extensions.complete
+import blue.starry.penicillin.extensions.edit
+import blue.starry.penicillin.models.Status
 
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.jfrog.bintray" -> {
-                    useModule("com.jfrog.bintray.gradle:gradle-bintray-plugin:${requested.version}")
-                }
-                "org.jetbrains.dokka" -> {
-                    useModule("org.jetbrains.dokka:dokka-gradle-plugin:${requested.version}")
-                }
-                "com.adarshr.test-logger" -> {
-                    useModule("com.adarshr:gradle-test-logger-plugin:${requested.version}")
-                }
-                "build-time-tracker" -> {
-                    useModule("net.rdrei.android.buildtimetracker:gradle-plugin:${requested.version}")
-                }
-            }
+/**
+ * Retrieves all the statuses until last from current action.
+ * This operation is sequence.
+ *
+ * @param count max statuses count.
+ * @param options Optional. Custom parameters of this request.
+ */
+@PenicillinExperimentalApi
+fun JsonArrayApiAction<Status>.untilLast(count: Int = 200, vararg options: Option): Sequence<Status> = sequence {
+    var maxId: Long? = null
+
+    while (true) {
+        edit {
+            parameters("count" to count, "max_id" to maxId, *options)
         }
+        val response = complete()
+
+        val statuses = response.filter { it.id != maxId }
+        if (statuses.isEmpty()) {
+            break
+        }
+
+        yieldAll(statuses)
+        maxId = statuses.last().id
     }
 }
