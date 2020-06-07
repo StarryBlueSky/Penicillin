@@ -4,4 +4,5 @@
 build/
 out/
 
-PrivateTest.kt
+TestClient.kt
+PrivateApiTest.kt
