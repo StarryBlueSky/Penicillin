@@ -43,7 +43,7 @@ val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 object ThirdpartyVersion {
     // For Kotlin/Common
     const val Ktor = "1.3.2"
-    const val JsonKt = "5.0.0-eap-27"
+    const val JsonKt = "5.0.0"
     const val uuid = "0.1.0"
     const val klock = "1.11.3"
 
@@ -152,6 +152,7 @@ kotlin {
             }
         }
     }
+    // mingwX64("mingw")
 
     sourceSets {
         commonMain {
@@ -239,12 +240,12 @@ kotlin {
             }
         }
 
-//        named("nativeMain") {
+//        named("mingwMain") {
 //            dependencies {
-//                api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${ThirdpartyVersion.KotlinxSerializationRuntime}")
+//                // api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${ThirdpartyVersion.KotlinxSerializationRuntime}")
 //            }
 //        }
-//        named("nativeTest") {
+//        named("mingwTest") {
 //        }
     }
 
