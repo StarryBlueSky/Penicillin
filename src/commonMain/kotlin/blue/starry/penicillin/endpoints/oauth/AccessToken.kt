@@ -37,7 +37,7 @@ import blue.starry.penicillin.endpoints.OAuth
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.endpoints.oauth
 import blue.starry.penicillin.extensions.execute
-import io.ktor.utils.io.core.use
+import blue.starry.penicillin.extensions.use
 
 /**
  * Represents "/oauth/access_token" response.

@@ -22,28 +22,13 @@
  * SOFTWARE.
  */
 
-package blue.starry.penicillin
+package blue.starry.penicillin.extensions
 
-import blue.starry.penicillin.core.session.ApiClient
-import blue.starry.penicillin.core.session.ApiClientDsl
-import blue.starry.penicillin.core.session.Session
-import blue.starry.penicillin.core.session.SessionBuilder
+import io.ktor.utils.io.core.Closeable
+import io.ktor.utils.io.core.use
 
 /**
- * Creates Penicillin [ApiClient].
- *
- * @param block [Session] configuration builder.
- *
- * @return New [ApiClient] instance with initialized [Session].
+ * Closes the receiver after `block`.
+ * Compatibility function.
  */
-@ApiClientDsl
-@Suppress("FunctionName")
-inline fun PenicillinClient(crossinline block: SessionBuilder.() -> Unit): ApiClient = object: ApiClient {
-    override val session by lazy {
-        SessionBuilder(this).apply(block).build()
-    }
-
-    override fun close() {
-        session.close()
-    }
-}
+inline fun <C: Closeable, R> C.use(block: (C) -> R): R = use(block)

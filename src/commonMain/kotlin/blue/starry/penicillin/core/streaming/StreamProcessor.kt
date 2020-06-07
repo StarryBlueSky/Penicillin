@@ -36,8 +36,8 @@ import blue.starry.penicillin.core.streaming.handler.StreamHandler
 import blue.starry.penicillin.core.streaming.listener.StreamListener
 import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.extensions.session
+import blue.starry.penicillin.extensions.use
 import io.ktor.utils.io.ByteReadChannel
-import io.ktor.utils.io.core.use
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
