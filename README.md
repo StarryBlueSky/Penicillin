@@ -1,97 +1,99 @@
-# Penicillin: Modern Powerful Twitter API wrapper for Kotlin
+# Penicillin: Modern powerful Twitter API wrapper for Kotlin Multiplatform
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.61-blue.svg)](https://kotlinlang.org)
-[![Stable](https://img.shields.io/bintray/v/nephyproject/stable/Penicillin.svg?label=stable)](https://github.com/NephyProject/Penicillin/releases/latest)
-[![Dev](https://img.shields.io/bintray/v/nephyproject/dev/Penicillin.svg?label=dev)](https://bintray.com/nephyproject/dev/Penicillin/_latestVersion)
-[![License](https://img.shields.io/github/license/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/blob/master/LICENSE)
-[![Issues](https://img.shields.io/github/issues/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/NephyProject/Penicillin.svg)](https://github.com/NephyProject/Penicillin/pulls)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org)
+[![stable](https://img.shields.io/bintray/v/nephyproject/stable/Penicillin.svg?label=stable)](https://github.com/NephyProject/Penicillin/releases/latest)
+[![dev](https://img.shields.io/bintray/v/nephyproject/dev/Penicillin.svg?label=dev)](https://bintray.com/nephyproject/dev/Penicillin/_latestVersion)
+[![license](https://img.shields.io/github/license/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/blob/master/LICENSE)
+[![issues](https://img.shields.io/github/issues/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/issues)
+[![pull requests](https://img.shields.io/github/issues-pr/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/pulls)
 
-* Supports all the public Twitter API endpoints except Enterprise APIs.
-* Supports the following authenticating methods: OAuth 1.0a, OAuth 2.0
-* Supports some private Twitter API endpoints such as Poll Tweets.
-* Endpoint's parameters are resolved as Kotlin "Typed-safe Named Parameter".
-* Penicillin has model classes. So endpoint's response is easy to use.
-* API execution supports classical blocking function `.complete()`, suspend function `.await()`, deferred operation `.async()` and callback style `.queue {}`.
-* Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.
+* Supports JVM, Android (API level >= 24), JS (Both browsers and NodeJS).  
+* Supports all the public Twitter API endpoints.  
+* Supports the following authenticating methods: OAuth 1.0a, OAuth 2.0  
+* Supports some private Twitter API endpoints such as Poll Tweets.  
+* Endpoint's parameters are resolved as Kotlin "Typed-safe Named Parameter".  
+* Penicillin has model classes. So responses are easy to use.  
+* API's execution supports classical blocking function `.complete()`, suspend function `.execute()`, deferred operation `.executeAsync()` and callback style `.queue {}`.  
+* Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.  
 
-KDoc is available at [docs.nephy.jp](https://docs.nephy.jp/penicillin).
+KDoc is available at [docs.starry.blue](https://docs.starry.blue/penicillin).  
 
-## Quick example
+## Quick Example
 
 ```kotlin
 suspend fun main() {
     // Creates new ApiClient
-    val client = PenicillinClient {
+    PenicillinClient {
         account {
             application("ConsumerKey", "ConsumerSecret")
             token("AccessToken", "AccessToken Secret")
         }
+    }.use {
+        // Retrieves user timeline from @realdonaldtrump up to 100.
+        client.timeline.userTimeline(screenName = "realdonaldtrump", count = 100).execute().forEach { status ->
+            // Prints status text.
+            println(status.text)
+        }
     }
-
-    // Retrieves the user timeline from @realdonaldtrump up to 100.
-    client.timeline.userTimeline(screenName = "realdonaldtrump", count = 100).await().forEach { status ->
-        // Prints status text.
-        println(status.text)
-    }
-
-    // Disposes ApiClient
-    client.close()
 }
 ```
 
-More examples of Penicillin can be found at [Wiki](https://github.com/NephyProject/Penicillin/wiki/Sample). Please feel free to create [new issue](https://github.com/NephyProject/Penicillin/issues/new/choose) if you have any questions.
+More examples of Penicillin can be found at [Wiki](https://github.com/StarryBlueSky/Penicillin/wiki/Sample). Please feel free to create [new issue](https://github.com/StarryBlueSky/Penicillin/issues/new/choose) if you have any questions.
 
-## Setup
+## Get Started
 
-Latest Penicillin version is [![Stable](https://img.shields.io/bintray/v/nephyproject/stable/Penicillin.svg?label=stable)](https://github.com/NephyProject/Penicillin/releases/latest) or [![Dev](https://img.shields.io/bintray/v/nephyproject/dev/Penicillin.svg?label=dev)](https://bintray.com/nephyproject/dev/Penicillin/_latestVersion).  
+Latest Penicillin version is [![Stable](https://img.shields.io/bintray/v/nephyproject/stable/Penicillin.svg?label=stable)](https://bintray.com/nephyproject/stable/Penicillin/_latestVersion) or [![Dev](https://img.shields.io/bintray/v/nephyproject/dev/Penicillin.svg?label=dev)](https://bintray.com/nephyproject/dev/Penicillin/_latestVersion).  
 
 Stable releases are available at [Bintray](https://bintray.com/nephyproject/stable/Penicillin). EAP builds are also available ([Dev Repository](https://bintray.com/nephyproject/dev/Penicillin)). Every commit is published as EAP build.  
 
-You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or `CIO` engine.  
+You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or `CIO` engine on JVM.  
 Full engine list is available at <https://ktor.io/clients/http-client/engines.html>.
 
 ### Gradle
 
 We recommend using Gradle Kotlin DSL instead of classic build.gradle.  
 
-#### build.gradle.kts
+#### build.gradle.kts:
 
 ```kotlin
-val penicillinVersion = "4.2.3"
-val ktorVersion = "1.3.0-rc"
-
-plugins { 
-    kotlin("jvm") version "1.3.61"
-}
+val ktorVersion = "1.3.2"
 
 repositories {
     mavenCentral()
     jcenter()
-    maven(url = "https://kotlin.bintray.com/ktor")
-    maven(url = "https://kotlin.bintray.com/kotlinx")
-    maven(url = "https://kotlin.bintray.com/kotlin-eap")
+
     maven(url = "https://dl.bintray.com/nephyproject/stable")
-    // Or dev repository
+    // or dev repository if EAP builds preferred
     // maven(url = "https://dl.bintray.com/nephyproject/dev")
 }
 
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("blue.starry:penicillin:$penicillinVersion")
-    
-    implementation("io.ktor:ktor-client-apache:$ktorVersion")
-    // implementation("io.ktor:ktor-client-cio:$ktorVersion")
-    // implementation("io.ktor:ktor-client-jetty:$ktorVersion")
-    // implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+kotlin {
+    sourceSets {
+        named("commonMain") {
+            dependencies {
+                // for common; In many cases, this is not necessary.
+                implementation("blue.starry:penicillin-common:$PenicillinVersion")
+            }
+        }
+
+        named("jvmMain") {
+            // for JVM (Android)
+            implementation("blue.starry:penicillin:$PenicillinVersion")
+        }
+
+        named("jsMain") {
+            // for JS
+            implementation("blue.starry:penicillin-js:$PenicillinVersion")
+        }
+    }
 }
 ```
 
 ## Compatibility
 
-Currently Penicillin works on JVM (Java 8) or Android (API level 24 or greater).  
+Currently Penicillin works on JVM (Java 8), Android (API level >= 24) or JS (both browsers and NodeJS).  
 
-In the future, Penicillin is plan to support Kotlin/Multiplatform. It brings the benefits of reuse for Kotlin code and saves you from wasting time.  
+In the future, Penicillin is plan to support Kotlin/Native. It brings the benefits of reuse for Kotlin code and saves you from wasting time.  
 For example, if you only write Kotlin code once, it can be compiled for JVM, JavaScript, iOS, Android, Windows, macOS and so on.  
 
 In Android development, we confirmed that Penicillin works only on API level 24 or greater. It's caused by Ktor-side restriction. Detail information is [here](https://ktor.io/quickstart/faq.html#android-support).
@@ -105,6 +107,6 @@ In Android development, we confirmed that Penicillin works only on API level 24 
 
 ## License
 
-Penicillin is provided under MIT license. A copy of MIT license of Nephy Project is available [here](https://nephy.jp/license/mit).
+Penicillin is provided under the MIT license.  
 
-Copyright (c) 2017-2019 Nephy Project.
+Copyright (c) 2017-2020 StarryBlueSky.
