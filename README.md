@@ -1,7 +1,7 @@
 # Penicillin: Modern powerful Twitter API wrapper for Kotlin Multiplatform
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.72-blue.svg)](https://kotlinlang.org)
-[![stable](https://img.shields.io/bintray/v/nephyproject/stable/Penicillin.svg?label=stable)](https://github.com/NephyProject/Penicillin/releases/latest)
+[![stable](https://img.shields.io/bintray/v/nephyproject/stable/Penicillin.svg?label=stable)](https://bintray.com/nephyproject/stable/Penicillin/_latestVersion)
 [![dev](https://img.shields.io/bintray/v/nephyproject/dev/Penicillin.svg?label=dev)](https://bintray.com/nephyproject/dev/Penicillin/_latestVersion)
 [![license](https://img.shields.io/github/license/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/blob/master/LICENSE)
 [![issues](https://img.shields.io/github/issues/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/issues)
@@ -28,7 +28,7 @@ suspend fun main() {
             application("ConsumerKey", "ConsumerSecret")
             token("AccessToken", "AccessToken Secret")
         }
-    }.use {
+    }.use { client ->
         // Retrieves user timeline from @realdonaldtrump up to 100.
         client.timeline.userTimeline(screenName = "realdonaldtrump", count = 100).execute().forEach { status ->
             // Prints status text.
@@ -50,8 +50,6 @@ You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or 
 Full engine list is available at <https://ktor.io/clients/http-client/engines.html>.
 
 ### Gradle
-
-We recommend using Gradle Kotlin DSL instead of classic build.gradle.  
 
 #### build.gradle.kts:
 
@@ -77,13 +75,17 @@ kotlin {
         }
 
         named("jvmMain") {
-            // for JVM (Android)
-            implementation("blue.starry:penicillin:$PenicillinVersion")
+            dependencies {
+                // for JVM (Android)
+                implementation("blue.starry:penicillin:$PenicillinVersion")
+            }
         }
 
         named("jsMain") {
-            // for JS
-            implementation("blue.starry:penicillin-js:$PenicillinVersion")
+            dependencies {
+                // for JS
+                implementation("blue.starry:penicillin-js:$PenicillinVersion")
+            }
         }
     }
 }
