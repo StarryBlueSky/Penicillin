@@ -24,10 +24,16 @@
 
 package tests
 
+import blue.starry.penicillin.endpoints.statuses
+import blue.starry.penicillin.endpoints.statuses.create
 import blue.starry.penicillin.endpoints.timeline
 import blue.starry.penicillin.endpoints.timeline.homeTimeline
+import blue.starry.penicillin.extensions.executeAsync
 import blue.starry.penicillin.extensions.models.text
 import blue.starry.penicillin.extensions.queue
+import kotlinx.coroutines.asPromise
+import kotlin.random.Random
+import kotlin.random.nextULong
 
 actual fun testTimeline() {
     TEST_CLIENT.timeline.homeTimeline.queue { timeline ->
@@ -35,4 +41,9 @@ actual fun testTimeline() {
             println(it.text)
         }
     }
+}
+
+@ExperimentalUnsignedTypes
+actual fun testTweet() {
+    TEST_CLIENT.statuses.create("This is test tweet from Penicillin on Kotlin/JS! 0x${Random.nextULong().toString(16)}").queue()
 }

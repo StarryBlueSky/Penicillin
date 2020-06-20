@@ -28,6 +28,10 @@ import kotlin.test.Test
 
 class ApiTest {
     @Test fun timeline(): Unit = testTimeline()
+
+    @Test fun tweet(): Unit = testTweet()
 }
 
 expect fun testTimeline()
+
+expect fun testTweet()

@@ -24,10 +24,15 @@
 
 package tests
 
+import blue.starry.penicillin.endpoints.statuses
+import blue.starry.penicillin.endpoints.statuses.create
 import blue.starry.penicillin.endpoints.timeline
 import blue.starry.penicillin.endpoints.timeline.homeTimeline
 import blue.starry.penicillin.extensions.complete
 import blue.starry.penicillin.extensions.models.text
+import blue.starry.penicillin.extensions.queue
+import kotlin.random.Random
+import kotlin.random.nextULong
 
 actual fun testTimeline() {
     val timeline = TEST_CLIENT.timeline.homeTimeline.complete()
@@ -35,4 +40,9 @@ actual fun testTimeline() {
     timeline.forEach {
         println(it.text)
     }
+}
+
+@ExperimentalUnsignedTypes
+actual fun testTweet() {
+    TEST_CLIENT.statuses.create("This is test tweet from Penicillin on JVM! 0x${Random.nextULong().toString(16)}").complete()
 }
