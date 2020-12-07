@@ -29,7 +29,7 @@ package blue.starry.penicillin.extensions.models.builder
 import blue.starry.jsonkt.*
 import blue.starry.penicillin.core.session.NoopApiClient
 import blue.starry.penicillin.models.Status
-import kotlinx.atomicfu.atomic
+import kotlinx.serialization.json.jsonObject
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -216,9 +216,8 @@ internal fun TemporalAccessor?.toCreatedAt(): String {
     return dateFormatter.format(this ?: Instant.now())
 }
 
-private var id = atomic(100000001L)
+@Volatile private var id = 100000001L
 internal fun generateId(): Long {
-    return id.also {
-        id.plusAssign(2)
-    }.value
+    id += 2
+    return id
 }

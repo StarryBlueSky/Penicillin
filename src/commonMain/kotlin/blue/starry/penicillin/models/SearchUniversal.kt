@@ -28,18 +28,24 @@ package blue.starry.penicillin.models
 
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
+import blue.starry.jsonkt.jsonObjectOrNull
 import blue.starry.jsonkt.parseObject
+import blue.starry.jsonkt.parseObjectOrNull
 import blue.starry.penicillin.core.session.ApiClient
-
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
 
 
 data class SearchUniversal(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     val metadata by model("metadata") { Metadata(it, client) }
     val statuses by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("status") }.map { json -> json.getObject("status").parseObject { obj -> Status(obj, client) } }
+        it.jsonArray.map { json -> json.jsonObject }.mapNotNull { json ->
+            json["status"]?.parseObjectOrNull { obj -> Status(obj, client) }
+        }
     }
     val userGalleries by lambda("modules") {
-        it.jsonArray.map { json -> json.jsonObject }.filter { json -> json.containsKey("user_gallery") }.map { json -> json.getObject("user_gallery").parseObject { obj ->
+        it.jsonArray.map { json -> json.jsonObject }.mapNotNull { json ->
+            json["user_gallery"]?.parseObjectOrNull { obj ->
                 UserGallery(obj, client)
             }
         }

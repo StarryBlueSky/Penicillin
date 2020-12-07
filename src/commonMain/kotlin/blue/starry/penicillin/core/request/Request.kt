@@ -28,19 +28,13 @@ package blue.starry.penicillin.core.request
 
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.asJsonElement
-import io.ktor.client.request.forms.FormBuilder
-import io.ktor.client.request.forms.FormDataContent
-import io.ktor.client.request.forms.MultiPartFormDataContent
-import io.ktor.client.request.forms.formData
-import io.ktor.http.Headers
-import io.ktor.http.ParametersBuilder
-import io.ktor.http.URLBuilder
-import io.ktor.util.appendAll
-import io.ktor.util.flattenForEach
 import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.endpoints.common.TweetMode
 import blue.starry.penicillin.extensions.session
-import kotlinx.serialization.json.json
+import io.ktor.client.request.forms.*
+import io.ktor.http.*
+import io.ktor.util.*
+import kotlinx.serialization.json.buildJsonObject
 
 /**
  * Url string.
@@ -61,7 +55,7 @@ fun ApiRequestBuilder.formBody(vararg pairs: Pair<String, Any?>, mode: Emulation
     }
 
     body = {
-        FormDataContent(forms.build())
+        FormDataContent(forms.copy().build())
     }
 }
 
@@ -97,7 +91,7 @@ fun ApiRequestBuilder.jsonBody(vararg pairs: Pair<String, Any?>, mode: Emulation
         return
     }
 
-    val json = json {
+    val json = buildJsonObject {
         for ((key, value) in pairs) {
             if (value != null) {
                 key to value.asJsonElement()

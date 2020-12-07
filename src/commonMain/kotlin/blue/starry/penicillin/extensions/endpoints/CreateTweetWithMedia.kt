@@ -58,7 +58,7 @@ fun Statuses.createWithMedia(
         }
     }.awaitAll()
     
-    create(status, mediaIds = results.map { it.mediaId }, options = *options).execute()
+    create(status, mediaIds = results.map { it.mediaId }, options = options).execute()
 }
 
 private const val mediaProcessTimeoutMillis = 60 * 1000L

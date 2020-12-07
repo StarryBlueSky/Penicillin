@@ -30,6 +30,7 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.jsonkt.parseObject
 import blue.starry.penicillin.core.session.ApiClient
+import kotlinx.serialization.json.jsonObject
 
 data class Moment(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     private val moment by jsonObject
