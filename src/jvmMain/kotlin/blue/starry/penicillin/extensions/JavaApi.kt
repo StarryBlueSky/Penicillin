@@ -29,15 +29,15 @@ package blue.starry.penicillin.extensions
 import blue.starry.penicillin.endpoints.media.MediaCategory
 import blue.starry.penicillin.endpoints.media.MediaComponent
 import blue.starry.penicillin.endpoints.media.MediaType
+import java.io.File
+import java.nio.file.Path
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.*
-import java.io.File
-import java.nio.file.Path
 
 @Suppress("FunctionName")
 fun MediaComponent(file: File, type: MediaType, category: MediaCategory = MediaCategory.TweetImage): MediaComponent {
-    return MediaComponent(file.inputStream(), type, category)
+    return MediaComponent(file.readBytes(), type, category)
 }
 
 @Suppress("FunctionName")

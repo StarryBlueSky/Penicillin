@@ -26,8 +26,6 @@
 
 package blue.starry.penicillin.endpoints.media
 
-import io.ktor.client.request.forms.append
-import io.ktor.utils.io.core.writeFully
 import blue.starry.penicillin.core.request.EndpointHost
 import blue.starry.penicillin.core.request.action.EmptyApiAction
 import blue.starry.penicillin.core.request.append
@@ -35,6 +33,8 @@ import blue.starry.penicillin.core.request.multiPartBody
 import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.Media
 import blue.starry.penicillin.endpoints.Option
+import io.ktor.client.request.forms.*
+import io.ktor.utils.io.core.*
 import kotlinx.serialization.InternalSerializationApi
 
 /**
@@ -63,7 +63,7 @@ fun Media.uploadAppend(
 ) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
     multiPartBody {
         append("media", "blob", media.type.contentType) {
-            writeFully(media.readBytes())
+            writeFully(media.data)
         }
 
         append(

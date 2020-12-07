@@ -26,9 +26,6 @@
 
 package blue.starry.penicillin.endpoints.media
 
-import blue.starry.penicillin.endpoints.media.MediaCategory.TweetImage
-import kotlinx.io.ByteArrayInputStream
-import kotlinx.io.InputStream
 import kotlinx.serialization.InternalSerializationApi
 
 /**
@@ -36,9 +33,9 @@ import kotlinx.serialization.InternalSerializationApi
  */
 data class MediaComponent @OptIn(InternalSerializationApi::class) constructor(
     /**
-     * InputStream for media data.
+     * Media data.
      */
-    val input: InputStream,
+    val data: ByteArray,
 
     /**
      * Media type.
@@ -50,16 +47,23 @@ data class MediaComponent @OptIn(InternalSerializationApi::class) constructor(
      */
     val category: MediaCategory
 ) {
-    @OptIn(InternalSerializationApi::class)
-    constructor(data: ByteArray, type: MediaType, category: MediaCategory = TweetImage): this(ByteArrayInputStream(data), type, category)
-}
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
 
-/**
- * Returns [ByteArray] which was fully read from [InputStream].
- */
-@InternalSerializationApi
-fun MediaComponent.readBytes(): ByteArray {
-    val buffer = ByteArray(Int.MAX_VALUE)
-    input.read(buffer)
-    return buffer
+        other as MediaComponent
+
+        if (!data.contentEquals(other.data)) return false
+        if (type != other.type) return false
+        if (category != other.category) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = data.contentHashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + category.hashCode()
+        return result
+    }
 }
