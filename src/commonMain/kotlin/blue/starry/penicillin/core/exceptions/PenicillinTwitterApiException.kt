@@ -24,12 +24,12 @@
 
 package blue.starry.penicillin.core.exceptions
 
-import io.ktor.client.request.HttpRequest
-import io.ktor.client.statement.HttpResponse
 import blue.starry.penicillin.core.i18n.LocalizedString
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 
 private val apiErrorString = LocalizedString(
-    "%s (%d): %s (%s)"
+    "{} ({}): {} ({})"
 )
 
 /**
