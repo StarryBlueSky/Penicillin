@@ -38,7 +38,7 @@ val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 object ThirdpartyVersion {
     // For Kotlin/Common
     const val Ktor = "1.4.3"
-    const val JsonKt = "6.0.0-eap-13"
+    const val JsonKt = "6.0.0"
     const val uuid = "0.2.3"
     const val KotlinxDatetime = "0.1.1"
 
