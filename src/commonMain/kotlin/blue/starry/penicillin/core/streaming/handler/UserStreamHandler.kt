@@ -50,7 +50,7 @@ class UserStreamHandler(override val client: ApiClient, override val listener: U
                     listener.onDirectMessage(json.parseObject { DirectMessage(it, client) })
                 }
                 "event" in json -> {
-                    val event = UserStreamEvent.byKey(json.getPrimitive("event").string)
+                    val event = UserStreamEvent.byKey(json["event"]!!.string)
                     when (event?.type) {
                         UserStreamEventType.Status -> {
                             val statusEvent = json.parseObject { Stream.StatusEvent(it, client) }

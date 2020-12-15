@@ -36,8 +36,9 @@ import blue.starry.penicillin.endpoints.PremiumSearchEnvironment
 import blue.starry.penicillin.endpoints.environment
 import blue.starry.penicillin.endpoints.search.SearchBucket
 import blue.starry.penicillin.endpoints.search.SearchProduct
+import blue.starry.penicillin.extensions.toYYYYMMddHHmmss
 import blue.starry.penicillin.models.PremiumSearchCount
-import com.soywiz.klock.DateTime
+import kotlinx.datetime.LocalDateTime
 
 /**
  * Returns counts data [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) for the specified query.
@@ -58,8 +59,8 @@ fun PremiumSearch.count(
     product: SearchProduct,
     label: String,
     query: String,
-    fromDate: DateTime? = null,
-    toDate: DateTime? = null,
+    fromDate: LocalDateTime? = null,
+    toDate: LocalDateTime? = null,
     bucket: SearchBucket? = null,
     next: String? = null,
     vararg options: Option
@@ -80,16 +81,16 @@ fun PremiumSearch.count(
 @PenicillinExperimentalApi
 fun PremiumSearchEnvironment.count(
     query: String,
-    fromDate: DateTime? = null,
-    toDate: DateTime? = null,
+    fromDate: LocalDateTime? = null,
+    toDate: LocalDateTime? = null,
     bucket: SearchBucket? = null,
     next: String? = null,
     vararg options: Option
 ) = client.session.post("$endpoint/counts.json") {
     jsonBody(
         "query" to query,
-        "fromDate" to fromDate?.format(formatter),
-        "toDate" to toDate?.format(formatter),
+        "fromDate" to fromDate?.toYYYYMMddHHmmss(),
+        "toDate" to toDate?.toYYYYMMddHHmmss(),
         "bucket" to bucket?.value,
         "next" to next,
         *options

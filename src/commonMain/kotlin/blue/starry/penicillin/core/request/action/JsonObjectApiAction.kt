@@ -32,6 +32,7 @@ import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.response.JsonObjectResponse
 import blue.starry.penicillin.core.session.ApiClient
+import blue.starry.penicillin.extensions.complete
 
 import blue.starry.penicillin.models.PenicillinModel
 
@@ -42,7 +43,7 @@ class JsonObjectApiAction<M: PenicillinModel>(
     override val client: ApiClient,
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M
-): JsonRequest<M>, ApiAction<JsonObjectResponse<M>> {
+): JsonRequest<M>, ApiAction<JsonObjectResponse<M>>, Lazy<JsonObjectResponse<M>> {
     override suspend operator fun invoke(): JsonObjectResponse<M> {
         val (request, response) = execute()
 
@@ -59,4 +60,12 @@ class JsonObjectApiAction<M: PenicillinModel>(
 
         return JsonObjectResponse(client, result, request, response, content.orEmpty(), this)
     }
+
+    private val lazy = lazy {
+        complete()
+    }
+
+    override fun isInitialized(): Boolean = lazy.isInitialized()
+
+    override val value: JsonObjectResponse<M> = lazy.value
 }

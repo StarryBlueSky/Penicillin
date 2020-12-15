@@ -24,10 +24,8 @@
 
 package blue.starry.penicillin.core.request.action
 
-import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.session.ApiClient
-import kotlinx.coroutines.CancellationException
 
 internal class DelegatedAction<R>(override val client: ApiClient, private val block: suspend () -> R): ApiAction<R> {
     override val request: ApiRequest

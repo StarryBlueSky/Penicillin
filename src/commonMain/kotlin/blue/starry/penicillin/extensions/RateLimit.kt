@@ -26,10 +26,10 @@
 
 package blue.starry.penicillin.extensions
 
-import io.ktor.client.statement.HttpResponse
 import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.response.ApiResponse
-import io.ktor.util.date.GMTDate
+import io.ktor.client.statement.*
+import io.ktor.util.date.*
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
@@ -87,7 +87,7 @@ val RateLimit.isExceeded: Boolean
 /**
  * The count you consumed in last 15 minutes.
  */
-val RateLimit.consumed: Int?
+val RateLimit.consumed: Int
     get() = limit - remaining
 
 /**

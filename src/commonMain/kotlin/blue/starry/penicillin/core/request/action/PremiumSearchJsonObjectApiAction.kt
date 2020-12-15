@@ -33,6 +33,7 @@ import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.response.PremiumSearchJsonObjectResponse
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.endpoints.PremiumSearchEnvironment
+import blue.starry.penicillin.extensions.complete
 
 import blue.starry.penicillin.models.PremiumSearchModel
 
@@ -48,7 +49,7 @@ class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
      * [PremiumSearchEnvironment] which will be used to acquire this response.
      */
     val environment: PremiumSearchEnvironment
-): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>> {
+): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>>, Lazy<PremiumSearchJsonObjectResponse<M>> {
     override suspend operator fun invoke(): PremiumSearchJsonObjectResponse<M> {
         val (request, response) = execute()
 
@@ -65,4 +66,12 @@ class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
 
         return PremiumSearchJsonObjectResponse(client, result, request, response, content, this, environment)
     }
+
+    private val lazy = lazy {
+        complete()
+    }
+
+    override fun isInitialized(): Boolean = lazy.isInitialized()
+
+    override val value: PremiumSearchJsonObjectResponse<M> = lazy.value
 }

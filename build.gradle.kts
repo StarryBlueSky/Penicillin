@@ -25,63 +25,50 @@
 @file:Suppress("KDocMissingDocumentation", "PublicApiImplicitType")
 
 import com.adarshr.gradle.testlogger.theme.ThemeType
-import org.jetbrains.dokka.gradle.DokkaTask
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
 
 val githubOrganizationName = "StarryBlueSky"
 val githubRepositoryName = "Penicillin"
 val packageGroupId = "blue.starry"
 val packageName = "Penicillin"
-val packageVersion = Version(5, 0, 1)
+val packageVersion = Version(6, 0, 0)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 object ThirdpartyVersion {
     // For Kotlin/Common
-    const val Ktor = "1.3.2"
-    const val JsonKt = "5.0.0"
-    const val uuid = "0.1.0"
-    const val klock = "1.11.3"
+    const val Ktor = "1.4.3"
+    const val JsonKt = "6.0.0"
+    const val uuid = "0.2.3"
+    const val KotlinxDatetime = "0.1.1"
 
     // For Kotlin/JS
     const val crypto_js = "4.0.0"
-    const val node_fetch = "2.6.0"
 
     // For testing
-    const val JUnit = "5.6.2"
-    const val TwitterText = "3.0.1"
+    const val JUnit = "5.7.0"
+    const val TwitterText = "3.1.0"
     const val Guava = "29.0-jre"
 
     // For logging
-    const val KotlinLogging = "1.7.9"
+    const val KotlinLogging = "2.0.3"
     const val Logback = "1.2.3"
     const val jansi = "1.18"
 }
 
 plugins { 
-    kotlin("multiplatform") version "1.3.72"
+    kotlin("multiplatform") version "1.4.20"
 
     // For testing
-    id("com.adarshr.test-logger") version "2.0.0"
-    id("build-time-tracker") version "0.11.1"
+    id("com.adarshr.test-logger") version "2.1.1"
+    id("net.rdrei.android.buildtimetracker") version "0.11.0"
 
     // For publishing
     `maven-publish`
-    id("com.jfrog.bintray") version "1.8.5"
+    id("com.jfrog.artifactory") version "4.17.2"
     
     // For documentation
-    id("org.jetbrains.dokka") version "0.10.1"
-}
-
-fun Project.property(key: String? = null) = object: ReadOnlyProperty<Project, String?> {
-    override fun getValue(thisRef: Project, property: KProperty<*>): String? {
-        val name = key ?: property.name
-        return (properties[name] ?: System.getProperty(name) ?: System.getenv(name))?.toString()
-    }
+    id("org.jetbrains.dokka") version "1.4.20"
 }
 
 data class Version(val major: Int, val minor: Int, val patch: Int) {
@@ -91,21 +78,20 @@ data class Version(val major: Int, val minor: Int, val patch: Int) {
 
 // cannot be companion object
 val isEAPBuild: Boolean
-    get() = hasProperty("snapshot")
+    get() = hasProperty("snapshot") || System.getenv("SNAPSHOT") != null
 
-val buildNumber: Int
-    get() {
-        val path = Paths.get(buildDir.absolutePath, "build-number-${packageVersion.label}.txt")
-        val number = if (Files.exists(path)) {
-            path.toFile().readText().toIntOrNull()
-        } else {
-            null
-        }?.coerceAtLeast(0)?.plus(1) ?: 1
+fun incrementBuildNumber(): Int {
+    val path = Paths.get(buildDir.absolutePath, "build-number-${packageVersion.label}.txt")
+    val number = if (Files.exists(path)) {
+        path.toFile().readText().toIntOrNull()
+    } else {
+        null
+    }?.coerceAtLeast(0)?.plus(1) ?: 1
 
-        path.toFile().writeText(number.toString())
+    path.toFile().writeText(number.toString())
 
-        return number
-    }
+    return number
+}
 
 /*
  * Dependencies
@@ -114,57 +100,42 @@ val buildNumber: Int
 repositories {
     mavenCentral()
     jcenter()
-    maven(url = "https://dl.bintray.com/nephyproject/stable")
-    maven(url = "https://dl.bintray.com/nephyproject/dev")
+    maven(url = "https://kotlin.bintray.com/kotlinx")
+    maven(url = "https://dl.bintray.com/starry-blue-sky/stable")
+    maven(url = "https://dl.bintray.com/starry-blue-sky/dev")
 }
 
 kotlin {
-    metadata {
-        // make a name of an artifact backward-compatible, default "-metadata"
-        mavenPublication {
-            artifactId = "${rootProject.name}-common"
-        }
-    }
+    explicitApiWarning()
+    // explicitApi()
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
         }
-        mavenPublication {
-            // make a name of jvm artifact backward-compatible, default "-jvm"
-            artifactId = rootProject.name
-        }
     }
-    js {
+    js(BOTH) {
         nodejs()
         browser {
             testTask {
                 useKarma {
-                    useChromeHeadless()
+                    useChrome()
                 }
             }
         }
-
-        compilations.all {
-            kotlinOptions {
-                metaInfo = true
-                sourceMap = true
-                moduleKind = "umd"
-            }
-        }
     }
-    // mingwX64("mingw")
 
     sourceSets {
         commonMain {
             dependencies {
                 // Kotlin
-                api(kotlin("stdlib-common"))
+                api(kotlin("stdlib"))
 
                 api("io.ktor:ktor-client-core:${ThirdpartyVersion.Ktor}")
-                api("blue.starry:jsonkt-common:${ThirdpartyVersion.JsonKt}")
+                api("blue.starry:jsonkt:${ThirdpartyVersion.JsonKt}")
                 api("com.benasher44:uuid:${ThirdpartyVersion.uuid}")
-                api("com.soywiz.korlibs.klock:klock:${ThirdpartyVersion.klock}")
-                api("io.github.microutils:kotlin-logging-common:${ThirdpartyVersion.KotlinLogging}")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:${ThirdpartyVersion.KotlinxDatetime}")
+                api("io.github.microutils:kotlin-logging:${ThirdpartyVersion.KotlinLogging}")
             }
         }
         commonTest {
@@ -176,15 +147,6 @@ kotlin {
         }
 
         named("jvmMain") {
-            dependencies {
-                // Kotlin
-                implementation(kotlin("stdlib"))
-
-                api("io.ktor:ktor-client-core-jvm:${ThirdpartyVersion.Ktor}")
-                api("blue.starry:jsonkt:${ThirdpartyVersion.JsonKt}")
-                implementation("com.soywiz.korlibs.klock:klock-jvm:${ThirdpartyVersion.klock}")
-                implementation("io.github.microutils:kotlin-logging:${ThirdpartyVersion.KotlinLogging}")
-            }
         }
         named("jvmTest") {
             dependencies {
@@ -214,46 +176,30 @@ kotlin {
 
         named("jsMain") {
             dependencies {
-                // Kotlin
-                implementation(kotlin("stdlib-js"))
-
                 api("io.ktor:ktor-client-js:${ThirdpartyVersion.Ktor}")
                 api("blue.starry:jsonkt-js:${ThirdpartyVersion.JsonKt}")
-                implementation("io.github.microutils:kotlin-logging-js:${ThirdpartyVersion.KotlinLogging}")
 
                 // Platform specific
                 implementation(npm("crypto-js", ThirdpartyVersion.crypto_js))
-                // For nodejs support
-                runtimeOnly(npm("node-fetch", ThirdpartyVersion.node_fetch))
-                // workaround: https://github.com/ktorio/ktor/issues/961#issuecomment-630995993
-                runtimeOnly(npm("text-encoding"))
-                runtimeOnly(npm("bufferutil"))
-                runtimeOnly(npm("utf-8-validate"))
-                runtimeOnly(npm("abort-controller"))
-                runtimeOnly(npm("fs"))
             }
         }
         named("jsTest") {
             dependencies {
                 // Kotlin
                 implementation(kotlin("test-js"))
+
+                // Ktor clients
+                implementation("io.ktor:ktor-client-mock-js:${ThirdpartyVersion.Ktor}")
             }
         }
-
-//        named("mingwMain") {
-//            dependencies {
-//                // api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${ThirdpartyVersion.KotlinxSerializationRuntime}")
-//            }
-//        }
-//        named("mingwTest") {
-//        }
     }
 
     targets.all {
         compilations.all {
             kotlinOptions {
-                apiVersion = "1.3"
-                languageVersion = "1.3"
+                apiVersion = "1.4"
+                languageVersion = "1.4"
+                // allWarningsAsErrors = true
                 verbose = true
             }
         }
@@ -294,6 +240,7 @@ tasks.named<Test>("jvmTest") {
  * Publishing
  */
 
+var buildNumber = incrementBuildNumber()
 project.group = packageGroupId
 project.version = if (isEAPBuild) {
     "${packageVersion.label}-eap-${buildNumber}"
@@ -302,69 +249,22 @@ project.version = if (isEAPBuild) {
 }
 
 tasks {
-    dokka {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/kdoc"
+    dokkaHtml {
+        outputDirectory.set(buildDir.resolve("kdoc"))
 
-        configuration {
-            jdkVersion = 8
-            includeNonPublic = false
-            reportUndocumented = true
-            skipEmptyPackages = true
-            skipDeprecated = true
+        dokkaSourceSets.all {
 
-//            sourceRoot {
-//                path = kotlin.sourceSets.getByName("commonMain").kotlin.srcDirs.first().toString()
-//                platforms = listOf("Common")
-//            }
-//            sourceRoot {
-//                path = kotlin.sourceSets.getByName("jvmMain").kotlin.srcDirs.first().toString()
-//                platforms = listOf("JVM")
-//            }
-//            sourceRoot {
-//                path = kotlin.sourceSets.getByName("jsMain").kotlin.srcDirs.first().toString()
-//                platforms = listOf("JS")
-//            }
+            jdkVersion.set(8)
+            includeNonPublic.set(false)
+            reportUndocumented.set(true)
+            skipEmptyPackages.set(true)
+            skipDeprecated.set(true)
         }
     }
 
     register<Jar>("kdocJar") {
-        val dokkaTask = getByName<DokkaTask>("dokka")
-        from(dokkaTask.outputDirectory)
-        dependsOn(dokkaTask)
-        archiveClassifier.set("kdoc")
-    }
-
-    register<DokkaTask>("dokkaJavadoc") {
-        outputFormat = "javadoc"
-        outputDirectory = "$buildDir/javadoc"
-
-        configuration {
-            jdkVersion = 8
-            includeNonPublic = false
-            reportUndocumented = false
-            skipEmptyPackages = true
-            skipDeprecated = true
-
-//            sourceRoot {
-//                path = kotlin.sourceSets.getByName("commonMain").kotlin.srcDirs.first().toString()
-//                platforms = listOf("Common")
-//            }
-//            sourceRoot {
-//                path = kotlin.sourceSets.getByName("jvmMain").kotlin.srcDirs.first().toString()
-//                platforms = listOf("JVM")
-//            }
-//            sourceRoot {
-//                path = kotlin.sourceSets.getByName("jsMain").kotlin.srcDirs.first().toString()
-//                platforms = listOf("JS")
-//            }
-        }
-    }
-
-    register<Jar>("javadocJar") {
-        val dokkaTask = getByName<DokkaTask>("dokkaJavadoc")
-        from(dokkaTask.outputDirectory)
-        dependsOn(dokkaTask)
+        from(dokkaHtml)
+        dependsOn(dokkaHtml)
         archiveClassifier.set("javadoc")
     }
 }
@@ -396,41 +296,51 @@ publishing {
             }
         }
 
-        artifact(tasks["javadocJar"])
+        artifact(tasks["kdocJar"])
+    }
+
+    val user = System.getenv("BINTRAY_USER")
+    val key = System.getenv("BINTRAY_KEY")
+
+    if (user != null && key != null) {
+        repositories {
+            maven {
+                name = packageName
+                description = packageDescription
+
+                val repo = if (isEAPBuild) "dev" else "stable"
+                url = uri("https://api.bintray.com/maven/starry-blue-sky/$repo/$name/;publish=1;override=1")
+
+                credentials {
+                    username = user
+                    password = key
+                }
+            }
+        }
     }
 }
 
-val bintrayUsername by property()
-val bintrayApiKey by property()
+artifactory {
+    setContextUrl("http://oss.jfrog.org")
 
-bintray {
-    user = bintrayUsername
-    key = bintrayApiKey
+    publish(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig> {
+        repository(delegateClosureOf<groovy.lang.GroovyObject> {
+            setProperty("repoKey", "oss-snapshot-local")
+            setProperty("username", System.getProperty("BINTRAY_USER"))
+            setProperty("password", System.getProperty("BINTRAY_KEY"))
+            setProperty("maven", true)
+        })
 
-    publish = true
-    override = true
-    setPublications("metadata", "jvm", "js")
+        defaults(delegateClosureOf<groovy.lang.GroovyObject> {
+            invokeMethod("publications", publishing.publications.names.toTypedArray())
+            setProperty("publishArtifacts", true)
+            setProperty("publishPom", true)
+        })
+    })
 
-    pkg.apply {
-        repo = if (isEAPBuild) "dev" else "stable"
-        userOrg = "nephyproject"
+    resolve(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig> {
+        setProperty("repoKey", "jcenter")
+    })
 
-        name = packageName
-        desc = packageDescription
-
-        setLicenses("MIT")
-        publicDownloadNumbers = true
-
-        githubRepo = "$githubOrganizationName/$githubRepositoryName"
-        websiteUrl = "https://github.com/$githubRepo"
-        issueTrackerUrl = "$websiteUrl/issues"
-        vcsUrl = "$websiteUrl.git"
-
-        version.apply {
-            name = project.version.toString()
-            desc = "$packageName $name"
-            released = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(ZonedDateTime.now())
-            vcsTag = name
-        }
-    }
+    clientConfig.info.buildNumber = buildNumber.toString()
 }

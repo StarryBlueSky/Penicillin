@@ -155,7 +155,7 @@ private fun Lists.hasMember(
     vararg options: Option
 ): ApiAction<Boolean> = DelegatedAction {
     runCatching {
-        member(listId, slug, ownerScreenName, ownerId, userId, screenName, includeEntities = false, skipStatus = true, options = *options).execute()
+        member(listId, slug, ownerScreenName, ownerId, userId, screenName, includeEntities = false, skipStatus = true, options = options).execute()
         true
     }.recover {
         if (it is PenicillinTwitterApiException && it.error == TwitterApiError.UserNotInThisList) {

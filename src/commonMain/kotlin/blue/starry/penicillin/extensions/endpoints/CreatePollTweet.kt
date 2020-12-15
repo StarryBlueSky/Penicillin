@@ -26,7 +26,7 @@
 
 package blue.starry.penicillin.extensions.endpoints
 
-import blue.starry.jsonkt.stringify
+import blue.starry.jsonkt.encodeToString
 import blue.starry.jsonkt.toJsonObject
 import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.ApiAction
@@ -39,7 +39,6 @@ import blue.starry.penicillin.endpoints.statuses.create
 import blue.starry.penicillin.extensions.DelegatedAction
 import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.models.Status
-import kotlinx.serialization.json.JsonConfiguration
 
 /**
  * Creates new poll tweet.
@@ -68,8 +67,8 @@ fun Statuses.createPollTweet(
             put("twitter:api:api:endpoint", "1")
             put("twitter:card", "poll${choices.size}choice_text_only")
             put("twitter:long:duration_minutes", minutes)
-        }.toJsonObject().stringify(JsonConfiguration.Stable)
+        }.toJsonObject().encodeToString()
     ).execute()
     
-    create(status, cardUri = card.result.cardUri, options = *options).execute().result
+    create(status, cardUri = card.result.cardUri, options = options).execute().result
 }

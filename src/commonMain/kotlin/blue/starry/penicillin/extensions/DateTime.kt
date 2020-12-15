@@ -22,17 +22,27 @@
  * SOFTWARE.
  */
 
-package tests
+package blue.starry.penicillin.extensions
 
-import blue.starry.penicillin.endpoints.timeline
-import blue.starry.penicillin.endpoints.timeline.homeTimeline
-import blue.starry.penicillin.extensions.complete
-import blue.starry.penicillin.extensions.models.text
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.number
 
-actual fun testTimeline() {
-    val timeline = TEST_CLIENT.timeline.homeTimeline.complete()
+@Suppress("SpellCheckingInspection")
+internal fun LocalDate.toYYYYMMdd(): String {
+    return "${year.zeroPadding(4)}-${month.number.zeroPadding(2)}-${dayOfMonth.zeroPadding(2)}"
+}
 
-    timeline.forEach {
-        println(it.text)
+@Suppress("SpellCheckingInspection")
+internal fun LocalDateTime.toYYYYMMddHHmmss(): String {
+    return "${year.zeroPadding(4)}${month.number.zeroPadding(2)}${dayOfMonth.zeroPadding(2)}${hour.zeroPadding(2)}${minute.zeroPadding(2)}${second.zeroPadding(2)}"
+}
+
+private fun Int.zeroPadding(digit: Int): String {
+    val text = this.toString()
+    if (text.length < digit) {
+        return "0".repeat(digit - text.length) + text
     }
+
+    return text
 }

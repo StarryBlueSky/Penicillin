@@ -57,16 +57,12 @@ fun Media.uploadMedia(
     media: MediaComponent
 ) = DelegatedAction {
     @Suppress("BlockingMethodInNonBlockingContext")
-    val init = uploadInit(media.input.available(), media.type, media.category).execute()
+    val init = uploadInit(media.data.size, media.type, media.category).execute()
 
-    val segmentCount = ceil(media.input.available().toDouble() / segmentMaxSize).toInt()
+    val segmentCount = ceil(media.data.size.toDouble() / segmentMaxSize).toInt()
 
-    repeat(segmentCount) { i ->
-        val part = ByteArray(minOf(segmentMaxSize, media.input.available())).also {
-            media.input.read(it)
-        }
-
-        uploadAppend(MediaComponent(part, media.type, media.category), init.result.mediaId, i, init.result.mediaKey).execute()
+    media.data.asSequence().chunked(segmentMaxSize).forEachIndexed { i, part ->
+        uploadAppend(MediaComponent(part.toByteArray(), media.type, media.category), init.result.mediaId, i, init.result.mediaKey).execute()
     }
 
     uploadFinalize(init.result.mediaId, init.result.mediaKey).execute().result

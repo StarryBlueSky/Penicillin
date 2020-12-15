@@ -36,13 +36,11 @@ import blue.starry.penicillin.endpoints.PremiumSearch
 import blue.starry.penicillin.endpoints.PremiumSearchEnvironment
 import blue.starry.penicillin.endpoints.environment
 import blue.starry.penicillin.endpoints.search.SearchProduct
+import blue.starry.penicillin.extensions.toYYYYMMddHHmmss
 import blue.starry.penicillin.models.PremiumSearchData
 import blue.starry.penicillin.models.Status.MatchingRule
-import com.soywiz.klock.DateFormat
-import com.soywiz.klock.DateTime
+import kotlinx.datetime.LocalDateTime
 
-
-internal val formatter by lazy { DateFormat("yyyyMMddHHmmss") }
 
 /**
  * Returns a collection of relevant [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) matching a specified query.
@@ -65,8 +63,8 @@ fun PremiumSearch.data(
     label: String,
     query: String,
     tag: String? = null,
-    fromDate: DateTime? = null,
-    toDate: DateTime? = null,
+    fromDate: LocalDateTime? = null,
+    toDate: LocalDateTime? = null,
     maxResults: Int? = null,
     next: String? = null,
     vararg options: Option
@@ -89,8 +87,8 @@ fun PremiumSearch.data(
 fun PremiumSearchEnvironment.data(
     query: String,
     tag: String? = null,
-    fromDate: DateTime? = null,
-    toDate: DateTime? = null,
+    fromDate: LocalDateTime? = null,
+    toDate: LocalDateTime? = null,
     maxResults: Int? = null,
     next: String? = null,
     vararg options: Option
@@ -98,8 +96,8 @@ fun PremiumSearchEnvironment.data(
     jsonBody(
         "query" to query,
         "tag" to tag,
-        "fromDate" to fromDate?.format(formatter),
-        "toDate" to toDate?.format(formatter),
+        "fromDate" to fromDate?.toYYYYMMddHHmmss(),
+        "toDate" to toDate?.toYYYYMMddHHmmss(),
         "maxResults" to maxResults,
         "next" to next,
         *options

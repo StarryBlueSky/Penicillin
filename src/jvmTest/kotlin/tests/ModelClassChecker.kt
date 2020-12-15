@@ -26,14 +26,18 @@
 
 package tests
 
-import com.google.common.base.CaseFormat
+import blue.starry.jsonkt.*
 import blue.starry.jsonkt.JsonArray
 import blue.starry.jsonkt.JsonElement
-import blue.starry.jsonkt.JsonNull
 import blue.starry.jsonkt.JsonObject
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.models.PenicillinModel
-import kotlinx.serialization.json.JsonLiteral
+import com.google.common.base.CaseFormat
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.doubleOrNull
+import kotlinx.serialization.json.floatOrNull
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.longOrNull
 import mu.KotlinLogging
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
@@ -111,7 +115,7 @@ class ModelClassChecker(private val skipWarningsToDetailedType: Boolean = true, 
                 is JsonNull -> {
                     null
                 }
-                is JsonLiteral -> {
+                is JsonPrimitive -> {
                     when {
                         element.isString -> String::class
                         element.booleanOrNull != null -> Boolean::class

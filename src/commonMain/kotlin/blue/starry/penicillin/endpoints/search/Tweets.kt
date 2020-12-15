@@ -33,7 +33,8 @@ import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.endpoints.Search
 import blue.starry.penicillin.endpoints.common.TweetMode
-import com.soywiz.klock.DateTime
+import blue.starry.penicillin.extensions.toYYYYMMdd
+import kotlinx.datetime.LocalDate
 
 private typealias SearchModel = blue.starry.penicillin.models.Search
 
@@ -65,7 +66,7 @@ fun Search.search(
     locale: String? = null,
     resultType: SearchResultType = SearchResultType.Default,
     count: Int? = null,
-    until: DateTime? = null,
+    until: LocalDate? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
     includeEntities: Boolean? = null,
@@ -79,7 +80,7 @@ fun Search.search(
         "locale" to locale,
         "result_type" to resultType,
         "count" to count,
-        "until" to until?.let { until.format("yyyy-MM-dd") },
+        "until" to until?.toYYYYMMdd(),
         "since_id" to sinceId,
         "max_id" to maxId,
         "include_entities" to includeEntities,

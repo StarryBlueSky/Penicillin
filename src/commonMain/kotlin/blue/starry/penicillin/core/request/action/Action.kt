@@ -32,20 +32,15 @@ import blue.starry.jsonkt.delegation.byNullableInt
 import blue.starry.jsonkt.delegation.byNullableString
 import blue.starry.jsonkt.jsonArrayOrNull
 import blue.starry.jsonkt.string
-import io.ktor.client.request.HttpRequest
-import io.ktor.client.request.request
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.HttpStatement
-import io.ktor.client.statement.readText
-import io.ktor.client.statement.request
-import io.ktor.http.isSuccess
-import io.ktor.util.flattenEntries
 import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.exceptions.throwApiError
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.request.url
 import blue.starry.penicillin.extensions.session
-import io.ktor.utils.io.charsets.Charsets
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.util.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import mu.KotlinLogging
@@ -90,7 +85,7 @@ internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpRespons
             append("${response.version} ${response.status.value} ${request.method.value} ${request.url}\n")
 
             val (requestHeaders, responseHeaders) = request.headers.flattenEntries() to response.headers.flattenEntries()
-            val (longestRequestHeaderLength, longestResponseHeaderLength) = requestHeaders.maxBy { it.first.length }?.first.orEmpty().length + 1 to responseHeaders.maxBy { it.first.length }?.first.orEmpty().length + 1
+            val (longestRequestHeaderLength, longestResponseHeaderLength) = requestHeaders.maxByOrNull { it.first.length }?.first.orEmpty().length + 1 to responseHeaders.maxByOrNull { it.first.length }?.first.orEmpty().length + 1
             append("Request headers =\n${requestHeaders.joinToString("\n") { "    ${it.first.padEnd(longestRequestHeaderLength)}: ${it.second}" }}\n")
             append("Response headers =\n${responseHeaders.joinToString("\n") { "    ${it.first.padEnd(longestResponseHeaderLength)}: ${it.second}" }}\n\n")
 
