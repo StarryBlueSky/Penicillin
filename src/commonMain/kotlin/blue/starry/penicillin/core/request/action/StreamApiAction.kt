@@ -24,21 +24,95 @@
 
 package blue.starry.penicillin.core.request.action
 
+import blue.starry.jsonkt.toJsonObject
 import blue.starry.penicillin.core.request.ApiRequest
-import blue.starry.penicillin.core.response.StreamResponse
 import blue.starry.penicillin.core.session.ApiClient
-import blue.starry.penicillin.core.streaming.handler.StreamHandler
-import blue.starry.penicillin.core.streaming.listener.StreamListener
+import blue.starry.penicillin.core.streaming.handler.*
+import blue.starry.penicillin.core.streaming.listener.*
+import blue.starry.penicillin.extensions.endpoints.TweetstormHandler
+import blue.starry.penicillin.extensions.endpoints.TweetstormListener
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.utils.io.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 /**
  * The [ApiAction] that provides stream-able response.
  */
-class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(override val client: ApiClient, override val request: ApiRequest): ApiAction<StreamResponse<L, H>> {
-    override suspend operator fun invoke(): StreamResponse<L, H> {
-        val (request, response) = execute()
+class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(val client: ApiClient, val request: ApiRequest) {
+    /**
+     * Listens with listener and default handler.
+     *
+     * @param listener [StreamListener].
+     */
+    fun listen(listener: L, reconnect: Boolean = true): Job {
+        return client.session.launch {
+            while (isActive) {
+                client.session.httpClient.request<HttpStatement>(request.builder.finalize()).execute {
+                    checkError(it.request, it)
 
-        checkError(request, response)
+                    val channel = it.receive<ByteReadChannel>()
+                    handle(channel, listener)
+                }
 
-        return StreamResponse(client, request, response, this)
+                if (!reconnect) {
+                    break
+                }
+
+                delay(client.session.option.retryInMillis)
+            }
+        }
+    }
+
+    /**
+     * Awaits until streaming ends, or client disconnects.
+     * This operation is suspendable.
+     */
+    private suspend fun handle(channel: ByteReadChannel, listener: L) {
+        @Suppress("UNCHECKED_CAST")
+        val handler = when (listener) {
+            is UserStreamListener -> UserStreamHandler(client, listener)
+            is SampleStreamListener -> SampleStreamHandler(client, listener)
+            is FilterStreamListener -> FilterStreamHandler(client, listener)
+            is LivePipelineListener -> LivePipelineHandler(client, listener)
+            is TweetstormListener -> TweetstormHandler(client, listener)
+            else -> null
+        } as? H ?: error("Unsupported StreamListener: ${listener::class}")
+
+        try {
+            listener.onConnect()
+
+            while (!channel.isClosedForRead) {
+                val line = channel.readUTF8Line() ?: continue
+                val content = line.unescapeHTML()
+
+                when {
+                    content.startsWith('{') -> {
+                        handler.handle(content.toJsonObject())
+                    }
+                    content.isBlank() -> {
+                        listener.onHeartbeat()
+                    }
+                    else -> {
+                        val length = content.toIntOrNull()
+                        if (length != null) {
+                            listener.onLength(length)
+                        } else {
+                            listener.onUnknownData(content)
+                        }
+                    }
+                }
+
+                listener.onRawData(content)
+            }
+
+            listener.onDisconnect(null)
+        } catch (t: Throwable) {
+            listener.onDisconnect(t)
+        }
     }
 }

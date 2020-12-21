@@ -61,12 +61,7 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
                 throw e
             }
             
-            // TEMP FIX: Set-Cookie header may be invalid like Sat, 5 Sep 2020 16:30:05 GMT
-            if (e is IllegalStateException && e.message?.startsWith("Invalid date length.") == true) {
-                apiActionLogger.debug(e) { LocalizedString.ApiRequestFailedLog(request.builder.url, it + 1, session.option.maxRetries) }
-            } else {
-                apiActionLogger.error(e) { LocalizedString.ApiRequestFailedLog(request.builder.url, it + 1, session.option.maxRetries) }
-            }
+            apiActionLogger.error(e) { LocalizedString.ApiRequestFailedLog(request.builder.url, it + 1, session.option.maxRetries) }
 
             lastException = e
         }
@@ -79,7 +74,7 @@ internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
     throw PenicillinException(LocalizedString.ApiRequestFailed, lastException, null, null, request.builder.url)
 }
 
-internal fun ApiAction<*>.checkError(request: HttpRequest, response: HttpResponse, content: String? = null, json: JsonObject? = null) {
+internal fun checkError(request: HttpRequest, response: HttpResponse, content: String? = null, json: JsonObject? = null) {
     apiActionLogger.trace {
         buildString {
             append("${response.version} ${response.status.value} ${request.method.value} ${request.url}\n")
