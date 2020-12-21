@@ -32,7 +32,7 @@ val githubOrganizationName = "StarryBlueSky"
 val githubRepositoryName = "Penicillin"
 val packageGroupId = "blue.starry"
 val packageName = "Penicillin"
-val packageVersion = Version(6, 0, 0)
+val packageVersion = Version(6, 0, 1)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 object ThirdpartyVersion {
