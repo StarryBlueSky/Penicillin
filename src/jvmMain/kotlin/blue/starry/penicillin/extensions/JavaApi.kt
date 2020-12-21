@@ -50,7 +50,7 @@ fun MediaComponent(path: Path, type: MediaType, category: MediaCategory = MediaC
  */
 val CreatedAt.instant: Instant
     get() = Instant.from(
-        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss ZZZZZ yyyy").parse(value)
+        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss X uuuu", Locale.ROOT).parse(value)
     )
 
 /**
