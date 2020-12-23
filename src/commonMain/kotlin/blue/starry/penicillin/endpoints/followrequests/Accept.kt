@@ -26,12 +26,12 @@
 
 package blue.starry.penicillin.endpoints.followrequests
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.formBody
 import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.FollowRequests
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.models.User
 
 /**
@@ -42,7 +42,6 @@ import blue.starry.penicillin.models.User
  * @receiver [FollowRequests] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-@PrivateEndpoint
 fun FollowRequests.acceptByScreenName(
     screenName: String,
     vararg  options: Option
@@ -56,7 +55,6 @@ fun FollowRequests.acceptByScreenName(
  * @receiver [FollowRequests] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-@PrivateEndpoint
 fun FollowRequests.acceptByUserId(
     userId: Long,
     vararg  options: Option
@@ -67,6 +65,8 @@ private fun FollowRequests.accept(
     userId: Long? = null,
     vararg options: Option
 ) = client.session.post("/1.1/friendships/accept.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     formBody(
         "ext" to "mediaColor",
         "include_entities" to "1",

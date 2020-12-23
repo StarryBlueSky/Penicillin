@@ -28,10 +28,8 @@ package blue.starry.penicillin.extensions.endpoints
 
 import blue.starry.jsonkt.encodeToString
 import blue.starry.jsonkt.toJsonObject
-import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.ApiAction
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.endpoints.Statuses
 import blue.starry.penicillin.endpoints.cards
 import blue.starry.penicillin.endpoints.cards.create
@@ -52,7 +50,6 @@ import blue.starry.penicillin.models.Status
  * @receiver [Statuses] endpoint instance.
  * @return [ApiAction] for [Status] model.
  */
-@PrivateEndpoint(EmulationMode.TwitterForiPhone)
 fun Statuses.createPollTweet(
     status: String,
     choices: List<String>,

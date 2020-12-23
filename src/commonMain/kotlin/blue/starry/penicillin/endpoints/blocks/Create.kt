@@ -30,7 +30,6 @@ import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.formBody
 import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.Blocks
-import blue.starry.penicillin.endpoints.EndpointOverloads
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.models.User
 
@@ -49,7 +48,6 @@ import blue.starry.penicillin.models.User
  * @return [JsonObjectApiAction] for [User] model.
  * @see Blocks.createByUserId
  */
-@EndpointOverloads
 fun Blocks.createByScreenName(
     screenName: String,
     includeEntities: Boolean? = null,
@@ -72,7 +70,6 @@ fun Blocks.createByScreenName(
  * @return [JsonObjectApiAction] for [User] model.
  * @see Blocks.createByScreenName
  */
-@EndpointOverloads
 fun Blocks.createByUserId(
     userId: Long,
     includeEntities: Boolean? = null,

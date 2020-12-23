@@ -24,7 +24,6 @@
 
 package blue.starry.penicillin.endpoints
 
-import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.session.ApiClient
 
 /**
@@ -38,22 +37,3 @@ interface Endpoint {
 }
 
 internal typealias Option = Pair<String, Any?>
-
-/**
- * Indicates that this endpoint is used with OfficialClient and EmulationMode.
- * @param modes Array of EmulationMode which is allowed to access this private endpoints.
- */
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
-@MustBeDocumented
-annotation class PrivateEndpoint(
-    vararg val modes: EmulationMode
-)
-
-/**
- * Indicates that this endpoint has overloads.
- */
-@Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.FUNCTION)
-@MustBeDocumented
-annotation class EndpointOverloads

@@ -26,12 +26,12 @@
 
 package blue.starry.penicillin.endpoints.moments
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Moments
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.models.MomentGuide
 
 /**
@@ -41,10 +41,11 @@ import blue.starry.penicillin.models.MomentGuide
  * @receiver [Moments] endpoint instance.
  * @return [JsonObjectApiAction] for [MomentGuide] model.
  */
-@PrivateEndpoint
 fun Moments.guide(
     vararg options: Option
 ) = client.session.get("/1.1/moments/guide.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "cards_platform" to "iPhone-13",
         "contributor_details" to "1",

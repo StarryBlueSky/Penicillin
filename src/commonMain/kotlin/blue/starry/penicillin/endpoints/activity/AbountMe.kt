@@ -32,7 +32,6 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Activity
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.models.ActivityEvent
 
 /**
@@ -42,11 +41,12 @@ import blue.starry.penicillin.models.ActivityEvent
  * @receiver [Activity] endpoint instance.
  * @return [JsonArrayApiAction] for [ActivityEvent] model.
  */
-@PrivateEndpoint(EmulationMode.TwitterForiPhone)
 fun Activity.aboutMe(
     count: Int? = null,
     vararg options: Option
 ) = client.session.get("/1.1/activity/about_me.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "cards_platform" to "iPhone-13",
         "contributor_details" to "1",
@@ -78,6 +78,5 @@ fun Activity.aboutMe(
  * Shorthand property to [Activity.aboutMe].
  * @see Activity.aboutMe
  */
-@PrivateEndpoint(EmulationMode.TwitterForiPhone)
 val Activity.aboutMe
     get() = aboutMe()

@@ -24,27 +24,3 @@
 
 package blue.starry.penicillin.core.request
 
-import blue.starry.penicillin.core.emulation.EmulationMode
-import blue.starry.penicillin.core.exceptions.PenicillinException
-import blue.starry.penicillin.core.i18n.LocalizedString
-import blue.starry.penicillin.endpoints.PrivateEndpoint
-import blue.starry.penicillin.extensions.session
-
-actual fun ApiRequestBuilder.checkEmulation() {
-    if (session.option.skipEmulationChecking) {
-        return
-    }
-
-    val trace = Thread.currentThread().stackTrace.find {
-        it.className.startsWith("blue.starry.penicillin.endpoints")
-    } ?: return
-    val javaClass = javaClass.classLoader.loadClass(trace.className)
-    val method = javaClass.methods.find { it.name == trace.methodName } ?: return
-
-    apiRequestBuilderLogger.trace { "Endpoint: ${javaClass.canonicalName}#${method.name}" }
-
-    val annotation = method.getAnnotation(PrivateEndpoint::class.java) ?: return
-    if (session.option.emulationMode == EmulationMode.None || (annotation.modes.isNotEmpty() && session.option.emulationMode !in annotation.modes)) {
-        throw PenicillinException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
-    }
-}

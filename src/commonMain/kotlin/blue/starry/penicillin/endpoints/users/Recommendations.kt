@@ -26,11 +26,11 @@
 
 package blue.starry.penicillin.endpoints.users
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonArrayApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.endpoints.Users
 import blue.starry.penicillin.models.Recommendation
 
@@ -41,7 +41,6 @@ import blue.starry.penicillin.models.Recommendation
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [Recommendation] model.
  */
-@PrivateEndpoint
 fun Users.recommendationsByScreenName(
     screenName: String,
     vararg options: Option
@@ -54,7 +53,6 @@ fun Users.recommendationsByScreenName(
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [Recommendation] model.
  */
-@PrivateEndpoint
 fun Users.recommendationsByUserId(
     userId: Long,
     vararg options: Option
@@ -65,6 +63,8 @@ private fun Users.recommendations(
     userId: Long? = null,
     vararg options: Option
 ) = client.session.get("/1.1/users/recommendations.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "connections" to "true",
         "display_location" to "st-component",

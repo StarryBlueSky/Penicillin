@@ -27,11 +27,11 @@
 package blue.starry.penicillin.endpoints.search
 
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.endpoints.Search
 import blue.starry.penicillin.endpoints.common.TweetMode
 import blue.starry.penicillin.models.SearchUniversal
@@ -43,7 +43,6 @@ import blue.starry.penicillin.models.SearchUniversal
  * @receiver [Search] endpoint instance.
  * @return [JsonObjectApiAction] for [SearchUniversal] model.
  */
-@PrivateEndpoint
 fun Search.universal(
     query: String,
     modules: String? = null,
@@ -51,6 +50,8 @@ fun Search.universal(
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
 ) = client.session.get("/1.1/search/universal.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "q" to query,
         "modules" to modules,

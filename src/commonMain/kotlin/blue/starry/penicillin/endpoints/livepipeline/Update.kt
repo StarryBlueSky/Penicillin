@@ -27,12 +27,12 @@
 package blue.starry.penicillin.endpoints.livepipeline
 
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.formBody
 import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.LivePipeline
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.models.LivePipelineSubscription
 
 /**
@@ -43,11 +43,12 @@ import blue.starry.penicillin.models.LivePipelineSubscription
  * @receiver [LivePipeline] endpoint instance.
  * @return [JsonObjectApiAction] for [LivePipelineSubscription] model.
  */
-@PrivateEndpoint
 fun LivePipeline.update(
     ids: List<Long>,
     vararg options: Option
 ) = client.session.post("/1.1/live_pipeline/update_subscriptions") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     formBody(
         "sub_topics" to ids.joinToString(",") { "/tweet_engagement/$it" },
         *options

@@ -24,5 +24,3 @@
 
 package blue.starry.penicillin.core.request
 
-internal actual fun ApiRequestBuilder.checkEmulation() {
-}

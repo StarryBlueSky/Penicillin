@@ -26,11 +26,11 @@
 
 package blue.starry.penicillin.endpoints.trends
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.endpoints.Trends
 import blue.starry.penicillin.models.TrendPlus
 
@@ -41,10 +41,11 @@ import blue.starry.penicillin.models.TrendPlus
  * @receiver [Trends] endpoint instance.
  * @return [JsonObjectApiAction] for [TrendPlus] model.
  */
-@PrivateEndpoint
 fun Trends.plus(
     vararg options: Option
 ) = client.session.get("/1.1/trends/plus.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "cards_platform" to "iPhone-13",
         "contributor_details" to "1",
