@@ -37,7 +37,7 @@ val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 object ThirdpartyVersion {
     // For Kotlin/Common
-    const val Ktor = "1.4.3"
+    const val Ktor = "1.5.0"
     const val JsonKt = "6.0.0"
     const val uuid = "0.2.3"
     const val KotlinxDatetime = "0.1.1"
@@ -51,13 +51,13 @@ object ThirdpartyVersion {
     const val Guava = "29.0-jre"
 
     // For logging
-    const val KotlinLogging = "2.0.3"
+    const val KotlinLogging = "2.0.4"
     const val Logback = "1.2.3"
     const val jansi = "1.18"
 }
 
 plugins { 
-    kotlin("multiplatform") version "1.4.20"
+    kotlin("multiplatform") version "1.4.21"
 
     // For testing
     id("com.adarshr.test-logger") version "2.1.1"
