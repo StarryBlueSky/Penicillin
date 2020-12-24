@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.mutes
 
@@ -45,12 +45,12 @@ import blue.starry.penicillin.models.cursor.CursorUsers
  * @receiver [Mutes] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Mutes.listUsers(
+public fun Mutes.listUsers(
     cursor: Long? = null,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/mutes/users/list.json") {
+): CursorJsonObjectApiAction<CursorUsers> = client.session.get("/1.1/mutes/users/list.json") {
     parameters(
         "cursor" to cursor,
         "include_entities" to includeEntities,
@@ -63,5 +63,5 @@ fun Mutes.listUsers(
  * Shorthand property to [Mutes.listUsers].
  * @see Mutes.listUsers
  */
-val Mutes.listUsers
+public val Mutes.listUsers: CursorJsonObjectApiAction<CursorUsers>
     get() = listUsers()

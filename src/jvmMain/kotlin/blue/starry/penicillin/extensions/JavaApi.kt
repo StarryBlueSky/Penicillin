@@ -36,19 +36,19 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Suppress("FunctionName")
-fun MediaComponent(file: File, type: MediaType, category: MediaCategory = MediaCategory.TweetImage): MediaComponent {
+public fun MediaComponent(file: File, type: MediaType, category: MediaCategory = MediaCategory.TweetImage): MediaComponent {
     return MediaComponent(file.readBytes(), type, category)
 }
 
 @Suppress("FunctionName")
-fun MediaComponent(path: Path, type: MediaType, category: MediaCategory = MediaCategory.TweetImage): MediaComponent {
+public fun MediaComponent(path: Path, type: MediaType, category: MediaCategory = MediaCategory.TweetImage): MediaComponent {
     return MediaComponent(path.toFile(), type, category)
 }
 
 /**
  * New [Instant] instance for this "created_at" string.
  */
-val CreatedAt.instant: Instant
+public val CreatedAt.instant: Instant
     get() = Instant.from(
         DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss X uuuu", Locale.ROOT).parse(value)
     )
@@ -56,11 +56,11 @@ val CreatedAt.instant: Instant
 /**
  * New [Locale] instance for this "lang" value.
  */
-val Language.locale: Locale
+public val Language.locale: Locale
     get() = Locale(value)
 
 /**
  * New [Instant] instance with epoch time.
  */
-val StatusID.instant: Instant
+public val StatusID.instant: Instant
     get() = Instant.ofEpochMilli(epochTimeMillis)

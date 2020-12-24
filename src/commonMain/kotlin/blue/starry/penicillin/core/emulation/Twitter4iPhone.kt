@@ -24,8 +24,8 @@
 
 package blue.starry.penicillin.core.emulation
 
-import io.ktor.http.Headers
 import blue.starry.penicillin.core.auth.OAuthUtil
+import io.ktor.http.*
 import kotlin.random.Random
 
 /**

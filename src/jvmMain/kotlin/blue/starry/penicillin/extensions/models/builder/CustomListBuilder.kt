@@ -36,7 +36,7 @@ import kotlin.collections.set
 /**
  * Custom payload builder for [TwitterList].
  */
-class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
+public class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     "created_at" to null,
     "description" to "Tweetstorm",
     "following" to false,
@@ -53,13 +53,13 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     /**
      * "created_at".
      */
-    var createdAt: TemporalAccessor? = null
+    public var createdAt: TemporalAccessor? = null
 
     private var description: String? = null
     /**
      * Sets description.
      */
-    fun description(text: () -> Any?) {
+    public fun description(text: () -> Any?) {
         description = text()?.toString().orEmpty()
     }
 
@@ -67,7 +67,7 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     /**
      * Sets following.
      */
-    fun following() {
+    public fun following() {
         following = true
     }
 
@@ -78,7 +78,7 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     /**
      * Sets name.
      */
-    fun name(shortName: String, fullName: String, slug: String, uri: String) {
+    public fun name(shortName: String, fullName: String, slug: String, uri: String) {
         listName= shortName
         listFullName = fullName
         listSlug = slug
@@ -90,7 +90,7 @@ class CustomListBuilder: JsonBuilder<TwitterList>, JsonMap by jsonMapOf(
     /**
      * Sets count.
      */
-    fun count(member: Int = 0, subscriber: Int = 0) {
+    public fun count(member: Int = 0, subscriber: Int = 0) {
         memberCount = member
         subscriberCount = subscriber
     }

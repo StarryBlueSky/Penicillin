@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
  * Default UserStream [StreamHandler].
  * Accepts listener of [UserStreamListener].
  */
-class UserStreamHandler(override val client: ApiClient, override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
+public class UserStreamHandler(override val client: ApiClient, override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
     override fun handle(json: JsonObject) {
         launch {
             when {

@@ -22,103 +22,104 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
+import blue.starry.jsonkt.JsonElement
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
 import blue.starry.penicillin.models.entities.UserEntity
 
-data class User(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonUser(parentJson, parentClient)
+public data class User(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonUser(parentJson, parentClient)
 
-abstract class CommonUser(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
-    val id by long
-    val idStr by string("id_str")
+public abstract class CommonUser(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
+    public val id: Long by long
+    public val idStr: String by string("id_str")
     
-    val name by string
-    val screenName by string("screen_name")
-    val location by string
-    val profileLocation by nullableJsonElement
-    val description by string
-    val url by nullableString
+    public val name: String by string
+    public val screenName: String by string("screen_name")
+    public val location: String by string
+    public val profileLocation: JsonElement? /* = kotlinx.serialization.json.JsonElement? */ by nullableJsonElement
+    public val description: String by string
+    public val url: String? by nullableString
     
-    val entities by nullableModel { UserEntity(it, client) }
-    val protected by boolean
-    val followersCount by int("followers_count")
-    val friendsCount by int("friends_count")
-    val listedCount by int("listed_count")
-    val createdAtRaw by string("created_at")
-    val favouritesCount by int("favourites_count")
-    val utcOffset by int("utc_offset")
-    val timeZone by string("time_zone")
-    val geoEnabled by boolean("geo_enabled")
-    val verified by boolean
-    val statusesCount by int("statuses_count")
-    val langRaw by nullableString("lang")
-    val contributorsEnabled by boolean("contributors_enabled")
-    val isTranslator by boolean("is_translator")
-    val isTranslationEnabled by boolean("is_translation_enabled")
+    public val entities: UserEntity? by nullableModel { UserEntity(it, client) }
+    public val protected: Boolean by boolean
+    public val followersCount: Int by int("followers_count")
+    public val friendsCount: Int by int("friends_count")
+    public val listedCount: Int by int("listed_count")
+    public val createdAtRaw: String by string("created_at")
+    public val favouritesCount: Int by int("favourites_count")
+    public val utcOffset: Int by int("utc_offset")
+    public val timeZone: String by string("time_zone")
+    public val geoEnabled: Boolean by boolean("geo_enabled")
+    public val verified: Boolean by boolean
+    public val statusesCount: Int by int("statuses_count")
+    public val langRaw: String? by nullableString("lang")
+    public val contributorsEnabled: Boolean by boolean("contributors_enabled")
+    public val isTranslator: Boolean by boolean("is_translator")
+    public val isTranslationEnabled: Boolean by boolean("is_translation_enabled")
     
     // Profile background
-    val profileBackgroundColor by string("profile_background_color")
-    val profileBackgroundImageUrl by nullableString("profile_background_image_url")
-    val profileBackgroundImageUrlHttps by nullableString("profile_background_image_url_https")
-    val profileBackgroundTile by boolean("profile_background_tile")
+    public val profileBackgroundColor: String by string("profile_background_color")
+    public val profileBackgroundImageUrl: String? by nullableString("profile_background_image_url")
+    public val profileBackgroundImageUrlHttps: String? by nullableString("profile_background_image_url_https")
+    public val profileBackgroundTile: Boolean by boolean("profile_background_tile")
     
     // Profile image
-    val profileImageUrl by string("profile_image_url")
-    val profileImageUrlHttps by string("profile_image_url_https")
+    public val profileImageUrl: String by string("profile_image_url")
+    public val profileImageUrlHttps: String by string("profile_image_url_https")
     
-    val profileLinkColor by string("profile_link_color")
-    val profileSidebarBorderColor by string("profile_sidebar_border_color")
-    val profileSidebarFillColor by string("profile_sidebar_fill_color")
-    val profileTextColor by string("profile_text_color")
-    val profileUseBackgroundImage by boolean("profile_use_background_image")
+    public val profileLinkColor: String by string("profile_link_color")
+    public val profileSidebarBorderColor: String by string("profile_sidebar_border_color")
+    public val profileSidebarFillColor: String by string("profile_sidebar_fill_color")
+    public val profileTextColor: String by string("profile_text_color")
+    public val profileUseBackgroundImage: Boolean by boolean("profile_use_background_image")
     
-    val hasExtendedProfile by boolean("has_extended_profile")
-    val defaultProfile by boolean("default_profile")
-    val defaultProfileImage by boolean("default_profile_image")
-    val following by boolean
-    val followRequestSent by boolean("follow_request_sent")
-    val notifications by boolean
+    public val hasExtendedProfile: Boolean by boolean("has_extended_profile")
+    public val defaultProfile: Boolean by boolean("default_profile")
+    public val defaultProfileImage: Boolean by boolean("default_profile_image")
+    public val following: Boolean by boolean
+    public val followRequestSent: Boolean by boolean("follow_request_sent")
+    public val notifications: Boolean by boolean
     
     // Unknown
-    val muting by boolean
-    val blocking by boolean
-    val blockedBy by boolean("blocked_by")
-    val liveFollowing by boolean("live_following")
-    val advertiserAccountServiceLevels by stringList("advertiser_account_service_levels")
-    val advertiserAccountType by nullableString("advertiser_account_type")
-    val analyticsType by nullableString("analytics_type")
-    val businessProfileState by nullableString("business_profile_state")
-    val canMediaTag by nullableBoolean("can_media_tag")
-    val fastFollowersCount by nullableInt("fast_followers_count")
-    val followedBy by nullableBoolean("followed_by")
-    val hasCustomTimelines by nullableBoolean("has_custom_timelines")
-    val mediaCount by nullableInt("media_count")
-    val needsPhoneVerification by nullableBoolean("needs_phone_verification")
-    val normalFollowersCount by nullableInt("normal_followers_count")
-    val pinnedTweetIds by longList("pinned_tweet_ids")
-    val pinnedTweetIdsStr by stringList("pinned_tweet_ids_str")
-    val profileBannerExtension by nullableModel("profile_banner_extensions") { ProfileImageExtension(it, client) }
-    val profileBannerUrl by nullableString("profile_banner_url")
-    val profileImageExtensions by nullableModel("profile_image_extensions") { ProfileImageExtension(it, client) }
-    val profileInterstitialType by nullableString("profile_interstitial_type")
-    val status by nullableModel { Status(it, client) }
-    val suspended by nullableBoolean
-    val translatorType by string("translator_type")
-    val withheldInCountries by stringList("withheld_in_countries")
-    val withheldScope by nullableString("withheld_scope")
+    public val muting: Boolean by boolean
+    public val blocking: Boolean by boolean
+    public val blockedBy: Boolean by boolean("blocked_by")
+    public val liveFollowing: Boolean by boolean("live_following")
+    public val advertiserAccountServiceLevels: List<String> by stringList("advertiser_account_service_levels")
+    public val advertiserAccountType: String? by nullableString("advertiser_account_type")
+    public val analyticsType: String? by nullableString("analytics_type")
+    public val businessProfileState: String? by nullableString("business_profile_state")
+    public val canMediaTag: Boolean? by nullableBoolean("can_media_tag")
+    public val fastFollowersCount: Int? by nullableInt("fast_followers_count")
+    public val followedBy: Boolean? by nullableBoolean("followed_by")
+    public val hasCustomTimelines: Boolean? by nullableBoolean("has_custom_timelines")
+    public val mediaCount: Int? by nullableInt("media_count")
+    public val needsPhoneVerification: Boolean? by nullableBoolean("needs_phone_verification")
+    public val normalFollowersCount: Int? by nullableInt("normal_followers_count")
+    public val pinnedTweetIds: List<Long> by longList("pinned_tweet_ids")
+    public val pinnedTweetIdsStr: List<String> by stringList("pinned_tweet_ids_str")
+    public val profileBannerExtension: ProfileImageExtension? by nullableModel("profile_banner_extensions") { ProfileImageExtension(it, client) }
+    public val profileBannerUrl: String? by nullableString("profile_banner_url")
+    public val profileImageExtensions: ProfileImageExtension? by nullableModel("profile_image_extensions") { ProfileImageExtension(it, client) }
+    public val profileInterstitialType: String? by nullableString("profile_interstitial_type")
+    public val status: Status? by nullableModel { Status(it, client) }
+    public val suspended: Boolean? by nullableBoolean
+    public val translatorType: String by string("translator_type")
+    public val withheldInCountries: List<String> by stringList("withheld_in_countries")
+    public val withheldScope: String? by nullableString("withheld_scope")
 
-    data class ProfileImageExtension(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val mediaColor by model { MediaColor(it, client) }
+    public data class ProfileImageExtension(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val mediaColor: MediaColor by model { MediaColor(it, client) }
 
-        data class MediaColor(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val r by jsonObject
-            val ttl by int
+        public data class MediaColor(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val r: kotlinx.serialization.json.JsonObject by jsonObject
+            public val ttl: Int by int
         }
     }
 

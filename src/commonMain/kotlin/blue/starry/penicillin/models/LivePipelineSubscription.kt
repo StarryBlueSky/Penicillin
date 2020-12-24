@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -30,6 +30,6 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.jsonObject
 import blue.starry.penicillin.core.session.ApiClient
 
-data class LivePipelineSubscription(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val subscriptions by jsonObject
+public data class LivePipelineSubscription(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val subscriptions: kotlinx.serialization.json.JsonObject by jsonObject
 }

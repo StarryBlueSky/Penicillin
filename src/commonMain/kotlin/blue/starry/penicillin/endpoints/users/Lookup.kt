@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
@@ -54,12 +54,12 @@ import blue.starry.penicillin.models.User
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [User] model.
  */
-fun Users.lookupByScreenNames(
+public fun Users.lookupByScreenNames(
     screenNames: List<String>,
     includeEntities: Boolean? = null,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = lookup(screenNames, null, includeEntities, tweetMode, *options)
+): JsonArrayApiAction<User> = lookup(screenNames, null, includeEntities, tweetMode, *options)
 
 /**
  * Returns fully-hydrated user objects for up to 100 users per request, as specified by comma-separated values passed to the user_id and/or screen_name parameters.
@@ -80,12 +80,12 @@ fun Users.lookupByScreenNames(
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [User] model.
  */
-fun Users.lookupByIds(
+public fun Users.lookupByIds(
     userIds: List<Long>,
     includeEntities: Boolean? = null,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = lookup(null, userIds, includeEntities, tweetMode, *options)
+): JsonArrayApiAction<User> = lookup(null, userIds, includeEntities, tweetMode, *options)
 
 private fun Users.lookup(
     screenNames: List<String>? = null,

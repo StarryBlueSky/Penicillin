@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Specifies timeframe to acquire count data.
  */
-enum class SearchBucket(override val value: String): EnumRequestParameter {
+public enum class SearchBucket(override val value: String): EnumRequestParameter {
     /**
      * Returns count data for every day.
      */

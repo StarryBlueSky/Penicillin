@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.collections
 
@@ -47,13 +47,13 @@ import blue.starry.penicillin.models.Collection
  * @receiver [Collections] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.Model] model.
  */
-fun Collections.create(
+public fun Collections.create(
     name: String,
     description: String? = null,
     url: String? = null,
     timelineOrder: CollectionTimelineOrder = CollectionTimelineOrder.Default,
     vararg options: Option
-) = client.session.post("/1.1/collections/create.json") {
+): JsonObjectApiAction<Collection.Model> = client.session.post("/1.1/collections/create.json") {
     formBody(
         "name" to name,
         "description" to description,

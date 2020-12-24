@@ -30,9 +30,9 @@ import blue.starry.penicillin.models.PenicillinModel
 /**
  * Represents this request has json response and it's parsed with [PenicillinModel].
  */
-interface JsonResponse<M: PenicillinModel, T: JsonElement> {
+public interface JsonResponse<M: PenicillinModel, T: JsonElement> {
     /**
      * Json element.
      */
-    val json: T
+    public val json: T
 }

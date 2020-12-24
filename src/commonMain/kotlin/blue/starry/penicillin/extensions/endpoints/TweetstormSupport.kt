@@ -22,13 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.extensions.endpoints
 
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.parseObject
 import blue.starry.penicillin.core.request.EndpointHost
+import blue.starry.penicillin.core.request.action.StreamApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.core.session.get
@@ -48,18 +49,18 @@ import kotlinx.coroutines.launch
  * @param customHost Custom host to Tweetstorm.
  * @param options Optional. Custom parameters of this request.
  */
-fun Stream.tweetstorm(
+public fun Stream.tweetstorm(
     customHost: EndpointHost = EndpointHost.UserStream,
     delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stringifyFriendIds: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/user.json", customHost) {
+): StreamApiAction<TweetstormListener, TweetstormHandler> = client.session.get("/1.1/user.json", customHost) {
     parameters(
         "delimited" to delimited,
         "stringify_friend_ids" to stringifyFriendIds,
         *options
     )
-}.stream<TweetstormListener, TweetstormHandler>()
+}.stream()
 
 /**
  * Connects to Tweetstorm with custom host.
@@ -67,49 +68,49 @@ fun Stream.tweetstorm(
  * @param customHost Custom host to Tweetstorm.
  * @param options Optional. Custom parameters of this request.
  */
-fun Stream.tweetstorm(
+public fun Stream.tweetstorm(
     customHost: String,
     delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stringifyFriendIds: Boolean? = null,
     vararg options: Option
-) = tweetstorm(EndpointHost(customHost, domainForSigning = EndpointHost.UserStream.domain), delimited, stringifyFriendIds, *options)
+): StreamApiAction<TweetstormListener, TweetstormHandler> = tweetstorm(EndpointHost(customHost, domainForSigning = EndpointHost.UserStream.domain), delimited, stringifyFriendIds, *options)
 
 /**
  * Shorthand property to [Stream.tweetstorm].
  * @see Stream.tweetstorm
  */
-val Stream.tweetstorm
+public val Stream.tweetstorm: StreamApiAction<TweetstormListener, TweetstormHandler>
     get() = tweetstorm()
 
 /**
  * An event model interface for [TweetstormHandler].
  */
-interface TweetstormListener: StreamListener {
+public interface TweetstormListener: StreamListener {
     /**
      * Called when a status is received.
      */
-    suspend fun onStatus(status: Status) {}
+    public suspend fun onStatus(status: Status) {}
     /**
      * Called when a direct message is received.
      */
-    suspend fun onDirectMessage(message: DirectMessage) {}
+    public suspend fun onDirectMessage(message: DirectMessage) {}
 
     /**
      * Called when a friends event is received.
      */
-    suspend fun onFriends(friends: blue.starry.penicillin.models.Stream.Friends) {}
+    public suspend fun onFriends(friends: blue.starry.penicillin.models.Stream.Friends) {}
 
     /**
      * Called when a delete event is received.
      */
-    suspend fun onDelete(delete: blue.starry.penicillin.models.Stream.Delete) {}
+    public suspend fun onDelete(delete: blue.starry.penicillin.models.Stream.Delete) {}
 }
 
 /**
  * Default TweetStorm [StreamHandler].
  * Accepts listener of [TweetstormListener].
  */
-class TweetstormHandler(override val client: ApiClient, override val listener: TweetstormListener): StreamHandler<TweetstormListener> {
+public class TweetstormHandler(override val client: ApiClient, override val listener: TweetstormListener): StreamHandler<TweetstormListener> {
     override fun handle(json: JsonObject) {
         launch {
             when {

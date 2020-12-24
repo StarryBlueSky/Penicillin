@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.friends
 
@@ -47,12 +47,12 @@ import blue.starry.penicillin.models.cursor.CursorIds
  * @receiver [Friends] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorIds] model.
  */
-fun Friends.listIds(
+public fun Friends.listIds(
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-) = listIdsInternal(null, null, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(null, null, cursor, stringifyIds, count, *options)
 
 /**
  * Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their "friends").
@@ -71,13 +71,13 @@ fun Friends.listIds(
  * @see listIdsByScreenName
  * @see listIds
  */
-fun Friends.listIdsByUserId(
+public fun Friends.listIdsByUserId(
     userId: Long,
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-) = listIdsInternal(userId, null, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(userId, null, cursor, stringifyIds, count, *options)
 
 /**
  * Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their "friends").
@@ -96,13 +96,13 @@ fun Friends.listIdsByUserId(
  * @see listIdsByUserId
  * @see listIds
  */
-fun Friends.listIdsByScreenName(
+public fun Friends.listIdsByScreenName(
     screenName: String,
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-) = listIdsInternal(null, screenName, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(null, screenName, cursor, stringifyIds, count, *options)
 
 private fun Friends.listIdsInternal(
     userId: Long? = null,
@@ -126,5 +126,5 @@ private fun Friends.listIdsInternal(
  * Shorthand property to [Friends.listIds].
  * @see Friends.listIds
  */
-val Friends.listIds
+public val Friends.listIds: CursorJsonObjectApiAction<CursorIds>
     get() = listIds()

@@ -39,7 +39,7 @@ import kotlin.properties.Delegates
 /**
  * Custom payload builder for [Stream.Delete].
  */
-class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
+public class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
     "delete" to jsonObjectOf(
         "status" to jsonObjectOf(
             "id" to null,
@@ -54,7 +54,7 @@ class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
     /**
      * Sets status id.
      */
-    fun status(id: Long) {
+    public fun status(id: Long) {
         statusId = id
     }
 
@@ -62,14 +62,14 @@ class CustomDeleteBuilder: JsonBuilder<Stream.Delete>, JsonMap by jsonMapOf(
     /**
      * Sets author user id.
      */
-    fun author(id: Long) {
+    public fun author(id: Long) {
         userId = id
     }
 
     /**
      * timestamp.
      */
-    var timestamp: TemporalAccessor? = null
+    public var timestamp: TemporalAccessor? = null
 
     override fun build(): Stream.Delete {
         this["delete"] = jsonObjectOf(

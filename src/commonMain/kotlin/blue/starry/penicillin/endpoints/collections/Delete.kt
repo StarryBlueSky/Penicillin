@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.collections
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.Collection
  * @receiver [Collections] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.DestroyResult] model.
  */
-fun Collections.delete(
+public fun Collections.delete(
     id: String,
     vararg options: Option
-) = client.session.post("/1.1/collections/destroy.json") {
+): JsonObjectApiAction<Collection.DestroyResult> = client.session.post("/1.1/collections/destroy.json") {
     formBody(
         "id" to id,
         *options

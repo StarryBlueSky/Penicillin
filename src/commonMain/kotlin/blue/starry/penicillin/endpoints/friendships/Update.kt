@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.friendships
 
@@ -46,12 +46,12 @@ import blue.starry.penicillin.models.Relationship
  * @receiver [Friendships] endpoint instance.
  * @return [JsonObjectApiAction] for [Relationship] model.
  */
-fun Friendships.updateByUserId(
+public fun Friendships.updateByUserId(
     userId: Long,
     device: Boolean? = null,
     retweets: Boolean? = null,
     vararg options: Option
-) = update(userId, null, device, retweets, *options)
+): JsonObjectApiAction<Relationship> = update(userId, null, device, retweets, *options)
 
 /**
  * Enable or disable Retweets and device notifications from the specified user.
@@ -65,12 +65,12 @@ fun Friendships.updateByUserId(
  * @receiver [Friendships] endpoint instance.
  * @return [JsonObjectApiAction] for [Relationship] model.
  */
-fun Friendships.updateByScreenName(
+public fun Friendships.updateByScreenName(
     screenName: String,
     device: Boolean? = null,
     retweets: Boolean? = null,
     vararg options: Option
-) = update(null, screenName, device, retweets, *options)
+): JsonObjectApiAction<Relationship> = update(null, screenName, device, retweets, *options)
 
 private fun Friendships.update(
     userId: Long? = null,

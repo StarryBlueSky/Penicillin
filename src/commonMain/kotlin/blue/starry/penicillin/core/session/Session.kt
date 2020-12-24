@@ -26,12 +26,12 @@
 
 package blue.starry.penicillin.core.session
 
-import io.ktor.client.HttpClient
-import io.ktor.utils.io.core.Closeable
 import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.session.config.ApiConfig
 import blue.starry.penicillin.core.session.config.Credentials
+import io.ktor.client.*
+import io.ktor.utils.io.core.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
@@ -41,11 +41,11 @@ import kotlin.coroutines.CoroutineContext
  * Penicillin Session instance.
  * Provides HttpClient, credentials, options.
  */
-data class Session(
+public data class Session(
     /**
      * ApiClient instance.
      */
-    val client: ApiClient,
+    public val client: ApiClient,
     
     private val underlyingHttpClient: HttpClient,
     override val coroutineContext: CoroutineContext,
@@ -54,12 +54,12 @@ data class Session(
     /**
      * Account credentials.
      */
-    val credentials: Credentials,
+    public val credentials: Credentials,
 
     /**
      * Api configurations.
      */
-    val option: ApiConfig,
+    public val option: ApiConfig,
     
     private val shouldCloseHttpClient: Boolean
 ): Closeable, CoroutineScope {
@@ -69,7 +69,7 @@ data class Session(
      * Ktor HttpClient instance.
      * Throws SessionAlreadyClosed when session is already closed.
      */
-    val httpClient: HttpClient
+    public val httpClient: HttpClient
         get() = if (job.isActive && underlyingHttpClient.coroutineContext.isActive) {
             underlyingHttpClient
         } else {

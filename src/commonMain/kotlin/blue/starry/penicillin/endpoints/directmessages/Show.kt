@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.directmessages
 
@@ -42,10 +42,10 @@ import blue.starry.penicillin.models.DirectMessage
  * @return [JsonObjectApiAction] for [DirectMessage] model.
  */
 @Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("directMessageEvent.show", "blue.starry.penicillin.endpoints.directMessageEvent", "blue.starry.penicillin.endpoints.directmessages.events.show"))
-fun DirectMessages.show(
+public fun DirectMessages.show(
     id: Long,
     vararg options: Option
-) = client.session.get("/1.1/direct_messages/show.json") {
+): JsonObjectApiAction<DirectMessage> = client.session.get("/1.1/direct_messages/show.json") {
     parameters(
         "id" to id,
         *options

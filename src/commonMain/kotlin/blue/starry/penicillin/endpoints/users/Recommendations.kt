@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
@@ -41,10 +41,10 @@ import blue.starry.penicillin.models.Recommendation
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [Recommendation] model.
  */
-fun Users.recommendationsByScreenName(
+public fun Users.recommendationsByScreenName(
     screenName: String,
     vararg options: Option
-) = recommendations(screenName, null, *options)
+): JsonArrayApiAction<Recommendation> = recommendations(screenName, null, *options)
 
 /**
  * Undocumented endpoint.
@@ -53,10 +53,10 @@ fun Users.recommendationsByScreenName(
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [Recommendation] model.
  */
-fun Users.recommendationsByUserId(
+public fun Users.recommendationsByUserId(
     userId: Long,
     vararg options: Option
-) = recommendations(null, userId, *options)
+): JsonArrayApiAction<Recommendation> = recommendations(null, userId, *options)
 
 private fun Users.recommendations(
     screenName: String? = null,

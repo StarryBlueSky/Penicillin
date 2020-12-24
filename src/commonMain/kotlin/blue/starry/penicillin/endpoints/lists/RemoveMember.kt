@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -43,11 +43,11 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMember(
+public fun Lists.removeMember(
     listId: Long,
     userId: Long,
     vararg options: Option
-) = removeMember(listId, null, null, null, userId, null, *options)
+): EmptyApiAction = removeMember(listId, null, null, null, userId, null, *options)
 
 /**
  * Removes the specified member from the list. The authenticated user must be the list's owner to remove members from the list.
@@ -60,11 +60,11 @@ fun Lists.removeMember(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMember(
+public fun Lists.removeMember(
     listId: Long,
     screenName: String,
     vararg options: Option
-) = removeMember(listId, null, null, null, null, screenName, *options)
+): EmptyApiAction = removeMember(listId, null, null, null, null, screenName, *options)
 
 /**
  * Removes the specified member from the list. The authenticated user must be the list's owner to remove members from the list.
@@ -78,12 +78,12 @@ fun Lists.removeMember(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMember(
+public fun Lists.removeMember(
     slug: String,
     ownerScreenName: String,
     userId: Long,
     vararg options: Option
-) = removeMember(null, slug, ownerScreenName, null, userId, null, *options)
+): EmptyApiAction = removeMember(null, slug, ownerScreenName, null, userId, null, *options)
 
 /**
  * Removes the specified member from the list. The authenticated user must be the list's owner to remove members from the list.
@@ -97,12 +97,12 @@ fun Lists.removeMember(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMember(
+public fun Lists.removeMember(
     slug: String,
     ownerScreenName: String,
     screenName: String,
     vararg options: Option
-) = removeMember(null, slug, ownerScreenName, null, null, screenName, *options)
+): EmptyApiAction = removeMember(null, slug, ownerScreenName, null, null, screenName, *options)
 
 /**
  * Removes the specified member from the list. The authenticated user must be the list's owner to remove members from the list.
@@ -116,12 +116,12 @@ fun Lists.removeMember(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMember(
+public fun Lists.removeMember(
     slug: String,
     ownerId: Long,
     userId: Long,
     vararg options: Option
-) = removeMember(null, slug, null, ownerId, userId, null, *options)
+): EmptyApiAction = removeMember(null, slug, null, ownerId, userId, null, *options)
 
 /**
  * Removes the specified member from the list. The authenticated user must be the list's owner to remove members from the list.
@@ -135,12 +135,12 @@ fun Lists.removeMember(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMember(
+public fun Lists.removeMember(
     slug: String,
     ownerId: Long,
     screenName: String,
     vararg options: Option
-) = removeMember(null, slug, null, ownerId, null, screenName, *options)
+): EmptyApiAction = removeMember(null, slug, null, ownerId, null, screenName, *options)
 
 private fun Lists.removeMember(
     listId: Long? = null,

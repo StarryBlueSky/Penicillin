@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.search
 
@@ -43,13 +43,13 @@ import blue.starry.penicillin.models.SearchUniversal
  * @receiver [Search] endpoint instance.
  * @return [JsonObjectApiAction] for [SearchUniversal] model.
  */
-fun Search.universal(
+public fun Search.universal(
     query: String,
     modules: String? = null,
     resultType: SearchResultType = SearchResultType.Default,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = client.session.get("/1.1/search/universal.json") {
+): JsonObjectApiAction<SearchUniversal> = client.session.get("/1.1/search/universal.json") {
     emulationModes += EmulationMode.TwitterForiPhone
 
     parameters(

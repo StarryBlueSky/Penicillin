@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.account
 
@@ -45,12 +45,12 @@ import blue.starry.penicillin.models.Account.VerifyCredentials
  * @receiver [Account] endpoint instance.
  * @return [JsonObjectApiAction] for [VerifyCredentials] model.
  */
-fun Account.verifyCredentials(
+public fun Account.verifyCredentials(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     includeEmail: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/account/verify_credentials.json") {
+): JsonObjectApiAction<VerifyCredentials> = client.session.get("/1.1/account/verify_credentials.json") {
     parameters(
         "include_entities" to includeEntities,
         "skip_status" to skipStatus,
@@ -63,5 +63,5 @@ fun Account.verifyCredentials(
  * Shorthand property to [Account.verifyCredentials].
  * @see Account.verifyCredentials
  */
-val Account.verifyCredentials
+public val Account.verifyCredentials: JsonObjectApiAction<VerifyCredentials>
     get() = verifyCredentials()

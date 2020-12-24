@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -34,16 +34,16 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class ExtendedProfile(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val id by long
-    val idStr by string
-    val birthdate by nullableModel { BirthDate(it, client) }
+public data class ExtendedProfile(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val id: Long by long
+    public val idStr: String by string
+    public val birthdate: BirthDate? by nullableModel { BirthDate(it, client) }
 
-    data class BirthDate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val year by nullableInt
-        val month by nullableInt
-        val day by nullableInt
-        val visibility by string
-        val yearVisibility by string("year_visibility")
+    public data class BirthDate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val year: Int? by nullableInt
+        public val month: Int? by nullableInt
+        public val day: Int? by nullableInt
+        public val visibility: String by string
+        public val yearVisibility: String by string("year_visibility")
     }
 }

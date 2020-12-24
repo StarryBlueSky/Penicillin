@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.accountactivity
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [AccountActivity] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun AccountActivity.deleteWebhook(
+public fun AccountActivity.deleteWebhook(
     envName: String,
     webhookId: String,
     vararg options: Option
-) = client.session.delete("/1.1/account_activity/all/$envName/webhooks/$webhookId.json") {
+): EmptyApiAction = client.session.delete("/1.1/account_activity/all/$envName/webhooks/$webhookId.json") {
     parameters(*options)
 }.empty()

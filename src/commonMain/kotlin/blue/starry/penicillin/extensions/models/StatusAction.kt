@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.extensions.models
 
+import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.endpoints.favorites
 import blue.starry.penicillin.endpoints.favorites.create
 import blue.starry.penicillin.endpoints.favorites.destroy
@@ -38,26 +39,26 @@ import blue.starry.penicillin.models.Status
 /**
  * Creates an action to retrieve this status.
  */
-fun Status.refresh() = client.statuses.show(id = id)
+public fun Status.refresh(): JsonObjectApiAction<Status> = client.statuses.show(id = id)
 
 /**
  * Creates an action to favorite this status.
  */
-fun Status.favorite() = client.favorites.create(id = id)
+public fun Status.favorite(): JsonObjectApiAction<Status> = client.favorites.create(id = id)
 
 /**
  * Creates an action to unfavorite this status.
  */
-fun Status.unfavorite() = client.favorites.destroy(id = id)
+public fun Status.unfavorite(): JsonObjectApiAction<Status> = client.favorites.destroy(id = id)
 
 /**
  * Creates an action to delete this status.
  */
-fun Status.delete() = client.statuses.delete(id = id)
+public fun Status.delete(): JsonObjectApiAction<Status> = client.statuses.delete(id = id)
 
 /**
  * Creates an action to send a mention to this status.
  *
  * @param text Status body.
  */
-fun Status.mention(text: String) = client.statuses.create(text, inReplyToStatusId = id)
+public fun Status.mention(text: String): JsonObjectApiAction<Status> = client.statuses.create(text, inReplyToStatusId = id)

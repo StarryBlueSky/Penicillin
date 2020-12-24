@@ -26,16 +26,16 @@
 
 package blue.starry.penicillin.endpoints.media
 
-import io.ktor.http.ContentType
+import io.ktor.http.*
 
 /**
  * Represents media type.
  */
-enum class MediaType(
+public enum class MediaType(
     /**
      * Content-type.
      */
-    val contentType: ContentType
+    public val contentType: ContentType
 ) {
     /**
      * Jpeg image.

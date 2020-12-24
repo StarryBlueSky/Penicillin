@@ -26,20 +26,14 @@ package blue.starry.penicillin.core.request
 
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.encodeToString
-import io.ktor.http.ContentType
-import io.ktor.http.content.OutgoingContent
-import io.ktor.http.withCharset
-import io.ktor.utils.io.ByteWriteChannel
-import io.ktor.utils.io.charsets.Charsets
-import io.ktor.utils.io.writeStringUtf8
+import io.ktor.http.*
+import io.ktor.http.content.*
+import io.ktor.utils.io.charsets.*
 
 /**
  * The [OutgoingContent.WriteChannelContent] which provides "application/json".
  */
-data class JsonObjectContent(private val json: JsonObject): OutgoingContent.WriteChannelContent() {
-    override val contentType: ContentType = ContentType.Application.Json.withCharset(Charsets.UTF_8)
-
-    override suspend fun writeTo(channel: ByteWriteChannel) {
-        channel.writeStringUtf8(json.encodeToString())
-    }
+@Suppress("FunctionName")
+public fun JsonObjectContent(json: JsonObject): TextContent {
+    return TextContent(json.encodeToString(), ContentType.Application.Json.withCharset(Charsets.UTF_8))
 }

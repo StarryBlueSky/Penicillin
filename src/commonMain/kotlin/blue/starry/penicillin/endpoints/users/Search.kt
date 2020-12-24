@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
@@ -47,13 +47,13 @@ import blue.starry.penicillin.models.User
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [User] model.
  */
-fun Users.search(
+public fun Users.search(
     query: String,
     page: Int? = null,
     count: Int? = null,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/users/search.json") {
+): JsonArrayApiAction<User> = client.session.get("/1.1/users/search.json") {
     parameters(
         "q" to query,
         "page" to page,

@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.media
 
 import blue.starry.jsonkt.JsonObject
+import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.request.EndpointHost
 import blue.starry.penicillin.core.request.action.EmptyApiAction
 import blue.starry.penicillin.core.request.jsonBody
@@ -46,10 +47,10 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [Media] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Media.createSubtitles(
+public fun Media.createSubtitles(
     payload: JsonObject,
     vararg options: Option
-) = client.session.post("/1.1/media/subtitles/create.json", EndpointHost.MediaUpload) {
+): ApiRequest = client.session.post("/1.1/media/subtitles/create.json", EndpointHost.MediaUpload) {
     parameters(*options)
     jsonBody(payload)
 }

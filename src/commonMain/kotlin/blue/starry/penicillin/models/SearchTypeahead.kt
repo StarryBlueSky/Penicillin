@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,52 +31,52 @@ import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class SearchTypeahead(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val completedIn by float("completed_in")
-    val hashtags by stringList
-    val numResults by int("num_results")
-    val oneclick by stringList
-    val query by string
-    val topics by modelList { Topic(it, client) }
-    val users by modelList { UserTypeahead(it, client) }
+public data class SearchTypeahead(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val completedIn: Float by float("completed_in")
+    public val hashtags: List<String> by stringList
+    public val numResults: Int by int("num_results")
+    public val oneclick: List<String> by stringList
+    public val query: String by string
+    public val topics: List<Topic> by modelList { Topic(it, client) }
+    public val users: List<UserTypeahead> by modelList { UserTypeahead(it, client) }
 
-    data class Topic(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val inline by boolean
-        val roundedScore by int("rounded_score")
-        val tokens by modelList { SearchToken(it, client) }
-        val topic by string
+    public data class Topic(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val inline: Boolean by boolean
+        public val roundedScore: Int by int("rounded_score")
+        public val tokens: List<SearchToken> by modelList { SearchToken(it, client) }
+        public val topic: String by string
     }
 
-    data class UserTypeahead(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val canMediaTag by boolean("can_media_tag")
-        val connectingUserCount by int("connecting_user_count")
-        val connectingUserIds by longList("connecting_user_ids")
-        val id by long
-        val idStr by string("id_str")
-        val inline by boolean
-        val isBlocked by boolean("is_blocked")
-        val isDmAble by boolean("is_dm_able")
-        val isProtected by boolean("is_protected")
-        val location by nullableString
-        val name by string
-        val profileImageUrl by nullableString("profile_image_url")
-        val profileImageUrlHttps by nullableString("profile_image_url_https")
-        val roundedGraphWeight by int("rounded_graph_weight")
-        val roundedScore by int("rounded_score")
-        val screenName by string("screen_name")
-        val socialContext by model("social_context") { SocialContext(it, client) }
-        val socialProof by int("social_proof")
-        val socialProofsOrdered by intList("social_proofs_ordered")
-        val tokens by modelList { SearchToken(it, client) }
-        val verified by boolean
+    public data class UserTypeahead(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val canMediaTag: Boolean by boolean("can_media_tag")
+        public val connectingUserCount: Int by int("connecting_user_count")
+        public val connectingUserIds: List<Long> by longList("connecting_user_ids")
+        public val id: Long by long
+        public val idStr: String by string("id_str")
+        public val inline: Boolean by boolean
+        public val isBlocked: Boolean by boolean("is_blocked")
+        public val isDmAble: Boolean by boolean("is_dm_able")
+        public val isProtected: Boolean by boolean("is_protected")
+        public val location: String? by nullableString
+        public val name: String by string
+        public val profileImageUrl: String? by nullableString("profile_image_url")
+        public val profileImageUrlHttps: String? by nullableString("profile_image_url_https")
+        public val roundedGraphWeight: Int by int("rounded_graph_weight")
+        public val roundedScore: Int by int("rounded_score")
+        public val screenName: String by string("screen_name")
+        public val socialContext: SocialContext by model("social_context") { SocialContext(it, client) }
+        public val socialProof: Int by int("social_proof")
+        public val socialProofsOrdered: List<Int> by intList("social_proofs_ordered")
+        public val tokens: List<SearchToken> by modelList { SearchToken(it, client) }
+        public val verified: Boolean by boolean
 
-        data class SocialContext(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val following by boolean
-            val followedBy by boolean("followed_by")
+        public data class SocialContext(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val following: Boolean by boolean
+            public val followedBy: Boolean by boolean("followed_by")
         }
     }
 
-    data class SearchToken(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val token by string
+    public data class SearchToken(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val token: String by string
     }
 }

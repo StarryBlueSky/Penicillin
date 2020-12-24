@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.accountactivity
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [AccountActivity] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun AccountActivity.subscribe(
+public fun AccountActivity.subscribe(
     envName: String,
     vararg options: Option
-) = client.session.post("/1.1/account_activity/all/$envName/subscriptions.json") {
+): EmptyApiAction = client.session.post("/1.1/account_activity/all/$envName/subscriptions.json") {
     formBody(*options)
 
 }.empty()

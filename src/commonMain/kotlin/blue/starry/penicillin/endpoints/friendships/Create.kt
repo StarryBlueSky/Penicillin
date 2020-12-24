@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.friendships
 
@@ -48,11 +48,11 @@ import blue.starry.penicillin.models.User
  * @return [JsonObjectApiAction] for [User] model.
  * @see createByScreenName
  */
-fun Friendships.createByUserId(
+public fun Friendships.createByUserId(
     userId: Long,
     follow: Boolean? = null,
     vararg options: Option
-) = create(userId, null, follow, *options)
+): JsonObjectApiAction<User> = create(userId, null, follow, *options)
 
 /**
  * Allows the authenticating user to follow (friend) the user specified in the ID parameter.
@@ -68,11 +68,11 @@ fun Friendships.createByUserId(
  * @return [JsonObjectApiAction] for [User] model.
  * @see createByUserId
  */
-fun Friendships.createByScreenName(
+public fun Friendships.createByScreenName(
     screenName: String,
     follow: Boolean? = null,
     vararg options: Option
-) = create(null, screenName, follow, *options)
+): JsonObjectApiAction<User> = create(null, screenName, follow, *options)
 
 private fun Friendships.create(
     userId: Long? = null,

@@ -106,8 +106,7 @@ repositories {
 }
 
 kotlin {
-    explicitApiWarning()
-    // explicitApi()
+    explicitApi()
 
     jvm {
         compilations.all {

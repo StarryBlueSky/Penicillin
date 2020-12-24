@@ -42,7 +42,7 @@ import blue.starry.penicillin.models.Status
  * @param options Optional. Custom parameters of this request.
  */
 @PenicillinExperimentalApi
-fun JsonArrayApiAction<Status>.untilLast(count: Int = 200, vararg options: Option): Sequence<Status> = sequence {
+public fun JsonArrayApiAction<Status>.untilLast(count: Int = 200, vararg options: Option): Sequence<Status> = sequence {
     var maxId: Long? = null
 
     while (true) {

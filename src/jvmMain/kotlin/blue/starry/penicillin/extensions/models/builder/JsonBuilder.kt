@@ -35,9 +35,9 @@ internal fun jsonMapOf(vararg pairs: Pair<String, Any?>): JsonMap {
 /**
  * Json builder for [T].
  */
-interface JsonBuilder<T: JsonModel>: JsonMap {
+public interface JsonBuilder<T: JsonModel>: JsonMap {
     /**
      * Builds this json, and creates [T] of [JsonModel].
      */
-    fun build(): T
+    public fun build(): T
 }

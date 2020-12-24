@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Specifies whether the embedded Tweet should be floated left, right, or center in the page relative to the parent element.
  */
-enum class EmbedAlign(override val value: String?): EnumRequestParameter {
+public enum class EmbedAlign(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

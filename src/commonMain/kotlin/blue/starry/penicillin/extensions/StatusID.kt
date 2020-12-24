@@ -32,37 +32,37 @@ import blue.starry.penicillin.models.entities.MediaEntity
 /**
  * Parsed status id object for "id".
  */
-val Status.idObj: StatusID
+public val Status.idObj: StatusID
     get() = StatusID(id)
 
 /**
  * Parsed status id object for "in_reply_to_status_id".
  */
-val Status.inReplyToStatusIdObj: StatusID?
+public val Status.inReplyToStatusIdObj: StatusID?
     get() = inReplyToStatusId?.let { StatusID(it) }
 
 /**
  * Parsed status id object for "quoted_status_id.
  */
-val Status.quotedStatusIdObj: StatusID?
+public val Status.quotedStatusIdObj: StatusID?
     get() = quotedStatusId?.let { StatusID(it) }
 
 /**
  * Parsed status id object for "source_status_id".
  */
-val MediaEntity.sourceStatusIdObj: StatusID?
+public val MediaEntity.sourceStatusIdObj: StatusID?
     get() = sourceStatusId?.let { StatusID(it) }
 
 /**
  * Represents numerical status id.
  */
-data class StatusID(
+public data class StatusID(
     /**
      * Original numerical status id.
      */
-    val value: Long
+    public val value: Long
 ) {
-    companion object {
+    public companion object {
         private const val magicNumber = 1288834974657L
     }
 
@@ -70,6 +70,6 @@ data class StatusID(
      * Epoch time in milliseconds.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    val epochTimeMillis: Long
+    public val epochTimeMillis: Long
         get() = (value shr 22) + magicNumber
 }

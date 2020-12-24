@@ -40,48 +40,48 @@ private fun Session.call(
 /**
  * Creates GET api request.
  */
-fun Session.get(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+public fun Session.get(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
     return call(HttpMethod.Get, path, host, builder)
 }
 
 /**
  * Creates POST api request.
  */
-fun Session.post(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+public fun Session.post(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
     return call(HttpMethod.Post, path, host, builder)
 }
 
 /**
  * Creates PUT api request.
  */
-fun Session.put(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+public fun Session.put(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
     return call(HttpMethod.Put, path, host, builder)
 }
 
 /**
  * Creates PATCH api request.
  */
-fun Session.patch(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+public fun Session.patch(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
     return call(HttpMethod.Patch, path, host, builder)
 }
 
 /**
  * Creates DELETE api request.
  */
-fun Session.delete(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+public fun Session.delete(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
     return call(HttpMethod.Delete, path, host, builder)
 }
 
 /**
  * Creates HEAD api request.
  */
-fun Session.head(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+public fun Session.head(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
     return call(HttpMethod.Head, path, host, builder)
 }
 
 /**
  * Creates OPTIONS api request.
  */
-fun Session.options(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
+public fun Session.options(path: String, host: EndpointHost = EndpointHost.Default, builder: ApiRequestBuilder.() -> Unit = {}): ApiRequest {
     return call(HttpMethod.Options, path, host, builder)
 }

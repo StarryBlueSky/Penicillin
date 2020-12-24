@@ -48,41 +48,41 @@ internal val apiRequestBuilderLogger = KotlinLogging.logger("Penicillin.RequestB
 /**
  * The builder class to construct api request.
  */
-data class ApiRequestBuilder(
+public data class ApiRequestBuilder(
     /**
      * Current [ApiClient].
      */
-    val client: ApiClient,
+    public val client: ApiClient,
 
     /**
      * Request HTTP method.
      */
-    val httpMethod: HttpMethod,
+    public val httpMethod: HttpMethod,
 
     /**
      * Request host.
      */
-    val host: EndpointHost,
+    public val host: EndpointHost,
 
     /**
      * Request path.
      */
-    val path: String
+    public val path: String
 ) {
     /**
      * Request headers.
      */
-    val headers: HeadersBuilder = HeadersBuilder()
+    public val headers: HeadersBuilder = HeadersBuilder()
 
     /**
      * Request url parameters.
      */
-    val parameters: ParametersBuilder = ParametersBuilder()
+    public val parameters: ParametersBuilder = ParametersBuilder()
 
     /**
      * Request form parameters.
      */
-    val forms: ParametersBuilder = ParametersBuilder()
+    public val forms: ParametersBuilder = ParametersBuilder()
 
     /**
      * Request body.
@@ -102,7 +102,7 @@ data class ApiRequestBuilder(
     /**
      * Required [EmulationMode].
      */
-    val emulationModes: MutableSet<EmulationMode> = mutableSetOf()
+    public val emulationModes: MutableSet<EmulationMode> = mutableSetOf()
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
         when (session.option.emulationMode) {

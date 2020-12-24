@@ -22,46 +22,47 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
+import kotlinx.serialization.json.JsonArray
 
 
-data class Place(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val attributes by model { Attribute(it, client) }
-    val boundingBox by model("bounding_box") { BoundingBox(it, client) }
-    val centroid by floatList
-    val containedWithin by modelList("contained_within") { Place(it, client) }
-    val country by string
-    val countryCode by string("country_code")
-    val fullName by string("full_name")
-    val geometry by nullableString // null
-    val id by string
-    val name by string
-    val placeType by string("place_type")
-    val polylines by jsonArray // []
-    val url by string
+public data class Place(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val attributes: Attribute by model { Attribute(it, client) }
+    public val boundingBox: BoundingBox by model("bounding_box") { BoundingBox(it, client) }
+    public val centroid: List<Float> by floatList
+    public val containedWithin: List<Place> by modelList("contained_within") { Place(it, client) }
+    public val country: String by string
+    public val countryCode: String by string("country_code")
+    public val fullName: String by string("full_name")
+    public val geometry: String? by nullableString // null
+    public val id: String by string
+    public val name: String by string
+    public val placeType: String by string("place_type")
+    public val polylines: JsonArray by jsonArray // []
+    public val url: String by string
 
-    data class Attribute(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val streetAddress by nullableString("street_address")
-        val locality by nullableString
-        val region by nullableString
-        val iso3 by nullableString
-        val postalCode by nullableString("postal_code")
-        val phone by nullableString
-        val twitter by nullableString
-        val url by nullableString
-        val appId by nullableString("app:id")
-        val geotagCount by nullableString
+    public data class Attribute(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val streetAddress: String? by nullableString("street_address")
+        public val locality: String? by nullableString
+        public val region: String? by nullableString
+        public val iso3: String? by nullableString
+        public val postalCode: String? by nullableString("postal_code")
+        public val phone: String? by nullableString
+        public val twitter: String? by nullableString
+        public val url: String? by nullableString
+        public val appId: String? by nullableString("app:id")
+        public val geotagCount: String? by nullableString
     }
 
-    data class BoundingBox(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val type by string
-        val coordinates by jsonArray
+    public data class BoundingBox(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val type: String by string
+        public val coordinates: JsonArray by jsonArray
         // [
         //   [
         //     [-77.119759, 38.791645],

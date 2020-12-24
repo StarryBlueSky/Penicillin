@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.directmessages.events
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [DirectMessageEvents] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun DirectMessageEvents.delete(
+public fun DirectMessageEvents.delete(
     id: String,
     vararg options: Option
-) = client.session.delete("/1.1/direct_messages/events/destroy.json") {
+): EmptyApiAction = client.session.delete("/1.1/direct_messages/events/destroy.json") {
     parameters(
         "id" to id,
         *options

@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * UserStream "replies" flags.
  */
-enum class UserStreamReplies(override val value: String?): EnumRequestParameter {
+public enum class UserStreamReplies(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

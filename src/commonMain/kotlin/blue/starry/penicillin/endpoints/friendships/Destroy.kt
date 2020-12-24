@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.friendships
 
@@ -47,10 +47,10 @@ import blue.starry.penicillin.models.User
  * @return [JsonObjectApiAction] for [User] model.
  * @see destroyByScreenName
  */
-fun Friendships.destroyByUserId(
+public fun Friendships.destroyByUserId(
     userId: Long,
     vararg options: Option
-) = destroy(userId, null, *options)
+): JsonObjectApiAction<User> = destroy(userId, null, *options)
 
 /**
  * Allows the authenticating user to unfollow the user specified in the ID parameter.
@@ -65,10 +65,10 @@ fun Friendships.destroyByUserId(
  * @return [JsonObjectApiAction] for [User] model.
  * @see destroyByUserId
  */
-fun Friendships.destroyByScreenName(
+public fun Friendships.destroyByScreenName(
     screenName: String,
     vararg options: Option
-) = destroy(null, screenName, *options)
+): JsonObjectApiAction<User> = destroy(null, screenName, *options)
 
 private fun Friendships.destroy(
     userId: Long? = null,

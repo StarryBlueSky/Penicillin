@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "Deprecation", "KotlinDeprecation")
+@file:Suppress("UNUSED", "Deprecation", "KotlinDeprecation")
 
 package blue.starry.penicillin.extensions.endpoints
 
+import blue.starry.penicillin.core.request.action.ApiAction
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.endpoints.Account
 import blue.starry.penicillin.endpoints.Option
@@ -48,13 +49,13 @@ import blue.starry.penicillin.models.User
  * @receiver [Account] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Account.updateProfileBackgroundImage(
+public fun Account.updateProfileBackgroundImage(
     media: MediaComponent,
     tile: Boolean? = null,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = DelegatedAction {
+): ApiAction<JsonObjectApiAction<User>> = DelegatedAction {
     val result = client.media.uploadMedia(media).execute()
     updateProfileBackgroundImage(result.mediaId, tile, includeEntities, skipStatus, *options)
 }

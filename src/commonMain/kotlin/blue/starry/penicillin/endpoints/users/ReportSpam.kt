@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.User
  * @receiver [Users] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Users.reportSpamByScreenName(
+public fun Users.reportSpamByScreenName(
     screenName: String,
     performBlock: Boolean? = null,
     vararg options: Option
-) = reportSpam(screenName, null, performBlock, *options)
+): JsonObjectApiAction<User> = reportSpam(screenName, null, performBlock, *options)
 
 /**
  * Report the specified user as a spam account to Twitter. Additionally, optionally performs the equivalent of [POST blocks/create](https://developer.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create) on behalf of the authenticated user.
@@ -61,11 +61,11 @@ fun Users.reportSpamByScreenName(
  * @receiver [Users] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Users.reportSpamByUserId(
+public fun Users.reportSpamByUserId(
     userId: Long,
     performBlock: Boolean? = null,
     vararg options: Option
-) = reportSpam(null, userId, performBlock, *options)
+): JsonObjectApiAction<User> = reportSpam(null, userId, performBlock, *options)
 
 private fun Users.reportSpam(
     screenName: String? = null,

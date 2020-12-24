@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.savedSearches: SavedSearches
+public val ApiClient.savedSearches: SavedSearches
     get() = SavedSearches(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.savedSearches: SavedSearches
  * @param client Current [ApiClient] instance.
  * @see ApiClient.savedSearches
  */
-class SavedSearches(override val client: ApiClient): Endpoint
+public class SavedSearches(override val client: ApiClient): Endpoint

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -32,20 +32,20 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
 
-object Subscription {
-    data class Count(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val accountName by string("account_name")
-        val subscriptionsCountAll by string("subscriptions_count_all")
-        val subscriptionsCountDirectMessages by string("subscriptions_count_direct_messages")
+public object Subscription {
+    public data class Count(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val accountName: String by string("account_name")
+        public val subscriptionsCountAll: String by string("subscriptions_count_all")
+        public val subscriptionsCountDirectMessages: String by string("subscriptions_count_direct_messages")
     }
 
-    data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val environment by string
-        val applicationId by string("application_id")
-        val subscriptions by modelList { Subscription(it, client) }
+    public data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val environment: String by string
+        public val applicationId: String by string("application_id")
+        public val subscriptions: kotlin.collections.List<Subscription> by modelList { Subscription(it, client) }
 
-        data class Subscription(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val userId by string("user_id")
+        public data class Subscription(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val userId: String by string("user_id")
         }
     }
 }

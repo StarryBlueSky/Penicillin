@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.mutes: Mutes
+public val ApiClient.mutes: Mutes
     get() = Mutes(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.mutes: Mutes
  * @param client Current [ApiClient] instance.
  * @see ApiClient.mutes
  */
-class Mutes(override val client: ApiClient): Endpoint
+public class Mutes(override val client: ApiClient): Endpoint

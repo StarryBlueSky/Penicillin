@@ -31,7 +31,7 @@ import blue.starry.penicillin.models.CommonUser
 /**
  * Returns profile image url with specified size.
  */
-fun CommonUser.profileImageUrlWithVariantSize(size: ProfileImageSize): String {
+public fun CommonUser.profileImageUrlWithVariantSize(size: ProfileImageSize): String {
     return when (size) {
         ProfileImageSize.Normal -> profileImageUrl
         ProfileImageSize.Original -> {
@@ -48,7 +48,7 @@ fun CommonUser.profileImageUrlWithVariantSize(size: ProfileImageSize): String {
 /**
  * Returns profile image url (HTTPS) with specified size.
  */
-fun CommonUser.profileImageUrlHttpsWithVariantSize(size: ProfileImageSize): String {
+public fun CommonUser.profileImageUrlHttpsWithVariantSize(size: ProfileImageSize): String {
     return when (size) {
         ProfileImageSize.Normal -> profileImageUrlHttps
         ProfileImageSize.Original -> {
@@ -65,7 +65,7 @@ fun CommonUser.profileImageUrlHttpsWithVariantSize(size: ProfileImageSize): Stri
 /**
  * Returns profile banner url with specified size.
  */
-fun CommonUser.profileBannerUrlWithVariantSize(size: ProfileBannerSize): String? {
+public fun CommonUser.profileBannerUrlWithVariantSize(size: ProfileBannerSize): String? {
     return profileBannerUrl?.let { "$profileBannerUrl/${size.suffix}" }
 }
 
@@ -88,7 +88,7 @@ fun CommonUser.profileBannerUrlWithVariantSize(size: ProfileBannerSize): String?
  *
  * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/user-profile-images-and-banners)
  */
-enum class ProfileImageSize(internal val suffix: String?) {
+public enum class ProfileImageSize(internal val suffix: String?) {
     /**
      * 48x48.
      *
@@ -135,7 +135,7 @@ enum class ProfileImageSize(internal val suffix: String?) {
  *
  * [Twitter API reference](https://developer.twitter.com/en/docs/accounts-and-users/user-profile-images-and-banners)
  */
-enum class ProfileBannerSize(internal val suffix: String) {
+public enum class ProfileBannerSize(internal val suffix: String) {
     /**
      * 1500x500.
      *

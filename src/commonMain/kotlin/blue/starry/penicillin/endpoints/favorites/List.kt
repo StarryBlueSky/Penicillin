@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.favorites
 
+import blue.starry.penicillin.core.request.action.JsonArrayApiAction
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
@@ -47,13 +48,13 @@ import blue.starry.penicillin.models.Status
  * @receiver [Favorites] endpoint instance.
  * @return [JsonObjectApiAction] for [Status] model.
  */
-fun Favorites.list(
+public fun Favorites.list(
     count: Int? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = listInternal(null, null, count, sinceId, maxId, includeEntities, *options)
+): JsonArrayApiAction<Status> = listInternal(null, null, count, sinceId, maxId, includeEntities, *options)
 
 /**
  * Note: favorites are now known as likes.
@@ -70,14 +71,14 @@ fun Favorites.list(
  * @receiver [Favorites] endpoint instance.
  * @return [JsonObjectApiAction] for [Status] model.
  */
-fun Favorites.listByUserId(
+public fun Favorites.listByUserId(
     userId: Long,
     count: Int? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = listInternal(userId, null, count, sinceId, maxId, includeEntities, *options)
+): JsonArrayApiAction<Status> = listInternal(userId, null, count, sinceId, maxId, includeEntities, *options)
 
 /**
  * Note: favorites are now known as likes.
@@ -94,14 +95,14 @@ fun Favorites.listByUserId(
  * @receiver [Favorites] endpoint instance.
  * @return [JsonObjectApiAction] for [Status] model.
  */
-fun Favorites.listByScreenName(
+public fun Favorites.listByScreenName(
     screenName: String,
     count: Int? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = listInternal(null, screenName, count, sinceId, maxId, includeEntities, *options)
+): JsonArrayApiAction<Status> = listInternal(null, screenName, count, sinceId, maxId, includeEntities, *options)
 
 private fun Favorites.listInternal(
     userId: Long? = null,
@@ -127,5 +128,5 @@ private fun Favorites.listInternal(
  * Shorthand property to [Favorites.list].
  * @see Favorites.list
  */
-val Favorites.list
+public val Favorites.list: JsonArrayApiAction<Status>
     get() = list()

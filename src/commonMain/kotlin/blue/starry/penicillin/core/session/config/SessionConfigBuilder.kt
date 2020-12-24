@@ -29,16 +29,16 @@ import blue.starry.penicillin.core.session.SessionBuilder
 /**
  * Represents additional config from SessionConfigBuilder.
  */
-interface SessionConfig
+public interface SessionConfig
 
 /**
  * Represents additional config builder which is used in ApiClient builder.
  */
-interface SessionConfigBuilder<C: SessionConfig> {
+public interface SessionConfigBuilder<C: SessionConfig> {
     /**
      * Builds SessionConfig instance.
      */
-    fun build(): C
+    public fun build(): C
 }
 
 internal inline fun <reified T: SessionConfigBuilder<*>> SessionBuilder.getOrPutBuilder(crossinline block: () -> T): T {

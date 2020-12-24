@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.mutes
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.cursor.CursorIds
  * @receiver [Mutes] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorIds] model.
  */
-fun Mutes.listIds(
+public fun Mutes.listIds(
     stringifyIds: Boolean? = null,
     cursor: Long? = null,
     vararg options: Option
-) = client.session.get("/1.1/mutes/users/ids.json") {
+): CursorJsonObjectApiAction<CursorIds> = client.session.get("/1.1/mutes/users/ids.json") {
     parameters(
         "stringify_ids" to stringifyIds,
         "cursor" to cursor,
@@ -60,5 +60,5 @@ fun Mutes.listIds(
  * Shorthand property to [Mutes.listIds].
  * @see Mutes.listIds
  */
-val Mutes.listIds
+public val Mutes.listIds: CursorJsonObjectApiAction<CursorIds>
     get() = listIds()

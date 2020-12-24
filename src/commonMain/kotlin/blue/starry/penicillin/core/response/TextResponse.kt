@@ -32,7 +32,7 @@ import blue.starry.penicillin.core.session.ApiClient
 /**
  * The [ApiResponse] that provides text response only.
  */
-data class TextResponse(
+public data class TextResponse(
     override val client: ApiClient,
     override val request: HttpRequest,
     override val response: HttpResponse,

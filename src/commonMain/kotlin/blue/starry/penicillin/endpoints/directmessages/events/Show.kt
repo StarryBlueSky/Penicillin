@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.directmessages.events
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.DirectMessageEvent
  * @receiver [DirectMessageEvents] endpoint instance.
  * @return [JsonObjectApiAction] for [DirectMessageEvent.Show] model.
  */
-fun DirectMessageEvents.show(
+public fun DirectMessageEvents.show(
     id: String,
     vararg options: Option
-) = client.session.get("/1.1/direct_messages/events/show.json") {
+): JsonObjectApiAction<DirectMessageEvent.Show> = client.session.get("/1.1/direct_messages/events/show.json") {
     parameters(
         "id" to id,
         *options

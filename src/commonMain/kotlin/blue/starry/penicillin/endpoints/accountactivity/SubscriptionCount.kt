@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.accountactivity
 
@@ -42,9 +42,9 @@ import blue.starry.penicillin.models.Subscription
  * @receiver [AccountActivity] endpoint instance.
  * @return [JsonObjectApiAction] for [Subscription.Count] model.
  */
-fun AccountActivity.subscriptionCount(
+public fun AccountActivity.subscriptionCount(
     vararg options: Option
-) = client.session.get("/1.1/account_activity/all/subscriptions/count.json") {
+): JsonObjectApiAction<Subscription.Count> = client.session.get("/1.1/account_activity/all/subscriptions/count.json") {
     parameters(*options)
 }.jsonObject { Subscription.Count(it, client) }
 
@@ -52,5 +52,5 @@ fun AccountActivity.subscriptionCount(
  * Shorthand property to [AccountActivity.subscriptionCount].
  * @see AccountActivity.subscriptionCount
  */
-val AccountActivity.subscriptionCount
+public val AccountActivity.subscriptionCount: JsonObjectApiAction<Subscription.Count>
     get() = subscriptionCount()

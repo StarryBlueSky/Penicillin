@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.savedsearches
 
@@ -44,10 +44,10 @@ import blue.starry.penicillin.models.SavedSearch
  * @receiver [SavedSearches] endpoint instance.
  * @return [JsonObjectApiAction] for [SavedSearch] model.
  */
-fun SavedSearches.create(
+public fun SavedSearches.create(
     query: String,
     vararg options: Option
-) = client.session.post("/1.1/saved_searches/create.json") {
+): JsonObjectApiAction<SavedSearch> = client.session.post("/1.1/saved_searches/create.json") {
     formBody(
         "query" to query,
         *options

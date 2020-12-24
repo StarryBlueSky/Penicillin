@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.followers
 
@@ -47,13 +47,13 @@ import blue.starry.penicillin.models.cursor.CursorUsers
  * @receiver [Followers] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Followers.listUsers(
+public fun Followers.listUsers(
     cursor: Long? = null,
     count: Int? = null,
     skipStatus: Boolean? = null,
     includeUserEntities: Boolean? = null,
     vararg options: Option
-) = listUsersInternal(null, null, cursor, count, skipStatus, includeUserEntities, *options)
+): CursorJsonObjectApiAction<CursorUsers> = listUsersInternal(null, null, cursor, count, skipStatus, includeUserEntities, *options)
 
 /**
  * Returns a cursored collection of user objects for users following the specified user.
@@ -72,14 +72,14 @@ fun Followers.listUsers(
  * @see listUsersByScreenName
  * @see listUsers
  */
-fun Followers.listUsersByUserId(
+public fun Followers.listUsersByUserId(
     userId: Long,
     cursor: Long? = null,
     count: Int? = null,
     skipStatus: Boolean? = null,
     includeUserEntities: Boolean? = null,
     vararg options: Option
-) = listUsersInternal(userId, null, cursor, count, skipStatus, includeUserEntities, *options)
+): CursorJsonObjectApiAction<CursorUsers> = listUsersInternal(userId, null, cursor, count, skipStatus, includeUserEntities, *options)
 
 /**
  * Returns a cursored collection of user objects for users following the specified user.
@@ -98,14 +98,14 @@ fun Followers.listUsersByUserId(
  * @see listUsersByUserId
  * @see listUsers
  */
-fun Followers.listUsersByScreenName(
+public fun Followers.listUsersByScreenName(
     screenName: String,
     cursor: Long? = null,
     count: Int? = null,
     skipStatus: Boolean? = null,
     includeUserEntities: Boolean? = null,
     vararg options: Option
-) = listUsersInternal(null, screenName, cursor, count, skipStatus, includeUserEntities, *options)
+): CursorJsonObjectApiAction<CursorUsers> = listUsersInternal(null, screenName, cursor, count, skipStatus, includeUserEntities, *options)
 
 private fun Followers.listUsersInternal(
     userId: Long? = null,
@@ -131,5 +131,5 @@ private fun Followers.listUsersInternal(
  * Shorthand property to [Followers.listUsers].
  * @see Followers.listUsers
  */
-val Followers.listUsers
+public val Followers.listUsers: CursorJsonObjectApiAction<CursorUsers>
     get() = listUsers()

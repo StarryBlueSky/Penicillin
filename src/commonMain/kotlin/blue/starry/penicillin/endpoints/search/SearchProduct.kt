@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Indicates the search endpoint you are making requests.
  */
-enum class SearchProduct(override val value: String): EnumRequestParameter {
+public enum class SearchProduct(override val value: String): EnumRequestParameter {
     /**
      * Returns tweets from the previous 30 days.
      */

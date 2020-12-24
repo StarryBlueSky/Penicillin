@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.livepipeline
 
@@ -44,14 +44,14 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [LivePipeline] endpoint instance.
  * @return [StreamApiAction] for [LivePipelineHandler] handler with [LivePipelineListener] listener.
  */
-fun LivePipeline.event(
+public fun LivePipeline.event(
     ids: List<Long>,
     vararg options: Option
-) = client.session.get("/1.1/live_pipeline/events") {
+): StreamApiAction<LivePipelineListener, LivePipelineHandler> = client.session.get("/1.1/live_pipeline/events") {
     emulationModes += EmulationMode.TwitterForiPhone
 
     parameters(
         "topic" to ids.joinToString(",") { "/tweet_engagement/$it" },
         *options
     )
-}.stream<LivePipelineListener, LivePipelineHandler>()
+}.stream()

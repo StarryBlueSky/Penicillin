@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.addMembersByUserIds(
+public fun Lists.addMembersByUserIds(
     listId: Long,
     userIds: List<Long>,
     vararg options: Option
-) = addMembers(listId, null, null, null, userIds, null, *options)
+): EmptyApiAction = addMembers(listId, null, null, null, userIds, null, *options)
 
 /**
  * Adds multiple members to a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to add members to it. Note that lists can't have more than 5,000 members, and you are limited to adding up to 100 members to a list at a time with this method.
@@ -62,11 +62,11 @@ fun Lists.addMembersByUserIds(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.addMembersByScreenNames(
+public fun Lists.addMembersByScreenNames(
     listId: Long,
     screenNames: List<String>,
     vararg options: Option
-) = addMembers(listId, null, null, null, null, screenNames, *options)
+): EmptyApiAction = addMembers(listId, null, null, null, null, screenNames, *options)
 
 /**
  * Adds multiple members to a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to add members to it. Note that lists can't have more than 5,000 members, and you are limited to adding up to 100 members to a list at a time with this method.
@@ -81,12 +81,12 @@ fun Lists.addMembersByScreenNames(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.addMembersByUserIds(
+public fun Lists.addMembersByUserIds(
     slug: String,
     ownerScreenName: String,
     userIds: List<Long>,
     vararg options: Option
-) = addMembers(null, slug, ownerScreenName, null, userIds, null, *options)
+): EmptyApiAction = addMembers(null, slug, ownerScreenName, null, userIds, null, *options)
 
 /**
  * Adds multiple members to a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to add members to it. Note that lists can't have more than 5,000 members, and you are limited to adding up to 100 members to a list at a time with this method.
@@ -101,12 +101,12 @@ fun Lists.addMembersByUserIds(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.addMembersByScreenNames(
+public fun Lists.addMembersByScreenNames(
     slug: String,
     ownerScreenName: String,
     screenNames: List<String>,
     vararg options: Option
-) = addMembers(null, slug, ownerScreenName, null, null, screenNames, *options)
+): EmptyApiAction = addMembers(null, slug, ownerScreenName, null, null, screenNames, *options)
 
 /**
  * Adds multiple members to a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to add members to it. Note that lists can't have more than 5,000 members, and you are limited to adding up to 100 members to a list at a time with this method.
@@ -121,12 +121,12 @@ fun Lists.addMembersByScreenNames(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.addMembersByUserIds(
+public fun Lists.addMembersByUserIds(
     slug: String,
     ownerId: Long,
     userIds: List<Long>,
     vararg options: Option
-) = addMembers(null, slug, null, ownerId, userIds, null, *options)
+): EmptyApiAction = addMembers(null, slug, null, ownerId, userIds, null, *options)
 
 /**
  * Adds multiple members to a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to add members to it. Note that lists can't have more than 5,000 members, and you are limited to adding up to 100 members to a list at a time with this method.
@@ -141,12 +141,12 @@ fun Lists.addMembersByUserIds(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.addMembersByScreenNames(
+public fun Lists.addMembersByScreenNames(
     slug: String,
     ownerId: Long,
     screenNames: List<String>,
     vararg options: Option
-) = addMembers(null, slug, null, ownerId, null, screenNames, *options)
+): EmptyApiAction = addMembers(null, slug, null, ownerId, null, screenNames, *options)
 
 private fun Lists.addMembers(
     listId: Long? = null,

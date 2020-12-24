@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.followers
 
@@ -47,12 +47,12 @@ import blue.starry.penicillin.models.cursor.CursorIds
  * @receiver [Followers] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorIds] model.
  */
-fun Followers.listIds(
+public fun Followers.listIds(
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-) = listIdsInternal(null, null, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(null, null, cursor, stringifyIds, count, *options)
 
 /**
  * Returns a cursored collection of user IDs for every user following the specified user.
@@ -71,13 +71,13 @@ fun Followers.listIds(
  * @see listIdsByScreenName
  * @see listIds
  */
-fun Followers.listIdsByUserId(
+public fun Followers.listIdsByUserId(
     userId: Long,
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-) = listIdsInternal(userId, null, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(userId, null, cursor, stringifyIds, count, *options)
 
 /**
  * Returns a cursored collection of user IDs for every user following the specified user.
@@ -96,13 +96,13 @@ fun Followers.listIdsByUserId(
  * @see listIdsByUserId
  * @see listIds
  */
-fun Followers.listIdsByScreenName(
+public fun Followers.listIdsByScreenName(
     screenName: String,
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-) = listIdsInternal(null, screenName, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(null, screenName, cursor, stringifyIds, count, *options)
 
 private fun Followers.listIdsInternal(
     userId: Long? = null,
@@ -126,5 +126,5 @@ private fun Followers.listIdsInternal(
  * Shorthand property to [Followers.listIds].
  * @see Followers.listIds
  */
-val Followers.listIds
+public val Followers.listIds: CursorJsonObjectApiAction<CursorIds>
     get() = listIdsInternal()

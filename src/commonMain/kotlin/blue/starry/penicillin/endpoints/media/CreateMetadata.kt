@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.media
 
@@ -50,11 +50,11 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [Media] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Media.createMetadata(
+public fun Media.createMetadata(
     mediaId: Long,
     payload: JsonObject,
     vararg options: Option
-) = client.session.post("/1.1/media/metadata/create.json", EndpointHost.MediaUpload) {
+): EmptyApiAction = client.session.post("/1.1/media/metadata/create.json", EndpointHost.MediaUpload) {
     parameters(*options)
     jsonBody((payload + jsonObjectOf("media_id" to mediaId.toString())).toJsonObject())
 }.empty()

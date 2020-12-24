@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.blocks
 
@@ -47,12 +47,12 @@ import blue.starry.penicillin.models.cursor.CursorUsers
  * @receiver [Blocks] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Blocks.listUsers(
+public fun Blocks.listUsers(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     cursor: Long? = null,
     vararg options: Option
-) = client.session.get("/1.1/blocks/list.json") {
+): CursorJsonObjectApiAction<CursorUsers> = client.session.get("/1.1/blocks/list.json") {
     parameters(
         "include_entities" to includeEntities,
         "skip_status" to skipStatus,
@@ -65,5 +65,5 @@ fun Blocks.listUsers(
  * Shorthand extension property to [Blocks.listUsers].
  * @see Blocks.listUsers
  */
-val Blocks.listUsers
+public val Blocks.listUsers: CursorJsonObjectApiAction<CursorUsers>
     get() = listUsers()

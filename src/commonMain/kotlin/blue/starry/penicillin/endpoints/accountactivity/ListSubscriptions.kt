@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.accountactivity
 
@@ -43,9 +43,9 @@ import blue.starry.penicillin.models.Subscription
  * @receiver [AccountActivity] endpoint instance.
  * @return [JsonObjectApiAction] for [Subscription.List] model.
  */
-fun AccountActivity.listSubscriptions(
+public fun AccountActivity.listSubscriptions(
     envName: String,
     vararg options: Option
-) = client.session.get("/1.1/account_activity/all/$envName/subscriptions/list.json") {
+): JsonObjectApiAction<Subscription.List> = client.session.get("/1.1/account_activity/all/$envName/subscriptions/list.json") {
     parameters(*options)
 }.jsonObject { Subscription.List(it, client) }

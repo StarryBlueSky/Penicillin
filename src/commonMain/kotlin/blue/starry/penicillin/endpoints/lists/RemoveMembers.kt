@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMembersByUserIds(
+public fun Lists.removeMembersByUserIds(
     listId: Long,
     userIds: List<Long>,
     vararg options: Option
-) = removeMembers(listId, null, null, null, userIds, null, *options)
+): EmptyApiAction = removeMembers(listId, null, null, null, userIds, null, *options)
 
 /**
  * Removes multiple members from a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to remove members from it. Note that lists can't have more than 500 members, and you are limited to removing up to 100 members to a list at a time with this method.
@@ -62,11 +62,11 @@ fun Lists.removeMembersByUserIds(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMembersByScreenNames(
+public fun Lists.removeMembersByScreenNames(
     listId: Long,
     screenNames: List<String>,
     vararg options: Option
-) = removeMembers(listId, null, null, null, null, screenNames, *options)
+): EmptyApiAction = removeMembers(listId, null, null, null, null, screenNames, *options)
 
 /**
  * Removes multiple members from a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to remove members from it. Note that lists can't have more than 500 members, and you are limited to removing up to 100 members to a list at a time with this method.
@@ -81,12 +81,12 @@ fun Lists.removeMembersByScreenNames(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMembersByUserIds(
+public fun Lists.removeMembersByUserIds(
     slug: String,
     ownerScreenName: String,
     userIds: List<Long>,
     vararg options: Option
-) = removeMembers(null, slug, ownerScreenName, null, userIds, null, *options)
+): EmptyApiAction = removeMembers(null, slug, ownerScreenName, null, userIds, null, *options)
 
 /**
  * Removes multiple members from a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to remove members from it. Note that lists can't have more than 500 members, and you are limited to removing up to 100 members to a list at a time with this method.
@@ -101,12 +101,12 @@ fun Lists.removeMembersByUserIds(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMembersByScreenNames(
+public fun Lists.removeMembersByScreenNames(
     slug: String,
     ownerScreenName: String,
     screenNames: List<String>,
     vararg options: Option
-) = removeMembers(null, slug, ownerScreenName, null, null, screenNames, *options)
+): EmptyApiAction = removeMembers(null, slug, ownerScreenName, null, null, screenNames, *options)
 
 /**
  * Removes multiple members from a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to remove members from it. Note that lists can't have more than 500 members, and you are limited to removing up to 100 members to a list at a time with this method.
@@ -121,12 +121,12 @@ fun Lists.removeMembersByScreenNames(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMembersByUserIds(
+public fun Lists.removeMembersByUserIds(
     slug: String,
     ownerId: Long,
     userIds: List<Long>,
     vararg options: Option
-) = removeMembers(null, slug, null, ownerId, userIds, null, *options)
+): EmptyApiAction = removeMembers(null, slug, null, ownerId, userIds, null, *options)
 
 /**
  * Removes multiple members from a list, by specifying a comma-separated list of member ids or screen names. The authenticated user must own the list to be able to remove members from it. Note that lists can't have more than 500 members, and you are limited to removing up to 100 members to a list at a time with this method.
@@ -141,12 +141,12 @@ fun Lists.removeMembersByUserIds(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.removeMembersByScreenNames(
+public fun Lists.removeMembersByScreenNames(
     slug: String,
     ownerId: Long,
     screenNames: List<String>,
     vararg options: Option
-) = removeMembers(null, slug, null, ownerId, null, screenNames, *options)
+): EmptyApiAction = removeMembers(null, slug, null, ownerId, null, screenNames, *options)
 
 private fun Lists.removeMembers(
     listId: Long? = null,

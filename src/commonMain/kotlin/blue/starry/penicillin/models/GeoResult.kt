@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -33,14 +33,14 @@ import blue.starry.jsonkt.delegation.model
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
-data class GeoResult(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val query by model { Query(it, client) }
+public data class GeoResult(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val query: Query by model { Query(it, client) }
     private val result by jsonObject
-    val places by result.byModelList { Place(it, client) }
+    public val places: List<Place> by result.byModelList { Place(it, client) }
 
-    data class Query(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val params by jsonObject
-        val type by string
-        val url by string
+    public data class Query(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val params: kotlinx.serialization.json.JsonObject by jsonObject
+        public val type: String by string
+        public val url: String by string
     }
 }

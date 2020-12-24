@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.statuses
 
@@ -47,13 +47,13 @@ import blue.starry.penicillin.models.cursor.CursorIds
  * @receiver [Statuses] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorIds] model.
  */
-fun Statuses.retweeterIds(
+public fun Statuses.retweeterIds(
     id: Long,
     count: Int? = null,
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/statuses/retweeters/ids.json") {
+): CursorJsonObjectApiAction<CursorIds> = client.session.get("/1.1/statuses/retweeters/ids.json") {
     parameters(
         "id" to id,
         "count" to count,

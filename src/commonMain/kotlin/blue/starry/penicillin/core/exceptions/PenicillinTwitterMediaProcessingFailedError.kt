@@ -36,11 +36,11 @@ private val apiErrorString = LocalizedString(
 /**
  * The [PenicillinException] class which is thrown when Twitter API error occurs.
  */
-class PenicillinTwitterMediaProcessingFailedError(
+public class PenicillinTwitterMediaProcessingFailedError(
     /**
      * Returned [Media.ProcessingInfo.Error].
      */
-    val error: Media.ProcessingInfo.Error,
+    public val error: Media.ProcessingInfo.Error,
 
     /**
      * Executed [HttpRequest].

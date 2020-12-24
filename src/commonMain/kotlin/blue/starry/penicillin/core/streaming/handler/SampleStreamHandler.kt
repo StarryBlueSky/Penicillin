@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
  * Default SampleStream [StreamHandler].
  * Accepts listener of [SampleStreamListener].
  */
-class SampleStreamHandler(override val client: ApiClient, override val listener: SampleStreamListener): StreamHandler<SampleStreamListener> {
+public class SampleStreamHandler(override val client: ApiClient, override val listener: SampleStreamListener): StreamHandler<SampleStreamListener> {
     override fun handle(json: JsonObject) {
         launch {
             when {

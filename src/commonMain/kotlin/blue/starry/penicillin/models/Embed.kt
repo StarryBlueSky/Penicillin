@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,16 +31,16 @@ import blue.starry.jsonkt.delegation.nullableInt
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
-data class Embed(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val authorName by string("author_name")
-    val authorUrl by string("author_url")
-    val cacheAge by string("cache_age")
-    val height by nullableInt
-    val html by string
-    val providerName by string("provider_name")
-    val providerUrl by string("provider_url")
-    val type by string
-    val url by string
-    val version by string
-    val width by nullableInt
+public data class Embed(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val authorName: String by string("author_name")
+    public val authorUrl: String by string("author_url")
+    public val cacheAge: String by string("cache_age")
+    public val height: Int? by nullableInt
+    public val html: String by string
+    public val providerName: String by string("provider_name")
+    public val providerUrl: String by string("provider_url")
+    public val type: String by string
+    public val url: String by string
+    public val version: String by string
+    public val width: Int? by nullableInt
 }

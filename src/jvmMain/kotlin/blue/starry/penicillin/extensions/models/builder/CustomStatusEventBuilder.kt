@@ -39,7 +39,7 @@ import kotlin.collections.set
 /**
  * Custom payload builder for [Stream.StatusEvent].
  */
-class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.StatusEvent>, JsonMap by jsonMapOf(
+public class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.StatusEvent>, JsonMap by jsonMapOf(
     "event" to type.key,
     "source" to null,
     "target" to null,
@@ -50,7 +50,7 @@ class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.Status
     /**
      * Sets source.
      */
-    fun source(builder: CustomUserBuilder.() -> Unit) {
+    public fun source(builder: CustomUserBuilder.() -> Unit) {
         source.apply(builder)
     }
 
@@ -58,7 +58,7 @@ class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.Status
     /**
      * Sets target.
      */
-    fun target(builder: CustomUserBuilder.() -> Unit) {
+    public fun target(builder: CustomUserBuilder.() -> Unit) {
         target.apply(builder)
     }
 
@@ -66,14 +66,14 @@ class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.Status
     /**
      * Sets target_object.
      */
-    fun targetObject(builder: CustomStatusBuilder.() -> Unit) {
+    public fun targetObject(builder: CustomStatusBuilder.() -> Unit) {
         targetObject.apply(builder)
     }
 
     /**
      * "created_at".
      */
-    var createdAt: TemporalAccessor? = null
+    public var createdAt: TemporalAccessor? = null
 
     @OptIn(PenicillinExperimentalApi::class)
     override fun build(): Stream.StatusEvent {

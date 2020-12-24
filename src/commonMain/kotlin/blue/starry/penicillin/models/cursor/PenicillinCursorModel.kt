@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models.cursor
 
@@ -33,10 +33,10 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.models.PenicillinModel
 
-abstract class PenicillinCursorModel(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
-    val nextCursor by long("next_cursor")
-    val nextCursorStr by string("next_cursor_str")
-    val previousCursor by long("previous_cursor")
-    val previousCursorStr by string("previous_cursor_str")
-    val totalCount by nullableInt("total_count")
+public abstract class PenicillinCursorModel(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
+    public val nextCursor: Long by long("next_cursor")
+    public val nextCursorStr: String by string("next_cursor_str")
+    public val previousCursor: Long by long("previous_cursor")
+    public val previousCursorStr: String by string("previous_cursor_str")
+    public val totalCount: Int? by nullableInt("total_count")
 }

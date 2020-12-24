@@ -36,7 +36,7 @@ import blue.starry.penicillin.core.request.action.ApiAction
  *
  * @return Modified [ApiAction] for [R].
  */
-fun <R: Any> ApiAction<R>.edit(block: ApiRequestBuilder.() -> Unit): ApiAction<R> {
+public fun <R: Any> ApiAction<R>.edit(block: ApiRequestBuilder.() -> Unit): ApiAction<R> {
     return apply {
         request.builder.apply(block)
     }

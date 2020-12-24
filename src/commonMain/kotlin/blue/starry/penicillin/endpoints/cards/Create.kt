@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.cards
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.Card
  * @receiver [Cards] endpoint instance.
  * @return [JsonObjectApiAction] for [Card] model.
  */
-fun Cards.create(
+public fun Cards.create(
     cardData: String,
     vararg options: Option
-) = client.session.post("/v2/cards/create.json", EndpointHost.Card) {
+): JsonObjectApiAction<Card> = client.session.post("/v2/cards/create.json", EndpointHost.Card) {
     emulationModes += EmulationMode.TwitterForiPhone
 
     formBody(

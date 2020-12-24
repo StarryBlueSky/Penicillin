@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -46,13 +46,13 @@ import blue.starry.penicillin.models.User
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Lists.member(
+public fun Lists.member(
     listId: Long,
     userId: Long,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = member(listId, null, null, null, userId, null, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = member(listId, null, null, null, userId, null, includeEntities, skipStatus, *options)
 
 /**
  * Check if the specified user is a member of the specified list.
@@ -67,13 +67,13 @@ fun Lists.member(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Lists.member(
+public fun Lists.member(
     listId: Long,
     screenName: String,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = member(listId, null, null, null, null, screenName, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = member(listId, null, null, null, null, screenName, includeEntities, skipStatus, *options)
 
 /**
  * Check if the specified user is a member of the specified list.
@@ -89,14 +89,14 @@ fun Lists.member(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Lists.member(
+public fun Lists.member(
     slug: String,
     ownerScreenName: String,
     userId: Long,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = member(null, slug, ownerScreenName, null, userId, null, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = member(null, slug, ownerScreenName, null, userId, null, includeEntities, skipStatus, *options)
 
 /**
  * Check if the specified user is a member of the specified list.
@@ -112,14 +112,14 @@ fun Lists.member(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Lists.member(
+public fun Lists.member(
     slug: String,
     ownerScreenName: String,
     screenName: String,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = member(null, slug, ownerScreenName, null, null, screenName, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = member(null, slug, ownerScreenName, null, null, screenName, includeEntities, skipStatus, *options)
 
 /**
  * Check if the specified user is a member of the specified list.
@@ -135,14 +135,14 @@ fun Lists.member(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Lists.member(
+public fun Lists.member(
     slug: String,
     ownerId: Long,
     userId: Long,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = member(null, slug, null, ownerId, userId, null, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = member(null, slug, null, ownerId, userId, null, includeEntities, skipStatus, *options)
 
 /**
  * Check if the specified user is a member of the specified list.
@@ -158,14 +158,14 @@ fun Lists.member(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Lists.member(
+public fun Lists.member(
     slug: String,
     ownerId: Long,
     screenName: String,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = member(null, slug, null, ownerId, null, screenName, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = member(null, slug, null, ownerId, null, screenName, includeEntities, skipStatus, *options)
 
 internal fun Lists.member(
     listId: Long? = null,

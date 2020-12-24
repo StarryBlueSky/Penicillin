@@ -39,13 +39,13 @@ import kotlinx.serialization.json.buildJsonObject
 /**
  * Url string.
  */
-val ApiRequestBuilder.url: String
+public val ApiRequestBuilder.url: String
     get() = URLBuilder(protocol = host.protocol, host = host.domain, port = host.port, encodedPath = path, parameters = parameters.copy()).buildString()
 
 /**
  * Creates "application/x-www-form-urlencoded" content.
  */
-fun ApiRequestBuilder.formBody(vararg pairs: Pair<String, Any?>, mode: EmulationMode? = null) {
+public fun ApiRequestBuilder.formBody(vararg pairs: Pair<String, Any?>, mode: EmulationMode? = null) {
     if (mode != null && mode != session.option.emulationMode) {
         return
     }
@@ -62,7 +62,7 @@ fun ApiRequestBuilder.formBody(vararg pairs: Pair<String, Any?>, mode: Emulation
 /**
  * Creates "multipart/form-data" content.
  */
-fun ApiRequestBuilder.multiPartBody(mode: EmulationMode? = null, block: FormBuilder.() -> Unit) {
+public fun ApiRequestBuilder.multiPartBody(mode: EmulationMode? = null, block: FormBuilder.() -> Unit) {
     if (mode != null && mode != session.option.emulationMode) {
         return
     }
@@ -77,7 +77,7 @@ fun ApiRequestBuilder.multiPartBody(mode: EmulationMode? = null, block: FormBuil
 /**
  * Appends pairs.
  */
-fun FormBuilder.append(vararg pairs: Pair<String, Any?>) {
+public fun FormBuilder.append(vararg pairs: Pair<String, Any?>) {
     for ((key, value) in pairs) {
         append(key, value?.toString() ?: continue)
     }
@@ -86,7 +86,7 @@ fun FormBuilder.append(vararg pairs: Pair<String, Any?>) {
 /**
  * Creates "application/json" content.
  */
-fun ApiRequestBuilder.jsonBody(vararg pairs: Pair<String, Any?>, mode: EmulationMode? = null) {
+public fun ApiRequestBuilder.jsonBody(vararg pairs: Pair<String, Any?>, mode: EmulationMode? = null) {
     if (mode != null && mode != session.option.emulationMode) {
         return
     }
@@ -107,7 +107,7 @@ fun ApiRequestBuilder.jsonBody(vararg pairs: Pair<String, Any?>, mode: Emulation
 /**
  * Creates "application/json" content.
  */
-fun ApiRequestBuilder.jsonBody(json: JsonObject, mode: EmulationMode? = null) {
+public fun ApiRequestBuilder.jsonBody(json: JsonObject, mode: EmulationMode? = null) {
     if (mode != null && mode != session.option.emulationMode) {
         return
     }
@@ -120,7 +120,7 @@ fun ApiRequestBuilder.jsonBody(json: JsonObject, mode: EmulationMode? = null) {
 /**
  * Sets a parameter key with value, or update existing one with value.
  */
-fun ApiRequestBuilder.parameter(key: String, value: Any?, mode: EmulationMode? = null) {
+public fun ApiRequestBuilder.parameter(key: String, value: Any?, mode: EmulationMode? = null) {
     if (mode != null && session.option.emulationMode != mode) {
         return
     }
@@ -141,7 +141,7 @@ fun ApiRequestBuilder.parameter(key: String, value: Any?, mode: EmulationMode? =
 /**
  * Sets parameter keys with value, or update existing one with value.
  */
-fun ApiRequestBuilder.parameters(vararg pairs: Pair<String, Any?>, mode: EmulationMode? = null) {
+public fun ApiRequestBuilder.parameters(vararg pairs: Pair<String, Any?>, mode: EmulationMode? = null) {
     if (mode != null && session.option.emulationMode != mode) {
         return
     }
@@ -154,7 +154,7 @@ fun ApiRequestBuilder.parameters(vararg pairs: Pair<String, Any?>, mode: Emulati
 /**
  * Sets a header key with value, or update existing one with value.
  */
-fun ApiRequestBuilder.header(key: String, value: Any?, mode: EmulationMode? = null) {
+public fun ApiRequestBuilder.header(key: String, value: Any?, mode: EmulationMode? = null) {
     if (mode != null && session.option.emulationMode != mode) {
         return
     }
@@ -165,7 +165,7 @@ fun ApiRequestBuilder.header(key: String, value: Any?, mode: EmulationMode? = nu
 /**
  * Sets header keys with value, or update existing one with value.
  */
-fun ApiRequestBuilder.headers(vararg pairs: Pair<String, Any?>, mode: EmulationMode? = null) {
+public fun ApiRequestBuilder.headers(vararg pairs: Pair<String, Any?>, mode: EmulationMode? = null) {
     if (mode != null && session.option.emulationMode != mode) {
         return
     }
@@ -178,7 +178,7 @@ fun ApiRequestBuilder.headers(vararg pairs: Pair<String, Any?>, mode: EmulationM
 /**
  * Adds existing [Headers] instance to headers.
  */
-fun ApiRequestBuilder.header(headers: Headers, mode: EmulationMode? = null) {
+public fun ApiRequestBuilder.header(headers: Headers, mode: EmulationMode? = null) {
     if (mode != null && session.option.emulationMode != mode) {
         return
     }

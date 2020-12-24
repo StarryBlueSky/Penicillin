@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.directmessages
 
+import blue.starry.penicillin.core.request.action.JsonArrayApiAction
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
@@ -42,14 +43,14 @@ import blue.starry.penicillin.models.DirectMessage
  * @return [JsonObjectApiAction] for [DirectMessage] model.
  */
 @Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("directMessageEvent.list", "blue.starry.penicillin.endpoints.directMessageEvent", "blue.starry.penicillin.endpoints.directmessages.events.list"))
-fun DirectMessages.sentMessages(
+public fun DirectMessages.sentMessages(
     sinceId: Long? = null,
     maxId: Long? = null,
     count: Int? = null,
     page: Int? = null,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/direct_messages/sent.json") {
+): JsonArrayApiAction<DirectMessage> = client.session.get("/1.1/direct_messages/sent.json") {
     parameters(
         "since_id" to sinceId,
         "max_id" to maxId,

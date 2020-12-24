@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -30,21 +30,21 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
-data class CoverMedia(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonCoverMedia(parentJson, parentClient)
+public data class CoverMedia(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonCoverMedia(parentJson, parentClient)
 
-abstract class CommonCoverMedia(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
-    val tweetId by string("tweet_id")
-    val type by string
+public abstract class CommonCoverMedia(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
+    public val tweetId: String by string("tweet_id")
+    public val type: String by string
     private val media by jsonObject
-    val mediaId by media.byString("media_id")
-    val mediaUrl by media.byString("url")
+    public val mediaId: String by media.byString("media_id")
+    public val mediaUrl: String by media.byString("url")
     private val size by media.byJsonObject
-    val mediaWidth by size.byInt("w")
-    val mediaHeight by size.byInt("h")
+    public val mediaWidth: Int by size.byInt("w")
+    public val mediaHeight: Int by size.byInt("h")
     private val render by jsonObject
     private val crops by render.byJsonObject
-    val renderCropSquare by crops.byModel("square") { FaceCoordinate(it, client) }
-    val renderCropPortrait9to16 by crops.byModel("portrait_9_16") { FaceCoordinate(it, client) }
-    val renderCropPortrait3to4 by crops.byModel("portrait_3_4") { FaceCoordinate(it, client) }
-    val renderCropPortrait16to9 by crops.byModel("portrait_16_9") { FaceCoordinate(it, client) }
+    public val renderCropSquare: FaceCoordinate by crops.byModel("square") { FaceCoordinate(it, client) }
+    public val renderCropPortrait9to16: FaceCoordinate by crops.byModel("portrait_9_16") { FaceCoordinate(it, client) }
+    public val renderCropPortrait3to4: FaceCoordinate by crops.byModel("portrait_3_4") { FaceCoordinate(it, client) }
+    public val renderCropPortrait16to9: FaceCoordinate by crops.byModel("portrait_16_9") { FaceCoordinate(it, client) }
 }

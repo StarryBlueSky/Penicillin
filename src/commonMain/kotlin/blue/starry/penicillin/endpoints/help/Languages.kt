@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.help
 
@@ -43,9 +43,9 @@ import blue.starry.penicillin.models.Help.Language
  * @receiver [Help] endpoint instance.
  * @return [JsonArrayApiAction] for [Language] model.
  */
-fun Help.languages(
+public fun Help.languages(
     vararg options: Option
-) = client.session.get("/1.1/help/languages.json") {
+): JsonArrayApiAction<Language> = client.session.get("/1.1/help/languages.json") {
     parameters(*options)
 }.jsonArray { Language(it, client) }
 
@@ -53,5 +53,5 @@ fun Help.languages(
  * Shorthand property to [Help.languages].
  * @see Help.languages
  */
-val Help.languages
+public val Help.languages: JsonArrayApiAction<Language>
     get() = languages()

@@ -22,67 +22,67 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.core.request
 
-import io.ktor.http.URLProtocol
+import io.ktor.http.*
 
 /**
  * Represents endpoint host.
  */
-data class EndpointHost(
+public data class EndpointHost(
     /**
      * The domain.
      */
-    val domain: String,
+    public val domain: String,
 
     /**
      * The domain used in signing.
      */
-    val domainForSigning: String? = null,
+    public val domainForSigning: String? = null,
 
     /**
      * The url protocol.
      */
-    val protocol: URLProtocol = URLProtocol.HTTPS,
+    public val protocol: URLProtocol = URLProtocol.HTTPS,
 
     /**
      * The port.
      */
-    val port: Int = protocol.defaultPort
+    public val port: Int = protocol.defaultPort
 ) {
-    companion object {
+    public companion object {
         /**
          * Default endpoint host.
          */
-        val Default = EndpointHost("api.twitter.com")
+        public val Default: EndpointHost = EndpointHost("api.twitter.com")
 
         /**
          * Card endpoint host.
          */
-        val Card = EndpointHost("caps.twitter.com")
+        public val Card: EndpointHost = EndpointHost("caps.twitter.com")
 
         /**
          * Media upload endpoint.
          */
-        val MediaUpload = EndpointHost("upload.twitter.com")
+        public val MediaUpload: EndpointHost = EndpointHost("upload.twitter.com")
 
         /**
          * Publish endpoint.
          */
-        val Publish = EndpointHost("publish.twitter.com")
+        public val Publish: EndpointHost = EndpointHost("publish.twitter.com")
 
         /* Stream Endpoints */
 
         /**
          * UserStream endpoint.
          */
-        val UserStream = EndpointHost("userstream.twitter.com")
+        public val UserStream: EndpointHost = EndpointHost("userstream.twitter.com")
 
         /**
          * Stream endpoint.
          */
-        val Stream = EndpointHost("stream.twitter.com")
+        public val Stream: EndpointHost = EndpointHost("stream.twitter.com")
     }
 }

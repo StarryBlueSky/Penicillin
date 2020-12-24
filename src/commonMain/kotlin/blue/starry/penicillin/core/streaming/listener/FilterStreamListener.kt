@@ -31,19 +31,19 @@ import blue.starry.penicillin.models.Stream
 /**
  * An event model interface for [FilterStreamHandler].
  */
-interface FilterStreamListener: StreamListener {
+public interface FilterStreamListener: StreamListener {
     /**
      * Called when a status is received.
      */
-    suspend fun onStatus(status: Status) {}
+    public suspend fun onStatus(status: Status) {}
 
     /**
      * Called when a delete event is received.
      */
-    suspend fun onDelete(delete: Stream.Delete) {}
+    public suspend fun onDelete(delete: Stream.Delete) {}
 
     /**
      * Called when a warning event is received.
      */
-    suspend fun onWarning(warning: Stream.Warning) {}
+    public suspend fun onWarning(warning: Stream.Warning) {}
 }

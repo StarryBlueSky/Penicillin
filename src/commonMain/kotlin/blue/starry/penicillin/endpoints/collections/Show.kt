@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.collections
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.Collection
  * @receiver [Collections] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.Model] model.
  */
-fun Collections.show(
+public fun Collections.show(
     id: String,
     vararg options: Option
-) = client.session.get("/1.1/collections/show.json") {
+): JsonObjectApiAction<Collection.Model> = client.session.get("/1.1/collections/show.json") {
     parameters(
         "id" to id,
         *options

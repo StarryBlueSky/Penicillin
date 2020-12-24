@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.savedsearches
 
@@ -44,9 +44,9 @@ import blue.starry.penicillin.models.SavedSearch
  * @receiver [SavedSearches] endpoint instance.
  * @return [JsonObjectApiAction] for [SavedSearch] model.
  */
-fun SavedSearches.show(
+public fun SavedSearches.show(
     id: Long,
     vararg options: Option
-) = client.session.get("/1.1/saved_searches/show/$id.json") {
+): JsonObjectApiAction<SavedSearch> = client.session.get("/1.1/saved_searches/show/$id.json") {
     parameters(*options)
 }.jsonObject { SavedSearch(it, client) }

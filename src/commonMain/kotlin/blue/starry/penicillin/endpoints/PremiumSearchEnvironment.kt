@@ -38,7 +38,7 @@ import blue.starry.penicillin.endpoints.search.SearchProduct
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-fun PremiumSearch.environment(
+public fun PremiumSearch.environment(
     product: SearchProduct,
     label: String
 ): PremiumSearchEnvironment = PremiumSearchEnvironment(client, product, label)
@@ -50,18 +50,18 @@ fun PremiumSearch.environment(
  * @param client Current [ApiClient] instance.
  * @see ApiClient.premiumSearch
  */
-data class PremiumSearchEnvironment(
+public data class PremiumSearchEnvironment(
     override val client: ApiClient,
     
     /**
      * Select either 30days or fullarchive.
      */
-    val product: SearchProduct,
+    public val product: SearchProduct,
 
     /**
      * The label associated with your search developer environment.
      */
-    val label: String
+    public val label: String
 ): Endpoint {
     internal val endpoint = "/1.1/tweets/search/${product.value}/$label"
 }

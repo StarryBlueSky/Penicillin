@@ -32,5 +32,5 @@ import blue.starry.penicillin.core.response.ApiResponse
  * "x-response-time" value from response header.
  * if the header is absent or invalid, returns null.
  */
-val ApiResponse<*>.responseTimeMs: Int?
+public val ApiResponse<*>.responseTimeMs: Int?
     get() = response.headers["x-response-time"]?.toIntOrNull()

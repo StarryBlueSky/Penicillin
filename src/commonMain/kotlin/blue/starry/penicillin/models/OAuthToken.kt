@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,7 +31,7 @@ import blue.starry.jsonkt.delegation.nullableString
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
-data class OAuthToken(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val tokenType by nullableString("token_type")
-    val token by string("access_token")
+public data class OAuthToken(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val tokenType: String? by nullableString("token_type")
+    public val token: String by string("access_token")
 }

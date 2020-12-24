@@ -34,13 +34,13 @@ import blue.starry.penicillin.models.cursor.PenicillinCursorModel
 /**
  * The [ApiResponse] that provides parsed json object with json model. This class supports cursor api operation.
  */
-data class CursorJsonObjectResponse<M: PenicillinCursorModel>(
+public data class CursorJsonObjectResponse<M: PenicillinCursorModel>(
     override val client: ApiClient,
 
     /**
      * Result of response.
      */
-    val result: M,
+    public val result: M,
 
     override val request: HttpRequest,
     override val response: HttpResponse,

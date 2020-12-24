@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.welcomeMessages: WelcomeMessages
+public val ApiClient.welcomeMessages: WelcomeMessages
     get() = WelcomeMessages(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.welcomeMessages: WelcomeMessages
  * @param client Current [ApiClient] instance.
  * @see ApiClient.welcomeMessages
  */
-class WelcomeMessages(override val client: ApiClient): Endpoint
+public class WelcomeMessages(override val client: ApiClient): Endpoint

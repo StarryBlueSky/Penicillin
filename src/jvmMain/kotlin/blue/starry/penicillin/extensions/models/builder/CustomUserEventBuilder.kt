@@ -37,7 +37,7 @@ import kotlin.collections.set
 /**
  * Custom payload builder for [Stream.UserEvent].
  */
-class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEvent>, JsonMap by jsonMapOf(
+public class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEvent>, JsonMap by jsonMapOf(
     "event" to type.key,
     "source" to null,
     "target" to null,
@@ -47,7 +47,7 @@ class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEven
     /**
      * Sets source.
      */
-    fun source(builder: CustomUserBuilder.() -> Unit) {
+    public fun source(builder: CustomUserBuilder.() -> Unit) {
         source.apply(builder)
     }
 
@@ -55,14 +55,14 @@ class CustomUserEventBuilder(type: UserStreamEvent): JsonBuilder<Stream.UserEven
     /**
      * Sets target.
      */
-    fun target(builder: CustomUserBuilder.() -> Unit) {
+    public fun target(builder: CustomUserBuilder.() -> Unit) {
         target.apply(builder)
     }
 
     /**
      * "created_at".
      */
-    var createdAt: TemporalAccessor? = null
+    public var createdAt: TemporalAccessor? = null
 
     override fun build(): Stream.UserEvent {
         val source = source.build()

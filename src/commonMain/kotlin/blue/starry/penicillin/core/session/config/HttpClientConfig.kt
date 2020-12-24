@@ -26,19 +26,17 @@
 
 package blue.starry.penicillin.core.session.config
 
-import io.ktor.client.HttpClient
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.HttpClientEngineConfig
-import io.ktor.client.engine.HttpClientEngineFactory
 import blue.starry.penicillin.core.session.ApiClientDsl
 import blue.starry.penicillin.core.session.SessionBuilder
+import io.ktor.client.*
+import io.ktor.client.engine.*
 
 /**
  * Creates [HttpClient] with engine factory and config block.
  */
 @ApiClientDsl
 @Suppress("UNCHECKED_CAST")
-fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
+public fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpClientEngineFactory<T>, block: HttpClientConfig<T>.() -> Unit = {}) {
     getOrPutBuilder { 
         KtorHttpClientConfig.Builder()
     }.apply {
@@ -51,7 +49,7 @@ fun <T: HttpClientEngineConfig> SessionBuilder.httpClient(engineFactory: HttpCli
  * Creates [HttpClient] with default engine factory and engine config block
  */
 @ApiClientDsl
-fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
+public fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
     getOrPutBuilder {
         KtorHttpClientConfig.Builder()
     }.apply {
@@ -63,7 +61,7 @@ fun SessionBuilder.httpClient(block: HttpClientConfig<*>.() -> Unit = {}) {
  * Creates [HttpClient] with existing client.
  */
 @ApiClientDsl
-fun SessionBuilder.httpClient(client: HttpClient) {
+public fun SessionBuilder.httpClient(client: HttpClient) {
     getOrPutBuilder {
         KtorHttpClientConfig.Builder()
     }.apply {

@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.savedsearches
 
 
+import blue.starry.penicillin.core.request.action.JsonArrayApiAction
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
@@ -43,7 +44,7 @@ import blue.starry.penicillin.models.SavedSearch
  * @receiver [SavedSearches] endpoint instance.
  * @return [JsonObjectApiAction] for [SavedSearch] model.
  */
-fun SavedSearches.list(vararg options: Option) = client.session.get("/1.1/saved_searches/list.json") {
+public fun SavedSearches.list(vararg options: Option): JsonArrayApiAction<SavedSearch> = client.session.get("/1.1/saved_searches/list.json") {
     parameters(*options)
 }.jsonArray { SavedSearch(it, client) }
 
@@ -51,5 +52,5 @@ fun SavedSearches.list(vararg options: Option) = client.session.get("/1.1/saved_
  * Shorthand property to [SavedSearches.list].
  * @see SavedSearches.list
  */
-val SavedSearches.list
+public val SavedSearches.list: JsonArrayApiAction<SavedSearch>
     get() = list()

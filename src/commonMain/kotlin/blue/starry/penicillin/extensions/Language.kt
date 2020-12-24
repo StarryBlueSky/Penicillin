@@ -33,28 +33,28 @@ import blue.starry.penicillin.models.Status
 /**
  * Parsed "language" object.
  */
-val Account.Settings.language: Language
+public val Account.Settings.language: Language
     get() = Language(languageRaw)
 
 /**
  * Parsed "lang" object.
  */
-val Status.lang: Language
+public val Status.lang: Language
     get() = Language(langRaw)
 
 /**
  * Parsed "lang" object.
  */
 @Deprecated("User.lang may be deleted from response.")
-val CommonUser.lang: Language?
+public val CommonUser.lang: Language?
     get() = langRaw?.let { Language(it) }
 
 /**
  * Represents parsed "lang" object.
  */
-data class Language(
+public data class Language(
     /**
      * Original "lang" string value.
      */
-    val value: String
+    public val value: String
 )

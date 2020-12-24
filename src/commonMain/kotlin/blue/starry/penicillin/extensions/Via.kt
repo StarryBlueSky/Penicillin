@@ -34,7 +34,7 @@ private val attributePattern = "^(.+?)=\"(.+?)\"$".toRegex()
 /**
  * Parsed status source.
  */
-val Status.via: Via
+public val Status.via: Via
     get() {
         val matches = tagPattern.matchEntire(source)
 
@@ -55,19 +55,19 @@ val Status.via: Via
 /**
  * Represents <a> tag in "source".
  */
-data class Via(
+public data class Via(
     /**
      * Source application url.
      */
-    val url: String,
+    public val url: String,
 
     /**
      * Source application name.
      */
-    val name: String,
+    public val name: String,
 
     /**
      * Source <a> tag attributes.
      */
-    val attributes: Map<String, String>
+    public val attributes: Map<String, String>
 )

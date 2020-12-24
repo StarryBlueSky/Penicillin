@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.collections.entries
 
@@ -48,13 +48,13 @@ import blue.starry.penicillin.models.Collection
  * @receiver [CollectionEntries] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.Entry.Result] model.
  */
-fun CollectionEntries.entries(
+public fun CollectionEntries.entries(
     id: String,
     count: Int? = null,
     maxPosition: Int? = null,
     minPosition: Int? = null,
     vararg options: Option
-) = client.session.get("/1.1/collections/entries.json") {
+): JsonObjectApiAction<Collection.Entry.Result> = client.session.get("/1.1/collections/entries.json") {
     parameters(
         "id" to id,
         "count" to count,

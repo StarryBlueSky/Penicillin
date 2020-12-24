@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.stream
 
@@ -52,7 +52,7 @@ import blue.starry.penicillin.endpoints.Stream
  * @receiver [Stream] endpoint instance.
  * @return [StreamApiAction] for [FilterStreamHandler] handler with [FilterStreamListener] listener.
  */
-fun Stream.filter(
+public fun Stream.filter(
     follow: List<Long>? = null,
     track: List<String>? = null,
     locations: List<Pair<Double, Double>>? = null,
@@ -60,7 +60,7 @@ fun Stream.filter(
     stallWarnings: Boolean? = null,
     language: String? = null,
     vararg options: Option
-) = client.session.get("/1.1/statuses/filter.json", EndpointHost.Stream) {
+): StreamApiAction<FilterStreamListener, FilterStreamHandler> = client.session.get("/1.1/statuses/filter.json", EndpointHost.Stream) {
     parameters(
         "delimited" to delimited,
         "stall_warning" to stallWarnings,
@@ -70,4 +70,4 @@ fun Stream.filter(
         "language" to language,
         *options
     )
-}.stream<FilterStreamListener, FilterStreamHandler>()
+}.stream()

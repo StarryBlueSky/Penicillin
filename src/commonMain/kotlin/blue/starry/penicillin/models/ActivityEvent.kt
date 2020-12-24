@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -33,15 +33,15 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class ActivityEvent(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val action by string
-    val maxPosition by string("max_position")
-    val minPosition by string("min_position")
-    val createdAtRaw by string("created_at")
-    val targetObjects by modelList("target_objects") { Status(it, client) }
-    val targetObjectsSize by int("target_objects_size")
-    val targets by modelList { User(it, client) }
-    val targetsSize by int("targets_size")
-    val sources by modelList { User(it, client) }
-    val sourcesSize by int("sources_size")
+public data class ActivityEvent(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val action: String by string
+    public val maxPosition: String by string("max_position")
+    public val minPosition: String by string("min_position")
+    public val createdAtRaw: String by string("created_at")
+    public val targetObjects: List<Status> by modelList("target_objects") { Status(it, client) }
+    public val targetObjectsSize: Int by int("target_objects_size")
+    public val targets: List<User> by modelList { User(it, client) }
+    public val targetsSize: Int by int("targets_size")
+    public val sources: List<User> by modelList { User(it, client) }
+    public val sourcesSize: Int by int("sources_size")
 }

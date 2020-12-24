@@ -24,18 +24,18 @@
 
 package blue.starry.penicillin.core.exceptions
 
-import io.ktor.client.request.HttpRequest
-import io.ktor.client.statement.HttpResponse
 import blue.starry.penicillin.core.i18n.LocalizedString
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 
 /**
  * Base Penicillin exception class. All the exceptions are thrown from Penicillin inherits this class.
  */
-open class PenicillinException(
+public open class PenicillinException(
     /**
      * Original Localized string.
      */
-    val localizedString: LocalizedString,
+    public val localizedString: LocalizedString,
 
     /**
      * The cause [Throwable], or null.
@@ -45,19 +45,19 @@ open class PenicillinException(
     /**
      * Executed [HttpRequest], or null.
      */
-    open val request: HttpRequest?,
+    public open val request: HttpRequest?,
 
     /**
      * Executed [HttpResponse], or null.
      */
-    open val response: HttpResponse?,
+    public open val response: HttpResponse?,
 
     /**
      * Optional vararg arguments for [localizedString].
      */
     vararg args: Any?
 ): RuntimeException() {
-    constructor(localizedString: LocalizedString): this(localizedString, null, null, null)
+    public constructor(localizedString: LocalizedString): this(localizedString, null, null, null)
 
     override val message: String? = localizedString(*args)
 }

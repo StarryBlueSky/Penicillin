@@ -32,17 +32,17 @@ import blue.starry.penicillin.models.User
 /**
  * Compatibility extension to [Status.favoriteCount].
  */
-val Status.likeCount: Int
+public val Status.likeCount: Int
     get() = favoriteCount
 
 /**
  * Compatibility extension to [Status.favorited].
  */
-val Status.liked: Boolean
+public val Status.liked: Boolean
     get() = favorited
 
 /**
  * Compatibility extension to [User.favouritesCount].
  */
-val User.likesCount: Int
+public val User.likesCount: Int
     get() = favouritesCount

@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.blocks: Blocks
+public val ApiClient.blocks: Blocks
     get() = Blocks(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.blocks: Blocks
  * @param client Current [ApiClient] instance.
  * @see ApiClient.blocks
  */
-class Blocks(override val client: ApiClient): Endpoint
+public class Blocks(override val client: ApiClient): Endpoint

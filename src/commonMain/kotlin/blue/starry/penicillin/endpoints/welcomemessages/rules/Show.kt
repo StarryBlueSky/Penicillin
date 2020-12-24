@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.welcomemessages.rules
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.WelcomeMessageRule
  * @receiver [WelcomeMessageRules] endpoint instance.
  * @return [JsonObjectApiAction] for [WelcomeMessageRule.Single] model.
  */
-fun WelcomeMessageRules.show(
+public fun WelcomeMessageRules.show(
     id: Long,
     vararg options: Option
-) = client.session.get("/1.1/direct_messages/welcome_messages/rules/show.json") {
+): JsonObjectApiAction<WelcomeMessageRule.Single> = client.session.get("/1.1/direct_messages/welcome_messages/rules/show.json") {
     parameters(
         "id" to id,
         *options

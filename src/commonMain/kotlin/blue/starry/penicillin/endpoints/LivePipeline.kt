@@ -36,7 +36,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.livePipeline: LivePipeline
+public val ApiClient.livePipeline: LivePipeline
     get() = LivePipeline(this)
 
 /**
@@ -46,4 +46,4 @@ val ApiClient.livePipeline: LivePipeline
  * @param client Current [ApiClient] instance.
  * @see ApiClient.livePipeline
  */
-class LivePipeline(override val client: ApiClient): Endpoint
+public class LivePipeline(override val client: ApiClient): Endpoint

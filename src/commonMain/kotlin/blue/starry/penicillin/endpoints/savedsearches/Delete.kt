@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.savedsearches
 
@@ -44,9 +44,9 @@ import blue.starry.penicillin.models.SavedSearch
  * @receiver [SavedSearches] endpoint instance.
  * @return [JsonObjectApiAction] for [SavedSearch] model.
  */
-fun SavedSearches.delete(
+public fun SavedSearches.delete(
     id: Long,
     vararg options: Option
-) = client.session.post("/1.1/saved_searches/destroy/$id.json") {
+): JsonObjectApiAction<SavedSearch> = client.session.post("/1.1/saved_searches/destroy/$id.json") {
     formBody(*options)
 }.jsonObject { SavedSearch(it, client) }

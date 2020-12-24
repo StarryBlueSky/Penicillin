@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -30,25 +30,23 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
-
-
-data class MomentGuide(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+public data class MomentGuide(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
     private val category by jsonObject
-    val categoryId by category.byString("category_id")
-    val categoryName by category.byString("name")
-    val categoryUri by category.byString("uri")
-    val impressionId by long("impression_id")
-    val cursor by string("scroll_cursor")
-    val modules by modelList { Module(it, client) }
-    val trendModule by nullableModel { TrendModule(it, client) }
+    public val categoryId: String by category.byString("category_id")
+    public val categoryName: String by category.byString("name")
+    public val categoryUri: String by category.byString("uri")
+    public val impressionId: Long by long("impression_id")
+    public val cursor: String by string("scroll_cursor")
+    public val modules: List<Module> by modelList { Module(it, client) }
+    public val trendModule: TrendModule? by nullableModel { TrendModule(it, client) }
 
-    data class Module(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val moduleType by string("module_type")
-        val moments by modelList { Moment(it, client) }
+    public data class Module(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val moduleType: String by string("module_type")
+        public val moments: List<Moment> by modelList { Moment(it, client) }
     }
 
-    data class TrendModule(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val metadata by model { TrendMetadata(it, client) }
-        val trends by modelList { TrendType(it, client) }
+    public data class TrendModule(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val metadata: TrendMetadata by model { TrendMetadata(it, client) }
+        public val trends: List<TrendType> by modelList { TrendType(it, client) }
     }
 }

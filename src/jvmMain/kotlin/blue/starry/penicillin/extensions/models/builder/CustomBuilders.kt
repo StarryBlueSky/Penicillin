@@ -33,14 +33,14 @@ import blue.starry.penicillin.models.*
 /**
  * Creates new custom [Status] object.
  */
-inline fun newStatus(builder: CustomStatusBuilder.() -> Unit): Status {
+public inline fun newStatus(builder: CustomStatusBuilder.() -> Unit): Status {
     return CustomStatusBuilder().apply(builder).build()
 }
 
 /**
  * Creates new custom [Stream.StatusEvent] object.
  */
-inline fun newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuilder.() -> Unit): Stream.StatusEvent {
+public inline fun newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuilder.() -> Unit): Stream.StatusEvent {
     require(event.type == UserStreamEventType.Status)
     return CustomStatusEventBuilder(event).apply(builder).build()
 }
@@ -48,14 +48,14 @@ inline fun newStatusEvent(event: UserStreamEvent, builder: CustomStatusEventBuil
 /**
  * Creates new custom [TwitterList] object.
  */
-inline fun newList(builder: CustomListBuilder.() -> Unit): TwitterList {
+public inline fun newList(builder: CustomListBuilder.() -> Unit): TwitterList {
     return CustomListBuilder().apply(builder).build()
 }
 
 /**
  * Creates new custom [Stream.ListEvent] object.
  */
-inline fun newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.() -> Unit): Stream.ListEvent {
+public inline fun newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.() -> Unit): Stream.ListEvent {
     require(event.type == UserStreamEventType.List)
     return CustomListEventBuilder(event).apply(builder).build()
 }
@@ -63,14 +63,14 @@ inline fun newListEvent(event: UserStreamEvent, builder: CustomListEventBuilder.
 /**
  * Creates new custom [User] object.
  */
-inline fun newUser(builder: CustomUserBuilder.() -> Unit): User {
+public inline fun newUser(builder: CustomUserBuilder.() -> Unit): User {
     return CustomUserBuilder().apply(builder).build()
 }
 
 /**
  * Creates new custom [Stream.UserEvent] object.
  */
-inline fun newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.() -> Unit): Stream.UserEvent {
+public inline fun newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.() -> Unit): Stream.UserEvent {
     require(event.type == UserStreamEventType.User)
     return CustomUserEventBuilder(event).apply(builder).build()
 }
@@ -78,13 +78,13 @@ inline fun newUserEvent(event: UserStreamEvent, builder: CustomUserEventBuilder.
 /**
  * Creates new custom [DirectMessage] object.
  */
-inline fun newDirectMessage(builder: CustomDirectMessageBuilder.() -> Unit): DirectMessage {
+public inline fun newDirectMessage(builder: CustomDirectMessageBuilder.() -> Unit): DirectMessage {
     return CustomDirectMessageBuilder().apply(builder).build()
 }
 
 /**
  * Creates new custom [Stream.Delete] object.
  */
-inline fun newDelete(builder: CustomDeleteBuilder.() -> Unit): Stream.Delete {
+public inline fun newDelete(builder: CustomDeleteBuilder.() -> Unit): Stream.Delete {
     return CustomDeleteBuilder().apply(builder).build()
 }

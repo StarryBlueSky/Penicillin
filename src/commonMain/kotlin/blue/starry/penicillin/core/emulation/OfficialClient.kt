@@ -29,27 +29,27 @@ package blue.starry.penicillin.core.emulation
 /**
  * Represents Twitter official clients.
  */
-interface OfficialClient {
+public interface OfficialClient {
     /**
      * Application name.
      */
-    val appName: String
+    public val appName: String
 
     /**
      * Pre-defined official clients for OAuth 1.0a.
      */
-    enum class OAuth1a(
+    public enum class OAuth1a(
         override val appName: String,
 
         /**
          * Consumer key.
          */
-        val consumerKey: String,
+        public val consumerKey: String,
 
         /**
          * Consumer secret.
          */
-        val consumerSecret: String
+        public val consumerSecret: String
     ): OfficialClient {
         /**
          * Corresponding to "Twitter for iPhone".
@@ -70,13 +70,13 @@ interface OfficialClient {
     /**
      * Pre-defined official clients for OAuth 2.
      */
-    enum class OAuth2(
+    public enum class OAuth2(
         override val appName: String,
 
         /**
          * Bearer token.
          */
-        val bearerToken: String
+        public val bearerToken: String
     ): OfficialClient {
         /**
          * Corresponding to "Tweetdeck".

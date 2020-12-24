@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
@@ -47,11 +47,11 @@ import blue.starry.penicillin.models.User
  * @receiver [Users] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Users.showByScreenName(
+public fun Users.showByScreenName(
     screenName: String,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = show(screenName, null, includeEntities, *options)
+): JsonObjectApiAction<User> = show(screenName, null, includeEntities, *options)
 
 /**
  * Returns a [variety of information](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object) about the user specified by the required user_id or screen_name parameter. The author's most recent Tweet will be returned inline when possible.
@@ -66,11 +66,11 @@ fun Users.showByScreenName(
  * @receiver [Users] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Users.showByUserId(
+public fun Users.showByUserId(
     userId: Long,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = show(null, userId, includeEntities, *options)
+): JsonObjectApiAction<User> = show(null, userId, includeEntities, *options)
 
 private fun Users.show(
     screenName: String? = null,

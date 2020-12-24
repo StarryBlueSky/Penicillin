@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Order Tweets chronologically or in the order they are added to a Collection.
  */
-enum class CollectionTimelineOrder(override val value: String?): EnumRequestParameter {
+public enum class CollectionTimelineOrder(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

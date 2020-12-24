@@ -32,7 +32,7 @@ import blue.starry.penicillin.core.response.ApiResponse
  * Set of "x-access-level" header.
  * If this header is absent or unknown, returns empty set.
  */
-val ApiResponse<*>.accessLevels: Set<AccessLevel>
+public val ApiResponse<*>.accessLevels: Set<AccessLevel>
     get() = when (response.headers["x-access-level"]?.toLowerCase()) {
         "read" -> setOf(AccessLevel.Read)
         "read-write" -> setOf(AccessLevel.Read, AccessLevel.Write)
@@ -43,25 +43,25 @@ val ApiResponse<*>.accessLevels: Set<AccessLevel>
 /**
  * Checks if this application has "read" permission.
  */
-val ApiResponse<*>.hasReadPermission: Boolean
+public val ApiResponse<*>.hasReadPermission: Boolean
     get() = AccessLevel.Read in accessLevels
 
 /**
  * Checks if this application has "write" permission.
  */
-val ApiResponse<*>.hasWritePermission: Boolean
+public val ApiResponse<*>.hasWritePermission: Boolean
     get() = AccessLevel.Write in accessLevels
 
 /**
  * Checks if this application has "direct messages" permission.
  */
-val ApiResponse<*>.hasDirectMessagesPermission: Boolean
+public val ApiResponse<*>.hasDirectMessagesPermission: Boolean
     get() = AccessLevel.DirectMessages in accessLevels
 
 /**
  * Represents "x-access-level" header.
  */
-enum class AccessLevel(private val identifier: String) {
+public enum class AccessLevel(private val identifier: String) {
     /**
      * Indicates this application has "read" permission.
      */

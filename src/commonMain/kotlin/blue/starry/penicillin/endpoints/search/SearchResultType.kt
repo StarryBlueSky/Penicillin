@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Specifies what type of search results you would prefer to receive. The current default is "mixed." Valid values include.
  */
-enum class SearchResultType(override val value: String?): EnumRequestParameter {
+public enum class SearchResultType(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

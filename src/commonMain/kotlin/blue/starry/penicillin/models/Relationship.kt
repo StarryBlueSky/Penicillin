@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -32,37 +32,37 @@ import blue.starry.jsonkt.delegation.long
 import blue.starry.jsonkt.delegation.model
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
-data class Relationship(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val source by model { Source(it, client) }
-    val target by model { Target(it, client) }
+public data class Relationship(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val source: Source by model { Source(it, client) }
+    public val target: Target by model { Target(it, client) }
 
-    data class Source(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val allReplies by boolean("all_replies")
-        val blockedBy by boolean("blocked_by")
-        val blocking by boolean
-        val canDm by boolean("can_dm")
-        val canMediaTag by boolean("can_media_tag")
-        val followedBy by boolean("followed_by")
-        val following by boolean
-        val followingReceived by boolean("following_received")
-        val followingRequested by boolean("following_requested")
-        val id by long
-        val idStr by string("id_str")
-        val liveFollowing by boolean("live_following")
-        val markedSpam by boolean("marked_spam")
-        val muting by boolean
-        val notificationsEnabled by boolean("notifications_enabled")
-        val screenName by string("screen_name")
-        val wantRetweets by boolean("want_retweets")
+    public data class Source(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val allReplies: Boolean by boolean("all_replies")
+        public val blockedBy: Boolean by boolean("blocked_by")
+        public val blocking: Boolean by boolean
+        public val canDm: Boolean by boolean("can_dm")
+        public val canMediaTag: Boolean by boolean("can_media_tag")
+        public val followedBy: Boolean by boolean("followed_by")
+        public val following: Boolean by boolean
+        public val followingReceived: Boolean by boolean("following_received")
+        public val followingRequested: Boolean by boolean("following_requested")
+        public val id: Long by long
+        public val idStr: String by string("id_str")
+        public val liveFollowing: Boolean by boolean("live_following")
+        public val markedSpam: Boolean by boolean("marked_spam")
+        public val muting: Boolean by boolean
+        public val notificationsEnabled: Boolean by boolean("notifications_enabled")
+        public val screenName: String by string("screen_name")
+        public val wantRetweets: Boolean by boolean("want_retweets")
     }
 
-    data class Target(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val followedBy by boolean("followed_by")
-        val following by boolean
-        val followingReceived by boolean("following_received")
-        val followingRequested by boolean("following_requested")
-        val id by long
-        val idStr by string("id_str")
-        val screenName by string("screen_name")
+    public data class Target(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val followedBy: Boolean by boolean("followed_by")
+        public val following: Boolean by boolean
+        public val followingReceived: Boolean by boolean("following_received")
+        public val followingRequested: Boolean by boolean("following_requested")
+        public val id: Long by long
+        public val idStr: String by string("id_str")
+        public val screenName: String by string("screen_name")
     }
 }

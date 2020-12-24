@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -33,14 +33,14 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class PremiumSearchData(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
-    val results by modelList { Status(it, client) }
-    override val next by string
-    val requestParameters by modelList { Status(it, client) }
+public data class PremiumSearchData(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
+    public val results: List<Status> by modelList { Status(it, client) }
+    override val next: String by string
+    public val requestParameters: List<Status> by modelList { Status(it, client) }
 
-    data class RequestParameters(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val maxResults by int
-        val fromDateRaw by string
-        val toDateRaw by string
+    public data class RequestParameters(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val maxResults: Int by int
+        public val fromDateRaw: String by string
+        public val toDateRaw: String by string
     }
 }

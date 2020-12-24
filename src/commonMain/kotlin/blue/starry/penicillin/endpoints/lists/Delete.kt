@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.TwitterList
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.delete(
+public fun Lists.delete(
     listId: Long,
     vararg options: Option
-) = delete(listId, null, null, null, *options)
+): JsonObjectApiAction<TwitterList> = delete(listId, null, null, null, *options)
 
 /**
  * Deletes the specified list. The authenticated user must own the list to be able to destroy it.
@@ -59,11 +59,11 @@ fun Lists.delete(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.deleteByOwnerScreenName(
+public fun Lists.deleteByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     vararg options: Option
-) = delete(null, slug, ownerScreenName, null, *options)
+): JsonObjectApiAction<TwitterList> = delete(null, slug, ownerScreenName, null, *options)
 
 /**
  * Deletes the specified list. The authenticated user must own the list to be able to destroy it.
@@ -76,11 +76,11 @@ fun Lists.deleteByOwnerScreenName(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.deleteByOwnerId(
+public fun Lists.deleteByOwnerId(
     slug: String,
     ownerId: Long,
     vararg options: Option
-) = delete(null, slug, null, ownerId, *options)
+): JsonObjectApiAction<TwitterList> = delete(null, slug, null, ownerId, *options)
 
 private fun Lists.delete(
     listId: Long? = null,

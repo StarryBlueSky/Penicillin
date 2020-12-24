@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Setting this equal to hashtags will remove all hashtags from the trends list.
  */
-enum class TrendExclude(override val value: String?): EnumRequestParameter {
+public enum class TrendExclude(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

@@ -31,4 +31,4 @@ import io.ktor.utils.io.core.use
  * Closes the receiver after `block`.
  * Compatibility function.
  */
-inline fun <C: Closeable, R> C.use(block: (C) -> R): R = use(block)
+public inline fun <C: Closeable, R> C.use(block: (C) -> R): R = use(block)

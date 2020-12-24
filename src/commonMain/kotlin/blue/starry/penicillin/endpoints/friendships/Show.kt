@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.friendships
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.Friendships.Show
  * @receiver [Friendships] endpoint instance.
  * @return [JsonObjectApiAction] for [Show] model.
  */
-fun Friendships.showByUserId(
+public fun Friendships.showByUserId(
     sourceId: Long,
     targetId: Long,
     vararg options: Option
-) = show(sourceId, null, targetId, null, *options)
+): JsonObjectApiAction<Show> = show(sourceId, null, targetId, null, *options)
 
 /**
  * Returns detailed information about the relationship between two arbitrary users.
@@ -60,10 +60,10 @@ fun Friendships.showByUserId(
  * @receiver [Friendships] endpoint instance.
  * @return [JsonObjectApiAction] for [Show] model.
  */
-fun Friendships.showByUserId(
+public fun Friendships.showByUserId(
     targetId: Long,
     vararg options: Option
-) = show(null, null, targetId, null, *options)
+): JsonObjectApiAction<Show> = show(null, null, targetId, null, *options)
 
 /**
  * Returns detailed information about the relationship between two arbitrary users.
@@ -76,11 +76,11 @@ fun Friendships.showByUserId(
  * @receiver [Friendships] endpoint instance.
  * @return [JsonObjectApiAction] for [Show] model.
  */
-fun Friendships.showByScreenName(
+public fun Friendships.showByScreenName(
     sourceScreenName: String,
     targetScreenName: String,
     vararg options: Option
-) = show(null, sourceScreenName, null, targetScreenName, *options)
+): JsonObjectApiAction<Show> = show(null, sourceScreenName, null, targetScreenName, *options)
 
 /**
  * Returns detailed information about the relationship between two arbitrary users.
@@ -92,10 +92,10 @@ fun Friendships.showByScreenName(
  * @receiver [Friendships] endpoint instance.
  * @return [JsonObjectApiAction] for [Show] model.
  */
-fun Friendships.showByScreenName(
+public fun Friendships.showByScreenName(
     targetScreenName: String,
     vararg options: Option
-) = show(null, null, null, targetScreenName, *options)
+): JsonObjectApiAction<Show> = show(null, null, null, targetScreenName, *options)
 
 private fun Friendships.show(
     sourceId: Long? = null,

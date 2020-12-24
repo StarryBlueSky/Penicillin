@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.extensions.endpoints
 
@@ -50,12 +50,12 @@ import blue.starry.penicillin.models.Status
  * @receiver [Statuses] endpoint instance.
  * @return [ApiAction] for [Status] model.
  */
-fun Statuses.createPollTweet(
+public fun Statuses.createPollTweet(
     status: String,
     choices: List<String>,
     minutes: Int = 1440,
     vararg options: Option
-) = DelegatedAction {
+): ApiAction<Status> = DelegatedAction {
     val card = client.cards.create(
         cardData = linkedMapOf<String, Any>().apply {
             choices.forEachIndexed { i, choice ->

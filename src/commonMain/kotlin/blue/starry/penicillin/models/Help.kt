@@ -22,46 +22,48 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
-object Help {
-    data class Configuration(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val charactersReservedPerMedia by int("characters_reserved_per_media")
-        val clientEventUrl by string("client_event_url")
-        val dmTextCharacterLimit by int("dm_text_character_limit")
-        val maxMediaPerUpload by int("max_media_per_upload")
-        val nonUsernamePaths by stringList("non_username_paths")
-        val photoSizeLimit by int("photo_size_limit")
-        val photoSizes by model("photo_sizes") { Photo(it, client) }
-        val shortUrlLength by int("short_url_length")
-        val shortUrlLengthHttps by int("short_url_length_https")
+import kotlinx.serialization.json.JsonArray
+
+public object Help {
+    public data class Configuration(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val charactersReservedPerMedia: Int by int("characters_reserved_per_media")
+        public val clientEventUrl: String by string("client_event_url")
+        public val dmTextCharacterLimit: Int by int("dm_text_character_limit")
+        public val maxMediaPerUpload: Int by int("max_media_per_upload")
+        public val nonUsernamePaths: List<String> by stringList("non_username_paths")
+        public val photoSizeLimit: Int by int("photo_size_limit")
+        public val photoSizes: Photo by model("photo_sizes") { Photo(it, client) }
+        public val shortUrlLength: Int by int("short_url_length")
+        public val shortUrlLengthHttps: Int by int("short_url_length_https")
     }
 
-    data class Language(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val code by string
-        val status by string
-        val name by string
+    public data class Language(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val code: String by string
+        public val status: String by string
+        public val name: String by string
     }
 
-    data class Privacy(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val privacy by string
+    public data class Privacy(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val privacy: String by string
     }
 
-    data class Tos(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val tos by string
+    public data class Tos(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val tos: String by string
     }
 
-    data class Settings(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public data class Settings(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         private val versions by jsonObject
-        val featureSwitchesVersion by versions.byString("feature_switches")
-        val experimentVersion by versions.byString("experiments")
-        val settingsVersion by versions.byString("settings")
-        val impressions by jsonArray
-        val config by jsonObject
+        public val featureSwitchesVersion: String by versions.byString("feature_switches")
+        public val experimentVersion: String by versions.byString("experiments")
+        public val settingsVersion: String by versions.byString("settings")
+        public val impressions: JsonArray by jsonArray
+        public val config: kotlinx.serialization.json.JsonObject by jsonObject
     }
 }

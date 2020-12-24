@@ -37,23 +37,23 @@ import blue.starry.penicillin.models.cursor.PenicillinCursorModel
 /**
  * Represents api request methods.
  */
-class ApiRequest(
+public class ApiRequest(
     /**
      * Current [ApiClient] instance.
      */
-    val client: ApiClient,
+    public val client: ApiClient,
 
     /**
      * Current request builder.
      */
-    val builder: ApiRequestBuilder
+    public val builder: ApiRequestBuilder
 ) {
     /**
      * Creates [JsonObjectApiAction] from this request.
      *
      * @return New [JsonObjectApiAction] for [M].
      */
-    fun <M: PenicillinModel> jsonObject(converter: (JsonObject) -> M): JsonObjectApiAction<M> {
+    public fun <M: PenicillinModel> jsonObject(converter: (JsonObject) -> M): JsonObjectApiAction<M> {
         return JsonObjectApiAction(client, this, converter)
     }
 
@@ -62,7 +62,7 @@ class ApiRequest(
      *
      * @return New [JsonArrayApiAction] for [M].
      */
-    fun <M: PenicillinModel> jsonArray(converter: (JsonObject) -> M): JsonArrayApiAction<M> {
+    public fun <M: PenicillinModel> jsonArray(converter: (JsonObject) -> M): JsonArrayApiAction<M> {
         return JsonArrayApiAction(client, this, converter)
     }
 
@@ -71,7 +71,7 @@ class ApiRequest(
      *
      * @return New [CursorJsonObjectApiAction] for [M].
      */
-    fun <M: PenicillinCursorModel> cursorJsonObject(converter: (JsonObject) -> M): CursorJsonObjectApiAction<M> {
+    public fun <M: PenicillinCursorModel> cursorJsonObject(converter: (JsonObject) -> M): CursorJsonObjectApiAction<M> {
         return CursorJsonObjectApiAction(client, this, converter)
     }
 
@@ -80,7 +80,7 @@ class ApiRequest(
      *
      * @return New [PremiumSearchJsonObjectApiAction] for [M].
      */
-    fun <M: PremiumSearchModel> premiumSearchJsonObject(environment: PremiumSearchEnvironment, converter: (JsonObject) -> M): PremiumSearchJsonObjectApiAction<M> {
+    public fun <M: PremiumSearchModel> premiumSearchJsonObject(environment: PremiumSearchEnvironment, converter: (JsonObject) -> M): PremiumSearchJsonObjectApiAction<M> {
         return PremiumSearchJsonObjectApiAction(client, this, converter, environment)
     }
 
@@ -89,7 +89,7 @@ class ApiRequest(
      *
      * @return New [TextApiAction].
      */
-    fun text(): TextApiAction {
+    public fun text(): TextApiAction {
         return TextApiAction(client, this)
     }
 
@@ -98,7 +98,7 @@ class ApiRequest(
      *
      * @return New [EmptyApiAction].
      */
-    fun empty(): EmptyApiAction {
+    public fun empty(): EmptyApiAction {
         return EmptyApiAction(client, this)
     }
 
@@ -107,7 +107,7 @@ class ApiRequest(
      *
      * @return New [StreamApiAction] for [L] and [H].
      */
-    fun <L: StreamListener, H: StreamHandler<L>> stream(): StreamApiAction<L, H> {
+    public fun <L: StreamListener, H: StreamHandler<L>> stream(): StreamApiAction<L, H> {
         return StreamApiAction(client, this)
     }
 }

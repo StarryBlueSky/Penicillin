@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.blocks
 
@@ -46,11 +46,11 @@ import blue.starry.penicillin.models.cursor.CursorIds
  * @receiver [Blocks] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorIds] model.
  */
-fun Blocks.listIds(
+public fun Blocks.listIds(
     stringifyIds: Boolean? = null,
     cursor: Long? = null,
     vararg options: Option
-) = client.session.get("/1.1/blocks/ids.json") {
+): CursorJsonObjectApiAction<CursorIds> = client.session.get("/1.1/blocks/ids.json") {
     parameters(
         "stringify_ids" to stringifyIds,
         "cursor" to cursor,
@@ -62,5 +62,5 @@ fun Blocks.listIds(
  * Shorthand extension property to [Blocks.listIds].
  * @see Blocks.listIds
  */
-val Blocks.listIds
+public val Blocks.listIds: CursorJsonObjectApiAction<CursorIds>
     get() = listIds()

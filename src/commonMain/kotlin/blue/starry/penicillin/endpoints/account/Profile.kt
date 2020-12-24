@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.account
 
@@ -49,7 +49,7 @@ import blue.starry.penicillin.models.User
  * @receiver [Account] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Account.updateProfile(
+public fun Account.updateProfile(
     name: String? = null,
     url: String? = null,
     location: String? = null,
@@ -61,7 +61,7 @@ fun Account.updateProfile(
     birthdateMonth: Int? = null,
     birthdateDay: Int? = null,
     vararg options: Option
-) = client.session.post("/1.1/account/update_profile.json") {
+): JsonObjectApiAction<User> = client.session.post("/1.1/account/update_profile.json") {
     formBody(
         "name" to name,
         "url" to url,
@@ -82,5 +82,5 @@ fun Account.updateProfile(
  * Shorthand extension property to [Account.updateProfile].
  * @see Account.updateProfile
  */
-val Account.updateProfile
+public val Account.updateProfile: JsonObjectApiAction<User>
     get() = updateProfile()

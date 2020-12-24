@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models.cursor
 
@@ -30,6 +30,6 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.longList
 import blue.starry.penicillin.core.session.ApiClient
 
-data class CursorIds(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
-    val ids by longList
+public data class CursorIds(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
+    public val ids: List<Long> by longList
 }

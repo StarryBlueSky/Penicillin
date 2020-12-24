@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -35,20 +35,20 @@ import blue.starry.penicillin.core.session.ApiClient
 
 
 
-data class PremiumSearchCount(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
-    val results by modelList { Count(it, client) }
-    val totalCount by int
-    override val next by nullableString
-    val requestParameters by modelList { RequestParameters(it, client) }
+public data class PremiumSearchCount(override val json: JsonObject, override val client: ApiClient): PremiumSearchModel {
+    public val results: List<Count> by modelList { Count(it, client) }
+    public val totalCount: Int by int
+    override val next: String? by nullableString
+    public val requestParameters: List<RequestParameters> by modelList { RequestParameters(it, client) }
 
-    data class Count(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val timePeriod by string
-        val count by int
+    public data class Count(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val timePeriod: String by string
+        public val count: Int by int
     }
 
-    data class RequestParameters(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val fromDate by nullableString
-        val toDate by nullableString
-        val bucketRaw by nullableString
+    public data class RequestParameters(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val fromDate: String? by nullableString
+        public val toDate: String? by nullableString
+        public val bucketRaw: String? by nullableString
     }
 }

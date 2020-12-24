@@ -29,11 +29,11 @@ import blue.starry.penicillin.core.session.ApiClient
 /**
  * Collection of api endpoints.
  */
-interface Endpoint {
+public interface Endpoint {
     /**
      * Penicillin ApiClient.
      */
-    val client: ApiClient
+    public val client: ApiClient
 }
 
 internal typealias Option = Pair<String, Any?>

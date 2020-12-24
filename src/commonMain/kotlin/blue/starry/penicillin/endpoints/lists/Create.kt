@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -45,12 +45,12 @@ import blue.starry.penicillin.models.TwitterList
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.create(
+public fun Lists.create(
     name: String,
     mode: ListVisibilityMode = ListVisibilityMode.Default,
     description: String? = null,
     vararg options: Option
-) = client.session.post("/1.1/lists/create.json") {
+): JsonObjectApiAction<TwitterList> = client.session.post("/1.1/lists/create.json") {
     formBody(
         "name" to name,
         "mode" to mode,

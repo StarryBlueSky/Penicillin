@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.favorites: Favorites
+public val ApiClient.favorites: Favorites
     get() = Favorites(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.favorites: Favorites
  * @param client Current [ApiClient] instance.
  * @see ApiClient.favorites
  */
-class Favorites(override val client: ApiClient): Endpoint
+public class Favorites(override val client: ApiClient): Endpoint

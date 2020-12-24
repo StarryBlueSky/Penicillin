@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.help
 
@@ -42,9 +42,9 @@ import blue.starry.penicillin.models.Help.Tos
  * @receiver [Help] endpoint instance.
  * @return [JsonObjectApiAction] for [Tos] model.
  */
-fun Help.tos(
+public fun Help.tos(
     vararg options: Option
-) = client.session.get("/1.1/help/tos.json") {
+): JsonObjectApiAction<Tos> = client.session.get("/1.1/help/tos.json") {
     parameters(*options)
 }.jsonObject { Tos(it, client) }
 
@@ -52,5 +52,5 @@ fun Help.tos(
  * Shorthand property to [Help.tos].
  * @see Help.tos
  */
-val Help.tos
+public val Help.tos: JsonObjectApiAction<Tos>
     get() = tos()

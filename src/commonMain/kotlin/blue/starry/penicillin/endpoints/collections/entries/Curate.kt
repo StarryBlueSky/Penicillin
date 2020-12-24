@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.collections.entries
 
@@ -45,10 +45,10 @@ import blue.starry.penicillin.models.Collection
  * @receiver [CollectionEntries] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.Entry.Result] model.
  */
-fun CollectionEntries.curate(
+public fun CollectionEntries.curate(
     payload: JsonObject,
     vararg options: Option
-) = client.session.post("/1.1/collections/entries/curate.json") {
+): JsonObjectApiAction<Collection.Entry.Result> = client.session.post("/1.1/collections/entries/curate.json") {
     parameters(*options)
     jsonBody(payload)
 }.jsonObject { Collection.Entry.Result(it, client) }

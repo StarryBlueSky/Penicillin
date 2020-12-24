@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
  * Default LivePipeline [StreamHandler].
  * Accepts listener of [LivePipelineListener].
  */
-class LivePipelineHandler(override val client: ApiClient, override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
+public class LivePipelineHandler(override val client: ApiClient, override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
     override fun handle(json: JsonObject) {
         launch {
             val pipeline = json.parseObject { Stream.LivePipeline(it, client) }

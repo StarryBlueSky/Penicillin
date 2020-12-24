@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.livepipeline
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.LivePipelineSubscription
  * @receiver [LivePipeline] endpoint instance.
  * @return [JsonObjectApiAction] for [LivePipelineSubscription] model.
  */
-fun LivePipeline.update(
+public fun LivePipeline.update(
     ids: List<Long>,
     vararg options: Option
-) = client.session.post("/1.1/live_pipeline/update_subscriptions") {
+): JsonObjectApiAction<LivePipelineSubscription> = client.session.post("/1.1/live_pipeline/update_subscriptions") {
     emulationModes += EmulationMode.TwitterForiPhone
 
     formBody(

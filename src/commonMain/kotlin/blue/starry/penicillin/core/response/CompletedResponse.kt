@@ -27,9 +27,9 @@ package blue.starry.penicillin.core.response
 /**
  * Represents this response is completed and its response is [String].
  */
-interface CompletedResponse {
+public interface CompletedResponse {
     /**
      * Text response.
      */
-    val content: String
+    public val content: String
 }

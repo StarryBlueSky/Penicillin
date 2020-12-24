@@ -24,16 +24,16 @@
 
 package blue.starry.penicillin.core.session
 
-import io.ktor.utils.io.core.Closeable
+import io.ktor.utils.io.core.*
 
 /**
  * Penicillin Api Endpoints controller.
  */
-interface ApiClient: Closeable {
+public interface ApiClient: Closeable {
     /**
      * The [Session] instance.
      */
-    val session: Session
+    public val session: Session
 
     /**
      * Closes [Session] instance.

@@ -29,9 +29,9 @@ package blue.starry.penicillin.models
 /**
  * A entity model that has "indices" property.
  */
-interface IndexedEntityModel: PenicillinModel {
+public interface IndexedEntityModel: PenicillinModel {
     /**
      * The entity indices. Its size must be 2.
      */
-    val indices: List<Int>
+    public val indices: List<Int>
 }

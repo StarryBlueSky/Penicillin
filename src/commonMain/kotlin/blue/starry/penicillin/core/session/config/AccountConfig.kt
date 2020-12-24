@@ -35,7 +35,7 @@ import blue.starry.penicillin.core.session.SessionBuilder
  * Initializes account configuration.
  */
 @ApiClientDsl
-fun SessionBuilder.account(block: Credentials.Builder.() -> Unit) {
+public fun SessionBuilder.account(block: Credentials.Builder.() -> Unit) {
     getOrPutBuilder {
         Credentials.Builder()
     }.apply(block)
@@ -44,72 +44,72 @@ fun SessionBuilder.account(block: Credentials.Builder.() -> Unit) {
 /**
  * Represents your application and account credentials.
  */
-data class Credentials(
+public data class Credentials(
     /**
      * Consumer key for your application.
      */
-    val consumerKey: String?,
+    public val consumerKey: String?,
 
     /**
      * Consumer secret for your application.
      */
-    val consumerSecret: String?,
+    public val consumerSecret: String?,
 
     /**
      * Access token for your account.
      */
-    val accessToken: String?,
+    public val accessToken: String?,
 
     /**
      * Access token secret for your account.
      */
-    val accessTokenSecret: String?,
+    public val accessTokenSecret: String?,
 
     /**
      * Bearer token for your account.
      */
-    val bearerToken: String?,
+    public val bearerToken: String?,
 
     /**
      * Known device token for your account.
      */
-    val knownDeviceToken: String?
+    public val knownDeviceToken: String?
 ): SessionConfig {
     /**
      * Builder of [Credentials].
      */
-    class Builder: SessionConfigBuilder<Credentials> {
+    public class Builder: SessionConfigBuilder<Credentials> {
         /**
          * Consumer key for your application.
          */
-        var consumerKey: String? = null
+        public var consumerKey: String? = null
 
         /**
          * Consumer secret for your application.
          */
-        var consumerSecret: String? = null
+        public var consumerSecret: String? = null
 
         /**
          * Access token for your account.
          */
-        var accessToken: String? = null
+        public var accessToken: String? = null
 
         /**
          * Access token secret for your account.
          */
-        var accessTokenSecret: String? = null
+        public var accessTokenSecret: String? = null
 
         /**
          * Bearer token for your account.
          */
-        var bearerToken: String? = null
+        public var bearerToken: String? = null
 
         /**
          * Known device token for your account.
          * Used only when emulationMode is [OfficialClient.OAuth1a.TwitterForiPhone].
          */
         @PenicillinExperimentalApi
-        var knownDeviceToken: String? = null
+        public var knownDeviceToken: String? = null
 
         @OptIn(PenicillinExperimentalApi::class)
         override fun build(): Credentials {
@@ -124,7 +124,7 @@ data class Credentials(
  * @param consumerKey Consumer key.
  * @param consumerSecret Consumer secret.
  */
-fun Credentials.Builder.application(consumerKey: String, consumerSecret: String) {
+public fun Credentials.Builder.application(consumerKey: String, consumerSecret: String) {
     this.consumerKey = consumerKey
     this.consumerSecret = consumerSecret
 }
@@ -134,7 +134,7 @@ fun Credentials.Builder.application(consumerKey: String, consumerSecret: String)
  *
  * @param client Predefined OAuth 1.0a client.
  */
-fun Credentials.Builder.application(client: OfficialClient.OAuth1a) {
+public fun Credentials.Builder.application(client: OfficialClient.OAuth1a) {
     consumerKey = client.consumerKey
     consumerSecret = client.consumerSecret
 }
@@ -145,7 +145,7 @@ fun Credentials.Builder.application(client: OfficialClient.OAuth1a) {
  * @param accessToken Access token.
  * @param accessTokenSecret Access token secret.
  */
-fun Credentials.Builder.token(accessToken: String, accessTokenSecret: String) {
+public fun Credentials.Builder.token(accessToken: String, accessTokenSecret: String) {
     this.accessToken = accessToken
     this.accessTokenSecret = accessTokenSecret
 }
@@ -155,7 +155,7 @@ fun Credentials.Builder.token(accessToken: String, accessTokenSecret: String) {
  *
  * @param bearerToken Bearer token.
  */
-fun Credentials.Builder.token(bearerToken: String) {
+public fun Credentials.Builder.token(bearerToken: String) {
     this.bearerToken = bearerToken
 }
 
@@ -164,7 +164,7 @@ fun Credentials.Builder.token(bearerToken: String) {
  *
  * @param client Predefined OAuth 2 client.
  */
-fun Credentials.Builder.token(client: OfficialClient.OAuth2) {
+public fun Credentials.Builder.token(client: OfficialClient.OAuth2) {
     bearerToken = client.bearerToken
 }
 

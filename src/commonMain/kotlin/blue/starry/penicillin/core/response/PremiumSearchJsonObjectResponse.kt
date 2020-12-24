@@ -35,13 +35,13 @@ import blue.starry.penicillin.models.PremiumSearchModel
 /**
  * The [ApiResponse] that provides parsed json object with json model. This class supports premium search api operations.
  */
-data class PremiumSearchJsonObjectResponse<M: PremiumSearchModel>(
+public data class PremiumSearchJsonObjectResponse<M: PremiumSearchModel>(
     override val client: ApiClient,
 
     /**
      * Result of response.
      */
-    val result: M,
+    public val result: M,
 
     override val request: HttpRequest,
     override val response: HttpResponse,
@@ -51,7 +51,7 @@ data class PremiumSearchJsonObjectResponse<M: PremiumSearchModel>(
     /**
      * [PremiumSearchEnvironment] which was used to acquire this response.
      */
-    val environment: PremiumSearchEnvironment
+    public val environment: PremiumSearchEnvironment
 ): ApiResponse<PremiumSearchJsonObjectResponse<M>>, JsonResponse<M, JsonObject>, CompletedResponse {
     override val json: JsonObject
         get() = result.json

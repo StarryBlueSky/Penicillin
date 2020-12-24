@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.trends
 
@@ -41,9 +41,9 @@ import blue.starry.penicillin.models.TrendPlus
  * @receiver [Trends] endpoint instance.
  * @return [JsonObjectApiAction] for [TrendPlus] model.
  */
-fun Trends.plus(
+public fun Trends.plus(
     vararg options: Option
-) = client.session.get("/1.1/trends/plus.json") {
+): JsonObjectApiAction<TrendPlus> = client.session.get("/1.1/trends/plus.json") {
     emulationModes += EmulationMode.TwitterForiPhone
 
     parameters(
@@ -73,5 +73,5 @@ fun Trends.plus(
  * Shorthand property to [Trends.plus].
  * @see Trends.plus
  */
-val Trends.plus
+public val Trends.plus: JsonObjectApiAction<TrendPlus>
     get() = plus()

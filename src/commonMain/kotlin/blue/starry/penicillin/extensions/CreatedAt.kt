@@ -31,57 +31,57 @@ import blue.starry.penicillin.models.*
 /**
  * Parsed "created_at" object.
  */
-val ActivityEvent.createdAt: CreatedAt
+public val ActivityEvent.createdAt: CreatedAt
     get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
-val DirectMessage.createdAt: CreatedAt
+public val DirectMessage.createdAt: CreatedAt
     get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "lastPublishTime" object.
  */
-val Moment.lastPublishTime: CreatedAt
+public val Moment.lastPublishTime: CreatedAt
     get() = CreatedAt(lastPublishTimeRaw)
 
 /**
  * Parsed "created_at" object.
  */
-val SavedSearch.createdAt: CreatedAt
+public val SavedSearch.createdAt: CreatedAt
     get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
-val Status.createdAt: CreatedAt
+public val Status.createdAt: CreatedAt
     get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
-val TwitterList.createdAt: CreatedAt
+public val TwitterList.createdAt: CreatedAt
     get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
-val CommonUser.createdAt: CreatedAt
+public val CommonUser.createdAt: CreatedAt
     get() = CreatedAt(createdAtRaw)
 
 /**
  * Parsed "created_at" object.
  */
-val Stream.Event.createdAt: CreatedAt
+public val Stream.Event.createdAt: CreatedAt
     get() = CreatedAt(createdAtRaw)
 
 /**
  * Represents "created_at" date format.
  */
-data class CreatedAt(
+public data class CreatedAt(
     /**
      * Original "created_at" string.
      */
-    val value: String
+    public val value: String
 )

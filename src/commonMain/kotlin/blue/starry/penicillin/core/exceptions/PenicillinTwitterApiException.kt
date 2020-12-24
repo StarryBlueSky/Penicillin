@@ -35,11 +35,11 @@ private val apiErrorString = LocalizedString(
 /**
  * The [PenicillinException] class which is thrown when Twitter API error occurs.
  */
-class PenicillinTwitterApiException(
+public class PenicillinTwitterApiException(
     /**
      * Pre-defined [TwitterApiError].
      */
-    val error: TwitterApiError,
+    public val error: TwitterApiError,
 
     /**
      * Executed [HttpRequest].

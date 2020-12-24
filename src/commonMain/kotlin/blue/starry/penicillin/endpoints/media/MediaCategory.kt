@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Represents media category.
  */
-enum class MediaCategory(override val value: String?): EnumRequestParameter {
+public enum class MediaCategory(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

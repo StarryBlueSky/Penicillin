@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -30,9 +30,9 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.int
 import blue.starry.penicillin.core.session.ApiClient
 
-data class FaceCoordinate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val x by int
-    val y by int
-    val h by int
-    val w by int
+public data class FaceCoordinate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val x: Int by int
+    public val y: Int by int
+    public val h: Int by int
+    public val w: Int by int
 }

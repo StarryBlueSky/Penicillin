@@ -31,5 +31,5 @@ import blue.starry.penicillin.models.CommonUser
 /**
  * Whether if this account is locked.
  */
-val CommonUser.isLockedAccount: Boolean
+public val CommonUser.isLockedAccount: Boolean
     get() = profileInterstitialType == "fake_account"

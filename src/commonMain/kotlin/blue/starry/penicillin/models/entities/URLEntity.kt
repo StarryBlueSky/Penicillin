@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models.entities
 
@@ -32,9 +32,9 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.models.UrlEntityModel
 
-data class URLEntity(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
-    override val url by string
-    override val expandedUrl by string("expanded_url")
-    override val displayUrl by string("display_url")
-    override val indices by intList
+public data class URLEntity(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
+    override val url: String by string
+    override val expandedUrl: String by string("expanded_url")
+    override val displayUrl: String by string("display_url")
+    override val indices: List<Int> by intList
 }

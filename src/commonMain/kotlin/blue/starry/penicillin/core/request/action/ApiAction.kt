@@ -30,16 +30,16 @@ import blue.starry.penicillin.core.session.ApiClient
 /**
  * Represents lazy [ApiRequest] invoker.
  */
-interface ApiAction<R> {
+public interface ApiAction<R> {
     /**
      * Current [ApiClient] instance.
      */
-    val client: ApiClient
+    public val client: ApiClient
 
     /**
      * Current lazy [ApiRequest] instance.
      */
-    val request: ApiRequest
+    public val request: ApiRequest
 
     /**
      * Completes this request.
@@ -47,5 +47,5 @@ interface ApiAction<R> {
      *
      * @return Api result as [R].
      */
-    suspend operator fun invoke(): R
+    public suspend operator fun invoke(): R
 }

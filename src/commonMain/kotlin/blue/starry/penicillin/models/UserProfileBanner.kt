@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -33,21 +33,21 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class UserProfileBanner(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val resolution1080x360 by nullableModel("1080x360") { Banner(it, client) }
-    val resolution1500x500 by nullableModel("1500x500") { Banner(it, client) }
-    val resolution300x100 by nullableModel("300x100") { Banner(it, client) }
-    val resolution600x200 by nullableModel("600x200") { Banner(it, client) }
-    val ipad by nullableModel { Banner(it, client) }
-    val ipadRetina by nullableModel("ipad_retina") { Banner(it, client) }
-    val mobile by nullableModel { Banner(it, client) }
-    val mobileRetina by nullableModel("mobile_retina") { Banner(it, client) }
-    val web by nullableModel { Banner(it, client) }
-    val webRetina by nullableModel("web_retina") { Banner(it, client) }
+public data class UserProfileBanner(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val resolution1080x360: Banner? by nullableModel("1080x360") { Banner(it, client) }
+    public val resolution1500x500: Banner? by nullableModel("1500x500") { Banner(it, client) }
+    public val resolution300x100: Banner? by nullableModel("300x100") { Banner(it, client) }
+    public val resolution600x200: Banner? by nullableModel("600x200") { Banner(it, client) }
+    public val ipad: Banner? by nullableModel { Banner(it, client) }
+    public val ipadRetina: Banner? by nullableModel("ipad_retina") { Banner(it, client) }
+    public val mobile: Banner? by nullableModel { Banner(it, client) }
+    public val mobileRetina: Banner? by nullableModel("mobile_retina") { Banner(it, client) }
+    public val web: Banner? by nullableModel { Banner(it, client) }
+    public val webRetina: Banner? by nullableModel("web_retina") { Banner(it, client) }
 
-    data class Banner(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val h by int
-        val w by int
-        val url by string
+    public data class Banner(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val h: Int by int
+        public val w: Int by int
+        public val url: String by string
     }
 }

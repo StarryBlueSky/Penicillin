@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.trends: Trends
+public val ApiClient.trends: Trends
     get() = Trends(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.trends: Trends
  * @param client Current [ApiClient] instance.
  * @see ApiClient.trends
  */
-class Trends(override val client: ApiClient): Endpoint
+public class Trends(override val client: ApiClient): Endpoint

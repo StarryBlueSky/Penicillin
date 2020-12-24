@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.cursor.CursorLists
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.subscriptions(
+public fun Lists.subscriptions(
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-) = subscriptionsInternal(null, null, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists> = subscriptionsInternal(null, null, count, cursor, *options)
 
 /**
  * Obtain a collection of the lists the specified user is subscribed to, 20 lists per page by default. Does not include the user's own lists.
@@ -62,12 +62,12 @@ fun Lists.subscriptions(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.subscriptionsByUserId(
+public fun Lists.subscriptionsByUserId(
     userId: Long,
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-) = subscriptionsInternal(userId, null, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists> = subscriptionsInternal(userId, null, count, cursor, *options)
 
 /**
  * Obtain a collection of the lists the specified user is subscribed to, 20 lists per page by default. Does not include the user's own lists.
@@ -81,12 +81,12 @@ fun Lists.subscriptionsByUserId(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.subscriptionsByScreenName(
+public fun Lists.subscriptionsByScreenName(
     screenName: String,
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-) = subscriptionsInternal(null, screenName, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists> = subscriptionsInternal(null, screenName, count, cursor, *options)
 
 private fun Lists.subscriptionsInternal(
     userId: Long? = null,
@@ -108,5 +108,5 @@ private fun Lists.subscriptionsInternal(
  * Shorthand property to [Lists.subscriptions].
  * @see Lists.subscriptions
  */
-val Lists.subscriptions
-    get() = subscriptions()
+public val Lists.subscriptions: CursorJsonObjectApiAction<CursorLists>
+     get() = subscriptions()

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.geo
 
@@ -48,14 +48,14 @@ import blue.starry.penicillin.models.GeoResult
  * @receiver [Geo] endpoint instance.
  * @return [JsonObjectApiAction] for [GeoResult] model.
  */
-fun Geo.reverseGeocode(
+public fun Geo.reverseGeocode(
     latitude: Double,
     longitude: Double,
     accuracy: String? = null,
     granularity: GeoGranularity = GeoGranularity.Default,
     maxResults: Int? = null,
     vararg options: Option
-) = client.session.get("/1.1/geo/reverse_geocode.json") {
+): JsonObjectApiAction<GeoResult> = client.session.get("/1.1/geo/reverse_geocode.json") {
     parameters(
         "lat" to latitude,
         "long" to longitude,

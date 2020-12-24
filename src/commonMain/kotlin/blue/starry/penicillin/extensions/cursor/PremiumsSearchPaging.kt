@@ -32,5 +32,5 @@ import blue.starry.penicillin.models.PremiumSearchModel
 /**
  * Whether current search result has next.
  */
-val PremiumSearchJsonObjectResponse<PremiumSearchModel>.hasNext: Boolean
+public val PremiumSearchJsonObjectResponse<PremiumSearchModel>.hasNext: Boolean
     get() = result.next != null

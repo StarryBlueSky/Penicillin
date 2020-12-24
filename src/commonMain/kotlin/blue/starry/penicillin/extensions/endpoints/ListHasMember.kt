@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.extensions.endpoints
 
@@ -42,7 +42,7 @@ import blue.starry.penicillin.models.User
 /**
  * Checks if the specified user is a member of the specified list.
  */
-operator fun TwitterList.contains(user: User): Boolean {
+public operator fun TwitterList.contains(user: User): Boolean {
     return client.lists.hasMember(id, user.id).complete()
 }
 
@@ -55,11 +55,11 @@ operator fun TwitterList.contains(user: User): Boolean {
  * @receiver [Lists] endpoint instance.
  * @return [ApiAction] for [Boolean].
  */
-fun Lists.hasMember(
+public fun Lists.hasMember(
     listId: Long,
     userId: Long,
     vararg options: Option
-) = hasMember(listId, null, null, null, userId, null, *options)
+): ApiAction<Boolean> = hasMember(listId, null, null, null, userId, null, *options)
 
 /**
  * Returns true if the specified user is a member of the specified list.
@@ -70,11 +70,11 @@ fun Lists.hasMember(
  * @receiver [Lists] endpoint instance.
  * @return [ApiAction] for [Boolean].
  */
-fun Lists.hasMember(
+public fun Lists.hasMember(
     listId: Long,
     screenName: String,
     vararg options: Option
-) = hasMember(listId, null, null, null, null, screenName, *options)
+): ApiAction<Boolean> = hasMember(listId, null, null, null, null, screenName, *options)
 
 /**
  * Returns true if the specified user is a member of the specified list.
@@ -86,12 +86,12 @@ fun Lists.hasMember(
  * @receiver [Lists] endpoint instance.
  * @return [ApiAction] for [Boolean].
  */
-fun Lists.hasMember(
+public fun Lists.hasMember(
     slug: String,
     ownerScreenName: String,
     userId: Long,
     vararg options: Option
-) = hasMember(null, slug, ownerScreenName, null, userId, null, *options)
+): ApiAction<Boolean> = hasMember(null, slug, ownerScreenName, null, userId, null, *options)
 
 /**
  * Returns true if the specified user is a member of the specified list.
@@ -103,12 +103,12 @@ fun Lists.hasMember(
  * @receiver [Lists] endpoint instance.
  * @return [ApiAction] for [Boolean].
  */
-fun Lists.hasMember(
+public fun Lists.hasMember(
     slug: String,
     ownerScreenName: String,
     screenName: String,
     vararg options: Option
-) = hasMember(null, slug, ownerScreenName, null, null, screenName, *options)
+): ApiAction<Boolean> = hasMember(null, slug, ownerScreenName, null, null, screenName, *options)
 
 /**
  * Returns true if the specified user is a member of the specified list.
@@ -120,12 +120,12 @@ fun Lists.hasMember(
  * @receiver [Lists] endpoint instance.
  * @return [ApiAction] for [Boolean].
  */
-fun Lists.hasMember(
+public fun Lists.hasMember(
     slug: String,
     ownerId: Long,
     userId: Long,
     vararg options: Option
-) = hasMember(null, slug, null, ownerId, userId, null, *options)
+): ApiAction<Boolean> = hasMember(null, slug, null, ownerId, userId, null, *options)
 
 /**
  * Returns true if the specified user is a member of the specified list.
@@ -137,12 +137,12 @@ fun Lists.hasMember(
  * @receiver [Lists] endpoint instance.
  * @return [ApiAction] for [Boolean].
  */
-fun Lists.hasMember(
+public fun Lists.hasMember(
     slug: String,
     ownerId: Long,
     screenName: String,
     vararg options: Option
-) = hasMember(null, slug, null, ownerId, null, screenName, *options)
+): ApiAction<Boolean> = hasMember(null, slug, null, ownerId, null, screenName, *options)
 
 
 private fun Lists.hasMember(

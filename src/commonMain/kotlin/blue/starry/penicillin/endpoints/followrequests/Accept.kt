@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.followrequests
 
@@ -42,10 +42,10 @@ import blue.starry.penicillin.models.User
  * @receiver [FollowRequests] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun FollowRequests.acceptByScreenName(
+public fun FollowRequests.acceptByScreenName(
     screenName: String,
     vararg  options: Option
-) = accept(screenName, null, *options)
+): JsonObjectApiAction<User> = accept(screenName, null, *options)
 
 /**
  * Accepts the follow request from specific user.
@@ -55,10 +55,10 @@ fun FollowRequests.acceptByScreenName(
  * @receiver [FollowRequests] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun FollowRequests.acceptByUserId(
+public fun FollowRequests.acceptByUserId(
     userId: Long,
     vararg  options: Option
-) = accept(null, userId, *options)
+): JsonObjectApiAction<User> = accept(null, userId, *options)
 
 private fun FollowRequests.accept(
     screenName: String? = null,

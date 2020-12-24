@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * When set to dark, the Tweet is displayed with light text over a dark background.
  */
-enum class EmbedTheme(override val value: String?): EnumRequestParameter {
+public enum class EmbedTheme(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

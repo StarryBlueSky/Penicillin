@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models.entities
 
@@ -33,11 +33,11 @@ import blue.starry.penicillin.core.session.ApiClient
 
 import blue.starry.penicillin.models.PenicillinModel
 
-data class UserEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val url by nullableModel { UserProfileEntity(it, client) }
-    val description by nullableModel { UserProfileEntity(it, client) }
+public data class UserEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val url: UserProfileEntity? by nullableModel { UserProfileEntity(it, client) }
+    public val description: UserProfileEntity? by nullableModel { UserProfileEntity(it, client) }
 
-    data class UserProfileEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val urls by modelList { URLEntity(it, client) }
+    public data class UserProfileEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val urls: List<URLEntity> by modelList { URLEntity(it, client) }
     }
 }

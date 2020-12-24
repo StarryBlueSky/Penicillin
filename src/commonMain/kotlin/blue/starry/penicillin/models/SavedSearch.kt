@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,13 +31,13 @@ import blue.starry.jsonkt.delegation.long
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
-data class SavedSearch(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val createdAtRaw by string("created_at")
-    val id by long
-    val idStr by string("id_str")
-    val name by string
-    val position by string
-    val query by string
+public data class SavedSearch(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val createdAtRaw: String by string("created_at")
+    public val id: Long by long
+    public val idStr: String by string("id_str")
+    public val name: String by string
+    public val position: String by string
+    public val query: String by string
 
     override fun equals(other: Any?): Boolean {
         return id == (other as? SavedSearch)?.id

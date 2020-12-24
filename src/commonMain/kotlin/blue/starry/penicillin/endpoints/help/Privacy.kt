@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.help
 
@@ -42,9 +42,9 @@ import blue.starry.penicillin.models.Help.Privacy
  * @receiver [Help] endpoint instance.
  * @return [JsonObjectApiAction] for [Privacy] model.
  */
-fun Help.privacy(
+public fun Help.privacy(
     vararg options: Option
-) = client.session.get("/1.1/help/privacy.json") {
+): JsonObjectApiAction<Privacy> = client.session.get("/1.1/help/privacy.json") {
     parameters(*options)
 }.jsonObject { Privacy(it, client) }
 
@@ -52,5 +52,5 @@ fun Help.privacy(
  * Shorthand property to [Help.privacy].
  * @see Help.privacy
  */
-val Help.privacy
+public val Help.privacy: JsonObjectApiAction<Privacy>
     get() = privacy()

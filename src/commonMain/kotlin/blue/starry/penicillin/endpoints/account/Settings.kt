@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.account
 
@@ -44,9 +44,9 @@ import blue.starry.penicillin.models.Account.Settings
  * @receiver [Account] endpoint instance.
  * @return [JsonObjectApiAction] for [Settings] model.
  */
-fun Account.settings(
+public fun Account.settings(
     vararg options: Option
-) = client.session.get("/1.1/account/settings.json") {
+): JsonObjectApiAction<Settings> = client.session.get("/1.1/account/settings.json") {
     parameters(
         "include_alt_text_compose" to "true",
         "include_mention_filter" to "true",
@@ -60,7 +60,7 @@ fun Account.settings(
  * Shorthand extension property to [Account.settings].
  * @see Account.settings
  */
-val Account.settings
+public val Account.settings: JsonObjectApiAction<Settings>
     get() = settings()
 
 /**
@@ -78,7 +78,7 @@ val Account.settings
  * @receiver [Account] endpoint instance.
  * @return [JsonObjectApiAction] for [Settings] model.
  */
-fun Account.updateSettings(
+public fun Account.updateSettings(
     sleepTimeEnabled: Boolean? = null,
     startSleepTime: Int? = null,
     endSleepTime: Int? = null,
@@ -86,7 +86,7 @@ fun Account.updateSettings(
     trendLocationWoeid: Int? = null,
     lang: String? = null,
     vararg options: Option
-) = client.session.post("/1.1/account/settings.json") {
+): JsonObjectApiAction<Settings> = client.session.post("/1.1/account/settings.json") {
     formBody(
         "sleep_time_enabled" to sleepTimeEnabled,
         "start_sleep_time" to startSleepTime,
@@ -103,5 +103,5 @@ fun Account.updateSettings(
  * Shorthand extension property to [Account.updateSettings].
  * @see Account.updateSettings
  */
-val Account.updateSettings
+public val Account.updateSettings: JsonObjectApiAction<Settings>
     get() = updateSettings()

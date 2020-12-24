@@ -32,154 +32,154 @@ import blue.starry.penicillin.models.Stream
 /**
  * An event model interface for [UserStreamHandler].
  */
-interface UserStreamListener: StreamListener {
+public interface UserStreamListener: StreamListener {
     /**
      * Called when a status is received.
      */
-    suspend fun onStatus(status: Status) {}
+    public suspend fun onStatus(status: Status) {}
     /**
      * Called when a direct message is received.
      */
-    suspend fun onDirectMessage(message: DirectMessage) {}
+    public suspend fun onDirectMessage(message: DirectMessage) {}
 
     /**
      * Called when any events are received.
      */
-    suspend fun onAnyEvent(event: Stream.Event) {}
+    public suspend fun onAnyEvent(event: Stream.Event) {}
 
     /* Status event */
 
     /**
      * Called when any status events are received.
      */
-    suspend fun onAnyStatusEvent(event: Stream.StatusEvent) {}
+    public suspend fun onAnyStatusEvent(event: Stream.StatusEvent) {}
 
     /**
      * Called when a favorite event is received.
      */
-    suspend fun onFavorite(event: Stream.StatusEvent) {}
+    public suspend fun onFavorite(event: Stream.StatusEvent) {}
     /**
      * Called when an unfavorite event is received.
      */
-    suspend fun onUnfavorite(event: Stream.StatusEvent) {}
+    public suspend fun onUnfavorite(event: Stream.StatusEvent) {}
     /**
      * Called when a favorited-retweet event is received.
      */
-    suspend fun onFavoritedRetweet(event: Stream.StatusEvent) {}
+    public suspend fun onFavoritedRetweet(event: Stream.StatusEvent) {}
     /**
      * Called when a retweeted-retweet event is received.
      */
-    suspend fun onRetweetedRetweet(event: Stream.StatusEvent) {}
+    public suspend fun onRetweetedRetweet(event: Stream.StatusEvent) {}
     /**
      * Called when a quoted-tweet event is received.
      */
-    suspend fun onQuotedTweet(event: Stream.StatusEvent) {}
+    public suspend fun onQuotedTweet(event: Stream.StatusEvent) {}
 
     /* List event */
 
     /**
      * Called when any list events are received.
      */
-    suspend fun onAnyListEvent(event: Stream.ListEvent) {}
+    public suspend fun onAnyListEvent(event: Stream.ListEvent) {}
 
     /**
      * Called when a list-created event is received.
      */
-    suspend fun onListCreated(event: Stream.ListEvent) {}
+    public suspend fun onListCreated(event: Stream.ListEvent) {}
     /**
      * Called when a list-destroyed event is received.
      */
-    suspend fun onListDestroyed(event: Stream.ListEvent) {}
+    public suspend fun onListDestroyed(event: Stream.ListEvent) {}
     /**
      * Called when a list-updated event is received.
      */
-    suspend fun onListUpdated(event: Stream.ListEvent) {}
+    public suspend fun onListUpdated(event: Stream.ListEvent) {}
     /**
      * Called when a list-member-added event is received.
      */
-    suspend fun onListMemberAdded(event: Stream.ListEvent) {}
+    public suspend fun onListMemberAdded(event: Stream.ListEvent) {}
     /**
      * Called when a list-member-removed event is received.
      */
-    suspend fun onListMemberRemoved(event: Stream.ListEvent) {}
+    public suspend fun onListMemberRemoved(event: Stream.ListEvent) {}
     /**
      * Called when a list-user-subscribed event is received.
      */
-    suspend fun onListUserSubscribed(event: Stream.ListEvent) {}
+    public suspend fun onListUserSubscribed(event: Stream.ListEvent) {}
     /**
      * Called when a list-user-unsubscribed event is received.
      */
-    suspend fun onListUserUnsubscribed(event: Stream.ListEvent) {}
+    public suspend fun onListUserUnsubscribed(event: Stream.ListEvent) {}
 
     /* User event */
 
     /**
      * Called when any user events are received.
      */
-    suspend fun onAnyUserEvent(event: Stream.UserEvent) {}
+    public suspend fun onAnyUserEvent(event: Stream.UserEvent) {}
 
     /**
      * Called when a follow event is received.
      */
-    suspend fun onFollow(event: Stream.UserEvent) {}
+    public suspend fun onFollow(event: Stream.UserEvent) {}
     /**
      * Called when an unfollow event is received.
      */
-    suspend fun onUnfollow(event: Stream.UserEvent) {}
+    public suspend fun onUnfollow(event: Stream.UserEvent) {}
     /**
      * Called when a block event is received.
      */
-    suspend fun onBlock(event: Stream.UserEvent) {}
+    public suspend fun onBlock(event: Stream.UserEvent) {}
     /**
      * Called when an unblock event is received.
      */
-    suspend fun onUnblock(event: Stream.UserEvent) {}
+    public suspend fun onUnblock(event: Stream.UserEvent) {}
     /**
      * Called when a mute event is received.
      */
-    suspend fun onMute(event: Stream.UserEvent) {}
+    public suspend fun onMute(event: Stream.UserEvent) {}
     /**
      * Called when an unmute event is received.
      */
-    suspend fun onUnmute(event: Stream.UserEvent) {}
+    public suspend fun onUnmute(event: Stream.UserEvent) {}
     /**
      * Called when a user-update event is received.
      */
-    suspend fun onUserUpdate(event: Stream.UserEvent) {}
+    public suspend fun onUserUpdate(event: Stream.UserEvent) {}
 
     /* Misc */
 
     /**
      * Called when a friends event is received.
      */
-    suspend fun onFriends(friends: Stream.Friends) {}
+    public suspend fun onFriends(friends: Stream.Friends) {}
 
     /**
      * Called when a delete event is received.
      */
-    suspend fun onDelete(delete: Stream.Delete) {}
+    public suspend fun onDelete(delete: Stream.Delete) {}
     /**
      * Called when a scrub-geo event is received.
      */
-    suspend fun onScrubGeo(scrubGeo: Stream.ScrubGeo) {}
+    public suspend fun onScrubGeo(scrubGeo: Stream.ScrubGeo) {}
     /**
      * Called when a status-withheld event is received.
      */
-    suspend fun onStatusWithheld(withheld: Stream.StatusWithheld) {}
+    public suspend fun onStatusWithheld(withheld: Stream.StatusWithheld) {}
     /**
      * Called when a user-withheld event is received.
      */
-    suspend fun onUserWithheld(withheld: Stream.UserWithheld) {}
+    public suspend fun onUserWithheld(withheld: Stream.UserWithheld) {}
     /**
      * Called when a disconnect-message event is received.
      */
-    suspend fun onDisconnectMessage(disconnect: Stream.Disconnect) {}
+    public suspend fun onDisconnectMessage(disconnect: Stream.Disconnect) {}
     /**
      * Called when a warning event is received.
      */
-    suspend fun onWarning(warning: Stream.Warning) {}
+    public suspend fun onWarning(warning: Stream.Warning) {}
     /**
      * Called when a limit event is received.
      */
-    suspend fun onLimit(limit: Stream.Limit) {}
+    public suspend fun onLimit(limit: Stream.Limit) {}
 }

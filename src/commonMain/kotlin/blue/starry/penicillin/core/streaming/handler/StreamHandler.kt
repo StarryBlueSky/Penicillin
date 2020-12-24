@@ -33,16 +33,16 @@ import kotlin.coroutines.CoroutineContext
 /**
  * An interface which handles streaming payload JSONs.
  */
-interface StreamHandler<L: StreamListener>: CoroutineScope {
+public interface StreamHandler<L: StreamListener>: CoroutineScope {
     /**
      * Current ApiClient.
      */
-    val client: ApiClient
+    public val client: ApiClient
     
     /**
      * StreamListener.
      */
-    val listener: L
+    public val listener: L
     
     override val coroutineContext: CoroutineContext
         get() = client.session.coroutineContext
@@ -50,5 +50,5 @@ interface StreamHandler<L: StreamListener>: CoroutineScope {
     /**
      * Handles streaming payload JSON.
      */
-    fun handle(json: JsonObject)
+    public fun handle(json: JsonObject)
 }

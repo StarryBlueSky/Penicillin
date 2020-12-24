@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.application
 
@@ -53,10 +53,10 @@ import blue.starry.penicillin.models.ApplicationRateLimitStatus
  * @receiver [Application] endpoint instance.
  * @return [JsonObjectApiAction] for [ApplicationRateLimitStatus] model.
  */
-fun Application.rateLimitStatus(
+public fun Application.rateLimitStatus(
     resources: List<String>? = null,
     vararg options: Option
-) = client.session.get("/1.1/application/rate_limit_status.json") {
+): JsonObjectApiAction<ApplicationRateLimitStatus> = client.session.get("/1.1/application/rate_limit_status.json") {
     parameters(
         "resources" to resources?.joinToString(","),
         *options
@@ -67,5 +67,5 @@ fun Application.rateLimitStatus(
  * Shorthand extension property to [Application.rateLimitStatus].
  * @see Application.rateLimitStatus
  */
-val Application.rateLimitStatus
+public val Application.rateLimitStatus: JsonObjectApiAction<ApplicationRateLimitStatus>
     get() = rateLimitStatus()

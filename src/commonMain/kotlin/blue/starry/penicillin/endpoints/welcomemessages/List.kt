@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.welcomemessages
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.WelcomeMessage
  * @receiver [WelcomeMessages] endpoint instance.
  * @return [JsonObjectApiAction] for [WelcomeMessage.List] model.
  */
-fun WelcomeMessages.list(
+public fun WelcomeMessages.list(
     count: Int? = null,
     cursor: String? = null,
     vararg options: Option
-) = client.session.get("/1.1/direct_messages/welcome_messages/list.json") {
+): JsonObjectApiAction<WelcomeMessage.List> = client.session.get("/1.1/direct_messages/welcome_messages/list.json") {
     parameters(
         "count" to count,
         "cursor" to cursor,
@@ -60,5 +60,5 @@ fun WelcomeMessages.list(
  * Shorthand property to [WelcomeMessages.list].
  * @see WelcomeMessages.list
  */
-val WelcomeMessages.list
+public val WelcomeMessages.list: JsonObjectApiAction<WelcomeMessage.List>
     get() = list()

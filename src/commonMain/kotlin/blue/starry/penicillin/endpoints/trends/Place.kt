@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.trends
 
@@ -47,11 +47,11 @@ import blue.starry.penicillin.models.TrendPlace
  * @receiver [Trends] endpoint instance.
  * @return [JsonArrayApiAction] for [TrendPlace] model.
  */
-fun Trends.place(
+public fun Trends.place(
     id: Long,
     exclude: TrendExclude = TrendExclude.Default,
     vararg options: Option
-) = client.session.get("/1.1/trends/place.json") {
+): JsonArrayApiAction<TrendPlace> = client.session.get("/1.1/trends/place.json") {
     parameters(
         "id" to id,
         "exclude" to exclude,

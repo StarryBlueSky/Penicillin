@@ -29,9 +29,9 @@ package blue.starry.penicillin.models
 /**
  * A entity model that has "next" property. This model was implemented by one for premium search api mainly.
  */
-interface PremiumSearchModel: PenicillinModel {
+public interface PremiumSearchModel: PenicillinModel {
     /**
      * The
      */
-    val next: String?
+    public val next: String?
 }

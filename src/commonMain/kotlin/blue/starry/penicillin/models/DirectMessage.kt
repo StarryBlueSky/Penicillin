@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -34,21 +34,21 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.models.entities.StatusEntity
 
-data class DirectMessage(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val createdAtRaw by string("created_at")
-    val entities by model { StatusEntity(it, client) }
-    val id by long
-    val idStr by string("id_str")
-    val read by boolean
-    val recipient by model { User(it, client) }
-    val recipientId by long("recipient_id")
-    val recipientIdStr by string("recipient_id_str")
-    val recipientScreenName by string("recipient_screen_name")
-    val sender by model { User(it, client) }
-    val senderId by long("sender_id")
-    val senderIdStr by string("sender_id_str")
-    val senderScreenName by string("sender_screen_name")
-    val text by string
+public data class DirectMessage(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val createdAtRaw: String by string("created_at")
+    public val entities: StatusEntity by model { StatusEntity(it, client) }
+    public val id: Long by long
+    public val idStr: String by string("id_str")
+    public val read: Boolean by boolean
+    public val recipient: User by model { User(it, client) }
+    public val recipientId: Long by long("recipient_id")
+    public val recipientIdStr: String by string("recipient_id_str")
+    public val recipientScreenName: String by string("recipient_screen_name")
+    public val sender: User by model { User(it, client) }
+    public val senderId: Long by long("sender_id")
+    public val senderIdStr: String by string("sender_id_str")
+    public val senderScreenName: String by string("sender_screen_name")
+    public val text: String by string
 
     override fun equals(other: Any?): Boolean {
         return id == (other as? DirectMessage)?.id

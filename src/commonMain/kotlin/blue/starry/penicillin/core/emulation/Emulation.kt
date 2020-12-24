@@ -29,9 +29,9 @@ import io.ktor.http.Headers
 /**
  * Represents emulation pre-defined profile.
  */
-interface Emulation {
+public interface Emulation {
     /**
      * Request header template.
      */
-    val headers: Headers
+    public val headers: Headers
 }

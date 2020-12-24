@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.statuses
 
@@ -58,7 +58,7 @@ import blue.starry.penicillin.models.Status
  * @receiver [Statuses] endpoint instance.
  * @return [JsonArrayApiAction] for [Status] model.
  */
-fun Statuses.lookup(
+public fun Statuses.lookup(
     ids: List<Long>,
     includeEntities: Boolean? = null,
     trimUser: Boolean? = null,
@@ -67,7 +67,7 @@ fun Statuses.lookup(
     includeCardUri: Boolean? = null,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = client.session.get("/1.1/statuses/lookup.json") {
+): JsonArrayApiAction<Status> = client.session.get("/1.1/statuses/lookup.json") {
     parameters(
         "id" to ids.joinToString(","),
         "include_entities" to includeEntities,

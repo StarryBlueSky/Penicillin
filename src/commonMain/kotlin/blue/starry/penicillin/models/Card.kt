@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -30,7 +30,7 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
-data class Card(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val cardUri by string("card_uri")
-    val status by string
+public data class Card(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val cardUri: String by string("card_uri")
+    public val status: String by string
 }

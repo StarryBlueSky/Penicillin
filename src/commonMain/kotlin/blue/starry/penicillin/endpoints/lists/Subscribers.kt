@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -47,14 +47,14 @@ import blue.starry.penicillin.models.cursor.CursorUsers
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Lists.subscribers(
+public fun Lists.subscribers(
     listId: Long,
     count: Int? = null,
     cursor: Long? = null,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = subscribers(listId, null, null, null, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers> = subscribers(listId, null, null, null, count, cursor, includeEntities, skipStatus, *options)
 
 /**
  * Returns the subscribers of the specified list. Private list subscribers will only be shown if the authenticated user owns the specified list.
@@ -71,7 +71,7 @@ fun Lists.subscribers(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Lists.subscribersByOwnerScreenName(
+public fun Lists.subscribersByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     count: Int? = null,
@@ -79,7 +79,7 @@ fun Lists.subscribersByOwnerScreenName(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = subscribers(null, slug, ownerScreenName, null, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers> = subscribers(null, slug, ownerScreenName, null, count, cursor, includeEntities, skipStatus, *options)
 
 /**
  * Returns the subscribers of the specified list. Private list subscribers will only be shown if the authenticated user owns the specified list.
@@ -96,7 +96,7 @@ fun Lists.subscribersByOwnerScreenName(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Lists.subscribersByOwnerId(
+public fun Lists.subscribersByOwnerId(
     slug: String,
     ownerId: Long,
     count: Int? = null,
@@ -104,7 +104,7 @@ fun Lists.subscribersByOwnerId(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = subscribers(null, slug, null, ownerId, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers> = subscribers(null, slug, null, ownerId, count, cursor, includeEntities, skipStatus, *options)
 
 private fun Lists.subscribers(
     listId: Long? = null,

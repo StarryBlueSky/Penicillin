@@ -25,5 +25,5 @@
 package blue.starry.penicillin.core.i18n
 
 // no way to detect OS locale
-actual val defaultLocale: Locale
+public actual val defaultLocale: Locale
     get() = Locale.English

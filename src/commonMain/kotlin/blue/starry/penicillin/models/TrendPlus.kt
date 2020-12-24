@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -33,8 +33,8 @@ import blue.starry.jsonkt.delegation.modelList
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class TrendPlus(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val id by long
-    val metadata by model { TrendMetadata(it, client) }
-    val trends by modelList("modules") { TrendType(it, client) }
+public data class TrendPlus(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val id: Long by long
+    public val metadata: TrendMetadata by model { TrendMetadata(it, client) }
+    public val trends: List<TrendType> by modelList("modules") { TrendType(it, client) }
 }

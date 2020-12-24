@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.search
 
@@ -59,7 +59,7 @@ private typealias SearchModel = blue.starry.penicillin.models.Search
  * @receiver [Search] endpoint instance.
  * @return [JsonObjectApiAction] for [SearchModel] model.
  */
-fun Search.search(
+public fun Search.search(
     query: String,
     geocode: String? = null,
     lang: String? = null,
@@ -72,7 +72,7 @@ fun Search.search(
     includeEntities: Boolean? = null,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = client.session.get("/1.1/search/tweets.json") {
+): JsonObjectApiAction<SearchModel /* = blue.starry.penicillin.models.Search */> = client.session.get("/1.1/search/tweets.json") {
     parameters(
         "q" to query,
         "geocode" to geocode,

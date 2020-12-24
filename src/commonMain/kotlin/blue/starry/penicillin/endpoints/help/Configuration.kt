@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.help
 
@@ -43,9 +43,9 @@ import blue.starry.penicillin.models.Help.Configuration
  * @receiver [Help] endpoint instance.
  * @return [JsonObjectApiAction] for [Configuration] model.
  */
-fun Help.configuration(
+public fun Help.configuration(
     vararg options: Option
-) = client.session.get("/1.1/help/configuration.json") {
+): JsonObjectApiAction<Configuration> = client.session.get("/1.1/help/configuration.json") {
     parameters(*options)
 }.jsonObject { Configuration(it, client) }
 
@@ -53,5 +53,5 @@ fun Help.configuration(
  * Shorthand property to [Help.configuration].
  * @see Help.configuration
  */
-val Help.configuration
+public val Help.configuration: JsonObjectApiAction<Configuration>
     get() = configuration()
