@@ -34,23 +34,23 @@ import blue.starry.penicillin.core.session.Session
 /**
  * Shorthand extension to [ApiClient].
  */
-val ApiRequestBuilder.session: Session
+public val ApiRequestBuilder.session: Session
     get() = client.session
 
 /**
  * Shorthand extension to [ApiClient].
  */
-val ApiRequest.session: Session
+public val ApiRequest.session: Session
     get() = client.session
 
 /**
  * Shorthand extension to [ApiClient].
  */
-val ApiAction<*>.session: Session
+public val ApiAction<*>.session: Session
     get() = client.session
 
 /**
  * Shorthand extension to [ApiClient].
  */
-val ApiResponse<*>.session: Session
+public val ApiResponse<*>.session: Session
     get() = client.session

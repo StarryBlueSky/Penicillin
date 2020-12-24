@@ -26,7 +26,7 @@ package blue.starry.penicillin.core.i18n
 
 import java.util.Locale as JavaLocale
 
-actual val defaultLocale: Locale
+public actual val defaultLocale: Locale
     get() = when (JavaLocale.getDefault()) {
         JavaLocale.JAPANESE, JavaLocale.JAPAN -> Locale.Japanese
         else -> Locale.English

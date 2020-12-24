@@ -33,16 +33,13 @@ import kotlin.system.measureTimeMillis
 
 private val logger = KotlinLogging.logger("Penicillin.Performance")
 
-@PublishedApi
-internal object UninitializedValue
-
 @Suppress("UNCHECKED_CAST")
 internal inline fun <T> measurePerformance(label: String, block: () -> T): T {
     if (!logger.isTraceEnabled) {
         return block()
     }
 
-    var result: Any? = UninitializedValue
+    var result: Any?
     val timeMs = measureTimeMillis {
         result = block()
     }

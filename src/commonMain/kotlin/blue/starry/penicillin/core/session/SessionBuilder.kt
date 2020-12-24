@@ -26,17 +26,15 @@
 
 package blue.starry.penicillin.core.session
 
-import io.ktor.client.features.cookies.AcceptAllCookiesStorage
-import io.ktor.client.features.cookies.HttpCookies
-import io.ktor.client.features.cookies.addCookie
-import io.ktor.util.KtorExperimentalAPI
 import blue.starry.penicillin.core.session.config.*
 import blue.starry.penicillin.extensions.runBlockingAlt
+import io.ktor.client.features.cookies.*
+import io.ktor.util.*
 
 /**
  * The builder class that corresponds with [Session].
  */
-class SessionBuilder(private val client: ApiClient) {
+public class SessionBuilder(private val client: ApiClient) {
     internal val configBuilders = mutableSetOf<SessionConfigBuilder<*>>()
 
     @PublishedApi

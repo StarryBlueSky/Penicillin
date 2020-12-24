@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.welcomemessages
 
@@ -42,10 +42,10 @@ import blue.starry.penicillin.endpoints.WelcomeMessages
  * @receiver [WelcomeMessages] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun WelcomeMessages.delete(
+public fun WelcomeMessages.delete(
     id: Long,
     vararg options: Option
-) = client.session.delete("/1.1/direct_messages/welcome_messages/destroy.json") {
+): EmptyApiAction = client.session.delete("/1.1/direct_messages/welcome_messages/destroy.json") {
     parameters(
         "id" to id,
         *options

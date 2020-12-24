@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,20 +31,20 @@ import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.endpoints.lists.ListVisibilityMode
 
-data class TwitterList(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val createdAtRaw by string("created_at")
-    val description by string
-    val following by boolean
-    val fullName by string("full_name")
-    val id by long
-    val idStr by string("id_str")
-    val memberCount by int("member_count")
-    val mode by enum<String, ListVisibilityMode>()
-    val name by string
-    val slug by string
-    val subscriberCount by int("subscriber_count")
-    val uri by string
-    val user by model { User(it, client) }
+public data class TwitterList(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val createdAtRaw: String by string("created_at")
+    public val description: String by string
+    public val following: Boolean by boolean
+    public val fullName: String by string("full_name")
+    public val id: Long by long
+    public val idStr: String by string("id_str")
+    public val memberCount: Int by int("member_count")
+    public val mode: ListVisibilityMode by enum()
+    public val name: String by string
+    public val slug: String by string
+    public val subscriberCount: Int by int("subscriber_count")
+    public val uri: String by string
+    public val user: User by model { User(it, client) }
 
     override fun equals(other: Any?): Boolean {
         return id == (other as? TwitterList)?.id

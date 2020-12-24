@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models.entities
 
@@ -35,28 +35,28 @@ import blue.starry.penicillin.core.session.ApiClient
 
 import blue.starry.penicillin.models.PenicillinModel
 
-data class StatusEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val hashtags by modelList { HashtagEntity(it, client) }
-    val media by modelList { MediaEntity(it, client) }
-    val symbols by modelList { SymbolEntity(it, client) }
-    val userMentions by modelList("user_mentions") { UserMentionEntity(it, client) }
-    val urls by modelList { URLEntity(it, client) }
+public data class StatusEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val hashtags: List<HashtagEntity> by modelList { HashtagEntity(it, client) }
+    public val media: List<MediaEntity> by modelList { MediaEntity(it, client) }
+    public val symbols: List<SymbolEntity> by modelList { SymbolEntity(it, client) }
+    public val userMentions: List<UserMentionEntity> by modelList("user_mentions") { UserMentionEntity(it, client) }
+    public val urls: List<URLEntity> by modelList { URLEntity(it, client) }
 
-    data class HashtagEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val text by string
-        val indices by intList
+    public data class HashtagEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val text: String by string
+        public val indices: List<Int> by intList
     }
 
-    data class UserMentionEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val screenName by string("screen_name")
-        val name by string
-        val id by long
-        val idStr by string("id_str")
-        val indices by intList
+    public data class UserMentionEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val screenName: String by string("screen_name")
+        public val name: String by string
+        public val id: Long by long
+        public val idStr: String by string("id_str")
+        public val indices: List<Int> by intList
     }
 
-    data class SymbolEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val text by string
-        val indices by intList
+    public data class SymbolEntity(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val text: String by string
+        public val indices: List<Int> by intList
     }
 }

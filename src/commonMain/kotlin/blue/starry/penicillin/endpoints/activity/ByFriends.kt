@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.activity
 
@@ -32,7 +32,6 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Activity
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.models.ActivityEvent
 
 /**
@@ -42,11 +41,12 @@ import blue.starry.penicillin.models.ActivityEvent
  * @receiver [Activity] endpoint instance.
  * @return [JsonArrayApiAction] for [ActivityEvent] model.
  */
-@PrivateEndpoint(EmulationMode.Tweetdeck)
-fun Activity.byFriends(
+public fun Activity.byFriends(
     count: Int? = null,
     vararg options: Option
-) = client.session.get("/1.1/activity/by_friends.json") {
+): JsonArrayApiAction<ActivityEvent> = client.session.get("/1.1/activity/by_friends.json") {
+    emulationModes += EmulationMode.Tweetdeck
+
     parameters(
         "count" to (count ?: 40),
         "skip_aggregation" to true,
@@ -67,5 +67,5 @@ fun Activity.byFriends(
  * Shorthand property to [Activity.byFriends].
  * @see Activity.byFriends
  */
-val Activity.byFriends
+public val Activity.byFriends: JsonArrayApiAction<ActivityEvent>
     get() = byFriends()

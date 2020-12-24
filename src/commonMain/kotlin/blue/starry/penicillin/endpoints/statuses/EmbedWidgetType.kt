@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Set to video to return a Twitter Video embed for the given Tweet.
  */
-enum class EmbedWidgetType(override val value: String?): EnumRequestParameter {
+public enum class EmbedWidgetType(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

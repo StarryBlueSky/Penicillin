@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.blocks
 
@@ -30,7 +30,6 @@ import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.formBody
 import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.Blocks
-import blue.starry.penicillin.endpoints.EndpointOverloads
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.models.User
 
@@ -47,13 +46,12 @@ import blue.starry.penicillin.models.User
  * @return [JsonObjectApiAction] for [User] model.
  * @see Blocks.destroyByUserId
  */
-@EndpointOverloads
-fun Blocks.destroyByScreenName(
+public fun Blocks.destroyByScreenName(
     screenName: String,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = destroy(screenName, null, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = destroy(screenName, null, includeEntities, skipStatus, *options)
 
 /**
  * Un-blocks the user specified in the ID parameter for the authenticating user. Returns the un-blocked user when successful. If relationships existed before the block was instantiated, they will not be restored.
@@ -68,13 +66,12 @@ fun Blocks.destroyByScreenName(
  * @return [JsonObjectApiAction] for [User] model.
  * @see Blocks.destroyByScreenName
  */
-@EndpointOverloads
-fun Blocks.destroyByUserId(
+public fun Blocks.destroyByUserId(
     userId: Long,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = destroy(null, userId, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = destroy(null, userId, includeEntities, skipStatus, *options)
 
 private fun Blocks.destroy(
     screenName: String? = null,

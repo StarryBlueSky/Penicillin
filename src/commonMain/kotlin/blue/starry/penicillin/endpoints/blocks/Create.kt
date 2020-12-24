@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.blocks
 
@@ -30,7 +30,6 @@ import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.formBody
 import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.Blocks
-import blue.starry.penicillin.endpoints.EndpointOverloads
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.models.User
 
@@ -49,13 +48,12 @@ import blue.starry.penicillin.models.User
  * @return [JsonObjectApiAction] for [User] model.
  * @see Blocks.createByUserId
  */
-@EndpointOverloads
-fun Blocks.createByScreenName(
+public fun Blocks.createByScreenName(
     screenName: String,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = create(screenName, null, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = create(screenName, null, includeEntities, skipStatus, *options)
 
 /**
  * Blocks the specified user from following the authenticating user. In addition the blocked user will not show in the authenticating users mentions or timeline (unless retweeted by another user). If a follow or friend relationship exists it is destroyed.
@@ -72,13 +70,12 @@ fun Blocks.createByScreenName(
  * @return [JsonObjectApiAction] for [User] model.
  * @see Blocks.createByScreenName
  */
-@EndpointOverloads
-fun Blocks.createByUserId(
+public fun Blocks.createByUserId(
     userId: Long,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = create(null, userId, includeEntities, skipStatus, *options)
+): JsonObjectApiAction<User> = create(null, userId, includeEntities, skipStatus, *options)
 
 private fun Blocks.create(
     screenName: String? = null,

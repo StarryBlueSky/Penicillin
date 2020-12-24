@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * This is the minimal granularity of place types to return.
  */
-enum class GeoGranularity(override val value: String?): EnumRequestParameter {
+public enum class GeoGranularity(override val value: String?): EnumRequestParameter {
     /**
      * Default value.
      */

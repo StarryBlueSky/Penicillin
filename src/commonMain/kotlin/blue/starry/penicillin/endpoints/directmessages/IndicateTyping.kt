@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.directmessages
 
@@ -42,10 +42,10 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [DirectMessages] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun DirectMessages.indicateTyping(
+public fun DirectMessages.indicateTyping(
     recipientId: Long,
     vararg options: Option
-) = client.session.post("/1.1/direct_messages/indicate_typing.json") {
+): EmptyApiAction = client.session.post("/1.1/direct_messages/indicate_typing.json") {
     formBody(
         "recipient_id" to recipientId,
         *options

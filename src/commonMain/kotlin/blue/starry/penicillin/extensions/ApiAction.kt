@@ -41,7 +41,7 @@ import mu.KotlinLogging
  * @throws PenicillinException General Penicillin exceptions.
  * @throws CancellationException Thrown when coroutine scope is cancelled.
  */
-suspend fun <R: Any> ApiAction<R>.execute(): R {
+public suspend fun <R: Any> ApiAction<R>.execute(): R {
     return invoke()
 }
 
@@ -56,7 +56,7 @@ suspend fun <R: Any> ApiAction<R>.execute(): R {
  * @throws PenicillinException General Penicillin exceptions.
  * @throws CancellationException Thrown when coroutine scope is cancelled.
  */
-suspend fun <R: Any> ApiAction<R>.executeWithTimeout(timeoutInMillis: Long): R? {
+public suspend fun <R: Any> ApiAction<R>.executeWithTimeout(timeoutInMillis: Long): R? {
     return withTimeoutOrNull(timeoutInMillis) {
         execute()
     }
@@ -71,7 +71,7 @@ suspend fun <R: Any> ApiAction<R>.executeWithTimeout(timeoutInMillis: Long): R? 
  * @throws PenicillinException General Penicillin exceptions.
  * @throws CancellationException Thrown when coroutine scope is cancelled.
  */
-suspend fun <R: Any> ApiAction<R>.executeWithTimeout(): R? {
+public suspend fun <R: Any> ApiAction<R>.executeWithTimeout(): R? {
     return executeWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
@@ -80,7 +80,7 @@ suspend fun <R: Any> ApiAction<R>.executeWithTimeout(): R? {
  * 
  * @return [Deferred] object for api execution.
  */
-fun <R: Any> ApiAction<R>.executeAsync(): Deferred<R> {
+public fun <R: Any> ApiAction<R>.executeAsync(): Deferred<R> {
     return session.async {
         execute()
     }
@@ -94,7 +94,7 @@ fun <R: Any> ApiAction<R>.executeAsync(): Deferred<R> {
  *
  * @throws PenicillinException General Penicillin exceptions.
  */
-fun <R: Any> ApiAction<R>.complete(): R {
+public fun <R: Any> ApiAction<R>.complete(): R {
     return runBlockingAlt(session.coroutineContext) {
         execute()
     }
@@ -110,7 +110,7 @@ fun <R: Any> ApiAction<R>.complete(): R {
  *
  * @throws PenicillinException General Penicillin exceptions.
  */
-fun <R: Any> ApiAction<R>.completeWithTimeout(timeoutInMillis: Long): R? {
+public fun <R: Any> ApiAction<R>.completeWithTimeout(timeoutInMillis: Long): R? {
     // TODO
     return completeWithTimeout(timeoutInMillis)
 }
@@ -123,7 +123,7 @@ fun <R: Any> ApiAction<R>.completeWithTimeout(timeoutInMillis: Long): R? {
  * 
  * @throws PenicillinException General Penicillin exceptions.
  */
-fun <R: Any> ApiAction<R>.completeWithTimeout(): R? {
+public fun <R: Any> ApiAction<R>.completeWithTimeout(): R? {
     return completeWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
@@ -150,7 +150,7 @@ internal val ApiAction<*>.defaultApiFallback: ApiFallback
  * 
  * @return [Job] for api execution.
  */
-inline fun <R: Any> ApiAction<R>.queue(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+public inline fun <R: Any> ApiAction<R>.queue(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
             execute()
@@ -169,7 +169,7 @@ inline fun <R: Any> ApiAction<R>.queue(crossinline onFailure: ApiFallback, cross
  *
  * @return [Job] for api execution.
  */
-inline fun <R: Any> ApiAction<R>.queue(crossinline onSuccess: ApiCallback<R>): Job {
+public inline fun <R: Any> ApiAction<R>.queue(crossinline onSuccess: ApiCallback<R>): Job {
     return queue(defaultApiFallback, onSuccess)
 }
 
@@ -178,7 +178,7 @@ inline fun <R: Any> ApiAction<R>.queue(crossinline onSuccess: ApiCallback<R>): J
  *
  * @return [Job] for api execution.
  */
-fun <R: Any> ApiAction<R>.queue(): Job {
+public fun <R: Any> ApiAction<R>.queue(): Job {
     return queue(defaultApiFallback, defaultApiCallback)
 }
 
@@ -191,7 +191,7 @@ fun <R: Any> ApiAction<R>.queue(): Job {
  *
  * @return [Job] for api execution.
  */
-inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+public inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
             withTimeout(timeoutInMillis) {
@@ -213,7 +213,7 @@ inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossin
  *
  * @return [Job] for api execution.
  */
-inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onSuccess: ApiCallback<R>): Job {
+public inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(timeoutInMillis, defaultApiFallback, onSuccess)
 }
 
@@ -224,7 +224,7 @@ inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossin
  *
  * @return [Job] for api execution.
  */
-fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long): Job {
+public fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long): Job {
     return queueWithTimeout(timeoutInMillis, defaultApiFallback, {})
 }
 
@@ -236,7 +236,7 @@ fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long): Job {
  *
  * @return [Job] for api execution.
  */
-inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+public inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(session.option.defaultTimeoutInMillis, onFailure, onSuccess)
 }
 
@@ -247,7 +247,7 @@ inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onFailure: ApiFall
  *
  * @return [Job] for api execution.
  */
-inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onSuccess: ApiCallback<R>): Job {
+public inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(defaultApiFallback, onSuccess)
 }
 
@@ -256,6 +256,6 @@ inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onSuccess: ApiCall
  *
  * @return [Job] for api execution.
  */
-fun <R: Any> ApiAction<R>.queueWithTimeout(): Job {
+public fun <R: Any> ApiAction<R>.queueWithTimeout(): Job {
     return queueWithTimeout(defaultApiFallback, defaultApiCallback)
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -30,72 +30,72 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
-object Account {
-    data class Settings(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val addressBookLiveSyncEnabled by boolean("address_book_live_sync_enabled")
-        val allowAdsPersonalization by boolean("allow_ads_personalization")
-        val allowAuthenticatedPeriscopeRequests by boolean("allow_authenticated_periscope_requests")
-        val allowContributorRequest by string("allow_contributor_request")
-        val allowDmGroupsFrom by string("allow_dm_groups_from")
-        val allowDmsFrom by string("allow_dms_from")
-        val allowLocationHistoryPersonalization by boolean("allow_location_history_personalization")
-        val allowLoggedOutDevicePersonalization by boolean("allow_logged_out_device_personalization")
-        val allowMediaTagging by string("allow_media_tagging")
-        val allowSharingDataForThirdPartyPersonalization by boolean("allow_sharing_data_for_third_party_personalization")
-        val altTextComposeEnabled by nullableString("alt_text_compose_enabled")
-        val alwaysUseHttps by boolean("always_use_https")
-        val countryCode by string("country_code")
-        val discoverableByEmail by boolean("discoverable_by_email")
-        val discoverableByMobilePhone by boolean("discoverable_by_mobile_phone")
-        val displaySensitiveMedia by boolean("display_sensitive_media")
-        val dmReceiptSetting by string("dm_receipt_setting")
-        val geoEnabled by boolean("geo_enabled")
-        val languageRaw by string("language")
-        val mentionFilter by nullableString("mention_filter")
-        val notificationsAbuseFilterQuality by string("notifications_abuse_filter_quality")
-        val notificationsFilterQuality by string("notifications_filter_quality")
-        val personalizedTrends by boolean("personalized_trends")
-        val protected by boolean
-        val rankedTimelineEligible by nullableString("ranked_timeline_eligible")
-        val rankedTimelineSetting by nullableInt("ranked_timeline_setting")
-        val screenName by string("screen_name")
-        val settingsMetadata by model("settings_metadata") { SettingMetadata(it, client) }
-        val sleepTime by model("sleep_time") { SleepTime(it, client) }
-        val timeZone by model("time_zone") { TimeZone(it, client) }
-        val translatorType by string("translator_type")
-        val universalQualityFilteringEnabled by string("universal_quality_filtering_enabled")
-        val useCookiePersonalization by boolean("use_cookie_personalization")
+public object Account {
+    public data class Settings(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val addressBookLiveSyncEnabled: Boolean by boolean("address_book_live_sync_enabled")
+        public val allowAdsPersonalization: Boolean by boolean("allow_ads_personalization")
+        public val allowAuthenticatedPeriscopeRequests: Boolean by boolean("allow_authenticated_periscope_requests")
+        public val allowContributorRequest: String by string("allow_contributor_request")
+        public val allowDmGroupsFrom: String by string("allow_dm_groups_from")
+        public val allowDmsFrom: String by string("allow_dms_from")
+        public val allowLocationHistoryPersonalization: Boolean by boolean("allow_location_history_personalization")
+        public val allowLoggedOutDevicePersonalization: Boolean by boolean("allow_logged_out_device_personalization")
+        public val allowMediaTagging: String by string("allow_media_tagging")
+        public val allowSharingDataForThirdPartyPersonalization: Boolean by boolean("allow_sharing_data_for_third_party_personalization")
+        public val altTextComposeEnabled: String? by nullableString("alt_text_compose_enabled")
+        public val alwaysUseHttps: Boolean by boolean("always_use_https")
+        public val countryCode: String by string("country_code")
+        public val discoverableByEmail: Boolean by boolean("discoverable_by_email")
+        public val discoverableByMobilePhone: Boolean by boolean("discoverable_by_mobile_phone")
+        public val displaySensitiveMedia: Boolean by boolean("display_sensitive_media")
+        public val dmReceiptSetting: String by string("dm_receipt_setting")
+        public val geoEnabled: Boolean by boolean("geo_enabled")
+        public val languageRaw: String by string("language")
+        public val mentionFilter: String? by nullableString("mention_filter")
+        public val notificationsAbuseFilterQuality: String by string("notifications_abuse_filter_quality")
+        public val notificationsFilterQuality: String by string("notifications_filter_quality")
+        public val personalizedTrends: Boolean by boolean("personalized_trends")
+        public val protected: Boolean by boolean
+        public val rankedTimelineEligible: String? by nullableString("ranked_timeline_eligible")
+        public val rankedTimelineSetting: Int? by nullableInt("ranked_timeline_setting")
+        public val screenName: String by string("screen_name")
+        public val settingsMetadata: SettingMetadata by model("settings_metadata") { SettingMetadata(it, client) }
+        public val sleepTime: SleepTime by model("sleep_time") { SleepTime(it, client) }
+        public val timeZone: TimeZone by model("time_zone") { TimeZone(it, client) }
+        public val translatorType: String by string("translator_type")
+        public val universalQualityFilteringEnabled: String by string("universal_quality_filtering_enabled")
+        public val useCookiePersonalization: Boolean by boolean("use_cookie_personalization")
 
-        data class SettingMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel
+        public data class SettingMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 
-        data class SleepTime(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val enabled by boolean
-            val startTime by nullableLong("start_time")
-            val endTime by nullableLong("end_time")
+        public data class SleepTime(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val enabled: Boolean by boolean
+            public val startTime: Long? by nullableLong("start_time")
+            public val endTime: Long? by nullableLong("end_time")
         }
 
-        data class TimeZone(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val name by string
-            val utcOffset by int("utc_offset")
-            val tzinfoName by string("tzinfo_name")
+        public data class TimeZone(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val name: String by string
+            public val utcOffset: Int by int("utc_offset")
+            public val tzinfoName: String by string("tzinfo_name")
         }
     }
 
-    data class VerifyCredentials(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonUser(parentJson, parentClient) {
-        val email by string
-        val phone by model { Phone(it, client) }
+    public data class VerifyCredentials(private val parentJson: JsonObject, private val parentClient: ApiClient): CommonUser(parentJson, parentClient) {
+        public val email: String by string
+        public val phone: Phone by model { Phone(it, client) }
 
-        data class Phone(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val address by nullableString
-            val addressForSms by nullableString("address_for_sms")
-            val carrier by nullableString
-            val countryCode by nullableString("country_code")
-            val countryName by nullableString("country_name")
-            val createdAt by nullableString("created_at")
-            val deviceType by nullableString("device_type")
-            val enabledFor by nullableString("enabled_for")
-            val id by nullableLong
-            val verified by nullableBoolean
+        public data class Phone(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val address: String? by nullableString
+            public val addressForSms: String? by nullableString("address_for_sms")
+            public val carrier: String? by nullableString
+            public val countryCode: String? by nullableString("country_code")
+            public val countryName: String? by nullableString("country_name")
+            public val createdAt: String? by nullableString("created_at")
+            public val deviceType: String? by nullableString("device_type")
+            public val enabledFor: String? by nullableString("enabled_for")
+            public val id: Long? by nullableLong
+            public val verified: Boolean? by nullableBoolean
         }
     }
 }

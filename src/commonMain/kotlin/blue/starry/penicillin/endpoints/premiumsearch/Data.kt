@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 
 package blue.starry.penicillin.endpoints.premiumsearch
@@ -58,7 +58,7 @@ import kotlinx.datetime.LocalDateTime
  * @return [PremiumSearchJsonObjectApiAction] for [PremiumSearchData] model.
  */
 @PenicillinExperimentalApi
-fun PremiumSearch.data(
+public fun PremiumSearch.data(
     product: SearchProduct,
     label: String,
     query: String,
@@ -68,7 +68,7 @@ fun PremiumSearch.data(
     maxResults: Int? = null,
     next: String? = null,
     vararg options: Option
-) = environment(product, label).data(query, tag, fromDate, toDate, maxResults, next, *options)
+): PremiumSearchJsonObjectApiAction<PremiumSearchData> = environment(product, label).data(query, tag, fromDate, toDate, maxResults, next, *options)
 
 /**
  * Returns a collection of relevant [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) matching a specified query.
@@ -84,7 +84,7 @@ fun PremiumSearch.data(
  * @return [PremiumSearchJsonObjectApiAction] for [PremiumSearchData] model.
  */
 @PenicillinExperimentalApi
-fun PremiumSearchEnvironment.data(
+public fun PremiumSearchEnvironment.data(
     query: String,
     tag: String? = null,
     fromDate: LocalDateTime? = null,
@@ -92,7 +92,7 @@ fun PremiumSearchEnvironment.data(
     maxResults: Int? = null,
     next: String? = null,
     vararg options: Option
-) = client.session.post("$endpoint.json") {
+): PremiumSearchJsonObjectApiAction<PremiumSearchData> = client.session.post("$endpoint.json") {
     jsonBody(
         "query" to query,
         "tag" to tag,

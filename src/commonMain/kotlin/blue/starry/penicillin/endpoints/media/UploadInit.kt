@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.media
 
@@ -47,13 +47,13 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [Media] endpoint instance.
  * @return [JsonObjectApiAction] for [blue.starry.penicillin.models.Media] model.
  */
-fun Media.uploadInit(
+public fun Media.uploadInit(
     totalBytes: Int,
     mediaType: MediaType,
     mediaCategory: MediaCategory = MediaCategory.Default,
     additionalOwners: List<Long>? = null,
     vararg options: Option
-) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+): JsonObjectApiAction<blue.starry.penicillin.models.Media> = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
     formBody(
         "command" to "INIT",
         "total_bytes" to totalBytes,

@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.friends: Friends
+public val ApiClient.friends: Friends
     get() = Friends(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.friends: Friends
  * @param client Current [ApiClient] instance.
  * @see ApiClient.friends
  */
-class Friends(override val client: ApiClient): Endpoint
+public class Friends(override val client: ApiClient): Endpoint

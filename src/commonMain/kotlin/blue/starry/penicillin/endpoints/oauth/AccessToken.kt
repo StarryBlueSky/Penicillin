@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.oauth
 
@@ -42,26 +42,26 @@ import blue.starry.penicillin.extensions.use
 /**
  * Represents "/oauth/access_token" response.
  */
-data class AccessTokenResponse(
+public data class AccessTokenResponse(
     /**
      * Access token for this application.
      */
-    val accessToken: String,
+    public val accessToken: String,
 
     /**
      * Access token secret for this application.
      */
-    val accessTokenSecret: String,
+    public val accessTokenSecret: String,
 
     /**
      * User id of authenticated user.
      */
-    val userId: Long,
+    public val userId: Long,
 
     /**
      * Screen name of authenticated user.
      */
-    val screenName: String
+    public val screenName: String
 )
 
 /**
@@ -74,7 +74,7 @@ data class AccessTokenResponse(
  * @receiver [OAuth] endpoint instance.
  * @return [AccessTokenResponse].
  */
-suspend fun OAuth.accessToken(
+public suspend fun OAuth.accessToken(
     consumerKey: String,
     consumerSecret: String,
     requestToken: String,
@@ -113,12 +113,12 @@ suspend fun OAuth.accessToken(
  * @receiver [OAuth] endpoint instance.
  * @return [AccessTokenResponse].
  */
-suspend fun OAuth.accessToken(
+public suspend fun OAuth.accessToken(
     requestToken: String,
     requestTokenSecret: String,
     verifier: String,
     vararg options: Option
-) = accessToken(client.session.credentials.consumerKey!!, client.session.credentials.consumerSecret!!, requestToken, requestTokenSecret, verifier, *options)
+): AccessTokenResponse = accessToken(client.session.credentials.consumerKey!!, client.session.credentials.consumerSecret!!, requestToken, requestTokenSecret, verifier, *options)
 
 private fun OAuth.accessTokenInternal(
     verifier: String,

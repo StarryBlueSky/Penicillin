@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.statuses
 
@@ -61,7 +61,7 @@ import blue.starry.penicillin.models.Status
  * @receiver [Statuses] endpoint instance.
  * @return [JsonObjectApiAction] for [Status] model.
  */
-fun Statuses.create(
+public fun Statuses.create(
     status: String,
     inReplyToStatusId: Long? = null,
     autoPopulateReplyMetadata: Boolean? = null,
@@ -79,7 +79,7 @@ fun Statuses.create(
     cardUri: String? = null,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = client.session.post("/1.1/statuses/update.json") {
+): JsonObjectApiAction<Status> = client.session.post("/1.1/statuses/update.json") {
     formBody(
         "auto_populate_reply_metadata" to "true",
         "batch_mode" to "off",

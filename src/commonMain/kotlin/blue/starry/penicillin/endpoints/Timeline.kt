@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.timeline: Timeline
+public val ApiClient.timeline: Timeline
     get() = Timeline(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.timeline: Timeline
  * @param client Current [ApiClient] instance.
  * @see ApiClient.timeline
  */
-class Timeline(override val client: ApiClient): Endpoint
+public class Timeline(override val client: ApiClient): Endpoint

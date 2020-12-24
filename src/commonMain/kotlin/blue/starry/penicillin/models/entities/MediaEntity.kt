@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models.entities
 
@@ -36,50 +36,50 @@ import blue.starry.penicillin.models.PenicillinModel
 import blue.starry.penicillin.models.Photo
 import blue.starry.penicillin.models.UrlEntityModel
 
-data class MediaEntity(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
-    val additionalMediaInfo by nullableModel("additional_media_info") { AdditionalMediaInfo(it, client) }
-    override val displayUrl by string("display_url")
-    override val expandedUrl by string("expanded_url")
-    val extAltText by nullableString("ext_alt_text")
-    val features by nullableModel { Feature(it, client) }
-    val id by long
-    val idStr by string("id_str")
-    override val indices by intList
-    val mediaUrl by string("media_url")
-    val mediaUrlHttps by string("media_url_https")
-    val sizes by nullableModel { Photo(it, client) }
-    val sourceStatusId by nullableLong("source_status_id")
-    val sourceStatusIdStr by nullableString("source_status_id_str")
-    val type by string
-    override val url by string
-    val videoInfo by nullableModel("video_info") { VideoInfo(it, client) }
+public data class MediaEntity(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
+    public val additionalMediaInfo: AdditionalMediaInfo? by nullableModel("additional_media_info") { AdditionalMediaInfo(it, client) }
+    override val displayUrl: String by string("display_url")
+    override val expandedUrl: String by string("expanded_url")
+    public val extAltText: String? by nullableString("ext_alt_text")
+    public val features: Feature? by nullableModel { Feature(it, client) }
+    public val id: Long by long
+    public val idStr: String by string("id_str")
+    override val indices: List<Int> by intList
+    public val mediaUrl: String by string("media_url")
+    public val mediaUrlHttps: String by string("media_url_https")
+    public val sizes: Photo? by nullableModel { Photo(it, client) }
+    public val sourceStatusId: Long? by nullableLong("source_status_id")
+    public val sourceStatusIdStr: String? by nullableString("source_status_id_str")
+    public val type: String by string
+    override val url: String by string
+    public val videoInfo: VideoInfo? by nullableModel("video_info") { VideoInfo(it, client) }
 
-    data class AdditionalMediaInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val title by string
-        val description by string
-        val embeddable by boolean
+    public data class AdditionalMediaInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val title: String by string
+        public val description: String by string
+        public val embeddable: Boolean by boolean
     }
 
-    data class Feature(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val large by model { Size(it, client) }
-        val medium by model { Size(it, client) }
-        val orig by model { Size(it, client) }
-        val small by model { Size(it, client) }
+    public data class Feature(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val large: Size by model { Size(it, client) }
+        public val medium: Size by model { Size(it, client) }
+        public val orig: Size by model { Size(it, client) }
+        public val small: Size by model { Size(it, client) }
 
-        data class Size(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val faces by modelList { FaceCoordinate(it, client) }
+        public data class Size(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val faces: List<FaceCoordinate> by modelList { FaceCoordinate(it, client) }
         }
     }
 
-    data class VideoInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val durationMillis by int("duration_millis")
-        val aspectRatio by intList
-        val variants by modelList { Variant(it, client) }
+    public data class VideoInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val durationMillis: Int by int("duration_millis")
+        public val aspectRatio: List<Int> by intList
+        public val variants: List<Variant> by modelList { Variant(it, client) }
 
-        data class Variant(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val bitrate by nullableInt
-            val contentType by string("content_type")
-            val url by string
+        public data class Variant(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val bitrate: Int? by nullableInt
+            public val contentType: String by string("content_type")
+            public val url: String by string
         }
     }
 }

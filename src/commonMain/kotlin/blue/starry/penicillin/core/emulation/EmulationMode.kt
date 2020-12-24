@@ -27,7 +27,7 @@ package blue.starry.penicillin.core.emulation
 /**
  * Represents emulation mode.
  */
-enum class EmulationMode {
+public enum class EmulationMode {
     /**
      * No emulation needed.
      */

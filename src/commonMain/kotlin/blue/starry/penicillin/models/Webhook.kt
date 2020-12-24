@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -33,20 +33,20 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
 
-object Webhook {
-    data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val id by string
-        val url by string
-        val valid by boolean
-        val createdAt by string("created_at")
+public object Webhook {
+    public data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val id: String by string
+        public val url: String by string
+        public val valid: Boolean by boolean
+        public val createdAt: String by string("created_at")
     }
 
-    data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val environments by modelList { Environment(it, client) }
+    public data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val environments: kotlin.collections.List<Environment> by modelList { Environment(it, client) }
 
-        data class Environment(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val name by string("environment_name")
-            val webhooks by modelList { Model(it, client) }
+        public data class Environment(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val name: String by string("environment_name")
+            public val webhooks: kotlin.collections.List<Model> by modelList { Model(it, client) }
         }
     }
 }

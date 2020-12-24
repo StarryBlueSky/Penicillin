@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.UserSuggestionCategory
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [UserSuggestionCategory] model.
  */
-fun Users.userSuggestionCategories(
+public fun Users.userSuggestionCategories(
     lang: String? = null,
     vararg options: Option
-) = client.session.get("/1.1/users/suggestions.json") {
+): JsonArrayApiAction<UserSuggestionCategory> = client.session.get("/1.1/users/suggestions.json") {
     parameters(
         "lang" to lang,
         *options
@@ -57,5 +57,5 @@ fun Users.userSuggestionCategories(
  * Shorthand property to [Users.userSuggestionCategories].
  * @see Users.userSuggestionCategories
  */
-val Users.userSuggestionCategories
-    get() = userSuggestionCategories()
+public val Users.userSuggestionCategories: JsonArrayApiAction<UserSuggestionCategory>
+     get() = userSuggestionCategories()

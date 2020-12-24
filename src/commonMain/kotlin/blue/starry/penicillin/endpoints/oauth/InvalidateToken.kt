@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.oauth
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.OAuthToken
  * @receiver [OAuth] endpoint instance.
  * @return [JsonObjectApiAction] for [OAuthToken] model.
  */
-fun OAuth.invalidateToken(
+public fun OAuth.invalidateToken(
     accessToken: String,
     accessTokenSecret: String,
     vararg options: Option
-) = invalidateTokenInternal(accessToken, accessTokenSecret, *options)
+): JsonObjectApiAction<OAuthToken> = invalidateTokenInternal(accessToken, accessTokenSecret, *options)
 
 /**
  * Allows a registered application to revoke an issued OAuth access_token by presenting its client credentials. Once an access_token has been invalidated, new creation attempts will yield a different Access Token and usage of the invalidated token will no longer be allowed.
@@ -59,15 +59,15 @@ fun OAuth.invalidateToken(
  * @receiver [OAuth] endpoint instance.
  * @return [JsonObjectApiAction] for [OAuthToken] model.
  */
-fun OAuth.invalidateToken(
+public fun OAuth.invalidateToken(
     vararg options: Option
-) = invalidateTokenInternal(client.session.credentials.accessToken!!, client.session.credentials.accessTokenSecret!!, *options)
+): JsonObjectApiAction<OAuthToken> = invalidateTokenInternal(client.session.credentials.accessToken!!, client.session.credentials.accessTokenSecret!!, *options)
 
 /**
  * Shorthand property to [OAuth.invalidateToken].
  * @see OAuth.invalidateToken
  */
-val OAuth.invalidateToken
+public val OAuth.invalidateToken: JsonObjectApiAction<OAuthToken>
     get() = invalidateToken()
 
 private fun OAuth.invalidateTokenInternal(

@@ -35,12 +35,13 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAccessor
 import java.util.*
+import java.util.concurrent.atomic.AtomicLong
 import kotlin.collections.set
 
 /**
  * Custom payload builder for [Status].
  */
-class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
+public class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     "created_at" to null,
     "id" to null,
     "id_str" to null,
@@ -75,21 +76,21 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets text.
      */
-    fun text(value: String) {
+    public fun text(value: String) {
         text = value
     }
 
     /**
      * Sets text.
      */
-    fun text(operation: () -> Any?) {
+    public fun text(operation: () -> Any?) {
         text = operation.invoke().toString()
     }
 
     /**
      * Sets text with builder.
      */
-    fun textBuilder(builder: StringBuilder.() -> Unit) {
+    public fun textBuilder(builder: StringBuilder.() -> Unit) {
         text = buildString(builder)
     }
 
@@ -98,7 +99,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets source.
      */
-    fun source(name: String, url: String) {
+    public fun source(name: String, url: String) {
         sourceName = name
         sourceUrl = url
     }
@@ -107,7 +108,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets created_at.
      */
-    fun createdAt(time: TemporalAccessor? = null) {
+    public fun createdAt(time: TemporalAccessor? = null) {
         createdAt = time
     }
 
@@ -115,7 +116,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets user.
      */
-    fun user(builder: CustomUserBuilder.() -> Unit) {
+    public fun user(builder: CustomUserBuilder.() -> Unit) {
         user.apply(builder)
     }
 
@@ -125,7 +126,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets in_reply_to.
      */
-    fun inReplyTo(statusId: Long, userId: Long, screenName: String) {
+    public fun inReplyTo(statusId: Long, userId: Long, screenName: String) {
         inReplyToStatusId = statusId
         inReplyToUserId = userId
         inReplyToScreenName = screenName
@@ -135,7 +136,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets retweeted.
      */
-    fun alreadyRetweeted() {
+    public fun alreadyRetweeted() {
         retweeted = true
     }
 
@@ -143,7 +144,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets favorited.
      */
-    fun alreadyFavorited() {
+    public fun alreadyFavorited() {
         favorited = true
     }
 
@@ -152,7 +153,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets count.
      */
-    fun count(retweet: Int = 0, favorite: Int = 0) {
+    public fun count(retweet: Int = 0, favorite: Int = 0) {
         retweetCount = retweet
         favoriteCount = favorite
     }
@@ -163,7 +164,7 @@ class CustomStatusBuilder: JsonBuilder<Status>, JsonMap by jsonMapOf(
     /**
      * Sets url.
      */
-    fun url(url: String, start: Int, end: Int) {
+    public fun url(url: String, start: Int, end: Int) {
         urls += UrlEntity(url, start, end)
     }
 
@@ -216,8 +217,7 @@ internal fun TemporalAccessor?.toCreatedAt(): String {
     return dateFormatter.format(this ?: Instant.now())
 }
 
-@Volatile private var id = 100000001L
+private val id = AtomicLong(100000001)
 internal fun generateId(): Long {
-    id += 2
-    return id
+    return id.addAndGet(2)
 }

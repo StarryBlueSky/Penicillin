@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.mutes
 
@@ -45,10 +45,10 @@ import blue.starry.penicillin.models.User
  * @receiver [Mutes] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Mutes.destroyByScreenName(
+public fun Mutes.destroyByScreenName(
     screenName: String,
     vararg options: Option
-) = destroy(screenName, null, *options)
+): JsonObjectApiAction<User> = destroy(screenName, null, *options)
 
 /**
  * Un-mutes the user specified in the ID parameter for the authenticating user.
@@ -62,10 +62,10 @@ fun Mutes.destroyByScreenName(
  * @receiver [Mutes] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Mutes.destroyByUserId(
+public fun Mutes.destroyByUserId(
     userId: Long,
     vararg options: Option
-) = destroy(null, userId, *options)
+): JsonObjectApiAction<User> = destroy(null, userId, *options)
 
 private fun Mutes.destroy(
     screenName: String? = null,

@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.directMessageEvent: DirectMessageEvents
+public val ApiClient.directMessageEvent: DirectMessageEvents
     get() = DirectMessageEvents(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.directMessageEvent: DirectMessageEvents
  * @param client Current [ApiClient] instance.
  * @see ApiClient.directMessageEvent
  */
-class DirectMessageEvents(override val client: ApiClient): Endpoint
+public class DirectMessageEvents(override val client: ApiClient): Endpoint

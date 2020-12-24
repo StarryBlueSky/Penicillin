@@ -40,7 +40,7 @@ internal const val directMessageDeprecatedMessage = "Legacy Direct Message API r
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.directMessages: DirectMessages
+public val ApiClient.directMessages: DirectMessages
     get() = DirectMessages(this)
 
 /**
@@ -50,4 +50,4 @@ val ApiClient.directMessages: DirectMessages
  * @param client Current [ApiClient] instance.
  * @see ApiClient.directMessages
  */
-class DirectMessages(override val client: ApiClient): Endpoint
+public class DirectMessages(override val client: ApiClient): Endpoint

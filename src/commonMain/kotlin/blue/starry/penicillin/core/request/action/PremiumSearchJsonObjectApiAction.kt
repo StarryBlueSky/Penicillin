@@ -40,7 +40,7 @@ import blue.starry.penicillin.models.PremiumSearchModel
 /**
  * The [ApiAction] that provides parsed json array with json model. This class supports premium search api operations.
  */
-class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
+public class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
     override val client: ApiClient,
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M,
@@ -48,7 +48,7 @@ class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
     /**
      * [PremiumSearchEnvironment] which will be used to acquire this response.
      */
-    val environment: PremiumSearchEnvironment
+    public val environment: PremiumSearchEnvironment
 ): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>>, Lazy<PremiumSearchJsonObjectResponse<M>> {
     override suspend operator fun invoke(): PremiumSearchJsonObjectResponse<M> {
         val (request, response) = execute()

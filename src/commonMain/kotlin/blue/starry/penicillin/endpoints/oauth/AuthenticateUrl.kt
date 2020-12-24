@@ -22,17 +22,15 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.oauth
 
 
-import io.ktor.http.ParametersBuilder
-import io.ktor.http.URLBuilder
-import io.ktor.http.Url
 import blue.starry.penicillin.core.request.EndpointHost
 import blue.starry.penicillin.endpoints.OAuth
 import blue.starry.penicillin.endpoints.Option
+import io.ktor.http.*
 
 /**
  * Allows a Consumer application to use an OAuth request_token to request user authorization.
@@ -47,7 +45,7 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [OAuth] endpoint instance.
  * @return [Url].
  */
-fun OAuth.authenticateUrl(
+public fun OAuth.authenticateUrl(
     requestToken: String,
     forceLogin: Boolean? = null,
     screenName: String? = null,

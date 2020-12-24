@@ -24,34 +24,34 @@
 
 package blue.starry.penicillin.core.auth
 
-import io.ktor.client.request.forms.MultiPartFormDataContent
-import io.ktor.http.*
-import io.ktor.util.date.GMTDate
-import io.ktor.util.flattenForEach
 import blue.starry.penicillin.core.request.copy
 import com.benasher44.uuid.uuid4
+import io.ktor.client.request.forms.*
+import io.ktor.http.*
+import io.ktor.util.*
+import io.ktor.util.date.*
 
 /**
  * OAuth cryptography utilities.
  */
-object OAuthUtil {
+public object OAuthUtil {
     /**
      * Generates random uuid string with upper case.
      */
-    val randomUUID: String
+    public val randomUUID: String
         get() = uuid4().toString().toUpperCase()
 
     /**
      * Current epoch time string in seconds.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    val currentEpochTime: String
+    public val currentEpochTime: String
         get() = "${GMTDate().timestamp / 1000}"
 
     /**
      * Creates initial authorization header components.
      */
-    fun initialAuthorizationHeaderComponents(consumerKey: String, accessToken: String? = null, callback: String? = null, nonce: String = randomUUID, timestamp: String = currentEpochTime): MutableMap<String, String?> {
+    public fun initialAuthorizationHeaderComponents(consumerKey: String, accessToken: String? = null, callback: String? = null, nonce: String = randomUUID, timestamp: String = currentEpochTime): MutableMap<String, String?> {
         return linkedMapOf(
             "oauth_signature" to null,
             "oauth_callback" to callback,
@@ -67,7 +67,7 @@ object OAuthUtil {
     /**
      * Creates signature param.
      */
-    fun signatureParam(authorizationHeaderComponent: Map<String, String?>, body: Any, parameters: ParametersBuilder, forms: ParametersBuilder): Map<String, String> {
+    public fun signatureParam(authorizationHeaderComponent: Map<String, String?>, body: Any, parameters: ParametersBuilder, forms: ParametersBuilder): Map<String, String> {
         val result = authorizationHeaderComponent.filterValues { it != null }.map {
             it.key.encodeURLParameter() to it.value!!.encodeURLParameter()
         }.toMutableList()
@@ -86,28 +86,28 @@ object OAuthUtil {
     /**
      * Creates signature param string.
      */
-    fun signatureParamString(param: Map<String, String>): String {
+    public fun signatureParamString(param: Map<String, String>): String {
         return param.toList().joinToString("&") { "${it.first}=${it.second}" }.encodeOAuth()
     }
 
     /**
      * Creates signing base string.
      */
-    fun signingBaseString(httpMethod: HttpMethod, url: Url, signatureParamString: String): String {
+    public fun signingBaseString(httpMethod: HttpMethod, url: Url, signatureParamString: String): String {
         return "${httpMethod.value.toUpperCase()}&${url.toString().split("?").first().encodeOAuth()}&$signatureParamString"
     }
 
     /**
      * Creates signing key.
      */
-    fun signingKey(consumerSecret: String, accessTokenSecret: String? = null): String {
+    public fun signingKey(consumerSecret: String, accessTokenSecret: String? = null): String {
         return "${consumerSecret.encodeOAuth()}&${accessTokenSecret?.encodeOAuth().orEmpty()}"
     }
 
     /**
      * Creates signature.
      */
-    fun signature(signingKey: String, signatureBaseString: String): String {
+    public fun signature(signingKey: String, signatureBaseString: String): String {
         return createHmacSha1Signature(signingKey, signatureBaseString).encodeOAuth()
     }
 }

@@ -43,13 +43,23 @@ import kotlinx.coroutines.launch
 /**
  * The [ApiAction] that provides stream-able response.
  */
-class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(val client: ApiClient, val request: ApiRequest) {
+public class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(
+    /**
+     * The [ApiClient].
+     */
+    public val client: ApiClient,
+
+    /**
+     * The [ApiRequest].
+     */
+    public val request: ApiRequest
+) {
     /**
      * Listens with listener and default handler.
      *
      * @param listener [StreamListener].
      */
-    fun listen(listener: L, reconnect: Boolean = true): Job {
+    public fun listen(listener: L, reconnect: Boolean = true): Job {
         return client.session.launch {
             while (isActive) {
                 client.session.httpClient.request<HttpStatement>(request.builder.finalize()).execute {
@@ -73,8 +83,7 @@ class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(val client: ApiCli
      * This operation is suspendable.
      */
     private suspend fun handle(channel: ByteReadChannel, listener: L) {
-        @Suppress("UNCHECKED_CAST")
-        val handler = when (listener) {
+        @Suppress("UNCHECKED_CAST") val handler = when (listener) {
             is UserStreamListener -> UserStreamHandler(client, listener)
             is SampleStreamListener -> SampleStreamHandler(client, listener)
             is FilterStreamListener -> FilterStreamHandler(client, listener)

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.statuses
 
@@ -50,7 +50,7 @@ import blue.starry.penicillin.models.Status
  * @receiver [Statuses] endpoint instance.
  * @return [JsonObjectApiAction] for [Status] model.
  */
-fun Statuses.show(
+public fun Statuses.show(
     id: Long,
     trimUser: Boolean? = null,
     includeMyRetweet: Boolean? = null,
@@ -59,7 +59,7 @@ fun Statuses.show(
     includeCardUri: Boolean? = null,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = client.session.get("/1.1/statuses/show.json") {
+): JsonObjectApiAction<Status> = client.session.get("/1.1/statuses/show.json") {
     parameters(
         "id" to id,
         "trim_user" to trimUser,

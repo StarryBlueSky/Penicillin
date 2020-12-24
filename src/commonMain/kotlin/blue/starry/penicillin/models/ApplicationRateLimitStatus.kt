@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,11 +31,12 @@ import blue.starry.jsonkt.delegation.byNullableString
 import blue.starry.jsonkt.delegation.jsonObject
 import blue.starry.jsonkt.delegation.model
 import blue.starry.penicillin.core.session.ApiClient
-data class ApplicationRateLimitStatus(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val content by jsonObject("rate_limit_content")
-    val accessToken by content.byNullableString("access_token")
-    val application by content.byNullableString
-    val resources by model { Resources(it, client) }
 
-    data class Resources(override val json: JsonObject, override val client: ApiClient): PenicillinModel
+public data class ApplicationRateLimitStatus(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val content: kotlinx.serialization.json.JsonObject by jsonObject("rate_limit_content")
+    public val accessToken: String? by content.byNullableString("access_token")
+    public val application: String? by content.byNullableString
+    public val resources: Resources by model { Resources(it, client) }
+
+    public data class Resources(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 }

@@ -43,17 +43,17 @@ import blue.starry.penicillin.models.cursor.PenicillinCursorModel
 /**
  * Next cursor value.
  */
-val CursorJsonObjectResponse<*>.nextCursor: Long
+public val CursorJsonObjectResponse<*>.nextCursor: Long
     get() = result.nextCursor
 /**
  * If true, next cursor exists.
  */
-val CursorJsonObjectResponse<*>.hasNext: Boolean
+public val CursorJsonObjectResponse<*>.hasNext: Boolean
     get() = nextCursor > 0
 /**
  * New [ApiAction] with next cursor.
  */
-val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.next: CursorJsonObjectApiAction<M>
+public val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.next: CursorJsonObjectApiAction<M>
     get() = byCursor(nextCursor)
 
 /*
@@ -63,17 +63,17 @@ val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.next: CursorJsonObjec
 /**
  * Previous cursor value.
  */
-val CursorJsonObjectResponse<*>.previousCursor: Long
+public val CursorJsonObjectResponse<*>.previousCursor: Long
     get() = result.previousCursor
 /**
  * If true, previous cursor exists.
  */
-val CursorJsonObjectResponse<*>.hasPrevious: Boolean
+public val CursorJsonObjectResponse<*>.hasPrevious: Boolean
     get() = previousCursor > 0
 /**
  * New [ApiAction] with previous cursor.
  */
-val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.previous: CursorJsonObjectApiAction<M>
+public val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.previous: CursorJsonObjectApiAction<M>
     get() = byCursor(previousCursor)
 
 /*
@@ -86,7 +86,7 @@ val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.previous: CursorJsonO
  * @param cursor Cursor value.
  * @param options options Optional. Custom parameters of this request.
  */
-fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long, vararg options: Option): CursorJsonObjectApiAction<M> {
+public fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long, vararg options: Option): CursorJsonObjectApiAction<M> {
     if (cursor == 0L) {
         throw PenicillinException(LocalizedString.CursorIsZero, null, request, response)
     }
@@ -105,7 +105,7 @@ fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long
  *
  * @param options options Optional. Custom parameters of this request.
  */
-fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
+public fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
     return sequence {
         val first = complete()
         yield(first)
@@ -130,7 +130,7 @@ fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(vararg opt
  *
  * @param options options Optional. Custom parameters of this request.
  */
-fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
+public fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
     return sequence {
         yield(this@untilLast)
 

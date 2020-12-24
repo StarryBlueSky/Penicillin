@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.help: Help
+public val ApiClient.help: Help
     get() = Help(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.help: Help
  * @param client Current [ApiClient] instance.
  * @see ApiClient.help
  */
-class Help(override val client: ApiClient): Endpoint
+public class Help(override val client: ApiClient): Endpoint

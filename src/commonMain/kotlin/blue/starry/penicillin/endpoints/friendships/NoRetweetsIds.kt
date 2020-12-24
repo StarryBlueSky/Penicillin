@@ -22,13 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.friendships
 
 
 import blue.starry.jsonkt.longList
 import blue.starry.jsonkt.toJsonArray
+import blue.starry.penicillin.core.request.action.ApiAction
 import blue.starry.penicillin.core.request.action.DelegatedAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
@@ -48,10 +49,10 @@ import blue.starry.penicillin.extensions.execute
  * @receiver [Friendships] endpoint instance.
  * @return [DelegatedAction] for [List] of [Long].
  */
-fun Friendships.noRetweetsIds(
+public fun Friendships.noRetweetsIds(
     stringifyIds: Boolean? = null,
     vararg options: Option
-) = DelegatedAction {
+): ApiAction<List<Long>> = DelegatedAction {
     val result = client.session.get("/1.1/friendships/no_retweets/ids.json") {
         parameters(
             "stringify_ids" to stringifyIds, *options
@@ -65,5 +66,5 @@ fun Friendships.noRetweetsIds(
  * Shorthand property to [Friendships.noRetweetsIds].
  * @see Friendships.noRetweetsIds
  */
-val Friendships.noRetweetsIds
-    get() = noRetweetsIds()
+public val Friendships.noRetweetsIds: ApiAction<List<Long>>
+     get() = noRetweetsIds()

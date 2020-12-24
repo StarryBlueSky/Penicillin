@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.cards
 
@@ -33,7 +33,6 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Cards
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.models.CardState
 
 /**
@@ -44,12 +43,13 @@ import blue.starry.penicillin.models.CardState
  * @receiver [Cards] endpoint instance.
  * @return [JsonObjectApiAction] for [CardState] model.
  */
-@PrivateEndpoint(EmulationMode.TwitterForiPhone)
-fun Cards.show(
+public fun Cards.show(
     cardUri: String,
     responseCardName: String = "poll4choice_text_only",
     vararg options: Option
-) = client.session.get("/v2/capi/passthrough/1", EndpointHost.Card) {
+): JsonObjectApiAction<CardState> = client.session.get("/v2/capi/passthrough/1", EndpointHost.Card) {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "cards_platform" to "iPhone-13",
         "include_cards" to "1",

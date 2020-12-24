@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -30,8 +30,8 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.model
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
-data class Recommendation(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val token by string
-    val userId by string("user_id")
-    val user by model { User(it, client) }
+public data class Recommendation(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val token: String by string
+    public val userId: String by string("user_id")
+    public val user: User by model { User(it, client) }
 }

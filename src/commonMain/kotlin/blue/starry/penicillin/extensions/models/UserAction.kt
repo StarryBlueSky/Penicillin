@@ -22,10 +22,14 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.extensions.models
 
+import blue.starry.penicillin.core.request.action.CursorJsonObjectApiAction
+import blue.starry.penicillin.core.request.action.EmptyApiAction
+import blue.starry.penicillin.core.request.action.JsonArrayApiAction
+import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.endpoints.*
 import blue.starry.penicillin.endpoints.blocks.createByUserId
 import blue.starry.penicillin.endpoints.blocks.destroyByUserId
@@ -43,110 +47,114 @@ import blue.starry.penicillin.endpoints.timeline.userTimelineByUserId
 import blue.starry.penicillin.endpoints.users.reportSpamByUserId
 import blue.starry.penicillin.endpoints.users.showByUserId
 import blue.starry.penicillin.models.CommonUser
+import blue.starry.penicillin.models.Status
+import blue.starry.penicillin.models.User
+import blue.starry.penicillin.models.cursor.CursorIds
+import blue.starry.penicillin.models.cursor.CursorUsers
 
 /**
  * Creates an action to retrieve this user.
  */
-fun CommonUser.refresh() = client.users.showByUserId(userId = id)
+public fun CommonUser.refresh(): JsonObjectApiAction<User> = client.users.showByUserId(userId = id)
 
 /**
  * Creates an action to follow this user.
  */
-fun CommonUser.follow() = client.friendships.createByUserId(userId = id)
+public fun CommonUser.follow(): JsonObjectApiAction<User> = client.friendships.createByUserId(userId = id)
 
 /**
  * Creates an action to unfollow this user.
  */
-fun CommonUser.unfollow() = client.friendships.destroyByUserId(userId = id)
+public fun CommonUser.unfollow(): JsonObjectApiAction<User> = client.friendships.destroyByUserId(userId = id)
 
 /**
  * Creates an action to mute this user.
  */
-fun CommonUser.mute() = client.mutes.createByUserId(userId = id)
+public fun CommonUser.mute(): JsonObjectApiAction<User> = client.mutes.createByUserId(userId = id)
 
 /**
  * Creates an action to unmute this user.
  */
-fun CommonUser.unmute() = client.mutes.destroyByUserId(userId = id)
+public fun CommonUser.unmute(): JsonObjectApiAction<User> = client.mutes.destroyByUserId(userId = id)
 
 /**
  * Creates an action to block this user.
  */
-fun CommonUser.block() = client.blocks.createByUserId(userId = id)
+public fun CommonUser.block(): JsonObjectApiAction<User> = client.blocks.createByUserId(userId = id)
 
 /**
  * Creates an action to unblock this user.
  */
-fun CommonUser.unblock() = client.blocks.destroyByUserId(userId = id)
+public fun CommonUser.unblock(): JsonObjectApiAction<User> = client.blocks.destroyByUserId(userId = id)
 
 /**
  * Creates an action to report this user as spam.
  */
-fun CommonUser.reportAsSpam() = client.users.reportSpamByUserId(userId = id)
+public fun CommonUser.reportAsSpam(): JsonObjectApiAction<User> = client.users.reportSpamByUserId(userId = id)
 
 /**
  * Creates an ation to retrieve the user timeline of this user.
  */
-fun CommonUser.timeline() = client.timeline.userTimelineByUserId(userId = id)
+public fun CommonUser.timeline(): JsonArrayApiAction<Status> = client.timeline.userTimelineByUserId(userId = id)
 
 /**
  * Creates an action to retrieve friends' (follows') ids of this user.
  */
-fun CommonUser.friendIds() = client.friends.listIdsByUserId(userId = id)
+public fun CommonUser.friendIds(): CursorJsonObjectApiAction<CursorIds> = client.friends.listIdsByUserId(userId = id)
 
 /**
  * Creates an action to retrieve friends' (follows') users of this user.
  */
-fun CommonUser.friendUsers() = client.friends.listUsersByUserId(userId = id)
+public fun CommonUser.friendUsers(): CursorJsonObjectApiAction<CursorUsers> = client.friends.listUsersByUserId(userId = id)
 
 /**
  * Creates an action to retrieve followers' ids of this user.
  */
-fun CommonUser.followerIds() = client.followers.listIdsByUserId(userId = id)
+public fun CommonUser.followerIds(): CursorJsonObjectApiAction<CursorIds> = client.followers.listIdsByUserId(userId = id)
 
 /**
  * Creates an action to retrieve followers' users of this user.
  */
-fun CommonUser.followerUsers() = client.followers.listUsersByUserId(userId = id)
+public fun CommonUser.followerUsers(): CursorJsonObjectApiAction<CursorUsers> = client.followers.listUsersByUserId(userId = id)
 
 /**
  * Creates an action to add this user to the list.
  *
  * @param listId The list id.
  */
-fun CommonUser.addToList(listId: Long) = client.lists.addMember(listId, userId = id)
+public fun CommonUser.addToList(listId: Long): EmptyApiAction = client.lists.addMember(listId, userId = id)
 /**
  * Creates an action to add this user to the list.
  *
  * @param slug The list slug.
  * @param ownerScreenName The owner screen name of the list.
  */
-fun CommonUser.addToList(slug: String, ownerScreenName: String) = client.lists.addMember(slug, ownerScreenName, userId = id)
+public fun CommonUser.addToList(slug: String, ownerScreenName: String): EmptyApiAction = client.lists.addMember(slug, ownerScreenName, userId = id)
 /**
  * Creates an action to add this user to the list.
  *
  * @param slug The list slug.
  * @param ownerId The owner id of the list.
  */
-fun CommonUser.addToList(slug: String, ownerId: Long) = client.lists.addMember(slug, ownerId, userId = id)
+public fun CommonUser.addToList(slug: String, ownerId: Long): EmptyApiAction = client.lists.addMember(slug, ownerId, userId = id)
 
 /**
  * Creates an action to remove this user from the list.
  *
  * @param listId The list id.
  */
-fun CommonUser.removeFromList(listId: Long) = client.lists.removeMember(listId, userId = id)
+public fun CommonUser.removeFromList(listId: Long): EmptyApiAction = client.lists.removeMember(listId, userId = id)
 /**
  * Creates an action to remove this user from the list.
  *
  * @param slug The list slug.
  * @param ownerScreenName The owner screen name of the list.
  */
-fun CommonUser.removeFromList(slug: String, ownerScreenName: String) = client.lists.removeMember(slug, ownerScreenName, userId = id)
+public fun CommonUser.removeFromList(slug: String, ownerScreenName: String): EmptyApiAction = client.lists.removeMember(slug, ownerScreenName, userId = id)
 /**
  * Creates an action to remove this user from the list.
  *
  * @param slug The list slug.
  * @param ownerId The owner id of the list.
  */
-fun CommonUser.removeFromList(slug: String, ownerId: Long) = client.lists.removeMember(slug, ownerId, userId = id)
+public fun CommonUser.removeFromList(slug: String, ownerId: Long): EmptyApiAction = client.lists.removeMember(slug, ownerId, userId = id)

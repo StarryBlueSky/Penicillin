@@ -36,7 +36,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.stream: Stream
+public val ApiClient.stream: Stream
     get() = Stream(this)
 
 /**
@@ -46,4 +46,4 @@ val ApiClient.stream: Stream
  * @param client Current [ApiClient] instance.
  * @see ApiClient.stream
  */
-class Stream(override val client: ApiClient): Endpoint
+public class Stream(override val client: ApiClient): Endpoint

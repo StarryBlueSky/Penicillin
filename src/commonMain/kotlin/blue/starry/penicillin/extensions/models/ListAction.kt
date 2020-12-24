@@ -39,7 +39,7 @@ import blue.starry.penicillin.models.User
  * Adds the user to this list.
  * This function is suspend-function.
  */
-suspend operator fun TwitterList.plusAssign(user: User) {
+public suspend operator fun TwitterList.plusAssign(user: User) {
     client.lists.addMember(id, user.id).execute()
 }
 
@@ -47,7 +47,7 @@ suspend operator fun TwitterList.plusAssign(user: User) {
  * Adds the users to this list.
  * This function is suspend-function.
  */
-suspend operator fun TwitterList.plusAssign(users: Iterable<User>) {
+public suspend operator fun TwitterList.plusAssign(users: Iterable<User>) {
     users.map { it.id }.chunked(100).forEach {
         client.lists.addMembersByUserIds(id, it).execute()
     }
@@ -57,7 +57,7 @@ suspend operator fun TwitterList.plusAssign(users: Iterable<User>) {
  * Removes the user from this list.
  * This function is suspend-function.
  */
-suspend operator fun TwitterList.minusAssign(user: User) {
+public suspend operator fun TwitterList.minusAssign(user: User) {
     client.lists.removeMember(id, user.id).execute()
 }
 
@@ -65,7 +65,7 @@ suspend operator fun TwitterList.minusAssign(user: User) {
  * Removes the users from this list.
  * This function is suspend-function.
  */
-suspend operator fun TwitterList.minusAssign(users: Iterable<User>) {
+public suspend operator fun TwitterList.minusAssign(users: Iterable<User>) {
     users.map { it.id }.chunked(100).forEach {
         client.lists.removeMembersByUserIds(id, it).execute()
     }

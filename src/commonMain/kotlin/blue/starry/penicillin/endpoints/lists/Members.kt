@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -47,14 +47,14 @@ import blue.starry.penicillin.models.cursor.CursorUsers
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Lists.members(
+public fun Lists.members(
     listId: Long,
     count: Int? = null,
     cursor: Long? = null,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = members(listId, null, null, null, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers> = members(listId, null, null, null, count, cursor, includeEntities, skipStatus, *options)
 
 /**
  * Returns the members of the specified list. Private list members will only be shown if the authenticated user owns the specified list.
@@ -71,7 +71,7 @@ fun Lists.members(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Lists.membersByOwnerScreenName(
+public fun Lists.membersByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     count: Int? = null,
@@ -79,7 +79,7 @@ fun Lists.membersByOwnerScreenName(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = members(null, slug, ownerScreenName, null, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers> = members(null, slug, ownerScreenName, null, count, cursor, includeEntities, skipStatus, *options)
 
 /**
  * Returns the members of the specified list. Private list members will only be shown if the authenticated user owns the specified list.
@@ -96,7 +96,7 @@ fun Lists.membersByOwnerScreenName(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  */
-fun Lists.membersByOwnerId(
+public fun Lists.membersByOwnerId(
     slug: String,
     ownerId: Long,
     count: Int? = null,
@@ -104,7 +104,7 @@ fun Lists.membersByOwnerId(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = members(null, slug, null, ownerId, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers> = members(null, slug, null, ownerId, count, cursor, includeEntities, skipStatus, *options)
 
 private fun Lists.members(
     listId: Long? = null,

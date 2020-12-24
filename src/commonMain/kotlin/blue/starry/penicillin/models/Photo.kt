@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,15 +31,15 @@ import blue.starry.jsonkt.delegation.int
 import blue.starry.jsonkt.delegation.model
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
-data class Photo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val large by model { Size(it, client) }
-    val medium by model { Size(it, client) }
-    val small by model { Size(it, client) }
-    val thumb by model { Size(it, client) }
+public data class Photo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val large: Size by model { Size(it, client) }
+    public val medium: Size by model { Size(it, client) }
+    public val small: Size by model { Size(it, client) }
+    public val thumb: Size by model { Size(it, client) }
 
-    data class Size(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val h by int
-        val resize by string
-        val w by int
+    public data class Size(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val h: Int by int
+        public val resize: String by string
+        public val w: Int by int
     }
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,19 +31,19 @@ import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class Search(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val searchMetadata by model("search_metadata") { SearchMetadata(it, client) }
-    val statuses by modelList { Status(it, client) }
+public data class Search(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val searchMetadata: SearchMetadata by model("search_metadata") { SearchMetadata(it, client) }
+    public val statuses: List<Status> by modelList { Status(it, client) }
 
-    data class SearchMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val completedIn by float("completed_in")
-        val count by int
-        val maxId by long("max_id")
-        val maxIdStr by string("max_id_str")
-        val nextResults by nullableString("next_results")
-        val query by string
-        val refreshUrl by nullableString("refresh_url")
-        val sinceId by int("since_id")
-        val sinceIdStr by string("since_id_str")
+    public data class SearchMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val completedIn: Float by float("completed_in")
+        public val count: Int by int
+        public val maxId: Long by long("max_id")
+        public val maxIdStr: String by string("max_id_str")
+        public val nextResults: String? by nullableString("next_results")
+        public val query: String by string
+        public val refreshUrl: String? by nullableString("refresh_url")
+        public val sinceId: Int by int("since_id")
+        public val sinceIdStr: String by string("since_id_str")
     }
 }

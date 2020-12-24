@@ -38,7 +38,7 @@ import kotlin.collections.set
 /**
  * Custom payload builder for [DirectMessage].
  */
-class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMapOf(
+public class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMapOf(
     "created_at" to null,
     "entities" to jsonObjectOf(),
     "id" to null,
@@ -56,13 +56,13 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
     /**
      * "created_at".
      */
-    var createdAt: TemporalAccessor? = null
+    public var createdAt: TemporalAccessor? = null
 
     private var read = false
     /**
      * Sets read.
      */
-    fun read() {
+    public fun read() {
         read = true
     }
 
@@ -70,7 +70,7 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
     /**
      * Sets recipient.
      */
-    fun recipient(builder: CustomUserBuilder.() -> Unit) {
+    public fun recipient(builder: CustomUserBuilder.() -> Unit) {
         recipientBuilder.apply(builder)
     }
 
@@ -78,7 +78,7 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
     /**
      * Sets sender.
      */
-    fun sender(builder: CustomUserBuilder.() -> Unit) {
+    public fun sender(builder: CustomUserBuilder.() -> Unit) {
         senderBuilder.apply(builder)
     }
 
@@ -86,7 +86,7 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
     /**
      * Sets text.
      */
-    fun text(text: () -> Any?) {
+    public fun text(text: () -> Any?) {
         message = text()?.toString().orEmpty()
     }
 
@@ -94,7 +94,7 @@ class CustomDirectMessageBuilder: JsonBuilder<DirectMessage>, JsonMap by jsonMap
     /**
      * Sets entities.
      */
-    fun entities(json: JsonObject) {
+    public fun entities(json: JsonObject) {
         entities = json
     }
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.collections.entries
 
@@ -45,11 +45,11 @@ import blue.starry.penicillin.models.Collection
  * @receiver [CollectionEntries] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.Entry.Result] model.
  */
-fun CollectionEntries.remove(
+public fun CollectionEntries.remove(
     id: String,
     tweetId: Long,
     vararg options: Option
-) = client.session.post("/1.1/collections/entries/remove.json") {
+): JsonObjectApiAction<Collection.Entry.Result> = client.session.post("/1.1/collections/entries/remove.json") {
     formBody(
         "id" to id,
         "tweet_id" to tweetId,

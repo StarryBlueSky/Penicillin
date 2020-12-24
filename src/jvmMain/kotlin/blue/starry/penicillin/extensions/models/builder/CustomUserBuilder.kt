@@ -38,7 +38,7 @@ import kotlin.collections.set
 /**
  * Custom payload builder for [User].
  */
-class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
+public class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
     "id" to userId,
     "id_str" to userId.toString(),
     "name" to "Tweetstorm",
@@ -95,49 +95,49 @@ class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
     "notifications" to false,
     "contributors_enabled" to false
 ) {
-    companion object {
+    public companion object {
         private const val userId = 1L
     }
 
     /**
      * Sets name.
      */
-    fun name(value: String) {
+    public fun name(value: String) {
         this["name"] = value
     }
 
     /**
      * Sets screen_name
      */
-    fun screenName(value: String) {
+    public fun screenName(value: String) {
         this["screen_name"] = value
     }
 
     /**
      * Sets location.
      */
-    fun location(value: String) {
+    public fun location(value: String) {
         this["location"] = value
     }
 
     /**
      * Sets protected.
      */
-    fun isProtected() {
+    public fun isProtected() {
         this["protected"] = true
     }
 
     /**
      * Sets verified.
      */
-    fun isVerified() {
+    public fun isVerified() {
         this["verified"] = true
     }
 
     /**
      * Sets count.
      */
-    fun count(friends: Int = 0, followers: Int = 0, statuses: Int = 0, favorites: Int = 0, listed: Int = 0) {
+    public fun count(friends: Int = 0, followers: Int = 0, statuses: Int = 0, favorites: Int = 0, listed: Int = 0) {
         this["friends_count"] = friends
         this["followers_count"] = followers
         this["statuses_count"] = statuses
@@ -148,7 +148,7 @@ class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
     /**
      * Sets icon.
      */
-    fun icon(url: String) {
+    public fun icon(url: String) {
         this["profile_image_url"] = url.replace("https://", "http://")
         this["profile_image_url_https"] = url.replace("http://", "https://")
     }
@@ -157,7 +157,7 @@ class CustomUserBuilder: JsonBuilder<User>, JsonMap by jsonMapOf(
     /**
      * Sets created_at.
      */
-    fun createdAt(time: TemporalAccessor? = null) {
+    public fun createdAt(time: TemporalAccessor? = null) {
         createdAt = time
     }
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.TwitterList
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.unsubscribe(
+public fun Lists.unsubscribe(
     listId: Long,
     vararg options: Option
-) = unsubscribe(listId, null, null, null, *options)
+): JsonObjectApiAction<TwitterList> = unsubscribe(listId, null, null, null, *options)
 
 /**
  * Unsubscribes the authenticated user from the specified list.
@@ -59,11 +59,11 @@ fun Lists.unsubscribe(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.unsubscribeByOwnerScreenName(
+public fun Lists.unsubscribeByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     vararg options: Option
-) = unsubscribe(null, slug, ownerScreenName, null, *options)
+): JsonObjectApiAction<TwitterList> = unsubscribe(null, slug, ownerScreenName, null, *options)
 
 /**
  * Unsubscribes the authenticated user from the specified list.
@@ -76,11 +76,11 @@ fun Lists.unsubscribeByOwnerScreenName(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.unsubscribeByOwnerId(
+public fun Lists.unsubscribeByOwnerId(
     slug: String,
     ownerId: Long,
     vararg options: Option
-) = unsubscribe(null, slug, null, ownerId, *options)
+): JsonObjectApiAction<TwitterList> = unsubscribe(null, slug, null, ownerId, *options)
 
 private fun Lists.unsubscribe(
     listId: Long? = null,

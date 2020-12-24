@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.timeline
 
@@ -57,7 +57,7 @@ import blue.starry.penicillin.models.Status
  * @receiver [Timeline] endpoint instance.
  * @return [JsonArrayApiAction] for [Status] model.
  */
-fun Timeline.userTimeline(
+public fun Timeline.userTimeline(
     sinceId: Long? = null,
     count: Int? = null,
     maxId: Long? = null,
@@ -69,7 +69,7 @@ fun Timeline.userTimeline(
     tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
-) = userTimelineInternal(null, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
+): JsonArrayApiAction<Status> = userTimelineInternal(null, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
 
 /**
  * Returns a collection of the most recent [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) posted by the [user](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object) indicated by the screen_name or user_id parameters.
@@ -95,7 +95,7 @@ fun Timeline.userTimeline(
  * @receiver [Timeline] endpoint instance.
  * @return [JsonArrayApiAction] for [Status] model.
  */
-fun Timeline.userTimelineByUserId(
+public fun Timeline.userTimelineByUserId(
     userId: Long,
     sinceId: Long? = null,
     count: Int? = null,
@@ -108,7 +108,7 @@ fun Timeline.userTimelineByUserId(
     tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
-) = userTimelineInternal(userId, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
+): JsonArrayApiAction<Status> = userTimelineInternal(userId, null, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
 
 /**
  * Returns a collection of the most recent [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) posted by the [user](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object) indicated by the screen_name or user_id parameters.
@@ -134,7 +134,7 @@ fun Timeline.userTimelineByUserId(
  * @receiver [Timeline] endpoint instance.
  * @return [JsonArrayApiAction] for [Status] model.
  */
-fun Timeline.userTimelineByScreenName(
+public fun Timeline.userTimelineByScreenName(
     screenName: String,
     sinceId: Long? = null,
     count: Int? = null,
@@ -147,7 +147,7 @@ fun Timeline.userTimelineByScreenName(
     tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
-) = userTimelineInternal(null, screenName, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
+): JsonArrayApiAction<Status> = userTimelineInternal(null, screenName, sinceId, count, maxId, trimUser, excludeReplies, includeRTs, includeEntities, includeMyRetweet, tweetMode, includeCardUri, *options)
 
 private fun Timeline.userTimelineInternal(
     userId: Long? = null,
@@ -185,5 +185,5 @@ private fun Timeline.userTimelineInternal(
  * Shorthand property to [Timeline.userTimeline].
  * @see Timeline.userTimeline
  */
-val Timeline.userTimeline
+public val Timeline.userTimeline: JsonArrayApiAction<Status>
     get() = userTimeline()

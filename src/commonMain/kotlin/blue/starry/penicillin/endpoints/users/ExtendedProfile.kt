@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.endpoints.Users
 import blue.starry.penicillin.models.ExtendedProfile
 
@@ -41,12 +41,13 @@ import blue.starry.penicillin.models.ExtendedProfile
  * @receiver [Users] endpoint instance.
  * @return [JsonObjectApiAction] for [ExtendedProfile] model.
  */
-@PrivateEndpoint
-fun Users.extendedProfile(
+public fun Users.extendedProfile(
     screenName: String,
     includeBirthdate: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/users/extended_profile.json") {
+): JsonObjectApiAction<ExtendedProfile> = client.session.get("/1.1/users/extended_profile.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "screen_name" to screenName,
         "include_birthdate" to includeBirthdate,

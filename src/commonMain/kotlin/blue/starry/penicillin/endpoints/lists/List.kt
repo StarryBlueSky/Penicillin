@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -44,10 +44,10 @@ import blue.starry.penicillin.models.TwitterList
  * @receiver [Lists] endpoint instance.
  * @return [JsonArrayApiAction] for [TwitterList] model.
  */
-fun Lists.list(
+public fun Lists.list(
     reverse: Boolean? = null,
     vararg options: Option
-) = listInternal(null, null, reverse, *options)
+): JsonArrayApiAction<TwitterList> = listInternal(null, null, reverse, *options)
 
 /**
  * Returns all lists the authenticating or specified user subscribes to, including their own. The user is specified using the user_id or screen_name parameters. If no user is given, the authenticating user is used.
@@ -61,11 +61,11 @@ fun Lists.list(
  * @receiver [Lists] endpoint instance.
  * @return [JsonArrayApiAction] for [TwitterList] model.
  */
-fun Lists.list(
+public fun Lists.list(
     userId: Long,
     reverse: Boolean? = null,
     vararg options: Option
-) = listInternal(userId, null, reverse, *options)
+): JsonArrayApiAction<TwitterList> = listInternal(userId, null, reverse, *options)
 
 /**
  * Returns all lists the authenticating or specified user subscribes to, including their own. The user is specified using the user_id or screen_name parameters. If no user is given, the authenticating user is used.
@@ -79,11 +79,11 @@ fun Lists.list(
  * @receiver [Lists] endpoint instance.
  * @return [JsonArrayApiAction] for [TwitterList] model.
  */
-fun Lists.list(
+public fun Lists.list(
     screenName: String,
     reverse: Boolean? = null,
     vararg options: Option
-) = listInternal(null, screenName, reverse, *options)
+): JsonArrayApiAction<TwitterList> = listInternal(null, screenName, reverse, *options)
 
 private fun Lists.listInternal(
     userId: Long? = null,
@@ -103,5 +103,5 @@ private fun Lists.listInternal(
  * Shorthand property to [Lists.list].
  * @see Lists.list
  */
-val Lists.list
-    get() = list()
+public val Lists.list: JsonArrayApiAction<TwitterList>
+     get() = list()

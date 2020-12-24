@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -32,8 +32,8 @@ import blue.starry.jsonkt.delegation.long
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 
-data class TrendMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val contextMode by string("context_mode")
-    val refreshIntervalMillis by int("refresh_interval_millis")
-    val timestamp by long
+public data class TrendMetadata(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val contextMode: String by string("context_mode")
+    public val refreshIntervalMillis: Int by int("refresh_interval_millis")
+    public val timestamp: Long by long
 }

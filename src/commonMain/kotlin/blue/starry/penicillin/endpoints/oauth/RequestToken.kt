@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.oauth
 
@@ -37,21 +37,21 @@ import blue.starry.penicillin.extensions.execute
 /**
  * Represents "/oauth/request_token" response.
  */
-data class RequestTokenResponse(
+public data class RequestTokenResponse(
     /**
      * Request token.
      */
-    val requestToken: String,
+    public val requestToken: String,
 
     /**
      * Request token secret.
      */
-    val requestTokenSecret: String,
+    public val requestTokenSecret: String,
 
     /**
      * Whether if the callback was confirmed.
      */
-    val callbackConfirmed: Boolean
+    public val callbackConfirmed: Boolean
 )
 
 /**
@@ -67,14 +67,14 @@ data class RequestTokenResponse(
  * @receiver [OAuth] endpoint instance.
  * @return [RequestTokenResponse].
  */
-suspend fun OAuth.requestToken(
+public suspend fun OAuth.requestToken(
     callbackUrl: String = "oob",
     xAuthAccessType: String? = null,
     vararg options: Option
 ): RequestTokenResponse {
     val response = requestTokenInternal(callbackUrl, xAuthAccessType, *options).execute()
     
-    val result = response.content.split("&").map { parameter -> 
+    val result = response.content.split("&").map { parameter ->
         parameter.split("=", limit = 2).let { it.first() to it.last() }
     }.toMap()
 

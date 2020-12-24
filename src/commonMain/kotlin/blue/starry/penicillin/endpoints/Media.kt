@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.media: Media
+public val ApiClient.media: Media
     get() = Media(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.media: Media
  * @param client Current [ApiClient] instance.
  * @see ApiClient.media
  */
-class Media(override val client: ApiClient): Endpoint
+public class Media(override val client: ApiClient): Endpoint

@@ -35,7 +35,7 @@ import kotlin.coroutines.CoroutineContext
  * Configures [DispatcherConfig].
  */
 @ApiClientDsl
-fun SessionBuilder.dispatcher(block: DispatcherConfig.Builder.() -> Unit) {
+public fun SessionBuilder.dispatcher(block: DispatcherConfig.Builder.() -> Unit) {
     getOrPutBuilder { 
         DispatcherConfig.Builder()
     }.apply(block)
@@ -50,31 +50,31 @@ internal fun SessionBuilder.createDispatcherConfig(): DispatcherConfig {
 /**
  * Represents dispatcher config.
  */
-data class DispatcherConfig(
+public data class DispatcherConfig(
     /**
      * The coroutine content.
      */
-    val coroutineContext: CoroutineContext,
+    public val coroutineContext: CoroutineContext,
 
     /**
      * Connection threads counts, or null.
      */
-    val connectionThreadsCount: Int?,
+    public val connectionThreadsCount: Int?,
 
     /**
      * If true, coroutineContent should close when session disposes.
      */
-    val shouldClose: Boolean
+    public val shouldClose: Boolean
 ): SessionConfig {
     /**
      * Dispatcher config builder.
      */
-    class Builder: SessionConfigBuilder<DispatcherConfig> {
+    public class Builder: SessionConfigBuilder<DispatcherConfig> {
         /**
          * Connection threads count, or null.
          */
         @Suppress("MemberVisibilityCanBePrivate")
-        var connectionThreadsCount: Int? = null
+        public var connectionThreadsCount: Int? = null
             set(value) {
                 if (value != null) {
                     require(value <= 0)
@@ -87,12 +87,12 @@ data class DispatcherConfig(
          * The coroutine context.
          */
         @Suppress("MemberVisibilityCanBePrivate")
-        var coroutineContext: CoroutineContext = Dispatchers.Default
+        public var coroutineContext: CoroutineContext = Dispatchers.Default
 
         /**
          * If true, coroutineContent should close when session disposes.
          */
-        var shouldClose: Boolean = false
+        public var shouldClose: Boolean = false
 
         override fun build(): DispatcherConfig {
             return DispatcherConfig(coroutineContext, connectionThreadsCount, shouldClose)
@@ -104,6 +104,6 @@ data class DispatcherConfig(
  * Sets shouldClose to true.
  * CoroutineContent should close when session disposes.
  */
-fun DispatcherConfig.Builder.shouldClose() {
+public fun DispatcherConfig.Builder.shouldClose() {
     shouldClose = true
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.account
 
@@ -41,9 +41,9 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [Account] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Account.removeProfileBanner(
+public fun Account.removeProfileBanner(
     vararg options: Option
-) = client.session.post("/1.1/account/remove_profile_banner.json") {
+): EmptyApiAction = client.session.post("/1.1/account/remove_profile_banner.json") {
     formBody(*options)
 
 }.empty()
@@ -52,5 +52,5 @@ fun Account.removeProfileBanner(
  * Shorthand property to [Account.removeProfileBanner].
  * @see Account.removeProfileBanner
  */
-val Account.removeProfileBanner
+public val Account.removeProfileBanner: EmptyApiAction
     get() = removeProfileBanner()

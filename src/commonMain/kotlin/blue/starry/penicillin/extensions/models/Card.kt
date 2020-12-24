@@ -35,18 +35,18 @@ import blue.starry.penicillin.models.Status
 /**
  * If true, this status has card entity.
  */
-val Status.hasCard: Boolean
+public val Status.hasCard: Boolean
     get() = cardUri != null
 
 /**
  * Creates new action to show card with [name].
  */
-fun Status.showCard(name: String): JsonObjectApiAction<CardState> = client.cards.show(cardUri ?: throw IllegalStateException(), name)
+public fun Status.showCard(name: String): JsonObjectApiAction<CardState> = client.cards.show(cardUri ?: throw IllegalStateException(), name)
 
 /**
  * A map of choices. Map size N must be 2 <= N <= 4.
  */
-val CardState.Card.choices: LinkedHashMap<String, Int>
+public val CardState.Card.choices: LinkedHashMap<String, Int>
     get() = linkedMapOf<String, Int>().also { 
         it.putIfNotNull(bindingValues.choice1Label?.value, bindingValues.choice1Count?.value?.toIntOrNull())
         it.putIfNotNull(bindingValues.choice2Label?.value, bindingValues.choice2Count?.value?.toIntOrNull())
@@ -57,25 +57,25 @@ val CardState.Card.choices: LinkedHashMap<String, Int>
 /**
  * If true, this card is final result.
  */
-val CardState.Card.isFinalResult: Boolean
+public val CardState.Card.isFinalResult: Boolean
     get() = bindingValues.countsAreFinal?.value == true
 
 /**
  * Card end at date.
  */
-val CardState.Card.endAt: String?
+public val CardState.Card.endAt: String?
     get() = bindingValues.endDatetimeUtc?.value
 
 /**
  * Card last update at date.
  */
-val CardState.Card.lastUpdateAt: String?
+public val CardState.Card.lastUpdateAt: String?
     get() = bindingValues.lastUpdatedDatetimeUtc?.value
 
 /**
  * Card duration in minutes.
  */
-val CardState.Card.minutes: Int?
+public val CardState.Card.minutes: Int?
     get() = bindingValues.durationMinutes?.value?.toIntOrNull()
 
 private fun <K, V> MutableMap<K, V>.putIfNotNull(key: K?, value: V?) {

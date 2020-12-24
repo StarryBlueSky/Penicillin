@@ -31,21 +31,21 @@ import kotlinx.serialization.InternalSerializationApi
 /**
  * Represents media data.
  */
-data class MediaComponent @OptIn(InternalSerializationApi::class) constructor(
+public data class MediaComponent @OptIn(InternalSerializationApi::class) constructor(
     /**
      * Media data.
      */
-    val data: ByteArray,
+    public val data: ByteArray,
 
     /**
      * Media type.
      */
-    val type: MediaType,
+    public val type: MediaType,
 
     /**
      * Media category.
      */
-    val category: MediaCategory
+    public val category: MediaCategory
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

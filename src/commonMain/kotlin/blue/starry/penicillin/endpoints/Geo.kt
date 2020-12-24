@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.geo: Geo
+public val ApiClient.geo: Geo
     get() = Geo(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.geo: Geo
  * @param client Current [ApiClient] instance.
  * @see ApiClient.geo
  */
-class Geo(override val client: ApiClient): Endpoint
+public class Geo(override val client: ApiClient): Endpoint

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.TwitterList
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.show(
+public fun Lists.show(
     listId: Long,
     vararg options: Option
-) = show(listId, null, null, null, *options)
+): JsonObjectApiAction<TwitterList> = show(listId, null, null, null, *options)
 
 /**
  * Returns the specified list. Private lists will only be shown if the authenticated user owns the specified list.
@@ -59,11 +59,11 @@ fun Lists.show(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.showByOwnerScreenName(
+public fun Lists.showByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     vararg options: Option
-) = show(null, slug, ownerScreenName, null, *options)
+): JsonObjectApiAction<TwitterList> = show(null, slug, ownerScreenName, null, *options)
 
 /**
  * Returns the specified list. Private lists will only be shown if the authenticated user owns the specified list.
@@ -76,11 +76,11 @@ fun Lists.showByOwnerScreenName(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.showByOwnerId(
+public fun Lists.showByOwnerId(
     slug: String,
     ownerId: Long,
     vararg options: Option
-) = show(null, slug, null, ownerId, *options)
+): JsonObjectApiAction<TwitterList> = show(null, slug, null, ownerId, *options)
 
 private fun Lists.show(
     listId: Long? = null,

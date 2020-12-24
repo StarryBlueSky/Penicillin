@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -67,14 +67,14 @@ private fun Lists.update(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.updateByOwnerScreenName(
+public fun Lists.updateByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     name: String? = null,
     mode: ListVisibilityMode = ListVisibilityMode.Default,
     description: String? = null,
     vararg options: Option
-) = update(null, slug, ownerScreenName, null, name, mode, description, *options)
+): EmptyApiAction = update(null, slug, ownerScreenName, null, name, mode, description, *options)
 
 /**
  * Updates the specified list. The authenticated user must own the list to be able to update it.
@@ -90,14 +90,14 @@ fun Lists.updateByOwnerScreenName(
  * @receiver [Lists] endpoint instance.
  * @return [EmptyApiAction].
  */
-fun Lists.updateByOwnerId(
+public fun Lists.updateByOwnerId(
     slug: String,
     ownerId: Long,
     name: String? = null,
     mode: ListVisibilityMode = ListVisibilityMode.Default,
     description: String? = null,
     vararg options: Option
-) = update(null, slug, null, ownerId, name, mode, description, *options)
+): EmptyApiAction = update(null, slug, null, ownerId, name, mode, description, *options)
 
 private fun Lists.update(
     listId: Long? = null,

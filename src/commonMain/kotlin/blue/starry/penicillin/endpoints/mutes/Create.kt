@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.mutes
 
@@ -45,10 +45,10 @@ import blue.starry.penicillin.models.User
  * @receiver [Mutes] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Mutes.createByScreenName(
+public fun Mutes.createByScreenName(
     screenName: String,
     vararg options: Option
-) = create(screenName, null, *options)
+): JsonObjectApiAction<User> = create(screenName, null, *options)
 
 /**
  * Mutes the user specified in the ID parameter for the authenticating user.
@@ -62,10 +62,10 @@ fun Mutes.createByScreenName(
  * @receiver [Mutes] endpoint instance.
  * @return [JsonObjectApiAction] for [User] model.
  */
-fun Mutes.createByUserId(
+public fun Mutes.createByUserId(
     userId: Long,
     vararg options: Option
-) = create(null, userId, *options)
+): JsonObjectApiAction<User> = create(null, userId, *options)
 
 private fun Mutes.create(
     screenName: String? = null,

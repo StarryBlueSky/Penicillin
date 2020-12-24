@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.oauth2
 
@@ -48,10 +48,10 @@ import blue.starry.penicillin.models.OAuthToken
  * @receiver [OAuth2] endpoint instance.
  * @return [JsonObjectApiAction] for [OAuthToken] model.
  */
-fun OAuth2.bearerToken(
+public fun OAuth2.bearerToken(
     grantType: String = "client_credentials",
     vararg options: Option
-) = client.session.post("/oauth2/token") {
+): JsonObjectApiAction<OAuthToken> = client.session.post("/oauth2/token") {
     authorizationType = AuthorizationType.OAuth2RequestToken
 
     formBody(
@@ -64,5 +64,5 @@ fun OAuth2.bearerToken(
  * Shorthand property to [OAuth2.bearerToken].
  * @see OAuth2.bearerToken
  */
-val OAuth2.bearerToken
-    get() = bearerToken()
+public val OAuth2.bearerToken: JsonObjectApiAction<OAuthToken>
+     get() = bearerToken()

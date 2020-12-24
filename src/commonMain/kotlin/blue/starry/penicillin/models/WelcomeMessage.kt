@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -33,17 +33,17 @@ import blue.starry.jsonkt.delegation.nullableString
 import blue.starry.penicillin.core.session.ApiClient
 
 
-object WelcomeMessage {
-    data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel
+public object WelcomeMessage {
+    public data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 
-    data class Single(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val welcomeMessage by model { Model(it, client) }
-        val name by nullableString
+    public data class Single(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val welcomeMessage: Model by model { Model(it, client) }
+        public val name: String? by nullableString
     }
     
-    data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val welcomeMessages by modelList("welcome_messages") { Model(it, client) }
-        val name by nullableString
-        val nextCursor by nullableString
+    public data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val welcomeMessages: kotlin.collections.List<Model> by modelList("welcome_messages") { Model(it, client) }
+        public val name: String? by nullableString
+        public val nextCursor: String? by nullableString
     }
 }

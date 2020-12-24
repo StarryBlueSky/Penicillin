@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models.cursor
 
@@ -32,6 +32,6 @@ import blue.starry.penicillin.core.session.ApiClient
 
 import blue.starry.penicillin.models.TwitterList
 
-data class CursorLists(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
-    val lists by modelList { TwitterList(it, client) }
+public data class CursorLists(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
+    public val lists: List<TwitterList> by modelList { TwitterList(it, client) }
 }

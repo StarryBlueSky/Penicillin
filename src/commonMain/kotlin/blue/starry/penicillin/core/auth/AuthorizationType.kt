@@ -27,7 +27,7 @@ package blue.starry.penicillin.core.auth
 /**
  * Represents OAuth authorization type.
  */
-enum class AuthorizationType {
+public enum class AuthorizationType {
     /**
      * Corresponding to OAuth 1.0a.
      */

@@ -46,7 +46,7 @@ import blue.starry.penicillin.models.TwitterList
  *
  * @return New [ApiAction] for new list response.
  */
-fun Lists.clone(sourceId: Long): ApiAction<JsonObjectResponse<TwitterList>> = DelegatedAction {
+public fun Lists.clone(sourceId: Long): ApiAction<JsonObjectResponse<TwitterList>> = DelegatedAction {
     val sourceList = show(sourceId).execute()
     val sourceMembers = members(sourceId).untilLast("count" to 5000).allUsers
     val newList = create(sourceList.result.name, mode = sourceList.result.mode, description = sourceList.result.description).execute().result

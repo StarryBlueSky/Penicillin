@@ -32,7 +32,7 @@ import blue.starry.penicillin.extensions.complete
 /**
  * The [ApiAction] that provides text response only.
  */
-class TextApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<TextResponse>, Lazy<TextResponse> {
+public class TextApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<TextResponse>, Lazy<TextResponse> {
     override suspend operator fun invoke(): TextResponse {
         val (request, response) = execute()
 

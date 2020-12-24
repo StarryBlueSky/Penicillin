@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.cursor.CursorLists
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.ownerships(
+public fun Lists.ownerships(
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-) = ownershipsInternal(null, null, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists> = ownershipsInternal(null, null, count, cursor, *options)
 
 /**
  * Returns the lists owned by the specified Twitter user. Private lists will only be shown if the authenticated user is also the owner of the lists.
@@ -62,12 +62,12 @@ fun Lists.ownerships(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.ownershipsByUserId(
+public fun Lists.ownershipsByUserId(
     userId: Long,
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-) = ownershipsInternal(userId, null, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists> = ownershipsInternal(userId, null, count, cursor, *options)
 
 /**
  * Returns the lists owned by the specified Twitter user. Private lists will only be shown if the authenticated user is also the owner of the lists.
@@ -81,12 +81,12 @@ fun Lists.ownershipsByUserId(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.ownerships(
+public fun Lists.ownerships(
     screenName: String,
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-) = ownershipsInternal(null, screenName, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists> = ownershipsInternal(null, screenName, count, cursor, *options)
 
 private fun Lists.ownershipsInternal(
     userId: Long? = null,
@@ -108,5 +108,5 @@ private fun Lists.ownershipsInternal(
  * Shorthand property to [Lists.ownerships].
  * @see Lists.ownerships
  */
-val Lists.ownerships
+public val Lists.ownerships: CursorJsonObjectApiAction<CursorLists>
     get() = ownerships()

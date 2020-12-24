@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonArrayApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.endpoints.Users
 import blue.starry.penicillin.models.Recommendation
 
@@ -41,11 +41,10 @@ import blue.starry.penicillin.models.Recommendation
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [Recommendation] model.
  */
-@PrivateEndpoint
-fun Users.recommendationsByScreenName(
+public fun Users.recommendationsByScreenName(
     screenName: String,
     vararg options: Option
-) = recommendations(screenName, null, *options)
+): JsonArrayApiAction<Recommendation> = recommendations(screenName, null, *options)
 
 /**
  * Undocumented endpoint.
@@ -54,17 +53,18 @@ fun Users.recommendationsByScreenName(
  * @receiver [Users] endpoint instance.
  * @return [JsonArrayApiAction] for [Recommendation] model.
  */
-@PrivateEndpoint
-fun Users.recommendationsByUserId(
+public fun Users.recommendationsByUserId(
     userId: Long,
     vararg options: Option
-) = recommendations(null, userId, *options)
+): JsonArrayApiAction<Recommendation> = recommendations(null, userId, *options)
 
 private fun Users.recommendations(
     screenName: String? = null,
     userId: Long? = null,
     vararg options: Option
 ) = client.session.get("/1.1/users/recommendations.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "connections" to "true",
         "display_location" to "st-component",

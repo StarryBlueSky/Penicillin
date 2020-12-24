@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.premiumsearch
 
@@ -55,7 +55,7 @@ import kotlinx.datetime.LocalDateTime
  * @return [PremiumSearchJsonObjectApiAction] for [PremiumSearchCount] model.
  */
 @PenicillinExperimentalApi
-fun PremiumSearch.count(
+public fun PremiumSearch.count(
     product: SearchProduct,
     label: String,
     query: String,
@@ -64,7 +64,7 @@ fun PremiumSearch.count(
     bucket: SearchBucket? = null,
     next: String? = null,
     vararg options: Option
-) = environment(product, label).count(query, fromDate, toDate, bucket, next, *options)
+): PremiumSearchJsonObjectApiAction<PremiumSearchCount> = environment(product, label).count(query, fromDate, toDate, bucket, next, *options)
 
 /**
  * Returns counts data [Tweets](https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object) for the specified query.
@@ -79,14 +79,14 @@ fun PremiumSearch.count(
  * @return [PremiumSearchJsonObjectApiAction] for [PremiumSearchCount] model.
  */
 @PenicillinExperimentalApi
-fun PremiumSearchEnvironment.count(
+public fun PremiumSearchEnvironment.count(
     query: String,
     fromDate: LocalDateTime? = null,
     toDate: LocalDateTime? = null,
     bucket: SearchBucket? = null,
     next: String? = null,
     vararg options: Option
-) = client.session.post("$endpoint/counts.json") {
+): PremiumSearchJsonObjectApiAction<PremiumSearchCount> = client.session.post("$endpoint/counts.json") {
     jsonBody(
         "query" to query,
         "fromDate" to fromDate?.toYYYYMMddHHmmss(),

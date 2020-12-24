@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.directmessages
 
@@ -42,12 +42,12 @@ import blue.starry.penicillin.models.DirectMessage
  * @return [JsonObjectApiAction] for [DirectMessage] model.
  */
 @Deprecated(directMessageDeprecatedMessage, replaceWith = ReplaceWith("directMessageEvent.create", "blue.starry.penicillin.endpoints.directMessageEvent", "blue.starry.penicillin.endpoints.directmessages.events.create"))
-fun DirectMessages.create(
+public fun DirectMessages.create(
     text: String,
     userId: Long? = null,
     screenName: String? = null,
     vararg options: Option
-) = client.session.post("/1.1/direct_messages/new.json") {
+): JsonObjectApiAction<DirectMessage> = client.session.post("/1.1/direct_messages/new.json") {
     formBody(
         "text" to text,
         "user_id" to userId,

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -32,17 +32,17 @@ import blue.starry.jsonkt.delegation.model
 import blue.starry.jsonkt.delegation.nullableString
 import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
-data class TrendArea(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val country by string
-    val countryCode by nullableString // null
-    val name by string
-    val parentid by int
-    val placeType by model { PlaceType(it, client) }
-    val url by string
-    val woeid by int
+public data class TrendArea(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val country: String by string
+    public val countryCode: String? by nullableString // null
+    public val name: String by string
+    public val parentid: Int by int
+    public val placeType: PlaceType by model { PlaceType(it, client) }
+    public val url: String by string
+    public val woeid: Int by int
 
-    data class PlaceType(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val code by int
-        val name by string
+    public data class PlaceType(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val code: Int by int
+        public val name: String by string
     }
 }

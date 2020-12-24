@@ -22,12 +22,10 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.account
 
-import io.ktor.client.request.forms.append
-import io.ktor.utils.io.core.writeFully
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.append
 import blue.starry.penicillin.core.request.multiPartBody
@@ -37,6 +35,8 @@ import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.endpoints.media.MediaType
 import blue.starry.penicillin.models.Account.VerifyCredentials
 import blue.starry.penicillin.models.User
+import io.ktor.client.request.forms.*
+import io.ktor.utils.io.core.*
 
 /**
  * Updates the authenticating user's profile image. Note that this method expects raw multipart data, not a URL to an image.
@@ -53,13 +53,13 @@ import blue.starry.penicillin.models.User
  * @receiver [Account] endpoint instance.
  * @return [JsonObjectApiAction] for [VerifyCredentials] model.
  */
-fun Account.updateProfileImage(
+public fun Account.updateProfileImage(
     file: ByteArray,
     mediaType: MediaType,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = client.session.post("/1.1/account/update_profile_image.json") {
+): JsonObjectApiAction<User> = client.session.post("/1.1/account/update_profile_image.json") {
     multiPartBody {
         append("image", "blob", mediaType.contentType) {
             writeFully(file)

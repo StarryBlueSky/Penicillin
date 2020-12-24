@@ -27,9 +27,9 @@ package blue.starry.penicillin.core.request
 /**
  * Represents an enum class can be serialized with "value" property.
  */
-interface EnumRequestParameter {
+public interface EnumRequestParameter {
     /**
      * The string which provides to endpoint request.
      */
-    val value: String?
+    public val value: String?
 }

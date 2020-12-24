@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.trends
 
@@ -44,9 +44,9 @@ import blue.starry.penicillin.models.TrendArea
  * @receiver [Trends] endpoint instance.
  * @return [JsonArrayApiAction] for [TrendArea] model.
  */
-fun Trends.availableAreas(
+public fun Trends.availableAreas(
     vararg options: Option
-) = client.session.get("/1.1/trends/available.json") {
+): JsonArrayApiAction<TrendArea> = client.session.get("/1.1/trends/available.json") {
     parameters(*options)
 }.jsonArray { TrendArea(it, client) }
 
@@ -54,5 +54,5 @@ fun Trends.availableAreas(
  * Shorthand property to [Trends.availableAreas].
  * @see Trends.availableAreas
  */
-val Trends.availableAreas
-    get() = availableAreas()
+public val Trends.availableAreas: JsonArrayApiAction<TrendArea>
+     get() = availableAreas()

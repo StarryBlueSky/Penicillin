@@ -22,11 +22,13 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.extensions.endpoints
 
 import blue.starry.penicillin.core.exceptions.PenicillinTwitterMediaProcessingFailedError
+import blue.starry.penicillin.core.request.action.ApiAction
+import blue.starry.penicillin.core.response.JsonObjectResponse
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.endpoints.Statuses
 import blue.starry.penicillin.endpoints.media
@@ -38,7 +40,11 @@ import blue.starry.penicillin.extensions.DelegatedAction
 import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.models.Media
 import blue.starry.penicillin.models.Media.ProcessingInfo.State.Succeeded
-import kotlinx.coroutines.*
+import blue.starry.penicillin.models.Status
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withTimeout
 
 /**
  * Creates new tweet with media.
@@ -47,11 +53,11 @@ import kotlinx.coroutines.*
  * @param media A list of media.
  * @param options Optional. Custom parameters of this request.
  */
-fun Statuses.createWithMedia(
+public fun Statuses.createWithMedia(
     status: String,
     media: List<MediaComponent>,
     vararg options: Option
-) = DelegatedAction {
+): ApiAction<JsonObjectResponse<Status>> = DelegatedAction {
     val results = media.map {
         client.session.async {
             client.media.uploadMedia(it).execute().awaitProcessing()
@@ -69,7 +75,7 @@ private const val mediaProcessTimeoutMillis = 60 * 1000L
  *
  * @param timeoutMillis Timeout value in milliseconds.
  */
-suspend fun Media.awaitProcessing(timeoutMillis: Long? = null): Media {
+public suspend fun Media.awaitProcessing(timeoutMillis: Long? = null): Media {
     if (processingInfo == null) {
         return this
     }

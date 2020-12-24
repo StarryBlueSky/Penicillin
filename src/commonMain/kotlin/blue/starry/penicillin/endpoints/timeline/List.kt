@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.timeline
 
@@ -52,7 +52,7 @@ import blue.starry.penicillin.models.Status
  * @see listTimelineByOwnerScreenName
  * @see listTimelineByOwnerId
  */
-fun Timeline.listTimeline(
+public fun Timeline.listTimeline(
     listId: Long,
     sinceId: Long? = null,
     maxId: Long? = null,
@@ -63,7 +63,7 @@ fun Timeline.listTimeline(
     includeMyRetweet: Boolean? = null,
     includeCardUri: Boolean? = null,
     vararg options: Option
-) = listTimeline(listId, null, null, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
+): JsonArrayApiAction<Status> = listTimeline(listId, null, null, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
 
 /**
  * Returns a timeline of tweets authored by members of the specified list. Retweets are included by default. Use the include_rts=false parameter to omit retweets.
@@ -84,7 +84,7 @@ fun Timeline.listTimeline(
  * @see listTimeline
  * @see listTimelineByOwnerId
  */
-fun Timeline.listTimelineByOwnerScreenName(
+public fun Timeline.listTimelineByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     sinceId: Long? = null,
@@ -96,7 +96,7 @@ fun Timeline.listTimelineByOwnerScreenName(
     includeMyRetweet: Boolean? = null,
     includeCardUri: Boolean? = null,
     vararg options: Option
-) = listTimeline(null, slug, ownerScreenName, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
+): JsonArrayApiAction<Status> = listTimeline(null, slug, ownerScreenName, null, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
 
 /**
  * Returns a timeline of tweets authored by members of the specified list. Retweets are included by default. Use the include_rts=false parameter to omit retweets.
@@ -117,7 +117,7 @@ fun Timeline.listTimelineByOwnerScreenName(
  * @see listTimeline
  * @see listTimelineByOwnerScreenName
  */
-fun Timeline.listTimelineByOwnerId(
+public fun Timeline.listTimelineByOwnerId(
     slug: String,
     ownerId: Long,
     sinceId: Long? = null,
@@ -129,7 +129,7 @@ fun Timeline.listTimelineByOwnerId(
     includeMyRetweet: Boolean? = null,
     includeCardUri: Boolean? = null,
     vararg options: Option
-) = listTimeline(null, slug, null, ownerId, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
+): JsonArrayApiAction<Status> = listTimeline(null, slug, null, ownerId, sinceId, maxId, count, includeEntities, includeRTs, tweetMode, includeMyRetweet, includeCardUri, *options)
 
 private fun Timeline.listTimeline(
     listId: Long? = null,

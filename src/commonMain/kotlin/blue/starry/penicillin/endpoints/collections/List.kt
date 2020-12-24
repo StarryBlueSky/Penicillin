@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.collections
 
@@ -46,12 +46,12 @@ import blue.starry.penicillin.models.Collection
  * @receiver [Collections] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.List] model.
  */
-fun Collections.list(
+public fun Collections.list(
     tweetId: Long? = null,
     count: Int? = null,
     cursor: String? = null,
     vararg options: Option
-) = listInternal(null, null, tweetId, count, cursor, *options)
+): JsonObjectApiAction<Collection.List> = listInternal(null, null, tweetId, count, cursor, *options)
 
 /**
  * Find Collections created by a specific user or containing a specific curated Tweet.
@@ -67,13 +67,13 @@ fun Collections.list(
  * @receiver [Collections] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.List] model.
  */
-fun Collections.listByUserId(
+public fun Collections.listByUserId(
     userId: Long,
     tweetId: Long? = null,
     count: Int? = null,
     cursor: String? = null,
     vararg options: Option
-) = listInternal(userId, null, tweetId, count, cursor, *options)
+): JsonObjectApiAction<Collection.List> = listInternal(userId, null, tweetId, count, cursor, *options)
 
 /**
  * Find Collections created by a specific user or containing a specific curated Tweet.
@@ -89,13 +89,13 @@ fun Collections.listByUserId(
  * @receiver [Collections] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.List] model.
  */
-fun Collections.listByScreenName(
+public fun Collections.listByScreenName(
     screenName: String,
     tweetId: Long? = null,
     count: Int? = null,
     cursor: String? = null,
     vararg options: Option
-) = listInternal(null, screenName, tweetId, count, cursor, *options)
+): JsonObjectApiAction<Collection.List> = listInternal(null, screenName, tweetId, count, cursor, *options)
 
 private fun Collections.listInternal(
     userId: Long? = null,
@@ -119,5 +119,5 @@ private fun Collections.listInternal(
  * Shorthand property to [Collections.list].
  * @see Collections.list
  */
-val Collections.list
-    get() = list()
+public val Collections.list: JsonObjectApiAction<Collection.List>
+     get() = list()

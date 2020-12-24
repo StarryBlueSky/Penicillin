@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -45,12 +45,12 @@ import blue.starry.penicillin.models.cursor.CursorLists
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.memberships(
+public fun Lists.memberships(
     count: Int? = null,
     cursor: Long? = null,
     filterToOwnedLists: Boolean? = null,
     vararg options: Option
-) = membershipsInternal(null, null, count, cursor, filterToOwnedLists, *options)
+): CursorJsonObjectApiAction<CursorLists> = membershipsInternal(null, null, count, cursor, filterToOwnedLists, *options)
 
 /**
  * Returns the lists the specified user has been added to. If user_id or screen_name are not provided, the memberships for the authenticating user are returned.
@@ -65,13 +65,13 @@ fun Lists.memberships(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.membershipsByUserId(
+public fun Lists.membershipsByUserId(
     userId: Long,
     count: Int? = null,
     cursor: Long? = null,
     filterToOwnedLists: Boolean? = null,
     vararg options: Option
-) = membershipsInternal(userId, null, count, cursor, filterToOwnedLists, *options)
+): CursorJsonObjectApiAction<CursorLists> = membershipsInternal(userId, null, count, cursor, filterToOwnedLists, *options)
 
 /**
  * Returns the lists the specified user has been added to. If user_id or screen_name are not provided, the memberships for the authenticating user are returned.
@@ -86,13 +86,13 @@ fun Lists.membershipsByUserId(
  * @receiver [Lists] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorLists] model.
  */
-fun Lists.membershipsByScreenName(
+public fun Lists.membershipsByScreenName(
     screenName: String,
     count: Int? = null,
     cursor: Long? = null,
     filterToOwnedLists: Boolean? = null,
     vararg options: Option
-) = membershipsInternal(null, screenName, count, cursor, filterToOwnedLists, *options)
+): CursorJsonObjectApiAction<CursorLists> = membershipsInternal(null, screenName, count, cursor, filterToOwnedLists, *options)
 
 private fun Lists.membershipsInternal(
     userId: Long? = null,
@@ -116,5 +116,5 @@ private fun Lists.membershipsInternal(
  * Shorthand property to [Lists.memberships].
  * @see Lists.memberships
  */
-val Lists.memberships
+public val Lists.memberships: CursorJsonObjectApiAction<CursorLists>
     get() = memberships()

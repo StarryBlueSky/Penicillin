@@ -22,50 +22,51 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
+import kotlinx.serialization.json.JsonArray
 
 
-object Collection {
-    data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val response by model { Response(it, client) }
-        val objects by jsonObject
+public object Collection {
+    public data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val response: Response by model { Response(it, client) }
+        public val objects: JsonObject by jsonObject
         
-        data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val timelineId by string("timeline_id")
+        public data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val timelineId: String by string("timeline_id")
         }
     }
     
-    data class DestroyResult(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val destroyed by boolean
+    public data class DestroyResult(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val destroyed: Boolean by boolean
     }
     
-    data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val objects by jsonObject
-        val response by model { Response(it, client) }
+    public data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val objects: JsonObject by jsonObject
+        public val response: Response by model { Response(it, client) }
         
-        data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val results by modelList { Model.Response(it, client) }
-            val cursors by model { Cursors(it, client) }
+        public data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val results: kotlin.collections.List<Model.Response> by modelList { Model.Response(it, client) }
+            public val cursors: Cursors by model { Cursors(it, client) }
             
-            data class Cursors(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                val nextCursor by string("next_cursor")
+            public data class Cursors(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                public val nextCursor: String by string("next_cursor")
             }
         }
     }
     
-    object Entry {
-        data class Result(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val objects by jsonObject
-            val response by model { Response(it, client) }
+    public object Entry {
+        public data class Result(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val objects: JsonObject by jsonObject
+            public val response: Response by model { Response(it, client) }
             
-            data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                val errors by jsonArray
+            public data class Response(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                public val errors: JsonArray by jsonArray
             }
         }
     }

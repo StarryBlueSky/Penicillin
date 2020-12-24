@@ -30,7 +30,7 @@ import blue.starry.penicillin.core.session.ApiClient
 /**
  * The [ApiAction] that does not provide parsed response. Only check errors of content string.
  */
-class EmptyApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<Unit> {
+public class EmptyApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<Unit> {
     override suspend operator fun invoke() {
         val (request, response) = execute()
         val content = response.readTextOrNull()

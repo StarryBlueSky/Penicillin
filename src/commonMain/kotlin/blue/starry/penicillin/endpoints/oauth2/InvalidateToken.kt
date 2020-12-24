@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.oauth2
 
@@ -45,10 +45,10 @@ import blue.starry.penicillin.models.OAuthToken
  * @receiver [OAuth2] endpoint instance.
  * @return [JsonObjectApiAction] for [OAuthToken] model.
  */
-fun OAuth2.invalidateToken(
+public fun OAuth2.invalidateToken(
     bearerToken: String,
     vararg options: Option
-) = client.session.post("/oauth2/invalidate_token") {
+): JsonObjectApiAction<OAuthToken> = client.session.post("/oauth2/invalidate_token") {
     authorizationType = AuthorizationType.OAuth2RequestToken
     
     formBody(

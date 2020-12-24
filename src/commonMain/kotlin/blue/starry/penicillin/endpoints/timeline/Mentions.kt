@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.timeline
 
@@ -55,7 +55,7 @@ import blue.starry.penicillin.models.Status
  * @receiver [Timeline] endpoint instance.
  * @return [JsonArrayApiAction] for [Status] model.
  */
-fun Timeline.mentionsTimeline(
+public fun Timeline.mentionsTimeline(
     count: Int? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
@@ -66,7 +66,7 @@ fun Timeline.mentionsTimeline(
     tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/statuses/mentions_timeline.json") {
+): JsonArrayApiAction<Status> = client.session.get("/1.1/statuses/mentions_timeline.json") {
     parameters(
         "cards_platform" to "iPhone-13",
         "contributor_details" to "1",
@@ -108,5 +108,5 @@ fun Timeline.mentionsTimeline(
  * Shorthand property to [Timeline.mentionsTimeline].
  * @see Timeline.mentionsTimeline
  */
-val Timeline.mentionsTimeline
+public val Timeline.mentionsTimeline: JsonArrayApiAction<Status>
     get() = mentionsTimeline()

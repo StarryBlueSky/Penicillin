@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.UserProfileBanner
  * @receiver [Users] endpoint instance.
  * @return [JsonObjectApiAction] for [UserProfileBanner] model.
  */
-fun Users.profileBannerByUserId(
+public fun Users.profileBannerByUserId(
     userId: Long,
     vararg options: Option
-) = profileBanner(userId, null, *options)
+): JsonObjectApiAction<UserProfileBanner> = profileBanner(userId, null, *options)
 
 /**
  * Returns a map of the available size variations of the specified user's profile banner. If the user has not uploaded a profile banner, a HTTP 404 will be served instead. This method can be used instead of string manipulation on the profile_banner_url returned in user objects as described in [Profile Images and Banners](https://developer.twitter.com/en/docs/accounts-and-users/user-profile-images-and-banners).
@@ -58,10 +58,10 @@ fun Users.profileBannerByUserId(
  * @receiver [Users] endpoint instance.
  * @return [JsonObjectApiAction] for [UserProfileBanner] model.
  */
-fun Users.profileBannerByScreenName(
+public fun Users.profileBannerByScreenName(
     screenName: String,
     vararg options: Option
-) = profileBanner(null, screenName, *options)
+): JsonObjectApiAction<UserProfileBanner> = profileBanner(null, screenName, *options)
 
 private fun Users.profileBanner(
     userId: Long? = null,

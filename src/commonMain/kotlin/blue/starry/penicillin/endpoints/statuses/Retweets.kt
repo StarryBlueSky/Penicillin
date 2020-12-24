@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.statuses
 
@@ -46,13 +46,13 @@ import blue.starry.penicillin.models.Status
  * @receiver [Statuses] endpoint instance.
  * @return [JsonArrayApiAction] for [Status] model.
  */
-fun Statuses.retweets(
+public fun Statuses.retweets(
     id: Long,
     count: Int? = null,
     trimUser: Boolean? = null,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = client.session.get("/1.1/statuses/retweets/$id.json") {
+): JsonArrayApiAction<Status> = client.session.get("/1.1/statuses/retweets/$id.json") {
     parameters(
         "count" to count,
         "trim_user" to trimUser,

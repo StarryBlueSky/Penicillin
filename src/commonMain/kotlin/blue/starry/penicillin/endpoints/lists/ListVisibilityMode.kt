@@ -32,7 +32,7 @@ import blue.starry.penicillin.core.request.EnumRequestParameter
 /**
  * Represents list mode. For example, "Private" means protected list, and is invisible to unfollowed users.
  */
-enum class ListVisibilityMode(override val value: String): StringJsonEnum, EnumRequestParameter {
+public enum class ListVisibilityMode(override val value: String): StringJsonEnum, EnumRequestParameter {
     /**
      * Default value.
      */

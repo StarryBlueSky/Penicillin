@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,22 +31,22 @@ import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class TrendPlace(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val asOf by string("as_of")
-    val createdAt by string("created_at")
-    val locations by modelList { Location(it, client) }
-    val trends by modelList { Trend(it, client) }
+public data class TrendPlace(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val asOf: String by string("as_of")
+    public val createdAt: String by string("created_at")
+    public val locations: List<Location> by modelList { Location(it, client) }
+    public val trends: List<Trend> by modelList { Trend(it, client) }
 
-    data class Location(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val name by string
-        val woeid by int
+    public data class Location(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val name: String by string
+        public val woeid: Int by int
     }
 
-    data class Trend(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val name by string
-        val url by string
-        val promotedContent by nullableJsonObject // null
-        val query by string
-        val tweetVolume by nullableInt
+    public data class Trend(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val name: String by string
+        public val url: String by string
+        public val promotedContent: JsonObject? /* = kotlinx.serialization.json.JsonObject? */ by nullableJsonObject // null
+        public val query: String by string
+        public val tweetVolume: Int? by nullableInt
     }
 }

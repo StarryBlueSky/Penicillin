@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,41 +31,41 @@ import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class Media(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val expiresAfterSecs by nullableInt("expires_after_secs")
-    val mediaId by long("media_id")
-    val mediaIdString by string("media_id_string")
-    val mediaKey by nullableString("media_key")
-    val processingInfo by nullableModel("processing_info") { ProcessingInfo(it, client) }
-    val size by nullableInt
-    val image by nullableModel { Image(it, client) }
-    val video by nullableModel { Video(it, client) }
+public data class Media(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val expiresAfterSecs: Int? by nullableInt("expires_after_secs")
+    public val mediaId: Long by long("media_id")
+    public val mediaIdString: String by string("media_id_string")
+    public val mediaKey: String? by nullableString("media_key")
+    public val processingInfo: ProcessingInfo? by nullableModel("processing_info") { ProcessingInfo(it, client) }
+    public val size: Int? by nullableInt
+    public val image: Image? by nullableModel { Image(it, client) }
+    public val video: Video? by nullableModel { Video(it, client) }
 
-    data class ProcessingInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val checkAfterSecs by nullableInt("check_after_secs")
-        val error by nullableModel { Error(it, client) }
-        val progressPercent by nullableInt("progress_percent")
-        val state by enum<String, State>()
+    public data class ProcessingInfo(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val checkAfterSecs: Int? by nullableInt("check_after_secs")
+        public val error: Error? by nullableModel { Error(it, client) }
+        public val progressPercent: Int? by nullableInt("progress_percent")
+        public val state: State by enum()
 
-        data class Error(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val code by int
-            val name by nullableString
-            val message by string
+        public data class Error(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val code: Int by int
+            public val name: String? by nullableString
+            public val message: String by string
         }
         
-        enum class State(override val value: String): StringJsonEnum {
+        public enum class State(override val value: String): StringJsonEnum {
             Pending("pending"), InProgress("in_progress"), Failed("failed"), Succeeded("succeeded")
         }
     }
 
-    data class Image(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val imageType by string("image_type")
-        val w by int
-        val h by int
+    public data class Image(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val imageType: String by string("image_type")
+        public val w: Int by int
+        public val h: Int by int
     }
 
-    data class Video(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val videoType by string("video_type")
+    public data class Video(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val videoType: String by string("video_type")
     }
 
     override fun equals(other: Any?): Boolean {

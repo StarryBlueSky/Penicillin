@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.search
 
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.endpoints.Search
 import blue.starry.penicillin.endpoints.common.TweetMode
 import blue.starry.penicillin.models.SearchTypeahead
@@ -44,12 +44,13 @@ import blue.starry.penicillin.models.SearchUniversal
  * @receiver [Search] endpoint instance.
  * @return [JsonObjectApiAction] for [SearchUniversal] model.
  */
-@PrivateEndpoint
-fun Search.typeahead(
+public fun Search.typeahead(
     query: String,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = client.session.get("/1.1/search/typeahead.json") {
+): JsonObjectApiAction<SearchTypeahead> = client.session.get("/1.1/search/typeahead.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "cards_platform" to "iPhone-13",
         "contributor_details" to "1",

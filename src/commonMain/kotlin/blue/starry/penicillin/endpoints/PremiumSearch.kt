@@ -36,7 +36,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.premiumSearch: PremiumSearch
+public val ApiClient.premiumSearch: PremiumSearch
     get() = PremiumSearch(this)
 
 /**
@@ -46,4 +46,4 @@ val ApiClient.premiumSearch: PremiumSearch
  * @param client Current [ApiClient] instance.
  * @see ApiClient.premiumSearch
  */
-class PremiumSearch(override val client: ApiClient): Endpoint
+public class PremiumSearch(override val client: ApiClient): Endpoint

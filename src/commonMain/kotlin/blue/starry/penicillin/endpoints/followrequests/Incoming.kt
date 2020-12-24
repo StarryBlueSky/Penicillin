@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.followrequests
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.cursor.CursorIds
  * @receiver [FollowRequests] endpoint instance.
  * @return [CursorJsonObjectApiAction] for [CursorIds] model.
  */
-fun FollowRequests.incoming(
+public fun FollowRequests.incoming(
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/friendships/incoming.json") {
+): CursorJsonObjectApiAction<CursorIds> = client.session.get("/1.1/friendships/incoming.json") {
     parameters(
         "cursor" to cursor,
         "stringify_ids" to stringifyIds,
@@ -60,5 +60,5 @@ fun FollowRequests.incoming(
  * Shorthand property to [FollowRequests.incoming].
  * @see FollowRequests.incoming
  */
-val FollowRequests.incoming
-    get() = incoming()
+public val FollowRequests.incoming: CursorJsonObjectApiAction<CursorIds>
+     get() = incoming()

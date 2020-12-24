@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.statuses
 
@@ -49,7 +49,7 @@ import blue.starry.penicillin.models.Status
  * @receiver [Statuses] endpoint instance.
  * @return [JsonArrayApiAction] for [Status] model.
  */
-fun Statuses.retweetsOfMe(
+public fun Statuses.retweetsOfMe(
     count: Int? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
@@ -58,7 +58,7 @@ fun Statuses.retweetsOfMe(
     includeUserEntities: Boolean? = null,
     tweetMode: TweetMode = TweetMode.Default,
     vararg options: Option
-) = client.session.get("/1.1/statuses/retweets_of_me.json") {
+): JsonArrayApiAction<Status> = client.session.get("/1.1/statuses/retweets_of_me.json") {
     parameters(
         "count" to count,
         "since_id" to sinceId,
@@ -75,5 +75,5 @@ fun Statuses.retweetsOfMe(
  * Shorthand property to [Statuses.retweetsOfMe].
  * @see Statuses.retweetsOfMe
  */
-val Statuses.retweetsOfMe
-    get() = retweetsOfMe()
+public val Statuses.retweetsOfMe: JsonArrayApiAction<Status>
+     get() = retweetsOfMe()

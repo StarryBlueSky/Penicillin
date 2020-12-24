@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.friends
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.CursorJsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Friends
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.models.cursor.CursorUsers
 
 /**
@@ -44,12 +44,11 @@ import blue.starry.penicillin.models.cursor.CursorUsers
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  * @see followingListByScreenName
  */
-@PrivateEndpoint
-fun Friends.followingListByUserId(
+public fun Friends.followingListByUserId(
     userId: Long,
     count: Int? = null,
     vararg options: Option
-) = followingList(userId, null, count, *options)
+): CursorJsonObjectApiAction<CursorUsers> = followingList(userId, null, count, *options)
 
 /**
  * Returns users who follows specific user.
@@ -61,12 +60,11 @@ fun Friends.followingListByUserId(
  * @return [CursorJsonObjectApiAction] for [CursorUsers] model.
  * @see followingListByUserId
  */
-@PrivateEndpoint
-fun Friends.followingListByScreenName(
+public fun Friends.followingListByScreenName(
     screenName: String,
     count: Int? = null,
     vararg options: Option
-) = followingList(null, screenName, count, *options)
+): CursorJsonObjectApiAction<CursorUsers> = followingList(null, screenName, count, *options)
 
 private fun Friends.followingList(
     userId: Long? = null,
@@ -74,6 +72,8 @@ private fun Friends.followingList(
     count: Int? = null,
     vararg options: Option
 ) = client.session.get("/1.1/friends/following/list.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     parameters(
         "user_id" to userId,
         "screen_name" to screenName,

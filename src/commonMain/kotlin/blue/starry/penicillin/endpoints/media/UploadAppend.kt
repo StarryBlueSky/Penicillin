@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.media
 
@@ -54,13 +54,13 @@ import kotlinx.serialization.InternalSerializationApi
  * @return [EmptyApiAction].
  */
 @OptIn(InternalSerializationApi::class)
-fun Media.uploadAppend(
+public fun Media.uploadAppend(
     media: MediaComponent,
     mediaId: Long,
     segmentIndex: Int,
     mediaKey: String? = null,
     vararg options: Option
-) = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+): EmptyApiAction = client.session.post("/1.1/media/upload.json", EndpointHost.MediaUpload) {
     multiPartBody {
         append("media", "blob", media.type.contentType) {
             writeFully(media.data)

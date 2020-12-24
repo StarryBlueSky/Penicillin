@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -31,28 +31,28 @@ import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
 
 
-data class TrendType(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val trend by nullableModel { Trend(it, client) }
-    val promotedTrend by nullableModel { PromotedTrend(it, client) }
+public data class TrendType(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val trend: Trend? by nullableModel { Trend(it, client) }
+    public val promotedTrend: PromotedTrend? by nullableModel { PromotedTrend(it, client) }
 
-    data class Trend(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val name by string
-        val description by nullableString("meta_description")
-        val rank by int
-        val token by string
-        val context by nullableModel { Context(it, client) }
-        val target by nullableModel { Target(it, client) }
+    public data class Trend(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val name: String by string
+        public val description: String? by nullableString("meta_description")
+        public val rank: Int by int
+        public val token: String by string
+        public val context: Context? by nullableModel { Context(it, client) }
+        public val target: Target? by nullableModel { Target(it, client) }
 
-        data class Context(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val relatedQuery by stringList("query")
+        public data class Context(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val relatedQuery: List<String> by stringList("query")
         }
 
-        data class Target(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val query by string
-            val pinnedTweets by longList("pinned_tweets")
-            val pinnedTweetsStr by stringList("pinned_tweets_string")
+        public data class Target(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val query: String by string
+            public val pinnedTweets: List<Long> by longList("pinned_tweets")
+            public val pinnedTweetsStr: List<String> by stringList("pinned_tweets_string")
         }
     }
 
-    data class PromotedTrend(override val json: JsonObject, override val client: ApiClient): PenicillinModel
+    public data class PromotedTrend(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 }

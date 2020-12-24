@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.statuses
 
@@ -58,7 +58,7 @@ import blue.starry.penicillin.models.Embed
  * @receiver [Statuses] endpoint instance.
  * @return [JsonObjectApiAction] for [Embed] model.
  */
-fun Statuses.embedFormat(
+public fun Statuses.embedFormat(
     url: String,
     maxWidth: Int? = null,
     hideMedia: Boolean? = null,
@@ -72,7 +72,7 @@ fun Statuses.embedFormat(
     widgetType: EmbedWidgetType = EmbedWidgetType.Default,
     dnt: Boolean? = null,
     vararg options: Option
-) = client.session.get("/oembed", EndpointHost.Publish) {
+): JsonObjectApiAction<Embed> = client.session.get("/oembed", EndpointHost.Publish) {
     authorizationType = AuthorizationType.None
 
     parameters(

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.trends
 
@@ -46,11 +46,11 @@ import blue.starry.penicillin.models.TrendArea
  * @receiver [Trends] endpoint instance.
  * @return [JsonArrayApiAction] for [TrendArea] model.
  */
-fun Trends.closestAreas(
+public fun Trends.closestAreas(
     latitude: Double,
     longitude: Double,
     vararg options: Option
-) = client.session.get("/1.1/trends/closest.json") {
+): JsonArrayApiAction<TrendArea> = client.session.get("/1.1/trends/closest.json") {
     parameters(
         "lat" to latitude,
         "long" to longitude,

@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
  * Default FilterStream [StreamHandler].
  * Accepts listener of [FilterStreamListener].
  */
-class FilterStreamHandler(override val client: ApiClient, override val listener: FilterStreamListener): StreamHandler<FilterStreamListener> {
+public class FilterStreamHandler(override val client: ApiClient, override val listener: FilterStreamListener): StreamHandler<FilterStreamListener> {
     override fun handle(json: JsonObject) {
         launch {
             when {

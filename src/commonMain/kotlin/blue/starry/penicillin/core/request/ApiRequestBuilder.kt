@@ -26,11 +26,6 @@
 
 package blue.starry.penicillin.core.request
 
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.url
-import io.ktor.client.utils.EmptyContent
-import io.ktor.http.*
-import io.ktor.util.appendAll
 import blue.starry.penicillin.core.auth.AuthorizationType
 import blue.starry.penicillin.core.auth.OAuthUtil
 import blue.starry.penicillin.core.auth.encodeBase64
@@ -40,8 +35,11 @@ import blue.starry.penicillin.core.emulation.Twitter4iPhone
 import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.session.ApiClient
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.extensions.session
+import io.ktor.client.request.*
+import io.ktor.client.utils.*
+import io.ktor.http.*
+import io.ktor.util.appendAll
 import mu.KotlinLogging
 import kotlin.collections.set
 
@@ -50,41 +48,41 @@ internal val apiRequestBuilderLogger = KotlinLogging.logger("Penicillin.RequestB
 /**
  * The builder class to construct api request.
  */
-data class ApiRequestBuilder(
+public data class ApiRequestBuilder(
     /**
      * Current [ApiClient].
      */
-    val client: ApiClient,
+    public val client: ApiClient,
 
     /**
      * Request HTTP method.
      */
-    val httpMethod: HttpMethod,
+    public val httpMethod: HttpMethod,
 
     /**
      * Request host.
      */
-    val host: EndpointHost,
+    public val host: EndpointHost,
 
     /**
      * Request path.
      */
-    val path: String
+    public val path: String
 ) {
     /**
      * Request headers.
      */
-    val headers: HeadersBuilder = HeadersBuilder()
+    public val headers: HeadersBuilder = HeadersBuilder()
 
     /**
      * Request url parameters.
      */
-    val parameters: ParametersBuilder = ParametersBuilder()
+    public val parameters: ParametersBuilder = ParametersBuilder()
 
     /**
      * Request form parameters.
      */
-    val forms: ParametersBuilder = ParametersBuilder()
+    public val forms: ParametersBuilder = ParametersBuilder()
 
     /**
      * Request body.
@@ -100,6 +98,11 @@ data class ApiRequestBuilder(
      * OAuth callback url ("oauth_callback").
      */
     var oauthCallbackUrl: String? = null
+
+    /**
+     * Required [EmulationMode].
+     */
+    public val emulationModes: MutableSet<EmulationMode> = mutableSetOf()
 
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
         when (session.option.emulationMode) {
@@ -157,10 +160,18 @@ data class ApiRequestBuilder(
     }
 
     internal fun build(): ApiRequest {
-        checkEmulation()
+        checkEmulationMode()
 
         return ApiRequest(client, this)
     }
-}
 
-internal expect fun ApiRequestBuilder.checkEmulation()
+    private fun checkEmulationMode() {
+        if (emulationModes.isEmpty()) {
+            return
+        }
+
+        if (session.option.emulationMode !in emulationModes) {
+            throw PenicillinException(LocalizedString.PrivateEndpointRequiresOfficialClientEmulation)
+        }
+    }
+}

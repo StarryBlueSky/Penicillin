@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -32,16 +32,16 @@ import blue.starry.jsonkt.delegation.model
 import blue.starry.jsonkt.delegation.string
 import blue.starry.jsonkt.delegation.stringList
 import blue.starry.penicillin.core.session.ApiClient
-object Friendships {
-    data class Show(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val relationship by model { Relationship(it, client) }
+public object Friendships {
+    public data class Show(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val relationship: Relationship by model { Relationship(it, client) }
     }
 
-    data class Lookup(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val connections by stringList
-        val id by long
-        val idStr by string("id_str")
-        val name by string
-        val screenName by string("screen_name")
+    public data class Lookup(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val connections: List<String> by stringList
+        public val id: Long by long
+        public val idStr: String by string("id_str")
+        public val name: String by string
+        public val screenName: String by string("screen_name")
     }
 }

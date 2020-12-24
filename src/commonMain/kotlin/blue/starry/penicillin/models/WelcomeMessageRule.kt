@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
@@ -32,14 +32,14 @@ import blue.starry.jsonkt.delegation.modelList
 import blue.starry.penicillin.core.session.ApiClient
 
 
-object WelcomeMessageRule {
-    data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel
+public object WelcomeMessageRule {
+    public data class Model(override val json: JsonObject, override val client: ApiClient): PenicillinModel
 
-    data class Single(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val welcomeMessageRule by model("welcome_message_rule") { Model(it, client) }
+    public data class Single(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val welcomeMessageRule: Model by model("welcome_message_rule") { Model(it, client) }
     }
     
-    data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val welcomeMessageRules by modelList("welcome_message_rules") { Model(it, client) }
+    public data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val welcomeMessageRules: kotlin.collections.List<Model> by modelList("welcome_message_rules") { Model(it, client) }
     }
 }

@@ -31,23 +31,23 @@ import blue.starry.penicillin.models.IndexedEntityModel
 /**
  * Returns the first index of the indices.
  */
-val IndexedEntityModel.firstIndex: Int
+public val IndexedEntityModel.firstIndex: Int
     get() = indices.first()
 
 /**
  * Returns the last index of this indices.
  */
-val IndexedEntityModel.lastIndex: Int
+public val IndexedEntityModel.lastIndex: Int
     get() = indices.last()
 
 /**
  * Returns a range from [firstIndex] value up to but excluding [lastIndex] value.
  */
-val IndexedEntityModel.range: IntRange
+public val IndexedEntityModel.range: IntRange
     get() = firstIndex until lastIndex
 
 /**
  * Returns the size of the indices.
  */
-val IndexedEntityModel.size: Int
+public val IndexedEntityModel.size: Int
     get() = lastIndex - firstIndex

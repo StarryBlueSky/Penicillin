@@ -31,7 +31,7 @@ import blue.starry.penicillin.models.Stream
 /**
  * Represents UserStream event payload JSON type.
  */
-enum class UserStreamEventType {
+public enum class UserStreamEventType {
     /**
      * [Stream.StatusEvent].
      */
@@ -51,16 +51,16 @@ enum class UserStreamEventType {
 /**
  * Represents UserStream event type.
  */
-enum class UserStreamEvent(
+public enum class UserStreamEvent(
     /**
      * Event payload JSON type.
      */
-    val type: UserStreamEventType,
+    public val type: UserStreamEventType,
 
     /**
      * Event key.
      */
-    val key: String
+    public val key: String
 ) {
     /**
      * The event fired when a status is favorited.
@@ -141,11 +141,11 @@ enum class UserStreamEvent(
      */
     UserUpdate(UserStreamEventType.User, "user_update");
     
-    companion object {
+    public companion object {
         /**
          * Finds event type by key, or null.
          */
-        fun byKey(key: String): UserStreamEvent? {
+        public fun byKey(key: String): UserStreamEvent? {
             return values().find { it.key == key }
         }
     }

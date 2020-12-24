@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.stream
 
@@ -44,7 +44,7 @@ import blue.starry.penicillin.endpoints.Stream
  * @return [StreamApiAction] for [UserStreamHandler] handler with [UserStreamListener] listener.
  */
 @Deprecated("UserStream API retired on August 23th, 2018.", replaceWith = ReplaceWith("Tweetstorm or Account Activity API (AAA)"))
-fun Stream.user(
+public fun Stream.user(
     delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stallWarnings: Boolean? = null,
     with: UserStreamWith = UserStreamWith.Default,
@@ -58,7 +58,7 @@ fun Stream.user(
     includeFollowingsActivity: Boolean? = null,
     stringifyFriendIds: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/user.json", EndpointHost.UserStream) {
+): StreamApiAction<UserStreamListener, UserStreamHandler> = client.session.get("/1.1/user.json", EndpointHost.UserStream) {
     parameters(
         "delimited" to delimited,
         "stall_warning" to stallWarnings,
@@ -74,4 +74,4 @@ fun Stream.user(
         "stringify_friend_ids" to stringifyFriendIds,
         *options
     )
-}.stream<UserStreamListener, UserStreamHandler>()
+}.stream()

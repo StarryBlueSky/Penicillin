@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.geo
 
@@ -54,7 +54,7 @@ import blue.starry.penicillin.models.GeoResult
  * @receiver [Geo] endpoint instance.
  * @return [JsonObjectApiAction] for [GeoResult] model.
  */
-fun Geo.search(
+public fun Geo.search(
     latitude: Double? = null,
     longitude: Double? = null,
     query: String? = null,
@@ -66,7 +66,7 @@ fun Geo.search(
     attributeStreetAddress: String? = null,
     callback: String? = null,
     vararg options: Option
-) = client.session.get("/1.1/geo/search.json") {
+): JsonObjectApiAction<GeoResult> = client.session.get("/1.1/geo/search.json") {
     parameters(
         "lat" to latitude,
         "long" to longitude,

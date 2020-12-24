@@ -36,17 +36,17 @@ import blue.starry.penicillin.models.cursor.CursorUsers
 /**
  * Returns flatten all the user ids.
  */
-val Sequence<CursorJsonObjectResponse<CursorIds>>.allIds: List<Long>
+public val Sequence<CursorJsonObjectResponse<CursorIds>>.allIds: List<Long>
     get() = toList().flatMap { it.result.ids }
 
 /**
  * Returns flatten all the lists.
  */
-val Sequence<CursorJsonObjectResponse<CursorLists>>.allLists: List<TwitterList>
+public val Sequence<CursorJsonObjectResponse<CursorLists>>.allLists: List<TwitterList>
     get() = toList().flatMap { it.result.lists }
 
 /**
  * Returns flatten all the users.
  */
-val Sequence<CursorJsonObjectResponse<CursorUsers>>.allUsers: List<User>
+public val Sequence<CursorJsonObjectResponse<CursorUsers>>.allUsers: List<User>
     get() = toList().flatMap { it.result.users }

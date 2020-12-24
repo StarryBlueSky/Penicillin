@@ -22,17 +22,15 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.oauth
 
 
-import io.ktor.http.ParametersBuilder
-import io.ktor.http.URLBuilder
-import io.ktor.http.Url
 import blue.starry.penicillin.core.request.EndpointHost
 import blue.starry.penicillin.endpoints.OAuth
 import blue.starry.penicillin.endpoints.Option
+import io.ktor.http.*
 
 /**
  * Allows a Consumer application to use an OAuth Request Token to request user authorization. This method fulfills [Section 6.2](http://oauth.net/core/1.0/#auth_step2) of the [OAuth 1.0 authentication flow](http://oauth.net/core/1.0/#anchor9). Desktop applications must use this method (and cannot use [GET oauth/authenticate](https://developer.twitter.com/en/docs/basics/authentication/api-reference/authenticate).
@@ -46,7 +44,7 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [OAuth] endpoint instance.
  * @return [Url].
  */
-fun OAuth.authorizeUrl(
+public fun OAuth.authorizeUrl(
     requestToken: String,
     forceLogin: Boolean? = null,
     screenName: String? = null,

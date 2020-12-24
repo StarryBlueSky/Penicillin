@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
+import blue.starry.jsonkt.JsonElement
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
@@ -34,90 +35,90 @@ import blue.starry.penicillin.core.session.ApiClient
 
 import blue.starry.penicillin.models.entities.StatusEntity
 
-data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-    val createdAtRaw by string("created_at")
-    val id by long
-    val idStr by string("id_str")
+public data class Status(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public val createdAtRaw: String by string("created_at")
+    public val id: Long by long
+    public val idStr: String by string("id_str")
     
-    val textRaw by nullableString("text")
-    val fullTextRaw by nullableString("full_text")
-    val displayTextRange by intList("display_text_range")
+    public val textRaw: String? by nullableString("text")
+    public val fullTextRaw: String? by nullableString("full_text")
+    public val displayTextRange: List<Int> by intList("display_text_range")
     
-    val entities by model { StatusEntity(it, client) }
-    val extendedEntities by nullableModel("extended_entities") { StatusEntity(it, client) }
+    public val entities: StatusEntity by model { StatusEntity(it, client) }
+    public val extendedEntities: StatusEntity? by nullableModel("extended_entities") { StatusEntity(it, client) }
     
-    val truncated by boolean
-    val source by string
+    public val truncated: Boolean by boolean
+    public val source: String by string
     
-    val inReplyToScreenName by nullableString("in_reply_to_screen_name")
-    val inReplyToStatusId by nullableLong("in_reply_to_status_id")
-    val inReplyToStatusIdStr by nullableString("in_reply_to_status_id_str")
-    val inReplyToUserId by nullableLong("in_reply_to_user_id")
-    val inReplyToUserIdStr by nullableString("in_reply_to_user_id_str")
+    public val inReplyToScreenName: String? by nullableString("in_reply_to_screen_name")
+    public val inReplyToStatusId: Long? by nullableLong("in_reply_to_status_id")
+    public val inReplyToStatusIdStr: String? by nullableString("in_reply_to_status_id_str")
+    public val inReplyToUserId: Long? by nullableLong("in_reply_to_user_id")
+    public val inReplyToUserIdStr: String? by nullableString("in_reply_to_user_id_str")
     
-    val user by model { User(it, client) }
+    public val user: User by model { User(it, client) }
     
     @Deprecated("geo field is deprecated. Use coordinates instead.", replaceWith = ReplaceWith("coordinates"))
-    val geo by nullableJsonElement
-    val coordinates by nullableModel { Coordinate(it, client) }
-    val place by nullableModel { Place(it, client) }
+    public val geo: JsonElement? by nullableJsonElement
+    public val coordinates: Coordinate? by nullableModel { Coordinate(it, client) }
+    public val place: Place? by nullableModel { Place(it, client) }
     
-    val contributors by modelList { Contributor(it, client) }
+    public val contributors: List<Contributor> by modelList { Contributor(it, client) }
     
-    val quotedStatusId by nullableLong("quoted_status_id")
-    val quotedStatusIdStr by nullableString("quoted_status_id_str")
-    val quotedStatus by nullableModel("quoted_status") { Status(it, client) }
-    val isQuoteStatus by boolean("is_quote_status")
+    public val quotedStatusId: Long? by nullableLong("quoted_status_id")
+    public val quotedStatusIdStr: String? by nullableString("quoted_status_id_str")
+    public val quotedStatus: Status? by nullableModel("quoted_status") { Status(it, client) }
+    public val isQuoteStatus: Boolean by boolean("is_quote_status")
     
-    val retweetCount by int("retweet_count")
-    val favoriteCount by int("favorite_count")
+    public val retweetCount: Int by int("retweet_count")
+    public val favoriteCount: Int by int("favorite_count")
     // With includeQuoteCount=true; Maybe enterprise only
-    val quoteCount by nullableInt("quote_count")
+    public val quoteCount: Int? by nullableInt("quote_count")
     // With includeReplyCount=true; Maybe enterprise only
-    val replyCount by nullableInt("reply_count")
+    public val replyCount: Int? by nullableInt("reply_count")
     
-    val favorited by boolean
-    val retweeted by boolean
+    public val favorited: Boolean by boolean
+    public val retweeted: Boolean by boolean
     
-    val possiblySensitive by boolean("possibly_sensitive")
-    val possiblySensitiveAppealable by nullableBoolean("possibly_sensitive_appealable")
-    val possiblySensitiveEditable by nullableBoolean("possibly_sensitive_editable")
+    public val possiblySensitive: Boolean by boolean("possibly_sensitive")
+    public val possiblySensitiveAppealable: Boolean? by nullableBoolean("possibly_sensitive_appealable")
+    public val possiblySensitiveEditable: Boolean? by nullableBoolean("possibly_sensitive_editable")
     
-    val langRaw by string("lang")
+    public val langRaw: String by string("lang")
     
     // With includeCardUri=true
-    val cardUri by nullableString("card_uri")
+    public val cardUri: String? by nullableString("card_uri")
     
     // Unknown
-    val conversationId by nullableLong("conversation_id")
-    val currentUserRetweet by nullableModel("current_user_retweet") { CurrentUserRetweet(it, client) }
-    val extendedTweet by nullableModel("extended_tweet") { ExtendedTweet(it, client) }
-    val filterLevel by nullableString("filter_level")
-    val retweetedStatus by nullableModel("retweeted_status") { Status(it, client) }
-    val supplementalLanguage by nullableString("supplemental_language") // null
-    val timestampMs by nullableString("timestamp_ms")
-    val withheldCopyright by nullableBoolean("withheld_copyright")
-    val withheldInCountries by stringList("withheld_in_countries")
-    val withheldScope by nullableString("withheld_scope")
-    val matchingRules  by nullableModelList("matching_rules") { MatchingRule(it, client) }
+    public val conversationId: Long? by nullableLong("conversation_id")
+    public val currentUserRetweet: CurrentUserRetweet? by nullableModel("current_user_retweet") { CurrentUserRetweet(it, client) }
+    public val extendedTweet: ExtendedTweet? by nullableModel("extended_tweet") { ExtendedTweet(it, client) }
+    public val filterLevel: String? by nullableString("filter_level")
+    public val retweetedStatus: Status? by nullableModel("retweeted_status") { Status(it, client) }
+    public val supplementalLanguage: String? by nullableString("supplemental_language") // null
+    public val timestampMs: String? by nullableString("timestamp_ms")
+    public val withheldCopyright: Boolean? by nullableBoolean("withheld_copyright")
+    public val withheldInCountries: List<String> by stringList("withheld_in_countries")
+    public val withheldScope: String? by nullableString("withheld_scope")
+    public val matchingRules: List<MatchingRule?> by nullableModelList("matching_rules") { MatchingRule(it, client) }
 
-    data class Contributor(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val id by long
-        val idStr by string("id_str")
-        val screenName by string("screen_name")
+    public data class Contributor(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val id: Long by long
+        public val idStr: String by string("id_str")
+        public val screenName: String by string("screen_name")
     }
 
-    data class Coordinate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+    public data class Coordinate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
         private val coordinates by floatList
-        val type by string
-        val longitude by nullableLambda {
+        public val type: String by string
+        public val longitude: Float? by nullableLambda {
             if (coordinates.size == 2) {
                 coordinates[0]
             } else {
                 null
             }
         }
-        val latitude by nullableLambda {
+        public val latitude: Float? by nullableLambda {
             if (coordinates.size == 2) {
                 coordinates[1]
             } else {
@@ -126,20 +127,20 @@ data class Status(override val json: JsonObject, override val client: ApiClient)
         }
     }
 
-    data class CurrentUserRetweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val id by long
-        val idStr by string("id_str")
+    public data class CurrentUserRetweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val id: Long by long
+        public val idStr: String by string("id_str")
     }
 
-    data class ExtendedTweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val displayTextRange by intList("display_text_range")
-        val entities by model { StatusEntity(it, client) }
-        val extendedEntities by nullableModel("extended_entities") { StatusEntity(it, client) }
-        val fullText by nullableString("full_text")
+    public data class ExtendedTweet(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val displayTextRange: List<Int> by intList("display_text_range")
+        public val entities: StatusEntity by model { StatusEntity(it, client) }
+        public val extendedEntities: StatusEntity? by nullableModel("extended_entities") { StatusEntity(it, client) }
+        public val fullText: String? by nullableString("full_text")
     }
 
-    data class MatchingRule(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val tag by string
+    public data class MatchingRule(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val tag: String by string
     }
 
     override fun equals(other: Any?): Boolean {

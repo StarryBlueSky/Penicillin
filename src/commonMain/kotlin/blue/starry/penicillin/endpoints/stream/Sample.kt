@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.stream
 
@@ -48,23 +48,23 @@ import blue.starry.penicillin.endpoints.Stream
  * @receiver [Stream] endpoint instance.
  * @return [StreamApiAction] for [SampleStreamHandler] handler with [SampleStreamListener] listener.
  */
-fun Stream.sample(
+public fun Stream.sample(
     delimited: StreamDelimitedBy = StreamDelimitedBy.Default,
     stallWarnings: Boolean? = null,
     language: String? = null,
     vararg options: Option
-) = client.session.get("/1.1/statuses/sample.json", EndpointHost.Stream) {
+): StreamApiAction<SampleStreamListener, SampleStreamHandler> = client.session.get("/1.1/statuses/sample.json", EndpointHost.Stream) {
     parameters(
         "delimited" to delimited,
         "stall_warning" to stallWarnings,
         "language" to language,
         *options
     )
-}.stream<SampleStreamListener, SampleStreamHandler>()
+}.stream()
 
 /**
  * Shorthand property to [Stream.sample].
  * @see Stream.sample
  */
-val Stream.sample
+public val Stream.sample: StreamApiAction<SampleStreamListener, SampleStreamHandler>
     get() = sample()

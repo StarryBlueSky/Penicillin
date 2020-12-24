@@ -31,7 +31,7 @@ import blue.starry.penicillin.models.DirectMessageEvent
 /**
  * Returns the direct message text whose shortened urls are each expanded.
  */
-val DirectMessageEvent.List.Event.MessageCreate.MessageData.expandedText: String
+public val DirectMessageEvent.List.Event.MessageCreate.MessageData.expandedText: String
     get() {
         var gap = 0
         return entities.urls

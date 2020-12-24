@@ -39,14 +39,14 @@ import kotlin.time.milliseconds
  * Twitter API rate limit.
  * If response header does not provide such information, returns null.
  */
-val ApiResponse<*>.rateLimit: RateLimit?
+public val ApiResponse<*>.rateLimit: RateLimit?
     get() = response.rateLimit
 
 /**
  * Twitter API rate limit.
  * If response header does not provide such information or response is null, returns null.
  */
-val PenicillinException.rateLimit: RateLimit?
+public val PenicillinException.rateLimit: RateLimit?
     get() = response?.rateLimit
 
 private val HttpResponse.rateLimit: RateLimit?
@@ -62,46 +62,46 @@ private val HttpResponse.rateLimit: RateLimit?
 /**
  * Represents Twitter API rate limit.
  */
-data class RateLimit(
+public data class RateLimit(
     /**
      * Endpoint max limit in 15 minutes.
      */
-    val limit: Int,
+    public val limit: Int,
 
     /**
      * Current remaining for endpoint.
      */
-    val remaining: Int,
+    public val remaining: Int,
 
     /**
      * Rate limit reset at.
      */
-    val resetAt: GMTDate
+    public val resetAt: GMTDate
 )
 
 /**
  * The flag indicates you may access the same endpoint more at this time. If true, rate limit exceeded.
  */
-val RateLimit.isExceeded: Boolean
+public val RateLimit.isExceeded: Boolean
     get() = remaining == 0
 /**
  * The count you consumed in last 15 minutes.
  */
-val RateLimit.consumed: Int
+public val RateLimit.consumed: Int
     get() = limit - remaining
 
 /**
  * The [Duration] between now and [RateLimit.resetAt].
  */
 @OptIn(ExperimentalTime::class)
-val RateLimit.duration: Duration
+public val RateLimit.duration: Duration
     get() = (GMTDate().timestamp - resetAt.timestamp).milliseconds
 
 /**
  * Awaits until rate limit is refreshed. (Suspending function)
  */
 @OptIn(ExperimentalTime::class)
-suspend fun RateLimit.awaitRefresh() {
+public suspend fun RateLimit.awaitRefresh() {
     val millis = duration.inMicroseconds.toLong()
     if (millis > 0) {
         delay(millis.coerceAtLeast(500))
@@ -112,7 +112,7 @@ suspend fun RateLimit.awaitRefresh() {
  * Blocks until rate limit is refreshed. (Classic blocking function)
  */
 @OptIn(ExperimentalTime::class)
-fun RateLimit.blockUntilRefresh() {
+public fun RateLimit.blockUntilRefresh() {
     runBlockingAlt {
         awaitRefresh()
     }

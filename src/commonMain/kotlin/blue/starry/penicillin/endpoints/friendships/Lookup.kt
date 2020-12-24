@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.friendships
 
+import blue.starry.penicillin.core.request.action.JsonArrayApiAction
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
@@ -43,10 +44,10 @@ import blue.starry.penicillin.models.Friendships.Lookup
  * @receiver [Friendships] endpoint instance.
  * @return [JsonObjectApiAction] for [Lookup] model.
  */
-fun Friendships.lookupByScreenNames(
+public fun Friendships.lookupByScreenNames(
     screenNames: List<String>,
     vararg options: Option
-) = lookup(screenNames, null, *options)
+): JsonArrayApiAction<Lookup> = lookup(screenNames, null, *options)
 
 /**
  * Returns the relationships of the authenticating user to the comma-separated list of up to 100 screen_names or user_ids provided. Values for connections can be: following, following_requested, followed_by, none, blocking, muting.
@@ -58,10 +59,10 @@ fun Friendships.lookupByScreenNames(
  * @receiver [Friendships] endpoint instance.
  * @return [JsonObjectApiAction] for [Lookup] model.
  */
-fun Friendships.lookupByUserIds(
+public fun Friendships.lookupByUserIds(
     userIds: List<Long>,
     vararg options: Option
-) = lookup(null, userIds, *options)
+): JsonArrayApiAction<Lookup> = lookup(null, userIds, *options)
 
 private fun Friendships.lookup(
     screenNames: List<String>? = null,

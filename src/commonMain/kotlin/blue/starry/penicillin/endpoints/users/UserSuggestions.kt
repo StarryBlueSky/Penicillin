@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.users
 
@@ -45,11 +45,11 @@ import blue.starry.penicillin.models.UserSuggestion
  * @receiver [Users] endpoint instance.
  * @return [JsonObjectApiAction] for [UserSuggestion] model.
  */
-fun Users.userSuggestions(
+public fun Users.userSuggestions(
     slug: String,
     lang: String? = null,
     vararg options: Option
-) = client.session.get("/1.1/users/suggestions/$slug.json") {
+): JsonObjectApiAction<UserSuggestion> = client.session.get("/1.1/users/suggestions/$slug.json") {
     parameters(
         "lang" to lang,
         *options

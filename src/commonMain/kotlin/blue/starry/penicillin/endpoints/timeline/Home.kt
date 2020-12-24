@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.timeline
 
@@ -54,7 +54,7 @@ import blue.starry.penicillin.models.Status
  * @receiver [Timeline] endpoint instance.
  * @return [JsonArrayApiAction] for [Status] model.
  */
-fun Timeline.homeTimeline(
+public fun Timeline.homeTimeline(
     count: Int? = null,
     sinceId: Long? = null,
     maxId: Long? = null,
@@ -66,7 +66,7 @@ fun Timeline.homeTimeline(
     tweetMode: TweetMode = TweetMode.Default,
     includeCardUri: Boolean? = null,
     vararg options: Option
-) = client.session.get("/1.1/statuses/home_timeline.json") {
+): JsonArrayApiAction<Status> = client.session.get("/1.1/statuses/home_timeline.json") {
     parameters(
         "count" to count,
         "since_id" to sinceId,
@@ -86,5 +86,5 @@ fun Timeline.homeTimeline(
  * Shorthand property to [Timeline.homeTimeline].
  * @see Timeline.homeTimeline
  */
-val Timeline.homeTimeline
+public val Timeline.homeTimeline: JsonArrayApiAction<Status>
     get() = homeTimeline()

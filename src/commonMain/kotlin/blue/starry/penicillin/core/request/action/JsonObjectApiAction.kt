@@ -39,7 +39,7 @@ import blue.starry.penicillin.models.PenicillinModel
 /**
  * The [ApiAction] that provides parsed json object with json model.
  */
-class JsonObjectApiAction<M: PenicillinModel>(
+public class JsonObjectApiAction<M: PenicillinModel>(
     override val client: ApiClient,
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.directmessages.events
 
@@ -48,12 +48,12 @@ import blue.starry.penicillin.models.DirectMessageEvent
  * @receiver [DirectMessageEvents] endpoint instance.
  * @return [JsonObjectApiAction] for [DirectMessageEvent.Show] model.
  */
-fun DirectMessageEvents.create(
+public fun DirectMessageEvents.create(
     userId: Long,
     text: String,
     type: String = "message_create",
     vararg options: Option
-) = client.session.post("/1.1/direct_messages/events/new.json") {
+): JsonObjectApiAction<DirectMessageEvent.Show> = client.session.post("/1.1/direct_messages/events/new.json") {
     parameters(*options)
     jsonBody(
         "event" to jsonObjectOf(

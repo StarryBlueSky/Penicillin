@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.lists
 
@@ -43,10 +43,10 @@ import blue.starry.penicillin.models.TwitterList
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.subscribe(
+public fun Lists.subscribe(
     listId: Long,
     vararg options: Option
-) = subscribe(listId, null, null, null, *options)
+): JsonObjectApiAction<TwitterList> = subscribe(listId, null, null, null, *options)
 
 /**
  * Subscribes the authenticated user to the specified list.
@@ -59,11 +59,11 @@ fun Lists.subscribe(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.subscribeByOwnerScreenName(
+public fun Lists.subscribeByOwnerScreenName(
     slug: String,
     ownerScreenName: String,
     vararg options: Option
-) = subscribe(null, slug, ownerScreenName, null, *options)
+): JsonObjectApiAction<TwitterList> = subscribe(null, slug, ownerScreenName, null, *options)
 
 /**
  * Subscribes the authenticated user to the specified list.
@@ -76,11 +76,11 @@ fun Lists.subscribeByOwnerScreenName(
  * @receiver [Lists] endpoint instance.
  * @return [JsonObjectApiAction] for [TwitterList] model.
  */
-fun Lists.subscribeByOwnerId(
+public fun Lists.subscribeByOwnerId(
     slug: String,
     ownerId: Long,
     vararg options: Option
-) = subscribe(null, slug, null, ownerId, *options)
+): JsonObjectApiAction<TwitterList> = subscribe(null, slug, null, ownerId, *options)
 
 private fun Lists.subscribe(
     listId: Long? = null,

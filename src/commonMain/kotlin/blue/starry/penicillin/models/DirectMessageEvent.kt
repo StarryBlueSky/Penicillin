@@ -22,73 +22,74 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType", "KDocMissingDocumentation")
+@file:Suppress("UNUSED", "KDocMissingDocumentation")
 
 package blue.starry.penicillin.models
 
 import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.*
 import blue.starry.penicillin.core.session.ApiClient
+import kotlinx.serialization.json.JsonArray
 
 
-object DirectMessageEvent {
-    data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val apps by model { App(it, client) }
-        val events by modelList { Event(it, client) }
-        val nextCursor by nullableString("next_cursor")
+public object DirectMessageEvent {
+    public data class List(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val apps: App by model { App(it, client) }
+        public val events: kotlin.collections.List<Event> by modelList { Event(it, client) }
+        public val nextCursor: String? by nullableString("next_cursor")
 
-        data class App(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val id: String
+        public data class App(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val id: String
                 get() = json.keys.first()
             private val obj by json.byJsonObject(id)
-            val name by obj.byString
-            val url by obj.byString
+            public val name: String by obj.byString
+            public val url: String by obj.byString
         }
 
-        data class Event(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-            val createdTimestamp by string("created_timestamp")
-            val id by string
-            val messageCreate by model("message_create") { MessageCreate(it, client) }
-            val type by string
+        public data class Event(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+            public val createdTimestamp: String by string("created_timestamp")
+            public val id: String by string
+            public val messageCreate: MessageCreate by model("message_create") { MessageCreate(it, client) }
+            public val type: String by string
 
-            data class MessageCreate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                val messageData by model("message_data") { MessageData(it, client) }
-                val senderId by string("sender_id")
-                val sourceAppId by nullableString("source_app_id")
-                val target by model { Target(it, client) }
+            public data class MessageCreate(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                public val messageData: MessageData by model("message_data") { MessageData(it, client) }
+                public val senderId: String by string("sender_id")
+                public val sourceAppId: String? by nullableString("source_app_id")
+                public val target: Target by model { Target(it, client) }
 
-                data class MessageData(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                    val entities by model { Entities(it, client) }
-                    val text by string
+                public data class MessageData(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                    public val entities: Entities by model { Entities(it, client) }
+                    public val text: String by string
 
-                    data class Entities(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                        val hashtags by modelList { Hashtag(it, client) }
-                        val symbols by jsonArray
-                        val urls by modelList { Url(it, client) }
-                        val userMentions by jsonArray("user_mentions")
+                    public data class Entities(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                        public val hashtags: kotlin.collections.List<Hashtag> by modelList { Hashtag(it, client) }
+                        public val symbols: JsonArray by jsonArray
+                        public val urls: kotlin.collections.List<Url> by modelList { Url(it, client) }
+                        public val userMentions: JsonArray by jsonArray("user_mentions")
 
-                        data class Hashtag(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
-                            override val indices by intList
-                            val text by string
+                        public data class Hashtag(override val json: JsonObject, override val client: ApiClient): IndexedEntityModel {
+                            override val indices: kotlin.collections.List<Int> by intList
+                            public val text: String by string
                         }
 
-                        data class Url(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
-                            override val displayUrl by string("display_url")
-                            override val expandedUrl by string("expanded_url")
-                            override val indices by intList
-                            override val url by string
+                        public data class Url(override val json: JsonObject, override val client: ApiClient): UrlEntityModel {
+                            override val displayUrl: String by string("display_url")
+                            override val expandedUrl: String by string("expanded_url")
+                            override val indices: kotlin.collections.List<Int> by intList
+                            override val url: String by string
                         }
                     }
                 }
 
-                data class Target(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-                    val recipientId by string("recipient_id")
+                public data class Target(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+                    public val recipientId: String by string("recipient_id")
                 }
             }
         }
     }
 
-    data class Show(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
-        val event by model { List.Event(it, client) }
+    public data class Show(override val json: JsonObject, override val client: ApiClient): PenicillinModel {
+        public val event: List.Event by model { List.Event(it, client) }
     }
 }

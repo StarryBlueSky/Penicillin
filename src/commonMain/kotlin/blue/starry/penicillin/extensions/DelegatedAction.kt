@@ -38,6 +38,6 @@ import blue.starry.penicillin.endpoints.Endpoint
  * @return New [ApiAction] with passed block.
  */
 @Suppress("FunctionName")
-fun <R> Endpoint.DelegatedAction(block: suspend () -> R): ApiAction<R> {
+public fun <R> Endpoint.DelegatedAction(block: suspend () -> R): ApiAction<R> {
     return DelegatedAction(client, block)
 }

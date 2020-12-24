@@ -41,7 +41,7 @@ import blue.starry.penicillin.models.Search
 /**
  * Whether if current search result has next page.
  */
-val JsonObjectResponse<Search>.hasNext: Boolean
+public val JsonObjectResponse<Search>.hasNext: Boolean
     get() = !result.searchMetadata.nextResults.isNullOrBlank()
 
 internal val NextQueryNotFound = LocalizedString("It is the last result of search.", "次の検索結果はありません。")
@@ -49,7 +49,7 @@ internal val NextQueryNotFound = LocalizedString("It is the last result of searc
 /**
  * Creates next page api action.
  */
-val JsonObjectResponse<Search>.next: JsonObjectApiAction<Search>
+public val JsonObjectResponse<Search>.next: JsonObjectApiAction<Search>
     get() {
         if (!hasNext) {
             throw PenicillinException(NextQueryNotFound)
@@ -73,7 +73,7 @@ val JsonObjectResponse<Search>.next: JsonObjectApiAction<Search>
 /**
  * Whether if current search result is refreshable.
  */
-val JsonObjectResponse<Search>.refreshable: Boolean
+public val JsonObjectResponse<Search>.refreshable: Boolean
     get() = !result.searchMetadata.refreshUrl.isNullOrBlank()
 
 private val RefreshUrlNotFound = LocalizedString("It is not refreshable search endpoint.", "更新できる検索結果はありません。")
@@ -81,7 +81,7 @@ private val RefreshUrlNotFound = LocalizedString("It is not refreshable search e
 /**
  * Creates refreshed page api action.
  */
-val JsonObjectResponse<Search>.refresh: JsonObjectApiAction<Search>
+public val JsonObjectResponse<Search>.refresh: JsonObjectApiAction<Search>
     get() {
         if (!refreshable) {
             throw PenicillinException(RefreshUrlNotFound)

@@ -30,39 +30,39 @@ import blue.starry.penicillin.core.streaming.handler.StreamHandler
 /**
  * A common event model interface for [StreamHandler].
  */
-interface StreamListener {
+public interface StreamListener {
     /**
      * Called when streaming is connected.
      */
-    suspend fun onConnect() {}
+    public suspend fun onConnect() {}
     /**
      * Called when streaming is disconnected.
      */
-    suspend fun onDisconnect(cause: Throwable?) {}
+    public suspend fun onDisconnect(cause: Throwable?) {}
 
     /**
      * Called when streaming sends heartbeat.
      */
-    suspend fun onHeartbeat() {}
+    public suspend fun onHeartbeat() {}
     /**
      * Called when streaming sends length.
      */
-    suspend fun onLength(length: Int) {}
+    public suspend fun onLength(length: Int) {}
 
     /**
      * Called when any payloads are received.
      */
-    suspend fun onAnyJson(json: JsonObject) {}
+    public suspend fun onAnyJson(json: JsonObject) {}
     /**
      * Called when any data are connected.
      */
-    suspend fun onRawData(data: String) {}
+    public suspend fun onRawData(data: String) {}
     /**
      * Called when unhandled payloads are detected.
      */
-    suspend fun onUnhandledJson(json: JsonObject) {}
+    public suspend fun onUnhandledJson(json: JsonObject) {}
     /**
      * Called when unhandled data are detected.
      */
-    suspend fun onUnknownData(data: String) {}
+    public suspend fun onUnknownData(data: String) {}
 }

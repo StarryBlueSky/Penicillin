@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.accountactivity
 
@@ -44,11 +44,11 @@ import blue.starry.penicillin.models.Webhook
  * @receiver [AccountActivity] endpoint instance.
  * @return [JsonObjectApiAction] for [Webhook.Model] model.
  */
-fun AccountActivity.registerWebhook(
+public fun AccountActivity.registerWebhook(
     envName: String,
     url: String,
     vararg options: Option
-) = client.session.post("/1.1/account_activity/all/$envName/webhooks.json") {
+): JsonObjectApiAction<Webhook.Model> = client.session.post("/1.1/account_activity/all/$envName/webhooks.json") {
     formBody(
         "url" to url,
         *options

@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.statuses
 
+import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.formBody
 import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.PrivateEndpoint
 import blue.starry.penicillin.endpoints.Statuses
 import blue.starry.penicillin.models.PinTweet
 
@@ -41,11 +41,12 @@ import blue.starry.penicillin.models.PinTweet
  * @receiver [Statuses] endpoint instance.
  * @return [JsonObjectApiAction] for [PinTweet] model.
  */
-@PrivateEndpoint
-fun Statuses.pin(
+public fun Statuses.pin(
     id: Long,
     vararg options: Option
-) = client.session.post("/1.1/account/pin_tweet.json") {
+): JsonObjectApiAction<PinTweet> = client.session.post("/1.1/account/pin_tweet.json") {
+    emulationModes += EmulationMode.TwitterForiPhone
+
     formBody(
         "id" to id,
         *options

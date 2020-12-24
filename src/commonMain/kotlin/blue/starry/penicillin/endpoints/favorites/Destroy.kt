@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.favorites
 
@@ -46,11 +46,11 @@ import blue.starry.penicillin.models.Status
  * @receiver [Favorites] endpoint instance.
  * @return [JsonObjectApiAction] for [Status] model.
  */
-fun Favorites.destroy(
+public fun Favorites.destroy(
     id: Long,
     includeEntities: Boolean? = null,
     vararg options: Option
-) = client.session.post("/1.1/favorites/destroy.json") {
+): JsonObjectApiAction<Status> = client.session.post("/1.1/favorites/destroy.json") {
     formBody(
         "id" to id,
         "include_entities" to includeEntities,

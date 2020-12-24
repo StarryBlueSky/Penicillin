@@ -31,7 +31,7 @@ import blue.starry.penicillin.core.session.ApiClient
 /**
  * Penicillin json model.
  */
-interface PenicillinModel: JsonModel {
+public interface PenicillinModel: JsonModel {
     /**
      * The underlying [JsonObject].
      */
@@ -39,7 +39,7 @@ interface PenicillinModel: JsonModel {
     /**
      * The [ApiClient] instance.
      */
-    val client: ApiClient
+    public val client: ApiClient
 
     /**
      * Indicates whether some other model is "equal to" this one.

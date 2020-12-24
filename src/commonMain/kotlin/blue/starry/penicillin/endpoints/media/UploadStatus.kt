@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.media
 
@@ -43,11 +43,11 @@ import blue.starry.penicillin.endpoints.Option
  * @receiver [Media] endpoint instance.
  * @return [JsonObjectApiAction] for [blue.starry.penicillin.models.Media] model.
  */
-fun Media.uploadStatus(
+public fun Media.uploadStatus(
     mediaId: Long,
     mediaKey: String? = null,
     vararg options: Option
-) = client.session.get("/1.1/media/upload.json", EndpointHost.MediaUpload) {
+): JsonObjectApiAction<blue.starry.penicillin.models.Media> = client.session.get("/1.1/media/upload.json", EndpointHost.MediaUpload) {
     parameters(
         "command" to "STATUS",
         "media_id" to mediaId,

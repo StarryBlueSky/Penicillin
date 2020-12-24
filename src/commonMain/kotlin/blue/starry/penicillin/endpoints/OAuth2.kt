@@ -38,7 +38,7 @@ import blue.starry.penicillin.core.session.ApiClientDsl
  * @receiver Current [ApiClient] instance.
  */
 @ApiClientDsl
-val ApiClient.oauth2: OAuth2
+public val ApiClient.oauth2: OAuth2
     get() = OAuth2(this)
 
 /**
@@ -48,4 +48,4 @@ val ApiClient.oauth2: OAuth2
  * @param client Current [ApiClient] instance.
  * @see ApiClient.oauth2
  */
-class OAuth2(override val client: ApiClient): Endpoint
+public class OAuth2(override val client: ApiClient): Endpoint

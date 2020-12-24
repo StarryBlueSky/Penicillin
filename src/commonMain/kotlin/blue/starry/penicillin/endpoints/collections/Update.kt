@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.collections
 
@@ -47,13 +47,13 @@ import blue.starry.penicillin.models.Collection
  * @receiver [Collections] endpoint instance.
  * @return [JsonObjectApiAction] for [Collection.Model] model.
  */
-fun Collections.update(
+public fun Collections.update(
     id: String,
     name: String? = null,
     description: String? = null,
     url: String? = null,
     vararg options: Option
-) = client.session.post("/1.1/collections/update.json") {
+): JsonObjectApiAction<Collection.Model> = client.session.post("/1.1/collections/update.json") {
     formBody(
         "id" to id,
         "name" to name,

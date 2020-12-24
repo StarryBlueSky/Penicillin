@@ -34,7 +34,7 @@ import blue.starry.penicillin.core.session.SessionBuilder
  * Configures [CookieConfig].
  */
 @ApiClientDsl
-fun SessionBuilder.cookie(block: CookieConfig.Builder.() -> Unit) {
+public fun SessionBuilder.cookie(block: CookieConfig.Builder.() -> Unit) {
     getOrPutBuilder { 
         CookieConfig.Builder()
     }.apply(block)
@@ -49,26 +49,26 @@ internal fun SessionBuilder.createCookieConfig(): CookieConfig {
 /**
  * Represents Cookie config.
  */
-data class CookieConfig(
+public data class CookieConfig(
     /**
      * If true, accepts cookies.
      */
-    val acceptCookie: Boolean,
+    public val acceptCookie: Boolean,
 
     /**
      * Custom cookies.
      */
-    val cookies: Map<String, List<Cookie>>
+    public val cookies: Map<String, List<Cookie>>
 ): SessionConfig {
     /**
      * Cookie config builder.
      */
-    class Builder: SessionConfigBuilder<CookieConfig> {
+    public class Builder: SessionConfigBuilder<CookieConfig> {
         private var acceptCookie = false
         /**
          * Accepts cookies.
          */
-        fun acceptCookie() {
+        public fun acceptCookie() {
             acceptCookie = true
         }
 
@@ -76,7 +76,7 @@ data class CookieConfig(
         /**
          * Adds custom cookie.
          */
-        fun addCookie(host: String, cookie: Cookie) {
+        public fun addCookie(host: String, cookie: Cookie) {
             cookies.getOrPut(host) { mutableListOf() } += cookie
         }
 

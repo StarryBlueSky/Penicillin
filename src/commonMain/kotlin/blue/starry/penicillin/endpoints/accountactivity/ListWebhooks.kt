@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.accountactivity
 
+import blue.starry.penicillin.core.request.action.JsonArrayApiAction
 import blue.starry.penicillin.core.request.action.JsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
@@ -44,9 +45,9 @@ import blue.starry.penicillin.models.Webhook
  * @receiver [AccountActivity] endpoint instance.
  * @return [JsonObjectApiAction] for [Webhook.List] model.
  */
-fun AccountActivity.listWebhooks(
+public fun AccountActivity.listWebhooks(
     vararg options: Option
-) = client.session.get("/1.1/account_activity/all/webhooks.json") {
+): JsonObjectApiAction<Webhook.List> = client.session.get("/1.1/account_activity/all/webhooks.json") {
     parameters(*options)
 }.jsonObject { Webhook.List(it, client) }
 
@@ -55,7 +56,7 @@ fun AccountActivity.listWebhooks(
  * Shorthand property to [AccountActivity.listWebhooks].
  * @see AccountActivity.listWebhooks
  */
-val AccountActivity.listWebhooks
+public val AccountActivity.listWebhooks: JsonObjectApiAction<Webhook.List>
     get() = listWebhooks()
 
 /**
@@ -70,8 +71,8 @@ val AccountActivity.listWebhooks
  * @receiver [AccountActivity] endpoint instance.
  * @return [JsonObjectApiAction] for [Webhook.List] model.
  */
-fun AccountActivity.listWebhooksByEnvName(
+public fun AccountActivity.listWebhooksByEnvName(
     envName: String, vararg options: Option
-) = client.session.get("/1.1/account_activity/all/$envName/webhooks.json") {
+): JsonArrayApiAction<Webhook.Model> = client.session.get("/1.1/account_activity/all/$envName/webhooks.json") {
     parameters(*options)
 }.jsonArray { Webhook.Model(it, client) }

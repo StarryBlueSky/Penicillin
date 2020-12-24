@@ -36,7 +36,7 @@ import blue.starry.penicillin.core.streaming.listener.StreamListener
 /**
  * The [ApiResponse] that provides stream-able response.
  */
-data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
+public data class StreamResponse<L: StreamListener, H: StreamHandler<L>>(
     override val client: ApiClient,
     override val request: HttpRequest,
     override val response: HttpResponse,

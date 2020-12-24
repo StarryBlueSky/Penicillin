@@ -29,19 +29,19 @@ package blue.starry.penicillin.models
 /**
  * A entity model that has "url", "displayUrl" and "expandedUlr" properties.
  */
-interface UrlEntityModel: IndexedEntityModel {
+public interface UrlEntityModel: IndexedEntityModel {
     /**
      * The entry url.
      */
-    val url: String
+    public val url: String
 
     /**
      * The entry displayUrl.
      */
-    val displayUrl: String
+    public val displayUrl: String
 
     /**
      * The entry expandedUrl.
      */
-    val expandedUrl: String
+    public val expandedUrl: String
 }

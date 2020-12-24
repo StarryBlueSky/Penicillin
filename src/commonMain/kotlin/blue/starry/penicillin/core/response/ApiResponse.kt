@@ -32,24 +32,24 @@ import blue.starry.penicillin.core.session.ApiClient
 /**
  * Represents Twitter API response.
  */
-interface ApiResponse<R: Any> {
+public interface ApiResponse<R: Any> {
     /**
      * Current [ApiClient] instance.
      */
-    val client: ApiClient
+    public val client: ApiClient
 
     /**
      * Http request object.
      */
-    val request: HttpRequest
+    public val request: HttpRequest
 
     /**
      * Http response object.
      */
-    val response: HttpResponse
+    public val response: HttpResponse
 
     /**
      * Executed [ApiAction] instance.
      */
-    val action: ApiAction<R>
+    public val action: ApiAction<R>
 }

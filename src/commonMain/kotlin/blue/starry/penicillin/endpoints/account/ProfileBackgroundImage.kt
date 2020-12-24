@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.account
 
@@ -49,13 +49,13 @@ import blue.starry.penicillin.models.User
  * @return [JsonObjectApiAction] for [User] model.
  */
 @Deprecated("This endpoint is deprecated. See also https://twittercommunity.com/t/upcoming-changes-to-the-developer-platform/104603.", replaceWith = ReplaceWith("No substitute."))
-fun Account.updateProfileBackgroundImage(
+public fun Account.updateProfileBackgroundImage(
     mediaId: Long,
     tile: Boolean? = null,
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-) = client.session.post("/1.1/account/update_profile_background_image.json") {
+): JsonObjectApiAction<User> = client.session.post("/1.1/account/update_profile_background_image.json") {
     formBody(
         "tile" to tile,
         "include_entities" to includeEntities,

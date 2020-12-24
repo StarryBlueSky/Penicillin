@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED", "PublicApiImplicitType")
+@file:Suppress("UNUSED")
 
 package blue.starry.penicillin.endpoints.geo
 
@@ -43,9 +43,9 @@ import blue.starry.penicillin.models.Place
  * @receiver [Geo] endpoint instance.
  * @return [JsonObjectApiAction] for [Geo] model.
  */
-fun Geo.place(
+public fun Geo.place(
     placeId: String,
     vararg options: Option
-) = client.session.get("/1.1/geo/id/$placeId.json") {
+): JsonObjectApiAction<Place> = client.session.get("/1.1/geo/id/$placeId.json") {
     parameters(*options)
 }.jsonObject { Place(it, client) }
