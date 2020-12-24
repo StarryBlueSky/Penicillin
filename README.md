@@ -1,6 +1,6 @@
 # Penicillin: Modern powerful Twitter API wrapper for Kotlin Multiplatform
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.20-blue.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.21-blue.svg)](https://kotlinlang.org)
 [![stable](https://img.shields.io/bintray/v/starry-blue-sky/stable/Penicillin.svg?label=stable)](https://bintray.com/starry-blue-sky/stable/Penicillin/_latestVersion)
 [![dev](https://img.shields.io/bintray/v/starry-blue-sky/dev/Penicillin.svg?label=dev)](https://bintray.com/starry-blue-sky/dev/Penicillin/_latestVersion)
 [![license](https://img.shields.io/github/license/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/blob/master/LICENSE)
@@ -54,12 +54,13 @@ Full engine list is available at <https://ktor.io/clients/http-client/engines.ht
 #### build.gradle.kts:
 
 ```kotlin
-val ktorVersion = "1.4.3"
+val ktorVersion: String = "1.5.0"
 
 repositories {
     mavenCentral()
     jcenter()
-
+    maven(url = "https://kotlin.bintray.com/kotlinx")
+    
     maven(url = "https://dl.bintray.com/starry-blue-sky/stable")
     // or dev repository if EAP builds preferred
     // maven(url = "https://dl.bintray.com/starry-blue-sky/dev")
