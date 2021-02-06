@@ -23,11 +23,3 @@
  */
 
 rootProject.name = "penicillin"
-
-pluginManagement {
-    repositories {
-        mavenCentral()
-        jcenter()
-        gradlePluginPortal()
-    }
-}
