@@ -62,12 +62,7 @@ public class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(
     public fun listen(listener: L, reconnect: Boolean = true): Job {
         return client.session.launch {
             while (isActive) {
-                client.session.httpClient.request<HttpStatement>(request.builder.finalize()).execute {
-                    checkError(it.request, it)
-
-                    val channel = it.receive<ByteReadChannel>()
-                    handle(channel, listener)
-                }
+                listen(listener)
 
                 if (!reconnect) {
                     break
@@ -78,10 +73,15 @@ public class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(
         }
     }
 
-    /**
-     * Awaits until streaming ends, or client disconnects.
-     * This operation is suspendable.
-     */
+    public suspend fun listen(listener: L) {
+        client.session.httpClient.request<HttpStatement>(request.builder.finalize()).execute {
+            checkError(it.request, it)
+
+            val channel = it.receive<ByteReadChannel>()
+            handle(channel, listener)
+        }
+    }
+
     private suspend fun handle(channel: ByteReadChannel, listener: L) {
         @Suppress("UNCHECKED_CAST") val handler = when (listener) {
             is UserStreamListener -> UserStreamHandler(client, listener)
