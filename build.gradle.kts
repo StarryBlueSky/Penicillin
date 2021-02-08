@@ -32,12 +32,12 @@ val githubOrganizationName = "StarryBlueSky"
 val githubRepositoryName = "Penicillin"
 val packageGroupId = "blue.starry"
 val packageName = "Penicillin"
-val packageVersion = Version(6, 0, 2)
+val packageVersion = Version(6, 0, 3)
 val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
 
 object ThirdpartyVersion {
     // For Kotlin/Common
-    const val Ktor = "1.5.0"
+    const val Ktor = "1.5.1"
     const val JsonKt = "6.0.0"
     const val uuid = "0.2.3"
     const val KotlinxDatetime = "0.1.1"
@@ -57,7 +57,7 @@ object ThirdpartyVersion {
 }
 
 plugins { 
-    kotlin("multiplatform") version "1.4.21"
+    kotlin("multiplatform") version "1.4.30"
 
     // For testing
     id("com.adarshr.test-logger") version "2.1.1"
