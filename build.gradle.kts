@@ -1,96 +1,93 @@
-/*
- * The MIT License (MIT)
- *
- *     Copyright (c) 2017-2020 StarryBlueSky
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+plugins {
+    kotlin("multiplatform") version "1.4.30"
 
-@file:Suppress("KDocMissingDocumentation", "PublicApiImplicitType")
+    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    id("com.adarshr.test-logger") version "2.1.1"
+    id("net.rdrei.android.buildtimetracker") version "0.11.0"
 
-import com.adarshr.gradle.testlogger.theme.ThemeType
-import java.nio.file.Files
-import java.nio.file.Paths
+    `maven-publish`
+    signing
+    id("io.codearte.nexus-staging") version "0.22.0"
 
-val githubOrganizationName = "StarryBlueSky"
-val githubRepositoryName = "Penicillin"
-val packageGroupId = "blue.starry"
-val packageName = "Penicillin"
-val packageVersion = Version(6, 0, 3)
-val packageDescription = "Full-featured Twitter API wrapper for Kotlin."
+    id("org.jetbrains.dokka") version "1.4.20"
+}
 
-object ThirdpartyVersion {
-    // For Kotlin/Common
+object Versions {
     const val Ktor = "1.5.1"
-    const val JsonKt = "6.0.0"
+    const val JsonKt = "6.0.2"
     const val uuid = "0.2.3"
     const val KotlinxDatetime = "0.1.1"
 
-    // For Kotlin/JS
     const val crypto_js = "4.0.0"
 
-    // For testing
     const val JUnit = "5.7.0"
     const val TwitterText = "3.1.0"
     const val Guava = "29.0-jre"
 
-    // For logging
     const val KotlinLogging = "2.0.4"
     const val Logback = "1.2.3"
     const val jansi = "1.18"
 }
 
-plugins { 
-    kotlin("multiplatform") version "1.4.30"
+object Libraries {
+    const val KtorClientCore = "io.ktor:ktor-client-core:${Versions.Ktor}"
+    const val JsonKt = "blue.starry:jsonkt:${Versions.JsonKt}"
+    const val uuid = "com.benasher44:uuid:${Versions.uuid}"
+    const val KotlinxDatetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.KotlinxDatetime}"
+    const val KotlinLogging = "io.github.microutils:kotlin-logging:${Versions.KotlinLogging}"
 
-    // For testing
-    id("com.adarshr.test-logger") version "2.1.1"
-    id("net.rdrei.android.buildtimetracker") version "0.11.0"
+    const val KtorClientApache = "io.ktor:ktor-client-apache:${Versions.Ktor}"
+    const val KtorClientCIO = "io.ktor:ktor-client-cio:${Versions.Ktor}"
+    const val KtorClientJetty = "io.ktor:ktor-client-jetty:${Versions.Ktor}"
+    const val KtorClientOkhttp = "io.ktor:ktor-client-okhttp:${Versions.Ktor}"
+    const val KtorClientMockJvm = "io.ktor:ktor-client-mock-jvm:${Versions.Ktor}"
 
-    // For publishing
-    `maven-publish`
-    id("com.jfrog.artifactory") version "4.17.2"
-    
-    // For documentation
-    id("org.jetbrains.dokka") version "1.4.20"
+    const val TwitterText = "com.twitter.twittertext:twitter-text:${Versions.TwitterText}"
+    const val Guava = "com.google.guava:guava:${Versions.Guava}"
+
+    const val JUnitJupiter = "org.junit.jupiter:junit-jupiter:${Versions.JUnit}"
+    const val LogbackCore = "ch.qos.logback:logback-core:${Versions.Logback}"
+    const val LogbackClassic = "ch.qos.logback:logback-classic:${Versions.Logback}"
+    const val Jansi = "org.fusesource.jansi:jansi:${Versions.jansi}"
+
+    const val KtorClientJs = "io.ktor:ktor-client-js:${Versions.Ktor}"
+    const val KtorClientMockJs = "io.ktor:ktor-client-mock-js:${Versions.Ktor}"
 }
 
-data class Version(val major: Int, val minor: Int, val patch: Int) {
-    val label: String
-        get() = "$major.$minor.$patch"
+object Publications {
+    const val GroupId = "blue.starry"
+    const val OSSRHProfileGroupId = "blue.starry.jsonkt"
+    const val Description = "Full-featured Twitter API wrapper for Kotlin"
+    const val GitHubUsername = "StarryBlueSky"
+    const val GitHubRepository = "Penicillin"
+
+    const val LicenseName = "The MIT Licence"
+    const val LicenseUrl = "https://opensource.org/licenses/MIT"
+
+    const val DeveloperId = "StarryBlueSky"
+    const val DeveloperName = "The Starry Blue Sky"
+    const val DeveloperEmail = "letter@starry.blue"
+    const val DeveloperOrganization = "The Starry Blue Sky"
+    const val DeveloperOrganizationUrl = "https://github.com/StarryBlueSky"
+
+    const val MavenCentralStagingRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+    const val MavenCentralSnapshotRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+    const val GitHubPackagesRepositoryUrl = "https://maven.pkg.github.com/$GitHubUsername/$GitHubRepository"
 }
 
-// cannot be companion object
-val isEAPBuild: Boolean
-    get() = hasProperty("snapshot") || System.getenv("SNAPSHOT") != null
+object Env {
+    const val Version = "VERSION"
 
-fun incrementBuildNumber(): Int {
-    val path = Paths.get(buildDir.absolutePath, "build-number-${packageVersion.label}.txt")
-    val number = if (Files.exists(path)) {
-        path.toFile().readText().toIntOrNull()
-    } else {
-        null
-    }?.coerceAtLeast(0)?.plus(1) ?: 1
+    const val OSSRHProfileId = "OSSRH_PROFILE_ID"
+    const val OSSRHUsername = "OSSRH_USERNAME"
+    const val OSSRHPassword = "OSSRH_PASSWORD"
 
-    path.toFile().writeText(number.toString())
+    const val GitHubUsername = "GITHUB_USERNAME"
+    const val GitHubPassword = "GITHUB_PASSWORD"
 
-    return number
+    const val SigningKeyId = "SIGNING_KEYID"
+    const val SigningKey = "SIGNING_KEY"
+    const val SigningPassword = "SIGNING_PASSWORD"
 }
 
 /*
@@ -99,10 +96,11 @@ fun incrementBuildNumber(): Int {
 
 repositories {
     mavenCentral()
+
+    // TODO: For kotlinx-datetime; should remove it by May 01, 2021
+    maven(url = "https://kotlin.bintray.com/kotlinx/")
+    // TODO: For dokka; should remove it by May 01, 2021
     jcenter()
-    maven(url = "https://kotlin.bintray.com/kotlinx")
-    maven(url = "https://dl.bintray.com/starry-blue-sky/stable")
-    maven(url = "https://dl.bintray.com/starry-blue-sky/dev")
 }
 
 kotlin {
@@ -110,7 +108,7 @@ kotlin {
 
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
     }
     js(BOTH) {
@@ -127,14 +125,11 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                // Kotlin
-                api(kotlin("stdlib"))
-
-                api("io.ktor:ktor-client-core:${ThirdpartyVersion.Ktor}")
-                api("blue.starry:jsonkt:${ThirdpartyVersion.JsonKt}")
-                api("com.benasher44:uuid:${ThirdpartyVersion.uuid}")
-                api("org.jetbrains.kotlinx:kotlinx-datetime:${ThirdpartyVersion.KotlinxDatetime}")
-                api("io.github.microutils:kotlin-logging:${ThirdpartyVersion.KotlinLogging}")
+                api(Libraries.KtorClientCore)
+                api(Libraries.JsonKt)
+                api(Libraries.uuid)
+                api(Libraries.KotlinxDatetime)
+                api(Libraries.KotlinLogging)
             }
         }
         commonTest {
@@ -149,46 +144,39 @@ kotlin {
         }
         named("jvmTest") {
             dependencies {
-                // Kotlin
                 implementation(kotlin("reflect"))
                 implementation(kotlin("test"))
 
-                // Ktor clients
-                implementation("io.ktor:ktor-client-apache:${ThirdpartyVersion.Ktor}")
-                implementation("io.ktor:ktor-client-cio:${ThirdpartyVersion.Ktor}")
-                implementation("io.ktor:ktor-client-jetty:${ThirdpartyVersion.Ktor}")
-                implementation("io.ktor:ktor-client-okhttp:${ThirdpartyVersion.Ktor}")
-                implementation("io.ktor:ktor-client-mock-jvm:${ThirdpartyVersion.Ktor}")
+                implementation(Libraries.KtorClientApache)
+                implementation(Libraries.KtorClientCIO)
+                implementation(Libraries.KtorClientJetty)
+                implementation(Libraries.KtorClientOkhttp)
+                implementation(Libraries.KtorClientMockJvm)
 
-                // For test
                 implementation(kotlin("test-junit5"))
-                implementation("org.junit.jupiter:junit-jupiter:${ThirdpartyVersion.JUnit}")
-                implementation("com.twitter.twittertext:twitter-text:${ThirdpartyVersion.TwitterText}")
-                implementation("com.google.guava:guava:${ThirdpartyVersion.Guava}")
+                implementation(Libraries.JUnitJupiter)
 
-                // For logging
-                implementation("ch.qos.logback:logback-core:${ThirdpartyVersion.Logback}")
-                implementation("ch.qos.logback:logback-classic:${ThirdpartyVersion.Logback}")
-                implementation("org.fusesource.jansi:jansi:${ThirdpartyVersion.jansi}")
+                implementation(Libraries.TwitterText)
+                implementation(Libraries.Guava)
+
+                implementation(Libraries.LogbackCore)
+                implementation(Libraries.LogbackClassic)
+                implementation(Libraries.Jansi)
             }
         }
 
         named("jsMain") {
             dependencies {
-                api("io.ktor:ktor-client-js:${ThirdpartyVersion.Ktor}")
-                api("blue.starry:jsonkt-js:${ThirdpartyVersion.JsonKt}")
+                api(Libraries.KtorClientJs)
 
-                // Platform specific
-                implementation(npm("crypto-js", ThirdpartyVersion.crypto_js))
+                implementation(npm("crypto-js", Versions.crypto_js))
             }
         }
         named("jsTest") {
             dependencies {
-                // Kotlin
                 implementation(kotlin("test-js"))
 
-                // Ktor clients
-                implementation("io.ktor:ktor-client-mock-js:${ThirdpartyVersion.Ktor}")
+                implementation(Libraries.KtorClientMockJs)
             }
         }
     }
@@ -198,7 +186,7 @@ kotlin {
             kotlinOptions {
                 apiVersion = "1.4"
                 languageVersion = "1.4"
-                // allWarningsAsErrors = true
+                allWarningsAsErrors = true
                 verbose = true
             }
         }
@@ -214,6 +202,15 @@ kotlin {
  * Tests
  */
 
+ktlint {
+    verbose.set(true)
+    outputToConsole.set(true)
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+    }
+    ignoreFailures.set(true)
+}
+
 buildtimetracker {
     reporters {
         register("summary") {
@@ -224,14 +221,16 @@ buildtimetracker {
     }
 }
 
-testlogger {
-    theme = ThemeType.MOCHA
-}
-
-tasks.named<Test>("jvmTest") {
+tasks.withType<Test> {
     useJUnitPlatform()
+
     testLogging {
-        events("passed", "skipped", "failed")
+        showStandardStreams = true
+        events("passed", "failed")
+    }
+
+    testlogger {
+        theme = com.adarshr.gradle.testlogger.theme.ThemeType.MOCHA_PARALLEL
     }
 }
 
@@ -239,28 +238,7 @@ tasks.named<Test>("jvmTest") {
  * Publishing
  */
 
-var buildNumber = incrementBuildNumber()
-project.group = packageGroupId
-project.version = if (isEAPBuild) {
-    "${packageVersion.label}-eap-${buildNumber}"
-} else {
-    packageVersion.label
-}
-
 tasks {
-    dokkaHtml {
-        outputDirectory.set(buildDir.resolve("kdoc"))
-
-        dokkaSourceSets.all {
-
-            jdkVersion.set(8)
-            includeNonPublic.set(false)
-            reportUndocumented.set(true)
-            skipEmptyPackages.set(true)
-            skipDeprecated.set(true)
-        }
-    }
-
     register<Jar>("kdocJar") {
         from(dokkaHtml)
         dependsOn(dokkaHtml)
@@ -269,77 +247,94 @@ tasks {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = "Sonatype"
+            url = uri(
+                if (System.getenv(Env.Version).orEmpty().endsWith("-SNAPSHOT")) {
+                    Publications.MavenCentralSnapshotRepositoryUrl
+                } else {
+                    Publications.MavenCentralStagingRepositoryUrl
+                }
+            )
+
+            credentials {
+                username = System.getenv(Env.OSSRHUsername)
+                password = System.getenv(Env.OSSRHPassword)
+            }
+        }
+
+        maven {
+            name = "GitHubPackages"
+            url = uri(Publications.GitHubPackagesRepositoryUrl)
+
+            credentials {
+                username = System.getenv(Env.GitHubUsername)
+                password = System.getenv(Env.GitHubPassword)
+            }
+        }
+    }
+
     publications.withType<MavenPublication> {
+        groupId = Publications.GroupId
+        artifactId = when (name) {
+            "kotlinMultiplatform" -> {
+                rootProject.name
+            }
+            else -> {
+                "${rootProject.name}-$name"
+            }
+        }
+        version = System.getenv(Env.Version)
+
         pom {
-            name.set(rootProject.name)
-            description.set(packageDescription)
-            url.set("https://github.com/$githubOrganizationName/$githubRepositoryName")
+            name.set(artifactId)
+            description.set(Publications.Description)
+            url.set("https://github.com/${Publications.GitHubUsername}/${Publications.GitHubRepository}")
+
             licenses {
                 license {
-                    name.set("The MIT Licence")
-                    url.set("https://opensource.org/licenses/MIT")
+                    name.set(Publications.LicenseName)
+                    url.set(Publications.LicenseUrl)
                 }
             }
+
             developers {
                 developer {
-                    name.set("Nep")
-                    email.set("spica@starry.blue")
-                    organization.set("github")
-                    organizationUrl.set("https://github.com/$githubOrganizationName")
+                    id.set(Publications.DeveloperId)
+                    name.set(Publications.DeveloperName)
+                    email.set(Publications.DeveloperEmail)
+                    organization.set(Publications.DeveloperOrganization)
+                    organizationUrl.set(Publications.DeveloperOrganizationUrl)
                 }
             }
+
             scm {
-                connection.set("scm:git:git://github.com/$githubOrganizationName/$githubRepositoryName.git")
-                developerConnection.set("scm:git:ssh://github.com:$githubOrganizationName/$githubRepositoryName.git")
-                url.set("https://github.com/$githubOrganizationName/$githubRepositoryName/tree/master")
+                url.set("https://github.com/${Publications.GitHubUsername}/${Publications.GitHubRepository}")
             }
         }
 
         artifact(tasks["kdocJar"])
     }
+}
 
-    val user = System.getenv("BINTRAY_USER")
-    val key = System.getenv("BINTRAY_KEY")
+signing {
+    setRequired { gradle.taskGraph.hasTask("publish") }
+    sign(publishing.publications)
 
-    if (user != null && key != null) {
-        repositories {
-            maven {
-                name = packageName
-                description = packageDescription
-
-                val repo = if (isEAPBuild) "dev" else "stable"
-                url = uri("https://api.bintray.com/maven/starry-blue-sky/$repo/$name/;publish=1;override=1")
-
-                credentials {
-                    username = user
-                    password = key
-                }
-            }
-        }
+    if (System.getenv(Env.SigningKey) != null) {
+        @Suppress("UnstableApiUsage")
+        useInMemoryPgpKeys(
+            System.getenv(Env.SigningKeyId),
+            System.getenv(Env.SigningKey),
+            System.getenv(Env.SigningPassword)
+        )
     }
 }
 
-artifactory {
-    setContextUrl("http://oss.jfrog.org")
-
-    publish(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.PublisherConfig> {
-        repository(delegateClosureOf<groovy.lang.GroovyObject> {
-            setProperty("repoKey", "oss-snapshot-local")
-            setProperty("username", System.getProperty("BINTRAY_USER"))
-            setProperty("password", System.getProperty("BINTRAY_KEY"))
-            setProperty("maven", true)
-        })
-
-        defaults(delegateClosureOf<groovy.lang.GroovyObject> {
-            invokeMethod("publications", publishing.publications.names.toTypedArray())
-            setProperty("publishArtifacts", true)
-            setProperty("publishPom", true)
-        })
-    })
-
-    resolve(delegateClosureOf<org.jfrog.gradle.plugin.artifactory.dsl.ResolverConfig> {
-        setProperty("repoKey", "jcenter")
-    })
-
-    clientConfig.info.buildNumber = buildNumber.toString()
+nexusStaging {
+    packageGroup = Publications.OSSRHProfileGroupId
+    stagingProfileId = System.getenv(Env.OSSRHProfileId)
+    username = System.getenv(Env.OSSRHUsername)
+    password = System.getenv(Env.OSSRHPassword)
 }

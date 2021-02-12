@@ -1,8 +1,8 @@
 # Penicillin: Modern powerful Twitter API wrapper for Kotlin Multiplatform
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.21-blue.svg)](https://kotlinlang.org)
-[![stable](https://img.shields.io/bintray/v/starry-blue-sky/stable/Penicillin.svg?label=stable)](https://bintray.com/starry-blue-sky/stable/Penicillin/_latestVersion)
-[![dev](https://img.shields.io/bintray/v/starry-blue-sky/dev/Penicillin.svg?label=dev)](https://bintray.com/starry-blue-sky/dev/Penicillin/_latestVersion)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.30-blue.svg)](https://kotlinlang.org)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/StarryBlueSky/Penicillin)](https://github.com/StarryBlueSky/Penicillin/releases)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/StarryBlueSky/Penicillin/Check)](https://github.com/StarryBlueSky/Penicillin)
 [![license](https://img.shields.io/github/license/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/blob/master/LICENSE)
 [![issues](https://img.shields.io/github/issues/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/issues)
 [![pull requests](https://img.shields.io/github/issues-pr/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/pulls)
@@ -42,9 +42,9 @@ More examples of Penicillin can be found at [Wiki](https://github.com/StarryBlue
 
 ## Get Started
 
-Latest Penicillin version is [![Stable](https://img.shields.io/bintray/v/starry-blue-sky/stable/Penicillin.svg?label=stable)](https://bintray.com/starry-blue-sky/stable/Penicillin/_latestVersion) or [![Dev](https://img.shields.io/bintray/v/starry-blue-sky/dev/Penicillin.svg?label=dev)](https://bintray.com/starry-blue-sky/dev/Penicillin/_latestVersion).  
+We moved the repository to Maven Central. So you can use our library without adding extra repository.
 
-Stable releases are available at [Bintray](https://bintray.com/starry-blue-sky/stable/Penicillin). EAP builds are also available ([Dev Repository](https://bintray.com/starry-blue-sky/dev/Penicillin)). Every commit is published as EAP build.  
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/StarryBlueSky/Penicillin)](https://github.com/StarryBlueSky/Penicillin/releases)
 
 You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or `CIO` engine on JVM.  
 Full engine list is available at <https://ktor.io/clients/http-client/engines.html>.
@@ -54,32 +54,12 @@ Full engine list is available at <https://ktor.io/clients/http-client/engines.ht
 #### build.gradle.kts:
 
 ```kotlin
-val ktorVersion: String = "1.5.0"
-
-repositories {
-    mavenCentral()
-    jcenter()
-    maven(url = "https://kotlin.bintray.com/kotlinx")
+dependencies {
+    implementation("blue.starry:penicillin:$PenicillinVersion")
     
-    maven(url = "https://dl.bintray.com/starry-blue-sky/stable")
-    // or dev repository if EAP builds preferred
-    // maven(url = "https://dl.bintray.com/starry-blue-sky/dev")
-}
-
-kotlin {
-    sourceSets {
-        named("commonMain") {
-            dependencies {
-                implementation("blue.starry:penicillin:$PenicillinVersion")
-            }
-        }
-
-        // Not needed anymore: Penicillin 6.0.0+
-        named("jvmMain") {
-        }
-        named("jsMain") {
-        }
-    }
+    // choose one of them
+    implementation("io.ktor:ktor-client-apache:1.5.1")
+    implementation("io.ktor:ktor-client-cio:1.5.1")
 }
 ```
 
@@ -103,4 +83,4 @@ In Android development, we confirmed that Penicillin works only on API level 24 
 
 Penicillin is provided under the MIT license.  
 
-Copyright (c) 2017-2020 StarryBlueSky.
+Copyright (c) 2017-2021 StarryBlueSky.
