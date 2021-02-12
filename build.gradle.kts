@@ -52,6 +52,11 @@ object Libraries {
 
     const val KtorClientJs = "io.ktor:ktor-client-js:${Versions.Ktor}"
     const val KtorClientMockJs = "io.ktor:ktor-client-mock-js:${Versions.Ktor}"
+
+    val ExperimentalAnnotations = setOf(
+        "kotlin.Experimental",
+        "blue.starry.penicillin.core.experimental.PenicillinExperimentalApi"
+    )
 }
 
 object Publications {
@@ -134,7 +139,6 @@ kotlin {
         }
         commonTest {
             dependencies {
-                // Kotlin
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -194,7 +198,10 @@ kotlin {
 
     sourceSets.all {
         languageSettings.progressiveMode = true
-        languageSettings.useExperimentalAnnotation("kotlin.Experimental")
+
+        Libraries.ExperimentalAnnotations.forEach {
+            languageSettings.useExperimentalAnnotation(it)
+        }
     }
 }
 
