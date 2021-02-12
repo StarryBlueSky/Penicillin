@@ -42,7 +42,7 @@ More examples of Penicillin can be found at [Wiki](https://github.com/StarryBlue
 
 ## Get Started
 
-We moved the repository to Maven Central. So you can use our library without adding extra repository.
+We moved the repository to Maven Central.
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/StarryBlueSky/Penicillin)](https://github.com/StarryBlueSky/Penicillin/releases)
 
@@ -54,6 +54,13 @@ Full engine list is available at <https://ktor.io/clients/http-client/engines.ht
 #### build.gradle.kts:
 
 ```kotlin
+repositories {
+    mavenCentral()
+
+    // Please add it for kotlinx-datetime; should remove it by May 01, 2021
+    maven(url = "https://kotlin.bintray.com/kotlinx/")
+}
+
 dependencies {
     implementation("blue.starry:penicillin:$PenicillinVersion")
     
