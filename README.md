@@ -16,7 +16,7 @@
 * API's execution supports classical blocking function `.complete()`, suspend function `.execute()`, deferred operation `.executeAsync()` and callback style `.queue {}`.  
 * Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.  
 
-Documentations are available at [docs.starry.blue](https://docs.starry.blue/penicillin).  
+Documentations are available at [GitHub Pages](https://starrybluesky.github.io/Penicillin/penicillin).  
 
 ## Quick Example
 
