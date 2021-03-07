@@ -58,7 +58,7 @@ public fun JsonArrayApiAction<Status>.untilLast(count: Int = 200, vararg options
             )
         }
 
-        val response = invoke()
+        val response = execute()
         val statuses = response.filter { it.id != maxId }
         if (statuses.isEmpty()) {
             break

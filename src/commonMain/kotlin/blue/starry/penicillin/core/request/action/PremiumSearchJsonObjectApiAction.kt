@@ -33,7 +33,6 @@ import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.response.PremiumSearchJsonObjectResponse
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.endpoints.PremiumSearchEnvironment
-import blue.starry.penicillin.extensions.complete
 
 import blue.starry.penicillin.models.PremiumSearchModel
 
@@ -50,8 +49,8 @@ public class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
      */
     public val environment: PremiumSearchEnvironment
 ): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>> {
-    override suspend operator fun invoke(): PremiumSearchJsonObjectResponse<M> {
-        val (request, response) = execute()
+    override suspend fun execute(): PremiumSearchJsonObjectResponse<M> {
+        val (request, response) = finalize()
 
         val content = response.readTextOrNull()
         val json = content?.toJsonObjectOrNull() ?: throw PenicillinException(

@@ -32,7 +32,6 @@ import blue.starry.penicillin.core.request.formBody
 import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.OAuth
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.extensions.execute
 
 /**
  * Represents "/oauth/request_token" response.

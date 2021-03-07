@@ -24,8 +24,10 @@
 
 package blue.starry.penicillin.core.request.action
 
+import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.session.ApiClient
+import kotlinx.coroutines.CancellationException
 
 /**
  * Represents lazy [ApiRequest] invoker.
@@ -42,10 +44,13 @@ public interface ApiAction<R> {
     public val request: ApiRequest
 
     /**
-     * Executes this request.
-     * This operation is suspendable.
+     * Executes [ApiAction] and returns its result.
+     * This function is suspendable.
      *
      * @return Api result as [R].
+     *
+     * @throws PenicillinException General Penicillin exceptions.
+     * @throws CancellationException Thrown when coroutine scope is cancelled.
      */
-    public suspend operator fun invoke(): R
+    public suspend fun execute(): R
 }

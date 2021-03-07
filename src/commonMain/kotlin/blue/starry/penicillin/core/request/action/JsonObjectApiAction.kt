@@ -32,7 +32,6 @@ import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.response.JsonObjectResponse
 import blue.starry.penicillin.core.session.ApiClient
-import blue.starry.penicillin.extensions.complete
 
 import blue.starry.penicillin.models.PenicillinModel
 
@@ -44,8 +43,8 @@ public class JsonObjectApiAction<M: PenicillinModel>(
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M
 ): JsonRequest<M>, ApiAction<JsonObjectResponse<M>> {
-    override suspend operator fun invoke(): JsonObjectResponse<M> {
-        val (request, response) = execute()
+    override suspend fun execute(): JsonObjectResponse<M> {
+        val (request, response) = finalize()
 
         val content = response.readTextOrNull()
         val json = content?.toJsonObjectOrNull() ?: throw PenicillinException(

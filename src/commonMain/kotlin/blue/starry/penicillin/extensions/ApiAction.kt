@@ -33,19 +33,6 @@ import kotlinx.coroutines.*
 import mu.KotlinLogging
 
 /**
- * Awaits api execution and returns its result.
- * This function is suspend-function.
- * 
- * @return Api result as [R].
- * 
- * @throws PenicillinException General Penicillin exceptions.
- * @throws CancellationException Thrown when coroutine scope is cancelled.
- */
-public suspend fun <R: Any> ApiAction<R>.execute(): R {
-    return invoke()
-}
-
-/**
  * Awaits api execution and returns its result with timeout.
  * This function is suspend-function.
  *
@@ -84,47 +71,6 @@ public fun <R: Any> ApiAction<R>.executeAsync(): Deferred<R> {
     return session.async {
         execute()
     }
-}
-
-/**
- * Completes api execution and returns its result.
- * This operation is blocking.
- *
- * @return Api result as [R].
- *
- * @throws PenicillinException General Penicillin exceptions.
- */
-public fun <R: Any> ApiAction<R>.complete(): R {
-    return runBlockingAlt(session.coroutineContext) {
-        execute()
-    }
-}
-
-/**
- * Completes api execution and returns its result with timeout.
- * This operation is blocking.
- *
- * @param timeoutInMillis Timeout value in millis.
- *
- * @return Api result as [R]. If the timeout exceeds, returns null.
- *
- * @throws PenicillinException General Penicillin exceptions.
- */
-public fun <R: Any> ApiAction<R>.completeWithTimeout(timeoutInMillis: Long): R? {
-    // TODO
-    return completeWithTimeout(timeoutInMillis)
-}
-
-/**
- * Completes api execution and returns its result with user-defined or default timeout.
- * This operation is blocking.
- *
- * @return Api result as [R]. If the timeout exceeds, returns null.
- * 
- * @throws PenicillinException General Penicillin exceptions.
- */
-public fun <R: Any> ApiAction<R>.completeWithTimeout(): R? {
-    return completeWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
 private val defaultLogger = KotlinLogging.logger("Penicillin.Client")

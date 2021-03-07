@@ -47,7 +47,7 @@ import mu.KotlinLogging
 
 private val apiActionLogger = KotlinLogging.logger("Penicillin.ApiAction")
 
-internal suspend fun ApiAction<*>.execute(): Pair<HttpRequest, HttpResponse> {
+internal suspend fun ApiAction<*>.finalize(): Pair<HttpRequest, HttpResponse> {
     lateinit var lastException: Throwable
 
     repeat(session.option.maxRetries) {

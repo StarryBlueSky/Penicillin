@@ -46,8 +46,8 @@ public class CursorJsonObjectApiAction<M: PenicillinCursorModel<T>, T: Any>(
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M
 ): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M, T>>, AbstractFlow<T>() {
-    override suspend operator fun invoke(): CursorJsonObjectResponse<M, T> {
-        val (request, response) = execute()
+    override suspend fun execute(): CursorJsonObjectResponse<M, T> {
+        val (request, response) = finalize()
 
         val content = response.readTextOrNull()
         val json = content?.toJsonObjectOrNull() ?: throw PenicillinException(

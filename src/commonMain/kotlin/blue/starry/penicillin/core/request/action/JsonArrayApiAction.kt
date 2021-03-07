@@ -47,8 +47,8 @@ public class JsonArrayApiAction<M: PenicillinModel>(
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M
 ): JsonRequest<M>, ApiAction<JsonArrayResponse<M>>, AbstractFlow<M>() {
-    override suspend operator fun invoke(): JsonArrayResponse<M> {
-        val (request, response) = execute()
+    override suspend fun execute(): JsonArrayResponse<M> {
+        val (request, response) = finalize()
 
         val content = response.readTextOrNull()
 
@@ -65,6 +65,6 @@ public class JsonArrayApiAction<M: PenicillinModel>(
     }
 
     override suspend fun collectSafely(collector: FlowCollector<M>) {
-        collector.emitAll(invoke().asFlow())
+        collector.emitAll(execute().asFlow())
     }
 }

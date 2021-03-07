@@ -34,7 +34,6 @@ import blue.starry.penicillin.endpoints.lists.members
 import blue.starry.penicillin.endpoints.lists.show
 import blue.starry.penicillin.extensions.DelegatedAction
 import blue.starry.penicillin.extensions.cursor.untilLast
-import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.extensions.models.plusAssign
 import blue.starry.penicillin.models.TwitterList
 import kotlinx.coroutines.flow.toList

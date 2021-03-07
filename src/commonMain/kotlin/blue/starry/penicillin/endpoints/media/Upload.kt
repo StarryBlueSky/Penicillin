@@ -57,7 +57,7 @@ public fun Media.uploadMedia(
         totalBytes = media.data.size,
         mediaType = media.type,
         mediaCategory = media.category
-    ).invoke()
+    ).execute()
 
     media.data.asSequence()
         .chunked(segmentMaxSize)
@@ -71,11 +71,11 @@ public fun Media.uploadMedia(
                 mediaId = init.result.mediaId,
                 segmentIndex = i,
                 mediaKey = init.result.mediaKey
-            ).invoke()
+            ).execute()
         }
 
     uploadFinalize(
         mediaId = init.result.mediaId,
         mediaKey = init.result.mediaKey
-    ).invoke().result
+    ).execute().result
 }

@@ -37,7 +37,6 @@ import blue.starry.penicillin.endpoints.media.uploadMedia
 import blue.starry.penicillin.endpoints.media.uploadStatus
 import blue.starry.penicillin.endpoints.statuses.create
 import blue.starry.penicillin.extensions.DelegatedAction
-import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.models.Media
 import blue.starry.penicillin.models.Media.ProcessingInfo.State.Succeeded
 import blue.starry.penicillin.models.Status

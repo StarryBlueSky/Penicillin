@@ -113,12 +113,12 @@ public fun <M: PenicillinCursorModel<T>, T: Any> CursorJsonObjectResponse<M, T>.
  * @param options options Optional. Custom parameters of this request.
  */
 public fun <M: PenicillinCursorModel<T>, T: Any> CursorJsonObjectApiAction<M, T>.untilLast(vararg options: Option): Flow<T> = flow {
-    val first = invoke()
+    val first = execute()
     emitAll(first.result.items.asFlow())
 
     var cursor = first.nextCursor
     while (cursor != 0L) {
-        val response = first.byCursor(cursor, *options).invoke()
+        val response = first.byCursor(cursor, *options).execute()
         emitAll(response.result.items.asFlow())
 
         cursor = response.nextCursor
