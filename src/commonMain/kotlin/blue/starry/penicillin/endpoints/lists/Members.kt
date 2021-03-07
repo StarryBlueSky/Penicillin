@@ -31,6 +31,7 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Lists
 import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.models.User
 import blue.starry.penicillin.models.cursor.CursorUsers
 
 /**
@@ -54,7 +55,7 @@ public fun Lists.members(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = members(listId, null, null, null, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers, User> = members(listId, null, null, null, count, cursor, includeEntities, skipStatus, *options)
 
 /**
  * Returns the members of the specified list. Private list members will only be shown if the authenticated user owns the specified list.
@@ -79,7 +80,7 @@ public fun Lists.membersByOwnerScreenName(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = members(null, slug, ownerScreenName, null, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers, User> = members(null, slug, ownerScreenName, null, count, cursor, includeEntities, skipStatus, *options)
 
 /**
  * Returns the members of the specified list. Private list members will only be shown if the authenticated user owns the specified list.
@@ -104,7 +105,7 @@ public fun Lists.membersByOwnerId(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = members(null, slug, null, ownerId, count, cursor, includeEntities, skipStatus, *options)
+): CursorJsonObjectApiAction<CursorUsers, User> = members(null, slug, null, ownerId, count, cursor, includeEntities, skipStatus, *options)
 
 private fun Lists.members(
     listId: Long? = null,

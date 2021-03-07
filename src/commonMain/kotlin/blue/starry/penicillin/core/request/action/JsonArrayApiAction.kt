@@ -33,9 +33,11 @@ import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.response.JsonArrayResponse
 import blue.starry.penicillin.core.session.ApiClient
-import blue.starry.penicillin.extensions.complete
-
 import blue.starry.penicillin.models.PenicillinModel
+import kotlinx.coroutines.flow.AbstractFlow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.emitAll
 
 /**
  * The [ApiAction] that provides parsed json array with json model.
@@ -44,7 +46,7 @@ public class JsonArrayApiAction<M: PenicillinModel>(
     override val client: ApiClient,
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M
-): JsonRequest<M>, ApiAction<JsonArrayResponse<M>>, Sequence<M> {
+): JsonRequest<M>, ApiAction<JsonArrayResponse<M>>, AbstractFlow<M>() {
     override suspend operator fun invoke(): JsonArrayResponse<M> {
         val (request, response) = execute()
 
@@ -62,7 +64,7 @@ public class JsonArrayApiAction<M: PenicillinModel>(
         return JsonArrayResponse(client, results, request, response, content, this)
     }
 
-    override fun iterator(): Iterator<M> {
-        return complete().iterator()
+    override suspend fun collectSafely(collector: FlowCollector<M>) {
+        collector.emitAll(invoke().asFlow())
     }
 }

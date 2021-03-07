@@ -26,13 +26,18 @@
 
 package blue.starry.penicillin.extensions.cursor
 
-import blue.starry.penicillin.core.experimental.PenicillinExperimentalApi
 import blue.starry.penicillin.core.request.action.JsonArrayApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.extensions.complete
+import blue.starry.penicillin.extensions.awaitRefresh
 import blue.starry.penicillin.extensions.edit
+import blue.starry.penicillin.extensions.isExceeded
+import blue.starry.penicillin.extensions.rateLimit
 import blue.starry.penicillin.models.Status
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 
 /**
  * Retrieves all the statuses until last from current action.
@@ -41,22 +46,31 @@ import blue.starry.penicillin.models.Status
  * @param count max statuses count.
  * @param options Optional. Custom parameters of this request.
  */
-@PenicillinExperimentalApi
-public fun JsonArrayApiAction<Status>.untilLast(count: Int = 200, vararg options: Option): Sequence<Status> = sequence {
+public fun JsonArrayApiAction<Status>.untilLast(count: Int = 200, vararg options: Option): Flow<Status> = flow {
     var maxId: Long? = null
 
     while (true) {
         edit {
-            parameters("count" to count, "max_id" to maxId, *options)
+            parameters(
+                "count" to count,
+                "max_id" to maxId,
+                *options
+            )
         }
-        val response = complete()
 
+        val response = invoke()
         val statuses = response.filter { it.id != maxId }
         if (statuses.isEmpty()) {
             break
         }
 
-        yieldAll(statuses)
+        emitAll(statuses.asFlow())
+
         maxId = statuses.last().id
+
+        val rateLimit = response.rateLimit ?: continue
+        if (rateLimit.isExceeded) {
+            rateLimit.awaitRefresh()
+        }
     }
 }

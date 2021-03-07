@@ -31,6 +31,7 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Lists
 import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.models.TwitterList
 import blue.starry.penicillin.models.cursor.CursorLists
 
 /**
@@ -48,7 +49,7 @@ public fun Lists.subscriptions(
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = subscriptionsInternal(null, null, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = subscriptionsInternal(null, null, count, cursor, *options)
 
 /**
  * Obtain a collection of the lists the specified user is subscribed to, 20 lists per page by default. Does not include the user's own lists.
@@ -67,7 +68,7 @@ public fun Lists.subscriptionsByUserId(
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = subscriptionsInternal(userId, null, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = subscriptionsInternal(userId, null, count, cursor, *options)
 
 /**
  * Obtain a collection of the lists the specified user is subscribed to, 20 lists per page by default. Does not include the user's own lists.
@@ -86,7 +87,7 @@ public fun Lists.subscriptionsByScreenName(
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = subscriptionsInternal(null, screenName, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = subscriptionsInternal(null, screenName, count, cursor, *options)
 
 private fun Lists.subscriptionsInternal(
     userId: Long? = null,
@@ -108,5 +109,5 @@ private fun Lists.subscriptionsInternal(
  * Shorthand property to [Lists.subscriptions].
  * @see Lists.subscriptions
  */
-public val Lists.subscriptions: CursorJsonObjectApiAction<CursorLists>
+public val Lists.subscriptions: CursorJsonObjectApiAction<CursorLists, TwitterList>
      get() = subscriptions()

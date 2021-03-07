@@ -53,7 +53,7 @@ public fun Statuses.retweeterIds(
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = client.session.get("/1.1/statuses/retweeters/ids.json") {
+): CursorJsonObjectApiAction<CursorIds, Long> = client.session.get("/1.1/statuses/retweeters/ids.json") {
     parameters(
         "id" to id,
         "count" to count,

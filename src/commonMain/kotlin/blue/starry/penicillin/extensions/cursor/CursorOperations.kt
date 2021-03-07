@@ -33,8 +33,15 @@ import blue.starry.penicillin.core.request.action.CursorJsonObjectApiAction
 import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.response.CursorJsonObjectResponse
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.extensions.*
+import blue.starry.penicillin.extensions.awaitRefresh
+import blue.starry.penicillin.extensions.edit
+import blue.starry.penicillin.extensions.isExceeded
+import blue.starry.penicillin.extensions.rateLimit
 import blue.starry.penicillin.models.cursor.PenicillinCursorModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 
 /*
     Next operations
@@ -43,17 +50,17 @@ import blue.starry.penicillin.models.cursor.PenicillinCursorModel
 /**
  * Next cursor value.
  */
-public val CursorJsonObjectResponse<*>.nextCursor: Long
+public val CursorJsonObjectResponse<*, *>.nextCursor: Long
     get() = result.nextCursor
 /**
  * If true, next cursor exists.
  */
-public val CursorJsonObjectResponse<*>.hasNext: Boolean
+public val CursorJsonObjectResponse<*, *>.hasNext: Boolean
     get() = nextCursor > 0
 /**
  * New [ApiAction] with next cursor.
  */
-public val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.next: CursorJsonObjectApiAction<M>
+public val <M: PenicillinCursorModel<T>, T: Any> CursorJsonObjectResponse<M, T>.next: CursorJsonObjectApiAction<M, T>
     get() = byCursor(nextCursor)
 
 /*
@@ -63,17 +70,17 @@ public val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.next: CursorJs
 /**
  * Previous cursor value.
  */
-public val CursorJsonObjectResponse<*>.previousCursor: Long
+public val CursorJsonObjectResponse<*, *>.previousCursor: Long
     get() = result.previousCursor
 /**
  * If true, previous cursor exists.
  */
-public val CursorJsonObjectResponse<*>.hasPrevious: Boolean
+public val CursorJsonObjectResponse<*, *>.hasPrevious: Boolean
     get() = previousCursor > 0
 /**
  * New [ApiAction] with previous cursor.
  */
-public val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.previous: CursorJsonObjectApiAction<M>
+public val <M: PenicillinCursorModel<T>, T: Any> CursorJsonObjectResponse<M, T>.previous: CursorJsonObjectApiAction<M, T>
     get() = byCursor(previousCursor)
 
 /*
@@ -86,12 +93,12 @@ public val <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.previous: Curs
  * @param cursor Cursor value.
  * @param options options Optional. Custom parameters of this request.
  */
-public fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(cursor: Long, vararg options: Option): CursorJsonObjectApiAction<M> {
+public fun <M: PenicillinCursorModel<T>, T: Any> CursorJsonObjectResponse<M, T>.byCursor(cursor: Long, vararg options: Option): CursorJsonObjectApiAction<M, T> {
     if (cursor == 0L) {
         throw PenicillinException(LocalizedString.CursorIsZero, null, request, response)
     }
 
-    action as CursorJsonObjectApiAction<M>
+    action as CursorJsonObjectApiAction<M, T>
 
     action.edit {
         parameters("cursor" to cursor, *options)
@@ -105,22 +112,20 @@ public fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.byCursor(curso
  *
  * @param options options Optional. Custom parameters of this request.
  */
-public fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
-    return sequence {
-        val first = complete()
-        yield(first)
+public fun <M: PenicillinCursorModel<T>, T: Any> CursorJsonObjectApiAction<M, T>.untilLast(vararg options: Option): Flow<T> = flow {
+    val first = invoke()
+    emitAll(first.result.items.asFlow())
 
-        var cursor = first.nextCursor
-        while (cursor != 0L) {
-            val result = first.byCursor(cursor, *options).complete()
+    var cursor = first.nextCursor
+    while (cursor != 0L) {
+        val response = first.byCursor(cursor, *options).invoke()
+        emitAll(response.result.items.asFlow())
 
-            yield(result)
-            cursor = result.nextCursor
+        cursor = response.nextCursor
 
-            val rateLimit = result.rateLimit ?: continue
-            if (rateLimit.isExceeded) {
-                rateLimit.blockUntilRefresh()
-            }
+        val rateLimit = response.rateLimit ?: continue
+        if (rateLimit.isExceeded) {
+            rateLimit.awaitRefresh()
         }
     }
 }
@@ -130,12 +135,10 @@ public fun <M: PenicillinCursorModel> CursorJsonObjectApiAction<M>.untilLast(var
  *
  * @param options options Optional. Custom parameters of this request.
  */
-public fun <M: PenicillinCursorModel> CursorJsonObjectResponse<M>.untilLast(vararg options: Option): Sequence<CursorJsonObjectResponse<M>> {
-    return sequence {
-        yield(this@untilLast)
+public fun <M: PenicillinCursorModel<T>, T: Any> CursorJsonObjectResponse<M, T>.untilLast(vararg options: Option): Flow<T> = flow {
+    emitAll(result.items.asFlow())
 
-        if (hasNext) {
-            yieldAll(next.untilLast(*options))
-        }
+    if (hasNext) {
+        emitAll(next.untilLast(*options))
     }
 }

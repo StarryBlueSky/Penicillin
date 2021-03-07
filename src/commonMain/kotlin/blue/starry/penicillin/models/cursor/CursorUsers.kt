@@ -32,6 +32,9 @@ import blue.starry.penicillin.core.session.ApiClient
 
 import blue.starry.penicillin.models.User
 
-public data class CursorUsers(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
-    public val users: List<User> by modelList { User(it, client) }
+public data class CursorUsers(
+    private val parentJson: JsonObject,
+    private val parentClient: ApiClient
+): PenicillinCursorModel<User>(parentJson, parentClient) {
+    public override val items: List<User> by modelList("users") { User(it, client) }
 }

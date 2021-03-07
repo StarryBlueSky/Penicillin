@@ -33,11 +33,11 @@ import blue.starry.penicillin.endpoints.lists.create
 import blue.starry.penicillin.endpoints.lists.members
 import blue.starry.penicillin.endpoints.lists.show
 import blue.starry.penicillin.extensions.DelegatedAction
-import blue.starry.penicillin.extensions.cursor.allUsers
 import blue.starry.penicillin.extensions.cursor.untilLast
 import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.extensions.models.plusAssign
 import blue.starry.penicillin.models.TwitterList
+import kotlinx.coroutines.flow.toList
 
 /**
  * Clones this list. The name, description and mode are copied to new list.
@@ -48,9 +48,9 @@ import blue.starry.penicillin.models.TwitterList
  */
 public fun Lists.clone(sourceId: Long): ApiAction<JsonObjectResponse<TwitterList>> = DelegatedAction {
     val sourceList = show(sourceId).execute()
-    val sourceMembers = members(sourceId).untilLast("count" to 5000).allUsers
+    val sourceMembers = members(sourceId).untilLast("count" to 5000)
     val newList = create(sourceList.result.name, mode = sourceList.result.mode, description = sourceList.result.description).execute().result
-    newList += sourceMembers
+    newList += sourceMembers.toList()
 
     show(newList.id).execute()
 }

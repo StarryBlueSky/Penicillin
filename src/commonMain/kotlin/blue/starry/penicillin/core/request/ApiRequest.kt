@@ -71,7 +71,7 @@ public class ApiRequest(
      *
      * @return New [CursorJsonObjectApiAction] for [M].
      */
-    public fun <M: PenicillinCursorModel> cursorJsonObject(converter: (JsonObject) -> M): CursorJsonObjectApiAction<M> {
+    public fun <M: PenicillinCursorModel<T>, T: Any> cursorJsonObject(converter: (JsonObject) -> M): CursorJsonObjectApiAction<M, T> {
         return CursorJsonObjectApiAction(client, this, converter)
     }
 

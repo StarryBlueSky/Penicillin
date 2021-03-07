@@ -31,6 +31,7 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Lists
 import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.models.TwitterList
 import blue.starry.penicillin.models.cursor.CursorLists
 
 /**
@@ -48,7 +49,7 @@ public fun Lists.ownerships(
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = ownershipsInternal(null, null, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = ownershipsInternal(null, null, count, cursor, *options)
 
 /**
  * Returns the lists owned by the specified Twitter user. Private lists will only be shown if the authenticated user is also the owner of the lists.
@@ -67,7 +68,7 @@ public fun Lists.ownershipsByUserId(
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = ownershipsInternal(userId, null, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = ownershipsInternal(userId, null, count, cursor, *options)
 
 /**
  * Returns the lists owned by the specified Twitter user. Private lists will only be shown if the authenticated user is also the owner of the lists.
@@ -86,7 +87,7 @@ public fun Lists.ownerships(
     count: Int? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = ownershipsInternal(null, screenName, count, cursor, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = ownershipsInternal(null, screenName, count, cursor, *options)
 
 private fun Lists.ownershipsInternal(
     userId: Long? = null,
@@ -108,5 +109,5 @@ private fun Lists.ownershipsInternal(
  * Shorthand property to [Lists.ownerships].
  * @see Lists.ownerships
  */
-public val Lists.ownerships: CursorJsonObjectApiAction<CursorLists>
+public val Lists.ownerships: CursorJsonObjectApiAction<CursorLists, TwitterList>
     get() = ownerships()

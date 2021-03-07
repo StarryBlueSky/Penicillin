@@ -30,8 +30,6 @@ import blue.starry.penicillin.core.request.action.ApiAction
 import blue.starry.penicillin.core.request.action.DelegatedAction
 import blue.starry.penicillin.endpoints.Media
 import blue.starry.penicillin.extensions.DelegatedAction
-import blue.starry.penicillin.extensions.execute
-import kotlinx.serialization.InternalSerializationApi
 
 private const val segmentMaxSize = 5 * 1024 * 1024
 
@@ -52,14 +50,32 @@ private const val segmentMaxSize = 5 * 1024 * 1024
  * @receiver [Media] endpoint instance.
  * @return [DelegatedAction] for [blue.starry.penicillin.models.Media] model.
  */
-@OptIn(InternalSerializationApi::class)
 public fun Media.uploadMedia(
     media: MediaComponent
 ): ApiAction<blue.starry.penicillin.models.Media> = DelegatedAction {
-    @Suppress("BlockingMethodInNonBlockingContext") val init = uploadInit(media.data.size, media.type, media.category).execute()
-    media.data.asSequence().chunked(segmentMaxSize).forEachIndexed { i, part ->
-        uploadAppend(MediaComponent(part.toByteArray(), media.type, media.category), init.result.mediaId, i, init.result.mediaKey).execute()
-    }
+    val init = uploadInit(
+        totalBytes = media.data.size,
+        mediaType = media.type,
+        mediaCategory = media.category
+    ).invoke()
 
-    uploadFinalize(init.result.mediaId, init.result.mediaKey).execute().result
+    media.data.asSequence()
+        .chunked(segmentMaxSize)
+        .forEachIndexed { i, part ->
+            uploadAppend(
+                media = MediaComponent(
+                    data = part.toByteArray(),
+                    type = media.type,
+                    category = media.category
+                ),
+                mediaId = init.result.mediaId,
+                segmentIndex = i,
+                mediaKey = init.result.mediaKey
+            ).invoke()
+        }
+
+    uploadFinalize(
+        mediaId = init.result.mediaId,
+        mediaKey = init.result.mediaKey
+    ).invoke().result
 }

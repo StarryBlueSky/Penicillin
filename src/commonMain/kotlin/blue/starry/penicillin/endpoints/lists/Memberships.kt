@@ -31,6 +31,7 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Lists
 import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.models.TwitterList
 import blue.starry.penicillin.models.cursor.CursorLists
 
 /**
@@ -50,7 +51,7 @@ public fun Lists.memberships(
     cursor: Long? = null,
     filterToOwnedLists: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = membershipsInternal(null, null, count, cursor, filterToOwnedLists, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = membershipsInternal(null, null, count, cursor, filterToOwnedLists, *options)
 
 /**
  * Returns the lists the specified user has been added to. If user_id or screen_name are not provided, the memberships for the authenticating user are returned.
@@ -71,7 +72,7 @@ public fun Lists.membershipsByUserId(
     cursor: Long? = null,
     filterToOwnedLists: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = membershipsInternal(userId, null, count, cursor, filterToOwnedLists, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = membershipsInternal(userId, null, count, cursor, filterToOwnedLists, *options)
 
 /**
  * Returns the lists the specified user has been added to. If user_id or screen_name are not provided, the memberships for the authenticating user are returned.
@@ -92,7 +93,7 @@ public fun Lists.membershipsByScreenName(
     cursor: Long? = null,
     filterToOwnedLists: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorLists> = membershipsInternal(null, screenName, count, cursor, filterToOwnedLists, *options)
+): CursorJsonObjectApiAction<CursorLists, TwitterList> = membershipsInternal(null, screenName, count, cursor, filterToOwnedLists, *options)
 
 private fun Lists.membershipsInternal(
     userId: Long? = null,
@@ -116,5 +117,5 @@ private fun Lists.membershipsInternal(
  * Shorthand property to [Lists.memberships].
  * @see Lists.memberships
  */
-public val Lists.memberships: CursorJsonObjectApiAction<CursorLists>
+public val Lists.memberships: CursorJsonObjectApiAction<CursorLists, TwitterList>
     get() = memberships()

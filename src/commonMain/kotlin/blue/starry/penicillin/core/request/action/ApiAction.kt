@@ -42,7 +42,7 @@ public interface ApiAction<R> {
     public val request: ApiRequest
 
     /**
-     * Completes this request.
+     * Executes this request.
      * This operation is suspendable.
      *
      * @return Api result as [R].

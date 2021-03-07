@@ -32,6 +32,9 @@ import blue.starry.penicillin.core.session.ApiClient
 
 import blue.starry.penicillin.models.TwitterList
 
-public data class CursorLists(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
-    public val lists: List<TwitterList> by modelList { TwitterList(it, client) }
+public data class CursorLists(
+    private val parentJson: JsonObject,
+    private val parentClient: ApiClient
+): PenicillinCursorModel<TwitterList>(parentJson, parentClient) {
+    public override val items: List<TwitterList> by modelList("lists") { TwitterList(it, client) }
 }
