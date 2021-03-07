@@ -48,4 +48,4 @@ public val ApiClient.timeline: Timeline
  * @param client Current [ApiClient] instance.
  * @see ApiClient.timeline
  */
-public class Timeline(override val client: ApiClient): Endpoint
+public inline class Timeline(override val client: ApiClient): Endpoint

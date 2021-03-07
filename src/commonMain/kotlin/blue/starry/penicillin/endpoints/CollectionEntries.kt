@@ -48,4 +48,4 @@ public val ApiClient.collectionEntries: CollectionEntries
  * @param client Current [ApiClient] instance.
  * @see ApiClient.collectionEntries
  */
-public class CollectionEntries(override val client: ApiClient): Endpoint
+public inline class CollectionEntries(override val client: ApiClient): Endpoint

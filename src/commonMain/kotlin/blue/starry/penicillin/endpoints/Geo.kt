@@ -48,4 +48,4 @@ public val ApiClient.geo: Geo
  * @param client Current [ApiClient] instance.
  * @see ApiClient.geo
  */
-public class Geo(override val client: ApiClient): Endpoint
+public inline class Geo(override val client: ApiClient): Endpoint

@@ -48,4 +48,4 @@ public val ApiClient.savedSearches: SavedSearches
  * @param client Current [ApiClient] instance.
  * @see ApiClient.savedSearches
  */
-public class SavedSearches(override val client: ApiClient): Endpoint
+public inline class SavedSearches(override val client: ApiClient): Endpoint
