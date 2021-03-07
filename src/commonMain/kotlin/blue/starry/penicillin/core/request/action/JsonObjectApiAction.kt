@@ -43,7 +43,7 @@ public class JsonObjectApiAction<M: PenicillinModel>(
     override val client: ApiClient,
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M
-): JsonRequest<M>, ApiAction<JsonObjectResponse<M>>, Lazy<JsonObjectResponse<M>> {
+): JsonRequest<M>, ApiAction<JsonObjectResponse<M>> {
     override suspend operator fun invoke(): JsonObjectResponse<M> {
         val (request, response) = execute()
 
@@ -60,12 +60,4 @@ public class JsonObjectApiAction<M: PenicillinModel>(
 
         return JsonObjectResponse(client, result, request, response, content.orEmpty(), this)
     }
-
-    private val lazy = lazy {
-        complete()
-    }
-
-    override fun isInitialized(): Boolean = lazy.isInitialized()
-
-    override val value: JsonObjectResponse<M> = lazy.value
 }

@@ -49,7 +49,7 @@ public class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
      * [PremiumSearchEnvironment] which will be used to acquire this response.
      */
     public val environment: PremiumSearchEnvironment
-): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>>, Lazy<PremiumSearchJsonObjectResponse<M>> {
+): JsonRequest<M>, ApiAction<PremiumSearchJsonObjectResponse<M>> {
     override suspend operator fun invoke(): PremiumSearchJsonObjectResponse<M> {
         val (request, response) = execute()
 
@@ -66,12 +66,4 @@ public class PremiumSearchJsonObjectApiAction<M: PremiumSearchModel>(
 
         return PremiumSearchJsonObjectResponse(client, result, request, response, content, this, environment)
     }
-
-    private val lazy = lazy {
-        complete()
-    }
-
-    override fun isInitialized(): Boolean = lazy.isInitialized()
-
-    override val value: PremiumSearchJsonObjectResponse<M> = lazy.value
 }
