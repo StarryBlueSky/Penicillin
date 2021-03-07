@@ -67,11 +67,6 @@ public data class ApiConfig(
     public val retryInMillis: Long,
 
     /**
-     * Default read timeout in milli seconds
-     */
-    public val defaultTimeoutInMillis: Long,
-
-    /**
      * EmulationMode which is used to access Twitter Private endpoints.
      */
     public val emulationMode: EmulationMode,
@@ -155,7 +150,7 @@ public data class ApiConfig(
         
         @OptIn(PenicillinExperimentalApi::class)
         override fun build(): ApiConfig {
-            return ApiConfig(maxRetries, retryIntervalInMillis, defaultTimeoutInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
+            return ApiConfig(maxRetries, retryIntervalInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
         }
     }
 }

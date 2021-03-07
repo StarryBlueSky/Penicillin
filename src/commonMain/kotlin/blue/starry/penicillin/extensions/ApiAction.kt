@@ -31,35 +31,23 @@ import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.request.action.ApiAction
 import kotlinx.coroutines.*
 import mu.KotlinLogging
+import kotlin.time.Duration
 
 /**
  * Awaits api execution and returns its result with timeout.
  * This function is suspend-function.
  *
- * @param timeoutInMillis Timeout value in millis.
+ * @param timeout Timeout duration.
  *
  * @return Api result as [R]. If the timeout exceeds, returns null.
  *
  * @throws PenicillinException General Penicillin exceptions.
  * @throws CancellationException Thrown when coroutine scope is cancelled.
  */
-public suspend fun <R: Any> ApiAction<R>.executeWithTimeout(timeoutInMillis: Long): R? {
-    return withTimeoutOrNull(timeoutInMillis) {
+public suspend fun <R: Any> ApiAction<R>.executeWithTimeout(timeout: Duration): R? {
+    return withTimeoutOrNull(timeout) {
         execute()
     }
-}
-
-/**
- * Awaits api execution and returns its result with user-defined or default timeout.
- * This function is suspend-function.
- *
- * @return Api result as [R]. If the timeout exceeds, returns null.
- * 
- * @throws PenicillinException General Penicillin exceptions.
- * @throws CancellationException Thrown when coroutine scope is cancelled.
- */
-public suspend fun <R: Any> ApiAction<R>.executeWithTimeout(): R? {
-    return executeWithTimeout(session.option.defaultTimeoutInMillis)
 }
 
 /**
@@ -131,16 +119,16 @@ public fun <R: Any> ApiAction<R>.queue(): Job {
 /**
  * Creates [Job] for api execution with timeout.
  *
- * @param timeoutInMillis Timeout value in millis.
+ * @param timeout Timeout duration.
  * @param onFailure Api fallback.
  * @param onSuccess Api callback.
  *
  * @return [Job] for api execution.
  */
-public inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
+public fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Duration, onFailure: ApiFallback, onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
-            withTimeout(timeoutInMillis) {
+            withTimeout(timeout) {
                 execute()
             }
         }.onSuccess {
@@ -154,54 +142,22 @@ public inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, 
 /**
  * Creates [Job] for api execution with timeout and default api fallback.
  *
- * @param timeoutInMillis Timeout value.
+ * @param timeout Timeout duration.
  * @param onSuccess Api callback.
  *
  * @return [Job] for api execution.
  */
-public inline fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long, crossinline onSuccess: ApiCallback<R>): Job {
-    return queueWithTimeout(timeoutInMillis, defaultApiFallback, onSuccess)
+public fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Duration, onSuccess: ApiCallback<R>): Job {
+    return queueWithTimeout(timeout, defaultApiFallback, onSuccess)
 }
 
 /**
  * Creates [Job] for api execution with timeout and default api fallback, default api callback.
  *
- * @param timeoutInMillis Timeout value in millis.
+ * @param timeout Timeout duration.
  *
  * @return [Job] for api execution.
  */
-public fun <R: Any> ApiAction<R>.queueWithTimeout(timeoutInMillis: Long): Job {
-    return queueWithTimeout(timeoutInMillis, defaultApiFallback, {})
-}
-
-/**
- * Creates [Job] for api execution with user-defined or default timeout.
- *
- * @param onFailure Api fallback.
- * @param onSuccess Api callback.
- *
- * @return [Job] for api execution.
- */
-public inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
-    return queueWithTimeout(session.option.defaultTimeoutInMillis, onFailure, onSuccess)
-}
-
-/**
- * Creates [Job] for api execution with user-defined or default timeout and default api fallback.
- *
- * @param onSuccess Api callback.
- *
- * @return [Job] for api execution.
- */
-public inline fun <R: Any> ApiAction<R>.queueWithTimeout(crossinline onSuccess: ApiCallback<R>): Job {
-    return queueWithTimeout(defaultApiFallback, onSuccess)
-}
-
-/**
- * Creates [Job] for api execution with user-defined or default timeout, default api fallback and default api callback.
- *
- * @return [Job] for api execution.
- */
-public fun <R: Any> ApiAction<R>.queueWithTimeout(): Job {
-    return queueWithTimeout(defaultApiFallback, defaultApiCallback)
+public fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Duration): Job {
+    return queueWithTimeout(timeout, defaultApiFallback, {})
 }
