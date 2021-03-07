@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "DeprecatedCallableAddReplaceWith", "DEPRECATION")
 
 package blue.starry.penicillin.extensions
 
@@ -55,6 +55,7 @@ public suspend fun <R: Any> ApiAction<R>.executeWithTimeout(timeout: Duration): 
  * 
  * @return [Deferred] object for api execution.
  */
+@Deprecated("Async style is not deprecated.")
 public fun <R: Any> ApiAction<R>.executeAsync(): Deferred<R> {
     return session.async {
         execute()
@@ -84,6 +85,7 @@ internal val ApiAction<*>.defaultApiFallback: ApiFallback
  * 
  * @return [Job] for api execution.
  */
+@Deprecated("Callback style is not deprecated.")
 public inline fun <R: Any> ApiAction<R>.queue(crossinline onFailure: ApiFallback, crossinline onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
@@ -103,6 +105,7 @@ public inline fun <R: Any> ApiAction<R>.queue(crossinline onFailure: ApiFallback
  *
  * @return [Job] for api execution.
  */
+@Deprecated("Callback style is not deprecated.")
 public inline fun <R: Any> ApiAction<R>.queue(crossinline onSuccess: ApiCallback<R>): Job {
     return queue(defaultApiFallback, onSuccess)
 }
@@ -112,6 +115,7 @@ public inline fun <R: Any> ApiAction<R>.queue(crossinline onSuccess: ApiCallback
  *
  * @return [Job] for api execution.
  */
+@Deprecated("Callback style is not deprecated.")
 public fun <R: Any> ApiAction<R>.queue(): Job {
     return queue(defaultApiFallback, defaultApiCallback)
 }
@@ -125,6 +129,7 @@ public fun <R: Any> ApiAction<R>.queue(): Job {
  *
  * @return [Job] for api execution.
  */
+@Deprecated("Callback style is not deprecated.")
 public fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Duration, onFailure: ApiFallback, onSuccess: ApiCallback<R>): Job {
     return session.launch {
         runCatching {
@@ -147,6 +152,7 @@ public fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Duration, onFailure: 
  *
  * @return [Job] for api execution.
  */
+@Deprecated("Callback style is not deprecated.")
 public fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Duration, onSuccess: ApiCallback<R>): Job {
     return queueWithTimeout(timeout, defaultApiFallback, onSuccess)
 }
@@ -158,6 +164,7 @@ public fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Duration, onSuccess: 
  *
  * @return [Job] for api execution.
  */
+@Deprecated("Callback style is not deprecated.")
 public fun <R: Any> ApiAction<R>.queueWithTimeout(timeout: Duration): Job {
     return queueWithTimeout(timeout, defaultApiFallback, {})
 }
