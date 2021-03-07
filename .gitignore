@@ -1,8 +1,5 @@
-.gradle/
 .idea/
-
+.gradle/
 build/
-out/
 
-TestClient.kt
-PrivateApiTest.kt
+src/jvmTest/kotlin/Main.kt
