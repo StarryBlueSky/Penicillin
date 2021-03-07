@@ -7,7 +7,7 @@
 [![issues](https://img.shields.io/github/issues/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/issues)
 [![pull requests](https://img.shields.io/github/issues-pr/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/pulls)
 
-* Supports JVM, Android (API level >= 24), JS (Both browsers and NodeJS).  
+* Supports JVM (Java >= 8), Android (API level >= 24), JavaScript (Browsers and NodeJS).  
 * Supports all the public Twitter API endpoints.  
 * Supports the following authenticating methods: OAuth 1.0a, OAuth 2.0  
 * Supports some private Twitter API endpoints such as Poll Tweets.  
@@ -16,7 +16,7 @@
 * API's execution supports classical blocking function `.complete()`, suspend function `.execute()`, deferred operation `.executeAsync()` and callback style `.queue {}`.  
 * Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.  
 
-Documentations are available at [GitHub Pages](https://starrybluesky.github.io/Penicillin/penicillin).  
+KDoc is available on [GitHub Pages](https://starrybluesky.github.io/Penicillin/penicillin).  
 
 ## Quick Example
 
@@ -42,12 +42,7 @@ More examples of Penicillin can be found at [Wiki](https://github.com/StarryBlue
 
 ## Get Started
 
-We moved the repository to Maven Central.
-
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/StarryBlueSky/Penicillin)](https://github.com/StarryBlueSky/Penicillin/releases)
-
-You may choose preferred Ktor HttpClient Engine. We recommend using `Apache` or `CIO` engine on JVM.  
-Full engine list is available at <https://ktor.io/clients/http-client/engines.html>.
 
 ### Gradle
 
@@ -57,27 +52,27 @@ Full engine list is available at <https://ktor.io/clients/http-client/engines.ht
 repositories {
     mavenCentral()
 
-    // Please add it for kotlinx-datetime; should remove it by May 01, 2021
-    maven(url = "https://kotlin.bintray.com/kotlinx/")
+    // for internal dependencies
+    maven(url = "https://kotlin.bintray.com/kotlinx")
 }
 
 dependencies {
     implementation("blue.starry:penicillin:$PenicillinVersion")
     
-    // choose one of them
-    implementation("io.ktor:ktor-client-apache:1.5.1")
-    implementation("io.ktor:ktor-client-cio:1.5.1")
+    // choose one of https://ktor.io/clients/http-client/engines.html
+    implementation("io.ktor:ktor-client-apache:1.5.2")
+    implementation("io.ktor:ktor-client-cio:1.5.2")
 }
 ```
 
 ## Compatibility
 
-Currently, Penicillin works on JVM (Java 8), Android (API level >= 24) or JS (both browsers and NodeJS).  
+Currently, Penicillin works on JVM (Java 8 or above), Android (API level 24 or above) or JS (both browsers and NodeJS).  
 
 In the future, Penicillin is plan to support Kotlin/Native. It brings the benefits of reuse for Kotlin code and saves you from wasting time.  
 For example, if you only write Kotlin code once, it can be compiled for JVM, JavaScript, iOS, Android, Windows, macOS and so on.  
 
-In Android development, we confirmed that Penicillin works only on API level 24 or greater. It's caused by Ktor-side restriction. Detail information is [here](https://ktor.io/quickstart/faq.html#android-support).
+In Android development, we confirmed that Penicillin works only on API level 24 or above. It's caused by Ktor-side restriction. Detail information is [here](https://ktor.io/quickstart/faq.html#android-support).
 
 ## Contributing
 
