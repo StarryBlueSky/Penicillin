@@ -115,18 +115,6 @@ public data class ApiConfig(
             }
         
         /**
-         * Sets default read timeout in milli seconds.
-         * It is not applied to Streaming Apis.
-         * @see ApiConfig.Builder.defaultTimeoutInMillis
-         */
-        public var defaultTimeoutInMillis: Long = Builder.defaultTimeoutInMillis
-            set(value) {
-                require(value >= 0)
-
-                field = value
-            }
-        
-        /**
          * Sets emulationMode which is used to access Twitter Private endpoints.
          * For example, to access Cards API, you must set this [EmulationMode.TwitterForiPhone].
          */
@@ -157,13 +145,6 @@ public data class ApiConfig(
  */
 public fun ApiConfig.Builder.retryInterval(intervalInMillis: Long) {
     retryIntervalInMillis = intervalInMillis
-}
-
-/**
- * Sets default read timeout in millis.
- */
-public fun ApiConfig.Builder.defaultTimeout(timeoutInMillis: Long) {
-    defaultTimeoutInMillis = timeoutInMillis
 }
 
 /**

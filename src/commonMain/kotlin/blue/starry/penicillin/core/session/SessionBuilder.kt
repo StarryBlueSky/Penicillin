@@ -26,9 +26,10 @@
 
 package blue.starry.penicillin.core.session
 
-import blue.starry.penicillin.core.session.config.*
-import blue.starry.penicillin.extensions.runBlockingAlt
-import io.ktor.client.features.cookies.*
+import blue.starry.penicillin.core.session.config.SessionConfigBuilder
+import blue.starry.penicillin.core.session.config.createApiConfig
+import blue.starry.penicillin.core.session.config.createCredentials
+import blue.starry.penicillin.core.session.config.createHttpClientConfig
 
 /**
  * The builder class that corresponds with [Session].
@@ -38,25 +39,8 @@ public class SessionBuilder(private val client: ApiClient) {
 
     @PublishedApi
     internal fun build(): Session {
-        val cookieConfig = createCookieConfig()
         val httpClientConfig = createHttpClientConfig()
         val httpClient = httpClientConfig.httpClient {
-            if (cookieConfig.acceptCookie) {
-                install(HttpCookies) {
-                    storage = AcceptAllCookiesStorage()
-
-                    if (cookieConfig.cookies.isNotEmpty()) {
-                        for ((key, cookies) in cookieConfig.cookies) {
-                            for (it in cookies) {
-                                runBlockingAlt {
-                                    storage.addCookie(key, it)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            
             // To handle API errors
             expectSuccess = false
         }
