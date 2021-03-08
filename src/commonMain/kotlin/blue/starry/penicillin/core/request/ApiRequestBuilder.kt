@@ -36,6 +36,7 @@ import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.extensions.session
+import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.utils.*
 import io.ktor.http.*
@@ -128,6 +129,9 @@ public data class ApiRequestBuilder(
             it.url(url)
             it.headers.appendAll(headers)
             it.body = body()
+
+            // To handle API errors
+            it.expectSuccess = false
         }
     }
 

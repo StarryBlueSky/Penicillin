@@ -40,10 +40,7 @@ public class SessionBuilder(private val client: ApiClient) {
     @PublishedApi
     internal fun build(): Session {
         val httpClientConfig = createHttpClientConfig()
-        val httpClient = httpClientConfig.httpClient {
-            // To handle API errors
-            expectSuccess = false
-        }
+        val httpClient = httpClientConfig.httpClient()
 
         return Session(client, httpClient, createCredentials(), createApiConfig(), httpClientConfig.shouldClose)
     }
