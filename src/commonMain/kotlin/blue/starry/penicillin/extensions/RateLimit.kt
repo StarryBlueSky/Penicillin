@@ -32,7 +32,6 @@ import io.ktor.client.statement.*
 import io.ktor.util.date.*
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
 import kotlin.time.milliseconds
 
 /**
@@ -93,14 +92,12 @@ public val RateLimit.consumed: Int
 /**
  * The [Duration] between now and [RateLimit.resetAt].
  */
-@OptIn(ExperimentalTime::class)
 public val RateLimit.duration: Duration
     get() = (GMTDate().timestamp - resetAt.timestamp).milliseconds
 
 /**
  * Awaits until rate limit is refreshed. (Suspending function)
  */
-@OptIn(ExperimentalTime::class)
 public suspend fun RateLimit.awaitRefresh() {
     val millis = duration.inMicroseconds.toLong()
     if (millis > 0) {
@@ -111,7 +108,6 @@ public suspend fun RateLimit.awaitRefresh() {
 /**
  * Blocks until rate limit is refreshed. (Classic blocking function)
  */
-@OptIn(ExperimentalTime::class)
 public fun RateLimit.blockUntilRefresh() {
     runBlockingAlt {
         awaitRefresh()

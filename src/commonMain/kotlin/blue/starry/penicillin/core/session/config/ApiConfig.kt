@@ -27,7 +27,6 @@
 package blue.starry.penicillin.core.session.config
 
 import blue.starry.penicillin.core.emulation.EmulationMode
-import blue.starry.penicillin.core.experimental.PenicillinExperimentalApi
 import blue.starry.penicillin.core.session.ApiClientDsl
 import blue.starry.penicillin.core.session.SessionBuilder
 import blue.starry.penicillin.endpoints.common.TweetMode
@@ -131,7 +130,6 @@ public data class ApiConfig(
          * Sets emulationMode which is used to access Twitter Private endpoints.
          * For example, to access Cards API, you must set this [EmulationMode.TwitterForiPhone].
          */
-        @PenicillinExperimentalApi
         public var emulationMode: EmulationMode = EmulationMode.None
         
         /**
@@ -147,8 +145,7 @@ public data class ApiConfig(
          */
         @Suppress("MemberVisibilityPrivate")
         public var defaultTweetMode: TweetMode = TweetMode.Extended
-        
-        @OptIn(PenicillinExperimentalApi::class)
+
         override fun build(): ApiConfig {
             return ApiConfig(maxRetries, retryIntervalInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
         }

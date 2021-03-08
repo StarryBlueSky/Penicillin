@@ -35,7 +35,6 @@ import blue.starry.penicillin.endpoints.Media
 import blue.starry.penicillin.endpoints.Option
 import io.ktor.client.request.forms.*
 import io.ktor.utils.io.core.*
-import kotlinx.serialization.InternalSerializationApi
 
 /**
  * The APPEND command is used to upload a chunk (consecutive byte range) of the media file. For example, a 3 MB file could be split into 3 chunks of size 1 MB, and uploaded using 3 APPEND command requests. After the entire file is uploaded, the next step is to call the FINALIZE command.
@@ -53,7 +52,6 @@ import kotlinx.serialization.InternalSerializationApi
  * @receiver [Media] endpoint instance.
  * @return [EmptyApiAction].
  */
-@OptIn(InternalSerializationApi::class)
 public fun Media.uploadAppend(
     media: MediaComponent,
     mediaId: Long,

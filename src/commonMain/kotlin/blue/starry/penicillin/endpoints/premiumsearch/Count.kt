@@ -26,7 +26,6 @@
 
 package blue.starry.penicillin.endpoints.premiumsearch
 
-import blue.starry.penicillin.core.experimental.PenicillinExperimentalApi
 import blue.starry.penicillin.core.request.action.PremiumSearchJsonObjectApiAction
 import blue.starry.penicillin.core.request.jsonBody
 import blue.starry.penicillin.core.session.post
@@ -54,7 +53,6 @@ import kotlinx.datetime.LocalDateTime
  * @receiver [PremiumSearch] endpoint instance.
  * @return [PremiumSearchJsonObjectApiAction] for [PremiumSearchCount] model.
  */
-@PenicillinExperimentalApi
 public fun PremiumSearch.count(
     product: SearchProduct,
     label: String,
@@ -78,7 +76,6 @@ public fun PremiumSearch.count(
  * @receiver [PremiumSearchEnvironment] endpoint instance.
  * @return [PremiumSearchJsonObjectApiAction] for [PremiumSearchCount] model.
  */
-@PenicillinExperimentalApi
 public fun PremiumSearchEnvironment.count(
     query: String,
     fromDate: LocalDateTime? = null,

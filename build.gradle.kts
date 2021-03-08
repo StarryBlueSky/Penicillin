@@ -56,6 +56,7 @@ object Libraries {
     val ExperimentalAnnotations = setOf(
         "kotlin.Experimental",
         "kotlin.time.ExperimentalTime",
+        "io.ktor.util.InternalAPI",
         "kotlinx.coroutines.FlowPreview",
         "blue.starry.penicillin.core.experimental.PenicillinExperimentalApi"
     )
