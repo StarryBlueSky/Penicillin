@@ -32,10 +32,8 @@ import blue.starry.penicillin.core.session.config.ApiConfig
 import blue.starry.penicillin.core.session.config.Credentials
 import io.ktor.client.*
 import io.ktor.utils.io.core.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Penicillin Session instance.
@@ -48,8 +46,6 @@ public data class Session(
     public val client: ApiClient,
     
     private val underlyingHttpClient: HttpClient,
-    override val coroutineContext: CoroutineContext,
-    private val shouldCloseCoroutineContext: Boolean,
 
     /**
      * Account credentials.
@@ -62,7 +58,7 @@ public data class Session(
     public val option: ApiConfig,
     
     private val shouldCloseHttpClient: Boolean
-): Closeable, CoroutineScope {
+): Closeable {
     private val job = Job()
     
     /**
@@ -84,10 +80,6 @@ public data class Session(
         
         if (shouldCloseHttpClient) {
             underlyingHttpClient.close()
-        }
-        
-        if (shouldCloseCoroutineContext && coroutineContext is Closeable) {
-            coroutineContext.close()
         }
     }
 }

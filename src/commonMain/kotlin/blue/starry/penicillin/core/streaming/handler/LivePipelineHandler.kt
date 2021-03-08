@@ -28,43 +28,37 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.parseObject
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.core.streaming.listener.LivePipelineListener
-
 import blue.starry.penicillin.models.Stream
-import kotlinx.coroutines.launch
 
 /**
  * Default LivePipeline [StreamHandler].
  * Accepts listener of [LivePipelineListener].
  */
 public class LivePipelineHandler(override val client: ApiClient, override val listener: LivePipelineListener): StreamHandler<LivePipelineListener> {
-    override fun handle(json: JsonObject) {
-        launch {
-            val pipeline = json.parseObject { Stream.LivePipeline(it, client) }
-            val topic = pipeline.topic
-            val id = topic.split("/").lastOrNull()?.toLongOrNull() ?: return@launch listener.onUnhandledJson(json)
-            
-            if (pipeline.topic.startsWith("/tweet_engagement/")) {
-                when {
-                    pipeline.payload.tweetEngagement.likeCount != null -> {
-                        listener.onUpdateLikeCount(id, pipeline.payload.tweetEngagement.likeCount!!)
-                    }
-                    pipeline.payload.tweetEngagement.retweetCount != null -> {
-                        listener.onUpdateRetweetCount(id, pipeline.payload.tweetEngagement.retweetCount!!)
-                    }
-                    pipeline.payload.tweetEngagement.replyCount != null -> {
-                        listener.onUpdateReplyCount(id, pipeline.payload.tweetEngagement.replyCount!!)
-                    }
-                    else -> {
-                        listener.onUnhandledJson(json)
-                    }
+    override suspend fun handle(json: JsonObject) {
+        val pipeline = json.parseObject { Stream.LivePipeline(it, client) }
+        val topic = pipeline.topic
+        val id = topic.split("/").lastOrNull()?.toLongOrNull() ?: return listener.onUnhandledJson(json)
+
+        if (pipeline.topic.startsWith("/tweet_engagement/")) {
+            when {
+                pipeline.payload.tweetEngagement.likeCount != null -> {
+                    listener.onUpdateLikeCount(id, pipeline.payload.tweetEngagement.likeCount!!)
                 }
-            } else {
-                listener.onUnhandledJson(json)
+                pipeline.payload.tweetEngagement.retweetCount != null -> {
+                    listener.onUpdateRetweetCount(id, pipeline.payload.tweetEngagement.retweetCount!!)
+                }
+                pipeline.payload.tweetEngagement.replyCount != null -> {
+                    listener.onUpdateReplyCount(id, pipeline.payload.tweetEngagement.replyCount!!)
+                }
+                else -> {
+                    listener.onUnhandledJson(json)
+                }
             }
+        } else {
+            listener.onUnhandledJson(json)
         }
 
-        launch {
-            listener.onAnyJson(json)
-        }
+        listener.onAnyJson(json)
     }
 }

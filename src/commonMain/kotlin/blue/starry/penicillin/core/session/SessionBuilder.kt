@@ -29,7 +29,6 @@ package blue.starry.penicillin.core.session
 import blue.starry.penicillin.core.session.config.*
 import blue.starry.penicillin.extensions.runBlockingAlt
 import io.ktor.client.features.cookies.*
-import io.ktor.util.*
 
 /**
  * The builder class that corresponds with [Session].
@@ -40,7 +39,6 @@ public class SessionBuilder(private val client: ApiClient) {
     @PublishedApi
     internal fun build(): Session {
         val cookieConfig = createCookieConfig()
-        val dispatcherConfig = createDispatcherConfig()
         val httpClientConfig = createHttpClientConfig()
         val httpClient = httpClientConfig.httpClient {
             if (cookieConfig.acceptCookie) {
@@ -62,12 +60,7 @@ public class SessionBuilder(private val client: ApiClient) {
             // To handle API errors
             expectSuccess = false
         }
-        
-        if (dispatcherConfig.connectionThreadsCount != null) {
-            @OptIn(KtorExperimentalAPI::class)
-            httpClient.engineConfig.threadsCount = dispatcherConfig.connectionThreadsCount
-        }
 
-        return Session(client, httpClient, dispatcherConfig.coroutineContext, dispatcherConfig.shouldClose, createCredentials(), createApiConfig(), httpClientConfig.shouldClose)
+        return Session(client, httpClient, createCredentials(), createApiConfig(), httpClientConfig.shouldClose)
     }
 }

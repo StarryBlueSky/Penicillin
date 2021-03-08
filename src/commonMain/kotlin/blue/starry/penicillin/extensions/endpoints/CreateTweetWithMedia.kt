@@ -40,8 +40,6 @@ import blue.starry.penicillin.extensions.DelegatedAction
 import blue.starry.penicillin.models.Media
 import blue.starry.penicillin.models.Media.ProcessingInfo.State.Succeeded
 import blue.starry.penicillin.models.Status
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
 
@@ -58,10 +56,8 @@ public fun Statuses.createWithMedia(
     vararg options: Option
 ): ApiAction<JsonObjectResponse<Status>> = DelegatedAction {
     val results = media.map {
-        client.session.async {
-            client.media.uploadMedia(it).execute().awaitProcessing()
-        }
-    }.awaitAll()
+        client.media.uploadMedia(it).execute().awaitProcessing()
+    }
     
     create(status, mediaIds = results.map { it.mediaId }, options = options).execute()
 }
