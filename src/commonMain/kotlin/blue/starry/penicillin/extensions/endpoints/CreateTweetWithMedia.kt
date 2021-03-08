@@ -42,6 +42,8 @@ import blue.starry.penicillin.models.Media.ProcessingInfo.State.Succeeded
 import blue.starry.penicillin.models.Status
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
+import kotlin.time.Duration
+import kotlin.time.seconds
 
 /**
  * Creates new tweet with media.
@@ -62,22 +64,23 @@ public fun Statuses.createWithMedia(
     create(status, mediaIds = results.map { it.mediaId }, options = options).execute()
 }
 
-private const val mediaProcessTimeoutMillis = 60 * 1000L
+private val mediaProcessTimeout = 60.seconds
 
 /**
  * Awaits until media processing is done, and returns [Media] response.
  * This operation is suspendable.
  *
- * @param timeoutMillis Timeout value in milliseconds.
+ * @param timeout Timeout value.
  */
-public suspend fun Media.awaitProcessing(timeoutMillis: Long? = null): Media {
+public suspend fun Media.awaitProcessing(timeout: Duration? = null): Media {
     if (processingInfo == null) {
         return this
     }
+
     
     var result = this
     
-    withTimeout(timeoutMillis ?: mediaProcessTimeoutMillis) {
+    withTimeout(timeout ?: mediaProcessTimeout) {
         while (true) {
             delay(result.processingInfo?.checkAfterSecs?.times(1000)?.toLong() ?: client.session.option.retryInMillis)
 
