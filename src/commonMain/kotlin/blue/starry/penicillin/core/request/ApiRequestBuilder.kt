@@ -28,7 +28,6 @@ package blue.starry.penicillin.core.request
 
 import blue.starry.penicillin.core.auth.AuthorizationType
 import blue.starry.penicillin.core.auth.OAuthUtil
-import blue.starry.penicillin.core.auth.encodeBase64
 import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.emulation.Tweetdeck
 import blue.starry.penicillin.core.emulation.Twitter4iPhone
@@ -40,7 +39,7 @@ import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.utils.*
 import io.ktor.http.*
-import io.ktor.util.appendAll
+import io.ktor.util.*
 import mu.KotlinLogging
 import kotlin.collections.set
 
