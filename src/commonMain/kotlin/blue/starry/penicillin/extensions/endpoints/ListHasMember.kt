@@ -31,20 +31,8 @@ import blue.starry.penicillin.core.exceptions.TwitterApiError
 import blue.starry.penicillin.core.request.action.ApiAction
 import blue.starry.penicillin.endpoints.Lists
 import blue.starry.penicillin.endpoints.Option
-import blue.starry.penicillin.endpoints.lists
 import blue.starry.penicillin.endpoints.lists.member
 import blue.starry.penicillin.extensions.DelegatedAction
-import blue.starry.penicillin.extensions.complete
-import blue.starry.penicillin.extensions.execute
-import blue.starry.penicillin.models.TwitterList
-import blue.starry.penicillin.models.User
-
-/**
- * Checks if the specified user is a member of the specified list.
- */
-public operator fun TwitterList.contains(user: User): Boolean {
-    return client.lists.hasMember(id, user.id).complete()
-}
 
 /**
  * Returns true if the specified user is a member of the specified list.

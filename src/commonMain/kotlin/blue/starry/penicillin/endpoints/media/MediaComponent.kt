@@ -26,12 +26,10 @@
 
 package blue.starry.penicillin.endpoints.media
 
-import kotlinx.serialization.InternalSerializationApi
-
 /**
  * Represents media data.
  */
-public data class MediaComponent @OptIn(InternalSerializationApi::class) constructor(
+public data class MediaComponent(
     /**
      * Media data.
      */

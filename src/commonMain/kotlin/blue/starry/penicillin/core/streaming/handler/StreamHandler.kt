@@ -27,13 +27,11 @@ package blue.starry.penicillin.core.streaming.handler
 import blue.starry.jsonkt.JsonObject
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.core.streaming.listener.StreamListener
-import kotlinx.coroutines.CoroutineScope
-import kotlin.coroutines.CoroutineContext
 
 /**
  * An interface which handles streaming payload JSONs.
  */
-public interface StreamHandler<L: StreamListener>: CoroutineScope {
+public interface StreamHandler<L: StreamListener> {
     /**
      * Current ApiClient.
      */
@@ -43,12 +41,9 @@ public interface StreamHandler<L: StreamListener>: CoroutineScope {
      * StreamListener.
      */
     public val listener: L
-    
-    override val coroutineContext: CoroutineContext
-        get() = client.session.coroutineContext
 
     /**
      * Handles streaming payload JSON.
      */
-    public fun handle(json: JsonObject)
+    public suspend fun handle(json: JsonObject)
 }

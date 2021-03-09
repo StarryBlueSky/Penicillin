@@ -100,22 +100,22 @@ public fun CommonUser.timeline(): JsonArrayApiAction<Status> = client.timeline.u
 /**
  * Creates an action to retrieve friends' (follows') ids of this user.
  */
-public fun CommonUser.friendIds(): CursorJsonObjectApiAction<CursorIds> = client.friends.listIdsByUserId(userId = id)
+public fun CommonUser.friendIds(): CursorJsonObjectApiAction<CursorIds, Long> = client.friends.listIdsByUserId(userId = id)
 
 /**
  * Creates an action to retrieve friends' (follows') users of this user.
  */
-public fun CommonUser.friendUsers(): CursorJsonObjectApiAction<CursorUsers> = client.friends.listUsersByUserId(userId = id)
+public fun CommonUser.friendUsers(): CursorJsonObjectApiAction<CursorUsers, User> = client.friends.listUsersByUserId(userId = id)
 
 /**
  * Creates an action to retrieve followers' ids of this user.
  */
-public fun CommonUser.followerIds(): CursorJsonObjectApiAction<CursorIds> = client.followers.listIdsByUserId(userId = id)
+public fun CommonUser.followerIds(): CursorJsonObjectApiAction<CursorIds, Long> = client.followers.listIdsByUserId(userId = id)
 
 /**
  * Creates an action to retrieve followers' users of this user.
  */
-public fun CommonUser.followerUsers(): CursorJsonObjectApiAction<CursorUsers> = client.followers.listUsersByUserId(userId = id)
+public fun CommonUser.followerUsers(): CursorJsonObjectApiAction<CursorUsers, User> = client.followers.listUsersByUserId(userId = id)
 
 /**
  * Creates an action to add this user to the list.

@@ -32,6 +32,7 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Friends
 import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.models.User
 import blue.starry.penicillin.models.cursor.CursorUsers
 
 /**
@@ -48,7 +49,7 @@ public fun Friends.followingListByUserId(
     userId: Long,
     count: Int? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = followingList(userId, null, count, *options)
+): CursorJsonObjectApiAction<CursorUsers, User> = followingList(userId, null, count, *options)
 
 /**
  * Returns users who follows specific user.
@@ -64,7 +65,7 @@ public fun Friends.followingListByScreenName(
     screenName: String,
     count: Int? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = followingList(null, screenName, count, *options)
+): CursorJsonObjectApiAction<CursorUsers, User> = followingList(null, screenName, count, *options)
 
 private fun Friends.followingList(
     userId: Long? = null,

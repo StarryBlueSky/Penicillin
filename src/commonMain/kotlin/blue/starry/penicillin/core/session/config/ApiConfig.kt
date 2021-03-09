@@ -27,7 +27,6 @@
 package blue.starry.penicillin.core.session.config
 
 import blue.starry.penicillin.core.emulation.EmulationMode
-import blue.starry.penicillin.core.experimental.PenicillinExperimentalApi
 import blue.starry.penicillin.core.session.ApiClientDsl
 import blue.starry.penicillin.core.session.SessionBuilder
 import blue.starry.penicillin.endpoints.common.TweetMode
@@ -57,21 +56,6 @@ internal fun SessionBuilder.createApiConfig(): ApiConfig {
  */
 public data class ApiConfig(
     /**
-     * Max retry count of single request.
-     */
-    public val maxRetries: Int,
-
-    /**
-     * Retry interval in milli seconds
-     */
-    public val retryInMillis: Long,
-
-    /**
-     * Default read timeout in milli seconds
-     */
-    public val defaultTimeoutInMillis: Long,
-
-    /**
      * EmulationMode which is used to access Twitter Private endpoints.
      */
     public val emulationMode: EmulationMode,
@@ -91,52 +75,10 @@ public data class ApiConfig(
      * Provides ApiConfig builder.
      */
     public class Builder: SessionConfigBuilder<ApiConfig> {
-        public companion object {
-            private const val defaultMaxRetries = 3
-            private const val defaultRetryIntervalInMillis = 3000L
-            private const val defaultTimeoutInMillis = 5000L
-        }
-
-        /**
-         * Sets max retry count of single request.
-         */
-        @Suppress("MemberVisibilityPrivate")
-        public var maxRetries: Int = defaultMaxRetries
-            set(value) {
-                require(value >= 0)
-                
-                field = value
-            }
-        
-        /**
-         * Sets retry interval in milli seconds.
-         * If your request failed, reattempt after this value.
-         * @see ApiConfig.Builder.retryInterval
-         */
-        public var retryIntervalInMillis: Long = defaultRetryIntervalInMillis
-            set(value) {
-                require(value >= 0)
-
-                field = value
-            }
-        
-        /**
-         * Sets default read timeout in milli seconds.
-         * It is not applied to Streaming Apis.
-         * @see ApiConfig.Builder.defaultTimeoutInMillis
-         */
-        public var defaultTimeoutInMillis: Long = Builder.defaultTimeoutInMillis
-            set(value) {
-                require(value >= 0)
-
-                field = value
-            }
-        
         /**
          * Sets emulationMode which is used to access Twitter Private endpoints.
          * For example, to access Cards API, you must set this [EmulationMode.TwitterForiPhone].
          */
-        @PenicillinExperimentalApi
         public var emulationMode: EmulationMode = EmulationMode.None
         
         /**
@@ -152,26 +94,11 @@ public data class ApiConfig(
          */
         @Suppress("MemberVisibilityPrivate")
         public var defaultTweetMode: TweetMode = TweetMode.Extended
-        
-        @OptIn(PenicillinExperimentalApi::class)
+
         override fun build(): ApiConfig {
-            return ApiConfig(maxRetries, retryIntervalInMillis, defaultTimeoutInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
+            return ApiConfig(emulationMode, skipEmulationChecking, defaultTweetMode)
         }
     }
-}
-
-/**
- * Sets retry interval in millis.
- */
-public fun ApiConfig.Builder.retryInterval(intervalInMillis: Long) {
-    retryIntervalInMillis = intervalInMillis
-}
-
-/**
- * Sets default read timeout in millis.
- */
-public fun ApiConfig.Builder.defaultTimeout(timeoutInMillis: Long) {
-    defaultTimeoutInMillis = timeoutInMillis
 }
 
 /**

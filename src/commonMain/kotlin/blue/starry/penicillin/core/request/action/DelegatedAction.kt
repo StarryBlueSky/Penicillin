@@ -31,7 +31,7 @@ internal class DelegatedAction<R>(override val client: ApiClient, private val bl
     override val request: ApiRequest
         get() = throw UnsupportedOperationException()
 
-    override suspend operator fun invoke(): R {
+    override suspend fun execute(): R {
         return block()
     }
 }

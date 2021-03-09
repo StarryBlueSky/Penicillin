@@ -28,7 +28,6 @@ package blue.starry.penicillin.core.request
 
 import blue.starry.penicillin.core.auth.AuthorizationType
 import blue.starry.penicillin.core.auth.OAuthUtil
-import blue.starry.penicillin.core.auth.encodeBase64
 import blue.starry.penicillin.core.emulation.EmulationMode
 import blue.starry.penicillin.core.emulation.Tweetdeck
 import blue.starry.penicillin.core.emulation.Twitter4iPhone
@@ -36,10 +35,11 @@ import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.extensions.session
+import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.utils.*
 import io.ktor.http.*
-import io.ktor.util.appendAll
+import io.ktor.util.*
 import mu.KotlinLogging
 import kotlin.collections.set
 
@@ -128,6 +128,9 @@ public data class ApiRequestBuilder(
             it.url(url)
             it.headers.appendAll(headers)
             it.body = body()
+
+            // To handle API errors
+            it.expectSuccess = false
         }
     }
 

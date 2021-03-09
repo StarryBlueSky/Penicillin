@@ -48,4 +48,4 @@ public val ApiClient.welcomeMessageRules: WelcomeMessageRules
  * @param client Current [ApiClient] instance.
  * @see ApiClient.welcomeMessageRules
  */
-public class WelcomeMessageRules(override val client: ApiClient): Endpoint
+public inline class WelcomeMessageRules(override val client: ApiClient): Endpoint

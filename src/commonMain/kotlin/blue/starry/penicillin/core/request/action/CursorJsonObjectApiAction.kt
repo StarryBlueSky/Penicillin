@@ -32,20 +32,22 @@ import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.response.CursorJsonObjectResponse
 import blue.starry.penicillin.core.session.ApiClient
-import blue.starry.penicillin.extensions.complete
-
+import blue.starry.penicillin.extensions.cursor.untilLast
 import blue.starry.penicillin.models.cursor.PenicillinCursorModel
+import kotlinx.coroutines.flow.AbstractFlow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.emitAll
 
 /**
  * The [ApiAction] that provides parsed json object with json model. This class supports cursor api operation.
  */
-public class CursorJsonObjectApiAction<M: PenicillinCursorModel>(
+public class CursorJsonObjectApiAction<M: PenicillinCursorModel<T>, T: Any>(
     override val client: ApiClient,
     override val request: ApiRequest,
     override val converter: (JsonObject) -> M
-): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M>>, Lazy<CursorJsonObjectResponse<M>> {
-    override suspend operator fun invoke(): CursorJsonObjectResponse<M> {
-        val (request, response) = execute()
+): JsonRequest<M>, ApiAction<CursorJsonObjectResponse<M, T>>, AbstractFlow<T>() {
+    override suspend fun execute(): CursorJsonObjectResponse<M, T> {
+        val (request, response) = finalize()
 
         val content = response.readTextOrNull()
         val json = content?.toJsonObjectOrNull() ?: throw PenicillinException(
@@ -61,11 +63,7 @@ public class CursorJsonObjectApiAction<M: PenicillinCursorModel>(
         return CursorJsonObjectResponse(client, result, request, response, content, this)
     }
 
-    private val lazy = lazy {
-        complete()
+    override suspend fun collectSafely(collector: FlowCollector<T>) {
+        collector.emitAll(untilLast())
     }
-
-    override fun isInitialized(): Boolean = lazy.isInitialized()
-
-    override val value: CursorJsonObjectResponse<M> = lazy.value
 }

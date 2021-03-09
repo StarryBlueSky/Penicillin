@@ -52,7 +52,7 @@ public fun Followers.listIds(
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(null, null, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds, Long> = listIdsInternal(null, null, cursor, stringifyIds, count, *options)
 
 /**
  * Returns a cursored collection of user IDs for every user following the specified user.
@@ -77,7 +77,7 @@ public fun Followers.listIdsByUserId(
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(userId, null, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds, Long> = listIdsInternal(userId, null, cursor, stringifyIds, count, *options)
 
 /**
  * Returns a cursored collection of user IDs for every user following the specified user.
@@ -102,7 +102,7 @@ public fun Followers.listIdsByScreenName(
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(null, screenName, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds, Long> = listIdsInternal(null, screenName, cursor, stringifyIds, count, *options)
 
 private fun Followers.listIdsInternal(
     userId: Long? = null,
@@ -126,5 +126,5 @@ private fun Followers.listIdsInternal(
  * Shorthand property to [Followers.listIds].
  * @see Followers.listIds
  */
-public val Followers.listIds: CursorJsonObjectApiAction<CursorIds>
+public val Followers.listIds: CursorJsonObjectApiAction<CursorIds, Long>
     get() = listIdsInternal()

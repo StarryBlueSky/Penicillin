@@ -50,7 +50,7 @@ public fun Blocks.listIds(
     stringifyIds: Boolean? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = client.session.get("/1.1/blocks/ids.json") {
+): CursorJsonObjectApiAction<CursorIds, Long> = client.session.get("/1.1/blocks/ids.json") {
     parameters(
         "stringify_ids" to stringifyIds,
         "cursor" to cursor,
@@ -62,5 +62,5 @@ public fun Blocks.listIds(
  * Shorthand extension property to [Blocks.listIds].
  * @see Blocks.listIds
  */
-public val Blocks.listIds: CursorJsonObjectApiAction<CursorIds>
+public val Blocks.listIds: CursorJsonObjectApiAction<CursorIds, Long>
     get() = listIds()

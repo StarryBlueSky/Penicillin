@@ -75,10 +75,8 @@ internal data class KtorHttpClientConfig(
     val client: HttpClient?,
     val shouldClose: Boolean
 ): SessionConfig {
-    fun httpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient {
-        return (client ?: engineFactory?.let { HttpClient(it) } ?: HttpClient()).config { 
-            block()
-            
+    fun httpClient(): HttpClient {
+        return (client ?: engineFactory?.let { HttpClient(it) } ?: HttpClient()).config {
             for (config in clientConfigs) {
                 config()
             }

@@ -51,11 +51,6 @@ public class LocalizedString(
             "cursor は 0 です。"
         )
 
-        public val ApiRequestFailedLog: LocalizedString = LocalizedString(
-            "Failed to request API. ({}, {}/{})",
-            "API のリクエストに失敗しました。 ({}, {}/{})"
-        )
-
         public val ApiRequestFailed: LocalizedString = LocalizedString(
             "Failed to request API: {}",
             "API のリクエストに失敗しました: {}"
@@ -84,16 +79,6 @@ public class LocalizedString(
         public val UnknownApiErrorWithStatusCode: LocalizedString = LocalizedString(
             "Unknown API error occurred. (HTTP {})\n{}",
             "不明な API エラーが発生しました。 (HTTP {})\n{}"
-        )
-
-        public val ExceptionInAsyncBlock: LocalizedString = LocalizedString(
-            "Exception in async block.",
-            "非同期実行中にエラーが発生しました。"
-        )
-
-        public val SessionAlreadyClosed: LocalizedString = LocalizedString(
-            "The session is already closed.",
-            "Session は既に閉じられています。"
         )
     }
 

@@ -38,10 +38,8 @@ import blue.starry.penicillin.core.streaming.listener.StreamListener
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.endpoints.Stream
 import blue.starry.penicillin.endpoints.stream.StreamDelimitedBy
-
 import blue.starry.penicillin.models.DirectMessage
 import blue.starry.penicillin.models.Status
-import kotlinx.coroutines.launch
 
 /**
  * Connects to Tweetstorm with custom [EndpointHost].
@@ -111,29 +109,25 @@ public interface TweetstormListener: StreamListener {
  * Accepts listener of [TweetstormListener].
  */
 public class TweetstormHandler(override val client: ApiClient, override val listener: TweetstormListener): StreamHandler<TweetstormListener> {
-    override fun handle(json: JsonObject) {
-        launch {
-            when {
-                "text" in json -> {
-                    listener.onStatus(json.parseObject { Status(it, client) })
-                }
-                "direct_message" in json -> {
-                    listener.onDirectMessage(json.parseObject { DirectMessage(it, client) })
-                }
-                "friends" in json -> {
-                    listener.onFriends(json.parseObject { blue.starry.penicillin.models.Stream.Friends(it, client) })
-                }
-                "delete" in json -> {
-                    listener.onDelete(json.parseObject { blue.starry.penicillin.models.Stream.Delete(it, client) })
-                }
-                else -> {
-                    listener.onUnhandledJson(json)
-                }
+    override suspend fun handle(json: JsonObject) {
+        when {
+            "text" in json -> {
+                listener.onStatus(json.parseObject { Status(it, client) })
+            }
+            "direct_message" in json -> {
+                listener.onDirectMessage(json.parseObject { DirectMessage(it, client) })
+            }
+            "friends" in json -> {
+                listener.onFriends(json.parseObject { blue.starry.penicillin.models.Stream.Friends(it, client) })
+            }
+            "delete" in json -> {
+                listener.onDelete(json.parseObject { blue.starry.penicillin.models.Stream.Delete(it, client) })
+            }
+            else -> {
+                listener.onUnhandledJson(json)
             }
         }
 
-        launch {
-            listener.onAnyJson(json)
-        }
+        listener.onAnyJson(json)
     }
 }

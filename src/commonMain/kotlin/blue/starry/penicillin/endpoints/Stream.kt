@@ -46,4 +46,4 @@ public val ApiClient.stream: Stream
  * @param client Current [ApiClient] instance.
  * @see ApiClient.stream
  */
-public class Stream(override val client: ApiClient): Endpoint
+public inline class Stream(override val client: ApiClient): Endpoint

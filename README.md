@@ -7,14 +7,11 @@
 [![issues](https://img.shields.io/github/issues/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/issues)
 [![pull requests](https://img.shields.io/github/issues-pr/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/pulls)
 
-* Supports JVM (Java >= 8), Android (API level >= 24), JavaScript (Browsers and NodeJS).  
-* Supports all the public Twitter API endpoints.  
-* Supports the following authenticating methods: OAuth 1.0a, OAuth 2.0  
-* Supports some private Twitter API endpoints such as Poll Tweets.  
-* Endpoint's parameters are resolved as Kotlin "Typed-safe Named Parameter".  
-* Penicillin has model classes. So responses are easy to use.  
-* API's execution supports classical blocking function `.complete()`, suspend function `.execute()`, deferred operation `.executeAsync()` and callback style `.queue {}`.  
-* Cursor APIs such as `friends/list` have methods named `.next`, `.untilLast()`. It makes paging easy.  
+* Supports JVM (Java >= 8), Android (API level >= 24), JavaScript (browser and NodeJS). 
+* Supports all Twitter public API endpoints up to v1.1 and some private APIs. 
+* Endpoint parameters can be represented by named arguments.
+* There are model classes for response JSON, which can be accessed type-safely.
+* Paging APIs can be handled by [Flow](https://kotlinlang.org/docs/flow.html).
 
 KDoc is available on [GitHub Pages](https://starrybluesky.github.io/Penicillin/penicillin).  
 

@@ -31,6 +31,7 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Blocks
 import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.models.User
 import blue.starry.penicillin.models.cursor.CursorUsers
 
 /**
@@ -52,7 +53,7 @@ public fun Blocks.listUsers(
     skipStatus: Boolean? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = client.session.get("/1.1/blocks/list.json") {
+): CursorJsonObjectApiAction<CursorUsers, User> = client.session.get("/1.1/blocks/list.json") {
     parameters(
         "include_entities" to includeEntities,
         "skip_status" to skipStatus,
@@ -65,5 +66,5 @@ public fun Blocks.listUsers(
  * Shorthand extension property to [Blocks.listUsers].
  * @see Blocks.listUsers
  */
-public val Blocks.listUsers: CursorJsonObjectApiAction<CursorUsers>
+public val Blocks.listUsers: CursorJsonObjectApiAction<CursorUsers, User>
     get() = listUsers()

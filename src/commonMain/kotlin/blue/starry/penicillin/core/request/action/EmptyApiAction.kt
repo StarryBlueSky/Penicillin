@@ -31,8 +31,8 @@ import blue.starry.penicillin.core.session.ApiClient
  * The [ApiAction] that does not provide parsed response. Only check errors of content string.
  */
 public class EmptyApiAction(override val client: ApiClient, override val request: ApiRequest): ApiAction<Unit> {
-    override suspend operator fun invoke() {
-        val (request, response) = execute()
+    override suspend fun execute() {
+        val (request, response) = finalize()
         val content = response.readTextOrNull()
 
         checkError(request, response, content)

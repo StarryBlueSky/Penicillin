@@ -31,125 +31,107 @@ import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.core.streaming.listener.UserStreamListener
 import blue.starry.penicillin.models.DirectMessage
 import blue.starry.penicillin.models.Status
-
 import blue.starry.penicillin.models.Stream
-import kotlinx.coroutines.launch
 
 /**
  * Default UserStream [StreamHandler].
  * Accepts listener of [UserStreamListener].
  */
 public class UserStreamHandler(override val client: ApiClient, override val listener: UserStreamListener): StreamHandler<UserStreamListener> {
-    override fun handle(json: JsonObject) {
-        launch {
-            when {
-                "text" in json -> {
-                    listener.onStatus(json.parseObject { Status(it, client) })
-                }
-                "direct_message" in json -> {
-                    listener.onDirectMessage(json.parseObject { DirectMessage(it, client) })
-                }
-                "event" in json -> {
-                    val event = UserStreamEvent.byKey(json["event"]!!.string)
-                    when (event?.type) {
-                        UserStreamEventType.Status -> {
-                            val statusEvent = json.parseObject { Stream.StatusEvent(it, client) }
-                            launch {
-                                when (event) {
-                                    UserStreamEvent.Favorite -> listener.onFavorite(statusEvent)
-                                    UserStreamEvent.Unfavorite -> listener.onUnfavorite(statusEvent)
-                                    UserStreamEvent.FavoritedRetweet -> listener.onFavoritedRetweet(statusEvent)
-                                    UserStreamEvent.RetweetedRetweet -> listener.onRetweetedRetweet(statusEvent)
-                                    UserStreamEvent.QuotedTweet -> listener.onQuotedTweet(statusEvent)
-                                    else -> listener.onUnhandledJson(json)
-                                }
-                            }
-                            
-                            launch {
-                                listener.onAnyStatusEvent(statusEvent)
-                            }
-                            
-                            listener.onAnyEvent(statusEvent)
+    override suspend fun handle(json: JsonObject) {
+        when {
+            "text" in json -> {
+                listener.onStatus(json.parseObject { Status(it, client) })
+            }
+            "direct_message" in json -> {
+                listener.onDirectMessage(json.parseObject { DirectMessage(it, client) })
+            }
+            "event" in json -> {
+                val event = UserStreamEvent.byKey(json["event"]!!.string)
+                when (event?.type) {
+                    UserStreamEventType.Status -> {
+                        val statusEvent = json.parseObject { Stream.StatusEvent(it, client) }
+
+                        when (event) {
+                            UserStreamEvent.Favorite -> listener.onFavorite(statusEvent)
+                            UserStreamEvent.Unfavorite -> listener.onUnfavorite(statusEvent)
+                            UserStreamEvent.FavoritedRetweet -> listener.onFavoritedRetweet(statusEvent)
+                            UserStreamEvent.RetweetedRetweet -> listener.onRetweetedRetweet(statusEvent)
+                            UserStreamEvent.QuotedTweet -> listener.onQuotedTweet(statusEvent)
+                            else -> listener.onUnhandledJson(json)
                         }
-                        UserStreamEventType.List -> {
-                            val listEvent = json.parseObject { Stream.ListEvent(it, client) }
-                            launch {
-                                when (event) {
-                                    UserStreamEvent.ListCreated -> listener.onListCreated(listEvent)
-                                    UserStreamEvent.ListDestroyed -> listener.onListDestroyed(listEvent)
-                                    UserStreamEvent.ListUpdated -> listener.onListUpdated(listEvent)
-                                    UserStreamEvent.ListMemberAdded -> listener.onListMemberAdded(listEvent)
-                                    UserStreamEvent.ListMemberRemoved -> listener.onListMemberRemoved(listEvent)
-                                    UserStreamEvent.ListUserSubscribed -> listener.onListUserSubscribed(listEvent)
-                                    UserStreamEvent.ListUserUnsubscribed -> listener.onListUserUnsubscribed(listEvent)
-                                    else -> listener.onUnhandledJson(json)
-                                }
-                            }
-                            
-                            launch {
-                                listener.onAnyListEvent(listEvent)
-                            }
-                            
-                            listener.onAnyEvent(listEvent)
+
+                        listener.onAnyStatusEvent(statusEvent)
+                        listener.onAnyEvent(statusEvent)
+                    }
+                    UserStreamEventType.List -> {
+                        val listEvent = json.parseObject { Stream.ListEvent(it, client) }
+
+                        when (event) {
+                            UserStreamEvent.ListCreated -> listener.onListCreated(listEvent)
+                            UserStreamEvent.ListDestroyed -> listener.onListDestroyed(listEvent)
+                            UserStreamEvent.ListUpdated -> listener.onListUpdated(listEvent)
+                            UserStreamEvent.ListMemberAdded -> listener.onListMemberAdded(listEvent)
+                            UserStreamEvent.ListMemberRemoved -> listener.onListMemberRemoved(listEvent)
+                            UserStreamEvent.ListUserSubscribed -> listener.onListUserSubscribed(listEvent)
+                            UserStreamEvent.ListUserUnsubscribed -> listener.onListUserUnsubscribed(listEvent)
+                            else -> listener.onUnhandledJson(json)
                         }
-                        UserStreamEventType.User -> {
-                            val userEvent = json.parseObject { Stream.UserEvent(it, client) }
-                            launch {
-                                when (event) {
-                                    UserStreamEvent.Follow -> listener.onFollow(userEvent)
-                                    UserStreamEvent.Unfollow -> listener.onUnfollow(userEvent)
-                                    UserStreamEvent.Block -> listener.onBlock(userEvent)
-                                    UserStreamEvent.Unblock -> listener.onUnblock(userEvent)
-                                    UserStreamEvent.Mute -> listener.onMute(userEvent)
-                                    UserStreamEvent.Unmute -> listener.onUnmute(userEvent)
-                                    UserStreamEvent.UserUpdate -> listener.onUserUpdate(userEvent)
-                                    else -> listener.onUnhandledJson(json)
-                                }
-                            }
-                            
-                            launch {
-                                listener.onAnyUserEvent(userEvent)
-                            }
-                            
-                            listener.onAnyEvent(userEvent)
+
+                        listener.onAnyListEvent(listEvent)
+                        listener.onAnyEvent(listEvent)
+                    }
+                    UserStreamEventType.User -> {
+                        val userEvent = json.parseObject { Stream.UserEvent(it, client) }
+
+                        when (event) {
+                            UserStreamEvent.Follow -> listener.onFollow(userEvent)
+                            UserStreamEvent.Unfollow -> listener.onUnfollow(userEvent)
+                            UserStreamEvent.Block -> listener.onBlock(userEvent)
+                            UserStreamEvent.Unblock -> listener.onUnblock(userEvent)
+                            UserStreamEvent.Mute -> listener.onMute(userEvent)
+                            UserStreamEvent.Unmute -> listener.onUnmute(userEvent)
+                            UserStreamEvent.UserUpdate -> listener.onUserUpdate(userEvent)
+                            else -> listener.onUnhandledJson(json)
                         }
-                        else -> {
-                            listener.onUnhandledJson(json)
-                        }
+
+                        listener.onAnyUserEvent(userEvent)
+                        listener.onAnyEvent(userEvent)
+                    }
+                    else -> {
+                        listener.onUnhandledJson(json)
                     }
                 }
-                "friends" in json -> {
-                    listener.onFriends(json.parseObject { Stream.Friends(it, client) })
-                }
-                "delete" in json -> {
-                    listener.onDelete(json.parseObject { Stream.Delete(it, client) })
-                }
-                "scrub_geo" in json -> {
-                    listener.onScrubGeo(json.parseObject { Stream.ScrubGeo(it, client) })
-                }
-                "status_withheld" in json -> {
-                    listener.onStatusWithheld(json.parseObject { Stream.StatusWithheld(it, client) })
-                }
-                "user_withheld" in json -> {
-                    listener.onUserWithheld(json.parseObject { Stream.UserWithheld(it, client) })
-                }
-                "disconnect" in json -> {
-                    listener.onDisconnectMessage(json.parseObject { Stream.Disconnect(it, client) })
-                }
-                "warning" in json -> {
-                    listener.onWarning(json.parseObject { Stream.Warning(it, client) })
-                }
-                "limit" in json -> {
-                    listener.onLimit(json.parseObject { Stream.Limit(it, client) })
-                }
-                else -> {
-                    listener.onUnhandledJson(json)
-                }
+            }
+            "friends" in json -> {
+                listener.onFriends(json.parseObject { Stream.Friends(it, client) })
+            }
+            "delete" in json -> {
+                listener.onDelete(json.parseObject { Stream.Delete(it, client) })
+            }
+            "scrub_geo" in json -> {
+                listener.onScrubGeo(json.parseObject { Stream.ScrubGeo(it, client) })
+            }
+            "status_withheld" in json -> {
+                listener.onStatusWithheld(json.parseObject { Stream.StatusWithheld(it, client) })
+            }
+            "user_withheld" in json -> {
+                listener.onUserWithheld(json.parseObject { Stream.UserWithheld(it, client) })
+            }
+            "disconnect" in json -> {
+                listener.onDisconnectMessage(json.parseObject { Stream.Disconnect(it, client) })
+            }
+            "warning" in json -> {
+                listener.onWarning(json.parseObject { Stream.Warning(it, client) })
+            }
+            "limit" in json -> {
+                listener.onLimit(json.parseObject { Stream.Limit(it, client) })
+            }
+            else -> {
+                listener.onUnhandledJson(json)
             }
         }
 
-        launch {
-            listener.onAnyJson(json)
-        }
+        listener.onAnyJson(json)
     }
 }

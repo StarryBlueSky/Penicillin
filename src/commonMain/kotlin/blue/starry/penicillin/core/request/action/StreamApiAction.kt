@@ -35,10 +35,6 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.utils.io.*
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 
 /**
  * The [ApiAction] that provides stream-able response.
@@ -59,20 +55,6 @@ public class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(
      *
      * @param listener [StreamListener].
      */
-    public fun listen(listener: L, reconnect: Boolean = true): Job {
-        return client.session.launch {
-            while (isActive) {
-                listen(listener)
-
-                if (!reconnect) {
-                    break
-                }
-
-                delay(client.session.option.retryInMillis)
-            }
-        }
-    }
-
     public suspend fun listen(listener: L) {
         client.session.httpClient.request<HttpStatement>(request.builder.finalize()).execute {
             checkError(it.request, it)

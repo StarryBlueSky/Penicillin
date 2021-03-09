@@ -33,10 +33,12 @@ import blue.starry.jsonkt.delegation.string
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.models.PenicillinModel
 
-public abstract class PenicillinCursorModel(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
+public abstract class PenicillinCursorModel<T: Any>(final override val json: JsonObject, final override val client: ApiClient): PenicillinModel {
     public val nextCursor: Long by long("next_cursor")
     public val nextCursorStr: String by string("next_cursor_str")
     public val previousCursor: Long by long("previous_cursor")
     public val previousCursorStr: String by string("previous_cursor_str")
     public val totalCount: Int? by nullableInt("total_count")
+
+    public abstract val items: List<T>
 }

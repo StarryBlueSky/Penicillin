@@ -48,7 +48,7 @@ public fun FollowRequests.incoming(
     cursor: Long? = null,
     stringifyIds: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = client.session.get("/1.1/friendships/incoming.json") {
+): CursorJsonObjectApiAction<CursorIds, Long> = client.session.get("/1.1/friendships/incoming.json") {
     parameters(
         "cursor" to cursor,
         "stringify_ids" to stringifyIds,
@@ -60,5 +60,5 @@ public fun FollowRequests.incoming(
  * Shorthand property to [FollowRequests.incoming].
  * @see FollowRequests.incoming
  */
-public val FollowRequests.incoming: CursorJsonObjectApiAction<CursorIds>
+public val FollowRequests.incoming: CursorJsonObjectApiAction<CursorIds, Long>
      get() = incoming()

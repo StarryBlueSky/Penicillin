@@ -48,4 +48,4 @@ public val ApiClient.oauth: OAuth
  * @param client Current [ApiClient] instance.
  * @see ApiClient.oauth
  */
-public class OAuth(override val client: ApiClient): Endpoint
+public inline class OAuth(override val client: ApiClient): Endpoint

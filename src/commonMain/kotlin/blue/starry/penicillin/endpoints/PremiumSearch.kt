@@ -46,4 +46,4 @@ public val ApiClient.premiumSearch: PremiumSearch
  * @param client Current [ApiClient] instance.
  * @see ApiClient.premiumSearch
  */
-public class PremiumSearch(override val client: ApiClient): Endpoint
+public inline class PremiumSearch(override val client: ApiClient): Endpoint

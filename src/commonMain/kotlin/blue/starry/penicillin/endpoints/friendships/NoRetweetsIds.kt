@@ -36,7 +36,6 @@ import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Friendships
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.extensions.DelegatedAction
-import blue.starry.penicillin.extensions.execute
 
 /**
  * Returns a collection of user_ids that the currently authenticated user does not want to receive retweets from.

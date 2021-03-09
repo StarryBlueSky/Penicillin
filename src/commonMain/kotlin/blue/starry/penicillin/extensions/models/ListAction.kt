@@ -31,7 +31,6 @@ import blue.starry.penicillin.endpoints.lists.addMember
 import blue.starry.penicillin.endpoints.lists.addMembersByUserIds
 import blue.starry.penicillin.endpoints.lists.removeMember
 import blue.starry.penicillin.endpoints.lists.removeMembersByUserIds
-import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.models.TwitterList
 import blue.starry.penicillin.models.User
 

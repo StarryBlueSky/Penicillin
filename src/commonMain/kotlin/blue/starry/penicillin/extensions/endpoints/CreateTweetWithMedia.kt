@@ -37,14 +37,13 @@ import blue.starry.penicillin.endpoints.media.uploadMedia
 import blue.starry.penicillin.endpoints.media.uploadStatus
 import blue.starry.penicillin.endpoints.statuses.create
 import blue.starry.penicillin.extensions.DelegatedAction
-import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.models.Media
 import blue.starry.penicillin.models.Media.ProcessingInfo.State.Succeeded
 import blue.starry.penicillin.models.Status
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
+import kotlin.time.Duration
+import kotlin.time.seconds
 
 /**
  * Creates new tweet with media.
@@ -59,32 +58,32 @@ public fun Statuses.createWithMedia(
     vararg options: Option
 ): ApiAction<JsonObjectResponse<Status>> = DelegatedAction {
     val results = media.map {
-        client.session.async {
-            client.media.uploadMedia(it).execute().awaitProcessing()
-        }
-    }.awaitAll()
+        client.media.uploadMedia(it).execute().awaitProcessing()
+    }
     
     create(status, mediaIds = results.map { it.mediaId }, options = options).execute()
 }
 
-private const val mediaProcessTimeoutMillis = 60 * 1000L
+private val mediaProcessTimeout = 60.seconds
+private val defaultCheckAfter = 5.seconds
 
 /**
  * Awaits until media processing is done, and returns [Media] response.
  * This operation is suspendable.
  *
- * @param timeoutMillis Timeout value in milliseconds.
+ * @param timeout Timeout value.
  */
-public suspend fun Media.awaitProcessing(timeoutMillis: Long? = null): Media {
+public suspend fun Media.awaitProcessing(timeout: Duration? = null): Media {
     if (processingInfo == null) {
         return this
     }
+
     
     var result = this
     
-    withTimeout(timeoutMillis ?: mediaProcessTimeoutMillis) {
+    withTimeout(timeout ?: mediaProcessTimeout) {
         while (true) {
-            delay(result.processingInfo?.checkAfterSecs?.times(1000)?.toLong() ?: client.session.option.retryInMillis)
+            delay(result.processingInfo?.checkAfterSecs?.seconds ?: defaultCheckAfter)
 
             val response = client.media.uploadStatus(mediaId, mediaKey).execute()
             result = response.result

@@ -31,6 +31,7 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Friends
 import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.models.User
 import blue.starry.penicillin.models.cursor.CursorUsers
 
 /**
@@ -53,7 +54,7 @@ public fun Friends.listUsers(
     skipStatus: Boolean? = null,
     includeUserEntities: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = listUsersInternal(null, null, cursor, count, skipStatus, includeUserEntities, *options)
+): CursorJsonObjectApiAction<CursorUsers, User> = listUsersInternal(null, null, cursor, count, skipStatus, includeUserEntities, *options)
 
 /**
  * Returns a cursored collection of user objects for every user the specified user is following (otherwise known as their "friends").
@@ -79,7 +80,7 @@ public fun Friends.listUsersByUserId(
     skipStatus: Boolean? = null,
     includeUserEntities: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = listUsersInternal(userId, null, cursor, count, skipStatus, includeUserEntities, *options)
+): CursorJsonObjectApiAction<CursorUsers, User> = listUsersInternal(userId, null, cursor, count, skipStatus, includeUserEntities, *options)
 
 /**
  * Returns a cursored collection of user objects for every user the specified user is following (otherwise known as their "friends").
@@ -105,7 +106,7 @@ public fun Friends.listUsersByScreenName(
     skipStatus: Boolean? = null,
     includeUserEntities: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = listUsersInternal(null, screenName, cursor, count, skipStatus, includeUserEntities, *options)
+): CursorJsonObjectApiAction<CursorUsers, User> = listUsersInternal(null, screenName, cursor, count, skipStatus, includeUserEntities, *options)
 
 private fun Friends.listUsersInternal(
     userId: Long? = null,
@@ -131,5 +132,5 @@ private fun Friends.listUsersInternal(
  * Shorthand property to [Friends.listUsers].
  * @see Friends.listUsers
  */
-public val Friends.listUsers: CursorJsonObjectApiAction<CursorUsers>
+public val Friends.listUsers: CursorJsonObjectApiAction<CursorUsers, User>
     get() = listUsers()

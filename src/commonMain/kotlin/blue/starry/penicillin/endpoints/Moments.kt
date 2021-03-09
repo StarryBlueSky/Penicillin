@@ -46,4 +46,4 @@ public val ApiClient.moments: Moments
  * @param client Current [ApiClient] instance.
  * @see ApiClient.moments
  */
-public class Moments(override val client: ApiClient): Endpoint
+public inline class Moments(override val client: ApiClient): Endpoint

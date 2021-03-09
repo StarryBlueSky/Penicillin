@@ -48,7 +48,7 @@ public fun Mutes.listIds(
     stringifyIds: Boolean? = null,
     cursor: Long? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = client.session.get("/1.1/mutes/users/ids.json") {
+): CursorJsonObjectApiAction<CursorIds, Long> = client.session.get("/1.1/mutes/users/ids.json") {
     parameters(
         "stringify_ids" to stringifyIds,
         "cursor" to cursor,
@@ -60,5 +60,5 @@ public fun Mutes.listIds(
  * Shorthand property to [Mutes.listIds].
  * @see Mutes.listIds
  */
-public val Mutes.listIds: CursorJsonObjectApiAction<CursorIds>
+public val Mutes.listIds: CursorJsonObjectApiAction<CursorIds, Long>
     get() = listIds()

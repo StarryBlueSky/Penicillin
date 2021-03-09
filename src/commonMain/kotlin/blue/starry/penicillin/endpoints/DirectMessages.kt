@@ -50,4 +50,4 @@ public val ApiClient.directMessages: DirectMessages
  * @param client Current [ApiClient] instance.
  * @see ApiClient.directMessages
  */
-public class DirectMessages(override val client: ApiClient): Endpoint
+public inline class DirectMessages(override val client: ApiClient): Endpoint

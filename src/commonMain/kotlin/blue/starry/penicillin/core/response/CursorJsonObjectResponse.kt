@@ -25,16 +25,16 @@
 package blue.starry.penicillin.core.response
 
 import blue.starry.jsonkt.JsonObject
-import io.ktor.client.request.HttpRequest
-import io.ktor.client.statement.HttpResponse
 import blue.starry.penicillin.core.request.action.ApiAction
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.models.cursor.PenicillinCursorModel
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 
 /**
  * The [ApiResponse] that provides parsed json object with json model. This class supports cursor api operation.
  */
-public data class CursorJsonObjectResponse<M: PenicillinCursorModel>(
+public data class CursorJsonObjectResponse<M: PenicillinCursorModel<T>, T: Any>(
     override val client: ApiClient,
 
     /**
@@ -45,8 +45,8 @@ public data class CursorJsonObjectResponse<M: PenicillinCursorModel>(
     override val request: HttpRequest,
     override val response: HttpResponse,
     override val content: String,
-    override val action: ApiAction<CursorJsonObjectResponse<M>>
-): ApiResponse<CursorJsonObjectResponse<M>>, JsonResponse<M, JsonObject>, CompletedResponse {
+    override val action: ApiAction<CursorJsonObjectResponse<M, T>>
+): ApiResponse<CursorJsonObjectResponse<M, T>>, JsonResponse<M, JsonObject>, CompletedResponse {
     override val json: JsonObject
         get() = result.json
 }

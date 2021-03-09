@@ -26,7 +26,6 @@
 
 package blue.starry.penicillin.endpoints.oauth
 
-
 import blue.starry.penicillin.PenicillinClient
 import blue.starry.penicillin.core.request.formBody
 import blue.starry.penicillin.core.session.config.account
@@ -36,7 +35,6 @@ import blue.starry.penicillin.core.session.post
 import blue.starry.penicillin.endpoints.OAuth
 import blue.starry.penicillin.endpoints.Option
 import blue.starry.penicillin.endpoints.oauth
-import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.extensions.use
 
 /**

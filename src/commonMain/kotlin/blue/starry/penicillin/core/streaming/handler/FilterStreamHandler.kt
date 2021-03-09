@@ -31,33 +31,27 @@ import blue.starry.penicillin.core.streaming.listener.FilterStreamListener
 import blue.starry.penicillin.models.Status
 import blue.starry.penicillin.models.Stream
 
-import kotlinx.coroutines.launch
-
 /**
  * Default FilterStream [StreamHandler].
  * Accepts listener of [FilterStreamListener].
  */
 public class FilterStreamHandler(override val client: ApiClient, override val listener: FilterStreamListener): StreamHandler<FilterStreamListener> {
-    override fun handle(json: JsonObject) {
-        launch {
-            when {
-                "text" in json -> {
-                    listener.onStatus(json.parseObject { Status(it, client) })
-                }
-                "delete" in json -> {
-                    listener.onDelete(json.parseObject { Stream.Delete(it, client) })
-                }
-                "warning" in json -> {
-                    listener.onWarning(json.parseObject { Stream.Warning(it, client) })
-                }
-                else -> {
-                    listener.onUnhandledJson(json)
-                }
+    override suspend fun handle(json: JsonObject) {
+        when {
+            "text" in json -> {
+                listener.onStatus(json.parseObject { Status(it, client) })
+            }
+            "delete" in json -> {
+                listener.onDelete(json.parseObject { Stream.Delete(it, client) })
+            }
+            "warning" in json -> {
+                listener.onWarning(json.parseObject { Stream.Warning(it, client) })
+            }
+            else -> {
+                listener.onUnhandledJson(json)
             }
         }
 
-        launch {
-            listener.onAnyJson(json)
-        }
+        listener.onAnyJson(json)
     }
 }

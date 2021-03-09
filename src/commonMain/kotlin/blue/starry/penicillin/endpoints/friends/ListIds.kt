@@ -52,7 +52,7 @@ public fun Friends.listIds(
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(null, null, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds, Long> = listIdsInternal(null, null, cursor, stringifyIds, count, *options)
 
 /**
  * Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their "friends").
@@ -77,7 +77,7 @@ public fun Friends.listIdsByUserId(
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(userId, null, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds, Long> = listIdsInternal(userId, null, cursor, stringifyIds, count, *options)
 
 /**
  * Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their "friends").
@@ -102,7 +102,7 @@ public fun Friends.listIdsByScreenName(
     stringifyIds: Boolean? = null,
     count: Int? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorIds> = listIdsInternal(null, screenName, cursor, stringifyIds, count, *options)
+): CursorJsonObjectApiAction<CursorIds, Long> = listIdsInternal(null, screenName, cursor, stringifyIds, count, *options)
 
 private fun Friends.listIdsInternal(
     userId: Long? = null,
@@ -126,5 +126,5 @@ private fun Friends.listIdsInternal(
  * Shorthand property to [Friends.listIds].
  * @see Friends.listIds
  */
-public val Friends.listIds: CursorJsonObjectApiAction<CursorIds>
+public val Friends.listIds: CursorJsonObjectApiAction<CursorIds, Long>
     get() = listIds()

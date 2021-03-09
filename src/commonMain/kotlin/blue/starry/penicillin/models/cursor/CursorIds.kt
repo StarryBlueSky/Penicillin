@@ -30,6 +30,9 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.jsonkt.delegation.longList
 import blue.starry.penicillin.core.session.ApiClient
 
-public data class CursorIds(private val parentJson: JsonObject, private val parentClient: ApiClient): PenicillinCursorModel(parentJson, parentClient) {
-    public val ids: List<Long> by longList
+public data class CursorIds(
+    private val parentJson: JsonObject,
+    private val parentClient: ApiClient
+): PenicillinCursorModel<Long>(parentJson, parentClient) {
+    public override val items: List<Long> by longList("ids")
 }

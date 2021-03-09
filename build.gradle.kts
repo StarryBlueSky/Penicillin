@@ -24,7 +24,7 @@ object Versions {
     const val TwitterText = "3.1.0"
     const val Guava = "29.0-jre"
 
-    const val KotlinLogging = "2.0.4"
+    const val KotlinLogging = "2.0.5"
     const val Logback = "1.2.3"
     const val jansi = "1.18"
 }
@@ -55,6 +55,9 @@ object Libraries {
 
     val ExperimentalAnnotations = setOf(
         "kotlin.Experimental",
+        "kotlin.time.ExperimentalTime",
+        "io.ktor.util.InternalAPI",
+        "kotlinx.coroutines.FlowPreview",
         "blue.starry.penicillin.core.experimental.PenicillinExperimentalApi"
     )
 }
@@ -203,6 +206,7 @@ kotlin {
     sourceSets.all {
         languageSettings.progressiveMode = true
 
+        languageSettings.enableLanguageFeature("InlineClasses")
         Libraries.ExperimentalAnnotations.forEach {
             languageSettings.useExperimentalAnnotation(it)
         }

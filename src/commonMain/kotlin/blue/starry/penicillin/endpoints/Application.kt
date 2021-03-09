@@ -48,4 +48,4 @@ public val ApiClient.application: Application
  * @param client Current [ApiClient] instance.
  * @see ApiClient.application
  */
-public class Application(override val client: ApiClient): Endpoint
+public inline class Application(override val client: ApiClient): Endpoint

@@ -31,6 +31,7 @@ import blue.starry.penicillin.core.request.parameters
 import blue.starry.penicillin.core.session.get
 import blue.starry.penicillin.endpoints.Mutes
 import blue.starry.penicillin.endpoints.Option
+import blue.starry.penicillin.models.User
 import blue.starry.penicillin.models.cursor.CursorUsers
 
 /**
@@ -50,7 +51,7 @@ public fun Mutes.listUsers(
     includeEntities: Boolean? = null,
     skipStatus: Boolean? = null,
     vararg options: Option
-): CursorJsonObjectApiAction<CursorUsers> = client.session.get("/1.1/mutes/users/list.json") {
+): CursorJsonObjectApiAction<CursorUsers, User> = client.session.get("/1.1/mutes/users/list.json") {
     parameters(
         "cursor" to cursor,
         "include_entities" to includeEntities,
@@ -63,5 +64,5 @@ public fun Mutes.listUsers(
  * Shorthand property to [Mutes.listUsers].
  * @see Mutes.listUsers
  */
-public val Mutes.listUsers: CursorJsonObjectApiAction<CursorUsers>
+public val Mutes.listUsers: CursorJsonObjectApiAction<CursorUsers, User>
     get() = listUsers()

@@ -26,16 +26,10 @@
 
 package blue.starry.penicillin.core.session
 
-import blue.starry.penicillin.core.exceptions.PenicillinException
-import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.session.config.ApiConfig
 import blue.starry.penicillin.core.session.config.Credentials
 import io.ktor.client.*
 import io.ktor.utils.io.core.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.isActive
-import kotlin.coroutines.CoroutineContext
 
 /**
  * Penicillin Session instance.
@@ -46,10 +40,11 @@ public data class Session(
      * ApiClient instance.
      */
     public val client: ApiClient,
-    
-    private val underlyingHttpClient: HttpClient,
-    override val coroutineContext: CoroutineContext,
-    private val shouldCloseCoroutineContext: Boolean,
+
+    /**
+     * Ktor HttpClient instance.
+     */
+    public val httpClient: HttpClient,
 
     /**
      * Account credentials.
@@ -62,32 +57,13 @@ public data class Session(
     public val option: ApiConfig,
     
     private val shouldCloseHttpClient: Boolean
-): Closeable, CoroutineScope {
-    private val job = Job()
-    
+): Closeable {
     /**
-     * Ktor HttpClient instance.
-     * Throws SessionAlreadyClosed when session is already closed.
-     */
-    public val httpClient: HttpClient
-        get() = if (job.isActive && underlyingHttpClient.coroutineContext.isActive) {
-            underlyingHttpClient
-        } else {
-            throw PenicillinException(LocalizedString.SessionAlreadyClosed)
-        }
-
-    /**
-     * Closes HttpClient if shouldCloseHttpClient is true and coroutine dispatcher if shouldCloseCoroutineContext == true.
+     * Closes HttpClient if shouldCloseHttpClient is true.
      */
     override fun close() {
-        job.cancel()
-        
         if (shouldCloseHttpClient) {
-            underlyingHttpClient.close()
-        }
-        
-        if (shouldCloseCoroutineContext && coroutineContext is Closeable) {
-            coroutineContext.close()
+            httpClient.close()
         }
     }
 }

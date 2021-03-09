@@ -35,7 +35,6 @@ import blue.starry.penicillin.endpoints.cards
 import blue.starry.penicillin.endpoints.cards.create
 import blue.starry.penicillin.endpoints.statuses.create
 import blue.starry.penicillin.extensions.DelegatedAction
-import blue.starry.penicillin.extensions.execute
 import blue.starry.penicillin.models.Status
 
 /**

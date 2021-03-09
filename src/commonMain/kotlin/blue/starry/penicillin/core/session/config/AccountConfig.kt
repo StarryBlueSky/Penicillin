@@ -27,7 +27,6 @@
 package blue.starry.penicillin.core.session.config
 
 import blue.starry.penicillin.core.emulation.OfficialClient
-import blue.starry.penicillin.core.experimental.PenicillinExperimentalApi
 import blue.starry.penicillin.core.session.ApiClientDsl
 import blue.starry.penicillin.core.session.SessionBuilder
 
@@ -108,10 +107,8 @@ public data class Credentials(
          * Known device token for your account.
          * Used only when emulationMode is [OfficialClient.OAuth1a.TwitterForiPhone].
          */
-        @PenicillinExperimentalApi
         public var knownDeviceToken: String? = null
 
-        @OptIn(PenicillinExperimentalApi::class)
         override fun build(): Credentials {
             return Credentials(consumerKey, consumerSecret, accessToken, accessTokenSecret, bearerToken, knownDeviceToken)
         }

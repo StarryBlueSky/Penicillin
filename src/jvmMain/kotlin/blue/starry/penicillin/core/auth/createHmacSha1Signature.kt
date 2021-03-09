@@ -24,6 +24,7 @@
 
 package blue.starry.penicillin.core.auth
 
+import io.ktor.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 

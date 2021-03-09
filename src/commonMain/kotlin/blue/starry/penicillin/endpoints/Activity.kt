@@ -46,4 +46,4 @@ public val ApiClient.activity: Activity
  * @param client Current [ApiClient] instance.
  * @see ApiClient.activity
  */
-public class Activity(override val client: ApiClient): Endpoint
+public inline class Activity(override val client: ApiClient): Endpoint
