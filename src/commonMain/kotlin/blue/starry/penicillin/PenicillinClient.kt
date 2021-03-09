@@ -39,9 +39,7 @@ import blue.starry.penicillin.core.session.SessionBuilder
 @ApiClientDsl
 @Suppress("FunctionName")
 public inline fun PenicillinClient(crossinline block: SessionBuilder.() -> Unit): ApiClient = object: ApiClient {
-    override val session by lazy {
-        SessionBuilder(this).apply(block).build()
-    }
+    override val session = SessionBuilder(this).apply(block).build()
 
     override fun close() {
         session.close()
