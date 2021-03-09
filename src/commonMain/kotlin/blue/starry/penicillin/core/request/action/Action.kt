@@ -57,10 +57,6 @@ internal suspend fun ApiAction<*>.finalize(): Pair<HttpRequest, HttpResponse> {
         } catch (e: CancellationException) {
             throw e
         } catch (e: Throwable) {
-            if (e is PenicillinException && e.localizedString == LocalizedString.SessionAlreadyClosed) {
-                throw e
-            }
-            
             apiActionLogger.error(e) { LocalizedString.ApiRequestFailedLog(request.builder.url, it + 1, session.option.maxRetries) }
 
             lastException = e
