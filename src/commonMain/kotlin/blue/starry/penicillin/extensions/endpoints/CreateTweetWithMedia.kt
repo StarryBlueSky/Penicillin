@@ -65,6 +65,7 @@ public fun Statuses.createWithMedia(
 }
 
 private val mediaProcessTimeout = 60.seconds
+private val defaultCheckAfter = 5.seconds
 
 /**
  * Awaits until media processing is done, and returns [Media] response.
@@ -82,7 +83,7 @@ public suspend fun Media.awaitProcessing(timeout: Duration? = null): Media {
     
     withTimeout(timeout ?: mediaProcessTimeout) {
         while (true) {
-            delay(result.processingInfo?.checkAfterSecs?.times(1000)?.toLong() ?: client.session.option.retryInMillis)
+            delay(result.processingInfo?.checkAfterSecs?.seconds ?: defaultCheckAfter)
 
             val response = client.media.uploadStatus(mediaId, mediaKey).execute()
             result = response.result

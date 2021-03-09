@@ -42,32 +42,20 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.util.*
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.delay
 import mu.KotlinLogging
 
 private val apiActionLogger = KotlinLogging.logger("Penicillin.ApiAction")
 
 internal suspend fun ApiAction<*>.finalize(): Pair<HttpRequest, HttpResponse> {
-    lateinit var lastException: Throwable
+    try {
+        val response = session.httpClient.request<HttpStatement>(request.builder.finalize()).execute()
 
-    repeat(session.option.maxRetries) {
-        try {
-            val response = session.httpClient.request<HttpStatement>(request.builder.finalize()).execute()
-            return response.request to response
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Throwable) {
-            apiActionLogger.error(e) { LocalizedString.ApiRequestFailedLog(request.builder.url, it + 1, session.option.maxRetries) }
-
-            lastException = e
-        }
-
-        if (it + 1 < session.option.maxRetries) {
-            delay(session.option.retryInMillis)
-        }
+        return response.request to response
+    } catch (e: CancellationException) {
+        throw e
+    } catch (t: Throwable) {
+        throw PenicillinException(LocalizedString.ApiRequestFailed, t, null, null, request.builder.url)
     }
-
-    throw PenicillinException(LocalizedString.ApiRequestFailed, lastException, null, null, request.builder.url)
 }
 
 internal fun checkError(request: HttpRequest, response: HttpResponse, content: String? = null, json: JsonObject? = null) {

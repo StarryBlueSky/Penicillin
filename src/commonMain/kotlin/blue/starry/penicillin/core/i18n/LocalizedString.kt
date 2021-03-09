@@ -51,11 +51,6 @@ public class LocalizedString(
             "cursor は 0 です。"
         )
 
-        public val ApiRequestFailedLog: LocalizedString = LocalizedString(
-            "Failed to request API. ({}, {}/{})",
-            "API のリクエストに失敗しました。 ({}, {}/{})"
-        )
-
         public val ApiRequestFailed: LocalizedString = LocalizedString(
             "Failed to request API: {}",
             "API のリクエストに失敗しました: {}"

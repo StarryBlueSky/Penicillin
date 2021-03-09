@@ -56,16 +56,6 @@ internal fun SessionBuilder.createApiConfig(): ApiConfig {
  */
 public data class ApiConfig(
     /**
-     * Max retry count of single request.
-     */
-    public val maxRetries: Int,
-
-    /**
-     * Retry interval in milli seconds
-     */
-    public val retryInMillis: Long,
-
-    /**
      * EmulationMode which is used to access Twitter Private endpoints.
      */
     public val emulationMode: EmulationMode,
@@ -85,35 +75,6 @@ public data class ApiConfig(
      * Provides ApiConfig builder.
      */
     public class Builder: SessionConfigBuilder<ApiConfig> {
-        public companion object {
-            private const val defaultMaxRetries = 3
-            private const val defaultRetryIntervalInMillis = 3000L
-            private const val defaultTimeoutInMillis = 5000L
-        }
-
-        /**
-         * Sets max retry count of single request.
-         */
-        @Suppress("MemberVisibilityPrivate")
-        public var maxRetries: Int = defaultMaxRetries
-            set(value) {
-                require(value >= 0)
-                
-                field = value
-            }
-        
-        /**
-         * Sets retry interval in milli seconds.
-         * If your request failed, reattempt after this value.
-         * @see ApiConfig.Builder.retryInterval
-         */
-        public var retryIntervalInMillis: Long = defaultRetryIntervalInMillis
-            set(value) {
-                require(value >= 0)
-
-                field = value
-            }
-        
         /**
          * Sets emulationMode which is used to access Twitter Private endpoints.
          * For example, to access Cards API, you must set this [EmulationMode.TwitterForiPhone].
@@ -135,16 +96,9 @@ public data class ApiConfig(
         public var defaultTweetMode: TweetMode = TweetMode.Extended
 
         override fun build(): ApiConfig {
-            return ApiConfig(maxRetries, retryIntervalInMillis, emulationMode, skipEmulationChecking, defaultTweetMode)
+            return ApiConfig(emulationMode, skipEmulationChecking, defaultTweetMode)
         }
     }
-}
-
-/**
- * Sets retry interval in millis.
- */
-public fun ApiConfig.Builder.retryInterval(intervalInMillis: Long) {
-    retryIntervalInMillis = intervalInMillis
 }
 
 /**
