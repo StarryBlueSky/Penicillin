@@ -13,7 +13,7 @@ plugins {
 }
 
 object Versions {
-    const val Ktor = "1.5.2"
+    const val Ktor = "1.5.3"
     const val JsonKt = "6.0.2"
     const val uuid = "0.2.3"
     const val KotlinxDatetime = "0.1.1"
@@ -104,9 +104,7 @@ object Env {
 
 repositories {
     mavenCentral()
-
-    // TODO: For kotlinx-datetime; should remove it by May 01, 2021
-    maven(url = "https://kotlin.bintray.com/kotlinx/")
+    
     // TODO: For dokka; should remove it by May 01, 2021
     jcenter()
 }
