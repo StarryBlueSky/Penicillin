@@ -48,4 +48,4 @@ public val ApiClient.statuses: Statuses
  * @param client Current [ApiClient] instance.
  * @see ApiClient.statuses
  */
-public inline class Statuses(override val client: ApiClient): Endpoint
+public class Statuses(override val client: ApiClient): Endpoint

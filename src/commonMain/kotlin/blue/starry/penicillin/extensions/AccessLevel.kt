@@ -33,7 +33,7 @@ import blue.starry.penicillin.core.response.ApiResponse
  * If this header is absent or unknown, returns empty set.
  */
 public val ApiResponse<*>.accessLevels: Set<AccessLevel>
-    get() = when (response.headers["x-access-level"]?.toLowerCase()) {
+    get() = when (response.headers["x-access-level"]?.lowercase()) {
         "read" -> setOf(AccessLevel.Read)
         "read-write" -> setOf(AccessLevel.Read, AccessLevel.Write)
         "read-write-directmessages" -> setOf(AccessLevel.Read, AccessLevel.Write, AccessLevel.DirectMessages)

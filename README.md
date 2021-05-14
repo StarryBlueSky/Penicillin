@@ -1,19 +1,19 @@
 # Penicillin: Modern powerful Twitter API wrapper for Kotlin Multiplatform
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.30-blue.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.5-blue.svg)](https://kotlinlang.org)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/StarryBlueSky/Penicillin)](https://github.com/StarryBlueSky/Penicillin/releases)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/StarryBlueSky/Penicillin/Check)](https://github.com/StarryBlueSky/Penicillin)
 [![license](https://img.shields.io/github/license/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/blob/master/LICENSE)
 [![issues](https://img.shields.io/github/issues/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/issues)
 [![pull requests](https://img.shields.io/github/issues-pr/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/pulls)
 
-* Supports JVM (Java >= 8), Android (API level >= 24), JavaScript (browser and NodeJS). 
-* Supports all Twitter public API endpoints up to v1.1 and some private APIs. 
-* Endpoint parameters can be represented by named arguments.
+* Supports Java 8 or later, Android (API level 24 or higher), JavaScript target. 
+* Supports all of Twitter's v1.1 public APIs and some v2 public and private APIs. 
+* All endpoint parameters can be represented by named parameters.
 * There are model classes for response JSON, which can be accessed type-safely.
 * Paging APIs can be handled by [Flow](https://kotlinlang.org/docs/flow.html).
 
-KDoc is available on [GitHub Pages](https://starrybluesky.github.io/Penicillin/penicillin).  
+Documentation is available at [GitHub Pages](https://starrybluesky.github.io/Penicillin/penicillin).  
 
 ## Quick Example
 
@@ -35,9 +35,11 @@ suspend fun main() {
 }
 ```
 
-More examples of Penicillin can be found at [Wiki](https://github.com/StarryBlueSky/Penicillin/wiki/Sample). Please feel free to create [new issue](https://github.com/StarryBlueSky/Penicillin/issues/new/choose) if you have any questions.
+Other examples can be found at [Wiki](https://github.com/StarryBlueSky/Penicillin/wiki/Sample). If you have any questions, please let us know at [Issue](https://github.com/StarryBlueSky/Penicillin/issues/new).
 
 ## Get Started
+
+Penicillin is now available in the Maven Central since version 6.1.0. The previous Bintray repository is no longer available.
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/StarryBlueSky/Penicillin)](https://github.com/StarryBlueSky/Penicillin/releases)
 
@@ -46,37 +48,15 @@ More examples of Penicillin can be found at [Wiki](https://github.com/StarryBlue
 #### build.gradle.kts:
 
 ```kotlin
-repositories {
-    mavenCentral()
-
-    // for internal dependencies
-    maven(url = "https://kotlin.bintray.com/kotlinx")
-}
-
 dependencies {
     implementation("blue.starry:penicillin:$PenicillinVersion")
     
-    // choose one of https://ktor.io/clients/http-client/engines.html
-    implementation("io.ktor:ktor-client-apache:1.5.2")
-    implementation("io.ktor:ktor-client-cio:1.5.2")
+    // Choose your favorite engine from https://ktor.io/clients/http-client/engines.html
+    // The version should match the version of Ktor that Penicillin is using.
+    implementation("io.ktor:ktor-client-apache:$KtorVersion")
+    implementation("io.ktor:ktor-client-cio:$KtorVersion")
 }
 ```
-
-## Compatibility
-
-Currently, Penicillin works on JVM (Java 8 or above), Android (API level 24 or above) or JS (both browsers and NodeJS).  
-
-In the future, Penicillin is plan to support Kotlin/Native. It brings the benefits of reuse for Kotlin code and saves you from wasting time.  
-For example, if you only write Kotlin code once, it can be compiled for JVM, JavaScript, iOS, Android, Windows, macOS and so on.  
-
-In Android development, we confirmed that Penicillin works only on API level 24 or above. It's caused by Ktor-side restriction. Detail information is [here](https://ktor.io/quickstart/faq.html#android-support).
-
-## Contributing
-
-* [Guide](https://github.com/StarryBlueSky/Penicillin/blob/master/CONTRIBUTING.md)
-* [Pull Request Template](https://github.com/StarryBlueSky/Penicillin/blob/master/PULL_REQUEST_TEMPLATE.md)
-* [Issue: Bug Report Template](https://github.com/StarryBlueSky/Penicillin/blob/master/.github/ISSUE_TEMPLATE/bug-report.md)
-* [Issue: Feature Request Template](https://github.com/StarryBlueSky/Penicillin/blob/master/.github/ISSUE_TEMPLATE/feature-request.md)
 
 ## License
 

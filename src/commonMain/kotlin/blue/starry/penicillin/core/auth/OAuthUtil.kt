@@ -39,7 +39,7 @@ public object OAuthUtil {
      * Generates random uuid string with upper case.
      */
     public val randomUUID: String
-        get() = uuid4().toString().toUpperCase()
+        get() = uuid4().toString().uppercase()
 
     /**
      * Current epoch time string in seconds.
@@ -94,7 +94,7 @@ public object OAuthUtil {
      * Creates signing base string.
      */
     public fun signingBaseString(httpMethod: HttpMethod, url: Url, signatureParamString: String): String {
-        return "${httpMethod.value.toUpperCase()}&${url.toString().split("?").first().encodeOAuth()}&$signatureParamString"
+        return "${httpMethod.value.uppercase()}&${url.toString().split("?").first().encodeOAuth()}&$signatureParamString"
     }
 
     /**

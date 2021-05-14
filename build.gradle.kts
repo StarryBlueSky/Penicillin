@@ -1,32 +1,32 @@
 plugins {
-    kotlin("multiplatform") version "1.4.30"
+    kotlin("multiplatform") version "1.5.0"
 
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    id("com.adarshr.test-logger") version "2.1.1"
+    id("com.adarshr.test-logger") version "3.0.0"
     id("net.rdrei.android.buildtimetracker") version "0.11.0"
 
     `maven-publish`
     signing
-    id("io.codearte.nexus-staging") version "0.22.0"
+    id("io.codearte.nexus-staging") version "0.30.0"
 
-    id("org.jetbrains.dokka") version "1.4.20"
+    id("org.jetbrains.dokka") version "1.4.32"
 }
 
 object Versions {
-    const val Ktor = "1.5.2"
-    const val JsonKt = "6.0.2"
-    const val uuid = "0.2.3"
-    const val KotlinxDatetime = "0.1.1"
+    const val Ktor = "1.5.4"
+    const val JsonKt = "6.1.0"
+    const val uuid = "0.3.0"
+    const val KotlinxDatetime = "0.2.0"
 
     const val crypto_js = "4.0.0"
 
-    const val JUnit = "5.7.0"
+    const val JUnit = "5.7.1"
     const val TwitterText = "3.1.0"
-    const val Guava = "29.0-jre"
+    const val Guava = "30.1.1-jre"
 
-    const val KotlinLogging = "2.0.5"
+    const val KotlinLogging = "2.0.6"
     const val Logback = "1.2.3"
-    const val jansi = "1.18"
+    const val jansi = "2.3.2"
 }
 
 object Libraries {
@@ -104,11 +104,6 @@ object Env {
 
 repositories {
     mavenCentral()
-
-    // TODO: For kotlinx-datetime; should remove it by May 01, 2021
-    maven(url = "https://kotlin.bintray.com/kotlinx/")
-    // TODO: For dokka; should remove it by May 01, 2021
-    jcenter()
 }
 
 kotlin {
@@ -191,14 +186,10 @@ kotlin {
     targets.all {
         compilations.all {
             kotlinOptions {
-                apiVersion = "1.4"
-                languageVersion = "1.4"
+                apiVersion = "1.5"
+                languageVersion = "1.5"
                 allWarningsAsErrors = true
                 verbose = true
-
-                if (this is org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions) {
-                    useIR = true
-                }
             }
         }
     }
@@ -206,7 +197,6 @@ kotlin {
     sourceSets.all {
         languageSettings.progressiveMode = true
 
-        languageSettings.enableLanguageFeature("InlineClasses")
         Libraries.ExperimentalAnnotations.forEach {
             languageSettings.useExperimentalAnnotation(it)
         }

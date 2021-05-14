@@ -73,9 +73,9 @@ public suspend fun OAuth.requestToken(
 ): RequestTokenResponse {
     val response = requestTokenInternal(callbackUrl, xAuthAccessType, *options).execute()
     
-    val result = response.content.split("&").map { parameter ->
+    val result = response.content.split("&").associate { parameter ->
         parameter.split("=", limit = 2).let { it.first() to it.last() }
-    }.toMap()
+    }
 
     val requestToken = result["oauth_token"] ?: throw IllegalStateException()
     val requestTokenSecret = result["oauth_token_secret"] ?: throw IllegalStateException()

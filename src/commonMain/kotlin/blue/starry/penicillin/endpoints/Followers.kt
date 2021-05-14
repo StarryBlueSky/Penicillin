@@ -48,4 +48,4 @@ public val ApiClient.followers: Followers
  * @param client Current [ApiClient] instance.
  * @see ApiClient.followers
  */
-public inline class Followers(override val client: ApiClient): Endpoint
+public class Followers(override val client: ApiClient): Endpoint

@@ -89,10 +89,10 @@ public suspend fun OAuth.accessToken(
         it.oauth.accessTokenInternal(verifier, *options).execute()
     }
     
-    val result = response.content.split("&").map { parameter ->
+    val result = response.content.split("&").associate { parameter ->
         parameter.split("=", limit = 2).let { it.first() to it.last() }
-    }.toMap()
-    
+    }
+
     val accessToken = result["oauth_token"] ?: throw IllegalStateException()
     val accessTokenSecret = result["oauth_token_secret"] ?: throw IllegalStateException()
     val userId = result["user_id"]?.toLongOrNull() ?: throw IllegalStateException()

@@ -48,4 +48,4 @@ public val ApiClient.media: Media
  * @param client Current [ApiClient] instance.
  * @see ApiClient.media
  */
-public inline class Media(override val client: ApiClient): Endpoint
+public class Media(override val client: ApiClient): Endpoint

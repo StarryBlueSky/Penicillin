@@ -2,7 +2,6 @@ import mu.KotlinLoggingConfiguration
 import mu.KotlinLoggingLevel
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertNotEquals
 
 /*
  * The MIT License (MIT)

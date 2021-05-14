@@ -48,4 +48,4 @@ public val ApiClient.directMessageEvent: DirectMessageEvents
  * @param client Current [ApiClient] instance.
  * @see ApiClient.directMessageEvent
  */
-public inline class DirectMessageEvents(override val client: ApiClient): Endpoint
+public class DirectMessageEvents(override val client: ApiClient): Endpoint
