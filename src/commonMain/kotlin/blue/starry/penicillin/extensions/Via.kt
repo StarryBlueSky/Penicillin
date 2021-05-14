@@ -38,10 +38,10 @@ public val Status.via: Via
     get() {
         val matches = tagPattern.matchEntire(source)
 
-        val tagAttributes = matches?.groupValues?.getOrNull(1)?.split(" ")?.map {
+        val tagAttributes = matches?.groupValues?.getOrNull(1)?.split(" ")?.associate {
             val (k, v) = attributePattern.matchEntire(it)!!.destructured
             k to v
-        }?.toMap()
+        }
         val tagValue = matches?.groupValues?.getOrNull(2)
         val href = tagAttributes?.get("href")
 

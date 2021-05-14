@@ -70,7 +70,7 @@ public val Status.expandedTextWithIndices: String
     get() {
         val entities = entities.let { it.media + it.urls }
             .sortedBy { it.firstIndex }
-        return buildString(text.length + entities.sumBy { it.expandedUrl.length - it.url.length }) {
+        return buildString(text.length + entities.sumOf { it.expandedUrl.length - it.url.length }) {
             entities.fold(0) { acc, entity ->
                 append(text.substring(acc, entity.firstIndex))
                 append(entity.expandedUrl)

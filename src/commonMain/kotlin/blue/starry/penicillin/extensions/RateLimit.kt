@@ -32,7 +32,7 @@ import io.ktor.client.statement.*
 import io.ktor.util.date.*
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
-import kotlin.time.milliseconds
+import kotlin.time.DurationUnit
 
 /**
  * Twitter API rate limit.
@@ -93,13 +93,13 @@ public val RateLimit.consumed: Int
  * The [Duration] between now and [RateLimit.resetAt].
  */
 public val RateLimit.duration: Duration
-    get() = (GMTDate().timestamp - resetAt.timestamp).milliseconds
+    get() = Duration.milliseconds((GMTDate().timestamp - resetAt.timestamp))
 
 /**
  * Awaits until rate limit is refreshed. (Suspending function)
  */
 public suspend fun RateLimit.awaitRefresh() {
-    val millis = duration.inMicroseconds.toLong()
+    val millis = duration.toDouble(DurationUnit.MICROSECONDS).toLong()
     if (millis > 0) {
         delay(millis.coerceAtLeast(500))
     }

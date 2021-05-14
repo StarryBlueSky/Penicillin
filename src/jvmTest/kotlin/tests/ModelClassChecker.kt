@@ -33,11 +33,7 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.models.PenicillinModel
 import com.google.common.base.CaseFormat
-import kotlinx.serialization.json.booleanOrNull
-import kotlinx.serialization.json.doubleOrNull
-import kotlinx.serialization.json.floatOrNull
-import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.longOrNull
+import kotlinx.serialization.json.*
 import mu.KotlinLogging
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
@@ -72,10 +68,10 @@ class ModelClassChecker(private val skipWarningsToDetailedType: Boolean = true, 
         val modelClass = models.first()::class
         val modelProperties = modelClass.memberProperties.filter {
             it.name != PenicillinModel::client.name && it.name != PenicillinModel::json.name && it.visibility == KVisibility.PUBLIC
-        }.map {
-            it.name to it
-        }.toMap()
-        
+        }.associateBy {
+            it.name
+        }
+
         val elementGroup = models.flatMap { it.json.entries }.groupBy { it.key }.mapValues { it.value.map { entry -> entry.value } }
         for ((key, elements) in elementGroup) {
             val lowerCamelKey = key.snakeToLowerCamelCase()

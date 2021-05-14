@@ -186,14 +186,10 @@ kotlin {
     targets.all {
         compilations.all {
             kotlinOptions {
-                apiVersion = "1.4"
-                languageVersion = "1.4"
+                apiVersion = "1.5"
+                languageVersion = "1.5"
                 allWarningsAsErrors = true
                 verbose = true
-
-                if (this is org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions) {
-                    useIR = true
-                }
             }
         }
     }
