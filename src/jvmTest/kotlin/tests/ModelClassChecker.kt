@@ -26,10 +26,11 @@
 
 package tests
 
-import blue.starry.jsonkt.*
 import blue.starry.jsonkt.JsonArray
 import blue.starry.jsonkt.JsonElement
+import blue.starry.jsonkt.JsonNull
 import blue.starry.jsonkt.JsonObject
+import blue.starry.jsonkt.JsonPrimitive
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.models.PenicillinModel
 import com.google.common.base.CaseFormat
