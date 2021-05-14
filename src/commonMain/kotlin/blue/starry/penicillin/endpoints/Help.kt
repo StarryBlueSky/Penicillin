@@ -48,4 +48,4 @@ public val ApiClient.help: Help
  * @param client Current [ApiClient] instance.
  * @see ApiClient.help
  */
-public inline class Help(override val client: ApiClient): Endpoint
+public class Help(override val client: ApiClient): Endpoint
