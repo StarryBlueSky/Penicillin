@@ -14,7 +14,7 @@ plugins {
 
 object Versions {
     const val Ktor = "1.5.4"
-    const val JsonKt = "6.1.0"
+    const val JsonKt = "6.1.1"
     const val uuid = "0.3.0"
     const val KotlinxDatetime = "0.2.0"
 
@@ -114,7 +114,7 @@ kotlin {
             kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
         }
     }
-    js(BOTH) {
+    js {
         nodejs()
         browser {
             testTask {
