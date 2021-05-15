@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.5.0"
+    kotlin("plugin.serialization") version "1.5.0"
 
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("com.adarshr.test-logger") version "3.0.0"
@@ -15,6 +16,7 @@ plugins {
 object Versions {
     const val Ktor = "1.5.4"
     const val JsonKt = "6.1.1"
+    const val KotlinxSerializationJson = "1.2.1"
     const val uuid = "0.3.0"
     const val KotlinxDatetime = "0.2.0"
 
@@ -32,6 +34,7 @@ object Versions {
 object Libraries {
     const val KtorClientCore = "io.ktor:ktor-client-core:${Versions.Ktor}"
     const val JsonKt = "blue.starry:jsonkt:${Versions.JsonKt}"
+    const val KotlinxSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KotlinxSerializationJson}"
     const val uuid = "com.benasher44:uuid:${Versions.uuid}"
     const val KotlinxDatetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.KotlinxDatetime}"
     const val KotlinLogging = "io.github.microutils:kotlin-logging:${Versions.KotlinLogging}"
@@ -116,13 +119,13 @@ kotlin {
     }
     js {
         nodejs()
-        browser {
-            testTask {
-                useKarma {
-                    useChromeHeadless()
-                }
-            }
-        }
+//        browser {
+//            testTask {
+//                useKarma {
+//                    useChromeHeadless()
+//                }
+//            }
+//        }
     }
 
     sourceSets {
@@ -130,6 +133,7 @@ kotlin {
             dependencies {
                 api(Libraries.KtorClientCore)
                 api(Libraries.JsonKt)
+                api(Libraries.KotlinxSerializationJson)
                 api(Libraries.uuid)
                 api(Libraries.KotlinxDatetime)
                 api(Libraries.KotlinLogging)
