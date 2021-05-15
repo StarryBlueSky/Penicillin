@@ -13,7 +13,7 @@
 * There are model classes for response JSON, which can be accessed type-safely.
 * Paging APIs can be handled by [Flow](https://kotlinlang.org/docs/flow.html).
 
-Documentation is available at [GitHub Pages](https://starrybluesky.github.io/Penicillin/penicillin).  
+Documentation is available at [GitHub Pages](https://starrybluesky.github.io/Penicillin/).  
 
 ## Quick Example
 
