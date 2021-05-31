@@ -25,6 +25,7 @@
 package blue.starry.penicillin.extensions
 
 import blue.starry.penicillin.core.experimental.PenicillinExperimentalApi
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import mu.KLogger
@@ -34,6 +35,7 @@ import kotlin.coroutines.CoroutineContext
 @PublishedApi
 internal val promiseLogger: KLogger = KotlinLogging.logger("Penicillin.PromiseLogger")
 
+@OptIn(DelicateCoroutinesApi::class)
 @PenicillinExperimentalApi
 internal actual fun <T> runBlockingAlt(
     context: CoroutineContext,
