@@ -29,7 +29,7 @@ package blue.starry.penicillin.extensions.models
 import blue.starry.penicillin.models.Status
 
 /**
- * Returns full-body status text.
+ * Returns full-body, unescaped status text.
  * Supports both tweet modes (Extend and Compat).
  */
 public val Status.text: String
