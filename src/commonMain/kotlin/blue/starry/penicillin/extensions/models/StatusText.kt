@@ -29,7 +29,7 @@ package blue.starry.penicillin.extensions.models
 import blue.starry.penicillin.models.Status
 
 /**
- * Returns full-body status text.
+ * Returns full-body, unescaped status text.
  * Supports both tweet modes (Extend and Compat).
  */
 public val Status.text: String
@@ -37,11 +37,11 @@ public val Status.text: String
         if (retweetedStatus?.extendedTweet != null) {
             "RT @${retweetedStatus!!.user.screenName}: ${retweetedStatus!!.text}"
         } else {
-            fullTextRaw ?: textRaw ?: throw IllegalStateException("Unsupported status format: $json")
+            fullTextRaw ?: textRaw ?: error("Unsupported status format: $json")
         }
     } else {
-        extendedTweet?.fullText ?: fullTextRaw ?: textRaw ?: throw IllegalStateException("Unsupported status format: $json")
-    }
+        extendedTweet?.fullText ?: fullTextRaw ?: textRaw ?: error("Unsupported status format: $json")
+    }.unescapeHTML()
 
 /**
  * Returns full-body status text which shortened urls in are each expanded.
@@ -80,3 +80,9 @@ public val Status.expandedTextWithIndices: String
             }
         }
     }
+
+private fun String.unescapeHTML(): String {
+    return replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+}

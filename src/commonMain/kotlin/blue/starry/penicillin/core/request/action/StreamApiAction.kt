@@ -79,26 +79,25 @@ public class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(
 
             while (!channel.isClosedForRead) {
                 val line = channel.readUTF8Line() ?: continue
-                val content = line.unescapeHTML()
 
                 when {
-                    content.startsWith('{') -> {
-                        handler.handle(content.toJsonObject())
+                    line.startsWith('{') -> {
+                        handler.handle(line.toJsonObject())
                     }
-                    content.isBlank() -> {
+                    line.isBlank() -> {
                         listener.onHeartbeat()
                     }
                     else -> {
-                        val length = content.toIntOrNull()
+                        val length = line.toIntOrNull()
                         if (length != null) {
                             listener.onLength(length)
                         } else {
-                            listener.onUnknownData(content)
+                            listener.onUnknownData(line)
                         }
                     }
                 }
 
-                listener.onRawData(content)
+                listener.onRawData(line)
             }
 
             listener.onDisconnect(null)

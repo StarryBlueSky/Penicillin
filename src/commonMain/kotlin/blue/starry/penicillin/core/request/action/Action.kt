@@ -93,7 +93,7 @@ internal fun checkError(request: HttpRequest, response: HttpResponse, content: S
             is JsonObject -> {
                 val code by error.byNullableInt
                 val message by error.byNullableString
-                
+
                 throwApiError(code, message.orEmpty(), content!!, request, response)
             }
             is JsonPrimitive -> {
@@ -109,13 +109,9 @@ internal fun checkError(request: HttpRequest, response: HttpResponse, content: S
 }
 
 internal suspend inline fun HttpResponse.readTextOrNull(): String? {
-    return runCatching { 
-        readText().unescapeHTML()
+    return runCatching {
+        readText()
     }.onFailure {
-        apiActionLogger.debug(it) { "Could not readText." }
+        apiActionLogger.debug(it) { "Failed to read text." }
     }.getOrNull()
-}
-
-internal fun String.unescapeHTML(): String {
-    return replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
 }

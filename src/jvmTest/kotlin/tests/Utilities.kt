@@ -26,6 +26,7 @@
 
 package tests
 
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mu.KotlinLogging
@@ -49,6 +50,7 @@ internal inline fun <T> measurePerformance(label: String, block: () -> T): T {
     return result as T
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 internal inline fun measurePerformanceAsync(label: String, crossinline block: () -> Unit) {
     if (!logger.isTraceEnabled) {
         block()

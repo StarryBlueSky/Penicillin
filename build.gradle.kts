@@ -14,7 +14,7 @@ plugins {
 }
 
 object Versions {
-    const val Ktor = "1.5.4"
+    const val Ktor = "1.6.0"
     const val JsonKt = "6.1.1"
     const val KotlinxSerializationJson = "1.2.1"
     const val uuid = "0.3.0"
