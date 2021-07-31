@@ -22,12 +22,12 @@ suspend fun main() {
     // Creates new ApiClient
     PenicillinClient {
         account {
-            application("ConsumerKey", "ConsumerSecret")
-            token("AccessToken", "AccessToken Secret")
+            application(CONSUMER_KEY, CONSUMER_SECRET)
+            token(ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET)
         }
     }.use { client ->
-        // Retrieves user timeline from @realdonaldtrump up to 100.
-        client.timeline.userTimeline(screenName = "realdonaldtrump", count = 100).execute().forEach { status ->
+        // Retrieves user timeline up to 100.
+        client.timeline.userTimelineByScreenName(screenName = YOUR_TWITTER_HANDLE, count = 100).execute().forEach { status ->
             // Prints status text.
             println(status.text)
         }
