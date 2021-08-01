@@ -1,6 +1,6 @@
 plugins {
-    kotlin("multiplatform") version "1.5.0"
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("multiplatform") version "1.5.20"
+    kotlin("plugin.serialization") version "1.5.20"
 
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("com.adarshr.test-logger") version "3.0.0"
@@ -14,9 +14,9 @@ plugins {
 }
 
 object Versions {
-    const val Ktor = "1.6.0"
+    const val Ktor = "1.6.2"
     const val JsonKt = "6.1.1"
-    const val KotlinxSerializationJson = "1.2.1"
+    const val KotlinxSerializationJson = "1.2.2"
     const val uuid = "0.3.0"
     const val KotlinxDatetime = "0.2.0"
 
@@ -26,9 +26,8 @@ object Versions {
     const val TwitterText = "3.1.0"
     const val Guava = "30.1.1-jre"
 
-    const val KotlinLogging = "2.0.6"
+    const val KotlinLogging = "2.0.10"
     const val Logback = "1.2.3"
-    const val jansi = "2.3.2"
 }
 
 object Libraries {
@@ -51,7 +50,6 @@ object Libraries {
     const val JUnitJupiter = "org.junit.jupiter:junit-jupiter:${Versions.JUnit}"
     const val LogbackCore = "ch.qos.logback:logback-core:${Versions.Logback}"
     const val LogbackClassic = "ch.qos.logback:logback-classic:${Versions.Logback}"
-    const val Jansi = "org.fusesource.jansi:jansi:${Versions.jansi}"
 
     const val KtorClientJs = "io.ktor:ktor-client-js:${Versions.Ktor}"
     const val KtorClientMockJs = "io.ktor:ktor-client-mock-js:${Versions.Ktor}"
@@ -167,7 +165,6 @@ kotlin {
 
                 implementation(Libraries.LogbackCore)
                 implementation(Libraries.LogbackClassic)
-                implementation(Libraries.Jansi)
             }
         }
 

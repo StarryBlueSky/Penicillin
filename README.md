@@ -19,16 +19,19 @@ Documentation is available at [GitHub Pages](https://starrybluesky.github.io/Pen
 
 ```kotlin
 suspend fun main() {
-    // Creates new ApiClient
+    // Create new PenicillinClient.
     PenicillinClient {
         account {
             application("ConsumerKey", "ConsumerSecret")
             token("AccessToken", "AccessToken Secret")
         }
     }.use { client ->
-        // Retrieves user timeline from @realdonaldtrump up to 100.
-        client.timeline.userTimeline(screenName = "realdonaldtrump", count = 100).execute().forEach { status ->
-            // Prints status text.
+        // Retrieve up to 100 tweets from @POTUS.
+        val timeline = client.timeline.userTimelineByScreenName(screenName = "POTUS", count = 100).execute()
+
+        // The return value of the timeline is `JsonArrayResponse<Status>`. It implements `Iterable<T>`, which allows iterative operations.
+        timeline.forEach { status ->
+            // Print unescaped status text. If you want to get the raw html reference characters, you can use `textRaw`.
             println(status.text)
         }
     }
