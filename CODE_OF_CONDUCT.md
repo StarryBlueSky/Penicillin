@@ -55,7 +55,7 @@ further defined and clarified by project maintainers.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at team@nephy.jp. All
+reported by contacting the project team at letter@starry.blue. All
 complaints will be reviewed and investigated and will result in a response that
 is deemed necessary and appropriate to the circumstances. The project team is
 obligated to maintain confidentiality with regard to the reporter of an incident.
@@ -132,7 +132,7 @@ https://www.contributor-covenant.org/faq
 ## 執行
 
 暴言、嫌がらせ、またはそれ以外の受け入れられない行動は、
-team@nephy.jp に連絡して、
+letter@starry.blue に連絡して、
 プロジェクトチームに報告される可能性があります。すべての苦情は、
 レビュー、調査され、必要かつ適切と判断された対応がとられます。
 プロジェクトチームは、事象の報告者に関する守秘義務があります。
