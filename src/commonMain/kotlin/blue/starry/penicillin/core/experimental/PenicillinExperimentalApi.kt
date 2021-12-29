@@ -30,7 +30,6 @@ package blue.starry.penicillin.core.experimental
 @Target(
     AnnotationTarget.CLASS, AnnotationTarget.TYPEALIAS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY, AnnotationTarget.FIELD
 )
-@Retention(AnnotationRetention.SOURCE)
 @RequiresOptIn(level = RequiresOptIn.Level.WARNING)
 @MustBeDocumented
 public annotation class PenicillinExperimentalApi

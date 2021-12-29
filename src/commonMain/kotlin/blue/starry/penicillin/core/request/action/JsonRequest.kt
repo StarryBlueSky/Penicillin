@@ -28,7 +28,7 @@ import blue.starry.jsonkt.JsonObject
 import blue.starry.penicillin.models.PenicillinModel
 
 /**
- * Represents this request is expected to receive json response and it's parsed with [PenicillinModel].
+ * Represents this request is expected to receive json response, and it's parsed with [PenicillinModel].
  */
 public interface JsonRequest<M: PenicillinModel> {
     /**

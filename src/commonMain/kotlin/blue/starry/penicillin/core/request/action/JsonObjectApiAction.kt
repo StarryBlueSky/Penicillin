@@ -57,6 +57,6 @@ public class JsonObjectApiAction<M: PenicillinModel>(
             LocalizedString.JsonModelCastFailed, null, request, response, content
         )
 
-        return JsonObjectResponse(client, result, request, response, content.orEmpty(), this)
+        return JsonObjectResponse(client, result, request, response, content, this)
     }
 }
