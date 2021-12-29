@@ -1,6 +1,8 @@
+import blue.starry.scriptextender.EnvReference
+
 plugins {
-    kotlin("multiplatform") version "1.5.20"
-    kotlin("plugin.serialization") version "1.5.20"
+    kotlin("multiplatform") version "1.6.10"
+    kotlin("plugin.serialization") version "1.6.10"
 
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("com.adarshr.test-logger") version "3.0.0"
@@ -9,58 +11,8 @@ plugins {
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
-
-    id("org.jetbrains.dokka") version "1.4.32"
-}
-
-object Versions {
-    const val Ktor = "1.6.2"
-    const val JsonKt = "6.1.1"
-    const val KotlinxSerializationJson = "1.2.2"
-    const val uuid = "0.3.0"
-    const val KotlinxDatetime = "0.2.0"
-
-    const val crypto_js = "4.0.0"
-
-    const val JUnit = "5.7.1"
-    const val TwitterText = "3.1.0"
-    const val Guava = "30.1.1-jre"
-
-    const val KotlinLogging = "2.0.10"
-    const val Logback = "1.2.3"
-}
-
-object Libraries {
-    const val KtorClientCore = "io.ktor:ktor-client-core:${Versions.Ktor}"
-    const val JsonKt = "blue.starry:jsonkt:${Versions.JsonKt}"
-    const val KotlinxSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.KotlinxSerializationJson}"
-    const val uuid = "com.benasher44:uuid:${Versions.uuid}"
-    const val KotlinxDatetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.KotlinxDatetime}"
-    const val KotlinLogging = "io.github.microutils:kotlin-logging:${Versions.KotlinLogging}"
-
-    const val KtorClientApache = "io.ktor:ktor-client-apache:${Versions.Ktor}"
-    const val KtorClientCIO = "io.ktor:ktor-client-cio:${Versions.Ktor}"
-    const val KtorClientJetty = "io.ktor:ktor-client-jetty:${Versions.Ktor}"
-    const val KtorClientOkhttp = "io.ktor:ktor-client-okhttp:${Versions.Ktor}"
-    const val KtorClientMockJvm = "io.ktor:ktor-client-mock-jvm:${Versions.Ktor}"
-
-    const val TwitterText = "com.twitter.twittertext:twitter-text:${Versions.TwitterText}"
-    const val Guava = "com.google.guava:guava:${Versions.Guava}"
-
-    const val JUnitJupiter = "org.junit.jupiter:junit-jupiter:${Versions.JUnit}"
-    const val LogbackCore = "ch.qos.logback:logback-core:${Versions.Logback}"
-    const val LogbackClassic = "ch.qos.logback:logback-classic:${Versions.Logback}"
-
-    const val KtorClientJs = "io.ktor:ktor-client-js:${Versions.Ktor}"
-    const val KtorClientMockJs = "io.ktor:ktor-client-mock-js:${Versions.Ktor}"
-
-    val ExperimentalAnnotations = setOf(
-        "kotlin.Experimental",
-        "kotlin.time.ExperimentalTime",
-        "io.ktor.util.InternalAPI",
-        "kotlinx.coroutines.FlowPreview",
-        "blue.starry.penicillin.core.experimental.PenicillinExperimentalApi"
-    )
+    id("org.jetbrains.dokka") version "1.6.10"
+    id("blue.starry.scriptextender") version "0.0.2"
 }
 
 object Publications {
@@ -85,18 +37,18 @@ object Publications {
 }
 
 object Env {
-    const val Version = "VERSION"
+    val Version = EnvReference("VERSION")
 
-    const val OSSRHProfileId = "OSSRH_PROFILE_ID"
-    const val OSSRHUsername = "OSSRH_USERNAME"
-    const val OSSRHPassword = "OSSRH_PASSWORD"
+    val OSSRHProfileId = EnvReference("OSSRH_PROFILE_ID")
+    val OSSRHUsername = EnvReference("OSSRH_USERNAME")
+    val OSSRHPassword = EnvReference("OSSRH_PASSWORD")
 
-    const val GitHubUsername = "GITHUB_USERNAME"
-    const val GitHubPassword = "GITHUB_PASSWORD"
+    val GitHubUsername = EnvReference("GITHUB_USERNAME")
+    val GitHubPassword = EnvReference("GITHUB_PASSWORD")
 
-    const val SigningKeyId = "SIGNING_KEYID"
-    const val SigningKey = "SIGNING_KEY"
-    const val SigningPassword = "SIGNING_PASSWORD"
+    val SigningKeyId = EnvReference("SIGNING_KEYID")
+    val SigningKey = EnvReference("SIGNING_KEY")
+    val SigningPassword = EnvReference("SIGNING_PASSWORD")
 }
 
 /*
@@ -129,12 +81,14 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api(Libraries.KtorClientCore)
-                api(Libraries.JsonKt)
-                api(Libraries.KotlinxSerializationJson)
-                api(Libraries.uuid)
-                api(Libraries.KotlinxDatetime)
-                api(Libraries.KotlinLogging)
+                api("io.ktor:ktor-client-core:1.6.7")
+
+                api("blue.starry:jsonkt:6.1.2")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
+                api("com.benasher44:uuid:0.3.1")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
+                api("io.github.microutils:kotlin-logging:2.1.21")
             }
         }
         commonTest {
@@ -151,35 +105,34 @@ kotlin {
                 implementation(kotlin("reflect"))
                 implementation(kotlin("test"))
 
-                implementation(Libraries.KtorClientApache)
-                implementation(Libraries.KtorClientCIO)
-                implementation(Libraries.KtorClientJetty)
-                implementation(Libraries.KtorClientOkhttp)
-                implementation(Libraries.KtorClientMockJvm)
+                implementation("io.ktor:ktor-client-apache:1.6.7")
+                implementation("io.ktor:ktor-client-cio:1.6.7")
+                implementation("io.ktor:ktor-client-jetty:1.6.7")
+                implementation("io.ktor:ktor-client-okhttp:1.6.7")
+                implementation("io.ktor:ktor-client-mock-jvm:1.6.7")
 
                 implementation(kotlin("test-junit5"))
-                implementation(Libraries.JUnitJupiter)
+                implementation("org.junit.jupiter:junit-jupiter:5.8.2")
 
-                implementation(Libraries.TwitterText)
-                implementation(Libraries.Guava)
+                implementation("com.twitter.twittertext:twitter-text:3.1.0")
+                implementation("com.google.guava:guava:31.0.1-jre")
 
-                implementation(Libraries.LogbackCore)
-                implementation(Libraries.LogbackClassic)
+                implementation("ch.qos.logback:logback-classic:1.3.0-alpha12")
             }
         }
 
         named("jsMain") {
             dependencies {
-                api(Libraries.KtorClientJs)
+                api("io.ktor:ktor-client-js:1.6.7")
 
-                implementation(npm("crypto-js", Versions.crypto_js))
+                implementation(npm("crypto-js", "4.0.0"))
             }
         }
         named("jsTest") {
             dependencies {
                 implementation(kotlin("test-js"))
 
-                implementation(Libraries.KtorClientMockJs)
+                implementation("io.ktor:ktor-client-mock-js:1.6.7")
             }
         }
     }
@@ -187,8 +140,8 @@ kotlin {
     targets.all {
         compilations.all {
             kotlinOptions {
-                apiVersion = "1.5"
-                languageVersion = "1.5"
+                apiVersion = "1.6"
+                languageVersion = "1.6"
                 allWarningsAsErrors = true
                 verbose = true
             }
@@ -196,10 +149,14 @@ kotlin {
     }
 
     sourceSets.all {
-        languageSettings.progressiveMode = true
+        languageSettings {
+            progressiveMode = true
 
-        Libraries.ExperimentalAnnotations.forEach {
-            languageSettings.useExperimentalAnnotation(it)
+            optIn("kotlin.RequiresOptIn")
+            optIn("kotlin.time.ExperimentalTime")
+            optIn("io.ktor.util.InternalAPI")
+            optIn("kotlinx.coroutines.FlowPreview")
+            optIn("blue.starry.penicillin.core.experimental.PenicillinExperimentalApi")
         }
     }
 }
@@ -257,7 +214,7 @@ publishing {
         maven {
             name = "Sonatype"
             url = uri(
-                if (System.getenv(Env.Version).orEmpty().endsWith("-SNAPSHOT")) {
+                if (Env.Version.valueOrNull.orEmpty().endsWith("-SNAPSHOT")) {
                     Publications.MavenCentralSnapshotRepositoryUrl
                 } else {
                     Publications.MavenCentralStagingRepositoryUrl
@@ -265,8 +222,8 @@ publishing {
             )
 
             credentials {
-                username = System.getenv(Env.OSSRHUsername)
-                password = System.getenv(Env.OSSRHPassword)
+                username = Env.OSSRHUsername.valueOrNull
+                password = Env.OSSRHPassword.valueOrNull
             }
         }
 
@@ -275,8 +232,8 @@ publishing {
             url = uri(Publications.GitHubPackagesRepositoryUrl)
 
             credentials {
-                username = System.getenv(Env.GitHubUsername)
-                password = System.getenv(Env.GitHubPassword)
+                username = Env.GitHubUsername.valueOrNull
+                password = Env.GitHubPassword.valueOrNull
             }
         }
     }
@@ -291,7 +248,7 @@ publishing {
                 "${rootProject.name}-$name"
             }
         }
-        version = System.getenv(Env.Version)
+        version = Env.Version.valueOrNull
 
         pom {
             name.set(artifactId)
@@ -328,19 +285,19 @@ signing {
     setRequired { gradle.taskGraph.hasTask("publish") }
     sign(publishing.publications)
 
-    if (System.getenv(Env.SigningKey) != null) {
+    if (Env.SigningKey.isPresent) {
         @Suppress("UnstableApiUsage")
         useInMemoryPgpKeys(
-            System.getenv(Env.SigningKeyId),
-            System.getenv(Env.SigningKey),
-            System.getenv(Env.SigningPassword)
+            Env.SigningKeyId.value,
+            Env.SigningKey.value,
+            Env.SigningPassword.value
         )
     }
 }
 
 nexusStaging {
     packageGroup = Publications.OSSRHProfileGroupId
-    stagingProfileId = System.getenv(Env.OSSRHProfileId)
-    username = System.getenv(Env.OSSRHUsername)
-    password = System.getenv(Env.OSSRHPassword)
+    stagingProfileId = Env.OSSRHProfileId.valueOrNull
+    username = Env.OSSRHUsername.valueOrNull
+    password = Env.OSSRHPassword.valueOrNull
 }

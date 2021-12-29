@@ -32,6 +32,7 @@ import io.ktor.client.statement.*
 import io.ktor.util.date.*
 import kotlinx.coroutines.delay
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
 
 /**
@@ -83,6 +84,7 @@ public data class RateLimit(
  */
 public val RateLimit.isExceeded: Boolean
     get() = remaining == 0
+
 /**
  * The count you consumed in last 15 minutes.
  */
@@ -93,7 +95,7 @@ public val RateLimit.consumed: Int
  * The [Duration] between now and [RateLimit.resetAt].
  */
 public val RateLimit.duration: Duration
-    get() = Duration.milliseconds((GMTDate().timestamp - resetAt.timestamp))
+    get() = (GMTDate().timestamp - resetAt.timestamp).milliseconds
 
 /**
  * Awaits until rate limit is refreshed. (Suspending function)

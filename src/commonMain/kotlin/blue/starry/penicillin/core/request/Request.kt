@@ -40,7 +40,13 @@ import kotlinx.serialization.json.buildJsonObject
  * Url string.
  */
 public val ApiRequestBuilder.url: String
-    get() = URLBuilder(protocol = host.protocol, host = host.domain, port = host.port, encodedPath = path, parameters = parameters.copy()).buildString()
+    get() = URLBuilder(
+        protocol = host.protocol,
+        host = host.domain,
+        port = host.port,
+        encodedPath = path,
+        parameters = parameters.copy()
+    ).buildString()
 
 /**
  * Creates "application/x-www-form-urlencoded" content.
