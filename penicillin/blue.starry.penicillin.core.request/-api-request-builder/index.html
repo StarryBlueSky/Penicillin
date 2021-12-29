@@ -2,28 +2,35 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>ApiRequestBuilder</title>
-<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html">penicillin</a></div>
+      <div></div>
+      <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button></div>
+<button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="penicillin::blue.starry.penicillin.core.request/ApiRequestBuilder///PointingToDeclaration//788909594">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../index.html">penicillin</a>/<a href="../index.html">blue.starry.penicillin.core.request</a>/<a href="index.html">ApiRequestBuilder</a></div>
-            <div class="pull-right d-flex">
-              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button></div>
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="penicillin::blue.starry.penicillin.core.request/ApiRequestBuilder///PointingToDeclaration//788909594">
+          <div class="breadcrumbs"><a href="../../../index.html">penicillin</a>/<a href="../index.html">blue.starry.penicillin.core.request</a>/<a href="index.html">ApiRequestBuilder</a></div>
           <div class="cover ">
-            <h1 class="cover"><span>Api</span><wbr></wbr><span>Request</span><wbr></wbr><span>Builder</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="index.html">ApiRequestBuilder</a>(client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>, httpMethod: <span data-unresolved-link="io.ktor.http/HttpMethod///PointingToDeclaration/">HttpMethod</span>, host: <a href="../-endpoint-host/index.html">EndpointHost</a>, path: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The builder class to construct api request.</p></div></div>
+            <h1 class="cover"><span>Api</span><wbr></wbr><span>Request</span><wbr></wbr><span><span>Builder</span></span></h1>
+            <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+              <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">(</span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">, </span>httpMethod<span class="token operator">: </span><span data-unresolved-link="io.ktor.http/HttpMethod///PointingToDeclaration/">HttpMethod</span><span class="token punctuation">, </span>host<span class="token operator">: </span><a href="../-endpoint-host/index.html">EndpointHost</a><span class="token punctuation">, </span>path<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">The builder class to construct api request.</p></div>            </div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Extensions">Extensions</button></div>
@@ -32,15 +39,16 @@
               <div class="table" data-togglable="Constructors"><a data-name="601182568%2FConstructors%2F788909594" anchor-label="ApiRequestBuilder" id="601182568%2FConstructors%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-api-request-builder.html">ApiRequestBuilder</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="601182568%2FConstructors%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-api-request-builder.html"><span>Api</span><wbr></wbr><span>Request</span><wbr></wbr><span><span>Builder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="601182568%2FConstructors%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="-api-request-builder.html">ApiRequestBuilder</a>(client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>, httpMethod: <span data-unresolved-link="io.ktor.http/HttpMethod///PointingToDeclaration/">HttpMethod</span>, host: <a href="../-endpoint-host/index.html">EndpointHost</a>, path: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-api-request-builder.html"><span class="token function">ApiRequestBuilder</span></a><span class="token punctuation">(</span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">, </span>httpMethod<span class="token operator">: </span><span data-unresolved-link="io.ktor.http/HttpMethod///PointingToDeclaration/">HttpMethod</span><span class="token punctuation">, </span>host<span class="token operator">: </span><a href="../-endpoint-host/index.html">EndpointHost</a><span class="token punctuation">, </span>path<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -50,15 +58,16 @@
               <div class="table" data-togglable="Properties"><a data-name="248149680%2FProperties%2F788909594" anchor-label="authorizationType" id="248149680%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="authorization-type.html">authorizationType</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="248149680%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="authorization-type.html">authorizationType</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="248149680%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="248149680%2FProperties%2F788909594" anchor-label="authorizationType" id="248149680%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">var <a href="authorization-type.html">authorizationType</a>: <a href="../../blue.starry.penicillin.core.auth/-authorization-type/index.html">AuthorizationType</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="248149680%2FProperties%2F788909594" anchor-label="authorizationType" id="248149680%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Authorization type.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="248149680%2FProperties%2F788909594" anchor-label="authorizationType" id="248149680%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="authorization-type.html">authorizationType</a><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.auth/-authorization-type/index.html">AuthorizationType</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="248149680%2FProperties%2F788909594" anchor-label="authorizationType" id="248149680%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Authorization type.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -66,15 +75,16 @@
 <a data-name="-2021333067%2FProperties%2F788909594" anchor-label="body" id="-2021333067%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="body.html">body</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2021333067%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="body.html">body</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2021333067%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-2021333067%2FProperties%2F788909594" anchor-label="body" id="-2021333067%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">var <a href="body.html">body</a>: () -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-2021333067%2FProperties%2F788909594" anchor-label="body" id="-2021333067%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Request body.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-2021333067%2FProperties%2F788909594" anchor-label="body" id="-2021333067%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="body.html">body</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-2021333067%2FProperties%2F788909594" anchor-label="body" id="-2021333067%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Request body.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -82,15 +92,16 @@
 <a data-name="1504726828%2FProperties%2F788909594" anchor-label="client" id="1504726828%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="client.html">client</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1504726828%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="client.html">client</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1504726828%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="1504726828%2FProperties%2F788909594" anchor-label="client" id="1504726828%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="client.html">client</a>: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1504726828%2FProperties%2F788909594" anchor-label="client" id="1504726828%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Current <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="1504726828%2FProperties%2F788909594" anchor-label="client" id="1504726828%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="client.html">client</a><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1504726828%2FProperties%2F788909594" anchor-label="client" id="1504726828%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Current <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -98,15 +109,16 @@
 <a data-name="481367069%2FProperties%2F788909594" anchor-label="emulationModes" id="481367069%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="emulation-modes.html">emulationModes</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="481367069%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="emulation-modes.html">emulationModes</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="481367069%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="481367069%2FProperties%2F788909594" anchor-label="emulationModes" id="481367069%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="emulation-modes.html">emulationModes</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-set/index.html">MutableSet</a>&lt;<a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="481367069%2FProperties%2F788909594" anchor-label="emulationModes" id="481367069%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Required <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="481367069%2FProperties%2F788909594" anchor-label="emulationModes" id="481367069%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="emulation-modes.html">emulationModes</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-set/index.html">MutableSet</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="481367069%2FProperties%2F788909594" anchor-label="emulationModes" id="481367069%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Required <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -114,15 +126,16 @@
 <a data-name="1153925716%2FProperties%2F788909594" anchor-label="forms" id="1153925716%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="forms.html">forms</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1153925716%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="forms.html">forms</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1153925716%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="1153925716%2FProperties%2F788909594" anchor-label="forms" id="1153925716%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="forms.html">forms</a>: <span data-unresolved-link="io.ktor.http/ParametersBuilder///PointingToDeclaration/">ParametersBuilder</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1153925716%2FProperties%2F788909594" anchor-label="forms" id="1153925716%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Request form parameters.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="1153925716%2FProperties%2F788909594" anchor-label="forms" id="1153925716%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="forms.html">forms</a><span class="token operator">: </span><span data-unresolved-link="io.ktor.http/ParametersBuilder///PointingToDeclaration/">ParametersBuilder</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1153925716%2FProperties%2F788909594" anchor-label="forms" id="1153925716%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Request form parameters.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -130,15 +143,16 @@
 <a data-name="932699485%2FProperties%2F788909594" anchor-label="headers" id="932699485%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="headers.html">headers</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="932699485%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="headers.html">headers</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="932699485%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="932699485%2FProperties%2F788909594" anchor-label="headers" id="932699485%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="headers.html">headers</a>: <span data-unresolved-link="io.ktor.http/HeadersBuilder///PointingToDeclaration/">HeadersBuilder</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="932699485%2FProperties%2F788909594" anchor-label="headers" id="932699485%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Request headers.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="932699485%2FProperties%2F788909594" anchor-label="headers" id="932699485%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="headers.html">headers</a><span class="token operator">: </span><span data-unresolved-link="io.ktor.http/HeadersBuilder///PointingToDeclaration/">HeadersBuilder</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="932699485%2FProperties%2F788909594" anchor-label="headers" id="932699485%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Request headers.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -146,15 +160,16 @@
 <a data-name="-773480849%2FProperties%2F788909594" anchor-label="host" id="-773480849%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="host.html">host</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-773480849%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="host.html">host</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-773480849%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-773480849%2FProperties%2F788909594" anchor-label="host" id="-773480849%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="host.html">host</a>: <a href="../-endpoint-host/index.html">EndpointHost</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-773480849%2FProperties%2F788909594" anchor-label="host" id="-773480849%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Request host.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-773480849%2FProperties%2F788909594" anchor-label="host" id="-773480849%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="host.html">host</a><span class="token operator">: </span><a href="../-endpoint-host/index.html">EndpointHost</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-773480849%2FProperties%2F788909594" anchor-label="host" id="-773480849%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Request host.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -162,15 +177,16 @@
 <a data-name="-1357244370%2FProperties%2F788909594" anchor-label="httpMethod" id="-1357244370%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="http-method.html">httpMethod</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1357244370%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="http-method.html">httpMethod</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1357244370%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-1357244370%2FProperties%2F788909594" anchor-label="httpMethod" id="-1357244370%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="http-method.html">httpMethod</a>: <span data-unresolved-link="io.ktor.http/HttpMethod///PointingToDeclaration/">HttpMethod</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1357244370%2FProperties%2F788909594" anchor-label="httpMethod" id="-1357244370%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Request HTTP method.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-1357244370%2FProperties%2F788909594" anchor-label="httpMethod" id="-1357244370%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="http-method.html">httpMethod</a><span class="token operator">: </span><span data-unresolved-link="io.ktor.http/HttpMethod///PointingToDeclaration/">HttpMethod</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1357244370%2FProperties%2F788909594" anchor-label="httpMethod" id="-1357244370%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Request HTTP method.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -178,15 +194,16 @@
 <a data-name="-1293638748%2FProperties%2F788909594" anchor-label="oauthCallbackUrl" id="-1293638748%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="oauth-callback-url.html">oauthCallbackUrl</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1293638748%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="oauth-callback-url.html">oauthCallbackUrl</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1293638748%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-1293638748%2FProperties%2F788909594" anchor-label="oauthCallbackUrl" id="-1293638748%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">var <a href="oauth-callback-url.html">oauthCallbackUrl</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1293638748%2FProperties%2F788909594" anchor-label="oauthCallbackUrl" id="-1293638748%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>OAuth callback url (&quot;oauth_callback&quot;).</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-1293638748%2FProperties%2F788909594" anchor-label="oauthCallbackUrl" id="-1293638748%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="oauth-callback-url.html">oauthCallbackUrl</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1293638748%2FProperties%2F788909594" anchor-label="oauthCallbackUrl" id="-1293638748%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">OAuth callback url (&quot;oauth_callback&quot;).</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -194,15 +211,16 @@
 <a data-name="-128559891%2FProperties%2F788909594" anchor-label="parameters" id="-128559891%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="parameters.html">parameters</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-128559891%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="parameters.html">parameters</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-128559891%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-128559891%2FProperties%2F788909594" anchor-label="parameters" id="-128559891%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="parameters.html">parameters</a>: <span data-unresolved-link="io.ktor.http/ParametersBuilder///PointingToDeclaration/">ParametersBuilder</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-128559891%2FProperties%2F788909594" anchor-label="parameters" id="-128559891%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Request url parameters.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-128559891%2FProperties%2F788909594" anchor-label="parameters" id="-128559891%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="parameters.html">parameters</a><span class="token operator">: </span><span data-unresolved-link="io.ktor.http/ParametersBuilder///PointingToDeclaration/">ParametersBuilder</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-128559891%2FProperties%2F788909594" anchor-label="parameters" id="-128559891%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Request url parameters.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -210,15 +228,16 @@
 <a data-name="337086098%2FProperties%2F788909594" anchor-label="path" id="337086098%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="path.html">path</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="337086098%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="path.html">path</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="337086098%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="337086098%2FProperties%2F788909594" anchor-label="path" id="337086098%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">val <a href="path.html">path</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="337086098%2FProperties%2F788909594" anchor-label="path" id="337086098%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Request path.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="337086098%2FProperties%2F788909594" anchor-label="path" id="337086098%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="path.html">path</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="337086098%2FProperties%2F788909594" anchor-label="path" id="337086098%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><p class="paragraph">Request path.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -228,192 +247,153 @@
               <div class="table" data-togglable="Extensions"><a data-name="1374564530%2FExtensions%2F788909594" anchor-label="formBody" id="1374564530%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../form-body.html">formBody</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1374564530%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../form-body.html"><span>form</span><wbr></wbr><span><span>Body</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1374564530%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../form-body.html"><span class="token function">formBody</span></a><span class="token punctuation">(</span><span class="token keyword">vararg </span>pairs<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Creates &quot;application/x-www-form-urlencoded&quot; content.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../form-body.html">formBody</a>(vararg pairs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?&gt;, mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="1374564530%2FExtensions%2F788909594" anchor-label="formBody" id="1374564530%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="1374564530%2FExtensions%2F788909594" anchor-label="formBody" id="1374564530%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Creates &quot;application/x-www-form-urlencoded&quot; content.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-778657477%2FExtensions%2F788909594" anchor-label="header" id="-778657477%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../header.html">header</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-778657477%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../header.html"><span><span>header</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-778657477%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../header.html"><span class="token function">header</span></a><span class="token punctuation">(</span>key<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sets a header key with value, or update existing one with value.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../header.html"><span class="token function">header</span></a><span class="token punctuation">(</span>headers<span class="token operator">: </span><span data-unresolved-link="io.ktor.http/Headers///PointingToDeclaration/">Headers</span><span class="token punctuation">, </span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Adds existing <span data-unresolved-link="io.ktor.http/Headers///PointingToDeclaration/">Headers</span> instance to headers.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../header.html">header</a>(key: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, value: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?, mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-6822971%2FExtensions%2F788909594" anchor-label="header" id="-6822971%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-6822971%2FExtensions%2F788909594" anchor-label="header" id="-6822971%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Sets a header key with value, or update existing one with value.</div></div>
-<div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../header.html">header</a>(headers: <span data-unresolved-link="io.ktor.http/Headers///PointingToDeclaration/">Headers</span>, mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-60996778%2FExtensions%2F788909594" anchor-label="header" id="-60996778%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-60996778%2FExtensions%2F788909594" anchor-label="header" id="-60996778%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Adds existing <span data-unresolved-link="io.ktor.http/Headers///PointingToDeclaration/">Headers</span> instance to headers.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1185996458%2FExtensions%2F788909594" anchor-label="headers" id="-1185996458%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../headers.html">headers</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1185996458%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../headers.html"><span><span>headers</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1185996458%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../headers.html"><span class="token function">headers</span></a><span class="token punctuation">(</span><span class="token keyword">vararg </span>pairs<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sets header keys with value, or update existing one with value.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../headers.html">headers</a>(vararg pairs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?&gt;, mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-1185996458%2FExtensions%2F788909594" anchor-label="headers" id="-1185996458%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1185996458%2FExtensions%2F788909594" anchor-label="headers" id="-1185996458%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Sets header keys with value, or update existing one with value.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1232930499%2FExtensions%2F788909594" anchor-label="jsonBody" id="-1232930499%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../json-body.html">jsonBody</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1232930499%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../json-body.html"><span>json</span><wbr></wbr><span><span>Body</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1232930499%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../json-body.html"><span class="token function">jsonBody</span></a><span class="token punctuation">(</span><span class="token keyword">vararg </span>pairs<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../json-body.html"><span class="token function">jsonBody</span></a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Creates &quot;application/json&quot; content.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../json-body.html">jsonBody</a>(vararg pairs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?&gt;, mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="2077698574%2FExtensions%2F788909594" anchor-label="jsonBody" id="2077698574%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="2077698574%2FExtensions%2F788909594" anchor-label="jsonBody" id="2077698574%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Creates &quot;application/json&quot; content.</div></div>
-<div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../json-body.html">jsonBody</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-789530625%2FExtensions%2F788909594" anchor-label="jsonBody" id="-789530625%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-789530625%2FExtensions%2F788909594" anchor-label="jsonBody" id="-789530625%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Creates &quot;application/json&quot; content.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1811560668%2FExtensions%2F788909594" anchor-label="multiPartBody" id="1811560668%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../multi-part-body.html">multiPartBody</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1811560668%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../multi-part-body.html"><span>multi</span><wbr></wbr><span>Part</span><wbr></wbr><span><span>Body</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1811560668%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../multi-part-body.html"><span class="token function">multiPartBody</span></a><span class="token punctuation">(</span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>block<span class="token operator">: </span><span class="token keyword"></span><span data-unresolved-link="io.ktor.client.request.forms/FormBuilder///PointingToDeclaration/">FormBuilder</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Creates &quot;multipart/form-data&quot; content.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../multi-part-body.html">multiPartBody</a>(mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null, block: <span data-unresolved-link="io.ktor.client.request.forms/FormBuilder///PointingToDeclaration/">FormBuilder</span>.() -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="1811560668%2FExtensions%2F788909594" anchor-label="multiPartBody" id="1811560668%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="1811560668%2FExtensions%2F788909594" anchor-label="multiPartBody" id="1811560668%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Creates &quot;multipart/form-data&quot; content.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-68554307%2FExtensions%2F788909594" anchor-label="parameter" id="-68554307%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../parameter.html">parameter</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-68554307%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../parameter.html"><span><span>parameter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-68554307%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../parameter.html"><span class="token function">parameter</span></a><span class="token punctuation">(</span>key<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sets a parameter key with value, or update existing one with value.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../parameter.html">parameter</a>(key: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, value: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?, mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-68554307%2FExtensions%2F788909594" anchor-label="parameter" id="-68554307%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-68554307%2FExtensions%2F788909594" anchor-label="parameter" id="-68554307%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Sets a parameter key with value, or update existing one with value.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-90109106%2FExtensions%2F788909594" anchor-label="parameters" id="-90109106%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../parameters.html">parameters</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-90109106%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../parameters.html"><span><span>parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-90109106%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../parameters.html"><span class="token function">parameters</span></a><span class="token punctuation">(</span><span class="token keyword">vararg </span>pairs<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">, </span>mode<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sets parameter keys with value, or update existing one with value.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">ApiRequestBuilder</a>.<a href="../parameters.html">parameters</a>(vararg pairs: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?&gt;, mode: <a href="../../blue.starry.penicillin.core.emulation/-emulation-mode/index.html">EmulationMode</a>? = null)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-90109106%2FExtensions%2F788909594" anchor-label="parameters" id="-90109106%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-90109106%2FExtensions%2F788909594" anchor-label="parameters" id="-90109106%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Sets parameter keys with value, or update existing one with value.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="223049881%2FExtensions%2F788909594" anchor-label="session" id="223049881%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.extensions/session.html">session</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="223049881%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.extensions/session.html"><span><span>session</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="223049881%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.extensions/session.html">session</a><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-session/index.html">Session</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Shorthand extension to <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">val <a href="index.html">ApiRequestBuilder</a>.<a href="../../blue.starry.penicillin.extensions/session.html">session</a>: <a href="../../blue.starry.penicillin.core.session/-session/index.html">Session</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="223049881%2FExtensions%2F788909594" anchor-label="session" id="223049881%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="223049881%2FExtensions%2F788909594" anchor-label="session" id="223049881%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Shorthand extension to <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1114295942%2FExtensions%2F788909594" anchor-label="url" id="1114295942%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../url.html">url</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1114295942%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../url.html"><span><span>url</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1114295942%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html">ApiRequestBuilder</a><span class="token punctuation">.</span><a href="../url.html">url</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Url string.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">val <a href="index.html">ApiRequestBuilder</a>.<a href="../url.html">url</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="1114295942%2FExtensions%2F788909594" anchor-label="url" id="1114295942%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="1114295942%2FExtensions%2F788909594" anchor-label="url" id="1114295942%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Url string.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
@@ -421,7 +401,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>

@@ -2,53 +2,65 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>DirectMessages</title>
-<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html">penicillin</a></div>
+      <div></div>
+      <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button></div>
+<button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="penicillin::blue.starry.penicillin.endpoints/DirectMessages///PointingToDeclaration//788909594">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../index.html">penicillin</a>/<a href="../index.html">blue.starry.penicillin.endpoints</a>/<a href="index.html">DirectMessages</a></div>
-            <div class="pull-right d-flex">
-              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button></div>
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="penicillin::blue.starry.penicillin.endpoints/DirectMessages///PointingToDeclaration//788909594">
+          <div class="breadcrumbs"><a href="../../../index.html">penicillin</a>/<a href="../index.html">blue.starry.penicillin.endpoints</a>/<a href="index.html">DirectMessages</a></div>
           <div class="cover ">
-            <h1 class="cover"><span>Direct</span><wbr></wbr><span>Messages</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">class <a href="index.html">DirectMessages</a>(client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-endpoint/index.html">Endpoint</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Collection of api endpoints related to legacy DirectMessage API.</p></div></div>
+            <h1 class="cover"><span>Direct</span><wbr></wbr><span><span>Messages</span></span></h1>
+            <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+              <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">DirectMessages</a><span class="token punctuation">(</span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-endpoint/index.html">Endpoint</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Collection of api endpoints related to legacy DirectMessage API.</p></div>            </div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Extensions">Extensions</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="See also">See also</button></div>
             <div class="tabs-section-body">
               <h2 class="">See also</h2>
               <div data-togglable="See also">
-                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="See also"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div data-togglable="See also"><div class="table" data-togglable="See also"><div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="main-subrow keyValue WithExtraAttributes RowTitle"><div class=""><span class="inline-flex"><a href="../direct-messages.html">ApiClient.directMessages</a></span><span class="inline-flex"><div data-togglable="See also"></div></span></div><div></div></div></div></div></div></div></div>
+                <div class="platform-hinted WithExtraAttributes with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="See also">
+                  <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div data-togglable="See also"><div class="table" data-togglable="See also"><div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><a href="../direct-messages.html"><span>ApiClient.</span><wbr></wbr><span>direct</span><wbr></wbr><span><span>Messages</span></span></a></div></span></div><div><div class="title"><div data-togglable="See also"></div></div></div></div></div></div></div></div>                </div>
               </div>
               <h2 class="">Parameters</h2>
               <div data-togglable="Parameters">
-                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">client</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Current <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a> instance.</p></div></div></div></div></div></div></div></div></div>
+                <div class="platform-hinted WithExtraAttributes with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Parameters">
+                  <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>client</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Current <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a> instance.</p></div></div></div></div></div></div></div></div>                </div>
               </div>
               <h2 class="tabbedcontent">Constructors</h2>
               <div class="table" data-togglable="Constructors"><a data-name="1066690689%2FConstructors%2F788909594" anchor-label="DirectMessages" id="1066690689%2FConstructors%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-direct-messages.html">DirectMessages</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1066690689%2FConstructors%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-direct-messages.html"><span>Direct</span><wbr></wbr><span><span>Messages</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1066690689%2FConstructors%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="-direct-messages.html">DirectMessages</a>(client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Creates new <a href="index.html">DirectMessages</a> endpoint instance.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-direct-messages.html"><span class="token function">DirectMessages</span></a><span class="token punctuation">(</span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Creates new <a href="index.html">DirectMessages</a> endpoint instance.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -58,15 +70,16 @@
               <div class="table" data-togglable="Properties"><a data-name="-1998618565%2FProperties%2F788909594" anchor-label="client" id="-1998618565%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="client.html">client</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1998618565%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="client.html">client</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1998618565%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-1998618565%2FProperties%2F788909594" anchor-label="client" id="-1998618565%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="client.html">client</a>: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1998618565%2FProperties%2F788909594" anchor-label="client" id="-1998618565%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Current <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a> instance.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-1998618565%2FProperties%2F788909594" anchor-label="client" id="-1998618565%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="client.html">client</a><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -76,140 +89,119 @@
               <div class="table" data-togglable="Extensions"><a data-name="-358349312%2FExtensions%2F788909594" anchor-label="create" id="-358349312%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.directmessages/create.html">create</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-358349312%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.directmessages/create.html"><span><span>create</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-358349312%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough"><strike><span class="token keyword"></span></strike><strike><span class="token keyword">fun </span></strike><a href="index.html">DirectMessages</a><strike><span class="token punctuation">.</span></strike><a href="../../blue.starry.penicillin.endpoints.directmessages/create.html"><strike><span class="token function">create</span></strike></a><strike><span class="token punctuation">(</span></strike><strike>text</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><strike><span class="token punctuation">, </span></strike><strike>userId</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>screenName</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike><span class="token keyword">vararg </span></strike><strike>options</strike><strike><span class="token operator">: </span></strike><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><strike><span class="token punctuation">)</span></strike><strike><span class="token operator">: </span></strike><a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Abolished endpoint.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough">fun <a href="index.html">DirectMessages</a>.<a href="../../blue.starry.penicillin.endpoints.directmessages/create.html">create</a>(text: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, userId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>? = null, screenName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-358349312%2FExtensions%2F788909594" anchor-label="create" id="-358349312%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-358349312%2FExtensions%2F788909594" anchor-label="create" id="-358349312%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Abolished endpoint.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1922320016%2FExtensions%2F788909594" anchor-label="delete" id="-1922320016%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.directmessages/delete.html">delete</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1922320016%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.directmessages/delete.html"><span><span>delete</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1922320016%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough"><strike><span class="token keyword"></span></strike><strike><span class="token keyword">fun </span></strike><a href="index.html">DirectMessages</a><strike><span class="token punctuation">.</span></strike><a href="../../blue.starry.penicillin.endpoints.directmessages/delete.html"><strike><span class="token function">delete</span></strike></a><strike><span class="token punctuation">(</span></strike><strike>id</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><strike><span class="token punctuation">, </span></strike><strike>includeEntities</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike><span class="token keyword">vararg </span></strike><strike>options</strike><strike><span class="token operator">: </span></strike><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><strike><span class="token punctuation">)</span></strike><strike><span class="token operator">: </span></strike><a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Abolished endpoint.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough">fun <a href="index.html">DirectMessages</a>.<a href="../../blue.starry.penicillin.endpoints.directmessages/delete.html">delete</a>(id: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, includeEntities: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>? = null, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-1922320016%2FExtensions%2F788909594" anchor-label="delete" id="-1922320016%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-1922320016%2FExtensions%2F788909594" anchor-label="delete" id="-1922320016%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Abolished endpoint.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1566665172%2FExtensions%2F788909594" anchor-label="indicateTyping" id="1566665172%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.directmessages/indicate-typing.html">indicateTyping</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1566665172%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.directmessages/indicate-typing.html"><span>indicate</span><wbr></wbr><span><span>Typing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1566665172%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">DirectMessages</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.endpoints.directmessages/indicate-typing.html"><span class="token function">indicateTyping</span></a><span class="token punctuation">(</span>recipientId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span><span class="token keyword">vararg </span>options<span class="token operator">: </span><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.request.action/-empty-api-action/index.html">EmptyApiAction</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Displays a visual typing indicator in the recipient’s Direct Message conversation view with the sender. Each request triggers a typing indicator animation with a duration of ~3 seconds.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">DirectMessages</a>.<a href="../../blue.starry.penicillin.endpoints.directmessages/indicate-typing.html">indicateTyping</a>(recipientId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-empty-api-action/index.html">EmptyApiAction</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="1566665172%2FExtensions%2F788909594" anchor-label="indicateTyping" id="1566665172%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="1566665172%2FExtensions%2F788909594" anchor-label="indicateTyping" id="1566665172%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Displays a visual typing indicator in the recipient’s Direct Message conversation view with the sender.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="723501240%2FExtensions%2F788909594" anchor-label="list" id="723501240%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.directmessages/list.html">list</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="723501240%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.directmessages/list.html"><span><span>list</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="723501240%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough"><strike><span class="token keyword"></span></strike><strike><span class="token keyword">fun </span></strike><a href="index.html">DirectMessages</a><strike><span class="token punctuation">.</span></strike><a href="../../blue.starry.penicillin.endpoints.directmessages/list.html"><strike><span class="token function">list</span></strike></a><strike><span class="token punctuation">(</span></strike><strike>sinceId</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>maxId</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>count</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>includeEntities</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>skipStatus</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike><span class="token keyword">vararg </span></strike><strike>options</strike><strike><span class="token operator">: </span></strike><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><strike><span class="token punctuation">)</span></strike><strike><span class="token operator">: </span></strike><a href="../../blue.starry.penicillin.core.request.action/-json-array-api-action/index.html">JsonArrayApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Abolished endpoint.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough">fun <a href="index.html">DirectMessages</a>.<a href="../../blue.starry.penicillin.endpoints.directmessages/list.html">list</a>(sinceId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>? = null, maxId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>? = null, count: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>? = null, includeEntities: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>? = null, skipStatus: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>? = null, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-json-array-api-action/index.html">JsonArrayApiAction</a>&lt;<a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="723501240%2FExtensions%2F788909594" anchor-label="list" id="723501240%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="723501240%2FExtensions%2F788909594" anchor-label="list" id="723501240%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Abolished endpoint.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-2079717651%2FExtensions%2F788909594" anchor-label="markRead" id="-2079717651%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.directmessages/mark-read.html">markRead</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2079717651%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.directmessages/mark-read.html"><span>mark</span><wbr></wbr><span><span>Read</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2079717651%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">DirectMessages</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.endpoints.directmessages/mark-read.html"><span class="token function">markRead</span></a><span class="token punctuation">(</span>lastReadEventId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span>recipientId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span><span class="token keyword">vararg </span>options<span class="token operator">: </span><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.request/-api-request/index.html">ApiRequest</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Marks a message as read in the recipient’s Direct Message conversation view with the sender.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">DirectMessages</a>.<a href="../../blue.starry.penicillin.endpoints.directmessages/mark-read.html">markRead</a>(lastReadEventId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, recipientId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request/-api-request/index.html">ApiRequest</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-2079717651%2FExtensions%2F788909594" anchor-label="markRead" id="-2079717651%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-2079717651%2FExtensions%2F788909594" anchor-label="markRead" id="-2079717651%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Marks a message as read in the recipient’s Direct Message conversation view with the sender.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-388491849%2FExtensions%2F788909594" anchor-label="sentMessages" id="-388491849%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.directmessages/sent-messages.html">sentMessages</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-388491849%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.directmessages/sent-messages.html"><span>sent</span><wbr></wbr><span><span>Messages</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-388491849%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough"><strike><span class="token keyword"></span></strike><strike><span class="token keyword">fun </span></strike><a href="index.html">DirectMessages</a><strike><span class="token punctuation">.</span></strike><a href="../../blue.starry.penicillin.endpoints.directmessages/sent-messages.html"><strike><span class="token function">sentMessages</span></strike></a><strike><span class="token punctuation">(</span></strike><strike>sinceId</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>maxId</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>count</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>page</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike>includeEntities</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><strike><span class="token operator"> = </span></strike><strike>null</strike><strike><span class="token punctuation">, </span></strike><strike><span class="token keyword">vararg </span></strike><strike>options</strike><strike><span class="token operator">: </span></strike><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><strike><span class="token punctuation">)</span></strike><strike><span class="token operator">: </span></strike><a href="../../blue.starry.penicillin.core.request.action/-json-array-api-action/index.html">JsonArrayApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Abolished endpoint.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough">fun <a href="index.html">DirectMessages</a>.<a href="../../blue.starry.penicillin.endpoints.directmessages/sent-messages.html">sentMessages</a>(sinceId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>? = null, maxId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>? = null, count: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>? = null, page: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>? = null, includeEntities: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>? = null, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-json-array-api-action/index.html">JsonArrayApiAction</a>&lt;<a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-388491849%2FExtensions%2F788909594" anchor-label="sentMessages" id="-388491849%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-388491849%2FExtensions%2F788909594" anchor-label="sentMessages" id="-388491849%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Abolished endpoint.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-408040703%2FExtensions%2F788909594" anchor-label="show" id="-408040703%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.directmessages/show.html">show</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-408040703%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.directmessages/show.html"><span><span>show</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-408040703%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough"><strike><span class="token keyword"></span></strike><strike><span class="token keyword">fun </span></strike><a href="index.html">DirectMessages</a><strike><span class="token punctuation">.</span></strike><a href="../../blue.starry.penicillin.endpoints.directmessages/show.html"><strike><span class="token function">show</span></strike></a><strike><span class="token punctuation">(</span></strike><strike>id</strike><strike><span class="token operator">: </span></strike><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><strike><span class="token punctuation">, </span></strike><strike><span class="token keyword">vararg </span></strike><strike>options</strike><strike><span class="token operator">: </span></strike><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><strike><span class="token punctuation">)</span></strike><strike><span class="token operator">: </span></strike><a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Abolished endpoint.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace strikethrough">fun <a href="index.html">DirectMessages</a>.<a href="../../blue.starry.penicillin.endpoints.directmessages/show.html">show</a>(id: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models/-direct-message/index.html">DirectMessage</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-408040703%2FExtensions%2F788909594" anchor-label="show" id="-408040703%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-408040703%2FExtensions%2F788909594" anchor-label="show" id="-408040703%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Abolished endpoint.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
@@ -217,7 +209,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>

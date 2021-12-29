@@ -2,28 +2,35 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>Stream</title>
-<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html">penicillin</a></div>
+      <div></div>
+      <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button></div>
+<button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="penicillin::blue.starry.penicillin.models/Stream///PointingToDeclaration//788909594">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../index.html">penicillin</a>/<a href="../index.html">blue.starry.penicillin.models</a>/<a href="index.html">Stream</a></div>
-            <div class="pull-right d-flex">
-              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button></div>
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="penicillin::blue.starry.penicillin.models/Stream///PointingToDeclaration//788909594">
+          <div class="breadcrumbs"><a href="../../../index.html">penicillin</a>/<a href="../index.html">blue.starry.penicillin.models</a>/<a href="index.html">Stream</a></div>
           <div class="cover ">
-            <h1 class="cover"><span>Stream</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">object <a href="index.html">Stream</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+            <h1 class="cover"><span><span>Stream</span></span></h1>
+            <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+              <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">Stream</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>            </div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button></div>
@@ -32,260 +39,221 @@
               <div class="table" data-togglable="Types"><a data-name="1119689771%2FClasslikes%2F788909594" anchor-label="Delete" id="1119689771%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-delete/index.html">Delete</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1119689771%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-delete/index.html"><span><span>Delete</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1119689771%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-delete/index.html">Delete</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-delete/index.html">Delete</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="633315290%2FClasslikes%2F788909594" anchor-label="Disconnect" id="633315290%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-disconnect/index.html">Disconnect</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="633315290%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-disconnect/index.html"><span><span>Disconnect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="633315290%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-disconnect/index.html">Disconnect</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-disconnect/index.html">Disconnect</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1961311502%2FClasslikes%2F788909594" anchor-label="Event" id="-1961311502%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-event/index.html">Event</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1961311502%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-event/index.html"><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1961311502%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-event/index.html">Event</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">abstract class <a href="-event/index.html">Event</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1342574999%2FClasslikes%2F788909594" anchor-label="Friends" id="1342574999%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-friends/index.html">Friends</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1342574999%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-friends/index.html"><span><span>Friends</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1342574999%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-friends/index.html">Friends</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-friends/index.html">Friends</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-558513935%2FClasslikes%2F788909594" anchor-label="Limit" id="-558513935%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-limit/index.html">Limit</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-558513935%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-limit/index.html"><span><span>Limit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-558513935%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-limit/index.html">Limit</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-limit/index.html">Limit</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-578088528%2FClasslikes%2F788909594" anchor-label="ListEvent" id="-578088528%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-list-event/index.html">ListEvent</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-578088528%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-list-event/index.html"><span>List</span><wbr></wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-578088528%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-list-event/index.html">ListEvent</a><span class="token punctuation">(</span>parentJson<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>parentClient<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="-event/index.html">Stream.Event</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-list-event/index.html">ListEvent</a>(parentJson: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, parentClient: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="-event/index.html">Stream.Event</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1950122040%2FClasslikes%2F788909594" anchor-label="LivePipeline" id="-1950122040%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-live-pipeline/index.html">LivePipeline</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1950122040%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-live-pipeline/index.html"><span>Live</span><wbr></wbr><span><span>Pipeline</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1950122040%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-live-pipeline/index.html">LivePipeline</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-live-pipeline/index.html">LivePipeline</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="2059414996%2FClasslikes%2F788909594" anchor-label="ScrubGeo" id="2059414996%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-scrub-geo/index.html">ScrubGeo</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2059414996%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-scrub-geo/index.html"><span>Scrub</span><wbr></wbr><span><span>Geo</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2059414996%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-scrub-geo/index.html">ScrubGeo</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-scrub-geo/index.html">ScrubGeo</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1620841660%2FClasslikes%2F788909594" anchor-label="StatusEvent" id="-1620841660%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-status-event/index.html">StatusEvent</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1620841660%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-status-event/index.html"><span>Status</span><wbr></wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1620841660%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-status-event/index.html">StatusEvent</a><span class="token punctuation">(</span>parentJson<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>parentClient<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="-event/index.html">Stream.Event</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-status-event/index.html">StatusEvent</a>(parentJson: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, parentClient: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="-event/index.html">Stream.Event</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="129347593%2FClasslikes%2F788909594" anchor-label="StatusWithheld" id="129347593%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-status-withheld/index.html">StatusWithheld</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="129347593%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-status-withheld/index.html"><span>Status</span><wbr></wbr><span><span>Withheld</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="129347593%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-status-withheld/index.html">StatusWithheld</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-status-withheld/index.html">StatusWithheld</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1369522205%2FClasslikes%2F788909594" anchor-label="UserEvent" id="1369522205%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-user-event/index.html">UserEvent</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1369522205%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-user-event/index.html"><span>User</span><wbr></wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1369522205%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-user-event/index.html">UserEvent</a><span class="token punctuation">(</span>parentJson<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>parentClient<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="-event/index.html">Stream.Event</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-user-event/index.html">UserEvent</a>(parentJson: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, parentClient: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="-event/index.html">Stream.Event</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-152403824%2FClasslikes%2F788909594" anchor-label="UserWithheld" id="-152403824%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-user-withheld/index.html">UserWithheld</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-152403824%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-user-withheld/index.html"><span>User</span><wbr></wbr><span><span>Withheld</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-152403824%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-user-withheld/index.html">UserWithheld</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-user-withheld/index.html">UserWithheld</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-460607120%2FClasslikes%2F788909594" anchor-label="Warning" id="-460607120%2FClasslikes%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-warning/index.html">Warning</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-460607120%2FClasslikes%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-warning/index.html"><span><span>Warning</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-460607120%2FClasslikes%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-warning/index.html">Warning</a><span class="token punctuation">(</span>json<span class="token operator">: </span><span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span><span class="token punctuation">, </span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">data class <a href="-warning/index.html">Warning</a>(json: <span data-unresolved-link="blue.starry.jsonkt/JsonObject///PointingToDeclaration/">JsonObject</span>, client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-penicillin-model/index.html">PenicillinModel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
                     </div>
                   </div>
                 </div>
@@ -293,7 +261,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>

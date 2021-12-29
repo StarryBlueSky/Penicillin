@@ -2,53 +2,65 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>FollowRequests</title>
-<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html">penicillin</a></div>
+      <div></div>
+      <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button></div>
+<button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="penicillin::blue.starry.penicillin.endpoints/FollowRequests///PointingToDeclaration//788909594">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../../index.html">penicillin</a>/<a href="../index.html">blue.starry.penicillin.endpoints</a>/<a href="index.html">FollowRequests</a></div>
-            <div class="pull-right d-flex">
-              <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector common-like" data-active="" data-filter=":dokkaHtml/commonMain">common</button></div>
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="penicillin::blue.starry.penicillin.endpoints/FollowRequests///PointingToDeclaration//788909594">
+          <div class="breadcrumbs"><a href="../../../index.html">penicillin</a>/<a href="../index.html">blue.starry.penicillin.endpoints</a>/<a href="index.html">FollowRequests</a></div>
           <div class="cover ">
-            <h1 class="cover"><span>Follow</span><wbr></wbr><span>Requests</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">class <a href="index.html">FollowRequests</a>(client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>) : <a href="../-endpoint/index.html">Endpoint</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Collection of api endpoints related to follow requests.</p></div></div>
+            <h1 class="cover"><span>Follow</span><wbr></wbr><span><span>Requests</span></span></h1>
+            <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+              <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">FollowRequests</a><span class="token punctuation">(</span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span> : <a href="../-endpoint/index.html">Endpoint</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Collection of api endpoints related to follow requests.</p></div>            </div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Extensions">Extensions</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="See also">See also</button></div>
             <div class="tabs-section-body">
               <h2 class="">See also</h2>
               <div data-togglable="See also">
-                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="See also"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div data-togglable="See also"><div class="table" data-togglable="See also"><div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="main-subrow keyValue WithExtraAttributes RowTitle"><div class=""><span class="inline-flex"><a href="../follow-requests.html">ApiClient.followRequests</a></span><span class="inline-flex"><div data-togglable="See also"></div></span></div><div></div></div></div></div></div></div></div>
+                <div class="platform-hinted WithExtraAttributes with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="See also">
+                  <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div data-togglable="See also"><div class="table" data-togglable="See also"><div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><a href="../follow-requests.html"><span>ApiClient.</span><wbr></wbr><span>follow</span><wbr></wbr><span><span>Requests</span></span></a></div></span></div><div><div class="title"><div data-togglable="See also"></div></div></div></div></div></div></div></div>                </div>
               </div>
               <h2 class="">Parameters</h2>
               <div data-togglable="Parameters">
-                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">client</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Current <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a> instance.</p></div></div></div></div></div></div></div></div></div>
+                <div class="platform-hinted WithExtraAttributes with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Parameters">
+                  <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>client</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Current <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a> instance.</p></div></div></div></div></div></div></div></div>                </div>
               </div>
               <h2 class="tabbedcontent">Constructors</h2>
               <div class="table" data-togglable="Constructors"><a data-name="1610555521%2FConstructors%2F788909594" anchor-label="FollowRequests" id="1610555521%2FConstructors%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-follow-requests.html">FollowRequests</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1610555521%2FConstructors%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-follow-requests.html"><span>Follow</span><wbr></wbr><span><span>Requests</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1610555521%2FConstructors%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="-follow-requests.html">FollowRequests</a>(client: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Creates new <a href="index.html">FollowRequests</a> endpoint instance.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-follow-requests.html"><span class="token function">FollowRequests</span></a><span class="token punctuation">(</span>client<span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Creates new <a href="index.html">FollowRequests</a> endpoint instance.</p></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -58,15 +70,16 @@
               <div class="table" data-togglable="Properties"><a data-name="-1649133957%2FProperties%2F788909594" anchor-label="client" id="-1649133957%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="client.html">client</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1649133957%2FProperties%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="client.html">client</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1649133957%2FProperties%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
-                      </div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-1649133957%2FProperties%2F788909594" anchor-label="client" id="-1649133957%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace">open override val <a href="client.html">client</a>: <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1649133957%2FProperties%2F788909594" anchor-label="client" id="-1649133957%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Current <a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a> instance.</div></div></div>
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted" data-togglable="Properties">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><a data-name="-1649133957%2FProperties%2F788909594" anchor-label="client" id="-1649133957%2FProperties%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="client.html">client</a><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.session/-api-client/index.html">ApiClient</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div>                        </div>
                       </div>
                     </div>
                   </div>
@@ -76,92 +89,68 @@
               <div class="table" data-togglable="Extensions"><a data-name="-57807985%2FExtensions%2F788909594" anchor-label="acceptByScreenName" id="-57807985%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.followrequests/accept-by-screen-name.html">acceptByScreenName</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-57807985%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.followrequests/accept-by-screen-name.html"><span>accept</span><wbr></wbr><span>By</span><wbr></wbr><span>Screen</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-57807985%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">FollowRequests</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.endpoints.followrequests/accept-by-screen-name.html"><span class="token function">acceptByScreenName</span></a><span class="token punctuation">(</span>screenName<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword">vararg </span>options<span class="token operator">: </span><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models/-user/index.html">User</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Accepts the follow request from specific user.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">FollowRequests</a>.<a href="../../blue.starry.penicillin.endpoints.followrequests/accept-by-screen-name.html">acceptByScreenName</a>(screenName: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models/-user/index.html">User</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-57807985%2FExtensions%2F788909594" anchor-label="acceptByScreenName" id="-57807985%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-57807985%2FExtensions%2F788909594" anchor-label="acceptByScreenName" id="-57807985%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Accepts the follow request from specific user.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="1285250665%2FExtensions%2F788909594" anchor-label="acceptByUserId" id="1285250665%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.followrequests/accept-by-user-id.html">acceptByUserId</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1285250665%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.followrequests/accept-by-user-id.html"><span>accept</span><wbr></wbr><span>By</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1285250665%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">FollowRequests</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.endpoints.followrequests/accept-by-user-id.html"><span class="token function">acceptByUserId</span></a><span class="token punctuation">(</span>userId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token punctuation">, </span><span class="token keyword">vararg </span>options<span class="token operator">: </span><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models/-user/index.html">User</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Accepts the follow request from specific user.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">FollowRequests</a>.<a href="../../blue.starry.penicillin.endpoints.followrequests/accept-by-user-id.html">acceptByUserId</a>(userId: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-json-object-api-action/index.html">JsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models/-user/index.html">User</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="1285250665%2FExtensions%2F788909594" anchor-label="acceptByUserId" id="1285250665%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="1285250665%2FExtensions%2F788909594" anchor-label="acceptByUserId" id="1285250665%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Accepts the follow request from specific user.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="2028010395%2FExtensions%2F788909594" anchor-label="incoming" id="2028010395%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.followrequests/incoming.html">incoming</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2028010395%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.followrequests/incoming.html"><span><span>incoming</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2028010395%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html">FollowRequests</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.endpoints.followrequests/incoming.html">incoming</a><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.request.action/-cursor-json-object-api-action/index.html">CursorJsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models.cursor/-cursor-ids/index.html">CursorIds</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Shorthand property to <a href="../../blue.starry.penicillin.endpoints.followrequests/incoming.html">FollowRequests.incoming</a>.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">FollowRequests</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.endpoints.followrequests/incoming.html"><span class="token function">incoming</span></a><span class="token punctuation">(</span>cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>stringifyIds<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span><span class="token keyword">vararg </span>options<span class="token operator">: </span><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.request.action/-cursor-json-object-api-action/index.html">CursorJsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models.cursor/-cursor-ids/index.html">CursorIds</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns a collection of numeric IDs for every user who has a pending request to follow the authenticating user.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">val <a href="index.html">FollowRequests</a>.<a href="../../blue.starry.penicillin.endpoints.followrequests/incoming.html">incoming</a>: <a href="../../blue.starry.penicillin.core.request.action/-cursor-json-object-api-action/index.html">CursorJsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models.cursor/-cursor-ids/index.html">CursorIds</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="1125462131%2FExtensions%2F788909594" anchor-label="incoming" id="1125462131%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="1125462131%2FExtensions%2F788909594" anchor-label="incoming" id="1125462131%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Shorthand property to <a href="../../blue.starry.penicillin.endpoints.followrequests/incoming.html">FollowRequests.incoming</a>.</div></div>
-<div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">FollowRequests</a>.<a href="../../blue.starry.penicillin.endpoints.followrequests/incoming.html">incoming</a>(cursor: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>? = null, stringifyIds: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>? = null, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-cursor-json-object-api-action/index.html">CursorJsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models.cursor/-cursor-ids/index.html">CursorIds</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="57449012%2FExtensions%2F788909594" anchor-label="incoming" id="57449012%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="57449012%2FExtensions%2F788909594" anchor-label="incoming" id="57449012%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Returns a collection of numeric IDs for every user who has a pending request to follow the authenticating user.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
 <a data-name="-1143885477%2FExtensions%2F788909594" anchor-label="outgoing" id="-1143885477%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>
                 <div class="table-row" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../blue.starry.penicillin.endpoints.followrequests/outgoing.html">outgoing</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1143885477%2FExtensions%2F788909594"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="../../blue.starry.penicillin.endpoints.followrequests/outgoing.html"><span><span>outgoing</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1143885477%2FExtensions%2F788909594"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
-                      <div class="platform-tags ">
-                        <div class="platform-tag common-like">common</div>
+                      <div class="title">
+                        <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                          <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark common-like" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain" data-active="" data-toggle=":dokkaHtml/commonMain">common</button></div>
+<div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="index.html">FollowRequests</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.endpoints.followrequests/outgoing.html">outgoing</a><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.request.action/-cursor-json-object-api-action/index.html">CursorJsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models.cursor/-cursor-ids/index.html">CursorIds</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Shorthand property to <a href="../../blue.starry.penicillin.endpoints.followrequests/outgoing.html">FollowRequests.outgoing</a>.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="index.html">FollowRequests</a><span class="token punctuation">.</span><a href="../../blue.starry.penicillin.endpoints.followrequests/outgoing.html"><span class="token function">outgoing</span></a><span class="token punctuation">(</span>cursor<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>stringifyIds<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span><span class="token keyword">vararg </span>options<span class="token operator">: </span><span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../blue.starry.penicillin.core.request.action/-cursor-json-object-api-action/index.html">CursorJsonObjectApiAction</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../blue.starry.penicillin.models.cursor/-cursor-ids/index.html">CursorIds</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns a collection of numeric IDs for every protected user for whom the authenticating user has a pending follow request.</p></div></div>                        </div>
                       </div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">val <a href="index.html">FollowRequests</a>.<a href="../../blue.starry.penicillin.endpoints.followrequests/outgoing.html">outgoing</a>: <a href="../../blue.starry.penicillin.core.request.action/-cursor-json-object-api-action/index.html">CursorJsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models.cursor/-cursor-ids/index.html">CursorIds</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="-809986631%2FExtensions%2F788909594" anchor-label="outgoing" id="-809986631%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="-809986631%2FExtensions%2F788909594" anchor-label="outgoing" id="-809986631%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Shorthand property to <a href="../../blue.starry.penicillin.endpoints.followrequests/outgoing.html">FollowRequests.outgoing</a>.</div></div>
-<div class="divergent-group" data-filterable-current=":dokkaHtml/commonMain" data-filterable-set=":dokkaHtml/commonMain"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/commonMain"><div class="symbol monospace">fun <a href="index.html">FollowRequests</a>.<a href="../../blue.starry.penicillin.endpoints.followrequests/outgoing.html">outgoing</a>(cursor: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>? = null, stringifyIds: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a>? = null, vararg options: <span data-unresolved-link="blue.starry.penicillin.endpoints/Option///PointingToDeclaration/">Option</span>): <a href="../../blue.starry.penicillin.core.request.action/-cursor-json-object-api-action/index.html">CursorJsonObjectApiAction</a>&lt;<a href="../../blue.starry.penicillin.models.cursor/-cursor-ids/index.html">CursorIds</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="1284168110%2FExtensions%2F788909594" anchor-label="outgoing" id="1284168110%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a><div class="brief "><a data-name="1284168110%2FExtensions%2F788909594" anchor-label="outgoing" id="1284168110%2FExtensions%2F788909594" data-filterable-set=":dokkaHtml/commonMain"></a>Returns a collection of numeric IDs for every protected user for whom the authenticating user has a pending follow request.</div></div>
-</div>
                     </div>
                   </div>
                 </div>
@@ -169,7 +158,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>
