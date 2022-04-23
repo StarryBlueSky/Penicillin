@@ -109,7 +109,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:1.6.7")
                 implementation("io.ktor:ktor-client-jetty:1.6.7")
                 implementation("io.ktor:ktor-client-okhttp:1.6.7")
-                implementation("io.ktor:ktor-client-mock-jvm:1.6.7")
+                implementation("io.ktor:ktor-client-mock-jvm:1.6.8")
 
                 implementation(kotlin("test-junit5"))
                 implementation("org.junit.jupiter:junit-jupiter:5.8.2")
