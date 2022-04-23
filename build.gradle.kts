@@ -123,7 +123,7 @@ kotlin {
 
         named("jsMain") {
             dependencies {
-                api("io.ktor:ktor-client-js:1.6.7")
+                api("io.ktor:ktor-client-js:1.6.8")
 
                 implementation(npm("crypto-js", "4.0.0"))
             }
