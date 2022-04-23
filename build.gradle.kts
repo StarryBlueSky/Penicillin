@@ -132,7 +132,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-js"))
 
-                implementation("io.ktor:ktor-client-mock-js:1.6.7")
+                implementation("io.ktor:ktor-client-mock-js:1.6.8")
             }
         }
     }
