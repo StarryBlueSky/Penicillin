@@ -108,7 +108,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-apache:1.6.7")
                 implementation("io.ktor:ktor-client-cio:1.6.7")
                 implementation("io.ktor:ktor-client-jetty:1.6.7")
-                implementation("io.ktor:ktor-client-okhttp:1.6.7")
+                implementation("io.ktor:ktor-client-okhttp:1.6.8")
                 implementation("io.ktor:ktor-client-mock-jvm:1.6.7")
 
                 implementation(kotlin("test-junit5"))
