@@ -1,6 +1,6 @@
 # Penicillin: Modern powerful Twitter API wrapper for Kotlin Multiplatform
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.5-blue.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.6-blue.svg)](https://kotlinlang.org)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/StarryBlueSky/Penicillin)](https://github.com/StarryBlueSky/Penicillin/releases)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/StarryBlueSky/Penicillin/Check)](https://github.com/StarryBlueSky/Penicillin)
 [![license](https://img.shields.io/github/license/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/blob/master/LICENSE)
@@ -56,8 +56,8 @@ dependencies {
     
     // Choose your favorite engine from https://ktor.io/clients/http-client/engines.html
     // The version should match the version of Ktor that Penicillin is using.
-    implementation("io.ktor:ktor-client-apache:$KtorVersion")
-    implementation("io.ktor:ktor-client-cio:$KtorVersion")
+    implementation("io.ktor:ktor-client-apache:1.6.8")
+    implementation("io.ktor:ktor-client-cio:1.6.8")
 }
 ```
 
@@ -65,4 +65,4 @@ dependencies {
 
 Penicillin is provided under the MIT license.  
 
-Copyright (c) 2017-2021 StarryBlueSky.
+Copyright (c) 2017-2022 StarryBlueSky.

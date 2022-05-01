@@ -1,17 +1,17 @@
 import blue.starry.scriptextender.EnvReference
 
 plugins {
-    kotlin("multiplatform") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("multiplatform") version "1.6.21"
+    kotlin("plugin.serialization") version "1.6.21"
 
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    id("com.adarshr.test-logger") version "3.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("com.adarshr.test-logger") version "3.2.0"
     id("net.rdrei.android.buildtimetracker") version "0.11.0"
 
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
-    id("org.jetbrains.dokka") version "1.6.10"
+    id("org.jetbrains.dokka") version "1.6.21"
     id("blue.starry.scriptextender") version "0.0.2"
 }
 
@@ -81,13 +81,13 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api("io.ktor:ktor-client-core:1.6.7")
+                api("io.ktor:ktor-client-core:1.6.8")
 
                 api("blue.starry:jsonkt:6.1.2")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
-                api("com.benasher44:uuid:0.3.1")
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.1")
+                api("com.benasher44:uuid:0.4.0")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
                 api("io.github.microutils:kotlin-logging:2.1.21")
             }
         }
@@ -105,17 +105,17 @@ kotlin {
                 implementation(kotlin("reflect"))
                 implementation(kotlin("test"))
 
-                implementation("io.ktor:ktor-client-apache:1.6.7")
-                implementation("io.ktor:ktor-client-cio:1.6.7")
-                implementation("io.ktor:ktor-client-jetty:1.6.7")
-                implementation("io.ktor:ktor-client-okhttp:1.6.7")
-                implementation("io.ktor:ktor-client-mock-jvm:1.6.7")
+                implementation("io.ktor:ktor-client-apache:1.6.8")
+                implementation("io.ktor:ktor-client-cio:1.6.8")
+                implementation("io.ktor:ktor-client-jetty:1.6.8")
+                implementation("io.ktor:ktor-client-okhttp:1.6.8")
+                implementation("io.ktor:ktor-client-mock-jvm:1.6.8")
 
                 implementation(kotlin("test-junit5"))
                 implementation("org.junit.jupiter:junit-jupiter:5.8.2")
 
                 implementation("com.twitter.twittertext:twitter-text:3.1.0")
-                implementation("com.google.guava:guava:31.0.1-jre")
+                implementation("com.google.guava:guava:31.1-jre")
 
                 implementation("ch.qos.logback:logback-classic:1.3.0-alpha12")
             }
@@ -123,16 +123,16 @@ kotlin {
 
         named("jsMain") {
             dependencies {
-                api("io.ktor:ktor-client-js:1.6.7")
+                api("io.ktor:ktor-client-js:1.6.8")
 
-                implementation(npm("crypto-js", "4.0.0"))
+                implementation(npm("crypto-js", "4.1.1"))
             }
         }
         named("jsTest") {
             dependencies {
                 implementation(kotlin("test-js"))
 
-                implementation("io.ktor:ktor-client-mock-js:1.6.7")
+                implementation("io.ktor:ktor-client-mock-js:1.6.8")
             }
         }
     }
@@ -142,7 +142,6 @@ kotlin {
             kotlinOptions {
                 apiVersion = "1.6"
                 languageVersion = "1.6"
-                allWarningsAsErrors = true
                 verbose = true
             }
         }
@@ -282,7 +281,6 @@ signing {
     sign(publishing.publications)
 
     if (Env.SigningKey.isPresent) {
-        @Suppress("UnstableApiUsage")
         useInMemoryPgpKeys(
             Env.SigningKeyId.value,
             Env.SigningKey.value,
