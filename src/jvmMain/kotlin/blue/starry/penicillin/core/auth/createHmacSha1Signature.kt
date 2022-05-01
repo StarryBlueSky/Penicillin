@@ -30,6 +30,7 @@ import javax.crypto.spec.SecretKeySpec
 
 private const val hmacAlgorithm = "HmacSHA1"
 
+@OptIn(InternalAPI::class)
 internal actual fun createHmacSha1Signature(
     signingKey: String,
     signatureBaseString: String

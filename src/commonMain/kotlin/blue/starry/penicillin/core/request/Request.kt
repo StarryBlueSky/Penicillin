@@ -194,6 +194,7 @@ public fun ApiRequestBuilder.header(headers: Headers, mode: EmulationMode? = nul
     }
 }
 
+@OptIn(InternalAPI::class)
 internal fun ParametersBuilder.copy(): ParametersBuilder {
     return ParametersBuilder().apply { appendAll(this@copy) }
 }

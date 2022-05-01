@@ -44,6 +44,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeout
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
 
 /**
  * Creates new tweet with media.
@@ -73,6 +74,7 @@ private val defaultCheckAfter = 5.seconds
  *
  * @param timeout Timeout value.
  */
+@OptIn(ExperimentalTime::class)
 public suspend fun Media.awaitProcessing(timeout: Duration? = null): Media {
     if (processingInfo == null) {
         return this

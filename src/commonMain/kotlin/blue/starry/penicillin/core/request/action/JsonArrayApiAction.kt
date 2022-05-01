@@ -34,6 +34,7 @@ import blue.starry.penicillin.core.request.ApiRequest
 import blue.starry.penicillin.core.response.JsonArrayResponse
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.models.PenicillinModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.AbstractFlow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.asFlow
@@ -42,6 +43,7 @@ import kotlinx.coroutines.flow.emitAll
 /**
  * The [ApiAction] that provides parsed json array with json model.
  */
+@OptIn(FlowPreview::class)
 public class JsonArrayApiAction<M: PenicillinModel>(
     override val client: ApiClient,
     override val request: ApiRequest,

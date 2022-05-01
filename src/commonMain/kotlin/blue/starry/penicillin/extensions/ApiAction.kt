@@ -31,6 +31,7 @@ import blue.starry.penicillin.core.request.action.ApiAction
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
 /**
  * Awaits api execution and returns its result with timeout.
@@ -43,6 +44,7 @@ import kotlin.time.Duration
  * @throws PenicillinException General Penicillin exceptions.
  * @throws CancellationException Thrown when coroutine scope is cancelled.
  */
+@OptIn(ExperimentalTime::class)
 public suspend fun <R: Any> ApiAction<R>.executeWithTimeout(timeout: Duration): R? {
     return withTimeoutOrNull(timeout) {
         execute()

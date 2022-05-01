@@ -104,6 +104,7 @@ public data class ApiRequestBuilder(
      */
     public val emulationModes: MutableSet<EmulationMode> = mutableSetOf()
 
+    @OptIn(InternalAPI::class)
     internal fun finalize(): (HttpRequestBuilder) -> Unit {
         when (session.option.emulationMode) {
             EmulationMode.TwitterForiPhone -> {
@@ -134,6 +135,7 @@ public data class ApiRequestBuilder(
         }
     }
 
+    @OptIn(InternalAPI::class)
     private fun signRequest() {
         val signature = when (authorizationType) {
             AuthorizationType.OAuth1a -> {

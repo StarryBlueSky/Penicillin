@@ -34,6 +34,7 @@ import blue.starry.penicillin.core.response.CursorJsonObjectResponse
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.extensions.cursor.untilLast
 import blue.starry.penicillin.models.cursor.PenicillinCursorModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.AbstractFlow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.emitAll
@@ -41,6 +42,7 @@ import kotlinx.coroutines.flow.emitAll
 /**
  * The [ApiAction] that provides parsed json object with json model. This class supports cursor api operation.
  */
+@OptIn(FlowPreview::class)
 public class CursorJsonObjectApiAction<M: PenicillinCursorModel<T>, T: Any>(
     override val client: ApiClient,
     override val request: ApiRequest,

@@ -75,12 +75,11 @@ public class CustomStatusEventBuilder(type: UserStreamEvent): JsonBuilder<Stream
      */
     public var createdAt: TemporalAccessor? = null
 
-    @OptIn(PenicillinExperimentalApi::class)
     override fun build(): Stream.StatusEvent {
         val source = source.build()
         val target = target.build()
         val targetObject = targetObject.build()
-        
+
         this["source"] = source
         this["target"] = target
         this["target_object"] = targetObject

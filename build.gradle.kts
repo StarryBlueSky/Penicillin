@@ -153,10 +153,6 @@ kotlin {
             progressiveMode = true
 
             optIn("kotlin.RequiresOptIn")
-            optIn("kotlin.time.ExperimentalTime")
-            optIn("io.ktor.util.InternalAPI")
-            optIn("kotlinx.coroutines.FlowPreview")
-            optIn("blue.starry.penicillin.core.experimental.PenicillinExperimentalApi")
         }
     }
 }
