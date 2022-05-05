@@ -117,7 +117,7 @@ kotlin {
                 implementation("com.twitter.twittertext:twitter-text:3.1.0")
                 implementation("com.google.guava:guava:31.1-jre")
 
-                implementation("ch.qos.logback:logback-classic:1.3.0-alpha12")
+                implementation("ch.qos.logback:logback-classic:1.2.11")
             }
         }
 
