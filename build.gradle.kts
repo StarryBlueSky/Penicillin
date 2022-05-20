@@ -88,7 +88,7 @@ kotlin {
 
                 api("com.benasher44:uuid:0.4.0")
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
-                api("io.github.microutils:kotlin-logging:2.1.21")
+                api("io.github.microutils:kotlin-logging:2.1.23")
             }
         }
         commonTest {
