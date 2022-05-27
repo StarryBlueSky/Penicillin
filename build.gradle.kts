@@ -105,7 +105,7 @@ kotlin {
                 implementation(kotlin("reflect"))
                 implementation(kotlin("test"))
 
-                implementation("io.ktor:ktor-client-apache:1.6.8")
+                implementation("io.ktor:ktor-client-apache:2.0.2")
                 implementation("io.ktor:ktor-client-cio:1.6.8")
                 implementation("io.ktor:ktor-client-jetty:1.6.8")
                 implementation("io.ktor:ktor-client-okhttp:1.6.8")
