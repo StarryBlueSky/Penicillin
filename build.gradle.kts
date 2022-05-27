@@ -81,7 +81,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api("io.ktor:ktor-client-core:1.6.8")
+                api("io.ktor:ktor-client-core:2.0.2")
 
                 api("blue.starry:jsonkt:6.1.3")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
