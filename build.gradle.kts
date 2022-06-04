@@ -86,7 +86,7 @@ kotlin {
                 api("blue.starry:jsonkt:6.1.3")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 
-                api("com.benasher44:uuid:0.4.0")
+                api("com.benasher44:uuid:0.4.1")
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
                 api("io.github.microutils:kotlin-logging:2.1.21")
             }
