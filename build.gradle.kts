@@ -81,7 +81,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api("io.ktor:ktor-client-core:1.6.8")
+                api("io.ktor:ktor-client-core:2.0.3")
 
                 api("blue.starry:jsonkt:6.1.3")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
@@ -105,11 +105,11 @@ kotlin {
                 implementation(kotlin("reflect"))
                 implementation(kotlin("test"))
 
-                implementation("io.ktor:ktor-client-apache:1.6.8")
-                implementation("io.ktor:ktor-client-cio:1.6.8")
-                implementation("io.ktor:ktor-client-jetty:1.6.8")
-                implementation("io.ktor:ktor-client-okhttp:1.6.8")
-                implementation("io.ktor:ktor-client-mock-jvm:1.6.8")
+                implementation("io.ktor:ktor-client-apache:2.0.3")
+                implementation("io.ktor:ktor-client-cio:2.0.3")
+                implementation("io.ktor:ktor-client-jetty:2.0.3")
+                implementation("io.ktor:ktor-client-okhttp:2.0.3")
+                implementation("io.ktor:ktor-client-mock-jvm:2.0.3")
 
                 implementation(kotlin("test-junit5"))
                 implementation("org.junit.jupiter:junit-jupiter:5.8.2")
@@ -123,7 +123,7 @@ kotlin {
 
         named("jsMain") {
             dependencies {
-                api("io.ktor:ktor-client-js:1.6.8")
+                api("io.ktor:ktor-client-js:2.0.3")
 
                 implementation(npm("crypto-js", "4.1.1"))
             }
@@ -132,7 +132,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-js"))
 
-                implementation("io.ktor:ktor-client-mock-js:1.6.8")
+                implementation("io.ktor:ktor-client-mock-js:2.0.3")
             }
         }
     }
