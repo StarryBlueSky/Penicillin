@@ -33,7 +33,6 @@ import blue.starry.penicillin.extensions.endpoints.TweetstormHandler
 import blue.starry.penicillin.extensions.endpoints.TweetstormListener
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.utils.io.*
 
 /**
@@ -56,12 +55,9 @@ public class StreamApiAction<L: StreamListener, H: StreamHandler<L>>(
      * @param listener [StreamListener].
      */
     public suspend fun listen(listener: L) {
-        client.session.httpClient.request<HttpStatement>(request.builder.finalize()).execute {
-            checkError(it.request, it)
-
-            val channel = it.receive<ByteReadChannel>()
-            handle(channel, listener)
-        }
+        val response = client.session.httpClient.request(request.builder.finalize())
+        val channel = response.body<ByteReadChannel>()
+        handle(channel, listener)
     }
 
     private suspend fun handle(channel: ByteReadChannel, listener: L) {

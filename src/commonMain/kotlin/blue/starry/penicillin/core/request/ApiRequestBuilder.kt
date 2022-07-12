@@ -35,7 +35,7 @@ import blue.starry.penicillin.core.exceptions.PenicillinException
 import blue.starry.penicillin.core.i18n.LocalizedString
 import blue.starry.penicillin.core.session.ApiClient
 import blue.starry.penicillin.extensions.session
-import io.ktor.client.features.*
+import io.ktor.client.plugins.expectSuccess
 import io.ktor.client.request.*
 import io.ktor.client.utils.*
 import io.ktor.http.*
@@ -146,7 +146,7 @@ public data class ApiRequestBuilder(
                 val signatureParamString = OAuthUtil.signatureParamString(signatureParam)
                 val signingKey = OAuthUtil.signingKey(session.credentials.consumerSecret!!, session.credentials.accessTokenSecret)
                 val signatureBaseString = OAuthUtil.signingBaseString(
-                    httpMethod, URLBuilder(protocol = host.protocol, host = host.domainForSigning ?: host.domain, encodedPath = path).build(), signatureParamString
+                    httpMethod, URLBuilder(protocol = host.protocol, host = host.domainForSigning ?: host.domain).appendPathSegments(path).build(), signatureParamString
                 )
                 authorizationHeaderComponent["oauth_signature"] = OAuthUtil.signature(signingKey, signatureBaseString)
 

@@ -48,7 +48,7 @@ private val apiActionLogger = KotlinLogging.logger("Penicillin.ApiAction")
 
 internal suspend fun ApiAction<*>.finalize(): Pair<HttpRequest, HttpResponse> {
     try {
-        val response = session.httpClient.request<HttpStatement>(request.builder.finalize()).execute()
+        val response = session.httpClient.request(request.builder.finalize())
 
         return response.request to response
     } catch (e: CancellationException) {
@@ -110,7 +110,7 @@ internal fun checkError(request: HttpRequest, response: HttpResponse, content: S
 
 internal suspend inline fun HttpResponse.readTextOrNull(): String? {
     return runCatching {
-        readText()
+        bodyAsText()
     }.onFailure {
         apiActionLogger.debug(it) { "Failed to read text." }
     }.getOrNull()

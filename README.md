@@ -1,6 +1,6 @@
 # Penicillin: Modern powerful Twitter API wrapper for Kotlin Multiplatform
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.6-blue.svg)](https://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.7-blue.svg)](https://kotlinlang.org)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/StarryBlueSky/Penicillin)](https://github.com/StarryBlueSky/Penicillin/releases)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/StarryBlueSky/Penicillin/Check)](https://github.com/StarryBlueSky/Penicillin)
 [![license](https://img.shields.io/github/license/StarryBlueSky/Penicillin.svg)](https://github.com/StarryBlueSky/Penicillin/blob/master/LICENSE)

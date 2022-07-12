@@ -36,9 +36,9 @@ import io.ktor.http.*
  * Allows a Consumer application to use an OAuth request_token to request user authorization.
  * This method is a replacement of [Section 6.2](http://oauth.net/core/1.0/#auth_step2) of the [OAuth 1.0 authentication flow](http://oauth.net/core/1.0/#anchor9) for applications using the callback authentication flow. The method will use the currently logged in user as the account for access authorization unless the force_login parameter is set to true.
  * This method differs from [GET oauth/authorize](https://developer.twitter.com/en/docs/basics/authentication/api-reference/authorize) in that if the user has already granted the application permission, the redirect will occur without the user having to re-approve the application. To realize this behavior, you must enable the Use Sign in with Twitter setting on your [application record](https://developer.twitter.com/apps).
- * 
+ *
  * [Twitter API reference](https://developer.twitter.com/en/docs/basics/authentication/api-reference/authenticate)
- * 
+ *
  * @param forceLogin Forces the user to enter their credentials to ensure the correct users account is authorized.
  * @param screenName Prefills the username input box of the OAuth login screen with the given value.
  * @param options Optional. Custom parameters of this request.
@@ -55,7 +55,7 @@ public fun OAuth.authenticateUrl(
     for (option in options) {
         parameters[option.first] = option.second?.toString() ?: continue
     }
-    
+
     parameters["oauth_token"] = requestToken
     if (forceLogin != null) {
         parameters["force_login"] = forceLogin.toString()
@@ -67,7 +67,7 @@ public fun OAuth.authenticateUrl(
     return URLBuilder(
         protocol = EndpointHost.Default.protocol,
         host = EndpointHost.Default.domain,
-        encodedPath = "/oauth/authenticate",
-        parameters = parameters
+        pathSegments = listOf("oauth", "authenticate"),
+        parameters = parameters.build()
     ).build()
 }

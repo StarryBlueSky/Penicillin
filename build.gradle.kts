@@ -1,8 +1,8 @@
-import blue.starry.scriptextender.EnvReference
+import blue.starry.gradle.EnvReference
 
 plugins {
-    kotlin("multiplatform") version "1.6.21"
-    kotlin("plugin.serialization") version "1.6.21"
+    kotlin("multiplatform") version "1.7.10"
+    kotlin("plugin.serialization") version "1.7.10"
 
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     id("com.adarshr.test-logger") version "3.2.0"
@@ -11,8 +11,8 @@ plugins {
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
-    id("org.jetbrains.dokka") version "1.6.21"
-    id("blue.starry.scriptextender") version "0.0.2"
+    id("org.jetbrains.dokka") version "1.7.0"
+    id("blue.starry.gradle") version "0.0.1"
 }
 
 object Publications {
@@ -81,13 +81,13 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                api("io.ktor:ktor-client-core:1.6.8")
+                api("io.ktor:ktor-client-core:2.0.3")
 
                 api("blue.starry:jsonkt:6.1.3")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 
                 api("com.benasher44:uuid:0.4.1")
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 api("io.github.microutils:kotlin-logging:2.1.23")
             }
         }
@@ -105,11 +105,12 @@ kotlin {
                 implementation(kotlin("reflect"))
                 implementation(kotlin("test"))
 
-                implementation("io.ktor:ktor-client-apache:1.6.8")
-                implementation("io.ktor:ktor-client-cio:1.6.8")
-                implementation("io.ktor:ktor-client-jetty:1.6.8")
-                implementation("io.ktor:ktor-client-okhttp:1.6.8")
-                implementation("io.ktor:ktor-client-mock-jvm:1.6.8")
+                implementation("io.ktor:ktor-client-apache:2.0.3")
+                implementation("io.ktor:ktor-client-cio:2.0.3")
+                implementation("io.ktor:ktor-client-java:2.0.3")
+                implementation("io.ktor:ktor-client-jetty:2.0.3")
+                implementation("io.ktor:ktor-client-okhttp:2.0.3")
+                implementation("io.ktor:ktor-client-mock-jvm:2.0.3")
 
                 implementation(kotlin("test-junit5"))
                 implementation("org.junit.jupiter:junit-jupiter:5.8.2")
@@ -123,7 +124,7 @@ kotlin {
 
         named("jsMain") {
             dependencies {
-                api("io.ktor:ktor-client-js:1.6.8")
+                api("io.ktor:ktor-client-js:2.0.3")
 
                 implementation(npm("crypto-js", "4.1.1"))
             }
@@ -132,7 +133,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-js"))
 
-                implementation("io.ktor:ktor-client-mock-js:1.6.8")
+                implementation("io.ktor:ktor-client-mock-js:2.0.3")
             }
         }
     }
@@ -140,8 +141,8 @@ kotlin {
     targets.all {
         compilations.all {
             kotlinOptions {
-                apiVersion = "1.6"
-                languageVersion = "1.6"
+                apiVersion = "1.7"
+                languageVersion = "1.7"
                 verbose = true
             }
         }
