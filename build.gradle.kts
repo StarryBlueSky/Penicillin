@@ -11,7 +11,7 @@ plugins {
     `maven-publish`
     signing
     id("io.codearte.nexus-staging") version "0.30.0"
-    id("org.jetbrains.dokka") version "1.7.0"
+    id("org.jetbrains.dokka") version "1.7.10"
     id("blue.starry.gradle") version "0.0.1"
 }
 
@@ -83,7 +83,7 @@ kotlin {
             dependencies {
                 api("io.ktor:ktor-client-core:2.0.3")
 
-                api("blue.starry:jsonkt:6.1.3")
+                api("blue.starry:jsonkt:6.2.1")
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 
                 api("com.benasher44:uuid:0.4.1")
