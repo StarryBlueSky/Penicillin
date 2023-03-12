@@ -113,7 +113,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-mock-jvm:2.0.3")
 
                 implementation(kotlin("test-junit5"))
-                implementation("org.junit.jupiter:junit-jupiter:5.8.2")
+                implementation("org.junit.jupiter:junit-jupiter:5.9.2")
 
                 implementation("com.twitter.twittertext:twitter-text:3.1.0")
                 implementation("com.google.guava:guava:31.1-jre")
