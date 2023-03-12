@@ -84,7 +84,7 @@ kotlin {
                 api("io.ktor:ktor-client-core:2.0.3")
 
                 api("blue.starry:jsonkt:6.2.1")
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+                api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 
                 api("com.benasher44:uuid:0.4.1")
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
